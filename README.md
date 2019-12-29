@@ -1,11 +1,10 @@
 # Stock Indicators
 
-A multi-targeting framework library that produces stock indicators.
-Send in stock history in and get back the desired indicators.
+[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting framework NuGet library that produces stock indicators.  Send in stock history in and get back the desired indicators.  Nothing more.
 
 ## Initial setup
 
-Find and install the `Skender.Stock.Indicators` package from your NuGet feed.  Or, use command-line:
+Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) package from your NuGet feed.  Or, use command-line:
 
 ``` PowerShell
 # point scope to your Project, then
