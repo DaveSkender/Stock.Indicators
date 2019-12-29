@@ -19,6 +19,7 @@ If you are reporting a bug, please submit an Issue with a detailed description o
 ## Developing
 
 - Read this first: [contributing to an open-source GitHub project](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940)
+- Our backlog is [here](https://dev.azure.com/skender/Stock.Indicators/_boards/board/t/Stock.Indicators)
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.
 - All new indicators should include unit tests.
 - Update the main README file if you're adding a new indicator, and the README file for the individual indicator.  This is our only user documentation.
