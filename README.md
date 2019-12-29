@@ -9,7 +9,7 @@ Find and install the `Skender.Stock.Indicators` package from your NuGet feed.  O
 
 ``` PowerShell
 # point scope to your Project, then
-Install-Package Skender.Stock.Indicators
+PM> Install-Package Skender.Stock.Indicators
 ```
 
 More help [here](https://www.google.com/search?q=install+nuget+package).
@@ -59,7 +59,7 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 
 **Where can I get historical data?**
 
-There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Alpha Vantage](https://www.alphavantage.co/).
+There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Alpha Vantage](https://www.alphavantage.co).
 
 ## Contributing
 

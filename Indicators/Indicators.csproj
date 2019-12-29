@@ -3,25 +3,26 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;netcoreapp3.1;netstandard2.0;netstandard2.1;net462;net472;net48</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.1</Version>
+    <Version>0.0.2-preview</Version>
     <Authors>Dave Skender</Authors>
     <Company></Company>
     <Product>Stock Indicators</Product>
     <Description>Stock indicators.  Send stock market historical data in and you get desired indicators (such as moving average, relative strength, etc) out.  Nothing more.</Description>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://dev.azure.com/skender/Stock.Indicators</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>GitHub (Git)</RepositoryType>
     <PackageId>Skender.Stock.Indicators</PackageId>
-    <PackageReleaseNotes>Not yet public.  Send feedback to product meister.</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <AssemblyName>Stock.Indicators</AssemblyName>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
-    <FileVersion>0.0.1.0</FileVersion>
+    <AssemblyVersion>0.0.2.0</AssemblyVersion>
+    <FileVersion>0.0.2.0</FileVersion>
     <Copyright>@2020 Dave Skender</Copyright>
     <RootNamespace>StockIndicators</RootNamespace>
     <LangVersion>8.0</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +30,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
