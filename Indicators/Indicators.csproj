@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;netcoreapp3.1;netstandard2.0;netstandard2.1;net462;net472;net48</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.2-preview</Version>
+    <Version>0.0.2</Version>
     <Authors>Dave Skender</Authors>
     <Company></Company>
     <Product>Stock Indicators</Product>
