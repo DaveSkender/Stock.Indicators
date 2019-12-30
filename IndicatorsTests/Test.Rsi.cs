@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace StockIndicators.Tests
         {
             int lookbackPeriod = 14;
 
-            IEnumerable<RsiResult> results = Indicators.GetRsi(history, lookbackPeriod);
+            IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
 
             // assertions
 

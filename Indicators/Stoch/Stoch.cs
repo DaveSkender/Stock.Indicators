@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
-    public static partial class Indicators
+    public static partial class Indicator
     {
         // STOCHASTIC OSCILLATOR
         public static IEnumerable<StochResult> GetStoch(IEnumerable<Quote> history, int lookbackPeriod = 14, int signalPeriod = 3, int smoothPeriod = 3)

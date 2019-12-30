@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
     internal static class Functions
     {

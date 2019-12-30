@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
-    public static partial class Indicators
+    public static partial class Indicator
     {
         // ULCER INDEX (UI)
         public static IEnumerable<UlcerIndexResult> GetUlcerIndex(IEnumerable<Quote> history, int lookbackPeriod = 14)

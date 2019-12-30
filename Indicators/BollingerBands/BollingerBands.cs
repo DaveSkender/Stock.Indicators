@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
-    public static partial class Indicators
+    public static partial class Indicator
     {
         // BOLLINGER BANDS
         public static IEnumerable<BollingerBandsResult> GetBollingerBands(IEnumerable<Quote> history, int lookbackPeriod = 20, decimal standardDeviations = 2)

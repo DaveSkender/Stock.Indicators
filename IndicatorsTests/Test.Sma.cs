@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace StockIndicators.Tests
         public void GetSmaTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<SmaResult> results = Indicators.GetSma(history, lookbackPeriod);
+            IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);
 
             // assertions
 
