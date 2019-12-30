@@ -5,7 +5,7 @@ Bollinger Bands indicate volatility and displays standard deviation boundary lin
 
 ``` C#
 // usage
-IEnumerable<BollingerBandsResult> results = Indicators.GetBollingerBands(history, lookbackPeriod, standardDeviation);  
+IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviation);  
 ```
 
 ## Parameters
@@ -41,7 +41,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate BollingerBands(12,26,9)
-IEnumerable<BollingerBandsResult> results = Indicators.GetBollingerBands(history,20,2);
+IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history,20,2);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");

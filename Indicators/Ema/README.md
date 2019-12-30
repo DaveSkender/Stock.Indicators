@@ -5,7 +5,7 @@ Exponentially weighted moving average of the Close price over `N` periods.
 
 ``` C#
 // usage
-IEnumerable<EmaResult> results = Indicators.GetEma(history, lookbackPeriod);  
+IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period EMA
-IEnumerable<EmaResult> results = Indicators.GetEma(history,20);
+IEnumerable<EmaResult> results = Indicator.GetEma(history,20);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");

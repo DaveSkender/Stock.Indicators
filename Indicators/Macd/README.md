@@ -5,7 +5,7 @@ MACD is a simple oscillator view of two converging/diverging exponential moving 
 
 ``` C#
 // usage
-IEnumerable<MacdResult> results = Indicators.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);  
+IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);  
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate MACD(12,26,9)
-IEnumerable<MacdResult> results = Indicators.GetMacd(history,12,26,9);
+IEnumerable<MacdResult> results = Indicator.GetMacd(history,12,26,9);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");

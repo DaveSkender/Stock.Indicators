@@ -5,7 +5,7 @@ UI is a measure of downside volatility over the lookback period.
 
 ``` C#
 // usage
-IEnumerable<UlcerIndexResult> results = Indicators.GetUlcerIndex(history, lookbackPeriod);  
+IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate UI(14)
-IEnumerable<UlcerIndexResult> results = Indicators.GetUlcerIndex(history,14);
+IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history,14);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");

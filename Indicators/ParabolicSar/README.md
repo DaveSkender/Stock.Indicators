@@ -5,7 +5,7 @@ Parabolic SAR is a price-time based indicator.
 
 ``` C#
 // usage
-IEnumerable<ParabolicSarResult> results = Indicators.GetParabolicSar(history, accelerationStep, maxAccelerationFactor);  
+IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, accelerationStep, maxAccelerationFactor);  
 ```
 
 ## Parameters
@@ -42,7 +42,7 @@ The first period will have `null` values since there's not enough data to calcul
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate ParabolicSar(0.02,0.2)
-IEnumerable<ParabolicSarResult> results = Indicators.GetParabolicSar(history,0.02,0.2);
+IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history,0.02,0.2);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
