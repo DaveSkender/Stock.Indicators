@@ -1,19 +1,22 @@
 # Stock Indicators
 
-[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting framework NuGet library that produces stock indicators.  Send in stock history in and get back the desired indicators.  Nothing more.
+[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting framework .NET library that produces stock indicators.  Send in stock history in and get back the desired indicators.  Nothing more.
 
-## Initial setup
+## Installation and setup
 
-Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) package from your NuGet feed.  Or, use command-line:
+Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing NuGet packages;
 
 ``` PowerShell
-# point scope to your Project, then
 PM> Install-Package Skender.Stock.Indicators
 ```
 
-More help [here](https://www.google.com/search?q=install+nuget+package).
+Be sure to add this above your namespaces:
 
-## How to use for individual Indicators and Overlays
+``` C#
+using Skender.Stock.Indicators;
+```
+
+## How to use for individual indicators
 
 - [Simple Moving Average (SMA)](/Indicators/Sma/README.md)
 - [Exponential Moving Average (EMA)](/Indicators/Ema/README.md)

@@ -4,7 +4,7 @@ A modified candlestick pattern that uses prior day for smoothing.  [More info ..
 
 ``` C#
 // usage
-IEnumerable<HeikinAshiResult> results = Indicators.GetHeikinAshi(history);  
+IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);  
 ```
 
 ## Parameters
@@ -40,7 +40,7 @@ The first period will have `null` values since there's not enough data to calcul
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate
-IEnumerable<HeikinAshiResult> results = Indicators.GetHeikinAshi(history);
+IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");

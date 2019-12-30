@@ -5,7 +5,7 @@ Stochastic Oscillator is a momentum indicator that looks back `N` periods to pro
 
 ``` C#
 // usage
-IEnumerable<StochResult> results = Indicators.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
+IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
 ```
 
 ## Parameters
@@ -41,7 +41,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate STOCH %K(14),%D(3) (slow)
-IEnumerable<StochResult> results = Indicators.GetStoch(history,14,3,3);
+IEnumerable<StochResult> results = Indicator.GetStoch(history,14,3,3);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");

@@ -5,7 +5,7 @@ Simple moving average is the average of Close price of `N` lookback periods.
 
 ``` C#
 // usage
-IEnumerable<SmaResult> results = Indicators.GetSma(history, lookbackPeriod);  
+IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -37,7 +37,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = Indicators.GetSma(history,20);
+IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");

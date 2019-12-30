@@ -6,7 +6,7 @@ RSI values over 70 are considered overbought, while values under 30 are consider
 
 ``` C#
 // usage
-IEnumerable<RsiResult> results = Indicators.GetRsi(history, lookbackPeriod);  
+IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -39,7 +39,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate RSI(14)
-IEnumerable<RsiResult> results = Indicators.GetRsi(history,14);
+IEnumerable<RsiResult> results = Indicator.GetRsi(history,14);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
