@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace StockIndicators.Tests
         public void GetEmaTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<EmaResult> results = Indicators.GetEma(history, lookbackPeriod);
+            IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);
 
             // assertions
 

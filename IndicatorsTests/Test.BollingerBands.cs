@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace StockIndicators.Tests
             int lookbackPeriod = 20;
             int standardDeviations = 2;
 
-            IEnumerable<BollingerBandsResult> results = Indicators.GetBollingerBands(history, lookbackPeriod, standardDeviations);
+            IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // assertions
 

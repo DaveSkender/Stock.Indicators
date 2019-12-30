@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace StockIndicators.Tests
             int signalPeriod = 3;
             int smoothPeriod = 3;
 
-            IEnumerable<StochResult> results = Indicators.GetStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
+            IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // assertions
 

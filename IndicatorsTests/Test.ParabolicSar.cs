@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace StockIndicators.Tests
             decimal acclerationStep = (decimal)0.02;
             decimal maxAccelerationFactor = (decimal)0.2;
 
-            IEnumerable<ParabolicSarResult> results = Indicators.GetParabolicSar(history, acclerationStep, maxAccelerationFactor);
+            IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, acclerationStep, maxAccelerationFactor);
 
             // assertions
 

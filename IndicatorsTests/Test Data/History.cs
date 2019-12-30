@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skender.Stock.Indicators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 

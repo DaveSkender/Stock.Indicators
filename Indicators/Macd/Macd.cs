@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
-    public static partial class Indicators
+    public static partial class Indicator
     {
         // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR
         public static IEnumerable<MacdResult> GetMacd(IEnumerable<Quote> history, int fastPeriod = 12, int slowPeriod = 26, int signalPeriod = 9)

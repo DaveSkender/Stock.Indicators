@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
-    public static partial class Indicators
+    public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE
         public static IEnumerable<SmaResult> GetSma(IEnumerable<Quote> history, int lookbackPeriod)

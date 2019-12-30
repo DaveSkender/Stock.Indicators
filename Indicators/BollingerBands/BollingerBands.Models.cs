@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
 
     public class BollingerBandsResult

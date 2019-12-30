@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Skender.Stock.Indicators;
 
 namespace StockIndicators.Tests
 {
@@ -14,7 +15,7 @@ namespace StockIndicators.Tests
         {
             int lookbackPeriod = 14;
 
-            IEnumerable<UlcerIndexResult> results = Indicators.GetUlcerIndex(history, lookbackPeriod);
+            IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod);
 
             // assertions
 

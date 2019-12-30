@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators
+namespace Skender.Stock.Indicators
 {
-    public static partial class Indicators
+    public static partial class Indicator
     {
         // HEIKIN-ASHI
         public static IEnumerable<HeikinAshiResult> GetHeikinAshi(IEnumerable<Quote> history)

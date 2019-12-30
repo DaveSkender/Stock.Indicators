@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace StockIndicators.Tests
             int slowPeriod = 26;
             int signalPeriod = 9;
 
-            IEnumerable<MacdResult> results = Indicators.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);
+            IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);
 
             // assertions
 
