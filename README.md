@@ -57,6 +57,11 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 - .NET Standard 2.0, 2.1
 - .NET Framework 4.6.2, 4.7.2, 4.8
 
+## Demo
+
+- Stock indicators can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
+- Check out our [demo site](https://stock-charts.azurewebsites.net/) to see an example usage in a stock chart.
+
 ## Q&A
 
 **Where can I get historical data?**
