@@ -28,6 +28,7 @@ namespace Skender.Stock.Indicators
 
                 EmaResult result = new EmaResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date
                 };
 

@@ -22,6 +22,7 @@ namespace Skender.Stock.Indicators
 
                 UlcerIndexResult result = new UlcerIndexResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date
                 };
 

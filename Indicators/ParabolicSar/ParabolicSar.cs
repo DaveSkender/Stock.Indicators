@@ -30,6 +30,7 @@ namespace Skender.Stock.Indicators
             {
                 ParabolicSarResult result = new ParabolicSarResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date
                 };
 

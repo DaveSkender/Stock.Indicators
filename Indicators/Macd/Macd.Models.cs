@@ -5,12 +5,13 @@ namespace Skender.Stock.Indicators
 
     public class MacdResult
     {
-        public DateTime Date { get; internal set; }
-        public decimal? Macd { get; internal set; }
-        public decimal? Signal { get; internal set; }
-        public decimal? Histogram { get; internal set; }
-        public bool? IsBullish { get; internal set; }
-        public bool? IsDiverging { get; internal set; }
+        public int Index { get; set; }
+        public DateTime Date { get; set; }
+        public decimal? Macd { get; set; }
+        public decimal? Signal { get; set; }
+        public decimal? Histogram { get; set; }
+        public bool? IsBullish { get; set; }
+        public bool? IsDiverging { get; set; }
     }
 
 }

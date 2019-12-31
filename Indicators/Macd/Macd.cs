@@ -27,6 +27,7 @@ namespace Skender.Stock.Indicators
 
                 MacdResult result = new MacdResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date
                 };
 

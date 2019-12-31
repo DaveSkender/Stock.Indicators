@@ -52,6 +52,7 @@ namespace Skender.Stock.Indicators
 
                 HeikinAshiResult result = new HeikinAshiResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date,
                     Open = open,
                     High = high,

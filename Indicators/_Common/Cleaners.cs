@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -15,19 +16,27 @@ namespace Skender.Stock.Indicators
                 return new List<Quote>();
             }
 
-            // return if already processed
+            // return if already processed (no missing indexes)
             if (!history.Any(x => x.Index == null))
             {
                 return history.OrderBy(x => x.Index).ToList();
             }
 
-            // add index
+            // add index and check for errors
             int i = 0;
+            DateTime lastDate = DateTime.MinValue;
             foreach (Quote h in history.OrderBy(x => x.Date))
             {
                 h.Index = i++;
 
-                // TODO: evaluate quote (same date as previous [dup], impossible values, missing values, etc.
+                if (lastDate == h.Date)
+                {
+                    throw new BadHistoryException(string.Format("Duplicate date found: {0}.", h.Date));
+                }
+
+                lastDate = h.Date;
+
+                // TODO: more error evaluation (impossible values, missing values, etc.)
             }
 
             return history.OrderBy(x => x.Index).ToList();

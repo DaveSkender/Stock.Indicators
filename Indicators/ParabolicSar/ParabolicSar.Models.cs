@@ -5,10 +5,11 @@ namespace Skender.Stock.Indicators
 
     public class ParabolicSarResult
     {
-        public DateTime Date { get; internal set; }
-        public decimal? Sar { get; internal set; }
-        public bool? IsReversal { get; internal set; }
-        public bool? IsBullish { get; internal set; }
+        public int Index { get; set; }
+        public DateTime Date { get; set; }
+        public decimal? Sar { get; set; }
+        public bool? IsReversal { get; set; }
+        public bool? IsBullish { get; set; }
     }
 
 }

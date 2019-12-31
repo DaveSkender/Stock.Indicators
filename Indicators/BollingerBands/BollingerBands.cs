@@ -23,6 +23,7 @@ namespace Skender.Stock.Indicators
             {
                 BollingerBandsResult result = new BollingerBandsResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
