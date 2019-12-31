@@ -28,7 +28,7 @@ namespace StockIndicators.Tests
             // sample value
             ParabolicSarResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)229.7662, Math.Round((decimal)result.Sar, 4));
-            Assert.AreEqual(true, result.IsBullish);
+            Assert.AreEqual(true, result.IsRising);
             Assert.AreEqual(false, result.IsReversal);
         }
     }
