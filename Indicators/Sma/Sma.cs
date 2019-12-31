@@ -21,6 +21,7 @@ namespace Skender.Stock.Indicators
 
                 SmaResult result = new SmaResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date
                 };
 

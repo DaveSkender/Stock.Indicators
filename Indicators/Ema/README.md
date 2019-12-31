@@ -12,7 +12,7 @@ IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../README.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[Quote](../GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.
 
 ## Response
@@ -27,6 +27,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 | name | type | notes
 | -- |-- |--
+| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Ema` | decimal | Exponential moving average for `N` lookback period
 

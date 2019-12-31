@@ -5,8 +5,9 @@ namespace Skender.Stock.Indicators
 
     public class SmaResult
     {
-        public DateTime Date { get; internal set; }
-        public decimal? Sma { get; internal set; }
+        public int Index { get; set; }
+        public DateTime Date { get; set; }
+        public decimal? Sma { get; set; }
     }
 
 }

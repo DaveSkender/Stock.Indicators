@@ -12,7 +12,7 @@ IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPer
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../README.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least slow period + signal period worth of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[Quote](../GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least slow period + signal period worth of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
 | `fastPeriod` | int | Number of periods (`N`) for the faster moving average.
 | `slowPeriod` | int | Number of periods (`N`) for the slower moving average.
 | `signalPeriod` | int | Number of periods (`N`) for the moving average of MACD.
@@ -29,6 +29,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 
 | name | type | notes
 | -- |-- |--
+| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Macd` | decimal | The MACD line is the difference between slow and fast moving averages
 | `Signal` | decimal | Moving average of the MACD line

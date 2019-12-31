@@ -12,7 +12,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../README.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[Quote](../GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.
 
 ## Response
@@ -27,6 +27,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 | name | type | notes
 | -- |-- |--
+| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average for `N` lookback periods
 

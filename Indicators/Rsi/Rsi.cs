@@ -22,8 +22,8 @@ namespace Skender.Stock.Indicators
 
                 RsiResult result = new RsiResult
                 {
-                    Date = h.Date,
                     Index = (int)h.Index,
+                    Date = h.Date,
                     Gain = (lastClose < h.Close) ? (float)(h.Close - lastClose) : 0,
                     Loss = (lastClose > h.Close) ? (float)(lastClose - h.Close) : 0
                 };

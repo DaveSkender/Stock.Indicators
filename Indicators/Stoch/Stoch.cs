@@ -20,8 +20,8 @@ namespace Skender.Stock.Indicators
             {
                 StochResult result = new StochResult
                 {
-                    Date = h.Date,
-                    Index = (int)h.Index
+                    Index = (int)h.Index,
+                    Date = h.Date
                 };
 
                 if (h.Index >= lookbackPeriod - 1)

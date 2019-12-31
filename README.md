@@ -33,23 +33,10 @@ using Skender.Stock.Indicators;
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
 You can get historical quotes from your favorite stock data provider.
-Historical data is an `IEnumerable` of the `Quote` class.
+Historical data is an `IEnumerable` of the `Quote` class.  [More info...](/Indicators/GUIDE.md#Quotes)
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.
-
-### Quote
-
-Historical quotes should be of consistent time frequency (e.g. per minute, hour, day, etc.).
-
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Open` | decimal | Open price
-| `High` | decimal | High price
-| `Low` | decimal | Low price
-| `Close` | decimal | Close price
-| `Volume` | long | Volume
 
 ## Frameworks targeted
 

@@ -30,6 +30,7 @@ namespace Skender.Stock.Indicators
             {
                 ParabolicSarResult result = new ParabolicSarResult
                 {
+                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
@@ -109,7 +110,7 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-                result.IsBullish = isRising;
+                result.IsRising = isRising;
                 priorSar = (decimal)result.Sar;
 
                 results.Add(result);

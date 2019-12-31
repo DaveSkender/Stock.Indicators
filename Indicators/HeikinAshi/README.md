@@ -11,7 +11,7 @@ IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../README.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[Quote](../GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
 
 ## Response
 
@@ -25,6 +25,7 @@ The first period will have `null` values since there's not enough data to calcul
 
 | name | type | notes
 | -- |-- |--
+| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Open` | decimal | Modified open price
 | `High` | decimal | Modified high price
