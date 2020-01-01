@@ -1,12 +1,13 @@
 {
     "files.exclude": {
+        "**/.vs/**": true,
         "**/bin/**": true,
-        "**/obj/**": true
+        "**/obj/**": true,
+        "**/TestResults/**": true
     },
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 3000,
     "search.exclude": {
-        "**/bin": true,
-        "**/obj": true
+        // auto includes files.exclude
     }
 }
