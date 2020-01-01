@@ -12,9 +12,9 @@ We are not accepting things that should be done in your own extension code:
 - Personal customizations and preferences
 - Modified or augmented outputs that are not backed by standard definitions
 
-## Reporting bugs
+## Reporting bug or feature requests
 
-If you are reporting a bug, please submit an Issue with a detailed description of the problem.  Be sure to include steps to reproduce, code samples, and any reference materials.
+If you are reporting a bug or feature request, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem or recommended feature.  For bugs, be sure to include steps to reproduce, code samples, and any reference materials.
 
 ## Developing
 
@@ -23,7 +23,6 @@ If you are reporting a bug, please submit an Issue with a detailed description o
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.
 - All new indicators should include unit tests.
 - Update the main README file if you're adding a new indicator, and the README file for the individual indicator.  This is our only user documentation.
-- Increment the Package and Assembly versions in the Indicators project properties (see the Symantic Versioning link below for guidance).
 - Do not comingle multiple contributions.  Please keep changes small and separate.
 
 ## Testing
@@ -53,9 +52,16 @@ For the NuGet packaging, we're using:
 - [Symantic Version 2.0](https://semver.org/)
 - [NuGet best practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 
+## About versioning
+
+- We use the `GitVersion` tool for versioning.  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=18)
+- Adding `+semver: major` as a commit message will increment the major x.-.- element
+- Adding `+semver: minor` as a commit message will increment the minor -.x.- element
+- Adding `+semver: patch` as a commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
+
 ## Questions?
 
-Contact me through my GitHub profile (preferred) or submit an Issue with your question if it may be relevant for others.
+Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method (preferred) or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
 
 Thanks,
 Dave Skender
