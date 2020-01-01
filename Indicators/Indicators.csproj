@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;netcoreapp3.1;netstandard2.0;netstandard2.1;net462;net472;net48</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>0.0.0</Version>
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators</Product>
     <Description>Stock indicators.  Send stock market historical data in and get desired indicators (such as moving average, relative strength, etc) out.  Nothing more.</Description>
@@ -14,6 +15,8 @@
     <PackageReleaseNotes>This software is currently in active pre-release development.
 Please contribute to help us get to v1.0.0</PackageReleaseNotes>
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+    <FileVersion>0.0.0.0</FileVersion>
     <Copyright>@2020 Dave Skender</Copyright>
     <RootNamespace>Skender.Stock.Indicators</RootNamespace>
     <LangVersion>8.0</LangVersion>
