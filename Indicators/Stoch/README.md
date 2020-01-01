@@ -12,7 +12,7 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period to calculate the Oscillator (%K)
 | `signalPeriod` | int | Lookback period for the signal (%D)
 | `smoothingPeriod` | int | Smoothes the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  You can specify as needed here.

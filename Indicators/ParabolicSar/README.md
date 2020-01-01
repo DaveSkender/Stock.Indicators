@@ -12,7 +12,7 @@ IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, acc
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  Provide sufficient history to capture prior trend reversals, before your usage period.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  Provide sufficient history to capture prior trend reversals, before your usage period.
 | `accelerationStep` | decimal | Incremental step size
 | `maxAccelerationFactor` | decimal | Maximimum step limit
 

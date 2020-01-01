@@ -2,6 +2,8 @@
 
 [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting framework .NET library that produces stock indicators.  Send in stock history and get back the desired indicators.  Nothing more.
 
+![Build Status](https://dev.azure.com/skender/Stock.Indicators/_apis/build/status/Stock.Indicators?branchName=master)
+
 ## Installation and setup
 
 Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing NuGet packages;
@@ -18,11 +20,11 @@ using Skender.Stock.Indicators;
 
 ## How to use for individual indicators
 
-- [Simple Moving Average (SMA)](/Indicators/Sma/README.md)
-- [Exponential Moving Average (EMA)](/Indicators/Ema/README.md)
+- [Simple Moving Average](/Indicators/Sma/README.md)
+- [Exponential Moving Average](/Indicators/Ema/README.md)
 - [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md)
 - [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
-- [Stochastic Oscillator (STOCH)](/Indicators/Stoch/README.md)
+- [Stochastic Oscillator](/Indicators/Stoch/README.md)
 - [Heikin-Ashi](/Indicators/HeikinAshi/README.md)
 - [Bollinger Bands](/Indicators/BollingerBands/README.md)
 - [Ulcer Index](/Indicators/Ulcer/README.md)
@@ -33,7 +35,7 @@ using Skender.Stock.Indicators;
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
 You can get historical quotes from your favorite stock data provider.
-Historical data is an `IEnumerable` of the `Quote` class.  [More info...](/Indicators/GUIDE.md#Quotes)
+Historical data is an `IEnumerable` of the `Quote` class.  [More info...](/GUIDE.md#Quote)
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.

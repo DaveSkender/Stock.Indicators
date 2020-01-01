@@ -1,0 +1,9 @@
+mode: Mainline
+next-version: 0.0.0
+branches:
+  feature:
+    tag: preview
+  master:
+    tag: ''
+ignore:
+  sha: []
