@@ -11,7 +11,7 @@ IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
 
 ## Response
 
