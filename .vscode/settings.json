@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        "**/bin/**": true,
+        "**/obj/**": true
+    },
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 3000,
+    "search.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    }
+}
