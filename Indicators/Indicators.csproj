@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp3.1;netstandard2.0;netstandard2.1;net462;net472;net48</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.0;netstandard2.1;net461</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Version>0.0.0</Version>
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators</Product>
-    <Description>Stock indicators.  Send stock market historical data in and get desired indicators (such as moving average, relative strength, etc) out.  Nothing more.</Description>
+    <Description>Stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, parabolic SAR, etc).  Nothing more.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://dev.azure.com/skender/Stock.Indicators</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
