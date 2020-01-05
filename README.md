@@ -16,6 +16,11 @@ Be sure to add this above your namespaces:
 
 ``` C#
 using Skender.Stock.Indicators;
+
+[..]
+
+// example: get 20-period simple moving average
+IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 ```
 
 ## How to use for individual indicators

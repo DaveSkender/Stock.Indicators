@@ -43,7 +43,7 @@ IEnumerable<EmaResult> results = Indicator.GetEma(history,20);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 EmaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("EMA on {0} was ${1}", result.Date, result.Value);
+Console.WriteLine("EMA on {0} was ${1}", result.Date, result.Ema);
 ```
 
 ``` text

@@ -8,12 +8,14 @@
     <Product>Stock Indicators</Product>
     <Description>Stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, parabolic SAR, etc).  Nothing more.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://dev.azure.com/skender/Stock.Indicators</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/DaveSkender/Stock.Indicators</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>GitHub (Git)</RepositoryType>
     <PackageId>Skender.Stock.Indicators</PackageId>
-    <PackageReleaseNotes>This software is currently in active pre-release development.
-Please contribute to help us get to v1.0.0</PackageReleaseNotes>
+    <PackageReleaseNotes>More info: https://github.com/DaveSkender/Stock.Indicators/releases
+This software is currently in active pre-release development.
+Please contribute to help us get to v1.0.0.
+</PackageReleaseNotes>
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>0.0.0.0</FileVersion>
