@@ -34,6 +34,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Bollinger Bands](/Indicators/BollingerBands/README.md)
 - [Ulcer Index](/Indicators/Ulcer/README.md)
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md)
+- [Average True Range (ATR)](/Indicators/AvgTrueRange/README.md)
 
 ## Prerequisite data
 
