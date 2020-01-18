@@ -12,7 +12,7 @@ IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N`+1 periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 2×`N` data points prior to the intended usage date for maximum precision.
 | `lookbackPeriod` | int | Number of periods (`N`) to consider.
 
 ## Response
@@ -21,7 +21,7 @@ IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);
 IEnumerable<AtrResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` values for ATR since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### AtrResult
 
