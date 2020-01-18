@@ -36,6 +36,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
 - [Simple Moving Average](/Indicators/Sma/README.md)
 - [Stochastic Oscillator](/Indicators/Stochastic/README.md)
+- [Stochastic RSI](/Indicators/StochasticRsi/README.md)
 - [Ulcer Index](/Indicators/Ulcer/README.md)
 
 ## Prerequisite data
