@@ -26,7 +26,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod - 1)
+                if (h.Index >= lookbackPeriod)
                 {
                     IEnumerable<Quote> period = history
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index);
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
                         sumSquared += (double)(percentDrawdown * percentDrawdown);
                     }
 
-                    result.UI = (decimal)Math.Sqrt(sumSquared/lookbackPeriod);
+                    result.UI = (decimal)Math.Sqrt(sumSquared / lookbackPeriod);
                 }
                 results.Add(result);
             }

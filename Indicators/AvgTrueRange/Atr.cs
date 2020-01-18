@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (h.Index > 0)
+                if (h.Index > 1)
                 {
                     highMinusPrevClose = Math.Abs(h.High - prevClose);
                     lowMinusPrevClose = Math.Abs(h.Low - prevClose);
@@ -39,13 +39,13 @@ namespace Skender.Stock.Indicators
                 decimal tr = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
                 result.Tr = tr;
 
-                if (h.Index >= lookbackPeriod)
+                if (h.Index > lookbackPeriod)
                 {
                     // calculate ATR
                     result.Atr = (prevAtr * (lookbackPeriod - 1) + tr) / lookbackPeriod;
                     prevAtr = (decimal)result.Atr;
                 }
-                else if (h.Index == lookbackPeriod - 1)
+                else if (h.Index == lookbackPeriod)
                 {
                     // initialize ATR
                     sumTr += tr;

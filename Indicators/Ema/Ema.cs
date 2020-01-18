@@ -32,7 +32,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod - 1)
+                if (h.Index >= lookbackPeriod)
                 {
                     result.Ema = lastEma + k * (h.Close - lastEma);
                     lastEma = (decimal)result.Ema;

@@ -27,9 +27,9 @@ namespace Skender.Stock.Indicators
                     Date = h.Date,
                 };
 
-                if (h.Index >= 2 * lookbackPeriod - 1)
+                if (h.Index >= 2 * lookbackPeriod)
                 {
-                    IEnumerable<RsiResult> lookback = rsiResults.Where(x => x.Index <= h.Index && x.Index >= (h.Index - lookbackPeriod + 1));
+                    IEnumerable<RsiResult> lookback = rsiResults.Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod));
                     float? rsi = lookback.Where(x => x.Index == h.Index).FirstOrDefault().Rsi;
                     float? rsiHigh = lookback.Select(x => x.Rsi).Max();
                     float? rsiLow = lookback.Select(x => x.Rsi).Min();
@@ -43,7 +43,7 @@ namespace Skender.Stock.Indicators
 
             // add direction
             float? lastRSI = 0;
-            foreach (StochRsiResult r in results.Where(x => x.Index >= 2 * lookbackPeriod - 1).OrderBy(d => d.Index))
+            foreach (StochRsiResult r in results.Where(x => x.Index >= 2 * lookbackPeriod).OrderBy(d => d.Index))
             {
                 if (r.Index >= lookbackPeriod)
                 {

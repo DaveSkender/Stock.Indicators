@@ -25,7 +25,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod - 1)
+                if (h.Index >= lookbackPeriod)
                 {
                     IEnumerable<decimal> period = history
                         .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))

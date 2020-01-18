@@ -33,15 +33,15 @@ namespace Skender.Stock.Indicators
             }
 
             // initialize average gain
-            float avgGain = results.Where(x => x.Index < lookbackPeriod).Select(g => g.Gain).Average();
-            float avgLoss = results.Where(x => x.Index < lookbackPeriod).Select(g => g.Loss).Average();
+            float avgGain = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Gain).Average();
+            float avgLoss = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Loss).Average();
 
             // initial RSI for trend analysis
             float lastRSI = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
 
 
             // calculate RSI
-            foreach (RsiResult r in results.Where(x => x.Index >= lookbackPeriod - 1).OrderBy(d => d.Index))
+            foreach (RsiResult r in results.Where(x => x.Index >= lookbackPeriod).OrderBy(d => d.Index))
             {
                 avgGain = (avgGain * (lookbackPeriod - 1) + r.Gain) / lookbackPeriod;
                 avgLoss = (avgLoss * (lookbackPeriod - 1) + r.Loss) / lookbackPeriod;

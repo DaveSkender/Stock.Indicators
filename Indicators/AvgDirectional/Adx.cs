@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
                 };
 
                 // skip first period
-                if (h.Index == 0)
+                if (h.Index == 1)
                 {
                     results.Add(result);
                     prevHigh = h.High;
@@ -56,7 +56,7 @@ namespace Skender.Stock.Indicators
                 prevLow = h.Low;
 
                 // initialization period
-                if (h.Index <= lookbackPeriod)
+                if (h.Index <= lookbackPeriod + 1)
                 {
                     sumTr += tr;
                     sumPdm += pdm1;
@@ -64,7 +64,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // skip DM initialization period
-                if (h.Index < lookbackPeriod)
+                if (h.Index <= lookbackPeriod)
                 {
                     results.Add(result);
                     continue;
@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
                 decimal pdm;
                 decimal mdm;
 
-                if (h.Index == lookbackPeriod)
+                if (h.Index == lookbackPeriod + 1)
                 {
                     trs = sumTr / lookbackPeriod;
                     pdm = sumPdm / lookbackPeriod;
@@ -106,7 +106,7 @@ namespace Skender.Stock.Indicators
                 // calculate ADX
                 decimal adx;
 
-                if (h.Index > 2 * lookbackPeriod - 1)
+                if (h.Index > 2 * lookbackPeriod)
                 {
                     adx = (prevAdx * (lookbackPeriod - 1) + dx) / lookbackPeriod;
                     result.Adx = adx;
@@ -114,7 +114,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // initial ADX
-                else if (h.Index == 2 * lookbackPeriod - 1)
+                else if (h.Index == 2 * lookbackPeriod)
                 {
                     sumDx += dx;
                     adx = sumDx / lookbackPeriod;
