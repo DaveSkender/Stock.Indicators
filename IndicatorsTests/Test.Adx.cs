@@ -21,7 +21,7 @@ namespace StockIndicators.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - 2*lookbackPeriod + 1, results.Where(x => x.Adx != null).Count());
+            Assert.AreEqual(502 - 2 * lookbackPeriod + 1, results.Where(x => x.Adx != null).Count());
 
             // sample value
             AdxResult atr = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();

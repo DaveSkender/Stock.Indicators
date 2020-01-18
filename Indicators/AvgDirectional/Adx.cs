@@ -63,18 +63,19 @@ namespace Skender.Stock.Indicators
                     sumMdm += mdm1;
                 }
 
-                // skip initialization period
+                // skip DM initialization period
                 if (h.Index < lookbackPeriod)
                 {
                     results.Add(result);
                     continue;
                 }
 
+
+                // smoothed true range and directional movement
                 decimal trs;
                 decimal pdm;
                 decimal mdm;
 
-                // smoothed true range and directional movement
                 if (h.Index == lookbackPeriod)
                 {
                     trs = sumTr / lookbackPeriod;
@@ -96,17 +97,15 @@ namespace Skender.Stock.Indicators
                 // directional increments
                 decimal pdi = 100 * pdm / trs;
                 decimal mdi = 100 * mdm / trs;
+                decimal dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
 
                 result.Pdi = pdi;
                 result.Mdi = mdi;
 
-                decimal dif = Math.Abs(pdi - mdi);
-                decimal sum = pdi + mdi;
-                decimal dx = 100 * dif / sum;
-
-                decimal adx;
 
                 // calculate ADX
+                decimal adx;
+
                 if (h.Index > 2 * lookbackPeriod - 1)
                 {
                     adx = (prevAdx * (lookbackPeriod - 1) + dx) / lookbackPeriod;
@@ -123,7 +122,7 @@ namespace Skender.Stock.Indicators
                     prevAdx = adx;
                 }
 
-                // initialization period
+                // ADX initialization period
                 else
                 {
                     sumDx += dx;
