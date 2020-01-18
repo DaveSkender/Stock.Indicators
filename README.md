@@ -12,7 +12,7 @@ Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/S
 PM> Install-Package Skender.Stock.Indicators
 ```
 
-Be sure to add this above your namespaces:
+## Example usage
 
 ``` C#
 using Skender.Stock.Indicators;
@@ -34,6 +34,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Bollinger Bands](/Indicators/BollingerBands/README.md)
 - [Ulcer Index](/Indicators/Ulcer/README.md)
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md)
+- [Average True Range (ATR)](/Indicators/AvgTrueRange/README.md)
 
 ## Prerequisite data
 
@@ -64,4 +65,4 @@ There are many places to get stock market data.  Check with your brokerage or ot
 
 ## Contributing
 
-This NuGet package is an open-source project.  If you want to report or contribute bug fixes or add new indicators, please review our [contributing guidelines](CONTRIBUTING.md).
+This NuGet package is an open-source project.  If you want to report or contribute bug fixes, new indicators, or feature requests, please review our [contributing guidelines](CONTRIBUTING.md).

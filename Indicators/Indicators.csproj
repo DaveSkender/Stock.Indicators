@@ -8,7 +8,7 @@
     <Product>Stock Indicators</Product>
     <Description>Stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, parabolic SAR, etc).  Nothing more.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/DaveSkender/Stock.Indicators</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/DaveSkender/Stock.Indicators#readme</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>GitHub (Git)</RepositoryType>
     <PackageId>Skender.Stock.Indicators</PackageId>
