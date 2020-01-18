@@ -25,17 +25,18 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 
 ## How to use for individual indicators
 
-- [Simple Moving Average](/Indicators/Sma/README.md)
-- [Exponential Moving Average](/Indicators/Ema/README.md)
-- [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md)
-- [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
-- [Stochastic Oscillator](/Indicators/Stochastic/README.md)
-- [Heikin-Ashi](/Indicators/HeikinAshi/README.md)
-- [Bollinger Bands](/Indicators/BollingerBands/README.md)
-- [Ulcer Index](/Indicators/Ulcer/README.md)
-- [Parabolic SAR](/Indicators/ParabolicSar/README.md)
+- [Average Directional Index (ADX)](/Indicators/AvgDirectional/README.md)
 - [Average True Range (ATR)](/Indicators/AvgTrueRange/README.md)
-- [Average Directional Index (ATR)](/Indicators/AvgDirectional/README.md)
+- [Bollinger Bands](/Indicators/BollingerBands/README.md)
+- [Commodity Channel Index (CCI)](/Indicators/Cci/README.md)
+- [Exponential Moving Average](/Indicators/Ema/README.md)
+- [Heikin-Ashi](/Indicators/HeikinAshi/README.md)
+- [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md)
+- [Parabolic SAR](/Indicators/ParabolicSar/README.md)
+- [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
+- [Simple Moving Average](/Indicators/Sma/README.md)
+- [Stochastic Oscillator](/Indicators/Stochastic/README.md)
+- [Ulcer Index](/Indicators/Ulcer/README.md)
 
 ## Prerequisite data
 
