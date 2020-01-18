@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<ParabolicSarResult> results = new List<ParabolicSarResult>();
-            Quote first = history.Where(x => x.Index == 0).FirstOrDefault();
+            Quote first = history.Where(x => x.Index == 1).FirstOrDefault();
 
             decimal accelerationFactor = accelerationStep;
             decimal extremePoint = first.High;
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
                 };
 
                 // skip first one
-                if (h.Index == 0)
+                if (h.Index == 1)
                 {
                     results.Add(result);
                     continue;

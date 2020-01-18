@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod - 1)
+                if (h.Index >= lookbackPeriod)
                 {
 
                     decimal lowLow = history.Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
@@ -53,7 +53,7 @@ namespace Skender.Stock.Indicators
             {
 
                 // temporarily store interim smoothed oscillator
-                foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod - 1 + smoothPeriod)))
+                foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod)))
                 {
                     r.Smooth = results.Where(x => x.Index > (r.Index - smoothPeriod) && x.Index <= r.Index)
                                      .Select(v => v.Oscillator)
@@ -78,7 +78,7 @@ namespace Skender.Stock.Indicators
             // new signal and trend info
             float lastOsc = 0;
             foreach (StochResult r in results
-                .Where(x => x.Index >= (lookbackPeriod - 1 + signalPeriod + smoothPeriod) && x.Oscillator != null))
+                .Where(x => x.Index >= (lookbackPeriod + signalPeriod + smoothPeriod) && x.Oscillator != null))
             {
                 r.Signal = results.Where(x => x.Index > (r.Index - signalPeriod) && x.Index <= r.Index)
                                  .Select(v => v.Oscillator)

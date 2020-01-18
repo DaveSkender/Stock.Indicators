@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             }
 
             // add index and check for errors
-            int i = 0;
+            int i = 1;
             DateTime lastDate = DateTime.MinValue;
             foreach (Quote h in history.OrderBy(x => x.Date))
             {
