@@ -1,6 +1,6 @@
-﻿# Correlation Coefficient (e.g Beta)
+﻿# Correlation Coefficient
 
-Correlation between two quote histories, based on Close price.  This is `Beta` if one history represents the overall market.
+Correlation between two quote histories, based on Close price.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:correlation_coeffici)
 
 ``` C#
