@@ -29,10 +29,10 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= 2 * lookbackPeriod)
                 {
-                    IEnumerable<RsiResult> lookback = rsiResults.Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod));
-                    float? rsi = lookback.Where(x => x.Index == h.Index).FirstOrDefault().Rsi;
-                    float? rsiHigh = lookback.Select(x => x.Rsi).Max();
-                    float? rsiLow = lookback.Select(x => x.Rsi).Min();
+                    IEnumerable<RsiResult> period = rsiResults.Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod));
+                    float? rsi = period.Where(x => x.Index == h.Index).FirstOrDefault().Rsi;
+                    float? rsiHigh = period.Select(x => x.Rsi).Max();
+                    float? rsiLow = period.Select(x => x.Rsi).Min();
 
                     result.StochRsi = (rsi - rsiLow) / (rsiHigh - rsiLow);
                 }

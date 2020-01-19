@@ -34,14 +34,14 @@ namespace Skender.Stock.Indicators
             // roll through interim results to calculate CCI
             foreach (CciResult result in results.Where(x => x.Index >= lookbackPeriod))
             {
-                IEnumerable<CciResult> lookback = results.Where(x => x.Index <= result.Index && x.Index > (result.Index - lookbackPeriod));
+                IEnumerable<CciResult> period = results.Where(x => x.Index <= result.Index && x.Index > (result.Index - lookbackPeriod));
 
-                decimal smaTp = (decimal)lookback.Select(x => x.Tp).Average();
+                decimal smaTp = (decimal)period.Select(x => x.Tp).Average();
                 decimal meanDv = 0;
 
-                foreach (CciResult l in lookback)
+                foreach (CciResult p in period)
                 {
-                    meanDv += Math.Abs(smaTp - (decimal)l.Tp);
+                    meanDv += Math.Abs(smaTp - (decimal)p.Tp);
                 }
                 meanDv /= lookbackPeriod;
                 result.Cci = (result.Tp - smaTp) / ((decimal)0.015 * meanDv);
