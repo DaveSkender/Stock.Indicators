@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // CORRELATION (e.g. BETA when used with Indices)
+        // CORRELATION COEFFICIENT
         public static IEnumerable<CorrResult> GetCorrelation(IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
         {
             // clean quotes

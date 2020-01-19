@@ -29,7 +29,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Average True Range (ATR)](/Indicators/AvgTrueRange/README.md)
 - [Bollinger Bands](/Indicators/BollingerBands/README.md)
 - [Commodity Channel Index (CCI)](/Indicators/Cci/README.md)
-- [Correlation Coefficient / Beta](/Indicators/Correlation/README.md)
+- [Correlation Coefficient](/Indicators/Correlation/README.md)
 - [Exponential Moving Average](/Indicators/Ema/README.md)
 - [Heikin-Ashi](/Indicators/HeikinAshi/README.md)
 - [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md)
