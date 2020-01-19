@@ -1,12 +1,12 @@
 # Stock Indicators
 
-[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting framework .NET library that produces stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, parabolic SAR, etc).  Nothing more.
+[![Build status](https://dev.azure.com/skender/Stock.Indicators/_apis/build/status/Stock.Indicators)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=18)
 
-![Build Status](https://dev.azure.com/skender/Stock.Indicators/_apis/build/status/Stock.Indicators?branchName=master)
+[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting framework .NET library that produces stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, parabolic SAR, etc).  Nothing more.
 
 ## Installation and setup
 
-Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing NuGet packages;
+Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing packages;
 
 ``` PowerShell
 PM> Install-Package Skender.Stock.Indicators

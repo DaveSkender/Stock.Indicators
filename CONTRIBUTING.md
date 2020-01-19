@@ -59,7 +59,7 @@ For the NuGet packaging, we're using:
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element
 - Adding `+semver: patch` as a commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
 
-## Questions?
+## Contact info
 
 Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method (preferred) or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
 
