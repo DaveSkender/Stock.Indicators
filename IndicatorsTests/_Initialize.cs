@@ -8,11 +8,13 @@ namespace StockIndicators.Tests
     public class TestBase
     {
         internal static IEnumerable<Quote> history;
+        internal static IEnumerable<Quote> historyOther;
 
         [AssemblyInitialize]
         public static void Initialize(TestContext testContext)
         {
             history = History.GetHistory();
+            historyOther = History.GetHistoryOther();
         }
     }
 }
