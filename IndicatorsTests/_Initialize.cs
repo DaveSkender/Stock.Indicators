@@ -5,13 +5,13 @@ using System.Collections.Generic;
 namespace StockIndicators.Tests
 {
     [TestClass]
-    public class TestBase
+    public abstract class TestBase
     {
         internal static IEnumerable<Quote> history;
         internal static IEnumerable<Quote> historyOther;
 
         [AssemblyInitialize]
-        public static void Initialize(TestContext testContext)
+        public static void Initialize()
         {
             history = History.GetHistory();
             historyOther = History.GetHistoryOther();
