@@ -11,7 +11,7 @@ namespace StockIndicators.Tests
         internal static IEnumerable<Quote> historyOther;
 
         [AssemblyInitialize]
-        public static void Initialize()
+        public static void Initialize(TestContext testContext)
         {
             history = History.GetHistory();
             historyOther = History.GetHistoryOther();
