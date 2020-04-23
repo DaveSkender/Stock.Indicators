@@ -517,7 +517,7 @@ namespace StockIndicators.Tests
 
             return h
                 .OrderBy(x => x.Date)
-                .Skip(Math.Max(0, h.Count() - days)); // takes days off end
+                .Skip(Math.Max(0, h.Count - days)); // takes days off end
         }
 
 
@@ -1033,7 +1033,7 @@ namespace StockIndicators.Tests
 
             return h
                 .OrderBy(x => x.Date)
-                .Skip(Math.Max(0, h.Count() - days)); // takes days off end
+                .Skip(Math.Max(0, h.Count - days)); // takes days off end
         }
     }
 }
