@@ -45,7 +45,7 @@ IEnumerable<BetaResult> results = Indicator.GetBeta(historySPX,historyTSLA,20);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 BetaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("Beta(SPX,TSLA,20) on {0} was ${1}", result.Date, result.Beta);
+Console.WriteLine("Beta(SPX,TSLA,20) on {0} was {1}", result.Date, result.Beta);
 ```
 
 ``` text

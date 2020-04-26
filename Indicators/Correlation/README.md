@@ -48,7 +48,7 @@ IEnumerable<CorrResult> results = Indicator.GetCorr(historySPX,historyTSLA,20);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 CorrResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("CORR(SPX,TSLA,20) on {0} was ${1}", result.Date, result.Corr);
+Console.WriteLine("CORR(SPX,TSLA,20) on {0} was {1}", result.Date, result.Corr);
 ```
 
 ``` text
