@@ -7,7 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CORRELATION COEFFICIENT
-        public static IEnumerable<CorrResult> GetCorrelation(IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
+        public static IEnumerable<CorrResult> GetCorrelation(
+            IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
         {
             // clean quotes
             historyA = Cleaners.PrepareHistory(historyA);
@@ -48,11 +49,10 @@ namespace Skender.Stock.Indicators
                 decimal avgB2 = period.Select(x => x.PriceB2).Average();
                 decimal avgAB = period.Select(x => x.PriceAB).Average();
 
-                decimal varianceA = avgA2 - avgA * avgA;
-                decimal varianceB = avgB2 - avgB * avgB;
-                decimal covariance = avgAB - avgA * avgB;
-
-                r.Correlation = covariance / (decimal)Math.Sqrt((double)(varianceA * varianceB));
+                r.VarianceA = avgA2 - avgA * avgA;
+                r.VarianceB = avgB2 - avgB * avgB;
+                r.Covariance = avgAB - avgA * avgB;
+                r.Correlation = r.Covariance / (decimal)Math.Sqrt((double)(r.VarianceA * r.VarianceB));
             }
 
             return results;
