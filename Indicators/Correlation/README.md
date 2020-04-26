@@ -5,7 +5,7 @@ Correlation between two quote histories, based on Close price.  Variance and cov
 
 ``` C#
 // usage
-IEnumerable<CorrResult> results = Indicator.GetCorr(history, lookbackPeriod);  
+IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookbackPeriod);  
 ```
 
 ## Parameters

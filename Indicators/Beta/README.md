@@ -49,5 +49,5 @@ Console.WriteLine("Beta(SPX,TSLA,20) on {0} was ${1}", result.Date, result.Beta)
 ```
 
 ``` text
-Beta(SPX,TSLA,20) on 12/31/2018 was 0.85
+Beta(SPX,TSLA,20) on 12/31/2018 was 1.676
 ```
