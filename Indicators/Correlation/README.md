@@ -1,11 +1,11 @@
 ﻿# Correlation Coefficient
 
-Correlation between two quote histories, based on Close price.
+Correlation between two quote histories, based on Close price.  Variance and covariance are also output.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:correlation_coeffici)
 
 ``` C#
 // usage
-IEnumerable<CorrResult> results = Indicator.GetCorr(history, lookbackPeriod);  
+IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -30,7 +30,10 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | -- |-- |--
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
-| `Corr` | decimal | Correlation based on `N` lookback periods
+| `VarianceA` | decimal | Variance of A based on `N` lookback periods
+| `VarianceB` | decimal | Variance of B based on `N` lookback periods
+| `Covariance` | decimal | Covariance of A+B based on `N` lookback periods
+| `Correlation` | decimal | Correlation based on `N` lookback periods
 
 ## Example
 

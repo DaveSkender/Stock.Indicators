@@ -7,6 +7,9 @@ namespace Skender.Stock.Indicators
     {
         public int Index { get; set; }
         public DateTime Date { get; set; }
+        public decimal? VarianceA { get; set; }
+        public decimal? VarianceB { get; set; }
+        public decimal? Covariance { get; set; }
         public decimal? Correlation { get; set; }
 
         // internal use only

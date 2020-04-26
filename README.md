@@ -27,6 +27,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 
 - [Average Directional Index (ADX)](/Indicators/AvgDirectional/README.md)
 - [Average True Range (ATR)](/Indicators/AvgTrueRange/README.md)
+- [Beta Coefficient](/Indicators/Beta/README.md)
 - [Bollinger Bands](/Indicators/BollingerBands/README.md)
 - [Commodity Channel Index (CCI)](/Indicators/Cci/README.md)
 - [Correlation Coefficient](/Indicators/Correlation/README.md)
@@ -36,6 +37,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md)
 - [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
 - [Simple Moving Average](/Indicators/Sma/README.md)
+- [Standard Deviation](/Indicators/StandardDev/README.md)
 - [Stochastic Oscillator](/Indicators/Stochastic/README.md)
 - [Stochastic RSI](/Indicators/StochasticRsi/README.md)
 - [Ulcer Index](/Indicators/Ulcer/README.md)
