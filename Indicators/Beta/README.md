@@ -1,7 +1,7 @@
 ﻿# Beta Coefficient
 
-Beta shows how strongly one stock (or portfolio) responds to systemic volatility of the entire market.
-[More info ...](https://www.investopedia.com/terms/b/beta.asp)
+Beta shows how strongly one stock responds to systemic volatility of the entire market.
+[More info ...](https://en.wikipedia.org/wiki/Beta_(finance))
 
 ``` C#
 // usage
