@@ -38,8 +38,6 @@ namespace Skender.Stock.Indicators
                 }
 
                 results.Add(result);
-
-                System.Console.WriteLine("Correlation: {0} on {1}", c.Correlation, c.Date);
             }
 
             return results;

@@ -13,7 +13,7 @@ IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookback
 | name | type | notes
 | -- |-- |--
 | `historyA` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  The `A` history will be used to establish result length, so use the shorter history here.
-| `historyB` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  Must at least the same date elements of `historyA`.  Exception will be thrown if not matched.
+| `historyB` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must have at least the same matching date elements of `historyA`.  Exception will be thrown if not matched.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.
 
 ## Response
@@ -48,7 +48,7 @@ IEnumerable<CorrResult> results = Indicator.GetCorr(historySPX,historyTSLA,20);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 CorrResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("CORR(SPX,TSLA,20) on {0} was ${1}", result.Date, result.Corr);
+Console.WriteLine("CORR(SPX,TSLA,20) on {0} was {1}", result.Date, result.Corr);
 ```
 
 ``` text

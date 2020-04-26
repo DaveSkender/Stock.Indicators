@@ -1,7 +1,7 @@
 ﻿# Beta Coefficient
 
-Beta shows how strongly one stock (or portfolio) responds to systemic volatility of the entire market.
-[More info ...](https://www.investopedia.com/terms/b/beta.asp)
+Beta shows how strongly one stock responds to systemic volatility of the entire market.
+[More info ...](https://en.wikipedia.org/wiki/Beta_(finance))
 
 ``` C#
 // usage
@@ -12,8 +12,8 @@ IEnumerable<BetaResult> results = Indicator.GetBeta(historyMarket, historyEval, 
 
 | name | type | notes
 | -- |-- |--
-| `historyMarket` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  The `market` history will be used to establish the baseline.
-| `historyEval` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  Must at least the same date elements of `historyMarket`.  Exception will be thrown if not matched.
+| `historyMarket` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of history.  This `market` history will be used to establish the baseline.
+| `historyEval` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must have at least the same matching date elements of `historyMarket`.  Exception will be thrown if not matched.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.
 
 ## Response
@@ -45,7 +45,7 @@ IEnumerable<BetaResult> results = Indicator.GetBeta(historySPX,historyTSLA,20);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 BetaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("Beta(SPX,TSLA,20) on {0} was ${1}", result.Date, result.Beta);
+Console.WriteLine("Beta(SPX,TSLA,20) on {0} was {1}", result.Date, result.Beta);
 ```
 
 ``` text
