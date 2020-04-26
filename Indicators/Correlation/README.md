@@ -13,7 +13,7 @@ IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookback
 | name | type | notes
 | -- |-- |--
 | `historyA` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  The `A` history will be used to establish result length, so use the shorter history here.
-| `historyB` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  Must at least the same date elements of `historyA`.  Exception will be thrown if not matched.
+| `historyB` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must have at least the same matching date elements of `historyA`.  Exception will be thrown if not matched.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.
 
 ## Response

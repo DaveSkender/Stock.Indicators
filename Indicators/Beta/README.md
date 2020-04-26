@@ -12,8 +12,8 @@ IEnumerable<BetaResult> results = Indicator.GetBeta(historyMarket, historyEval, 
 
 | name | type | notes
 | -- |-- |--
-| `historyMarket` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  The `market` history will be used to establish the baseline.
-| `historyEval` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  Must at least the same date elements of `historyMarket`.  Exception will be thrown if not matched.
+| `historyMarket` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of history.  This `market` history will be used to establish the baseline.
+| `historyEval` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must have at least the same matching date elements of `historyMarket`.  Exception will be thrown if not matched.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.
 
 ## Response
