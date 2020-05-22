@@ -60,8 +60,8 @@ namespace Skender.Stock.Indicators
                         .Select(x => (int)x.Index)
                         .FirstOrDefault();
 
-                    result.AroonUp = 100 * (lookbackPeriod - (h.Index - lastHighIndex)) / lookbackPeriod;
-                    result.AroonDown = 100 * (lookbackPeriod - (h.Index - lastLowIndex)) / lookbackPeriod;
+                    result.AroonUp = 100 * (decimal)(lookbackPeriod - (h.Index - lastHighIndex)) / lookbackPeriod;
+                    result.AroonDown = 100 * (decimal)(lookbackPeriod - (h.Index - lastLowIndex)) / lookbackPeriod;
                 }
 
                 results.Add(result);
