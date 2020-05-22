@@ -25,6 +25,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 
 ## How to use for individual indicators
 
+- [Aroon Oscillator](/Indicators/Aroon/README.md)
 - [Average Directional Index (ADX)](/Indicators/AvgDirectional/README.md)
 - [Average True Range (ATR)](/Indicators/AvgTrueRange/README.md)
 - [Beta Coefficient](/Indicators/Beta/README.md)
