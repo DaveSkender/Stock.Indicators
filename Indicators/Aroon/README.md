@@ -31,6 +31,7 @@ The first `N-1` periods will have `null` Aroon values since there's not enough d
 | `Date` | DateTime | Date
 | `AroonUp` | decimal | Based on last High price
 | `AroonDown` | decimal | Based on last Low price
+| `Oscillator` | decimal | AroonUp - AroonDown
 
 ## Example
 

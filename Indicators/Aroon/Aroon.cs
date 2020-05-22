@@ -62,6 +62,7 @@ namespace Skender.Stock.Indicators
 
                     result.AroonUp = 100 * (decimal)(lookbackPeriod - (h.Index - lastHighIndex)) / lookbackPeriod;
                     result.AroonDown = 100 * (decimal)(lookbackPeriod - (h.Index - lastLowIndex)) / lookbackPeriod;
+                    result.Oscillator = result.AroonUp - result.AroonDown;
                 }
 
                 results.Add(result);
