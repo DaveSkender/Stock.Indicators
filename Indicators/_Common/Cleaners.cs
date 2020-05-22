@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
 
             if (history == null || !history.Any())
             {
-                throw new BadHistoryException("No historical quote provided.");
+                throw new BadHistoryException("No historical quotes provided.");
             }
 
             // return if already processed (no missing indexes)
@@ -31,8 +31,7 @@ namespace Skender.Stock.Indicators
 
                 if (lastDate == h.Date)
                 {
-                    throw new BadHistoryException("Duplicate date found.", 
-                        new BadHistoryException(string.Format("Duplicate date found on {0}.", h.Date)));
+                    throw new BadHistoryException(string.Format("Duplicate date found on {0}.", h.Date));
                 }
 
                 lastDate = h.Date;

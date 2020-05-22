@@ -13,6 +13,22 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // check for exceptions
+            if (slowPeriod <= fastPeriod)
+            {
+                throw new BadParameterException("Fast period must be smaller than the slow period.");
+            }
+
+            int qtyHistory = history.Count();
+            int minHistory = 2 * slowPeriod + signalPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for MACD.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.  "
+                          + "Since there is smoothing, we recommend {2} periods when using slow period of {3}, "
+                          + "for maximum precision.", qtyHistory, minHistory, minHistory + 250, slowPeriod));
+            }
+
             // initialize results
             IEnumerable<EmaResult> emaFast = GetEma(history, fastPeriod);
             IEnumerable<EmaResult> emaSlow = GetEma(history, slowPeriod);

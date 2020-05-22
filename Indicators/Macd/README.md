@@ -12,7 +12,7 @@ IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPer
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least slow period + signal period worth of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at 2 × slow period + signal period worth of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
 | `fastPeriod` | int | Number of periods (`N`) for the faster moving average.
 | `slowPeriod` | int | Number of periods (`N`) for the slower moving average.
 | `signalPeriod` | int | Number of periods (`N`) for the moving average of MACD.
