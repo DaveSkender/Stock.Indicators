@@ -25,7 +25,7 @@ namespace StockIndicators.Tests
         /* BAD HISTORY EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "No historical quote provided.")]
+        [ExpectedException(typeof(BadHistoryException), "No historical quotes.")]
         public void BadHistoryEmptyTest()
         {
             List<Quote> badHistory = new List<Quote>();

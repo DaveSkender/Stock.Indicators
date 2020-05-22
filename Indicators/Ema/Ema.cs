@@ -12,6 +12,17 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // check data
+            int qtyHistory = history.Count();
+            int minHistory = 2 * lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for EMA.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.  "
+                          + "Since there is smoothing, we recommend {2} periods when using lookback period of {3}, "
+                          + "for maximum precision.", qtyHistory, minHistory, minHistory + 250, lookbackPeriod));
+            }
+
             // initialize results
             List<EmaResult> results = new List<EmaResult>();
 
