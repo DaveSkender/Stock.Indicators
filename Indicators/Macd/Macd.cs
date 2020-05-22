@@ -23,10 +23,11 @@ namespace Skender.Stock.Indicators
             int minHistory = 2 * slowPeriod + signalPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for MACD.  " +
+                throw new BadHistoryException("Insufficient history provided for EMA.  " +
                         string.Format("You provided {0} periods of history when {1} is required.  "
-                          + "Since there is smoothing, we recommend {2} periods when using slow period of {3}, "
-                          + "for maximum precision.", qtyHistory, minHistory, minHistory + 250, slowPeriod));
+                          + "Since this uses a smoothing technique, "
+                          + "we recommend you use at least 250 data points prior to the intended "
+                          + "usage date for maximum precision.", qtyHistory, minHistory));
             }
 
             // initialize
