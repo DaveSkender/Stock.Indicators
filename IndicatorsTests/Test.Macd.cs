@@ -38,5 +38,23 @@ namespace StockIndicators.Tests
             Assert.AreEqual(false, result.IsBullish);
             Assert.AreEqual(false, result.IsDiverging);
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad periods.")]
+        public void BadParameters()
+        {
+            Indicator.GetMacd(history, 26, 20, 9);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetMacd(history.Where(x => x.Index < 61), 12, 26, 9);
+        }
+
     }
 }

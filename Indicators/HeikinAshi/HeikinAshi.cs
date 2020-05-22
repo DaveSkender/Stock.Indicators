@@ -12,6 +12,16 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = 2;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Heikin-Ashi.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
+            // initialize
             List<HeikinAshiResult> results = new List<HeikinAshiResult>();
 
             decimal? prevOpen = null;

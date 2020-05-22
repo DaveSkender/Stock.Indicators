@@ -31,5 +31,16 @@ namespace StockIndicators.Tests
             Assert.AreEqual(true, result.IsRising);
             Assert.AreEqual(false, result.IsReversal);
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetParabolicSar(history.Where(x => x.Index < 2), (decimal)0.02, (decimal)0.2);
+        }
+
     }
 }

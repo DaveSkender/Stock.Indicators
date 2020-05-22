@@ -13,7 +13,16 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // initialize results
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod + 1;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Commodity Channel Index.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
+            // initialize
             List<CciResult> results = new List<CciResult>();
 
 

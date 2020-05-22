@@ -28,5 +28,16 @@ namespace StockIndicators.Tests
             CciResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)-52.9946, Math.Round((decimal)result.Cci, 4));
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetCci(history.Where(x => x.Index < 31), 30);
+        }
+
     }
 }

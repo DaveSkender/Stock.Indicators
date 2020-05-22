@@ -16,6 +16,15 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = 2;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Parabolic SAR.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
             // initialize
             List<ParabolicSarResult> results = new List<ParabolicSarResult>();
             Quote first = history.Where(x => x.Index == 1).FirstOrDefault();

@@ -12,9 +12,21 @@ namespace Skender.Stock.Indicators
 
             // clean quotes
             history = Cleaners.PrepareHistory(history);
-            IEnumerable<AtrResult> atrResults = GetAtr(history, lookbackPeriod); // uses True Range value
+
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = 2 * lookbackPeriod + 1;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for ADX.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.  "
+                          + "Since this uses a smoothing technique, "
+                          + "we recommend you use at least 250 data points prior to the intended "
+                          + "usage date for maximum precision.", qtyHistory, minHistory));
+            }
 
             // initialize results and working variables
+            IEnumerable<AtrResult> atrResults = GetAtr(history, lookbackPeriod); // uses True Range value
             List<AdxResult> results = new List<AdxResult>();
 
             decimal prevHigh = 0;

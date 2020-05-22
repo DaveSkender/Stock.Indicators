@@ -30,5 +30,16 @@ namespace StockIndicators.Tests
             Assert.AreEqual(true, result.IsBullish);
             Assert.AreEqual(0, Math.Round(result.Weakness, 4));
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetHeikinAshi(history.Where(x => x.Index < 2));
+        }
+
     }
 }

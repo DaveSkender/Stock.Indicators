@@ -27,5 +27,16 @@ namespace StockIndicators.Tests
             EmaResult ema = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)249.3519, Math.Round((decimal)ema.Ema, 4));
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetEma(history.Where(x => x.Index < 30), 30);
+        }
+
     }
 }

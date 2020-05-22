@@ -16,4 +16,17 @@ namespace Skender.Stock.Indicators
         // exception propagates from a remoting server to the client. 
         protected BadHistoryException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+
+    [Serializable()]
+    public class BadParameterException : Exception
+    {
+        public BadParameterException() { }
+        public BadParameterException(string message) : base(message) { }
+        public BadParameterException(string message, Exception innerException) : base(message, innerException) { }
+
+        // A constructor is needed for serialization when an
+        // exception propagates from a remoting server to the client. 
+        protected BadParameterException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
 }

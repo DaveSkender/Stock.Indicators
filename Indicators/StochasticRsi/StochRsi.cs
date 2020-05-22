@@ -12,6 +12,15 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = 2 * lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Stochastic RSI.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
             // initialize
             List<StochRsiResult> results = new List<StochRsiResult>();
             IEnumerable<RsiResult> rsiResults = GetRsi(history, lookbackPeriod);

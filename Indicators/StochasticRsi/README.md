@@ -12,7 +12,7 @@ IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history, lookbackPer
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` periods of `history`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.
 
 ## Response

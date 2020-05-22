@@ -12,6 +12,18 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for RSI.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.  "
+                          + "Since this uses a smoothing technique, "
+                          + "we recommend you use at least 250 data points prior to the intended "
+                          + "usage date for maximum precision.", qtyHistory, minHistory));
+            }
+
             // initialize
             decimal lastClose = history.First().Close;
             List<RsiResult> results = new List<RsiResult>();

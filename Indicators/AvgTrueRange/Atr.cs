@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -11,6 +12,16 @@ namespace Skender.Stock.Indicators
 
             // clean quotes
             history = Cleaners.PrepareHistory(history);
+
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod + 1;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for ATR.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.  "
+                        , qtyHistory, minHistory));
+            }
 
             // initialize results
             List<AtrResult> results = new List<AtrResult>();
