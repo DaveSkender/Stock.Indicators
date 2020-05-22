@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Beta.  " +
+                throw new BadHistoryException("Insufficient history provided for Ulcer Index.  " +
                         string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
             }
 
