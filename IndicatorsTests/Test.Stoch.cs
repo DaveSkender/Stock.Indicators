@@ -33,5 +33,16 @@ namespace StockIndicators.Tests
             Assert.AreEqual((decimal)35.5674, Math.Round((decimal)result.Signal, 4));
             Assert.AreEqual(true, result.IsIncreasing);
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetStoch(history.Where(x => x.Index < 30), 30);
+        }
+
     }
 }

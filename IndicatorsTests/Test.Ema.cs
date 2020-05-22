@@ -33,10 +33,9 @@ namespace StockIndicators.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void BadHistoryEmaHistory()
+        public void InsufficientHistory()
         {
-            IEnumerable<Quote> lessHistory = history.Where(x => x.Index < 25);
-            IEnumerable<EmaResult> results = Indicator.GetEma(lessHistory, 30);
+            Indicator.GetEma(history.Where(x => x.Index < 30), 30);
         }
 
     }

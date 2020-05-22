@@ -29,7 +29,7 @@ namespace Skender.Stock.Indicators
                           + "for maximum precision.", qtyHistory, minHistory, minHistory + 250, slowPeriod));
             }
 
-            // initialize results
+            // initialize
             IEnumerable<EmaResult> emaFast = GetEma(history, fastPeriod);
             IEnumerable<EmaResult> emaSlow = GetEma(history, slowPeriod);
 

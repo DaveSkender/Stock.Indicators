@@ -44,17 +44,16 @@ namespace StockIndicators.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadParameterException), "Bad periods.")]
-        public void BadPeriodsMacd()
+        public void BadParameters()
         {
             Indicator.GetMacd(history, 26, 20, 9);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void BadHistoryMacdHistory()
+        public void InsufficientHistory()
         {
-            IEnumerable<Quote> lessHistory = history.Where(x => x.Index < 25);
-            IEnumerable<MacdResult> results = Indicator.GetMacd(lessHistory, 12, 26, 9);
+            Indicator.GetMacd(history.Where(x => x.Index < 61), 12, 26, 9);
         }
 
     }

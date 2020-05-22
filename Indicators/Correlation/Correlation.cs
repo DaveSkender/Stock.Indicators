@@ -14,7 +14,16 @@ namespace Skender.Stock.Indicators
             historyA = Cleaners.PrepareHistory(historyA);
             historyB = Cleaners.PrepareHistory(historyB);
 
-            // initialize results
+            // check exceptions
+            int qtyHistory = historyA.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Correlation.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
+            // initialize
             List<CorrResult> results = new List<CorrResult>();
 
 

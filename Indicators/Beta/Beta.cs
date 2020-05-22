@@ -13,6 +13,16 @@ namespace Skender.Stock.Indicators
             historyMarket = Cleaners.PrepareHistory(historyMarket);
             historyEval = Cleaners.PrepareHistory(historyEval);
 
+            // check exceptions
+            int qtyHistory = historyEval.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Beta.  " +
+                        string.Format("You provided {0} periods of history when {1} is required."
+                          , qtyHistory, minHistory));
+            }
+
             // initialize results
             List<BetaResult> results = new List<BetaResult>();
 

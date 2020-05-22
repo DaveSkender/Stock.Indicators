@@ -12,7 +12,16 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // initialize results
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for SMA.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
+            // initialize
             List<SmaResult> results = new List<SmaResult>();
 
             // roll through history

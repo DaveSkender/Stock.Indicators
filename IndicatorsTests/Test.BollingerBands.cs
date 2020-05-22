@@ -34,5 +34,16 @@ namespace StockIndicators.Tests
             Assert.AreEqual((decimal)230.0196, Math.Round((decimal)result.LowerBand, 4));
             Assert.AreEqual(false, result.IsDiverging);
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetBollingerBands(history.Where(x => x.Index < 30), 30, 2);
+        }
+
     }
 }

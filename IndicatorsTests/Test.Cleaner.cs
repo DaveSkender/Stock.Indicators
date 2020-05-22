@@ -26,7 +26,7 @@ namespace StockIndicators.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "No historical quotes.")]
-        public void BadHistoryEmptyTest()
+        public void NoHistory()
         {
             List<Quote> badHistory = new List<Quote>();
             Cleaners.PrepareHistory(badHistory);
@@ -34,7 +34,7 @@ namespace StockIndicators.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Duplicate date found.")]
-        public void BadHistoryDuplicateTest()
+        public void DuplicateHistory()
         {
             List<Quote> badHistory = new List<Quote>
             {

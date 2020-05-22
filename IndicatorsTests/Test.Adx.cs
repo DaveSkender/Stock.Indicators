@@ -29,5 +29,16 @@ namespace StockIndicators.Tests
             Assert.AreEqual((decimal)31.1510, Math.Round((decimal)atr.Mdi, 4));
             Assert.AreEqual((decimal)34.2987, Math.Round((decimal)atr.Adx, 4));
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetAdx(history.Where(x => x.Index < 61), 30);
+        }
+
     }
 }

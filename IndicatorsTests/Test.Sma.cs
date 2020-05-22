@@ -27,5 +27,16 @@ namespace StockIndicators.Tests
             SmaResult sma = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)251.86, sma.Sma);
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetSma(history.Where(x => x.Index < 10), 10);
+        }
+
     }
 }

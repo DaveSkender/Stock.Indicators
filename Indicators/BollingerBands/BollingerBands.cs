@@ -12,6 +12,15 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // check exceptions
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Bollinger Bands.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
             // initialize
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
             IEnumerable<SmaResult> sma = GetSma(history, lookbackPeriod);

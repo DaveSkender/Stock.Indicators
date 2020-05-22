@@ -13,6 +13,15 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // exceptions
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Beta.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
             // initialize
             List<UlcerIndexResult> results = new List<UlcerIndexResult>();
 

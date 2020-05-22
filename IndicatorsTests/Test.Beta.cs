@@ -50,5 +50,15 @@ namespace StockIndicators.Tests
             Assert.AreEqual(1, Math.Round((decimal)result.Beta, 4));
         }
 
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetBeta(history.Where(x => x.Index < 30), historyOther.Where(x => x.Index < 30), 30);
+        }
+
     }
 }

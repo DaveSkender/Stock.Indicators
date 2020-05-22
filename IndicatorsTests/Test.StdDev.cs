@@ -27,5 +27,16 @@ namespace StockIndicators.Tests
             StdDevResult sd = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)5.4738, Math.Round((decimal)sd.StdDev, 4));
         }
+
+
+        /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
+        public void InsufficientHistory()
+        {
+            Indicator.GetStdDev(history.Where(x => x.Index < 30), 30);
+        }
+
     }
 }
