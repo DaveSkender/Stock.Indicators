@@ -23,7 +23,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 ```
 
-## How to use for individual indicators
+## Indicators and overlays
 
 - [Aroon Oscillator](/Indicators/Aroon/README.md)
 - [Average Directional Index (ADX)](/Indicators/AvgDirectional/README.md)
@@ -65,11 +65,13 @@ You can, of course, override these and provide your own values.
 - Stock indicators can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
 - Check out our [demo site](https://stock-charts.azurewebsites.net/) to see an example usage in a stock chart.
 
-## Q&A
+## FAQ
 
 **Where can I get historical data?**
 
 There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Alpha Vantage](https://www.alphavantage.co).
+
+**More questions?**  Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method (preferred) or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
 
 ## Contributing
 
