@@ -47,7 +47,7 @@ IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history,22,3);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 ChandelierResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("ChandelierExit(22,3) on {0} was ${1}", result.Date, result.ChandelierUp);
+Console.WriteLine("ChandelierExit(22,3) on {0} was ${1}", result.Date, result.ChandelierExit);
 ```
 
 ``` text
