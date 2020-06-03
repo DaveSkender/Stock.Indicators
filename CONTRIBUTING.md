@@ -2,12 +2,14 @@
 
 Thanks for taking the time to contribute!
 
+If you want to contribute code or simply help with code reviews, all are welcome.  I'm currently seeking a few core people to help so I don't have to be the only person to *review and approve changes ... including my own!*  This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
+
 Before contributing, please be aware that we are accepting these sorts of changes:
 
 - Bug reports and fixes
 - New generic indicators and overlays (lets say, "by the book" and reputable definitions)
 
-We are not accepting things that should be done in your own extension code:
+We are not accepting things that should be done in your own wrapper code:
 
 - Personal customizations and preferences
 - Modified or augmented outputs that are not backed by standard definitions
@@ -43,7 +45,7 @@ Always write a clear log message for your commits. One-line messages are fine fo
     > 
     > A paragraph describing what changed and its impact."
 
-After a Pull Request is reviewed, accepted, and merged to master, we may batch changes before publishing a new package version to the public NuGet repository.  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and [squash] merged to master, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## About the NuGet packaging
 
@@ -54,7 +56,8 @@ For the NuGet packaging, we're using:
 
 ## About versioning
 
-- We use the `GitVersion` tool for versioning.  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=18)
+We use the `GitVersion` tool for versioning.  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=18).  This only needs to be done on the merge to `master`, so your feature branch does not need to include this as it will get squashed anyway.
+
 - Adding `+semver: major` as a commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element
 - Adding `+semver: patch` as a commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.

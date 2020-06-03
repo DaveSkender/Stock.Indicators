@@ -3,7 +3,7 @@
 Simple moving average is the average of Close price of `N` lookback periods.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_averages)
 
-``` C#
+```csharp
 // usage
 IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<SmaResult>
 ```
 
@@ -33,7 +33,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
@@ -46,6 +46,6 @@ SmaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 ```
 
-``` text
+```bash
 SMA on 12/31/2018 was $251.86
 ```

@@ -3,7 +3,7 @@
 Oscillator depicting deviation from typical price range.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:commodity_channel_index_cci)
 
-``` C#
+```csharp
 // usage
 IEnumerable<CciResult> results = Indicator.GetCci(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<CciResult> results = Indicator.GetCci(history, lookbackPeriod);
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<CciResult>
 ```
 
@@ -33,7 +33,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -46,6 +46,6 @@ CciResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("CCI on {0} was ${1}", result.Date, result.Cci);
 ```
 
-``` text
+```bash
 CCI on 12/31/2018 was -52.99
 ```

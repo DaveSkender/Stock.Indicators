@@ -3,7 +3,7 @@
 Standard Deviation of Close price over a lookback period.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:standard_deviation_volatility)
 
-``` C#
+```csharp
 // usage
 IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod)
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<StdDevResult>
 ```
 
@@ -33,7 +33,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPX");
 
@@ -46,6 +46,6 @@ StdDevResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("StdDev(SPX,10) on {0} was ${1}", result.Date, result.StdDev);
 ```
 
-``` text
+```bash
 StdDev(SPX,10) on 12/31/2018 was $5.4738
 ```

@@ -3,7 +3,7 @@
 Exponentially weighted moving average of the Close price over `N` periods.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_averages)
 
-``` C#
+```csharp
 // usage
 IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<EmaResult>
 ```
 
@@ -33,7 +33,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -46,6 +46,6 @@ EmaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("EMA on {0} was ${1}", result.Date, result.Ema);
 ```
 
-``` text
+```bash
 EMA on 12/31/2018 was $249.3519
 ```

@@ -3,7 +3,7 @@
 Measure of price directional movement.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:average_directional_index_adx)
 
-``` C#
+```csharp
 // usage
 IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<AdxResult>
 ```
 
@@ -35,7 +35,7 @@ The first `2×N-1` periods will have `null` values for ADX since there's not eno
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -48,6 +48,6 @@ AdxResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("ADX on {0} was ${1}", result.Date, result.Adx);
 ```
 
-``` text
+```bash
 ADX on 12/31/2018 was 34.30
 ```

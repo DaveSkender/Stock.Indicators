@@ -3,7 +3,7 @@
 Stochastic interpretation of the Relative Strength Index.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi)
 
-``` C#
+```csharp
 // usage
 IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history, lookbackPer
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<StochRsiResult>
 ```
 
@@ -34,7 +34,7 @@ The first `2×N-1` periods will have `null` values since there's not enough data
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -47,6 +47,6 @@ StochRsiResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("StochRSI on {0} was {1}", result.Date, result.StochRsi);
 ```
 
-``` text
+```bash
 StochRSI on 12/31/2018 was 0.975
 ```
