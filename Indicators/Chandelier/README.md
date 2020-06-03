@@ -1,11 +1,11 @@
-﻿# Chandelier
+﻿# Chandelier Exit
 
-Chandelier is typically used for stop-loss and can be both long or short variants.
+Chandelier Exit is typically used for stop-loss and can be both long or short variants.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit)
 
 ``` C#
 // usage
-IEnumerable<ChandelierResult> results = Indicator.GetChandelierExit(history, lookbackPeriod, multiplier, variant);  
+IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history, lookbackPeriod, multiplier, variant);  
 ```
 
 ## Parameters
@@ -42,7 +42,7 @@ The first `N` periods will have `null` Chandelier values since there's not enoug
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Chandelier(22,3,"long")
-IEnumerable<ChandelierResult> results = Indicator.GetChandelierExit(history,22,3);
+IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history,22,3);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
