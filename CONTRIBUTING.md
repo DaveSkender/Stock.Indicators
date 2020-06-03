@@ -2,6 +2,8 @@
 
 Thanks for taking the time to contribute!
 
+If you want to contribute code or simply help with code reviews, all are welcome.  I'm currently seeking a few core people to help so I don't have to be the only person to *review and approve changes ... including my own!*  This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
+
 Before contributing, please be aware that we are accepting these sorts of changes:
 
 - Bug reports and fixes
