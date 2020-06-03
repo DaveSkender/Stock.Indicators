@@ -14,33 +14,41 @@ namespace StockIndicators.Tests
         public void GetChandleierTest()
         {
             int lookbackPeriod = 22;
-            IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history, lookbackPeriod, 3.0);
+            IEnumerable<ChandelierResult> longResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0);
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.ChandelierExit != null).Count());
+            Assert.AreEqual(502, longResult.Count());
+            Assert.AreEqual(502 - lookbackPeriod + 1, longResult.Where(x => x.ChandelierExit != null).Count());
 
-            // sample values
-            ChandelierResult a = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            // sample values (long)
+            ChandelierResult a = longResult.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)256.5860, Math.Round((decimal)a.ChandelierExit, 4));
             Assert.AreEqual(false, a.IsExitCross);
             Assert.AreEqual(true, a.IsCrossed);
 
-            ChandelierResult b = results.Where(x => x.Date == DateTime.Parse("12/6/2018")).FirstOrDefault();
+            ChandelierResult b = longResult.Where(x => x.Date == DateTime.Parse("12/6/2018")).FirstOrDefault();
             Assert.AreEqual(false, b.IsExitCross);
             Assert.AreEqual(false, b.IsCrossed);
 
-            ChandelierResult c = results.Where(x => x.Date == DateTime.Parse("12/7/2018")).FirstOrDefault();
+            ChandelierResult c = longResult.Where(x => x.Date == DateTime.Parse("12/7/2018")).FirstOrDefault();
             Assert.AreEqual(true, c.IsExitCross);
             Assert.AreEqual(true, c.IsCrossed);
 
-            ChandelierResult d = results.Where(x => x.Date == DateTime.Parse("12/17/2018")).FirstOrDefault();
+            ChandelierResult d = longResult.Where(x => x.Date == DateTime.Parse("12/17/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)259.0480, Math.Round((decimal)d.ChandelierExit, 4));
             Assert.AreEqual(false, d.IsExitCross);
             Assert.AreEqual(true, d.IsCrossed);
+
+            // short
+            IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0, "short");
+
+            ChandelierResult e = shortResult.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)246.4240, Math.Round((decimal)e.ChandelierExit, 4));
+            Assert.AreEqual(false, e.IsExitCross);
+            Assert.AreEqual(false, e.IsCrossed);
         }
 
 
