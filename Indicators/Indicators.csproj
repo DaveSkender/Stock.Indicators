@@ -13,7 +13,7 @@
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageReleaseNotes>More info: https://github.com/DaveSkender/Stock.Indicators/releases
 This software is currently in active pre-release development.
-Please contribute to help us get to v1.0.0.
+Please contribute to help us get to v1.0.0.  Feedback appreciated.
 </PackageReleaseNotes>
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
     <Copyright>@2020 Dave Skender</Copyright>
