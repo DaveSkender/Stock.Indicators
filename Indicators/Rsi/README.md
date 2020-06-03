@@ -4,7 +4,7 @@ Relative Strength Index measures strength of winning/losing streak over `N` look
 RSI values over 70 are considered overbought, while values under 30 are considered oversold.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:relative_strength_index_rsi)
 
-``` C#
+```csharp
 // usage
 IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);  
 ```
@@ -18,7 +18,7 @@ IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<RsiResult>
 ```
 
@@ -35,7 +35,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -48,6 +48,6 @@ RsiResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("RSI on {0} was {1}", result.Date, result.Rsi);
 ```
 
-``` text
+```bash
 RSI on 12/31/2018 was 42.08
 ```

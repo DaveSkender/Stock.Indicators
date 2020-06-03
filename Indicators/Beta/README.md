@@ -3,7 +3,7 @@
 Beta shows how strongly one stock responds to systemic volatility of the entire market.
 [More info ...](https://en.wikipedia.org/wiki/Beta_(finance))
 
-``` C#
+```csharp
 // usage
 IEnumerable<BetaResult> results = Indicator.GetBeta(historyMarket, historyEval, lookbackPeriod);  
 ```
@@ -18,7 +18,7 @@ IEnumerable<BetaResult> results = Indicator.GetBeta(historyMarket, historyEval, 
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<BetaResult>
 ```
 
@@ -34,7 +34,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
@@ -48,6 +48,6 @@ BetaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("Beta(SPX,TSLA,20) on {0} was {1}", result.Date, result.Beta);
 ```
 
-``` text
+```bash
 Beta(SPX,TSLA,20) on 12/31/2018 was 1.676
 ```

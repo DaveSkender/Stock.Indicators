@@ -3,7 +3,7 @@
 Chandelier Exit is typically used for stop-loss and can be both long or short variants.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit)
 
-``` C#
+```csharp
 // usage
 IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history, lookbackPeriod, multiplier, variant);  
 ```
@@ -19,7 +19,7 @@ IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history, lookbac
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<ChandelierResult>
 ```
 
@@ -37,7 +37,7 @@ The first `N` periods will have `null` Chandelier values since there's not enoug
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -50,6 +50,6 @@ ChandelierResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("ChandelierExit(22,3) on {0} was ${1}", result.Date, result.ChandelierExit);
 ```
 
-``` text
+```bash
 ChandelierExit(22,3) on 12/31/2018 was 255.09
 ```

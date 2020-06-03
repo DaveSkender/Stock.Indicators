@@ -3,7 +3,7 @@
 Parabolic SAR is a price-time based indicator.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:parabolic_sar)
 
-``` C#
+```csharp
 // usage
 IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, accelerationStep, maxAccelerationFactor);  
 ```
@@ -20,7 +20,7 @@ NOTE: Initial Parabolic SAR values before the first reversal are not accurate.
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<ParabolicSarResult>
 ```
 
@@ -38,7 +38,7 @@ The first period will have `null` values since there's not enough data to calcul
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -51,6 +51,6 @@ ParabolicSarResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("SAR on {0} was ${1}", result.Date, result.Sar);
 ```
 
-``` text
+```bash
 SAR on 12/31/2018 was $229.76
 ```

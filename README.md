@@ -8,13 +8,13 @@
 
 Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing packages;
 
-``` PowerShell
+```powershell
 PM> Install-Package Skender.Stock.Indicators
 ```
 
 ## Example usage
 
-``` C#
+```csharp
 using Skender.Stock.Indicators;
 
 [..]

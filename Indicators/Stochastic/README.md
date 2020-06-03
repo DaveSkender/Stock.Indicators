@@ -3,7 +3,7 @@
 Stochastic Oscillator is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:stochastic_oscillator_fast_slow_and_full)
 
-``` C#
+```csharp
 // usage
 IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
 ```
@@ -19,7 +19,7 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<StochResult>
 ```
 
@@ -37,7 +37,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -50,6 +50,6 @@ StochResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("STOCH on {0} was {1}", result.Date, result.Oscillator);
 ```
 
-``` text
+```bash
 STOCH on 12/31/2018 was 43.1
 ```

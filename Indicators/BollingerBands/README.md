@@ -3,7 +3,7 @@
 Bollinger Bands indicate volatility and displays standard deviation boundary lines from moving average of Close price.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:bollinger_bands)
 
-``` C#
+```csharp
 // usage
 IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviation);  
 ```
@@ -18,7 +18,7 @@ IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history,
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<BollingerBandsResult>
 ```
 
@@ -37,7 +37,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -50,6 +50,6 @@ BollingerBandsResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault(
 Console.WriteLine("Upper Bollinger Band on {0} was ${1}", result.Date, result.UpperBand);
 ```
 
-``` text
+```bash
 Upper Bollinger Band on 12/31/2018 was $273.7
 ```

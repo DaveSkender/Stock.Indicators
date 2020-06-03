@@ -3,7 +3,7 @@
 MACD is a simple oscillator view of two converging/diverging exponential moving averages.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_average_convergence_divergence_macd)
 
-``` C#
+```csharp
 // usage
 IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);  
 ```
@@ -19,7 +19,7 @@ IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPer
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<MacdResult>
 ```
 
@@ -39,7 +39,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -52,6 +52,6 @@ MacdResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("MACD on {0} was ${1}", result.Date, result.Macd);
 ```
 
-``` text
+```bash
 MACD on 12/31/2018 was -6.22
 ```

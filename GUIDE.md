@@ -21,7 +21,7 @@ If you intend to use the same composed `IEnumerable<Quote> history` in multiple 
 
 You only need to do this if you want to use the `Index` value in your own wrapper software; otherwise, there is no need as `history` is cleaned on every call, internally.  If you pre-clean, the provided `history` will be used as-is without additional cleaning.  The original `Date` and composed `Index` is always returned in resultsets.
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 

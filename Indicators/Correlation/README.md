@@ -3,7 +3,7 @@
 Correlation between two quote histories, based on Close price.  Variance and covariance are also output.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:correlation_coeffici)
 
-``` C#
+```csharp
 // usage
 IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookbackPeriod);  
 ```
@@ -18,7 +18,7 @@ IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookback
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<CorrResult>
 ```
 
@@ -37,7 +37,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
@@ -51,6 +51,6 @@ CorrResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("CORR(SPX,TSLA,20) on {0} was {1}", result.Date, result.Corr);
 ```
 
-``` text
+```bash
 CORR(SPX,TSLA,20) on 12/31/2018 was 0.85
 ```

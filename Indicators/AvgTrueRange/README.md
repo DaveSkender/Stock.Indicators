@@ -3,7 +3,7 @@
 Measure of volatility that captures gaps and limits between periods.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:average_true_range_atr)
 
-``` C#
+```csharp
 // usage
 IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<AtrResult>
 ```
 
@@ -34,7 +34,7 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -47,6 +47,6 @@ AtrResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("ATR on {0} was ${1}", result.Date, result.Atr);
 ```
 
-``` text
+```bash
 ATR on 12/31/2018 was 6.15
 ```

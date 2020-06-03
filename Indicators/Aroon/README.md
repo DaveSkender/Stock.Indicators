@@ -3,7 +3,7 @@
 Aroon is a simple oscillator view of how long the new high or low price occured over a lookback period.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon)
 
-``` C#
+```csharp
 // usage
 IEnumerable<AroonResult> results = Indicator.GetAroon(history, lookbackPeriod);  
 ```
@@ -17,7 +17,7 @@ IEnumerable<AroonResult> results = Indicator.GetAroon(history, lookbackPeriod);
 
 ## Response
 
-``` C#
+```csharp
 IEnumerable<AroonResult>
 ```
 
@@ -35,7 +35,7 @@ The first `N-1` periods will have `null` Aroon values since there's not enough d
 
 ## Example
 
-``` C#
+```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
@@ -48,6 +48,6 @@ AroonResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
 Console.WriteLine("Aroon-Up(25) on {0} was ${1}", result.Date, result.AroonUp);
 ```
 
-``` text
+```bash
 Aroon-Up(25) on 12/31/2018 was 28.0
 ```
