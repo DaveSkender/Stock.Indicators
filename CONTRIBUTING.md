@@ -2,7 +2,7 @@
 
 Thanks for taking the time to contribute!
 
-If you want to contribute code or simply help with code reviews, all are welcome.  I'm currently seeking a few core people to help so I don't have to be the only person to *review and approve changes ... including my own!*  This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
+This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
 
 Before contributing, please be aware that we are accepting these sorts of changes:
 
@@ -46,6 +46,10 @@ Always write a clear log message for your commits. One-line messages are fine fo
     > A paragraph describing what changed and its impact."
 
 After a Pull Request is reviewed, accepted, and [squash] merged to master, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+
+## Code Reviews and Administration
+
+If you want to contribute administratively or help with code reviews, I'm also currently seeking a few core people to help so I don't have to be the only person to *review changes ... including my own!*
 
 ## About the NuGet packaging
 
