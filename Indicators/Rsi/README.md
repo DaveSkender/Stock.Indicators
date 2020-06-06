@@ -31,7 +31,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Rsi` | float | RSI over prior `N` lookback periods
-| `IsIncreasing` | bool | Direction since last period (e.g. up or down)
+| `IsIncreasing` | bool | Direction since last period (e.g. up or down).  Is `null` for no change.
 
 ## Example
 

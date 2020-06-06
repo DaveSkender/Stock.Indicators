@@ -68,7 +68,15 @@ namespace Skender.Stock.Indicators
                     r.Rsi = 100;
                 }
 
-                r.IsIncreasing = (r.Rsi > lastRSI);
+                if (r.Rsi > lastRSI)
+                {
+                    r.IsIncreasing = true;
+                }
+                else if (r.Rsi < lastRSI)
+                {
+                    r.IsIncreasing = false;
+                }
+
                 lastRSI = (float)r.Rsi;
             }
 

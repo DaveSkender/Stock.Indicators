@@ -93,7 +93,18 @@ namespace Skender.Stock.Indicators
                                  .Select(v => v.Oscillator)
                                  .Average();
 
-                r.IsIncreasing = (r.Oscillator > lastOsc);
+                if (r.Index >= (lookbackPeriod + signalPeriod + smoothPeriod) + 1)
+                {
+                    if (r.Oscillator > lastOsc)
+                    {
+                        r.IsIncreasing = true;
+                    }
+                    else if (r.Oscillator < lastOsc)
+                    {
+                        r.IsIncreasing = false;
+                    }
+                }
+
                 lastOsc = (float)r.Oscillator;
             }
 

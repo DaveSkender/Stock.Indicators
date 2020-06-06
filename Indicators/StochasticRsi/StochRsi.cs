@@ -54,9 +54,16 @@ namespace Skender.Stock.Indicators
             float? lastRSI = 0;
             foreach (StochRsiResult r in results.Where(x => x.Index >= 2 * lookbackPeriod).OrderBy(d => d.Index))
             {
-                if (r.Index >= lookbackPeriod)
+                if (r.Index >= 2 * lookbackPeriod + 1)
                 {
-                    r.IsIncreasing = (r.StochRsi > lastRSI);
+                    if (r.StochRsi > lastRSI)
+                    {
+                        r.IsIncreasing = true;
+                    }
+                    else if (r.StochRsi < lastRSI)
+                    {
+                        r.IsIncreasing = false;
+                    }
                 }
 
                 lastRSI = r.StochRsi;
