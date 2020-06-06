@@ -56,7 +56,7 @@ namespace Skender.Stock.Indicators
             {
                 if (r.Index >= lookbackPeriod)
                 {
-                    r.IsIncreasing = (r.StochRsi >= lastRSI) ? true : false;
+                    r.IsIncreasing = (r.StochRsi > lastRSI);
                 }
 
                 lastRSI = r.StochRsi;
