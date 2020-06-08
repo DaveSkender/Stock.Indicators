@@ -52,6 +52,7 @@ namespace Skender.Stock.Indicators
 
             // add direction
             float? lastRSI = 0;
+            bool? lastIsIncreasing = null;
             foreach (StochRsiResult r in results.Where(x => x.Index >= 2 * lookbackPeriod).OrderBy(d => d.Index))
             {
                 if (r.Index >= 2 * lookbackPeriod + 1)
@@ -64,9 +65,15 @@ namespace Skender.Stock.Indicators
                     {
                         r.IsIncreasing = false;
                     }
+                    else
+                    {
+                        // no change, keep trend
+                        r.IsIncreasing = lastIsIncreasing;
+                    }
                 }
 
                 lastRSI = r.StochRsi;
+                lastIsIncreasing = r.IsIncreasing;
             }
 
             return results;

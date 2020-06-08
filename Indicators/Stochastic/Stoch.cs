@@ -86,6 +86,7 @@ namespace Skender.Stock.Indicators
 
             // new signal and trend info
             float lastOsc = 0;
+            bool? lastIsIncreasing = null;
             foreach (StochResult r in results
                 .Where(x => x.Index >= (lookbackPeriod + signalPeriod + smoothPeriod) && x.Oscillator != null))
             {
@@ -103,9 +104,15 @@ namespace Skender.Stock.Indicators
                     {
                         r.IsIncreasing = false;
                     }
+                    else
+                    {
+                        // no change, keep trend
+                        r.IsIncreasing = lastIsIncreasing;
+                    }
                 }
 
                 lastOsc = (float)r.Oscillator;
+                lastIsIncreasing = r.IsIncreasing;
             }
 
             return results;

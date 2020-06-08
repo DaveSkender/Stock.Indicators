@@ -50,7 +50,7 @@ namespace Skender.Stock.Indicators
 
             // initial RSI for trend analysis
             float lastRSI = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
-
+            bool? lastIsIncreasing = null;
 
             // calculate RSI
             foreach (RsiResult r in results.Where(x => x.Index >= lookbackPeriod).OrderBy(d => d.Index))
@@ -76,8 +76,14 @@ namespace Skender.Stock.Indicators
                 {
                     r.IsIncreasing = false;
                 }
+                else
+                {
+                    // no change, keep trend
+                    r.IsIncreasing = lastIsIncreasing;
+                }
 
                 lastRSI = (float)r.Rsi;
+                lastIsIncreasing = r.IsIncreasing;
             }
 
             return results;
