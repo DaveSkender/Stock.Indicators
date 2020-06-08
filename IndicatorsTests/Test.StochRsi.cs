@@ -23,7 +23,9 @@ namespace StockIndicators.Tests
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
             Assert.AreEqual(502 - 2 * lookbackPeriod + 1, results.Where(x => x.StochRsi != null).Count());
-            Assert.AreEqual(502 - 2 * lookbackPeriod + 1, results.Where(x => x.IsIncreasing != null).Count());
+
+            // this series starts with 4 periods of topped Stochastic RSI, so no direction can be determined
+            Assert.AreEqual(502 - 2 * lookbackPeriod + 1 - 4, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
             StochRsiResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
