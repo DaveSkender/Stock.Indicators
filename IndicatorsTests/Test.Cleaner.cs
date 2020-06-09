@@ -2,6 +2,7 @@
 using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StockIndicators.Tests
 {
@@ -18,6 +19,9 @@ namespace StockIndicators.Tests
 
             // should always be the same number of results as there is history
             Assert.AreEqual(502, h.Count);
+
+            // should always have index
+            Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
         }
 
 
