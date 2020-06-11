@@ -23,7 +23,6 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
-            IEnumerable<SmaResult> sma = GetSma(history, lookbackPeriod);
             decimal? prevUpperBand = null;
             decimal? prevLowerBand = null;
 
@@ -44,7 +43,7 @@ namespace Skender.Stock.Indicators
 
                     double stdDev = Functions.StdDev(periodClose);
 
-                    result.Sma = sma.Where(x => x.Date == h.Date).Select(x => x.Sma).FirstOrDefault();
+                    result.Sma = (decimal)periodClose.Average();
                     result.UpperBand = result.Sma + standardDeviations * (decimal)stdDev;
                     result.LowerBand = result.Sma - standardDeviations * (decimal)stdDev;
 
