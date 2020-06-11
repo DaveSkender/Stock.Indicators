@@ -1,5 +1,7 @@
 # Contributing to Stock.Indicators
 
+[![Board Status](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/69f29c08-2257-4429-9cea-1629abcd3064/_apis/work/boardbadge/a1dfc6ae-7836-4b56-a849-9a48698252c2)](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/_boards/board/t/69f29c08-2257-4429-9cea-1629abcd3064/Microsoft.RequirementCategory/)
+
 Thanks for taking the time to contribute!
 
 This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
@@ -68,7 +70,7 @@ We use the `GitVersion` tool for versioning.  It is mostly auto generated in the
 
 ## Contact info
 
-Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method (preferred) or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
+Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
 
 Thanks,
 Dave Skender

@@ -6,7 +6,7 @@ The public compiled NuGet package `Skender.Stock.Indicators` is free to use in a
 
 However, at this time we ask that modifications to source code occur by contributing to this repository: https://github.com/DaveSkender/Stock.Indicators.  Extending functionality beyond its primary use can be done in your own wrapper software.
 
-With that said, we welcome contributions to make it better.  Please see our Contributing Guidelines for instructions on how you can help: https://github.com/DaveSkender/Stock.Indicators/blob/master/CONTRIBUTING.md
+With that said, we welcome contributions to make it better.  Please see our Contributing Guidelines for instructions on how you can help: https://daveskender.github.io/Stock.Indicators/CONTRIBUTING.html
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
