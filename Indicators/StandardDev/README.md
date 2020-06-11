@@ -21,7 +21,7 @@ IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod)
 IEnumerable<StdDevResult>
 ```
 
-The first `N-1` periods will have `null` values for `StdDev` since there's not enough data to calculate.  `Avg` values will be `null` for `2×N` periods since it requires `N` periods of `StdDev` results to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` values for `StdDev` since there's not enough data to calculate.
 
 ### StdDevResult
 
@@ -31,12 +31,6 @@ The first `N-1` periods will have `null` values for `StdDev` since there's not e
 | `Date` | DateTime | Date
 | `StdDev` | decimal | Standard Deviation of Close price based on `N` lookback periods
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
-| `StdDevChange` | decimal | Standard Deviation of Percent Change in Close price based on `N` lookback periods
-| `StdDevPercent` | decimal | `Percent = StdDev / Average Close price` over `N` lookback periods ***
-| `AvgStdDev` | decimal | Average of standard deviation of Close price over `N` lookback periods  ***
-| `AvgStdDevChange` | decimal | Average standard deviation of Percent Change in Close price based on `N` lookback periods ***
-
-*** Note: Percentage and Avg values are opinionated since there is no standard lookback periods for average range.  We use `N` periods to keep things simple.
 
 ## Example
 

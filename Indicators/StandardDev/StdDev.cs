@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -26,10 +25,6 @@ namespace Skender.Stock.Indicators
                 {
                     Index = (int)h.Index,
                     Date = h.Date,
-
-                    // for additional calculations
-                    Close = h.Close,
-                    PrevClose = prevClose
                 };
 
                 if (h.Index >= lookbackPeriod)
@@ -39,9 +34,8 @@ namespace Skender.Stock.Indicators
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .Select(x => (double)x.Close);
 
-                    result.AvgClose = (decimal)period.Average();
                     result.StdDev = (decimal)Functions.StdDev(period);
-                    result.StdDevPercent = result.StdDev / result.AvgClose;
+                    result.ZScore = (h.Close - (decimal)period.Average()) / result.StdDev;
                 }
 
                 results.Add(result);
@@ -55,29 +49,13 @@ namespace Skender.Stock.Indicators
                 IEnumerable<StdDevResult> period = results
                     .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index);
 
-                // price % change
-                IEnumerable<double> periodPct = period
-                    .Select(x => (double)(x.Close / x.PrevClose) - 1.0);
-
-                r.StdDevChange = (decimal)Functions.StdDev(periodPct);
-
-                // rolling averages
-                if (r.Index >= 2 * lookbackPeriod)
-                {
-                    r.AvgStdDev = period.Select(x => x.StdDev).Average();
-                    r.AvgStdDevChange = period.Select(x => x.StdDevChange).Average();
-                }
-
-                // z-score
-                r.ZScore = (r.Close - r.AvgClose) / r.StdDev;
             }
 
             return results;
         }
 
 
-        private static void ValidateStdDev(
-            IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateStdDev(IEnumerable<Quote> history, int lookbackPeriod)
         {
             if (lookbackPeriod <= 1)
             {
