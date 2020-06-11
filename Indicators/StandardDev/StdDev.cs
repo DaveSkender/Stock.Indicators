@@ -42,15 +42,6 @@ namespace Skender.Stock.Indicators
                 prevClose = h.Close;
             }
 
-
-            // add additional values
-            foreach (StdDevResult r in results.Where(x => x.Index >= lookbackPeriod + 1))
-            {
-                IEnumerable<StdDevResult> period = results
-                    .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index);
-
-            }
-
             return results;
         }
 

@@ -21,7 +21,7 @@ IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod)
 IEnumerable<StdDevResult>
 ```
 
-The first `N-1` periods will have `null` values for `StdDev` since there's not enough data to calculate.
+The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### StdDevResult
 
