@@ -44,6 +44,7 @@ namespace Skender.Stock.Indicators
                     double stdDev = Functions.StdDev(periodClose);
 
                     result.Sma = (decimal)periodClose.Average();
+                    result.ZScore = (stdDev != 0) ? (h.Close - result.Sma) / (decimal)stdDev : 0;
                     result.UpperBand = result.Sma + standardDeviations * (decimal)stdDev;
                     result.LowerBand = result.Sma - standardDeviations * (decimal)stdDev;
 
