@@ -35,7 +35,7 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 - New indicators should be tested against manually calculated, proven, accurate results.
 - Stock History is automatically added to unit test methods.  A `History.xlsx` Excel file is included in the `Test Data` folder that is an exact copy of what is used in the unit tests.  Use this for your manual calculations to ensure that it is correct.  Do not commit changes to this Excel file.
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
-- Failed builds or unit testing will result in immediate rejection of your changes.
+- Failed builds or unit testing will block acceptance of your Pull Request, when submitting changes.
 
 ## Submitting changes
 
