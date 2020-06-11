@@ -29,9 +29,11 @@ namespace StockIndicators.Tests
 
             // sample value
             BollingerBandsResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+
             Assert.AreEqual((decimal)251.8600, Math.Round((decimal)result.Sma, 4));
             Assert.AreEqual((decimal)273.7004, Math.Round((decimal)result.UpperBand, 4));
             Assert.AreEqual((decimal)230.0196, Math.Round((decimal)result.LowerBand, 4));
+            Assert.AreEqual((decimal)-0.602552, Math.Round((decimal)result.ZScore, 6));
             Assert.AreEqual(false, result.IsDiverging);
         }
 

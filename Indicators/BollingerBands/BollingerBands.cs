@@ -6,24 +6,18 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // BOLLINGER BANDS
-        public static IEnumerable<BollingerBandsResult> GetBollingerBands(IEnumerable<Quote> history, int lookbackPeriod = 20, decimal standardDeviations = 2)
+        public static IEnumerable<BollingerBandsResult> GetBollingerBands(
+            IEnumerable<Quote> history, int lookbackPeriod = 20, decimal standardDeviations = 2)
         {
 
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Bollinger Bands.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateBollingerBands(history, lookbackPeriod);
 
             // initialize
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
-            IEnumerable<SmaResult> sma = GetSma(history, lookbackPeriod);
             decimal? prevUpperBand = null;
             decimal? prevLowerBand = null;
 
@@ -44,7 +38,8 @@ namespace Skender.Stock.Indicators
 
                     double stdDev = Functions.StdDev(periodClose);
 
-                    result.Sma = sma.Where(x => x.Date == h.Date).Select(x => x.Sma).FirstOrDefault();
+                    result.Sma = (decimal)periodClose.Average();
+                    result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / (decimal)stdDev;
                     result.UpperBand = result.Sma + standardDeviations * (decimal)stdDev;
                     result.LowerBand = result.Sma - standardDeviations * (decimal)stdDev;
 
@@ -62,6 +57,23 @@ namespace Skender.Stock.Indicators
             }
 
             return results;
+        }
+
+
+        private static void ValidateBollingerBands(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+            if (lookbackPeriod <= 1)
+            {
+                throw new BadParameterException("Lookback period must be greater than 1 for Bollinger Bands.");
+            }
+
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Bollinger Bands.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
         }
 
     }

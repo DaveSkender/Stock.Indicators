@@ -25,7 +25,9 @@ namespace StockIndicators.Tests
 
             // sample value
             StdDevResult sd = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+
             Assert.AreEqual((decimal)5.4738, Math.Round((decimal)sd.StdDev, 4));
+            Assert.AreEqual((decimal)0.524312, Math.Round((decimal)sd.ZScore, 6));
         }
 
 

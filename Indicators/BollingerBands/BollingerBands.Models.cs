@@ -10,6 +10,8 @@ namespace Skender.Stock.Indicators
         public decimal? Sma { get; set; }
         public decimal? UpperBand { get; set; }
         public decimal? LowerBand { get; set; }
+
+        public decimal? ZScore { get; set; }
         public bool? IsDiverging { get; set; }
     }
 

@@ -13,8 +13,8 @@ IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history,
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
-| `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average
-| `standardDeviation` | int | Width of bands.  Standard deviations (`D`) from the moving average
+| `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
+| `standardDeviation` | int | Width of bands.  Standard deviations (`D`) from the moving average.  Default is 2.
 
 ## Response
 
@@ -33,6 +33,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 | `Sma` | decimal | Simple moving average (SMA) of Close price (center line)
 | `UpperBand` | decimal | Upper line is `D` standard deviations above the SMA
 | `LowerBand` | decimal | Lower line is `D` standard deviations below the SMA
+| `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
 | `IsDiverging` | bool | Upper and Lower bands are diverging
 
 ## Example
