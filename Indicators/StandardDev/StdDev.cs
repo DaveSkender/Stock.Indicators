@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -11,18 +12,12 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Standard Deviation.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // validate inputs
+            ValidateStdDev(history, lookbackPeriod);
 
             // initialize results
             List<StdDevResult> results = new List<StdDevResult>();
-
+            decimal? prevClose = null;
 
             // roll through history and compute lookback standard deviation
             foreach (Quote h in history)
@@ -30,24 +25,75 @@ namespace Skender.Stock.Indicators
                 StdDevResult result = new StdDevResult
                 {
                     Index = (int)h.Index,
-                    Date = h.Date
+                    Date = h.Date,
+
+                    // for additional calculations
+                    Close = h.Close,
+                    PrevClose = prevClose
                 };
 
                 if (h.Index >= lookbackPeriod)
                 {
+                    // price based
                     IEnumerable<double> period = history
-                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
+                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .Select(x => (double)x.Close);
 
+                    result.AvgClose = (decimal)period.Average();
                     result.StdDev = (decimal)Functions.StdDev(period);
+                    result.StdDevPercent = result.StdDev / result.AvgClose;
                 }
 
                 results.Add(result);
+                prevClose = h.Close;
+            }
+
+
+            // add additional values
+            foreach (StdDevResult r in results.Where(x => x.Index >= lookbackPeriod + 1))
+            {
+                IEnumerable<StdDevResult> period = results
+                    .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index);
+
+                // price % change
+                IEnumerable<double> periodPct = period
+                    .Select(x => (double)(x.Close / x.PrevClose) - 1.0);
+
+                r.StdDevChange = (decimal)Functions.StdDev(periodPct);
+
+                // rolling averages
+                if (r.Index >= 2 * lookbackPeriod)
+                {
+                    r.AvgStdDev = period.Select(x => x.StdDev).Average();
+                    r.AvgStdDevChange = period.Select(x => x.StdDevChange).Average();
+                }
+
+                // z-score
+                r.ZScore = (r.Close - r.AvgClose) / r.StdDev;
             }
 
             return results;
         }
 
+
+        private static void ValidateStdDev(
+            IEnumerable<Quote> history, int lookbackPeriod)
+        {
+            if (lookbackPeriod <= 1)
+            {
+                throw new BadParameterException("Lookback period must be greater than 1 for Standard Deviation.");
+            }
+
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Standard Deviation.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+        }
     }
+
+
 
 }
