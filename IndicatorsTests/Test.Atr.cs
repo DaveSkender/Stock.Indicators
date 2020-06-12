@@ -27,10 +27,18 @@ namespace StockIndicators.Tests
             AtrResult atr = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)2.67, Math.Round((decimal)atr.Tr, 4));
             Assert.AreEqual((decimal)6.1497, Math.Round((decimal)atr.Atr, 4));
+            Assert.AreEqual((decimal)2.5072, Math.Round((decimal)atr.Atrp, 4));
         }
 
 
         /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Insufficient lookback.")]
+        public void InsufficientParameters()
+        {
+            Indicator.GetAtr(history, 1);
+        }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]

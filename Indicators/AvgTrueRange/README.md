@@ -13,7 +13,7 @@ IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N`+1 periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 2×`N` data points prior to the intended usage date for maximum precision.
-| `lookbackPeriod` | int | Number of periods (`N`) to consider.
+| `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.
 
 ## Response
 
@@ -31,6 +31,7 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 | `Date` | DateTime | Date
 | `Tr` | decimal | True Range for current period
 | `Atr` | decimal | Average True Range for `N` lookback periods
+| `Atrp` | decimal | Average True Range Percent is `(ATR/Close Price)*100`.  This normalizes so it can be compared to other stocks.
 
 ## Example
 

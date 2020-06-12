@@ -13,15 +13,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for ATR.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.  "
-                        , qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateAtr(history, lookbackPeriod);
 
             // initialize results
             List<AtrResult> results = new List<AtrResult>();
@@ -54,6 +47,7 @@ namespace Skender.Stock.Indicators
                 {
                     // calculate ATR
                     result.Atr = (prevAtr * (lookbackPeriod - 1) + tr) / lookbackPeriod;
+                    result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
                 else if (h.Index == lookbackPeriod)
@@ -61,6 +55,7 @@ namespace Skender.Stock.Indicators
                     // initialize ATR
                     sumTr += tr;
                     result.Atr = sumTr / lookbackPeriod;
+                    result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
                 else
@@ -76,5 +71,24 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateAtr(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+            // check parameters
+            if (lookbackPeriod <= 1)
+            {
+                throw new BadParameterException("Lookback period must be greater than 1 for Average True Range.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod + 1;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for ATR.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.  "
+                        , qtyHistory, minHistory));
+            }
+        }
     }
 }
