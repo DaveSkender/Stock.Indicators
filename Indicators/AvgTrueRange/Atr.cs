@@ -13,15 +13,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for ATR.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.  "
-                        , qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateAtr(history, lookbackPeriod);
 
             // initialize results
             List<AtrResult> results = new List<AtrResult>();
@@ -77,5 +70,24 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateAtr(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+            // check parameters
+            if (lookbackPeriod <= 1)
+            {
+                throw new BadParameterException("Lookback period must be greater than 1 for Average True Range.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod + 1;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for ATR.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.  "
+                        , qtyHistory, minHistory));
+            }
+        }
     }
 }
