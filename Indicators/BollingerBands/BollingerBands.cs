@@ -14,7 +14,7 @@ namespace Skender.Stock.Indicators
             history = Cleaners.PrepareHistory(history);
 
             // validate parameters
-            ValidateBollingerBands(history, lookbackPeriod);
+            ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
@@ -63,13 +63,22 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateBollingerBands(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateBollingerBands(
+            IEnumerable<Quote> history, int lookbackPeriod, decimal standardDeviations)
         {
+
+            // check parameters
             if (lookbackPeriod <= 1)
             {
                 throw new BadParameterException("Lookback period must be greater than 1 for Bollinger Bands.");
             }
 
+            if (standardDeviations <= 0)
+            {
+                throw new BadParameterException("Standard Deviations must be greater than 0 for Bollinger Bands.");
+            }
+
+            // check history
             int qtyHistory = history.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
