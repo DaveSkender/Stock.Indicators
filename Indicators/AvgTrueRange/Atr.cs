@@ -47,6 +47,7 @@ namespace Skender.Stock.Indicators
                 {
                     // calculate ATR
                     result.Atr = (prevAtr * (lookbackPeriod - 1) + tr) / lookbackPeriod;
+                    result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
                 else if (h.Index == lookbackPeriod)
