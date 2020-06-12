@@ -31,6 +31,7 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 | `Date` | DateTime | Date
 | `Tr` | decimal | True Range for current period
 | `Atr` | decimal | Average True Range for `N` lookback periods
+| `Atrp` | decimal | Average True Range Percent is `(ATR/Close Price)*100`.  This normalizes so it can be compared to other stocks.
 
 ## Example
 

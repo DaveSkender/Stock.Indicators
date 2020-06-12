@@ -61,6 +61,7 @@ namespace Skender.Stock.Indicators
                     // initialize ATR
                     sumTr += tr;
                     result.Atr = sumTr / lookbackPeriod;
+                    result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
                 else
