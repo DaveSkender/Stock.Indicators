@@ -39,9 +39,11 @@ namespace Skender.Stock.Indicators
                     double stdDev = Functions.StdDev(periodClose);
 
                     result.Sma = (decimal)periodClose.Average();
-                    result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / (decimal)stdDev;
                     result.UpperBand = result.Sma + standardDeviations * (decimal)stdDev;
                     result.LowerBand = result.Sma - standardDeviations * (decimal)stdDev;
+
+                    result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / (decimal)stdDev;
+                    result.Width = (result.Sma == 0) ? null : (result.UpperBand - result.LowerBand) / result.Sma;
 
                     if (prevUpperBand != null && prevLowerBand != null)
                     {

@@ -34,6 +34,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual((decimal)273.7004, Math.Round((decimal)result.UpperBand, 4));
             Assert.AreEqual((decimal)230.0196, Math.Round((decimal)result.LowerBand, 4));
             Assert.AreEqual((decimal)-0.602552, Math.Round((decimal)result.ZScore, 6));
+            Assert.AreEqual((decimal)0.173433, Math.Round((decimal)result.Width, 6));
             Assert.AreEqual(false, result.IsDiverging);
         }
 
