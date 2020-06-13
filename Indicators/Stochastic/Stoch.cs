@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -12,14 +13,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Stochastic.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // initialize
             List<StochResult> results = new List<StochResult>();
@@ -118,6 +113,35 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateStoch(IEnumerable<Quote> history, int lookbackPeriod, int signalPeriod, int smoothPeriod)
+        {
+
+            // check parameters
+            if (lookbackPeriod < 1)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for Stochastic.");
+            }
+
+            if (signalPeriod < 0)
+            {
+                throw new BadParameterException("Signal period must be greater than or equal to 0 for Stochastic.");
+            }
+
+            if (smoothPeriod < 1)
+            {
+                throw new BadParameterException("Smooth period must be greater than 0 for Stochastic.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Stochastic.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+            }
+        }
     }
 
 }
