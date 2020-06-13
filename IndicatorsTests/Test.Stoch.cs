@@ -48,14 +48,14 @@ namespace StockIndicators.Tests
         [ExpectedException(typeof(BadParameterException), "Bad signal period.")]
         public void BadSignal()
         {
-            Indicator.GetStoch(history, -1);
+            Indicator.GetStoch(history, 14, -1);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadParameterException), "Bad smoothing period.")]
         public void BadSmooth()
         {
-            Indicator.GetStoch(history, 0);
+            Indicator.GetStoch(history, 14, 3, 0);
         }
 
         [TestMethod()]
