@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -59,14 +60,15 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod;
+            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for EMA.  " +
                         string.Format("You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
+                          + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                          + "we recommend you use at least {3} data points prior to the intended "
+                          + "usage date for maximum precision.",
+                          qtyHistory, minHistory, lookbackPeriod, 2 * lookbackPeriod + 250));
             }
 
         }
