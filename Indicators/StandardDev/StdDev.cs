@@ -48,11 +48,14 @@ namespace Skender.Stock.Indicators
 
         private static void ValidateStdDev(IEnumerable<Quote> history, int lookbackPeriod)
         {
+
+            // check parameters
             if (lookbackPeriod <= 1)
             {
                 throw new BadParameterException("Lookback period must be greater than 1 for Standard Deviation.");
             }
 
+            // check history
             int qtyHistory = history.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
