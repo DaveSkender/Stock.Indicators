@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // CHANDELIER OVERLAY
+        // CHANDELIER EXIT
         public static IEnumerable<ChandelierResult> GetChandelier(
             IEnumerable<Quote> history, int lookbackPeriod = 22, double multiplier = 3.0, string variant = "long")
         {

@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
 
                     if (prevUpperBand != null && prevLowerBand != null)
                     {
-                        result.IsDiverging = ((decimal)result.UpperBand - (decimal)result.LowerBand) 
+                        result.IsDiverging = ((decimal)result.UpperBand - (decimal)result.LowerBand)
                             > ((decimal)prevUpperBand - (decimal)prevLowerBand);
                     }
 

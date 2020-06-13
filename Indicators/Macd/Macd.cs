@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
                 if (prevMacd != null && prevSignal != null)
                 {
                     r.IsBullish = (r.Macd > r.Signal);
-                    r.IsDiverging = (Math.Abs((decimal)r.Macd - (decimal)r.Signal) 
+                    r.IsDiverging = (Math.Abs((decimal)r.Macd - (decimal)r.Signal)
                         > Math.Abs((decimal)prevMacd - (decimal)prevSignal));
                 }
 

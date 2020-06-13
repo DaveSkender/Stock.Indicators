@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // Standard Deviation
+        // STANDARD DEVIATION
         public static IEnumerable<StdDevResult> GetStdDev(IEnumerable<Quote> history, int lookbackPeriod)
         {
             // clean quotes

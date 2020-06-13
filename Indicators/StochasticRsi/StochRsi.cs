@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -19,7 +18,6 @@ namespace Skender.Stock.Indicators
             // initialize
             List<StochRsiResult> results = new List<StochRsiResult>();
             IEnumerable<RsiResult> rsiResults = GetRsi(history, lookbackPeriod);
-
 
             // calculate
             foreach (Quote h in history)
