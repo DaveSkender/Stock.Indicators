@@ -80,7 +80,7 @@ namespace Skender.Stock.Indicators
                         string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
             }
 
-            int qtyMarket = historyA.Count();
+            int qtyMarket = historyB.Count();
             if (qtyMarket < qtyHistory)
             {
                 throw new BadHistoryException(
