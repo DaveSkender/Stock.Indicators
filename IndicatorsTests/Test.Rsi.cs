@@ -35,6 +35,13 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
+        public void BadLookback()
+        {
+            Indicator.GetRsi(history, 1);
+        }
+
+        [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
