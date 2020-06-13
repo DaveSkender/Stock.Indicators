@@ -50,6 +50,7 @@ namespace Skender.Stock.Indicators
 
         private static void ValidateEma(IEnumerable<Quote> history, int lookbackPeriod)
         {
+
             // check parameters
             if (lookbackPeriod <= 0)
             {
