@@ -1,12 +1,8 @@
-﻿using System;
-
-namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators
 {
 
-    public class HeikinAshiResult
+    public class HeikinAshiResult : ResultBase
     {
-        public int Index { get; set; }
-        public DateTime Date { get; set; }
         public decimal Open { get; set; }
         public decimal High { get; set; }
         public decimal Low { get; set; }

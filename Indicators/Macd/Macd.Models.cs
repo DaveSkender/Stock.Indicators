@@ -1,12 +1,8 @@
-﻿using System;
-
-namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators
 {
 
-    public class MacdResult
+    public class MacdResult : ResultBase
     {
-        public int Index { get; set; }
-        public DateTime Date { get; set; }
         public decimal? Macd { get; set; }
         public decimal? Signal { get; set; }
         public decimal? Histogram { get; set; }

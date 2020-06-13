@@ -1,12 +1,8 @@
-﻿using System;
-
-namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators
 {
 
-    public class EmaResult
+    public class EmaResult : ResultBase
     {
-        public int Index { get; set; }
-        public DateTime Date { get; set; }
         public decimal? Ema { get; set; }
     }
 
