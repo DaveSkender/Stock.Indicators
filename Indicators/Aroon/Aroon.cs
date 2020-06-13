@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -12,19 +13,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // exceptions
-            if (lookbackPeriod <= 0)
-            {
-                throw new BadParameterException("Lookback period must be greater than 0 for Aroon.");
-            }
-
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Aroon.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateAroon(history, lookbackPeriod);
 
             // initialize
             List<AroonResult> results = new List<AroonResult>();
@@ -71,6 +61,24 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateAroon(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+            // check parameters
+            if (lookbackPeriod <= 0)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for Aroon.");
+            }
+
+            // checked history
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Aroon.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+        }
     }
 
 }

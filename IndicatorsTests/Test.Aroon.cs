@@ -34,7 +34,7 @@ namespace StockIndicators.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
-        public void BadParameter()
+        public void BadLookback()
         {
             Indicator.GetAroon(history, 0);
         }
