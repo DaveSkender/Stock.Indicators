@@ -41,21 +41,21 @@ namespace StockIndicators.Tests
         [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
         public void BadLookback()
         {
-            Indicator.GetStdDev(history, 0);
+            Indicator.GetStoch(history, 0);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadParameterException), "Bad signal period.")]
         public void BadSignal()
         {
-            Indicator.GetStdDev(history, -1);
+            Indicator.GetStoch(history, -1);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadParameterException), "Bad smoothing period.")]
         public void BadSmooth()
         {
-            Indicator.GetStdDev(history, 0);
+            Indicator.GetStoch(history, 0);
         }
 
         [TestMethod()]
