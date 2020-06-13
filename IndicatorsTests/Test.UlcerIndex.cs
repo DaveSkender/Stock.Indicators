@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Skender.Stock.Indicators;
 
 namespace StockIndicators.Tests
 {
@@ -31,6 +31,13 @@ namespace StockIndicators.Tests
 
 
         /* EXCEPTIONS */
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
+        public void BadLookback()
+        {
+            Indicator.GetUlcerIndex(history, 0);
+        }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]

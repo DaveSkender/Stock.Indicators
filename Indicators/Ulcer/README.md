@@ -13,7 +13,7 @@ IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbac
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
-| `lookbackPeriod` | int | Number of periods (`N`) for review.
+| `lookbackPeriod` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
 
 ## Response
 
