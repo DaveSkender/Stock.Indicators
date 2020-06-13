@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
 
             decimal? prevOpen = null;
             decimal? prevClose = null;
-            bool? prevTrend = null;
+            bool prevTrend = false;
 
             foreach (Quote h in history)
             {
@@ -41,7 +41,7 @@ namespace Skender.Stock.Indicators
 
                 // trend (bullish (buy / green), bearish (sell / red)
                 // strength (size of directional shadow / no shadow is strong)
-                bool? trend;
+                bool trend;
                 decimal strength;
 
                 if (close > open)

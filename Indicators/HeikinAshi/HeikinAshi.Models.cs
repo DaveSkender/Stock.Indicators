@@ -7,7 +7,7 @@
         public decimal High { get; set; }
         public decimal Low { get; set; }
         public decimal Close { get; set; }
-        public bool? IsBullish { get; set; }
+        public bool IsBullish { get; set; }
         public decimal Weakness { get; set; }
     }
 
