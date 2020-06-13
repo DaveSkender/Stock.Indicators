@@ -14,14 +14,8 @@ namespace Skender.Stock.Indicators
             historyA = Cleaners.PrepareHistory(historyA);
             historyB = Cleaners.PrepareHistory(historyB);
 
-            // check exceptions
-            int qtyHistory = historyA.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Correlation.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateCorrelation(historyA, historyB, lookbackPeriod);
 
             // initialize
             List<CorrResult> results = new List<CorrResult>();
@@ -67,6 +61,33 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateCorrelation(IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
+        {
+
+            // check parameters
+            if (lookbackPeriod <= 0)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for Correlation.");
+            }
+
+            // check history
+            int qtyHistory = historyA.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Correlation.  " +
+                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+            }
+
+            int qtyMarket = historyA.Count();
+            if (qtyMarket < qtyHistory)
+            {
+                throw new BadHistoryException(
+                    "B history should have at least as many records as A history for Correlation.");
+            }
+
+        }
     }
 
 }

@@ -75,6 +75,8 @@ namespace Skender.Stock.Indicators
         private static void ValidateChandelier(
             IEnumerable<Quote> history, int lookbackPeriod, double multiplier, string variant)
         {
+
+            // check parameters
             if (lookbackPeriod <= 0)
             {
                 throw new BadParameterException("Lookback period must be greater than 0 for Chandelier Exit.");
@@ -90,6 +92,7 @@ namespace Skender.Stock.Indicators
                 throw new BadParameterException("Variant must be either 'long' or 'short' Chandelier Exit.");
             }
 
+            // check history
             int qtyHistory = history.Count();
             int minHistory = lookbackPeriod + 1;
             if (qtyHistory < minHistory)

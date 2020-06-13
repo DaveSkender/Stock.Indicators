@@ -33,10 +33,24 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
+        public void BadLookback()
+        {
+            Indicator.GetCorrelation(history, historyOther, 0);
+        }
+
+        [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
             Indicator.GetCorrelation(history.Where(x => x.Index < 30), historyOther.Where(x => x.Index < 30), 30);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Not enought Eval history.")]
+        public void InsufficientEvalHistory()
+        {
+            Indicator.GetCorrelation(history, historyOther.Where(x => x.Index <= 300), 30);
         }
 
     }
