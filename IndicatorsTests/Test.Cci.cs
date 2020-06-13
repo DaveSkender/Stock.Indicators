@@ -33,6 +33,13 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
+        public void BadLookback()
+        {
+            Indicator.GetCci(history, 0);
+        }
+
+        [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
