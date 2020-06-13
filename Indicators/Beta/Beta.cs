@@ -57,20 +57,19 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = historyEval.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
+            int qtyHistoryMarket = historyMarket.Count();
+            int minHistoryMarket = lookbackPeriod;
+            if (qtyHistoryMarket < minHistoryMarket)
             {
                 throw new BadHistoryException("Insufficient history provided for Beta.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required."
-                          , qtyHistory, minHistory));
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistoryMarket, minHistoryMarket));
             }
 
-            int qtyMarket = historyMarket.Count();
-            if (qtyMarket < qtyHistory)
+            int qtyHistoryEval = historyEval.Count();
+            if (qtyHistoryEval < qtyHistoryMarket)
             {
                 throw new BadHistoryException(
-                    "Evaluation history should have at least as many records as Market history for Beta.");
+                    "Eval history should have at least as many records as Market history for Beta.");
             }
 
         }

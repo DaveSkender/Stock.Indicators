@@ -72,16 +72,16 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = historyA.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
+            int qtyHistoryA = historyA.Count();
+            int minHistoryA = lookbackPeriod;
+            if (qtyHistoryA < minHistoryA)
             {
                 throw new BadHistoryException("Insufficient history provided for Correlation.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistoryA, minHistoryA));
             }
 
-            int qtyMarket = historyB.Count();
-            if (qtyMarket < qtyHistory)
+            int qtyHistoryB = historyB.Count();
+            if (qtyHistoryB < qtyHistoryA)
             {
                 throw new BadHistoryException(
                     "B history should have at least as many records as A history for Correlation.");
