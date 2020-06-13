@@ -36,6 +36,27 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Acc Step must be greater than 0.")]
+        public void BadAccelerationStep()
+        {
+            Indicator.GetParabolicSar(history, 0, 1);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Max Acc Factor must be greater than 0.")]
+        public void BadMaxAcclerationFactor()
+        {
+            Indicator.GetParabolicSar(history, (decimal)0.02, 0);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Step larger than Factor.")]
+        public void BadParameterCombo()
+        {
+            Indicator.GetParabolicSar(history, 6, 2);
+        }
+
+        [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {

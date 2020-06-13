@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Ulcer Index.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
             }
 
             // initialize
