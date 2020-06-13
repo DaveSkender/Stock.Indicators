@@ -39,10 +39,17 @@ namespace StockIndicators.Tests
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history for N+100.")]
+        public void InsufficientHistoryA()
         {
-            Indicator.GetEma(history.Where(x => x.Index < 30), 30);
+            Indicator.GetEma(history.Where(x => x.Index < 130), 30);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2×N.")]
+        public void InsufficientHistoryB()
+        {
+            Indicator.GetEma(history.Where(x => x.Index < 500), 250);
         }
 
     }
