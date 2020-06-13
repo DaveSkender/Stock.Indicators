@@ -42,14 +42,14 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Insufficient lookback period.")]
-        public void InsufficientLookback()
+        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
+        public void BadLookback()
         {
             Indicator.GetBollingerBands(history, 1);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Insufficient standard deviations.")]
+        [ExpectedException(typeof(BadParameterException), "Bad standard deviations.")]
         public void InsufficientStandardDeviations()
         {
             Indicator.GetBollingerBands(history, 2, 0);

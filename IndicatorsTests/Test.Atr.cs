@@ -34,8 +34,8 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Insufficient lookback.")]
-        public void InsufficientParameters()
+        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
+        public void BadLookback()
         {
             Indicator.GetAtr(history, 1);
         }
