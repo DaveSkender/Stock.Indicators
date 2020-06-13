@@ -12,14 +12,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = 2;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Heikin-Ashi.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // check parameters
+            ValidateHeikinAshi(history);
 
             // initialize
             List<HeikinAshiResult> results = new List<HeikinAshiResult>();
@@ -88,6 +82,20 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateHeikinAshi(IEnumerable<Quote> history)
+        {
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = 2;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Heikin-Ashi.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+            }
+
+        }
     }
 
 }

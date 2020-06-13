@@ -13,22 +13,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check for exceptions
-            if (slowPeriod <= fastPeriod)
-            {
-                throw new BadParameterException("Fast period must be smaller than the slow period.");
-            }
-
-            int qtyHistory = history.Count();
-            int minHistory = 2 * slowPeriod + signalPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for MACD.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
-            }
+            // check parameters
+            ValidateMacd(history, fastPeriod, slowPeriod, signalPeriod);
 
             // initialize
             IEnumerable<EmaResult> emaFast = GetEma(history, fastPeriod);
@@ -89,8 +75,9 @@ namespace Skender.Stock.Indicators
                 // trend and divergence
                 if (prevMacd != null && prevSignal != null)
                 {
-                    r.IsBullish = (r.Macd > r.Signal) ? true : false;
-                    r.IsDiverging = (Math.Abs((decimal)r.Macd - (decimal)r.Signal) > Math.Abs((decimal)prevMacd - (decimal)prevSignal)) ? true : false;
+                    r.IsBullish = (r.Macd > r.Signal);
+                    r.IsDiverging = (Math.Abs((decimal)r.Macd - (decimal)r.Signal)
+                        > Math.Abs((decimal)prevMacd - (decimal)prevSignal));
                 }
 
                 // store for next iteration
@@ -101,6 +88,45 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateMacd(IEnumerable<Quote> history, int fastPeriod, int slowPeriod, int signalPeriod)
+        {
+
+            // check parameters
+            if (fastPeriod <= 0)
+            {
+                throw new BadParameterException("Fast period must be greater than 0 for MACD.");
+            }
+
+            if (slowPeriod <= 0)
+            {
+                throw new BadParameterException("Slow period must be greater than 0 for MACD.");
+            }
+
+            if (signalPeriod < 0)
+            {
+                throw new BadParameterException("Signal period must be greater than or equal to 0 for MACD.");
+            }
+
+
+            if (slowPeriod < fastPeriod)
+            {
+                throw new BadParameterException("Fast period must be smaller than the slow period for MACD.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = 2 * slowPeriod + signalPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for MACD.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.  "
+                          + "Since this uses a smoothing technique, "
+                          + "we recommend you use at least 250 data points prior to the intended "
+                          + "usage date for maximum precision.", qtyHistory, minHistory));
+            }
+
+        }
     }
 
 }

@@ -13,17 +13,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod + 1;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for ADX.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
-            }
+            // verify parameters
+            ValidateAdx(history, lookbackPeriod);
 
             // initialize results and working variables
             IEnumerable<AtrResult> atrResults = GetAtr(history, lookbackPeriod); // uses True Range value
@@ -146,5 +137,26 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateAdx(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+            // check parameters
+            if (lookbackPeriod <= 1)
+            {
+                throw new BadParameterException("Lookback period must be greater than 1 for ADX.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = 2 * lookbackPeriod + 1;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for ADX.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.  "
+                          + "Since this uses a smoothing technique, "
+                          + "we recommend you use at least 250 data points prior to the intended "
+                          + "usage date for maximum precision.", qtyHistory, minHistory));
+            }
+        }
     }
 }

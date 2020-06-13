@@ -12,17 +12,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for RSI.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
-            }
+            // check parameters
+            ValidateRsi(history, lookbackPeriod);
 
             // initialize
             decimal lastClose = history.First().Close;
@@ -89,6 +80,28 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateRsi(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+
+            // check parameters
+            if (lookbackPeriod <= 1)
+            {
+                throw new BadParameterException("Lookback period must be greater than 1 for RSI.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for RSI.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.  "
+                          + "Since this uses a smoothing technique, "
+                          + "we recommend you use at least 250 data points prior to the intended "
+                          + "usage date for maximum precision.", qtyHistory, minHistory));
+            }
+        }
     }
 
 }

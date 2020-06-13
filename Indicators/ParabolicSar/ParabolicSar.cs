@@ -16,14 +16,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = 2;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Parabolic SAR.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // check parameters
+            ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
 
             // initialize
             List<ParabolicSarResult> results = new List<ParabolicSarResult>();
@@ -128,6 +122,36 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateParabolicSar(IEnumerable<Quote> history, decimal accelerationStep, decimal maxAccelerationFactor)
+        {
+
+            // check parameters
+            if (accelerationStep <= 0)
+            {
+                throw new BadParameterException("Acceleration Step must be greater than 0 for Parabolic SAR.");
+            }
+
+            if (maxAccelerationFactor <= 0)
+            {
+                throw new BadParameterException("Max Acceleration Factor must be greater than 0 for Parabolic SAR.");
+            }
+
+            if (accelerationStep > maxAccelerationFactor)
+            {
+                throw new BadParameterException("Acceleration Step must be smaller than Max Accleration Factor for Parabolic SAR.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = 2;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Parabolic SAR.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+            }
+
+        }
     }
 
 }

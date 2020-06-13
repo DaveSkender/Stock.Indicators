@@ -13,7 +13,7 @@ IEnumerable<AroonResult> results = Indicator.GetAroon(history, lookbackPeriod);
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at `N` periods worth of `history`.
-| `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Default is 25.
+| `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
 
 ## Response
 

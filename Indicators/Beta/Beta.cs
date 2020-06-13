@@ -13,15 +13,8 @@ namespace Skender.Stock.Indicators
             historyMarket = Cleaners.PrepareHistory(historyMarket);
             historyEval = Cleaners.PrepareHistory(historyEval);
 
-            // check exceptions
-            int qtyHistory = historyEval.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Beta.  " +
-                        string.Format("You provided {0} periods of history when {1} is required."
-                          , qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateBeta(historyMarket, historyEval, lookbackPeriod);
 
             // initialize results
             List<BetaResult> results = new List<BetaResult>();
@@ -53,6 +46,33 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateBeta(IEnumerable<Quote> historyMarket, IEnumerable<Quote> historyEval, int lookbackPeriod)
+        {
+
+            // check parameters
+            if (lookbackPeriod <= 0)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for Beta.");
+            }
+
+            // check history
+            int qtyHistoryMarket = historyMarket.Count();
+            int minHistoryMarket = lookbackPeriod;
+            if (qtyHistoryMarket < minHistoryMarket)
+            {
+                throw new BadHistoryException("Insufficient history provided for Beta.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistoryMarket, minHistoryMarket));
+            }
+
+            int qtyHistoryEval = historyEval.Count();
+            if (qtyHistoryEval < qtyHistoryMarket)
+            {
+                throw new BadHistoryException(
+                    "Eval history should have at least as many records as Market history for Beta.");
+            }
+
+        }
     }
 
 }

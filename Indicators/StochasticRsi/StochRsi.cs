@@ -12,19 +12,12 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // check exceptions
-            int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Stochastic RSI.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateStochRsi(history, lookbackPeriod);
 
             // initialize
             List<StochRsiResult> results = new List<StochRsiResult>();
             IEnumerable<RsiResult> rsiResults = GetRsi(history, lookbackPeriod);
-
 
             // calculate
             foreach (Quote h in history)
@@ -79,6 +72,25 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        private static void ValidateStochRsi(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+
+            // check parameters
+            if (lookbackPeriod <= 0)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for Stochastic RSI.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = 2 * lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Stochastic RSI.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+            }
+        }
     }
 
 }

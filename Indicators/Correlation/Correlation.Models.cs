@@ -1,12 +1,8 @@
-﻿using System;
-
-namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators
 {
 
-    public class CorrResult
+    public class CorrResult : ResultBase
     {
-        public int Index { get; set; }
-        public DateTime Date { get; set; }
         public decimal? VarianceA { get; set; }
         public decimal? VarianceB { get; set; }
         public decimal? Covariance { get; set; }

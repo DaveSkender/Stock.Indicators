@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // CHANDELIER OVERLAY
+        // CHANDELIER EXIT
         public static IEnumerable<ChandelierResult> GetChandelier(
             IEnumerable<Quote> history, int lookbackPeriod = 22, double multiplier = 3.0, string variant = "long")
         {
@@ -75,6 +75,8 @@ namespace Skender.Stock.Indicators
         private static void ValidateChandelier(
             IEnumerable<Quote> history, int lookbackPeriod, double multiplier, string variant)
         {
+
+            // check parameters
             if (lookbackPeriod <= 0)
             {
                 throw new BadParameterException("Lookback period must be greater than 0 for Chandelier Exit.");
@@ -90,12 +92,13 @@ namespace Skender.Stock.Indicators
                 throw new BadParameterException("Variant must be either 'long' or 'short' Chandelier Exit.");
             }
 
+            // check history
             int qtyHistory = history.Count();
             int minHistory = lookbackPeriod + 1;
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Chandelier Exit.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
             }
         }
     }

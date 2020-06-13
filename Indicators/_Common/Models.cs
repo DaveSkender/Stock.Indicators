@@ -14,4 +14,10 @@ namespace Skender.Stock.Indicators
         public long Volume { get; set; }
     }
 
+    public class ResultBase
+    {
+        public int Index { get; set; }
+        public DateTime Date { get; set; }
+    }
+
 }

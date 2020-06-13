@@ -27,6 +27,7 @@ namespace StockIndicators.Tests
             AroonResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)28.0000, Math.Round((decimal)result.AroonUp, 4));
             Assert.AreEqual((decimal)88.0000, Math.Round((decimal)result.AroonDown, 4));
+            Assert.AreEqual((decimal)-60.0000, Math.Round((decimal)result.Oscillator, 4));
         }
 
 
@@ -34,7 +35,7 @@ namespace StockIndicators.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
-        public void BadParameter()
+        public void BadLookback()
         {
             Indicator.GetAroon(history, 0);
         }

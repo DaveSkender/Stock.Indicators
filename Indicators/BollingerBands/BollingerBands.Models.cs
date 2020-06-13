@@ -1,12 +1,8 @@
-﻿using System;
-
-namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators
 {
 
-    public class BollingerBandsResult
+    public class BollingerBandsResult : ResultBase
     {
-        public int Index { get; set; }
-        public DateTime Date { get; set; }
         public decimal? Sma { get; set; }
         public decimal? UpperBand { get; set; }
         public decimal? LowerBand { get; set; }

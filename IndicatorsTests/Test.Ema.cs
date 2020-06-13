@@ -32,6 +32,13 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
+        public void BadLookback()
+        {
+            Indicator.GetEma(history, 0);
+        }
+
+        [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {

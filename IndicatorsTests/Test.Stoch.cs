@@ -38,6 +38,27 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
+        public void BadLookback()
+        {
+            Indicator.GetStoch(history, 0);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad signal period.")]
+        public void BadSignal()
+        {
+            Indicator.GetStoch(history, 14, -1);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad smoothing period.")]
+        public void BadSmooth()
+        {
+            Indicator.GetStoch(history, 14, 3, 0);
+        }
+
+        [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // Standard Deviation
+        // STANDARD DEVIATION
         public static IEnumerable<StdDevResult> GetStdDev(IEnumerable<Quote> history, int lookbackPeriod)
         {
             // clean quotes
@@ -48,17 +48,20 @@ namespace Skender.Stock.Indicators
 
         private static void ValidateStdDev(IEnumerable<Quote> history, int lookbackPeriod)
         {
+
+            // check parameters
             if (lookbackPeriod <= 1)
             {
                 throw new BadParameterException("Lookback period must be greater than 1 for Standard Deviation.");
             }
 
+            // check history
             int qtyHistory = history.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Standard Deviation.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
             }
         }
     }

@@ -13,14 +13,8 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
-            // exceptions
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
-            if (qtyHistory < minHistory)
-            {
-                throw new BadHistoryException("Insufficient history provided for Ulcer Index.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
-            }
+            // validate parameters
+            ValidateUlcer(history, lookbackPeriod);
 
             // initialize
             List<UlcerIndexResult> results = new List<UlcerIndexResult>();
@@ -63,6 +57,25 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+        private static void ValidateUlcer(IEnumerable<Quote> history, int lookbackPeriod)
+        {
+
+            // check parameters
+            if (lookbackPeriod <= 0)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for Ulcer Index.");
+            }
+
+            // check history
+            int qtyHistory = history.Count();
+            int minHistory = lookbackPeriod;
+            if (qtyHistory < minHistory)
+            {
+                throw new BadHistoryException("Insufficient history provided for Ulcer Index.  " +
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+            }
+
+        }
     }
 
 }

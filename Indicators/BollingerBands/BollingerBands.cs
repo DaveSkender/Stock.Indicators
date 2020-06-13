@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
 
                     if (prevUpperBand != null && prevLowerBand != null)
                     {
-                        result.IsDiverging = ((decimal)result.UpperBand - (decimal)result.LowerBand) 
+                        result.IsDiverging = ((decimal)result.UpperBand - (decimal)result.LowerBand)
                             > ((decimal)prevUpperBand - (decimal)prevLowerBand);
                     }
 
@@ -84,7 +84,7 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Bollinger Bands.  " +
-                        string.Format("You provided {0} periods of history when {1} is required.", qtyHistory, minHistory));
+                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
             }
         }
 
