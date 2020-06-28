@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -30,11 +31,29 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    IEnumerable<decimal> period = history
-                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
-                        .Select(x => x.Close);
+                    IEnumerable<Quote> period = history
+                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod));
 
-                    result.Sma = period.Average();
+                    // simple moving average
+                    result.Sma = period
+                        .Select(x => x.Close)
+                        .Average();
+
+                    // mean absolute deviation
+                    result.Mad = period
+                        .Select(x => Math.Abs(x.Close - (decimal)result.Sma))
+                        .Average();
+
+                    // mean squared error
+                    result.Mse = period
+                        .Select(x => (x.Close - (decimal)result.Sma) * (x.Close - (decimal)result.Sma))
+                        .Average();
+
+                    // mean absolute percent error
+                    result.Mape = period
+                        .Where(x => x.Close != 0)
+                        .Select(x => Math.Abs(x.Close - (decimal)result.Sma) / x.Close)
+                        .Average();
                 }
 
                 results.Add(result);

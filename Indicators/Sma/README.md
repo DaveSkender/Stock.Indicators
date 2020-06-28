@@ -30,6 +30,9 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average for `N` lookback periods
+| `Mad` | decimal | Mean absolute deviation
+| `Mse` | decimal | Mean square error
+| `Mape` | decimal | Mean absolute percentage error
 
 ## Example
 
