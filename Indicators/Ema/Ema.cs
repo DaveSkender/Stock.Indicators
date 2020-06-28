@@ -68,7 +68,7 @@ namespace Skender.Stock.Indicators
                           + "Since this uses a smoothing technique, for a lookback period of {2}, "
                           + "we recommend you use at least {3} data points prior to the intended "
                           + "usage date for maximum precision.",
-                          qtyHistory, minHistory, lookbackPeriod, 2 * lookbackPeriod + 250));
+                          qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250));
             }
 
         }
