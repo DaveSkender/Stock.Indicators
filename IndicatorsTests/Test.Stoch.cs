@@ -32,6 +32,14 @@ namespace StockIndicators.Tests
             Assert.AreEqual((decimal)43.1354, Math.Round((decimal)result.Oscillator, 4));
             Assert.AreEqual((decimal)35.5674, Math.Round((decimal)result.Signal, 4));
             Assert.AreEqual(true, result.IsIncreasing);
+
+            // no signal period
+            IEnumerable<StochResult> results2 = Indicator.GetStoch(history, 5, 1);
+            StochResult r2 = results2.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual(r2.Oscillator, r2.Signal);
+
+            StochResult r3 = results2.Where(x => x.Date == DateTime.Parse("12/10/2018")).FirstOrDefault();
+            Assert.AreEqual(r3.Oscillator, r3.Signal);
         }
 
 
@@ -48,7 +56,7 @@ namespace StockIndicators.Tests
         [ExpectedException(typeof(BadParameterException), "Bad signal period.")]
         public void BadSignal()
         {
-            Indicator.GetStoch(history, 14, -1);
+            Indicator.GetStoch(history, 14, 0);
         }
 
         [TestMethod()]

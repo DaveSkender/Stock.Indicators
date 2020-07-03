@@ -117,17 +117,17 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameters
-            if (lookbackPeriod < 1)
+            if (lookbackPeriod <= 0)
             {
                 throw new BadParameterException("Lookback period must be greater than 0 for Stochastic.");
             }
 
-            if (signalPeriod < 0)
+            if (signalPeriod <= 0)
             {
-                throw new BadParameterException("Signal period must be greater than or equal to 0 for Stochastic.");
+                throw new BadParameterException("Signal period must be greater than 0 for Stochastic.");
             }
 
-            if (smoothPeriod < 1)
+            if (smoothPeriod <= 0)
             {
                 throw new BadParameterException("Smooth period must be greater than 0 for Stochastic.");
             }

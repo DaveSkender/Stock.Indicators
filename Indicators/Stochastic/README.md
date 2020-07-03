@@ -14,7 +14,7 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period to calculate the Oscillator (%K).  Must be greater than 0.  Default is 14.
-| `signalPeriod` | int | Lookback period for the signal (%D).  Must be greater than or equal to 0.  Default is 3.
+| `signalPeriod` | int | Lookback period for the signal (%D).  Must be greater than 0.  Default is 3.
 | `smoothingPeriod` | int | Smoothes the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  You can specify as needed here.  Must be greater than or equal to 1.  Default is 3.
 
 ## Response
