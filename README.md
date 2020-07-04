@@ -43,6 +43,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Exponential Moving Average](/Indicators/Ema/README.md)
 - [Heikin-Ashi](/Indicators/HeikinAshi/README.md)
 - [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md)
+- [On-balance Volume (OBV)](/Indicators/Obv/README.md)
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md)
 - [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
 - [Simple Moving Average](/Indicators/Sma/README.md)
