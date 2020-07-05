@@ -32,6 +32,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 
 ## Indicators and overlays
 
+- [Acumulation Distribution Line (ADL)](/Indicators/Adl/README.md)
 - [Aroon Oscillator](/Indicators/Aroon/README.md)
 - [Average Directional Index (ADX)](/Indicators/AvgDirectional/README.md)
 - [Average True Range (ATR)](/Indicators/AvgTrueRange/README.md)
@@ -40,13 +41,13 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Chandelier Exit](/Indicators/Chandelier/README.md)
 - [Commodity Channel Index (CCI)](/Indicators/Cci/README.md)
 - [Correlation Coefficient](/Indicators/Correlation/README.md)
-- [Exponential Moving Average](/Indicators/Ema/README.md)
+- [Exponential Moving Average (EMA)](/Indicators/Ema/README.md)
 - [Heikin-Ashi](/Indicators/HeikinAshi/README.md)
 - [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md)
 - [On-balance Volume (OBV)](/Indicators/Obv/README.md)
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md)
 - [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
-- [Simple Moving Average](/Indicators/Sma/README.md)
+- [Simple Moving Average (SMA)](/Indicators/Sma/README.md)
 - [Standard Deviation](/Indicators/StandardDev/README.md)
 - [Stochastic Oscillator](/Indicators/Stochastic/README.md)
 - [Stochastic RSI](/Indicators/StochasticRsi/README.md)
