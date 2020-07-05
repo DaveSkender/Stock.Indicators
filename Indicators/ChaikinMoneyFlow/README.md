@@ -37,7 +37,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CMF
 IEnumerable<CmfResult> results = Indicator.GetCmf(history,20);
@@ -49,5 +49,5 @@ Console.WriteLine("CMF on {0} was ${1}", result.Date, result.Cmf);
 ```
 
 ```bash
-CMF on 12/31/2018 was $251.86
+CMF on 12/31/2018 was -20257894
 ```

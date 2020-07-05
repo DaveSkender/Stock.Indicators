@@ -39,6 +39,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Beta Coefficient](/Indicators/Beta/README.md)
 - [Bollinger Bands](/Indicators/BollingerBands/README.md)
 - [Chaikin Money Flow (CMF)](/Indicators/ChaikinMoneyFlow/README.md)
+- [Chaikin Oscillator](/Indicators/ChaikinOscillator/README.md)
 - [Chandelier Exit](/Indicators/Chandelier/README.md)
 - [Commodity Channel Index (CCI)](/Indicators/Cci/README.md)
 - [Correlation Coefficient](/Indicators/Correlation/README.md)

@@ -22,9 +22,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502, results.Count());
 
             // sample value
-            AdlResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-
-            Assert.AreEqual((decimal)3439986548.42, Math.Round(result.Adl, 2));
+            AdlResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)3439986548.42, Math.Round(r.Adl, 2));
         }
 
 

@@ -24,8 +24,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Cmf != null).Count());
 
             // sample value
-            CmfResult ema = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)-20257893.60, Math.Round((decimal)ema.Cmf, 2));
+            CmfResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)-20257893.60, Math.Round((decimal)r.Cmf, 2));
         }
 
 
