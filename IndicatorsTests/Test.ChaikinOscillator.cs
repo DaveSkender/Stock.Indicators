@@ -27,6 +27,8 @@ namespace StockIndicators.Tests
             // sample value
             ChaikinOscResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)3439986548.42, Math.Round(r.Adl, 2));
+            Assert.AreEqual((decimal)0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
+            Assert.AreEqual((decimal)118396116.25, Math.Round(r.MoneyFlowVolume, 2));
             Assert.AreEqual((decimal)-19135200.72, Math.Round((decimal)r.Oscillator, 2));
         }
 
@@ -48,10 +50,18 @@ namespace StockIndicators.Tests
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history for S+100.")]
+        public void InsufficientHistory100()
         {
-            Indicator.GetChaikinOsc(history.Where(x => x.Index <= 10), 3, 10);
+            Indicator.GetChaikinOsc(history.Where(x => x.Index < 110), 3, 10);
         }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2×S.")]
+        public void InsufficientHistory250()
+        {
+            Indicator.GetChaikinOsc(history.Where(x => x.Index < 500), 3, 250);
+        }
+
     }
 }
