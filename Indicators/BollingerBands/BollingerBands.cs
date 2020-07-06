@@ -18,8 +18,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
-            decimal? prevUpperBand = null;
-            decimal? prevLowerBand = null;
+            decimal? prevWidth = null;
 
             // roll through history
             foreach (Quote h in history)
@@ -45,15 +44,13 @@ namespace Skender.Stock.Indicators
                     result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / (decimal)stdDev;
                     result.Width = (result.Sma == 0) ? null : (result.UpperBand - result.LowerBand) / result.Sma;
 
-                    if (prevUpperBand != null && prevLowerBand != null)
+                    if (prevWidth != null)
                     {
-                        result.IsDiverging = ((decimal)result.UpperBand - (decimal)result.LowerBand)
-                            > ((decimal)prevUpperBand - (decimal)prevLowerBand);
+                        result.IsDiverging = (result.Width > prevWidth);
                     }
 
                     // for next iteration
-                    prevUpperBand = result.UpperBand;
-                    prevLowerBand = result.LowerBand;
+                    prevWidth = result.Width;
                 }
 
                 results.Add(result);
