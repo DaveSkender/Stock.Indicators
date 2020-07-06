@@ -48,10 +48,18 @@ namespace StockIndicators.Tests
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history for S+100.")]
+        public void InsufficientHistory100()
         {
-            Indicator.GetChaikinOsc(history.Where(x => x.Index <= 10), 3, 10);
+            Indicator.GetChaikinOsc(history.Where(x => x.Index < 110), 3, 10);
         }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2×S.")]
+        public void InsufficientHistory250()
+        {
+            Indicator.GetChaikinOsc(history.Where(x => x.Index < 500), 3, 250);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -87,11 +88,15 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = slowPeriod + 1;
+            int minHistory = Math.Max(2 * slowPeriod, slowPeriod + 100);
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Chaikin Oscillator.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+                        string.Format("You provided {0} periods of history when at least {1} is required.  "
+                          + "Since this uses a smoothing technique, for a slow period of {2}, "
+                          + "we recommend you use at least {3} data points prior to the intended "
+                          + "usage date for maximum precision.",
+                          qtyHistory, minHistory, slowPeriod, slowPeriod + 250));
             }
 
         }
