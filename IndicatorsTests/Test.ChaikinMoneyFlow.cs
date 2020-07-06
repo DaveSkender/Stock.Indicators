@@ -11,7 +11,7 @@ namespace StockIndicators.Tests
     {
 
         [TestMethod()]
-        public void GetChaikinMoneyFlowTest()
+        public void GetCmfTest()
         {
             int lookbackPeriod = 20;
             IEnumerable<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod);

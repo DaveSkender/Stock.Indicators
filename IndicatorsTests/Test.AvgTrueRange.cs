@@ -11,7 +11,7 @@ namespace StockIndicators.Tests
     {
 
         [TestMethod()]
-        public void GetAvgTrueRangeTest()
+        public void GetAtrTest()
         {
             int lookbackPeriod = 14;
             IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);
