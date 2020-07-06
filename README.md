@@ -50,6 +50,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md)
 - [Rate of Change (ROC)](/Indicators/Roc/README.md)
 - [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
+- [R-Squared (Coefficient of Determination)](/Indicators/Correlation/README.md)
 - [Simple Moving Average (SMA)](/Indicators/Sma/README.md)
 - [Standard Deviation](/Indicators/StandardDev/README.md)
 - [Stochastic Oscillator](/Indicators/Stochastic/README.md)
