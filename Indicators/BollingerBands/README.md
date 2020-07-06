@@ -22,7 +22,7 @@ IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history,
 IEnumerable<BollingerBandsResult>
 ```
 
-The first `N-1` slow periods + signal period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### BollingerBandsResult
 
