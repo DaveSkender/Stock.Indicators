@@ -22,9 +22,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502, results.Count());
 
             // sample value
-            ObvResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-
-            Assert.AreEqual(539843504, result.Obv);
+            ObvResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual(539843504, r.Obv);
         }
 
 
