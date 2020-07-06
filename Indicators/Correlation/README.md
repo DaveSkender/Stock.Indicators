@@ -1,6 +1,6 @@
 ﻿# Correlation Coefficient
 
-Correlation between two quote histories, based on Close price.  Variance and covariance are also output.
+Correlation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and covariance are also output.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:correlation_coeffici)
 
 ```csharp
@@ -33,7 +33,9 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `VarianceA` | decimal | Variance of A based on `N` lookback periods
 | `VarianceB` | decimal | Variance of B based on `N` lookback periods
 | `Covariance` | decimal | Covariance of A+B based on `N` lookback periods
-| `Correlation` | decimal | Correlation based on `N` lookback periods
+| `Correlation` | decimal | Correlation `R` based on `N` lookback periods
+| `RSquared` | decimal | R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation).
+
 
 ## Example
 

@@ -26,6 +26,7 @@ namespace StockIndicators.Tests
             // sample value
             CorrResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)0.8460, Math.Round((decimal)r.Correlation, 4));
+            Assert.AreEqual((decimal)0.7157, Math.Round((decimal)r.RSquared, 4));
         }
 
 
