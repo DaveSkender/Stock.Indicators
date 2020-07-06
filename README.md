@@ -48,6 +48,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md)
 - [On-balance Volume (OBV)](/Indicators/Obv/README.md)
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md)
+- [Rate of Change (ROC)](/Indicators/Roc/README.md)
 - [Relative Strength Index (RSI)](/Indicators/Rsi/README.md)
 - [Simple Moving Average (SMA)](/Indicators/Sma/README.md)
 - [Standard Deviation](/Indicators/StandardDev/README.md)
