@@ -21,7 +21,7 @@ IEnumerable<HeikinAshiResult>
 
 The first period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-### HeikinResult
+### HeikinAshiResult
 
 | name | type | notes
 | -- |-- |--
@@ -46,9 +46,9 @@ IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 HeikinAshiResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("HeikinAshi open price on {0} was ${1}", result.Date, result.Open);
+Console.WriteLine("Heikin-Ashi open price on {0} was ${1}", result.Date, result.Open);
 ```
 
 ```bash
-HeikinAshi open price on 12/31/2018 was $241.3
+Heikin-Ashi open price on 12/31/2018 was $241.3
 ```

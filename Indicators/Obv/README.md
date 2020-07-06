@@ -27,13 +27,15 @@ The first period OBV will have `0` value since there's not enough data to calcul
 | -- |-- |--
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
-| `Obv` | long | On-balance Volume.  Warning: absolute values in OBV are somewhat meaningless, so use with caution.
+| `Obv` | long | On-balance Volume
+
+**Warning**: absolute values in OBV are somewhat meaningless, so use with caution.
 
 ## Example
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<ObvResult> results = Indicator.GetObv(history);
@@ -41,7 +43,7 @@ IEnumerable<ObvResult> results = Indicator.GetObv(history);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 ObvResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("OBV on {0} was {1}", result.Date, result.Open);
+Console.WriteLine("OBV on {0} was {1}", result.Date, result.Obv);
 ```
 
 ```bash
