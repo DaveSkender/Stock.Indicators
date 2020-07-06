@@ -1,4 +1,4 @@
-﻿# Stochastic Oscillator (STOCH)
+﻿# Stochastic Oscillator
 
 Stochastic Oscillator is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:stochastic_oscillator_fast_slow_and_full)
@@ -23,7 +23,7 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 IEnumerable<StochResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` Oscillator values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### StochResult
 
@@ -41,13 +41,13 @@ The first `N-1` periods will have `null` values since there's not enough data to
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
-// calculate STOCH %K(14),%D(3) (slow)
+// calculate STO %K(14),%D(3) (slow)
 IEnumerable<StochResult> results = Indicator.GetStoch(history,14,3,3);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 StochResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("STOCH on {0} was {1}", result.Date, result.Oscillator);
+Console.WriteLine("STO on {0} was {1}", result.Date, result.Oscillator);
 ```
 
 ```bash

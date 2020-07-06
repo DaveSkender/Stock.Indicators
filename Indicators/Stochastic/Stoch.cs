@@ -54,27 +54,7 @@ namespace Skender.Stock.Indicators
             // smooth the oscillator
             if (smoothPeriod > 1)
             {
-
-                // temporarily store interim smoothed oscillator
-                foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod)))
-                {
-                    r.Smooth = results.Where(x => x.Index > (r.Index - smoothPeriod) && x.Index <= r.Index)
-                                     .Select(v => v.Oscillator)
-                                     .Average();
-                }
-
-                // replace oscillator
-                foreach (StochResult r in results)
-                {
-                    if (r.Smooth != null)
-                    {
-                        r.Oscillator = (float)r.Smooth;
-                    }
-                    else
-                    {
-                        r.Oscillator = null;  // erase unsmoothed
-                    }
-                }
+                results = SmoothOscillator(results, lookbackPeriod, smoothPeriod);
             }
 
 
@@ -107,6 +87,34 @@ namespace Skender.Stock.Indicators
 
                 lastOsc = (float)r.Oscillator;
                 lastIsIncreasing = r.IsIncreasing;
+            }
+
+            return results;
+        }
+
+
+        private static List<StochResult> SmoothOscillator(List<StochResult> results, int lookbackPeriod, int smoothPeriod)
+        {
+
+            // temporarily store interim smoothed oscillator
+            foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod)))
+            {
+                r.Smooth = results.Where(x => x.Index > (r.Index - smoothPeriod) && x.Index <= r.Index)
+                                 .Select(v => v.Oscillator)
+                                 .Average();
+            }
+
+            // replace oscillator
+            foreach (StochResult r in results)
+            {
+                if (r.Smooth != null)
+                {
+                    r.Oscillator = (float)r.Smooth;
+                }
+                else
+                {
+                    r.Oscillator = null;  // erase unsmoothed
+                }
             }
 
             return results;
