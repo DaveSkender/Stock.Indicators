@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // WilliamRASTIC OSCILLATOR
+        // WILLIAM %R OSCILLATOR
         public static IEnumerable<WilliamResult> GetWilliamR(IEnumerable<Quote> history, int lookbackPeriod = 14)
         {
 

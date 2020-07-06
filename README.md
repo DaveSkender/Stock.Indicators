@@ -7,6 +7,8 @@
 
 [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting .NET framework library that produces stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, parabolic SAR, etc).  Nothing more.
 
+It can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
+
 ## Installation and setup
 
 Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing packages.
@@ -58,6 +60,12 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Ulcer Index](/Indicators/UlcerIndex/README.md)
 - [William %R](/Indicators/WilliamR/README.md)
 
+## Helpful references
+
+- [Documentation](https://daveskender.github.io/Stock.Indicators)
+- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
+- [Contributing guidelines](CONTRIBUTING.md)
+
 ## Prerequisite data
 
 Most indicators require that you provide historical quote data and additional configuration parameters.
@@ -73,11 +81,6 @@ You can, of course, override these and provide your own values.
 - .NET Core 3.1
 - .NET Standard 2.0, 2.1
 - .NET Framework 4.6.1
-
-## Demo
-
-- Stock indicators can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
-- Check out our [demo site](https://stock-charts.azurewebsites.net/) to see an example usage in a stock chart.
 
 ## FAQ
 

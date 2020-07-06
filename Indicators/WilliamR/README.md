@@ -5,7 +5,7 @@ William %R is a stochastic oscillator that looks back `N` periods to produce an 
 
 ```csharp
 // usage
-IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
+IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -21,7 +21,7 @@ IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history, lookbackPeri
 IEnumerable<WilliamResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` Oscillator values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### WilliamResult
 
@@ -44,9 +44,9 @@ IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history,14);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 WilliamResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("WilliamR on {0} was {1}", result.Date, result.WilliamR);
+Console.WriteLine("William %R on {0} was {1}", result.Date, result.WilliamR);
 ```
 
 ```bash
-WilliamR on 12/31/2018 was 43.1
+William %R on 12/31/2018 was -52.0
 ```
