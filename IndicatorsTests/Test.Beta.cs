@@ -14,7 +14,6 @@ namespace StockIndicators.Tests
         public void GetBetaTest()
         {
             int lookbackPeriod = 20;
-
             IEnumerable<BetaResult> results = Indicator.GetBeta(history, historyOther, lookbackPeriod);
 
             // assertions
@@ -25,8 +24,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Beta != null).Count());
 
             // sample value
-            BetaResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)1.6759, Math.Round((decimal)result.Beta, 4));
+            BetaResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)1.6759, Math.Round((decimal)r.Beta, 4));
         }
 
 
@@ -35,7 +34,6 @@ namespace StockIndicators.Tests
         {
             // Beta should be 1 if evaluating against self
             int lookbackPeriod = 20;
-
             IEnumerable<BetaResult> results = Indicator.GetBeta(history, history, lookbackPeriod);
 
             // assertions
@@ -46,8 +44,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Beta != null).Count());
 
             // sample value
-            BetaResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual(1, Math.Round((decimal)result.Beta, 4));
+            BetaResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual(1, Math.Round((decimal)r.Beta, 4));
         }
 
 

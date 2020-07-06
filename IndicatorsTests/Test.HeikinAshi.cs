@@ -22,13 +22,13 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502, results.Count());
 
             // sample value
-            HeikinAshiResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)241.3018, Math.Round(result.Open, 4));
-            Assert.AreEqual((decimal)245.54, Math.Round(result.High, 4));
-            Assert.AreEqual((decimal)241.3018, Math.Round(result.Low, 4));
-            Assert.AreEqual((decimal)244.6525, Math.Round(result.Close, 4));
-            Assert.AreEqual(true, result.IsBullish);
-            Assert.AreEqual(0, Math.Round(result.Weakness, 4));
+            HeikinAshiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)241.3018, Math.Round(r.Open, 4));
+            Assert.AreEqual((decimal)245.54, Math.Round(r.High, 4));
+            Assert.AreEqual((decimal)241.3018, Math.Round(r.Low, 4));
+            Assert.AreEqual((decimal)244.6525, Math.Round(r.Close, 4));
+            Assert.AreEqual(true, r.IsBullish);
+            Assert.AreEqual(0, Math.Round(r.Weakness, 4));
         }
 
 

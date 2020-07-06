@@ -54,7 +54,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Standard Deviation](/Indicators/StandardDev/README.md)
 - [Stochastic Oscillator](/Indicators/Stochastic/README.md)
 - [Stochastic RSI](/Indicators/StochasticRsi/README.md)
-- [Ulcer Index](/Indicators/Ulcer/README.md)
+- [Ulcer Index](/Indicators/UlcerIndex/README.md)
 
 ## Prerequisite data
 

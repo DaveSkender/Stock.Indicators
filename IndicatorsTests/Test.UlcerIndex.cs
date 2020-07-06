@@ -25,8 +25,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.UI != null).Count());
 
             // sample value
-            UlcerIndexResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)5.7255, Math.Round((decimal)result.UI, 4));
+            UlcerIndexResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)5.7255, Math.Round((decimal)r.UI, 4));
         }
 
 

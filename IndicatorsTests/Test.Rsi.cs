@@ -14,7 +14,6 @@ namespace StockIndicators.Tests
         public void GetRsiTest()
         {
             int lookbackPeriod = 14;
-
             IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
 
             // assertions
@@ -26,9 +25,9 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
-            RsiResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)result.Rsi, 4));
-            Assert.AreEqual(true, result.IsIncreasing);
+            RsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r.Rsi, 4));
+            Assert.AreEqual(true, r.IsIncreasing);
         }
 
 

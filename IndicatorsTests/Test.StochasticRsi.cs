@@ -7,7 +7,7 @@ using System.Linq;
 namespace StockIndicators.Tests
 {
     [TestClass]
-    public class StochRsiTests : TestBase
+    public class StochasticRsiTests : TestBase
     {
 
         [TestMethod()]
@@ -28,9 +28,9 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - 2 * lookbackPeriod + 1 - 4, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
-            StochRsiResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)0.9752, Math.Round((decimal)result.StochRsi, 4));
-            Assert.AreEqual(true, result.IsIncreasing);
+            StochRsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)0.9752, Math.Round((decimal)r.StochRsi, 4));
+            Assert.AreEqual(true, r.IsIncreasing);
         }
 
 

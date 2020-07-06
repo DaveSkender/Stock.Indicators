@@ -28,14 +28,14 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.LowerBand != null).Count());
 
             // sample value
-            BollingerBandsResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            BollingerBandsResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
 
-            Assert.AreEqual((decimal)251.8600, Math.Round((decimal)result.Sma, 4));
-            Assert.AreEqual((decimal)273.7004, Math.Round((decimal)result.UpperBand, 4));
-            Assert.AreEqual((decimal)230.0196, Math.Round((decimal)result.LowerBand, 4));
-            Assert.AreEqual((decimal)-0.602552, Math.Round((decimal)result.ZScore, 6));
-            Assert.AreEqual((decimal)0.173433, Math.Round((decimal)result.Width, 6));
-            Assert.AreEqual(false, result.IsDiverging);
+            Assert.AreEqual((decimal)251.8600, Math.Round((decimal)r.Sma, 4));
+            Assert.AreEqual((decimal)273.7004, Math.Round((decimal)r.UpperBand, 4));
+            Assert.AreEqual((decimal)230.0196, Math.Round((decimal)r.LowerBand, 4));
+            Assert.AreEqual((decimal)-0.602552, Math.Round((decimal)r.ZScore, 6));
+            Assert.AreEqual((decimal)0.173433, Math.Round((decimal)r.Width, 6));
+            Assert.AreEqual(false, r.IsDiverging);
         }
 
 

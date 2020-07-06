@@ -14,7 +14,6 @@ namespace StockIndicators.Tests
         public void GetCorrelationTest()
         {
             int lookbackPeriod = 20;
-
             IEnumerable<CorrResult> results = Indicator.GetCorrelation(history, historyOther, lookbackPeriod);
 
             // assertions
@@ -25,8 +24,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Correlation != null).Count());
 
             // sample value
-            CorrResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)0.8460, Math.Round((decimal)result.Correlation, 4));
+            CorrResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)0.8460, Math.Round((decimal)r.Correlation, 4));
         }
 
 
