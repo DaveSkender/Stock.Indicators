@@ -25,8 +25,8 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Cci != null).Count());
 
             // sample value
-            CciResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)-52.9946, Math.Round((decimal)result.Cci, 4));
+            CciResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)-52.9946, Math.Round((decimal)r.Cci, 4));
         }
 
 

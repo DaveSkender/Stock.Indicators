@@ -26,6 +26,7 @@ namespace StockIndicators.Tests
 
             // sample value
             ChaikinOscResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)3439986548.42, Math.Round(r.Adl, 2));
             Assert.AreEqual((decimal)-19135200.72, Math.Round((decimal)r.Oscillator, 2));
         }
 

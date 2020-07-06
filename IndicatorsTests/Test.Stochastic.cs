@@ -7,7 +7,7 @@ using System.Linq;
 namespace StockIndicators.Tests
 {
     [TestClass]
-    public class StochTests : TestBase
+    public class StochasticTests : TestBase
     {
 
         [TestMethod()]
@@ -28,10 +28,10 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1 - smoothPeriod - signalPeriod, results.Where(x => x.Signal != null).Count());
 
             // sample value
-            StochResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)43.1354, Math.Round((decimal)result.Oscillator, 4));
-            Assert.AreEqual((decimal)35.5674, Math.Round((decimal)result.Signal, 4));
-            Assert.AreEqual(true, result.IsIncreasing);
+            StochResult r1 = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)43.1354, Math.Round((decimal)r1.Oscillator, 4));
+            Assert.AreEqual((decimal)35.5674, Math.Round((decimal)r1.Signal, 4));
+            Assert.AreEqual(true, r1.IsIncreasing);
 
             // no signal period
             IEnumerable<StochResult> results2 = Indicator.GetStoch(history, 5, 1);

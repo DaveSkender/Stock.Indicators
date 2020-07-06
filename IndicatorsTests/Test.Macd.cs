@@ -31,12 +31,12 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - slowPeriod - signalPeriod, results.Where(x => x.IsDiverging != null).Count());
 
             // sample value
-            MacdResult result = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)-6.2198, Math.Round((decimal)result.Macd, 4));
-            Assert.AreEqual((decimal)-5.8569, Math.Round((decimal)result.Signal, 4));
-            Assert.AreEqual((decimal)-0.3629, Math.Round((decimal)result.Histogram, 4));
-            Assert.AreEqual(false, result.IsBullish);
-            Assert.AreEqual(false, result.IsDiverging);
+            MacdResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)-6.2198, Math.Round((decimal)r.Macd, 4));
+            Assert.AreEqual((decimal)-5.8569, Math.Round((decimal)r.Signal, 4));
+            Assert.AreEqual((decimal)-0.3629, Math.Round((decimal)r.Histogram, 4));
+            Assert.AreEqual(false, r.IsBullish);
+            Assert.AreEqual(false, r.IsDiverging);
         }
 
 

@@ -24,11 +24,11 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Sma != null).Count());
 
             // sample value
-            SmaResult sma = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)251.86, sma.Sma);
-            Assert.AreEqual((decimal)9.45, sma.Mad);
-            Assert.AreEqual((double)119.2510, Math.Round((double)sma.Mse, 4));
-            Assert.AreEqual((double)0.037637, Math.Round((double)sma.Mape, 6));
+            SmaResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)251.86, r.Sma);
+            Assert.AreEqual((decimal)9.45, r.Mad);
+            Assert.AreEqual((double)119.2510, Math.Round((double)r.Mse, 4));
+            Assert.AreEqual((double)0.037637, Math.Round((double)r.Mape, 6));
         }
 
 
