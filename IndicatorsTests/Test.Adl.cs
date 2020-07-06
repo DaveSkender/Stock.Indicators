@@ -23,6 +23,8 @@ namespace StockIndicators.Tests
 
             // sample value
             AdlResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
+            Assert.AreEqual((decimal)118396116.25, Math.Round(r.MoneyFlowVolume, 2));
             Assert.AreEqual((decimal)3439986548.42, Math.Round(r.Adl, 2));
         }
 
