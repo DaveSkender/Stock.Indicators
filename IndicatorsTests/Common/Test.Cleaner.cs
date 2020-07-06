@@ -22,6 +22,10 @@ namespace StockIndicators.Tests
 
             // should always have index
             Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
+
+            // last index should be 502
+            Quote r = history.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual(502, r.Index);
         }
 
 
