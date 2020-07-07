@@ -1,6 +1,6 @@
 ﻿# Keltner Channels
 
-Keltner Channels are derived from highed High and lowest Low values over a lookback period.
+Keltner Channels are based on an EMA centerline and ATR band widths.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:keltner_channels)
 
 ```csharp
@@ -12,10 +12,12 @@ IEnumerable<KeltnerResult> results = Indicator.GetKeltner(history, emaPeriod, mu
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` or `N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N`+250 data points prior to the intended usage date for maximum precision.  `N` is the greater of `E` or `A`.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` or `N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N`+250 data points prior to the intended usage date for maximum precision.
 | `emaPeriod` | int | Number of periods (`E`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for an appropriate sample size.  Default is 20.
-| `multiplier` | int | ATR Multiplier. Must be greater than 0.  Default is 2.
+| `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
 | `atrPeriod` | int | Number of periods (`A`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for an appropriate sample size.  Default is 10.
+
+Note: `N` is the greater of `E` or `A` periods.
 
 ## Response
 
@@ -52,5 +54,5 @@ Console.WriteLine("Upper Keltner Channel on {0} was ${1}", result.Date, result.U
 ```
 
 ```bash
-Upper Keltner Channel on 12/31/2018 was $273.59
+Upper Keltner Channel on 12/31/2018 was $262.19
 ```
