@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             IEnumerable<EmaResult> emaFast = GetEma(history, fastPeriod);
             IEnumerable<EmaResult> emaSlow = GetEma(history, slowPeriod);
 
-            List<Quote> emaDiff = new List<Quote>();
+            List<BasicData> emaDiff = new List<BasicData>();
             List<MacdResult> results = new List<MacdResult>();
 
             foreach (Quote h in history)
@@ -41,11 +41,11 @@ namespace Skender.Stock.Indicators
                     result.Macd = macd;
 
                     // temp data for interim EMA of macd
-                    Quote diff = new Quote
+                    BasicData diff = new BasicData
                     {
                         Date = h.Date,
                         Index = h.Index - slowPeriod,
-                        Close = macd
+                        Value = macd
                     };
 
                     emaDiff.Add(diff);
@@ -54,7 +54,7 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
             }
 
-            IEnumerable<EmaResult> emaSignal = GetEma(emaDiff, signalPeriod);
+            IEnumerable<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriod);
             decimal? prevMacd = null;
             decimal? prevSignal = null;
 
