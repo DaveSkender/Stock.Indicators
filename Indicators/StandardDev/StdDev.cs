@@ -11,15 +11,28 @@ namespace Skender.Stock.Indicators
             // clean quotes
             history = Cleaners.PrepareHistory(history);
 
+            // convert to basic data
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+
+            // calculate
+            return CalcStdDev(bd, lookbackPeriod);
+        }
+
+
+        private static IEnumerable<StdDevResult> CalcStdDev(IEnumerable<BasicData> basicData, int lookbackPeriod)
+        {
+            // clean data
+            basicData = Cleaners.PrepareBasicData(basicData);
+
             // validate inputs
-            ValidateStdDev(history, lookbackPeriod);
+            ValidateStdDev(basicData, lookbackPeriod);
 
             // initialize results
             List<StdDevResult> results = new List<StdDevResult>();
-            decimal? prevClose = null;
+            decimal? prevValue = null;
 
             // roll through history and compute lookback standard deviation
-            foreach (Quote h in history)
+            foreach (BasicData h in basicData)
             {
                 StdDevResult result = new StdDevResult
                 {
@@ -30,23 +43,23 @@ namespace Skender.Stock.Indicators
                 if (h.Index >= lookbackPeriod)
                 {
                     // price based
-                    IEnumerable<double> period = history
+                    IEnumerable<double> period = basicData
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .Select(x => (double)x.Close);
+                        .Select(x => (double)x.Value);
 
                     result.StdDev = (decimal)Functions.StdDev(period);
-                    result.ZScore = (h.Close - (decimal)period.Average()) / result.StdDev;
+                    result.ZScore = (h.Value - (decimal)period.Average()) / result.StdDev;
                 }
 
                 results.Add(result);
-                prevClose = h.Close;
+                prevValue = h.Value;
             }
 
             return results;
         }
 
 
-        private static void ValidateStdDev(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateStdDev(IEnumerable<BasicData> basicData, int lookbackPeriod)
         {
 
             // check parameters
@@ -56,7 +69,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = basicData.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
