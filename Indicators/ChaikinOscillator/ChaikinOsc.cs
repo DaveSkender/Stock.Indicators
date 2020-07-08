@@ -20,25 +20,16 @@ namespace Skender.Stock.Indicators
             ValidateChaikinOsc(history, fastPeriod, slowPeriod);
 
             // initialize
-            List<Quote> adlQuote = new List<Quote>();
             List<ChaikinOscResult> results = new List<ChaikinOscResult>();
             IEnumerable<AdlResult> adlResults = GetAdl(history);
 
-            // temp data for interim EMA of ADL
-            foreach (AdlResult r in adlResults)
-            {
-                Quote q = new Quote
-                {
-                    Index = r.Index,
-                    Date = r.Date,
-                    Close = r.Adl
-                };
 
-                adlQuote.Add(q);
-            }
+            // EMA of ADL
+            IEnumerable<BasicData> adlBasicData = adlResults
+                .Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Adl });
 
-            IEnumerable<EmaResult> adlEmaSlow = GetEma(adlQuote, slowPeriod);
-            IEnumerable<EmaResult> adlEmaFast = GetEma(adlQuote, fastPeriod);
+            IEnumerable<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod);
+            IEnumerable<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod);
 
 
             // roll through history
