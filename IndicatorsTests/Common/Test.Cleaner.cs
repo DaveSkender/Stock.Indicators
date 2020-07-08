@@ -13,12 +13,12 @@ namespace StockIndicators.Tests
         [TestMethod()]
         public void CleanerTest()
         {
-            List<Quote> h = Cleaners.PrepareHistory(history);
+            IEnumerable<Quote> h = Cleaners.PrepareHistory(history);
 
             // assertions
 
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, h.Count);
+            Assert.AreEqual(502, h.Count());
 
             // should always have index
             Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());

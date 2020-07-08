@@ -22,8 +22,8 @@ namespace Skender.Stock.Indicators
 
     internal class BasicData
     {
-        public int? Index { get; set; }
-        public DateTime Date { get; set; }
-        public decimal Value { get; set; }
+        internal int? Index { get; set; }
+        internal DateTime Date { get; set; }
+        internal decimal Value { get; set; }
     }
 }

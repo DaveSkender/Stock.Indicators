@@ -10,11 +10,8 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<EmaResult> GetEma(IEnumerable<Quote> history, int lookbackPeriod)
         {
 
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
-
             // convert history to basic format
-            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcEma(bd, lookbackPeriod);

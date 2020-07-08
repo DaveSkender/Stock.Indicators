@@ -8,11 +8,9 @@ namespace Skender.Stock.Indicators
         // STANDARD DEVIATION
         public static IEnumerable<StdDevResult> GetStdDev(IEnumerable<Quote> history, int lookbackPeriod)
         {
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
 
             // convert to basic data
-            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcStdDev(bd, lookbackPeriod);

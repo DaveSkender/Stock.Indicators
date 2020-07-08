@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static class Cleaners
     {
 
-        public static List<Quote> PrepareHistory(IEnumerable<Quote> history)
+        public static IEnumerable<Quote> PrepareHistory(IEnumerable<Quote> history)
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             // return if already processed (no missing indexes)
             if (!history.Any(x => x.Index == null))
             {
-                return history.OrderBy(x => x.Index).ToList();
+                return history.OrderBy(x => x.Index);
             }
 
             // add index and check for errors
@@ -39,11 +39,11 @@ namespace Skender.Stock.Indicators
                 // TODO: more error evaluation (impossible values, missing values, etc.)
             }
 
-            return history.OrderBy(x => x.Index).ToList();
+            return history.OrderBy(x => x.Index);
         }
 
 
-        internal static List<BasicData> PrepareBasicData(IEnumerable<BasicData> basicData)
+        internal static IEnumerable<BasicData> PrepareBasicData(IEnumerable<BasicData> basicData)
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
@@ -55,7 +55,7 @@ namespace Skender.Stock.Indicators
             // return if already processed (no missing indexes)
             if (!basicData.Any(x => x.Index == null))
             {
-                return basicData.OrderBy(x => x.Index).ToList();
+                return basicData.OrderBy(x => x.Index);
             }
 
             // add index and check for errors
@@ -75,11 +75,11 @@ namespace Skender.Stock.Indicators
                 // TODO: more error evaluation (impossible values, missing values, etc.)
             }
 
-            return basicData.OrderBy(x => x.Index).ToList();
+            return basicData.OrderBy(x => x.Index);
         }
 
 
-        internal static List<BasicData> ConvertHistoryToBasic(IEnumerable<Quote> history, string element = "C")
+        internal static IEnumerable<BasicData> ConvertHistoryToBasic(IEnumerable<Quote> history, string element = "C")
         {
             // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
 
