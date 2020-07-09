@@ -9,30 +9,41 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<RsiResult> GetRsi(IEnumerable<Quote> history, int lookbackPeriod = 14)
         {
 
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            // convert history to basic format
+            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+
+            // calculate
+            return CalcRsi(bd, lookbackPeriod);
+        }
+
+
+        private static IEnumerable<RsiResult> CalcRsi(IEnumerable<BasicData> basicData, int lookbackPeriod = 14)
+        {
+
+            // clean data
+            basicData = Cleaners.PrepareBasicData(basicData);
 
             // check parameters
-            ValidateRsi(history, lookbackPeriod);
+            ValidateRsi(basicData, lookbackPeriod);
 
             // initialize
-            decimal lastClose = history.First().Close;
+            decimal lastValue = basicData.First().Value;
             List<RsiResult> results = new List<RsiResult>();
 
             // load gain data
-            foreach (Quote h in history)
+            foreach (BasicData h in basicData)
             {
 
                 RsiResult result = new RsiResult
                 {
                     Index = (int)h.Index,
                     Date = h.Date,
-                    Gain = (lastClose < h.Close) ? (float)(h.Close - lastClose) : 0,
-                    Loss = (lastClose > h.Close) ? (float)(lastClose - h.Close) : 0
+                    Gain = (lastValue < h.Value) ? (float)(h.Value - lastValue) : 0,
+                    Loss = (lastValue > h.Value) ? (float)(lastValue - h.Value) : 0
                 };
                 results.Add(result);
 
-                lastClose = h.Close;
+                lastValue = h.Value;
             }
 
             // initialize average gain
@@ -81,7 +92,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateRsi(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateRsi(IEnumerable<BasicData> basicData, int lookbackPeriod)
         {
 
             // check parameters
@@ -91,7 +102,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = basicData.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
