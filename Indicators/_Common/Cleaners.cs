@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("IndicatorsTests")]
 namespace Skender.Stock.Indicators
 {
     public static class Cleaners
