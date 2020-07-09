@@ -68,6 +68,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Documentation](https://daveskender.github.io/Stock.Indicators)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
 - [Contributing guidelines](CONTRIBUTING.md)
+- [Guide and Pro Tips](GUIDE.md)
 
 ## Prerequisite data
 
