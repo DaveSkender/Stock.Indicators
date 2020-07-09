@@ -46,6 +46,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Commodity Channel Index (CCI)](/Indicators/Cci/README.md)
 - [Correlation Coefficient](/Indicators/Correlation/README.md)
 - [Donchian Channel](/Indicators/Donchian/README.md)
+- [Double Exponential Moving Average (DEMA)](/Indicators/Ema/README.md)
 - [Exponential Moving Average (EMA)](/Indicators/Ema/README.md)
 - [Heikin-Ashi](/Indicators/HeikinAshi/README.md)
 - [Keltner Channel](/Indicators/Keltner/README.md)
@@ -89,6 +90,12 @@ You can, of course, override these and provide your own values.
 **Where can I get historical data?**
 
 There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Alpha Vantage](https://www.alphavantage.co).
+
+**How much historical data do I need?**
+
+Each indicator will need different amounts to calculate.  You can find guidance on the individual indicator documentation pages.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadHistoryException` will be thrown if you do not provide enough history.
+
+Note that some indicators, especially those that are derived from [Exponential Moving Average](/Indicators/Ema/README.md), use a smoothing technique where there is convergence over time.  While you can calculate these with the minimum amount of data, the precision to two decimal points often requires 250 or more preceding historical records.  For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of total historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.
 
 **Do you have any documentation?**
 
