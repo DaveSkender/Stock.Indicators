@@ -58,14 +58,15 @@ namespace Skender.Stock.Indicators
             }
 
 
-            // new signal and period direction info
+            // signal and period direction info
             float? lastOsc = null;
             bool? lastIsIncreasing = null;
             foreach (StochResult r in results
-                .Where(x => x.Oscillator != null))
+                .Where(x => x.Index >= (lookbackPeriod + smoothPeriod - 1))
+                .OrderBy(x => x.Index))
             {
                 // add signal
-                if (r.Index >= lookbackPeriod + smoothPeriod + signalPeriod)
+                if (r.Index >= lookbackPeriod + smoothPeriod + signalPeriod - 2)
                 {
                     r.Signal = results.Where(x => x.Index > (r.Index - signalPeriod) && x.Index <= r.Index)
                                      .Select(v => v.Oscillator)
@@ -102,7 +103,7 @@ namespace Skender.Stock.Indicators
         {
 
             // temporarily store interim smoothed oscillator
-            foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod)))
+            foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod - 1)))
             {
                 r.Smooth = results.Where(x => x.Index > (r.Index - smoothPeriod) && x.Index <= r.Index)
                                  .Select(v => v.Oscillator)
