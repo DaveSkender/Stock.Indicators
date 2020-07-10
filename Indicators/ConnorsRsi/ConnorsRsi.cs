@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // RELATIVE STRENGTH INDEX
+        // CONNORS RSI
         public static IEnumerable<ConnorsRsiResult> GetConnorsRsi(
             IEnumerable<Quote> history, int rsiPeriod = 3, int streakPeriod = 2, int rankPeriod = 100)
         {

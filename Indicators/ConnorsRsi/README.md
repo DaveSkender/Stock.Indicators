@@ -1,6 +1,6 @@
 ﻿# ConnorsRSI
 
-Measures strength of winning/losing streak over `N` lookback periods on a scale of 0 to 100.  ConnorsRSI values over 95 are considered overbought, while values under 5 are considered oversold.
+A composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.
 [More info ...](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf)
 
 ```csharp
