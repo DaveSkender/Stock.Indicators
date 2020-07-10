@@ -39,17 +39,31 @@ namespace StockIndicators.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
-        public void BadLookback()
+        [ExpectedException(typeof(BadParameterException), "Bad RSI period.")]
+        public void BadRsiPeriod()
         {
-            Indicator.GetConnorsRsi(history, 1);
+            Indicator.GetConnorsRsi(history, 1, 2, 100);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad Streak period.")]
+        public void BadStreakPeriod()
+        {
+            Indicator.GetConnorsRsi(history, 3, 1, 100);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadParameterException), "Bad Rank period.")]
+        public void BadPctRankPeriods()
+        {
+            Indicator.GetConnorsRsi(history, 3, 2, 1);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetConnorsRsi(history.Where(x => x.Index < 30), 30);
+            Indicator.GetConnorsRsi(history.Where(x => x.Index < 102), 3, 2, 100);
         }
 
     }

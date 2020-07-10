@@ -15,7 +15,7 @@ namespace Skender.Stock.Indicators
             IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // check parameters
-            ValidateConnorsRsi(bd, rsiPeriod, streakPeriod, rankPeriod + 1);
+            ValidateConnorsRsi(bd, rsiPeriod, streakPeriod, rankPeriod);
 
             // initialize
             List<ConnorsRsiResult> results = new List<ConnorsRsiResult>();
@@ -122,12 +122,12 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (rsiPeriod <= 1)
             {
-                throw new BadParameterException("RSI period must be greater than 1 for ConnorsRsi.");
+                throw new BadParameterException("RSI period for Close price must be greater than 1 for ConnorsRsi.");
             }
 
             if (streakPeriod <= 1)
             {
-                throw new BadParameterException("RSI period must be greater than 1 for ConnorsRsi.");
+                throw new BadParameterException("RSI period for Streak must be greater than 1 for ConnorsRsi.");
             }
 
             if (rankPeriod <= 1)
@@ -138,7 +138,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = basicData.Count();
-            int minHistory = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod + 1));
+            int minHistory = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod + 2));
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for ConnorsRsi.  " +
