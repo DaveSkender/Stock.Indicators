@@ -31,8 +31,8 @@ The first `N+S-1` periods will have `null` Oscillator values since there's not e
 | -- |-- |--
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
-| `Oscillator` | float | %K Oscillator over prior `N` lookback periods
-| `Signal` | float | %D Simple moving average of Oscillator
+| `Oscillator` | decimal | %K Oscillator over prior `N` lookback periods
+| `Signal` | decimal | %D Simple moving average of Oscillator
 | `IsIncreasing` | bool | Direction since last period (e.g. up or down).  Persists for no change.
 
 ## Example

@@ -3,12 +3,12 @@
 
     public class RsiResult : ResultBase
     {
-        public float? Rsi { get; set; }
+        public decimal? Rsi { get; set; }
         public bool? IsIncreasing { get; set; }
 
         // internal use only
-        internal float Gain { get; set; } = 0;
-        internal float Loss { get; set; } = 0;
+        internal decimal Gain { get; set; } = 0;
+        internal decimal Loss { get; set; } = 0;
     }
 
 }

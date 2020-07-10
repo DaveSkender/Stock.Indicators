@@ -31,7 +31,7 @@ namespace StockIndicators.Tests
 
             // sample value
             StochResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)43.1354, Math.Round((decimal)r.Oscillator, 4));
+            Assert.AreEqual((decimal)43.1353, Math.Round((decimal)r.Oscillator, 4));
             Assert.AreEqual((decimal)35.5674, Math.Round((decimal)r.Signal, 4));
             Assert.AreEqual(true, r.IsIncreasing);
         }

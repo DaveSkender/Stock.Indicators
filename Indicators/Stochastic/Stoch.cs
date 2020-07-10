@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
 
                     if (lowLow != highHigh)
                     {
-                        result.Oscillator = 100 * (float)((h.Close - lowLow) / (highHigh - lowLow));
+                        result.Oscillator = 100 * ((h.Close - lowLow) / (highHigh - lowLow));
                     }
                     else
                     {
@@ -59,7 +59,7 @@ namespace Skender.Stock.Indicators
 
 
             // signal and period direction info
-            float? lastOsc = null;
+            decimal? lastOsc = null;
             bool? lastIsIncreasing = null;
             foreach (StochResult r in results
                 .Where(x => x.Index >= (lookbackPeriod + smoothPeriod - 1))
@@ -91,7 +91,7 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-                lastOsc = (float)r.Oscillator;
+                lastOsc = (decimal)r.Oscillator;
                 lastIsIncreasing = r.IsIncreasing;
             }
 
@@ -115,7 +115,7 @@ namespace Skender.Stock.Indicators
             {
                 if (r.Smooth != null)
                 {
-                    r.Oscillator = (float)r.Smooth;
+                    r.Oscillator = (decimal)r.Smooth;
                 }
                 else
                 {

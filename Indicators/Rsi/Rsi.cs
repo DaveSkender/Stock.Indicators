@@ -38,8 +38,8 @@ namespace Skender.Stock.Indicators
                 {
                     Index = (int)h.Index,
                     Date = h.Date,
-                    Gain = (h.Value > lastValue) ? (float)(h.Value - lastValue) : 0,
-                    Loss = (h.Value < lastValue) ? (float)(lastValue - h.Value) : 0
+                    Gain = (h.Value > lastValue) ? h.Value - lastValue : 0,
+                    Loss = (h.Value < lastValue) ? lastValue - h.Value : 0
                 };
                 results.Add(result);
 
@@ -47,11 +47,11 @@ namespace Skender.Stock.Indicators
             }
 
             // initialize average gain
-            float avgGain = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Gain).Average();
-            float avgLoss = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Loss).Average();
+            decimal avgGain = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Gain).Average();
+            decimal avgLoss = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Loss).Average();
 
             // initial first record
-            float lastRSI = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
+            decimal lastRSI = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
             bool? lastIsIncreasing = null;
 
             RsiResult first = results.Where(x => x.Index == lookbackPeriod + 1).FirstOrDefault();
@@ -65,7 +65,7 @@ namespace Skender.Stock.Indicators
 
                 if (avgLoss > 0)
                 {
-                    float rs = avgGain / avgLoss;
+                    decimal rs = avgGain / avgLoss;
                     r.Rsi = 100 - (100 / (1 + rs));
                 }
                 else
@@ -87,7 +87,7 @@ namespace Skender.Stock.Indicators
                     r.IsIncreasing = lastIsIncreasing;
                 }
 
-                lastRSI = (float)r.Rsi;
+                lastRSI = (decimal)r.Rsi;
                 lastIsIncreasing = r.IsIncreasing;
             }
 
