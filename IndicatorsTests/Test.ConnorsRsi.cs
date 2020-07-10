@@ -16,23 +16,32 @@ namespace StockIndicators.Tests
             int rsiPeriod = 3;
             int streakPeriod = 2;
             int rankPeriod = 100;
-            int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod));
+            int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
 
-            IEnumerable<ConnorsRsiResult> results = Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod);
+            IEnumerable<ConnorsRsiResult> results1 = Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod);
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - startPeriod, results.Where(x => x.ConnorsRsi != null).Count());
+            Assert.AreEqual(502, results1.Count());
+            Assert.AreEqual(502 - startPeriod + 1, results1.Where(x => x.ConnorsRsi != null).Count());
 
             // sample value
-            ConnorsRsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)68.8087, Math.Round((decimal)r.RsiClose, 4));
-            Assert.AreEqual((decimal)67.4899, Math.Round((decimal)r.RsiStreak, 4));
-            Assert.AreEqual((decimal)88.0000, Math.Round((decimal)r.PercentRank, 4));
-            Assert.AreEqual((decimal)74.7662, Math.Round((decimal)r.ConnorsRsi, 4));
+            ConnorsRsiResult r1 = results1.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)68.8087, Math.Round((decimal)r1.RsiClose, 4));
+            Assert.AreEqual((decimal)67.4899, Math.Round((decimal)r1.RsiStreak, 4));
+            Assert.AreEqual((decimal)88.0000, Math.Round((decimal)r1.PercentRank, 4));
+            Assert.AreEqual((decimal)74.7662, Math.Round((decimal)r1.ConnorsRsi, 4));
+
+            // different parameters
+            IEnumerable<ConnorsRsiResult> results2 = Indicator.GetConnorsRsi(history, 14, 20, 10);
+            ConnorsRsiResult r2 = results2.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r2.RsiClose, 4));
+            Assert.AreEqual((decimal)52.7386, Math.Round((decimal)r2.RsiStreak, 4));
+            Assert.AreEqual((decimal)90.0000, Math.Round((decimal)r2.PercentRank, 4));
+            Assert.AreEqual((decimal)61.6053, Math.Round((decimal)r2.ConnorsRsi, 4));
+
         }
 
 
