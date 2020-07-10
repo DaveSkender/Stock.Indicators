@@ -43,7 +43,7 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 | `Close` | decimal | Close price
 | `Volume` | long | Volume
 
-There is also a public read-only `Index` property in this class that is set internally, so **do not try to set the Index value**.  We set this `Index` property to `public` visibility in case you want to use it in your own wrapper code.  See [Cleaning History](#cleaning-history)) section below if you want to pre-clean the history and get `Index` values in your `IEnumerable<Quote> history` data (optional).  You can also derive and extend classes (optional), see the [Using Derived Classes](#using-derived-classes) section below.
+There is also a public read-only `Index` property in this class that is set internally, so **do not try to set the Index value**.  We set this `Index` property to `public` visibility in case you want to use it in your own wrapper code.  See [Cleaning History](#cleaning-history) section below if you want to pre-clean the history and get `Index` values in your `IEnumerable<Quote> history` data (optional).  You can also derive and extend classes (optional), see the [Using Derived Classes](#using-derived-classes) section below.
 
 ## Cleaning history
 

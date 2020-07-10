@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
 
                     if (lowLow != highHigh)
                     {
-                        result.Oscillator = 100 * (float)((h.Close - lowLow) / (highHigh - lowLow));
+                        result.Oscillator = 100 * ((h.Close - lowLow) / (highHigh - lowLow));
                     }
                     else
                     {
@@ -58,17 +58,23 @@ namespace Skender.Stock.Indicators
             }
 
 
-            // new signal and trend info
-            float lastOsc = 0;
+            // signal and period direction info
+            decimal? lastOsc = null;
             bool? lastIsIncreasing = null;
             foreach (StochResult r in results
-                .Where(x => x.Index >= (lookbackPeriod + signalPeriod + smoothPeriod) && x.Oscillator != null))
+                .Where(x => x.Index >= (lookbackPeriod + smoothPeriod - 1))
+                .OrderBy(x => x.Index))
             {
-                r.Signal = results.Where(x => x.Index > (r.Index - signalPeriod) && x.Index <= r.Index)
-                                 .Select(v => v.Oscillator)
-                                 .Average();
+                // add signal
+                if (r.Index >= lookbackPeriod + smoothPeriod + signalPeriod - 2)
+                {
+                    r.Signal = results.Where(x => x.Index > (r.Index - signalPeriod) && x.Index <= r.Index)
+                                     .Select(v => v.Oscillator)
+                                     .Average();
+                }
 
-                if (r.Index >= (lookbackPeriod + signalPeriod + smoothPeriod) + 1)
+                // add direction
+                if (lastOsc != null)
                 {
                     if (r.Oscillator > lastOsc)
                     {
@@ -85,7 +91,7 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-                lastOsc = (float)r.Oscillator;
+                lastOsc = (decimal)r.Oscillator;
                 lastIsIncreasing = r.IsIncreasing;
             }
 
@@ -97,7 +103,7 @@ namespace Skender.Stock.Indicators
         {
 
             // temporarily store interim smoothed oscillator
-            foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod)))
+            foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod - 1)))
             {
                 r.Smooth = results.Where(x => x.Index > (r.Index - smoothPeriod) && x.Index <= r.Index)
                                  .Select(v => v.Oscillator)
@@ -109,7 +115,7 @@ namespace Skender.Stock.Indicators
             {
                 if (r.Smooth != null)
                 {
-                    r.Oscillator = (float)r.Smooth;
+                    r.Oscillator = (decimal)r.Smooth;
                 }
                 else
                 {
@@ -142,7 +148,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriod + smoothPeriod;
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Stochastic.  " +

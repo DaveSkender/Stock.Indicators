@@ -12,10 +12,10 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+S` periods of `history`.
 | `lookbackPeriod` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
 | `signalPeriod` | int | Lookback period for the signal (%D).  Must be greater than 0.  Default is 3.
-| `smoothingPeriod` | int | Smoothes the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  You can specify as needed here.  Must be greater than or equal to 1.  Default is 3.
+| `smoothingPeriod` | int | Smoothing period `S` for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  You can specify as needed here.  Must be greater than or equal to 1.  Default is 3.
 
 ## Response
 
@@ -23,7 +23,7 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 IEnumerable<StochResult>
 ```
 
-The first `N-1` periods will have `null` Oscillator values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N+S-1` periods will have `null` Oscillator values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### StochResult
 
@@ -31,8 +31,8 @@ The first `N-1` periods will have `null` Oscillator values since there's not eno
 | -- |-- |--
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
-| `Oscillator` | float | %K Oscillator over prior `N` lookback periods
-| `Signal` | float | %D Simple moving average of Oscillator
+| `Oscillator` | decimal | %K Oscillator over prior `N` lookback periods
+| `Signal` | decimal | %D Simple moving average of Oscillator
 | `IsIncreasing` | bool | Direction since last period (e.g. up or down).  Persists for no change.
 
 ## Example

@@ -3,14 +3,14 @@
 
     public class ConnorsRsiResult : ResultBase
     {
-        public float? RsiClose { get; set; }
-        public float? RsiStreak { get; set; }
-        public float? PercentRank { get; set; }
-        public float? ConnorsRsi { get; set; }
+        public decimal? RsiClose { get; set; }
+        public decimal? RsiStreak { get; set; }
+        public decimal? PercentRank { get; set; }
+        public decimal? ConnorsRsi { get; set; }
 
         // internal use only
-        internal float? Streak { get; set; }
-        internal float? PeriodGain { get; set; }
+        internal decimal? Streak { get; set; }
+        internal decimal? PeriodGain { get; set; }
     }
 
 }

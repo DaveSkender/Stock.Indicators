@@ -35,10 +35,10 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | -- |-- |--
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
-| `RsiClose` | float | RSI(`R`) of the Close price.
-| `RsiStreak` | float | RSI(`S`) of the Streak.
-| `PercentRank` | float | Percentile rank of the period gain value.
-| `ConnorsRsi` | float | ConnorsRSI
+| `RsiClose` | decimal | RSI(`R`) of the Close price.
+| `RsiStreak` | decimal | RSI(`S`) of the Streak.
+| `PercentRank` | decimal | Percentile rank of the period gain value.
+| `ConnorsRsi` | decimal | ConnorsRSI
 
 ## Example
 
