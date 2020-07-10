@@ -21,8 +21,8 @@ namespace StockIndicators.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Rsi != null).Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.IsIncreasing != null).Count());
+            Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
+            Assert.AreEqual(487, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
             RsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
