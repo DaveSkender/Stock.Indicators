@@ -24,8 +24,9 @@ namespace StockIndicators.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1 - smoothPeriod, results.Where(x => x.Oscillator != null).Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1 - smoothPeriod - signalPeriod, results.Where(x => x.Signal != null).Count());
+            Assert.AreEqual(502 - lookbackPeriod - smoothPeriod + 1, results.Where(x => x.Oscillator != null).Count());
+            Assert.AreEqual(502 - lookbackPeriod - smoothPeriod - signalPeriod + 1, results.Where(x => x.Signal != null).Count());
+            Assert.AreEqual(502 - lookbackPeriod - smoothPeriod, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
             StochResult r1 = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
@@ -70,7 +71,7 @@ namespace StockIndicators.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetStoch(history.Where(x => x.Index < 30), 30);
+            Indicator.GetStoch(history.Where(x => x.Index < 33), 30, 3, 3);
         }
 
     }
