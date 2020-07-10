@@ -13,7 +13,7 @@ IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history, rsiPeriod, 
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` periods of `history`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[Quote](/GUIDE.md#Quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `R+S` periods of `history`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
 | `rsiPeriod` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
 | `stochPeriod` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriod`.
 | `signalPeriod` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
@@ -27,7 +27,7 @@ The original Stochasic RSI formula uses a the Fast variant of the Stochastic cal
 IEnumerable<StochRsiResult>
 ```
 
-The first `2×N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `R+S-1` periods will have `null` values for `StochRsi` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### StochRsiResult
 
@@ -35,7 +35,7 @@ The first `2×N-1` periods will have `null` values since there's not enough data
 | -- |-- |--
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
-| `StochRsi` | decimal | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`)
+| `StochRsi` | decimal | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of Close price
 | `Signal` | decimal | %D Signal Line = Simple moving average of %K based on `G` periods
 | `IsIncreasing` | bool | Direction since last period (e.g. up or down).  Persists for no change.
 
