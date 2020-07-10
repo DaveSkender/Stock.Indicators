@@ -1,7 +1,7 @@
 ﻿# ConnorsRSI
 
 Measures strength of winning/losing streak over `N` lookback periods on a scale of 0 to 100.  ConnorsRSI values over 95 are considered overbought, while values under 5 are considered oversold.
-[More info ...](https://www.qmatix.com/ConnorsRSI-Pullbacks-Guidebook.pdf)
+[More info ...](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf)
 
 ```csharp
 // usage
