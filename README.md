@@ -44,6 +44,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Chaikin Oscillator](/Indicators/ChaikinOscillator/README.md)
 - [Chandelier Exit](/Indicators/Chandelier/README.md)
 - [Commodity Channel Index (CCI)](/Indicators/Cci/README.md)
+- [ConnorsRSI](/Indicators/ConnorsRsi/README.md)
 - [Correlation Coefficient](/Indicators/Correlation/README.md)
 - [Donchian Channel](/Indicators/Donchian/README.md)
 - [Double Exponential Moving Average (DEMA)](/Indicators/Ema/README.md)
