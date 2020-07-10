@@ -9,7 +9,7 @@
         public float? ConnorsRsi { get; set; }
 
         // internal use only
-        internal int? Streak { get; set; }
+        internal float? Streak { get; set; }
         internal float? PeriodGain { get; set; }
     }
 

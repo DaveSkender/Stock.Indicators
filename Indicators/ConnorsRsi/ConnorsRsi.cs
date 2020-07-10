@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod));
 
             decimal? lastClose = null;
-            int streak = 0;
+            float streak = 0;
 
             // compose interim results
             foreach (BasicData h in bd)
@@ -81,7 +81,7 @@ namespace Skender.Stock.Indicators
                     IEnumerable<ConnorsRsiResult> period = results
                         .Where(x => x.Index >= (h.Index - rankPeriod) && x.Index < h.Index);
 
-                    result.PercentRank = period
+                    result.PercentRank = (float)100 * period
                         .Where(x => x.PeriodGain < result.PeriodGain).Count() / rankPeriod;
                 }
 
@@ -101,7 +101,7 @@ namespace Skender.Stock.Indicators
             foreach (ConnorsRsiResult r in results.Where(x => x.Index > streakPeriod + 1))
             {
                 r.RsiStreak = rsiStreakResults
-                    .Where(x => x.Index == r.Index - streakPeriod)
+                    .Where(x => x.Index == r.Index - streakPeriod + 1)
                     .FirstOrDefault()
                     .Rsi;
 

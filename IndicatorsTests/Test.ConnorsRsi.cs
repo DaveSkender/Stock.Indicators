@@ -29,10 +29,10 @@ namespace StockIndicators.Tests
 
             // sample value
             ConnorsRsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
-            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r.RsiClose, 4));
-            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r.RsiStreak, 4));
-            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r.PercentRank, 4));
-            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r.ConnorsRsi, 4));
+            Assert.AreEqual((decimal)68.8087, Math.Round((decimal)r.RsiClose, 4));
+            Assert.AreEqual((decimal)67.4899, Math.Round((decimal)r.RsiStreak, 4));
+            Assert.AreEqual((decimal)88.0000, Math.Round((decimal)r.PercentRank, 4));
+            Assert.AreEqual((decimal)74.7662, Math.Round((decimal)r.ConnorsRsi, 4));
         }
 
 
