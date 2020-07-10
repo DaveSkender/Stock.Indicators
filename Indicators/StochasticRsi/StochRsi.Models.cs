@@ -3,7 +3,8 @@
 
     public class StochRsiResult : ResultBase
     {
-        public float? StochRsi { get; set; }
+        public decimal? StochRsi { get; set; }
+        public decimal? Signal { get; set; }
         public bool? IsIncreasing { get; set; }
     }
 
