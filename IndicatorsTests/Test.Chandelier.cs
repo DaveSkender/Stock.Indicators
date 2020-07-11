@@ -14,7 +14,7 @@ namespace StockIndicators.Tests
         public void GetChandleierTest()
         {
             int lookbackPeriod = 22;
-            IEnumerable<ChandelierResult> longResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0);
+            IEnumerable<ChandelierResult> longResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m);
 
             // assertions
 
@@ -43,7 +43,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(true, d.IsCrossed);
 
             // short
-            IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0, "short");
+            IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m, "short");
 
             ChandelierResult e = shortResult.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             Assert.AreEqual((decimal)246.4240, Math.Round((decimal)e.ChandelierExit, 4));
