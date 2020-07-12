@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     {
         // CHANDELIER EXIT
         public static IEnumerable<ChandelierResult> GetChandelier(
-            IEnumerable<Quote> history, int lookbackPeriod = 22, double multiplier = 3.0, string variant = "long")
+            IEnumerable<Quote> history, int lookbackPeriod = 22, decimal multiplier = 3.0m, string variant = "long")
         {
 
             // clean quotes
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
                         case "long":
 
                             decimal maxHigh = period.Select(x => x.High).Max();
-                            result.ChandelierExit = maxHigh - atr * (decimal)multiplier;
+                            result.ChandelierExit = maxHigh - atr * multiplier;
                             result.IsExitCross = (prevClose >= result.ChandelierExit && h.Close < result.ChandelierExit);
                             result.IsCrossed = (h.Close < result.ChandelierExit);
                             break;
@@ -53,7 +53,7 @@ namespace Skender.Stock.Indicators
                         case "short":
 
                             decimal minLow = period.Select(x => x.Low).Min();
-                            result.ChandelierExit = minLow + atr * (decimal)multiplier;
+                            result.ChandelierExit = minLow + atr * multiplier;
                             result.IsExitCross = (prevClose <= result.ChandelierExit && h.Close > result.ChandelierExit);
                             result.IsCrossed = (h.Close > result.ChandelierExit);
                             break;
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateChandelier(
-            IEnumerable<Quote> history, int lookbackPeriod, double multiplier, string variant)
+            IEnumerable<Quote> history, int lookbackPeriod, decimal multiplier, string variant)
         {
 
             // check parameters
