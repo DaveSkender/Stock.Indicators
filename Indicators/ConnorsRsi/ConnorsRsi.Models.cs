@@ -1,6 +1,8 @@
-﻿namespace Skender.Stock.Indicators
-{
+﻿using System;
 
+namespace Skender.Stock.Indicators
+{
+    [Serializable]
     public class ConnorsRsiResult : ResultBase
     {
         public decimal? RsiClose { get; set; }
@@ -12,5 +14,4 @@
         internal decimal? Streak { get; set; }
         internal decimal? PeriodGain { get; set; }
     }
-
 }

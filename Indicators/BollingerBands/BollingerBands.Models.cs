@@ -1,6 +1,8 @@
-﻿namespace Skender.Stock.Indicators
-{
+﻿using System;
 
+namespace Skender.Stock.Indicators
+{
+    [Serializable]
     public class BollingerBandsResult : ResultBase
     {
         public decimal? Sma { get; set; }
@@ -11,5 +13,4 @@
         public decimal? Width { get; set; }
         public bool? IsDiverging { get; set; }
     }
-
 }

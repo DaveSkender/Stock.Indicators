@@ -1,6 +1,8 @@
-﻿namespace Skender.Stock.Indicators
-{
+﻿using System;
 
+namespace Skender.Stock.Indicators
+{
+    [Serializable]
     public class CorrResult : ResultBase
     {
         public decimal? VarianceA { get; set; }
@@ -16,5 +18,4 @@
         internal decimal PriceB2 => PriceB * PriceB;
         internal decimal PriceAB => PriceA * PriceB;
     }
-
 }
