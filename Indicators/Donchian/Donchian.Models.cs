@@ -1,6 +1,8 @@
-﻿namespace Skender.Stock.Indicators
-{
+﻿using System;
 
+namespace Skender.Stock.Indicators
+{
+    [Serializable]
     public class DonchianResult : ResultBase
     {
         public decimal? UpperBand { get; set; }
@@ -9,5 +11,4 @@
         public decimal? Width { get; set; }
         public bool? IsDiverging { get; set; }
     }
-
 }

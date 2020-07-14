@@ -1,6 +1,8 @@
-﻿namespace Skender.Stock.Indicators
-{
+﻿using System;
 
+namespace Skender.Stock.Indicators
+{
+    [Serializable]
     public class HeikinAshiResult : ResultBase
     {
         public decimal Open { get; set; }
@@ -10,5 +12,4 @@
         public bool IsBullish { get; set; }
         public decimal Weakness { get; set; }
     }
-
 }
