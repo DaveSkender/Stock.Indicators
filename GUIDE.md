@@ -65,7 +65,7 @@ The `Quote` and indicator result (e.g. `EmaResult`) classes can be extended in y
 
 ```csharp
 // your custom derived class (note the "new" keyword for Index)
-public class Ema : EmaResult
+public class MyEma : EmaResult
 {
   public new int Index { get; set; }
   public int MyId { get; set; }
@@ -76,15 +76,12 @@ public void MyClass(){
   // fetch historical quotes from your favorite feed, in Quote format
   IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
-  // pre-clean
-  history = Cleaners.PrepareHistory(history);
-
   // compute indicator
   INumerable<EmaResult> emaResults = Indicator.GetEma(history,14);
 
   // convert to my Ema class list [using LINQ]
-  List<Ema> myEmaResults = emaResults
-    .Select(x => new Ema
+  List<MyEma> myEmaResults = emaResults
+    .Select(x => new MyEma
       {
         Index = (int)x.Index,
         Date = x.Date,
@@ -94,7 +91,7 @@ public void MyClass(){
     .ToList();
 
   // randomly selecting first record from the collection here for the example
-  Ema r = myEmaResults.FirstOrDefault();
+  MyEma r = myEmaResults.FirstOrDefault();
 
   // use your custom quote data
   Console.WriteLine("Index was {0} on {1} with EMA value of {2} for my EMA ID {3}.",
