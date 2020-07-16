@@ -1,4 +1,4 @@
-﻿# Exponential Moving Average (EMA) (and Double EMA)
+﻿# Exponential Moving Average (EMA) and Double EMA (DEMA)
 
 Exponentially weighted moving average of the Close price over `N` periods.  More info on: [EMA](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_averages) and [Double EMA](https://www.investopedia.com/terms/d/double-exponential-moving-average.asp)
 
