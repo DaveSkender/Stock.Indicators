@@ -89,11 +89,11 @@ You can, of course, override these and provide your own values.
 
 ## FAQ
 
-**Where can I get historical data?**
+**Where can I get historical quote data?**
 
 There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Alpha Vantage](https://www.alphavantage.co).
 
-**How much historical data do I need?**
+**How much historical quote data do I need?**
 
 Each indicator will need different amounts to calculate.  You can find guidance on the individual indicator documentation pages.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadHistoryException` will be thrown if you do not provide enough history.
 
@@ -101,7 +101,7 @@ Note that some indicators, especially those that are derived from [Exponential M
 
 **Do you have any documentation?**
 
-Yes.  The documentation site is a GitHub Pages site here: [https://daveskender.github.io/Stock.Indicators](https://daveskender.github.io/Stock.Indicators).  It is automatically generated from the README.md files in this repository, so you can navigate from the above Indicators links too.
+Yes.  The documentation site is a GitHub Pages site here: [https://daveskender.github.io/Stock.Indicators](https://daveskender.github.io/Stock.Indicators).  It is automatically generated from the `README.md` files in this repository, so you can navigate from within repo `README.md` links too.
 
 **More questions?**  Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
 
