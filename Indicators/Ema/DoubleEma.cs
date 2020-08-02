@@ -64,7 +64,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for DEMA.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required.  "
+                        string.Format(cultureProvider,
+                        "You provided {0} periods of history when at least {1} is required.  "
                           + "Since this uses a smoothing technique, for a lookback period of {2}, "
                           + "we recommend you use at least {3} data points prior to the intended "
                           + "usage date for maximum precision.",
