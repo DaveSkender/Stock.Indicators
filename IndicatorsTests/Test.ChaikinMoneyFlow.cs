@@ -24,7 +24,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Cmf != null).Count());
 
             // sample value
-            CmfResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            CmfResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
             Assert.AreEqual((decimal)118396116.25, Math.Round(r.MoneyFlowVolume, 2));
             Assert.AreEqual((decimal)-20257893.60, Math.Round((decimal)r.Cmf, 2));

@@ -31,7 +31,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - slowPeriod - signalPeriod, results.Where(x => x.IsDiverging != null).Count());
 
             // sample value
-            MacdResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            MacdResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)-6.2198, Math.Round((decimal)r.Macd, 4));
             Assert.AreEqual((decimal)-5.8569, Math.Round((decimal)r.Signal, 4));
             Assert.AreEqual((decimal)-0.3629, Math.Round((decimal)r.Histogram, 4));

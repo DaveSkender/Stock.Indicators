@@ -24,20 +24,20 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, longResult.Where(x => x.ChandelierExit != null).Count());
 
             // sample values (long)
-            ChandelierResult a = longResult.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            ChandelierResult a = longResult.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)256.5860, Math.Round((decimal)a.ChandelierExit, 4));
             Assert.AreEqual(false, a.IsExitCross);
             Assert.AreEqual(true, a.IsCrossed);
 
-            ChandelierResult b = longResult.Where(x => x.Date == DateTime.Parse("12/6/2018")).FirstOrDefault();
+            ChandelierResult b = longResult.Where(x => x.Index == 486).FirstOrDefault();
             Assert.AreEqual(false, b.IsExitCross);
             Assert.AreEqual(false, b.IsCrossed);
 
-            ChandelierResult c = longResult.Where(x => x.Date == DateTime.Parse("12/7/2018")).FirstOrDefault();
+            ChandelierResult c = longResult.Where(x => x.Index == 487).FirstOrDefault();
             Assert.AreEqual(true, c.IsExitCross);
             Assert.AreEqual(true, c.IsCrossed);
 
-            ChandelierResult d = longResult.Where(x => x.Date == DateTime.Parse("12/17/2018")).FirstOrDefault();
+            ChandelierResult d = longResult.Where(x => x.Index == 493).FirstOrDefault();
             Assert.AreEqual((decimal)259.0480, Math.Round((decimal)d.ChandelierExit, 4));
             Assert.AreEqual(false, d.IsExitCross);
             Assert.AreEqual(true, d.IsCrossed);
@@ -45,7 +45,7 @@ namespace StockIndicators.Tests
             // short
             IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m, "short");
 
-            ChandelierResult e = shortResult.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            ChandelierResult e = shortResult.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)246.4240, Math.Round((decimal)e.ChandelierExit, 4));
             Assert.AreEqual(false, e.IsExitCross);
             Assert.AreEqual(false, e.IsCrossed);

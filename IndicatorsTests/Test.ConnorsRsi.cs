@@ -28,7 +28,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - startPeriod + 1, results1.Where(x => x.ConnorsRsi != null).Count());
 
             // sample value
-            ConnorsRsiResult r1 = results1.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            ConnorsRsiResult r1 = results1.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)68.8087, Math.Round((decimal)r1.RsiClose, 4));
             Assert.AreEqual((decimal)67.4899, Math.Round((decimal)r1.RsiStreak, 4));
             Assert.AreEqual((decimal)88.0000, Math.Round((decimal)r1.PercentRank, 4));
@@ -36,7 +36,7 @@ namespace StockIndicators.Tests
 
             // different parameters
             IEnumerable<ConnorsRsiResult> results2 = Indicator.GetConnorsRsi(history, 14, 20, 10);
-            ConnorsRsiResult r2 = results2.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            ConnorsRsiResult r2 = results2.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r2.RsiClose, 4));
             Assert.AreEqual((decimal)52.7386, Math.Round((decimal)r2.RsiStreak, 4));
             Assert.AreEqual((decimal)90.0000, Math.Round((decimal)r2.PercentRank, 4));

@@ -28,7 +28,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.LowerBand != null).Count());
 
             // sample value
-            BollingerBandsResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            BollingerBandsResult r = results.Where(x => x.Index == 502).FirstOrDefault();
 
             Assert.AreEqual((decimal)251.8600, Math.Round((decimal)r.Sma, 4));
             Assert.AreEqual((decimal)273.7004, Math.Round((decimal)r.UpperBand, 4));

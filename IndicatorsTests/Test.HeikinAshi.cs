@@ -22,7 +22,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502, results.Count());
 
             // sample value
-            HeikinAshiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            HeikinAshiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)241.3018, Math.Round(r.Open, 4));
             Assert.AreEqual((decimal)245.54, Math.Round(r.High, 4));
             Assert.AreEqual((decimal)241.3018, Math.Round(r.Low, 4));

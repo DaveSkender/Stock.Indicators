@@ -25,7 +25,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - slowPeriod + 1, results.Where(x => x.Oscillator != null).Count());
 
             // sample value
-            ChaikinOscResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            ChaikinOscResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)3439986548.42, Math.Round(r.Adl, 2));
             Assert.AreEqual((decimal)0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
             Assert.AreEqual((decimal)118396116.25, Math.Round(r.MoneyFlowVolume, 2));

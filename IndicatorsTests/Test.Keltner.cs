@@ -30,13 +30,13 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Width != null).Count());
 
             // sample value
-            KeltnerResult r1 = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            KeltnerResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)262.1873, Math.Round((decimal)r1.UpperBand, 4));
             Assert.AreEqual((decimal)249.3519, Math.Round((decimal)r1.Centerline, 4));
             Assert.AreEqual((decimal)236.5165, Math.Round((decimal)r1.LowerBand, 4));
             Assert.AreEqual((decimal)0.102950, Math.Round((decimal)r1.Width, 6));
 
-            KeltnerResult r2 = results.Where(x => x.Date == DateTime.Parse("12/06/2018")).FirstOrDefault();
+            KeltnerResult r2 = results.Where(x => x.Index == 486).FirstOrDefault();
             Assert.AreEqual((decimal)275.4260, Math.Round((decimal)r2.UpperBand, 4));
             Assert.AreEqual((decimal)265.4599, Math.Round((decimal)r2.Centerline, 4));
             Assert.AreEqual((decimal)255.4938, Math.Round((decimal)r2.LowerBand, 4));

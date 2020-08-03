@@ -24,7 +24,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Sma != null).Count());
 
             // sample value
-            SmaResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            SmaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)251.86, r.Sma);
             Assert.AreEqual((decimal)9.45, r.Mad);
             Assert.AreEqual((double)119.2510, Math.Round((double)r.Mse, 4));
