@@ -35,7 +35,7 @@ The first `S-1` slow periods + signal period will have `null` values since there
 | `Signal` | decimal | Moving average of the `MACD` line
 | `Histogram` | decimal | Gap between of the `MACD` and `Signal` line
 | `IsBullish` | bool | MACD is above the signal
-| `IsDiverging` | bool | MACD and Signal gap has diverged since prior period
+| `IsDiverging` | bool | MACD and Signal gap has increased since prior period
 
 ## Example
 
