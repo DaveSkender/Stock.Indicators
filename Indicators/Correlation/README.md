@@ -36,7 +36,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Correlation` | decimal | Correlation `R` based on `N` lookback periods
 | `RSquared` | decimal | R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation).
 
-
 ## Example
 
 ```csharp
