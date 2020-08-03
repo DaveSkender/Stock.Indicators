@@ -24,7 +24,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.StdDev != null).Count());
 
             // sample value
-            StdDevResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            StdDevResult r = results.Where(x => x.Index == 502).FirstOrDefault();
 
             Assert.AreEqual((decimal)5.4738, Math.Round((decimal)r.StdDev, 4));
             Assert.AreEqual((decimal)0.524312, Math.Round((decimal)r.ZScore, 6));

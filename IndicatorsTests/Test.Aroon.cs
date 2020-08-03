@@ -24,7 +24,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.AroonUp != null).Count());
 
             // sample value
-            AroonResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            AroonResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)28.0000, Math.Round((decimal)r.AroonUp, 4));
             Assert.AreEqual((decimal)88.0000, Math.Round((decimal)r.AroonDown, 4));
             Assert.AreEqual((decimal)-60.0000, Math.Round((decimal)r.Oscillator, 4));

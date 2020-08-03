@@ -28,14 +28,14 @@ namespace StockIndicators.Tests
             Assert.AreEqual(128, results.Where(x => x.IsDiverging == true).Count());
 
             // sample value
-            DonchianResult r1 = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            DonchianResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)251.5050, Math.Round((decimal)r1.Centerline, 4));
             Assert.AreEqual((decimal)273.5900, Math.Round((decimal)r1.UpperBand, 4));
             Assert.AreEqual((decimal)229.4200, Math.Round((decimal)r1.LowerBand, 4));
             Assert.AreEqual((decimal)0.175623, Math.Round((decimal)r1.Width, 6));
             Assert.IsNull(r1.IsDiverging);
 
-            DonchianResult r2 = results.Where(x => x.Date == DateTime.Parse("12/06/2018")).FirstOrDefault();
+            DonchianResult r2 = results.Where(x => x.Index == 486).FirstOrDefault();
             Assert.AreEqual((decimal)265.2300, Math.Round((decimal)r2.Centerline, 4));
             Assert.AreEqual((decimal)274.3900, Math.Round((decimal)r2.UpperBand, 4));
             Assert.AreEqual((decimal)256.0700, Math.Round((decimal)r2.LowerBand, 4));

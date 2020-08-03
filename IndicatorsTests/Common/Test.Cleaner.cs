@@ -24,7 +24,10 @@ namespace StockIndicators.Tests
             Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
 
             // last index should be 502
-            Quote r = history.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            Quote r = history
+                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", cultureProvider))
+                .FirstOrDefault();
+
             Assert.AreEqual(502, r.Index);
         }
 
@@ -55,10 +58,14 @@ namespace StockIndicators.Tests
 
             // samples
             BasicData ro = o.Where(x => x.Index == 502).FirstOrDefault();
-            BasicData rc = c.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
             BasicData rh = h.Where(x => x.Index == 502).FirstOrDefault();
             BasicData rl = l.Where(x => x.Index == 502).FirstOrDefault();
             BasicData rv = v.Where(x => x.Index == 502).FirstOrDefault();
+
+            // use close as special case to evaluate index
+            BasicData rc = c
+                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", cultureProvider))
+                .FirstOrDefault();
 
             // last index should be 502
             Assert.AreEqual(502, rc.Index);
@@ -89,11 +96,11 @@ namespace StockIndicators.Tests
         {
             List<Quote> badHistory = new List<Quote>
             {
-            new Quote { Date = DateTime.Parse("2017-01-03"), Open=(decimal)214.86, High=(decimal)220.33, Low=(decimal)210.96, Close=(decimal)216.99, Volume = 5923254 },
-            new Quote { Date = DateTime.Parse("2017-01-04"), Open=(decimal)214.75, High=228, Low=(decimal)214.31, Close=(decimal)226.99, Volume = 11213471 },
-            new Quote { Date = DateTime.Parse("2017-01-05"), Open=(decimal)226.42, High=(decimal)227.48, Low=(decimal)221.95, Close=(decimal)226.75, Volume = 5911695 },
-            new Quote { Date = DateTime.Parse("2017-01-06"), Open=(decimal)226.93, High=(decimal)230.31, Low=(decimal)225.45, Close=(decimal)229.01, Volume = 5527893 },
-            new Quote { Date = DateTime.Parse("2017-01-06"), Open=(decimal)228.97, High=(decimal)231.92, Low=228, Close=(decimal)231.28, Volume = 3979484 }
+            new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", cultureProvider), Open=214.86m, High=220.33m, Low=210.96m, Close=216.99m, Volume = 5923254 },
+            new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", cultureProvider), Open=214.75m, High=228.00m, Low=214.31m, Close=226.99m, Volume = 11213471 },
+            new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", cultureProvider), Open=226.42m, High=227.48m, Low=221.95m, Close=226.75m, Volume = 5911695 },
+            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Open=226.93m, High=230.31m, Low=225.45m, Close=229.01m, Volume = 5527893 },
+            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Open=228.97m, High=231.92m, Low=228.00m, Close=231.28m, Volume = 3979484 }
             };
 
             Cleaners.PrepareHistory(badHistory);
@@ -114,11 +121,11 @@ namespace StockIndicators.Tests
         {
             List<BasicData> bd = new List<BasicData>
             {
-            new BasicData { Date = DateTime.Parse("2017-01-03"), Value=(decimal)214.86},
-            new BasicData { Date = DateTime.Parse("2017-01-04"), Value=(decimal)214.75},
-            new BasicData { Date = DateTime.Parse("2017-01-05"), Value=(decimal)226.42},
-            new BasicData { Date = DateTime.Parse("2017-01-06"), Value=(decimal)226.93},
-            new BasicData { Date = DateTime.Parse("2017-01-06"), Value=(decimal)228.97}
+            new BasicData { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", cultureProvider), Value=214.86m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", cultureProvider), Value=214.75m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", cultureProvider), Value=226.42m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Value=226.93m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Value=228.97m}
             };
 
             Cleaners.PrepareBasicData(bd);

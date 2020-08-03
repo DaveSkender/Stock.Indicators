@@ -24,7 +24,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Ema != null).Count());
 
             // sample value
-            EmaResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            EmaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)249.3519, Math.Round((decimal)r.Ema, 4));
         }
 

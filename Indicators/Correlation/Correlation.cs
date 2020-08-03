@@ -78,7 +78,9 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryA < minHistoryA)
             {
                 throw new BadHistoryException("Insufficient history provided for Correlation.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistoryA, minHistoryA));
+                        string.Format(cultureProvider,
+                        "You provided {0} periods of history when at least {1} is required.",
+                        qtyHistoryA, minHistoryA));
             }
 
             int qtyHistoryB = historyB.Count();

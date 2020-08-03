@@ -23,15 +23,15 @@ namespace Skender.Stock.Indicators
 
             foreach (Quote h in history)
             {
-                if(prevClose == null || h.Close == prevClose)
+                if (prevClose == null || h.Close == prevClose)
                 {
                     // no change to OBV
                 }
-                else if(h.Close > prevClose)
+                else if (h.Close > prevClose)
                 {
                     obv += h.Volume;
                 }
-                else if(h.Close < prevClose)
+                else if (h.Close < prevClose)
                 {
                     obv -= h.Volume;
                 }
@@ -60,7 +60,9 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for On-balance Volume.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistory, minHistory));
+                        string.Format(cultureProvider,
+                        "You provided {0} periods of history when at least {1} is required.",
+                        qtyHistory, minHistory));
             }
 
         }

@@ -32,7 +32,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2 - 4, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
-            StochRsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            StochRsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)97.5244, Math.Round((decimal)r.StochRsi, 4));
             Assert.AreEqual((decimal)89.8385, Math.Round((decimal)r.Signal, 4));
             Assert.AreEqual(true, r.IsIncreasing);
@@ -61,7 +61,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2 - 2, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
-            StochRsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            StochRsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)89.8385, Math.Round((decimal)r.StochRsi, 4));
             Assert.AreEqual((decimal)73.4176, Math.Round((decimal)r.Signal, 4));
             Assert.AreEqual(true, r.IsIncreasing);

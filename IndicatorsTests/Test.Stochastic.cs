@@ -30,7 +30,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(486, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
-            StochResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            StochResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)43.1353, Math.Round((decimal)r.Oscillator, 4));
             Assert.AreEqual((decimal)35.5674, Math.Round((decimal)r.Signal, 4));
             Assert.AreEqual(true, r.IsIncreasing);
@@ -47,10 +47,10 @@ namespace StockIndicators.Tests
                 history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // signal equals oscillator
-            StochResult r1 = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            StochResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual(r1.Oscillator, r1.Signal);
 
-            StochResult r2 = results.Where(x => x.Date == DateTime.Parse("12/10/2018")).FirstOrDefault();
+            StochResult r2 = results.Where(x => x.Index == 488).FirstOrDefault();
             Assert.AreEqual(r2.Oscillator, r2.Signal);
         }
 
@@ -65,12 +65,12 @@ namespace StockIndicators.Tests
                 history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // sample values
-            StochResult r1 = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            StochResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)91.6233, Math.Round((decimal)r1.Oscillator, 4));
             Assert.AreEqual((decimal)36.0608, Math.Round((decimal)r1.Signal, 4));
             Assert.AreEqual(true, r1.IsIncreasing);
 
-            StochResult r2 = results.Where(x => x.Date == DateTime.Parse("12/10/2018")).FirstOrDefault();
+            StochResult r2 = results.Where(x => x.Index == 488).FirstOrDefault();
             Assert.AreEqual((decimal)25.0353, Math.Round((decimal)r2.Oscillator, 4));
             Assert.AreEqual((decimal)60.5706, Math.Round((decimal)r2.Signal, 4));
             Assert.AreEqual(true, r2.IsIncreasing);

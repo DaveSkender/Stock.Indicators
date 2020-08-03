@@ -25,7 +25,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(487, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
-            RsiResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            RsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r.Rsi, 4));
             Assert.AreEqual(true, r.IsIncreasing);
         }

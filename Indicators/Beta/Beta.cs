@@ -62,7 +62,9 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryMarket < minHistoryMarket)
             {
                 throw new BadHistoryException("Insufficient history provided for Beta.  " +
-                        string.Format("You provided {0} periods of history when at least {1} is required.", qtyHistoryMarket, minHistoryMarket));
+                        string.Format(cultureProvider,
+                        "You provided {0} periods of history when at least {1} is required.",
+                        qtyHistoryMarket, minHistoryMarket));
             }
 
             int qtyHistoryEval = historyEval.Count();

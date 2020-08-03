@@ -24,7 +24,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Beta != null).Count());
 
             // sample value
-            BetaResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            BetaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual((decimal)1.6759, Math.Round((decimal)r.Beta, 4));
         }
 
@@ -44,7 +44,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Beta != null).Count());
 
             // sample value
-            BetaResult r = results.Where(x => x.Date == DateTime.Parse("12/31/2018")).FirstOrDefault();
+            BetaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual(1, Math.Round((decimal)r.Beta, 4));
         }
 
