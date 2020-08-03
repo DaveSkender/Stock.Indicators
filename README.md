@@ -76,7 +76,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
 You can get historical quotes from your favorite stock data provider.
-Historical data is an `IEnumerable` of the `Quote` class.  [More info...](/GUIDE.md#quote)
+Historical data is an `IEnumerable` of the `Quote` class.  [More info...](GUIDE.md#quote)
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.
