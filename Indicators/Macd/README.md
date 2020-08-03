@@ -12,10 +12,10 @@ IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPer
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at 2 × slow period + signal period worth of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
-| `fastPeriod` | int | Number of periods (`N`) for the faster moving average.  Must be greater than 0.
-| `slowPeriod` | int | Number of periods (`N`) for the slower moving average.  Must be greater than 0 and greater than `fastPeriod`.
-| `signalPeriod` | int | Number of periods (`N`) for the moving average of MACD.  Must be greater than or equal to 0.
+| `history` | IEnumerable\<[Quote](../../GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2 × slow period + signal period worth of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `fastPeriod` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
+| `slowPeriod` | int | Number of periods (`S`) for the slower moving average.  Must be greater than 0 and greater than `fastPeriod`.  Default is 26.
+| `signalPeriod` | int | Number of periods (`P`) for the moving average of MACD.  Must be greater than or equal to 0.  Default is 9.
 
 ## Response
 
@@ -23,7 +23,7 @@ IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPer
 IEnumerable<MacdResult>
 ```
 
-The first `N-1` slow periods + signal period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `S-1` slow periods + signal period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### MacdResult
 
@@ -32,10 +32,10 @@ The first `N-1` slow periods + signal period will have `null` values since there
 | `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Macd` | decimal | The MACD line is the difference between slow and fast moving averages
-| `Signal` | decimal | Moving average of the MACD line
-| `Histogram` | decimal | Moving average of the MACD line
+| `Signal` | decimal | Moving average of the `MACD` line
+| `Histogram` | decimal | Gap between of the `MACD` and `Signal` line
 | `IsBullish` | bool | MACD is above the signal
-| `IsDiverging` | bool | MACD and Signal are diverging
+| `IsDiverging` | bool | MACD and Signal gap has diverged since prior period
 
 ## Example
 
