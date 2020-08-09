@@ -51,6 +51,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 - [Exponential Moving Average (EMA)](/Indicators/Ema/README.md#content)
 - [Heikin-Ashi](/Indicators/HeikinAshi/README.md#content)
 - [Keltner Channel](/Indicators/Keltner/README.md#content)
+- [Money Flow Index (MFI)](/Indicators/Mfi/README.md#content)
 - [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md#content)
 - [On-balance Volume (OBV)](/Indicators/Obv/README.md#content)
 - [Parabolic SAR](/Indicators/ParabolicSar/README.md#content)
