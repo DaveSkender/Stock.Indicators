@@ -20,7 +20,7 @@ IEnumerable<MfiResult> results = Indicator.GetMfi(history,lookbackPeriod);
 IEnumerable<MfiResult>
 ```
 
-The first period `N` periods will have `null` MFI values since they cannot be calculated.  We always return the same number of elements as there are in the historical quotes.
+The first `N` periods will have `null` MFI values since they cannot be calculated.  We always return the same number of elements as there are in the historical quotes.
 
 ### MfiResult
 
