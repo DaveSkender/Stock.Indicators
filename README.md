@@ -4,7 +4,6 @@
 [![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/18/master?label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=18&branchName=master)
 [![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/18?label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=18&&branchName=master&view=codecoverage-tab)
 ![CodeQL](https://github.com/DaveSkender/Stock.Indicators/workflows/CodeQL/badge.svg)
-![OSSAR](https://github.com/DaveSkender/Stock.Indicators/workflows/OSSAR/badge.svg)
 [![board status](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/69f29c08-2257-4429-9cea-1629abcd3064/_apis/work/boardbadge/a1dfc6ae-7836-4b56-a849-9a48698252c2)](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/_boards/board/t/69f29c08-2257-4429-9cea-1629abcd3064/Microsoft.RequirementCategory/)
 
 [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting .NET library that produces stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
