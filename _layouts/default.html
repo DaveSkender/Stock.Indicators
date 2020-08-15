@@ -27,13 +27,18 @@
   <body>
     <header class="page-header" style="padding:10px;" role="banner">
       
-      <h1 class="project-name" style="font-size:32px;margin:0;">{{ site.title | default: site.title | default: site.github.repository_name }}</h1>
+      <h1 class="project-name" style="font-size:32px;margin:0;">
+        <a href="{{ site.baseurl }}/" style="text-decoration:none;color:unset">
+          {{ site.title | default: site.title | default: site.github.repository_name }}
+        </a>
+      </h1>
       
       <h2 class="project-tagline" style="margin-bottom:12px;margin-top:0;font-size:16px;">
         Send in historical stock price quotes and get back desired technical indicators.<br />Nothing more.
       </h2>
 
-      <a href="{{ site.baseurl }}/#indicators-and-overlays" class="btn">Indicators</a>
+      <a href="{{ site.baseurl }}/INDICATORS.html" class="btn">Indicators</a>
+      <a href="{{ site.baseurl }}/GUIDE.html" class="btn">Guide</a>
       <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" class="btn">NuGet Package</a>
       {% if site.github.is_project_page %}
         <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
