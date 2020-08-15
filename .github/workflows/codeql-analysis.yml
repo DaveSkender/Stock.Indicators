@@ -47,7 +47,7 @@ jobs:
     #    uses a compiled language
 
     - name: Use GitVersion
-      run: dotnet install -g gitversion.tool --version 5.3.7
+      run: dotnet tool install -g gitversion.tool --version 5.3.7
 
     - name: Restore packages
       run: dotnet restore ./Indicators/Indicators.csproj
