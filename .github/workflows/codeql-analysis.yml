@@ -46,6 +46,9 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
+    - name: Use GitVersion
+      run: dotnet install -g gitversion.tool --version 5.3.7
+
     - name: Restore packages
       run: dotnet restore ./Indicators/Indicators.csproj
 
