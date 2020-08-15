@@ -49,6 +49,9 @@ jobs:
     - name: Use GitVersion
       run: dotnet tool install -g gitversion.tool --version 5.3.7
 
+    - name: Run GitVersion
+      run: dotnet gitversion /output buildserver
+
     - name: Restore packages
       run: dotnet restore ./Indicators/Indicators.csproj
 
