@@ -46,11 +46,11 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    # - name: Use GitVersion
-    #   run: dotnet tool install -g gitversion.tool --version 5.3.7
+    - name: Use GitVersion
+      run: dotnet tool install -g gitversion.tool --version 5.3.7
 
-    # - name: Run GitVersion
-    #   run: dotnet gitversion /output buildserver
+    - name: Run GitVersion
+      run: dotnet gitversion /output buildserver
 
     - name: Restore packages
       run: dotnet restore
