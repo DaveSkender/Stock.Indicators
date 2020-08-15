@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		azure-pipelines.yml = azure-pipelines.yml
 		CONTRIBUTING.md = CONTRIBUTING.md
 		gitversion.yml = gitversion.yml
 		GUIDE.md = GUIDE.md
@@ -19,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndicatorsTests", "IndicatorsTests\IndicatorsTests.csproj", "{40FB4F6A-9EE9-4F78-804E-1A3D7E741E28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndicatorsExternalTests", "IndicatorsExternalTests\IndicatorsExternalTests.csproj", "{EB5228B6-AEEE-4131-B3F2-2A5092A76F58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndicatorsExternalTests", "IndicatorsExternalTests\IndicatorsExternalTests.csproj", "{EB5228B6-AEEE-4131-B3F2-2A5092A76F58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
