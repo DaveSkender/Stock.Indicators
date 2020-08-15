@@ -1,9 +1,13 @@
 ﻿# Guide and Pro Tips
 
 - [Example usage](#example-usage)
+- [Prerequisite data](#prerequisite-data)
 - [Using the Quote class](#quote)
-- [Cleaning history(optional)](#cleaning-history)
+- [Cleaning history](#cleaning-history) (optional)
 - [Using derived classes](#using-derived-classes)
+- [Contributing guidelines](CONTRIBUTING.md)
+- [Frequently asked questions (FAQ)](FAQ.md)
+- [List of Indicators and Overlays](INDICATORS.md)
 
 ## Example usage
 
@@ -28,7 +32,17 @@ Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 SMA on 12/31/2018 was $251.86
 ```
 
-See individual indicator pages for specific guidance.
+See [individual indicator pages](INDICATORS.md) for specific guidance.
+
+## Prerequisite data
+
+Most indicators require that you provide historical quote data and additional configuration parameters.
+
+You can get historical quotes from your favorite stock data provider.
+Historical data is an `IEnumerable` of the `Quote` class ([see below](#quote)).
+
+For additional configuration parameters, default values are provided when there is an industry standard.
+You can, of course, override these and provide your own values.
 
 ## Quote
 

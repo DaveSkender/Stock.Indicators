@@ -26,7 +26,7 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 - Our backlog is [here](https://dev.azure.com/skender/Stock.Indicators/_boards/board/t/Stock.Indicators)
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.
 - All new indicators should include unit tests.
-- Update the main README file if you're adding a new indicator, and the README file for the individual indicator.  This is our only user documentation.
+- Update the main `INDICATORS.md` file if you're adding a new indicator, and the `README.md` file for the individual indicator.  This is our only user documentation.
 - Do not comingle multiple contributions.  Please keep changes small and separate.
 
 ## Testing
@@ -41,7 +41,7 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 
 Submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)).
 
-Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes should look like this:
+Always write a clear log message for your commits. One-line messages are fine for most changes, but bigger changes that require more explanation should look like this:
 
     $ git commit -m "A brief summary of the commit
     > 
