@@ -1,6 +1,9 @@
 trigger:
 - master
 
+pr:
+- master
+
 pool:
   name: Azure Pipelines
   vmImage: 'windows-2019'
