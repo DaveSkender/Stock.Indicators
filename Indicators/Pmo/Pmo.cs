@@ -49,8 +49,9 @@ namespace Skender.Stock.Indicators
                 }
                 else if (r.Index == startIndex)
                 {
-                    IEnumerable<RocResult> period = roc
-                        .Where(x => x.Index > r.Index - timePeriod && x.Index <= r.Index);
+                    List<RocResult> period = roc
+                        .Where(x => x.Index > r.Index - timePeriod && x.Index <= r.Index)
+                        .ToList();
 
                     result.RocEma = period.Select(x => x.Roc).Average();
                 }
@@ -71,8 +72,9 @@ namespace Skender.Stock.Indicators
                 }
                 else if (p.Index == startIndex)
                 {
-                    IEnumerable<PmoResult> period = results
-                        .Where(x => x.Index > p.Index - smoothingPeriod && x.Index <= p.Index);
+                    List<PmoResult> period = results
+                        .Where(x => x.Index > p.Index - smoothingPeriod && x.Index <= p.Index)
+                        .ToList();
 
                     p.Pmo = period.Select(x => x.RocEma).Average();
                 }
@@ -91,8 +93,9 @@ namespace Skender.Stock.Indicators
                 }
                 else if (p.Index == startIndex)
                 {
-                    IEnumerable<PmoResult> period = results
-                        .Where(x => x.Index > p.Index - signalPeriod && x.Index <= p.Index);
+                    List<PmoResult> period = results
+                        .Where(x => x.Index > p.Index - signalPeriod && x.Index <= p.Index)
+                        .ToList();
 
                     p.Signal = period.Select(x => x.Pmo).Average();
                 }

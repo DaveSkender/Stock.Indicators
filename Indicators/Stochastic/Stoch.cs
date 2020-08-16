@@ -29,14 +29,12 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
+                    List<Quote> period = history
+                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
+                        .ToList();
 
-                    decimal lowLow = history.Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                                        .Select(v => v.Low)
-                                        .Min();
-
-                    decimal highHigh = history.Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                                        .Select(v => v.High)
-                                        .Max();
+                    decimal lowLow = period.Select(v => v.Low).Min();
+                    decimal highHigh = period.Select(v => v.High).Max();
 
                     if (lowLow != highHigh)
                     {
@@ -61,16 +59,25 @@ namespace Skender.Stock.Indicators
             // signal and period direction info
             decimal? lastOsc = null;
             bool? lastIsIncreasing = null;
+            int stochIndex = lookbackPeriod + smoothPeriod - 1;
+
             foreach (StochResult r in results
-                .Where(x => x.Index >= (lookbackPeriod + smoothPeriod - 1))
-                .OrderBy(x => x.Index))
+                .Where(x => x.Index >= stochIndex))
             {
                 // add signal
-                if (r.Index >= lookbackPeriod + smoothPeriod + signalPeriod - 2)
+                int signalIndex = lookbackPeriod + smoothPeriod + signalPeriod - 2;
+
+                if (signalPeriod <= 1)
                 {
-                    r.Signal = results.Where(x => x.Index > (r.Index - signalPeriod) && x.Index <= r.Index)
-                                     .Select(v => v.Oscillator)
-                                     .Average();
+                    r.Signal = r.Oscillator;
+                }
+                else if (r.Index >= signalIndex)
+                {
+                    r.Signal = results
+                        .Where(x => x.Index > (r.Index - signalPeriod) && x.Index <= r.Index)
+                        .ToList()
+                        .Select(v => v.Oscillator)
+                        .Average();
                 }
 
                 // add direction
@@ -103,9 +110,12 @@ namespace Skender.Stock.Indicators
         {
 
             // temporarily store interim smoothed oscillator
-            foreach (StochResult r in results.Where(x => x.Index >= (lookbackPeriod + smoothPeriod - 1)))
+            int smoothIndex = lookbackPeriod + smoothPeriod - 1;
+
+            foreach (StochResult r in results.Where(x => x.Index >= smoothIndex))
             {
                 r.Smooth = results.Where(x => x.Index > (r.Index - smoothPeriod) && x.Index <= r.Index)
+                                 .ToList()
                                  .Select(v => v.Oscillator)
                                  .Average();
             }
@@ -113,14 +123,7 @@ namespace Skender.Stock.Indicators
             // replace oscillator
             foreach (StochResult r in results)
             {
-                if (r.Smooth != null)
-                {
-                    r.Oscillator = (decimal)r.Smooth;
-                }
-                else
-                {
-                    r.Oscillator = null;  // erase unsmoothed
-                }
+                r.Oscillator = (r.Smooth != null) ? r.Smooth : null;
             }
 
             return results;
@@ -152,8 +155,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Stochastic.  " +
-                        string.Format(cultureProvider, 
-                        "You provided {0} periods of history when at least {1} is required.", 
+                        string.Format(cultureProvider,
+                        "You provided {0} periods of history when at least {1} is required.",
                         qtyHistory, minHistory));
             }
         }

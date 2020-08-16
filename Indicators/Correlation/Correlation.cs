@@ -44,7 +44,9 @@ namespace Skender.Stock.Indicators
             // compute correlation
             foreach (CorrResult r in results.Where(x => x.Index >= lookbackPeriod))
             {
-                IEnumerable<CorrResult> period = results.Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index);
+                List<CorrResult> period = results
+                    .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
+                    .ToList();
 
                 decimal avgA = period.Select(x => x.PriceA).Average();
                 decimal avgB = period.Select(x => x.PriceB).Average();

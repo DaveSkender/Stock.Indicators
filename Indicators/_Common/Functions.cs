@@ -7,12 +7,12 @@ namespace Skender.Stock.Indicators
     internal static class Functions
     {
 
-        internal static double StdDev(IEnumerable<double> values)
+        internal static double StdDev(double[] values)
         {
             // ref: https://stackoverflow.com/questions/2253874/standard-deviation-in-linq
 
             double ret = 0;
-            int count = values.Count();
+            int count = values.Length;
             if (count > 1)
             {
                 //Compute the Average

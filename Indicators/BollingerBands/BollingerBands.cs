@@ -31,9 +31,10 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    IEnumerable<double> periodClose = history
+                    double[] periodClose = history
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .Select(x => (double)x.Close);
+                        .Select(x => (double)x.Close)
+                        .ToArray();
 
                     double stdDev = Functions.StdDev(periodClose);
 

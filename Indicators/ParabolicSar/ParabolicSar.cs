@@ -68,7 +68,12 @@ namespace Skender.Stock.Indicators
                         result.Sar = currentSar;
 
                         // SAR cannot be higher than last two lows
-                        decimal minLastTwo = history.Where(x => x.Index >= h.Index - 2 && x.Index < h.Index).Select(x => x.Low).Min();
+                        decimal minLastTwo = history
+                            .Where(x => x.Index >= h.Index - 2 && x.Index < h.Index)
+                            .ToList()
+                            .Select(x => x.Low)
+                            .Min();
+
                         result.Sar = Math.Min((decimal)result.Sar, minLastTwo);
 
                         if (h.High > extremePoint)
@@ -102,7 +107,12 @@ namespace Skender.Stock.Indicators
                         result.Sar = currentSar;
 
                         // SAR cannot be lower than last two highs
-                        decimal maxLastTwo = history.Where(x => x.Index >= h.Index - 2 && x.Index < h.Index).Select(x => x.High).Max();
+                        decimal maxLastTwo = history
+                            .Where(x => x.Index >= h.Index - 2 && x.Index < h.Index)
+                            .ToList()
+                            .Select(x => x.High)
+                            .Max();
+
                         result.Sar = Math.Max((decimal)result.Sar, maxLastTwo);
 
                         if (h.Low < extremePoint)

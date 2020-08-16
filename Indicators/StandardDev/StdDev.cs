@@ -41,9 +41,10 @@ namespace Skender.Stock.Indicators
                 if (h.Index >= lookbackPeriod)
                 {
                     // price based
-                    IEnumerable<double> period = basicData
+                    double[] period = basicData
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .Select(x => (double)x.Value);
+                        .Select(x => (double)x.Value)
+                        .ToArray();
 
                     result.StdDev = (decimal)Functions.StdDev(period);
                     result.ZScore = (h.Value - (decimal)period.Average()) / result.StdDev;
