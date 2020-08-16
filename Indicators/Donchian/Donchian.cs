@@ -31,8 +31,9 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    IEnumerable<Quote> period = history
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index);
+                    List<Quote> period = history
+                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
+                        .ToList();
 
                     result.UpperBand = period.Select(h => h.High).Max();
                     result.LowerBand = period.Select(l => l.Low).Min();

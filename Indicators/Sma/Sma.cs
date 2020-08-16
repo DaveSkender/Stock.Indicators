@@ -31,8 +31,9 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    IEnumerable<Quote> period = history
-                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod));
+                    List<Quote> period = history
+                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
+                        .ToList();
 
                     // simple moving average
                     result.Sma = period
@@ -78,8 +79,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for SMA.  " +
-                        string.Format(cultureProvider, 
-                        "You provided {0} periods of history when at least {1} is required.", 
+                        string.Format(cultureProvider,
+                        "You provided {0} periods of history when at least {1} is required.",
                         qtyHistory, minHistory));
             }
 

@@ -31,8 +31,9 @@ namespace Skender.Stock.Indicators
                 // add aroons
                 if (h.Index >= lookbackPeriod)
                 {
-                    IEnumerable<Quote> period = history
-                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod));
+                    List<Quote> period = history
+                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
+                        .ToList();
 
                     decimal lastHighPrice = period.Select(x => x.High).Max();
                     decimal lastLowPrice = period.Select(x => x.Low).Min();

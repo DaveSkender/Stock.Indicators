@@ -33,8 +33,9 @@ namespace Skender.Stock.Indicators
 
                 if (r.Index >= lookbackPeriod)
                 {
-                    IEnumerable<AdlResult> period = adlResults
-                        .Where(x => x.Index <= r.Index && x.Index > (r.Index - lookbackPeriod));
+                    List<AdlResult> period = adlResults
+                        .Where(x => x.Index <= r.Index && x.Index > (r.Index - lookbackPeriod))
+                        .ToList();
 
                     // simple moving average
                     result.Cmf = period

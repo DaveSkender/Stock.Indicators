@@ -34,6 +34,7 @@ namespace Skender.Stock.Indicators
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
             decimal lastEma = basicData
                 .Where(x => x.Index < lookbackPeriod)
+                .ToList()
                 .Select(x => x.Value)
                 .Average();
 

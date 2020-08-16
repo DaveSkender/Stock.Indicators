@@ -58,7 +58,7 @@ namespace Skender.Stock.Indicators
             first.Rsi = lastRSI;
 
             // calculate RSI
-            foreach (RsiResult r in results.Where(x => x.Index > (lookbackPeriod + 1)).OrderBy(d => d.Index))
+            foreach (RsiResult r in results.Where(x => x.Index > (lookbackPeriod + 1)))
             {
                 avgGain = (avgGain * (lookbackPeriod - 1) + r.Gain) / lookbackPeriod;
                 avgLoss = (avgLoss * (lookbackPeriod - 1) + r.Loss) / lookbackPeriod;
