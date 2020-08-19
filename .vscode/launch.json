@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/IndicatorsTests/bin/Debug/netcoreapp3.1/IndicatorsTests.dll",
+            "program": "${workspaceFolder}/Indicators/bin/Debug/netcoreapp3.1/Skender.Stock.Indicators.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/IndicatorsTests",
+            "cwd": "${workspaceFolder}/Indicators",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
