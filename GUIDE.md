@@ -1,13 +1,13 @@
-﻿# Guide and Pro Tips
+﻿# Guide and Pro tips
 
 - [Example usage](#example-usage)
 - [Prerequisite data](#prerequisite-data)
 - [Using the Quote class](#quote)
-- [Cleaning history](#cleaning-history) (optional)
+- [Cleaning history](#cleaning-history)
 - [Using derived classes](#using-derived-classes)
 - [Contributing guidelines](CONTRIBUTING.md)
 - [Frequently asked questions (FAQ)](FAQ.md)
-- [List of Indicators and Overlays](INDICATORS.md)
+- [List of indicators and overlays](INDICATORS.md)
 
 ## Example usage
 
@@ -57,13 +57,13 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 | `Close` | decimal | Close price
 | `Volume` | long | Volume
 
-There is also a public read-only `Index` property in this class that is set internally, so **do not try to set the Index value**.  We set this `Index` property to `public` visibility in case you want to use it in your own wrapper code.  See [Cleaning History](#cleaning-history) section below if you want to pre-clean the history and get `Index` values in your `IEnumerable<Quote> history` data (optional).  You can also derive and extend classes (optional), see the [Using Derived Classes](#using-derived-classes) section below.
+See [Cleaning History](#cleaning-history) section below if you want to pre-clean the history (optional).  You can also derive and extend classes (optional), see the [Using Derived Classes](#using-derived-classes) section below.
 
 ## Cleaning history
 
-If you intend to use the same composed `IEnumerable<Quote> history` in multiple calls and want to have the same `Index` values mapped into results, we recommend you pre-clean it to initialize those index values.  This will add the `Index` value and sort by the `Date` provided; it will also perform basic checks for data quality.
+Historical quotes are automatically cleaned on every call to the library.  This is needed to do minimal basic data quality checks and to ensure that it is sequenced properly.  You do not need to pre-clean your historical quotes; however, there are some scenarios where it may be advantageous.  While the library is quite fast, there is a very small performance cost to cleaning that can add up if you are doing massive bulk operations on a given static `history`, such as computing every indicator or every possible permutation of an indicator.
 
-You only need to do this if you want to use the `Index` value in your own wrapper software; otherwise, there is no need as `history` is cleaned on every call, internally.  If you pre-clean, the provided `history` will be used as-is without additional cleaning.  The original `Date` and composed `Index` is always returned in resultsets.
+If you intend to use the same composed `IEnumerable<Quote> history` in multiple calls and want to optimize speed, we recommend you pre-clean it so that it does not perform that operation on every call to the library.  If you pre-clean, the provided `history` will be used as-is without additional cleaning.
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
@@ -75,13 +75,12 @@ history = Cleaners.PrepareHistory(history);
 
 ## Using derived classes
 
-The `Quote` and indicator result (e.g. `EmaResult`) classes can be extended in your code; however, the `Index` field `set` accessor is protected since it must be controlled by the library to ensure proper indicator calculations.  This adds a bit of complexity to deriving classes in your project due to accessibility rules; however, using the `new` keyword to reset the `Index` will allow you to continue using `Index` computed values.  You'd only need to do this in cases where you are extending and adding properties.  Here's an example of how you'd set that up:
+The `Quote` and indicator result (e.g. `EmaResult`) classes can be extended in your code.  Here's an example of how you'd set that up:
 
 ```csharp
-// your custom derived class (note the "new" keyword for Index)
+// your custom derived class
 public class MyEma : EmaResult
 {
-  public new int Index { get; set; }
   public int MyId { get; set; }
 }
 
@@ -97,10 +96,9 @@ public void MyClass(){
   List<MyEma> myEmaResults = emaResults
     .Select(x => new MyEma
       {
-        Index = (int)x.Index,
+        MyId = 123,
         Date = x.Date,
-        Ema = x.Ema,
-        MyId = 123
+        Ema = x.Ema
       })
     .ToList();
 
@@ -108,7 +106,7 @@ public void MyClass(){
   MyEma r = myEmaResults.FirstOrDefault();
 
   // use your custom quote data
-  Console.WriteLine("Index was {0} on {1} with EMA value of {2} for my EMA ID {3}.",
-                     r.Index, r.Date, r.Ema, r.MyId);
+  Console.WriteLine("On {0}, EMA was {1} for my EMA ID {2}.",
+                     r.Date, r.Ema, r.MyId);
 }
 ```

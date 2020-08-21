@@ -9,7 +9,20 @@
 
 It can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
 
-## Installation and setup
+Explore more information:
+
+- [List of indicators and overlays](INDICATORS.md)
+- [Getting started](#getting-started)
+- [Guide and Pro tips](GUIDE.md)
+- [Frequently asked questions (FAQ)](FAQ.md)
+- [Contributing guidelines](CONTRIBUTING.md)
+- [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
+- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
+- [Contact us](#contact-us)
+
+## Getting started
+
+### Installation and setup
 
 Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing packages.
 
@@ -17,11 +30,11 @@ Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/S
 # dotnet CLI example
 dotnet add package Skender.Stock.Indicators
 
-# PowerShell example
+# package manager example
 Install-Package Skender.Stock.Indicators
 ```
 
-## Example usage
+### Example usage
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -32,13 +45,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 ```
 
-## Helpful references
-
-- [List of Indicators and Overlays](INDICATORS.md)
-- [Guide and Pro Tips](GUIDE.md)
-- [Contributing guidelines](CONTRIBUTING.md)
-- [Frequently asked questions (FAQ)](FAQ.md)
-- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
+See [individual indicator pages](INDICATORS.md) for specific guidance.
 
 ## Frameworks targeted
 
