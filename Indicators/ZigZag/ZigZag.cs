@@ -27,6 +27,7 @@ namespace Skender.Stock.Indicators
             int lastHighIndex = lastPointIndex;
             int lastLowIndex = lastPointIndex;
             int confPointIndex = lastPointIndex;
+            int finalPointIndex = history.Select(x => (int)x.Index).Max();
 
             decimal lastPointValue = history.First().Close;
             decimal lastHighValue = lastPointValue;
@@ -80,7 +81,7 @@ namespace Skender.Stock.Indicators
 
                         // reversed trend
                         // set lastPoint/Index and new trend
-                        else if (currentChange <= -changeThreshold)
+                        if (currentChange <= -changeThreshold || h.Index == finalPointIndex)
                         {
 
                             // add in-between ZigZag line values for prior segment
@@ -115,17 +116,25 @@ namespace Skender.Stock.Indicators
                             lastPointIndex = confPointIndex;
                             lastPointValue = confPointValue;
 
-                            lastHighIndex = confPointIndex;
-                            lastHighValue = confPointValue;
+                            if (h.Index != finalPointIndex)
+                            {
+                                lastHighIndex = confPointIndex;
+                                lastHighValue = confPointValue;
 
-                            ZigZagResult lasthigh = results
-                                .Where(x => x.Index == lastPointIndex)
-                                .FirstOrDefault();
+                                ZigZagResult lasthigh = results
+                                    .Where(x => x.Index == lastPointIndex)
+                                    .FirstOrDefault();
 
-                            lasthigh.PointType = "H";
-                            lasthigh.ZigZag = lastPointValue;
-                            lasthigh.RetraceHigh = lastPointValue;
-                            trendUp = false;
+                                lasthigh.PointType = "H";
+                                lasthigh.ZigZag = lastPointValue;
+                                lasthigh.RetraceHigh = lastPointValue;
+                                trendUp = false;
+                            }
+                            else
+                            {
+                                result.ZigZag = lastPointValue;
+                                result.RetraceHigh = lastPointValue;
+                            }
                         }
 
                         break;
@@ -143,7 +152,7 @@ namespace Skender.Stock.Indicators
 
                         // reversed trend
                         // set lastPoint/Index and new trend
-                        else if (currentChange >= changeThreshold)
+                        if (currentChange >= changeThreshold || h.Index == finalPointIndex)
                         {
 
                             // add in-between ZigZag line values for prior segment
@@ -178,17 +187,25 @@ namespace Skender.Stock.Indicators
                             lastPointIndex = confPointIndex;
                             lastPointValue = confPointValue;
 
-                            lastLowIndex = confPointIndex;
-                            lastLowValue = confPointValue;
+                            if (h.Index != finalPointIndex)
+                            {
+                                lastLowIndex = confPointIndex;
+                                lastLowValue = confPointValue;
 
-                            ZigZagResult lastlow = results
-                                .Where(x => x.Index == lastPointIndex)
-                                .FirstOrDefault();
+                                ZigZagResult lastlow = results
+                                    .Where(x => x.Index == lastPointIndex)
+                                    .FirstOrDefault();
 
-                            lastlow.PointType = "L";
-                            lastlow.ZigZag = lastPointValue;
-                            lastlow.RetraceLow = lastPointValue;
-                            trendUp = true;
+                                lastlow.PointType = "L";
+                                lastlow.ZigZag = lastPointValue;
+                                lastlow.RetraceLow = lastPointValue;
+                                trendUp = true;
+                            }
+                            else
+                            {
+                                result.ZigZag = lastPointValue;
+                                result.RetraceLow = lastPointValue;
+                            }
                         }
 
                         break;
