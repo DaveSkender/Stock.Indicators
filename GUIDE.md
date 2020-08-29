@@ -5,6 +5,7 @@
 - [Using the Quote class](#quote)
 - [Cleaning history](#cleaning-history)
 - [Using derived classes](#using-derived-classes)
+- [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Contributing guidelines](CONTRIBUTING.md)
 - [Frequently asked questions (FAQ)](FAQ.md)
 - [List of indicators and overlays](INDICATORS.md)
@@ -63,7 +64,7 @@ See [Cleaning History](#cleaning-history) section below if you want to pre-clean
 
 Historical quotes are automatically cleaned on every call to the library.  This is needed to do minimal basic data quality checks and to ensure that it is sequenced properly.  You do not need to pre-clean your historical quotes; however, there are some scenarios where it may be advantageous.  While the library is quite fast, there is a very small performance cost to cleaning that can add up if you are doing massive bulk operations on a given static `history`, such as computing every indicator or every possible permutation of an indicator.
 
-If you intend to use the same composed `IEnumerable<Quote> history` in multiple calls and want to optimize speed, we recommend you pre-clean it so that it does not perform that operation on every call to the library.  If you pre-clean, the provided `history` will be used as-is without additional cleaning.
+If you intend to use the same composed `IEnumerable<Quote> history` in multiple calls and want to optimize speed, we recommend you pre-clean it so that it does not perform that operation on every call to the library.  If you pre-clean, the provided `history` will be used as-is without re-cleaning.
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
@@ -109,4 +110,30 @@ public void MyClass(){
   Console.WriteLine("On {0}, EMA was {1} for my EMA ID {2}.",
                      r.Date, r.Ema, r.MyId);
 }
+```
+
+## Generating indicator of indicators
+
+If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one, reformat into a synthetic quote history, and send it through to another indicator.  Example:
+
+```csharp
+// fetch historical quotes from your favorite feed, in Quote format
+IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+
+// calculate OBV
+IEnumerable<ObvResult> obvResults = Indicator.GetObv(history);
+
+// convert to synthetic history [using LINQ]
+List<Quote> obvHistory = obvResults
+  .Where(x => x.Obv != null)
+  .Select(x => new Quote
+    {
+      Date = x.Date,
+      Close = x.Obv
+    })
+  .ToList();
+
+// calculate RSI of OBV
+int lookbackPeriod = 14;
+IEnumerable<RsiResult> results = Indicator.GetRsi(obvHistory, lookbackPeriod);
 ```
