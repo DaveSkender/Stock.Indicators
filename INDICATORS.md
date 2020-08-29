@@ -30,5 +30,6 @@
 - [Stochastic Oscillator](/Indicators/Stochastic/README.md#content)
 - [Stochastic RSI](/Indicators/StochasticRsi/README.md#content)
 - [Ulcer Index](/Indicators/UlcerIndex/README.md#content)
+- [Weighted Moving Average (WMA)](/Indicators/Wma/README.md#content)
 - [William %R](/Indicators/WilliamR/README.md#content)
 - [Zig Zag](/Indicators/ZigZag/README.md#content)
