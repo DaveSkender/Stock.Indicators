@@ -73,8 +73,7 @@ namespace Skender.Stock.Indicators
             ZigZagResult firstResult = new ZigZagResult
             {
                 Index = (int)firstQuote.Index,
-                Date = firstQuote.Date,
-                ZigZag = lastPoint.Value
+                Date = firstQuote.Date
             };
             results.Add(firstResult);
 
@@ -82,14 +81,13 @@ namespace Skender.Stock.Indicators
             while (lastPoint.Index < finalPointIndex)
             {
                 ZigZagPoint nextPoint = EvaluateNextPoint(history, type, changeThreshold, lastPoint);
+                string lastDirection = lastPoint.PointType;
 
                 // draw line (and reset last point)
-                lastPoint = DrawZigZagLine(results, history, lastPoint, nextPoint);
+                DrawZigZagLine(results, history, lastPoint, nextPoint);
 
                 // draw retrace line (and reset last high/low point)
-                //DrawRetraceLine(results, history, lastLowPoint, lastHighPoint, nextPoint);
-
-                //Console.WriteLine("last point: {0}", lastPoint.Index);
+                DrawRetraceLine(results, lastDirection, lastLowPoint, lastHighPoint, nextPoint);
             }
 
             return results;
@@ -169,7 +167,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagPoint DrawZigZagLine(List<ZigZagResult> results, IEnumerable<Quote> history,
+        private static void DrawZigZagLine(List<ZigZagResult> results, IEnumerable<Quote> history,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint)
         {
             // initialize
@@ -188,7 +186,8 @@ namespace Skender.Stock.Indicators
                 {
                     Index = (int)h.Index,
                     Date = h.Date,
-                    ZigZag = (lastPoint.Index != 1) ? lastPoint.Value + increment * (h.Index - lastPoint.Index) : null,
+                    ZigZag = (lastPoint.Index != 1 || h.Index == nextPoint.Index) ?
+                        lastPoint.Value + increment * (h.Index - lastPoint.Index) : null,
                     PointType = ((int)h.Index == nextPoint.Index) ? nextPoint.PointType : null
                 };
 
@@ -199,8 +198,57 @@ namespace Skender.Stock.Indicators
             lastPoint.Index = nextPoint.Index;
             lastPoint.Value = nextPoint.Value;
             lastPoint.PointType = nextPoint.PointType;
+        }
 
-            return lastPoint;
+
+        private static void DrawRetraceLine(List<ZigZagResult> results, string lastDirection,
+            ZigZagPoint lastLowPoint, ZigZagPoint lastHighPoint, ZigZagPoint nextPoint)
+        {
+            bool isHighLine = (lastDirection == "L");
+            ZigZagPoint priorPoint = new ZigZagPoint();
+
+            // handle type and reset last point
+            if (isHighLine)
+            {
+                priorPoint.Index = lastHighPoint.Index;
+                priorPoint.Value = lastHighPoint.Value;
+
+                lastHighPoint.Index = nextPoint.Index;
+                lastHighPoint.Value = nextPoint.Value;
+            }
+            else
+            {
+                priorPoint.Index = lastLowPoint.Index;
+                priorPoint.Value = lastLowPoint.Value;
+
+                lastLowPoint.Index = nextPoint.Index;
+                lastLowPoint.Value = nextPoint.Value;
+            }
+
+            // nothing to do if first line
+            if (priorPoint.Index == 1)
+            {
+                return;
+            }
+
+            // narrow to period
+            IEnumerable<ZigZagResult> period = results
+                .Where(x => x.Index >= priorPoint.Index && x.Index <= nextPoint.Index);
+
+            decimal increment = (nextPoint.Value - priorPoint.Value) / (nextPoint.Index - priorPoint.Index);
+
+            // add new line segment
+            foreach (ZigZagResult r in period)
+            {
+                if (isHighLine)
+                {
+                    r.RetraceHigh = priorPoint.Value + increment * (r.Index - priorPoint.Index);
+                }
+                else
+                {
+                    r.RetraceLow = priorPoint.Value + increment * (r.Index - priorPoint.Index);
+                }
+            }
         }
 
 
