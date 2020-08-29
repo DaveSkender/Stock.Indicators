@@ -1,15 +1,29 @@
 # Stock Indicators
 
-[![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=#30c252&label=NuGet%20Package)](https://www.nuget.org/packages/Skender.Stock.Indicators)
-[![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/master?label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=master)
+[![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package)](https://www.nuget.org/packages/Skender.Stock.Indicators)
+[![Nuget](https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads)](https://www.nuget.org/packages/Skender.Stock.Indicators)
+[![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/master?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=master)
+[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21?logo=AzureDevops&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=master&view=codecoverage-tab)
 [![CodeQL](https://github.com/DaveSkender/Stock.Indicators/workflows/CodeQL/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/security/code-scanning)
-[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21?label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=master&view=codecoverage-tab)
 
 [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting .NET library that produces [stock indicators](INDICATORS.md).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
 
 It can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
 
-## Installation and setup
+Explore more information:
+
+- [List of indicators and overlays](INDICATORS.md)
+- [Getting started](#getting-started)
+- [Guide and Pro tips](GUIDE.md)
+- [Frequently asked questions (FAQ)](FAQ.md)
+- [Contributing guidelines](CONTRIBUTING.md)
+- [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
+- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
+- [Contact us](#contact-us)
+
+## Getting started
+
+### Installation and setup
 
 Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing packages.
 
@@ -17,11 +31,11 @@ Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/S
 # dotnet CLI example
 dotnet add package Skender.Stock.Indicators
 
-# PowerShell example
+# package manager example
 Install-Package Skender.Stock.Indicators
 ```
 
-## Example usage
+### Example usage
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -32,13 +46,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 ```
 
-## Helpful references
-
-- [List of Indicators and Overlays](INDICATORS.md)
-- [Guide and Pro Tips](GUIDE.md)
-- [Contributing guidelines](CONTRIBUTING.md)
-- [Frequently asked questions (FAQ)](FAQ.md)
-- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
+See [individual indicator pages](INDICATORS.md) for specific guidance.
 
 ## Frameworks targeted
 
