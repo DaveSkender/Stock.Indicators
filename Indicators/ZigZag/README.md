@@ -1,6 +1,6 @@
-﻿# Zig Zag (ZIGZAG)
+﻿# Zig Zag line
 
-Zig Zag is a price chart overlay that simplifies the up and down movements and transitions.
+Zig Zag is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag)
 
 ```csharp
@@ -29,7 +29,7 @@ IEnumerable<ZigZagResult> results = Indicator.GetZigZag(history,type,percentChan
 IEnumerable<ZigZagResult>
 ```
 
-If you do not supply enough points to cover the percent change, there will be no Zig Zag lines.  We always return the same number of elements as there are in the historical quotes.
+If you do not supply enough points to cover the percent change, there will be no valid Zig Zag points or lines.  The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.  The last line segment is an approximations as the direction is indeterminant.  Confirmed points are denoted with `PointType` values of `H` or `L`.  We always return the same number of result elements as there are in the historical quotes.
 
 ### ZigZagResult
 

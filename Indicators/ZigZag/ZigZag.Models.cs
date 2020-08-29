@@ -16,4 +16,18 @@ namespace Skender.Stock.Indicators
         Close = 0,
         HighLow = 1
     }
+
+    internal class ZigZagEval
+    {
+        internal int Index { get; set; }
+        internal decimal High { get; set; }
+        internal decimal Low { get; set; }
+    }
+
+    internal class ZigZagPoint
+    {
+        internal int Index { get; set; }
+        internal decimal Value { get; set; }
+        internal string PointType { get; set; }
+    }
 }

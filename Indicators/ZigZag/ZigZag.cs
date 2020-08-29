@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -19,202 +18,216 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<ZigZagResult> results = new List<ZigZagResult>();
-
-            bool? trendUp = null;  // confirmed trend -> null: unknown, true: up, false: down
             decimal changeThreshold = percentChange / 100m;
+            Quote firstQuote = history.First();
+            ZigZagEval eval = GetZigZagEval(type, firstQuote);
 
-            int lastPointIndex = 1;
-            int lastHighIndex = lastPointIndex;
-            int lastLowIndex = lastPointIndex;
-            int confPointIndex = lastPointIndex;
+            ZigZagPoint lastPoint = new ZigZagPoint
+            {
+                Index = eval.Index,
+                Value = firstQuote.Close,
+                PointType = "U"
+            };
+
+            ZigZagPoint lastHighPoint = new ZigZagPoint
+            {
+                Index = eval.Index,
+                Value = eval.High,
+                PointType = "H"
+            };
+
+            ZigZagPoint lastLowPoint = new ZigZagPoint
+            {
+                Index = eval.Index,
+                Value = eval.Low,
+                PointType = "L"
+            };
+
             int finalPointIndex = history.Select(x => (int)x.Index).Max();
 
-            decimal lastPointValue = history.First().Close;
-            decimal lastHighValue = lastPointValue;
-            decimal lastLowValue = lastPointValue;
-            decimal confPointValue = lastPointValue;
-
-            // TODO: temporary type gate, add conditionals
-            if (type != ZigZagType.Close)
-            {
-                return results;
-            }
-
-            // roll through history
+            // roll through history until to find initial trend
             foreach (Quote h in history)
             {
+                eval = GetZigZagEval(type, h);
+                decimal changeUp = (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
+                decimal changeDn = (lastHighPoint.Value - eval.Low) / lastHighPoint.Value;
 
-                ZigZagResult result = new ZigZagResult
+                if (changeUp >= changeThreshold && changeUp > changeDn)
                 {
-                    Index = (int)h.Index,
-                    Date = h.Date
-                };
+                    lastPoint.Index = lastLowPoint.Index;
+                    lastPoint.Value = lastLowPoint.Value;
+                    lastPoint.PointType = lastLowPoint.PointType;
+                    break;
+                }
 
-                // TODO: consider `type`
-                decimal currentChange = (h.Close - confPointValue) / confPointValue;
+                if (changeDn >= changeThreshold && changeDn > changeUp)
+                {
+                    lastPoint.Index = lastHighPoint.Index;
+                    lastPoint.Value = lastHighPoint.Value;
+                    lastPoint.PointType = lastHighPoint.PointType;
+                    break;
+                }
+            }
 
+            // add first point to results
+            ZigZagResult firstResult = new ZigZagResult
+            {
+                Index = (int)firstQuote.Index,
+                Date = firstQuote.Date,
+                ZigZag = lastPoint.Value
+            };
+            results.Add(firstResult);
+
+            // find and draw lines
+            while (lastPoint.Index < finalPointIndex)
+            {
+                ZigZagPoint nextPoint = EvaluateNextPoint(history, type, changeThreshold, lastPoint);
+
+                // draw line (and reset last point)
+                lastPoint = DrawZigZagLine(results, history, lastPoint, nextPoint);
+
+                // draw retrace line (and reset last high/low point)
+                //DrawRetraceLine(results, history, lastLowPoint, lastHighPoint, nextPoint);
+
+                //Console.WriteLine("last point: {0}", lastPoint.Index);
+            }
+
+            return results;
+        }
+
+
+        private static ZigZagPoint EvaluateNextPoint(IEnumerable<Quote> history,
+            ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint)
+        {
+            // initialize 
+            bool trendUp = (lastPoint.PointType == "L");
+            decimal change = 0;
+            ZigZagEval eval = new ZigZagEval();
+
+            ZigZagPoint extremePoint = new ZigZagPoint
+            {
+                Index = lastPoint.Index,
+                Value = lastPoint.Value,
+                PointType = trendUp ? "H" : "L"
+            };
+
+            IEnumerable<Quote> period = history
+                .Where(x => x.Index > lastPoint.Index);
+
+            // find extreme point before reversal point
+            foreach (Quote h in period)
+            {
+                eval = GetZigZagEval(type, h);
+
+                // reset extreme point
                 switch (trendUp)
                 {
-                    // unknown trend
-                    case null:
-
-                        // confirm initial change
-                        if (Math.Abs(currentChange) >= changeThreshold)
-                        {
-                            trendUp = (currentChange >= 0);
-                            confPointIndex = (int)h.Index;
-                            confPointValue = h.Close;
-                        }
-
-                        break;
-
-                    // confirmed up
                     case true:
 
-                        // continued upward trend
-                        // reset confPoint/Index to new high
-                        if (h.Close > confPointValue)
+                        if (eval.High >= extremePoint.Value)
                         {
-                            confPointIndex = (int)h.Index;
-                            confPointValue = h.Close;
+                            extremePoint.Index = eval.Index;
+                            extremePoint.Value = eval.High;
                         }
-
-                        // reversed trend
-                        // set lastPoint/Index and new trend
-                        if (currentChange <= -changeThreshold || h.Index == finalPointIndex)
+                        else
                         {
-
-                            // add in-between ZigZag line values for prior segment
-                            if (confPointIndex > lastPointIndex)
-                            {
-                                IEnumerable<ZigZagResult> line = results
-                                    .Where(x => x.Index > lastPointIndex && x.Index < confPointIndex);
-
-                                decimal increment = (confPointValue - lastPointValue) / (confPointIndex - lastPointIndex);
-
-                                foreach (ZigZagResult l in line)
-                                {
-                                    l.ZigZag = lastPointValue + increment * (l.Index - lastPointIndex);
-                                }
-                            }
-
-                            // add in-between RetraceHigh line values
-                            if (confPointIndex > lastHighIndex && lastHighIndex > 1)
-                            {
-                                IEnumerable<ZigZagResult> highline = results
-                                    .Where(x => x.Index > lastHighIndex && x.Index < confPointIndex);
-
-                                decimal increment = (confPointValue - lastHighValue) / (confPointIndex - lastHighIndex);
-
-                                foreach (ZigZagResult l in highline)
-                                {
-                                    l.RetraceHigh = lastHighValue + increment * (l.Index - lastHighIndex);
-                                }
-                            }
-
-                            // set last point
-                            lastPointIndex = confPointIndex;
-                            lastPointValue = confPointValue;
-
-                            if (h.Index != finalPointIndex)
-                            {
-                                lastHighIndex = confPointIndex;
-                                lastHighValue = confPointValue;
-
-                                ZigZagResult lasthigh = results
-                                    .Where(x => x.Index == lastPointIndex)
-                                    .FirstOrDefault();
-
-                                lasthigh.PointType = "H";
-                                lasthigh.ZigZag = lastPointValue;
-                                lasthigh.RetraceHigh = lastPointValue;
-                                trendUp = false;
-                            }
-                            else
-                            {
-                                result.ZigZag = lastPointValue;
-                                result.RetraceHigh = lastPointValue;
-                            }
+                            change = (extremePoint.Value - eval.Low) / extremePoint.Value;
                         }
 
                         break;
 
-                    // confirmed down
                     case false:
 
-                        // continued downward trend
-                        // reset confPoint/Index to new low
-                        if (h.Close < confPointValue)
+                        if (eval.Low <= extremePoint.Value)
                         {
-                            confPointIndex = (int)h.Index;
-                            confPointValue = h.Close;
+                            extremePoint.Index = eval.Index;
+                            extremePoint.Value = eval.Low;
                         }
-
-                        // reversed trend
-                        // set lastPoint/Index and new trend
-                        if (currentChange >= changeThreshold || h.Index == finalPointIndex)
+                        else
                         {
-
-                            // add in-between ZigZag line values for prior segment
-                            if (confPointIndex > lastPointIndex)
-                            {
-                                IEnumerable<ZigZagResult> line = results
-                                    .Where(x => x.Index > lastPointIndex && x.Index < confPointIndex);
-
-                                decimal increment = (confPointValue - lastPointValue) / (confPointIndex - lastPointIndex);
-
-                                foreach (ZigZagResult l in line)
-                                {
-                                    l.ZigZag = lastPointValue + increment * (l.Index - lastPointIndex);
-                                }
-                            }
-
-                            // add in-between RetraceLow line values
-                            if (confPointIndex > lastLowIndex && lastLowIndex > 1)
-                            {
-                                IEnumerable<ZigZagResult> lowline = results
-                                    .Where(x => x.Index > lastLowIndex && x.Index < confPointIndex);
-
-                                decimal increment = (confPointValue - lastLowValue) / (confPointIndex - lastLowIndex);
-
-                                foreach (ZigZagResult l in lowline)
-                                {
-                                    l.RetraceLow = lastLowValue + increment * (l.Index - lastLowIndex);
-                                }
-                            }
-
-                            // set last point
-                            lastPointIndex = confPointIndex;
-                            lastPointValue = confPointValue;
-
-                            if (h.Index != finalPointIndex)
-                            {
-                                lastLowIndex = confPointIndex;
-                                lastLowValue = confPointValue;
-
-                                ZigZagResult lastlow = results
-                                    .Where(x => x.Index == lastPointIndex)
-                                    .FirstOrDefault();
-
-                                lastlow.PointType = "L";
-                                lastlow.ZigZag = lastPointValue;
-                                lastlow.RetraceLow = lastPointValue;
-                                trendUp = true;
-                            }
-                            else
-                            {
-                                result.ZigZag = lastPointValue;
-                                result.RetraceLow = lastPointValue;
-                            }
+                            change = (eval.High - extremePoint.Value) / extremePoint.Value;
                         }
 
                         break;
                 }
 
+                // return extreme point when deviation threshold met
+                if (change >= changeThreshold)
+                {
+                    return extremePoint;
+                }
+            }
+
+            // handle last unconfirmed point
+            int finalPointIndex = history.Select(x => (int)x.Index).Max();
+            if (extremePoint.Index == finalPointIndex && change < changeThreshold)
+            {
+                extremePoint.PointType = null;
+            }
+
+            return extremePoint;
+        }
+
+
+        private static ZigZagPoint DrawZigZagLine(List<ZigZagResult> results, IEnumerable<Quote> history,
+            ZigZagPoint lastPoint, ZigZagPoint nextPoint)
+        {
+            // initialize
+            List<ZigZagResult> newResults = new List<ZigZagResult>();
+
+            IEnumerable<Quote> period = history
+                .Where(x => x.Index > lastPoint.Index && x.Index <= nextPoint.Index);
+
+            decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
+
+            // add new line segment
+            foreach (Quote h in period)
+            {
+
+                ZigZagResult result = new ZigZagResult
+                {
+                    Index = (int)h.Index,
+                    Date = h.Date,
+                    ZigZag = (lastPoint.Index != 1) ? lastPoint.Value + increment * (h.Index - lastPoint.Index) : null,
+                    PointType = ((int)h.Index == nextPoint.Index) ? nextPoint.PointType : null
+                };
+
                 results.Add(result);
             }
 
-            return results;
+            // reset lastpoint
+            lastPoint.Index = nextPoint.Index;
+            lastPoint.Value = nextPoint.Value;
+            lastPoint.PointType = nextPoint.PointType;
+
+            return lastPoint;
+        }
+
+
+        private static ZigZagEval GetZigZagEval(ZigZagType type, Quote q)
+        {
+            ZigZagEval eval = new ZigZagEval()
+            {
+                Index = (int)q.Index
+            };
+
+            // consider `type`
+            switch (type)
+            {
+                case ZigZagType.Close:
+
+                    eval.Low = q.Close;
+                    eval.High = q.Close;
+                    break;
+
+                case ZigZagType.HighLow:
+
+                    eval.Low = q.Low;
+                    eval.High = q.High;
+                    break;
+            }
+
+            return eval;
         }
 
 
