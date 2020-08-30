@@ -31,7 +31,7 @@ namespace StockIndicators.Tests
             Assert.AreEqual(259.0480m, Math.Round((decimal)b.ChandelierExit, 4));
 
             // short
-            IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m, "short");
+            IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m, ChandelierType.Short);
 
             ChandelierResult c = shortResult.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual(246.4240m, Math.Round((decimal)c.ChandelierExit, 4));
@@ -52,13 +52,6 @@ namespace StockIndicators.Tests
         public void BadMultiplier()
         {
             Indicator.GetChandelier(history, 25, 0);
-        }
-
-        [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad variant.")]
-        public void BadVariant()
-        {
-            Indicator.GetChandelier(history, 25, 3, "wrongvariant");
         }
 
         [TestMethod()]
