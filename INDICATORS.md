@@ -17,6 +17,7 @@
 - [Exponential Moving Average (EMA)](/Indicators/Ema/README.md#content)
 - [Heikin-Ashi](/Indicators/HeikinAshi/README.md#content)
 - [Hull Moving Average (HMA)](/Indicators/Hma/README.md#content)
+- [Ichimoku Cloud](/Indicators/Ichimoku/README.md#content)
 - [Keltner Channel](/Indicators/Keltner/README.md#content)
 - [Money Flow Index (MFI)](/Indicators/Mfi/README.md#content)
 - [Moving Average Convergence/Divergence (MACD)](/Indicators/Macd/README.md#content)
