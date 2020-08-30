@@ -27,13 +27,11 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502, results.Count());
             Assert.AreEqual(487, results.Where(x => x.Oscillator != null).Count());
             Assert.AreEqual(485, results.Where(x => x.Signal != null).Count());
-            Assert.AreEqual(486, results.Where(x => x.IsIncreasing != null).Count());
 
             // sample value
             StochResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)43.1353, Math.Round((decimal)r.Oscillator, 4));
-            Assert.AreEqual((decimal)35.5674, Math.Round((decimal)r.Signal, 4));
-            Assert.AreEqual(true, r.IsIncreasing);
+            Assert.AreEqual(43.1353m, Math.Round((decimal)r.Oscillator, 4));
+            Assert.AreEqual(35.5674m, Math.Round((decimal)r.Signal, 4));
         }
 
         [TestMethod()]
@@ -66,14 +64,12 @@ namespace StockIndicators.Tests
 
             // sample values
             StochResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)91.6233, Math.Round((decimal)r1.Oscillator, 4));
-            Assert.AreEqual((decimal)36.0608, Math.Round((decimal)r1.Signal, 4));
-            Assert.AreEqual(true, r1.IsIncreasing);
+            Assert.AreEqual(91.6233m, Math.Round((decimal)r1.Oscillator, 4));
+            Assert.AreEqual(36.0608m, Math.Round((decimal)r1.Signal, 4));
 
             StochResult r2 = results.Where(x => x.Index == 488).FirstOrDefault();
-            Assert.AreEqual((decimal)25.0353, Math.Round((decimal)r2.Oscillator, 4));
-            Assert.AreEqual((decimal)60.5706, Math.Round((decimal)r2.Signal, 4));
-            Assert.AreEqual(true, r2.IsIncreasing);
+            Assert.AreEqual(25.0353m, Math.Round((decimal)r2.Oscillator, 4));
+            Assert.AreEqual(60.5706m, Math.Round((decimal)r2.Signal, 4));
         }
 
 

@@ -32,8 +32,6 @@ The first period will have `null` values since there's not enough data to calcul
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Sar` | decimal | Stop and Reverse value
-| `IsReversal` | bool | Indicates a trend reversal
-| `IsRising` | bool | Rising (true), Falling (false)
 
 ## Example
 

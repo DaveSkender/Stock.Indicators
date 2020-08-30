@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -58,7 +57,6 @@ namespace Skender.Stock.Indicators
             decimal? prevMacd = null;
             decimal? prevSignal = null;
 
-
             // add signal, histogram to result
             foreach (MacdResult r in results)
             {
@@ -71,14 +69,6 @@ namespace Skender.Stock.Indicators
 
                 r.Signal = ds.Ema;
                 r.Histogram = r.Macd - r.Signal;
-
-                // trend and divergence
-                if (prevMacd != null && prevSignal != null)
-                {
-                    r.IsBullish = (r.Macd > r.Signal);
-                    r.IsDiverging = (Math.Abs((decimal)r.Macd - (decimal)r.Signal)
-                        > Math.Abs((decimal)prevMacd - (decimal)prevSignal));
-                }
 
                 // store for next iteration
                 prevMacd = r.Macd;

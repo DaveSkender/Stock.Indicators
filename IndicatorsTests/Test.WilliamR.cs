@@ -25,12 +25,10 @@ namespace StockIndicators.Tests
 
             // sample values
             WilliamResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)-52.0121, Math.Round((decimal)r1.WilliamR, 4));
-            Assert.AreEqual(true, r1.IsIncreasing);
+            Assert.AreEqual(-52.0121m, Math.Round((decimal)r1.WilliamR, 4));
 
             WilliamResult r2 = results.Where(x => x.Index == 344).FirstOrDefault();
-            Assert.AreEqual((decimal)-19.8211, Math.Round((decimal)r2.WilliamR, 4));
-            Assert.AreEqual(false, r2.IsIncreasing);
+            Assert.AreEqual(-19.8211m, Math.Round((decimal)r2.WilliamR, 4));
         }
 
 

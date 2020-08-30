@@ -34,7 +34,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `LowerBand` | decimal | Lower line is `D` standard deviations below the SMA
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
 | `Width` | decimal | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
-| `IsDiverging` | bool | Upper and Lower bands are diverging
 
 ## Example
 

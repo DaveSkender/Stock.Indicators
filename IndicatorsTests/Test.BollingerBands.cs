@@ -30,12 +30,11 @@ namespace StockIndicators.Tests
             // sample value
             BollingerBandsResult r = results.Where(x => x.Index == 502).FirstOrDefault();
 
-            Assert.AreEqual((decimal)251.8600, Math.Round((decimal)r.Sma, 4));
-            Assert.AreEqual((decimal)273.7004, Math.Round((decimal)r.UpperBand, 4));
-            Assert.AreEqual((decimal)230.0196, Math.Round((decimal)r.LowerBand, 4));
-            Assert.AreEqual((decimal)-0.602552, Math.Round((decimal)r.ZScore, 6));
-            Assert.AreEqual((decimal)0.173433, Math.Round((decimal)r.Width, 6));
-            Assert.AreEqual(false, r.IsDiverging);
+            Assert.AreEqual(251.8600m, Math.Round((decimal)r.Sma, 4));
+            Assert.AreEqual(273.7004m, Math.Round((decimal)r.UpperBand, 4));
+            Assert.AreEqual(230.0196m, Math.Round((decimal)r.LowerBand, 4));
+            Assert.AreEqual(-0.602552m, Math.Round((decimal)r.ZScore, 6));
+            Assert.AreEqual(0.173433m, Math.Round((decimal)r.Width, 6));
         }
 
 

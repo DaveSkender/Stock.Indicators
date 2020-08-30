@@ -29,18 +29,18 @@ namespace StockIndicators.Tests
 
             // sample value
             ConnorsRsiResult r1 = results1.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)68.8087, Math.Round((decimal)r1.RsiClose, 4));
-            Assert.AreEqual((decimal)67.4899, Math.Round((decimal)r1.RsiStreak, 4));
-            Assert.AreEqual((decimal)88.0000, Math.Round((decimal)r1.PercentRank, 4));
-            Assert.AreEqual((decimal)74.7662, Math.Round((decimal)r1.ConnorsRsi, 4));
+            Assert.AreEqual(68.8087m, Math.Round((decimal)r1.RsiClose, 4));
+            Assert.AreEqual(67.4899m, Math.Round((decimal)r1.RsiStreak, 4));
+            Assert.AreEqual(88.0000m, Math.Round((decimal)r1.PercentRank, 4));
+            Assert.AreEqual(74.7662m, Math.Round((decimal)r1.ConnorsRsi, 4));
 
             // different parameters
             IEnumerable<ConnorsRsiResult> results2 = Indicator.GetConnorsRsi(history, 14, 20, 10);
             ConnorsRsiResult r2 = results2.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)42.0773, Math.Round((decimal)r2.RsiClose, 4));
-            Assert.AreEqual((decimal)52.7386, Math.Round((decimal)r2.RsiStreak, 4));
-            Assert.AreEqual((decimal)90.0000, Math.Round((decimal)r2.PercentRank, 4));
-            Assert.AreEqual((decimal)61.6053, Math.Round((decimal)r2.ConnorsRsi, 4));
+            Assert.AreEqual(42.0773m, Math.Round((decimal)r2.RsiClose, 4));
+            Assert.AreEqual(52.7386m, Math.Round((decimal)r2.RsiStreak, 4));
+            Assert.AreEqual(90.0000m, Math.Round((decimal)r2.PercentRank, 4));
+            Assert.AreEqual(61.6053m, Math.Round((decimal)r2.ConnorsRsi, 4));
 
         }
 

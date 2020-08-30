@@ -36,7 +36,6 @@ The first `R+S-1` periods will have `null` values for `StochRsi` since there's n
 | `Date` | DateTime | Date
 | `StochRsi` | decimal | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of Close price
 | `Signal` | decimal | %D Signal Line = Simple moving average of %K based on `G` periods
-| `IsIncreasing` | bool | Direction since last period (e.g. up or down).  Persists for no change.
 
 ## Example
 

@@ -26,8 +26,7 @@ namespace Skender.Stock.Indicators
                 {
                     Index = s.Index,
                     Date = s.Date,
-                    WilliamR = s.Oscillator - 100,
-                    IsIncreasing = s.IsIncreasing
+                    WilliamR = s.Oscillator - 100
                 };
                 results.Add(result);
             }

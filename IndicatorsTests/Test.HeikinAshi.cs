@@ -23,12 +23,10 @@ namespace StockIndicators.Tests
 
             // sample value
             HeikinAshiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)241.3018, Math.Round(r.Open, 4));
-            Assert.AreEqual((decimal)245.54, Math.Round(r.High, 4));
-            Assert.AreEqual((decimal)241.3018, Math.Round(r.Low, 4));
-            Assert.AreEqual((decimal)244.6525, Math.Round(r.Close, 4));
-            Assert.AreEqual(true, r.IsBullish);
-            Assert.AreEqual(0, Math.Round(r.Weakness, 4));
+            Assert.AreEqual(241.3018m, Math.Round(r.Open, 4));
+            Assert.AreEqual(245.54m, Math.Round(r.High, 4));
+            Assert.AreEqual(241.3018m, Math.Round(r.Low, 4));
+            Assert.AreEqual(244.6525m, Math.Round(r.Close, 4));
         }
 
 

@@ -27,9 +27,7 @@ namespace StockIndicators.Tests
 
             // sample value
             ParabolicSarResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)229.7662, Math.Round((decimal)r.Sar, 4));
-            Assert.AreEqual(true, r.IsRising);
-            Assert.AreEqual(false, r.IsReversal);
+            Assert.AreEqual(229.7662m, Math.Round((decimal)r.Sar, 4));
         }
 
 
@@ -46,7 +44,7 @@ namespace StockIndicators.Tests
         [ExpectedException(typeof(BadParameterException), "Max Acc Factor must be greater than 0.")]
         public void BadMaxAcclerationFactor()
         {
-            Indicator.GetParabolicSar(history, (decimal)0.02, 0);
+            Indicator.GetParabolicSar(history, 0.02m, 0);
         }
 
         [TestMethod()]

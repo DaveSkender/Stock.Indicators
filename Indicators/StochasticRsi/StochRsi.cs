@@ -56,7 +56,6 @@ namespace Skender.Stock.Indicators
 
                     result.StochRsi = sto.Oscillator;
                     result.Signal = sto.Signal;
-                    result.IsIncreasing = sto.IsIncreasing;
                 }
 
                 results.Add(result);

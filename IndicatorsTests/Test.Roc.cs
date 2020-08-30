@@ -25,7 +25,7 @@ namespace StockIndicators.Tests
 
             // sample value
             RocResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)-8.2482, Math.Round((decimal)r.Roc, 4));
+            Assert.AreEqual(-8.2482m, Math.Round((decimal)r.Roc, 4));
         }
 
 

@@ -18,7 +18,6 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<DonchianResult> results = new List<DonchianResult>();
-            decimal? prevWidth = null;
 
             // roll through history
             foreach (Quote h in history)
@@ -39,21 +38,6 @@ namespace Skender.Stock.Indicators
                     result.LowerBand = period.Select(l => l.Low).Min();
                     result.Centerline = (result.UpperBand + result.LowerBand) / 2;
                     result.Width = (result.Centerline == 0) ? null : (result.UpperBand - result.LowerBand) / result.Centerline;
-
-                    if (prevWidth != null)
-                    {
-                        if (result.Width == prevWidth)
-                        {
-                            result.IsDiverging = null;
-                        }
-                        else
-                        {
-                            result.IsDiverging = (result.Width > prevWidth);
-                        }
-                    }
-
-                    // for next iteration
-                    prevWidth = result.Width;
                 }
 
                 results.Add(result);

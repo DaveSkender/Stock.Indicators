@@ -28,14 +28,10 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2, results.Where(x => x.StochRsi != null).Count());
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - signalPeriod - smoothPeriod + 3, results.Where(x => x.Signal != null).Count());
 
-            // this series starts with 4 periods of topped Stochastic RSI, so no direction can be determined
-            Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2 - 4, results.Where(x => x.IsIncreasing != null).Count());
-
             // sample value
             StochRsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)97.5244, Math.Round((decimal)r.StochRsi, 4));
-            Assert.AreEqual((decimal)89.8385, Math.Round((decimal)r.Signal, 4));
-            Assert.AreEqual(true, r.IsIncreasing);
+            Assert.AreEqual(97.5244m, Math.Round((decimal)r.StochRsi, 4));
+            Assert.AreEqual(89.8385m, Math.Round((decimal)r.Signal, 4));
         }
 
 
@@ -57,14 +53,10 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2, results.Where(x => x.StochRsi != null).Count());
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - signalPeriod - smoothPeriod + 3, results.Where(x => x.Signal != null).Count());
 
-            // this series starts with 2 periods of topped Stochastic RSI, so no direction can be determined
-            Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2 - 2, results.Where(x => x.IsIncreasing != null).Count());
-
             // sample value
             StochRsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)89.8385, Math.Round((decimal)r.StochRsi, 4));
-            Assert.AreEqual((decimal)73.4176, Math.Round((decimal)r.Signal, 4));
-            Assert.AreEqual(true, r.IsIncreasing);
+            Assert.AreEqual(89.8385m, Math.Round((decimal)r.StochRsi, 4));
+            Assert.AreEqual(73.4176m, Math.Round((decimal)r.Signal, 4));
         }
 
 

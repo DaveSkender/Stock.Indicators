@@ -23,8 +23,6 @@ namespace Skender.Stock.Indicators
             IEnumerable<AtrResult> atrResults = GetAtr(history, atrPeriod);
             int lookbackPeriod = Math.Max(emaPeriod, atrPeriod);
 
-            decimal? prevWidth = null;
-
             // roll through history
             foreach (Quote h in history)
             {
@@ -46,9 +44,6 @@ namespace Skender.Stock.Indicators
                     result.LowerBand = ema.Ema - multiplier * atr.Atr;
                     result.Centerline = ema.Ema;
                     result.Width = (result.Centerline == 0) ? null : (result.UpperBand - result.LowerBand) / result.Centerline;
-
-                    // for next iteration
-                    prevWidth = result.Width;
                 }
 
                 results.Add(result);

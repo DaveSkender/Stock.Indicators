@@ -25,9 +25,9 @@ namespace StockIndicators.Tests
 
             // sample value
             AtrResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)2.67, Math.Round((decimal)r.Tr, 4));
-            Assert.AreEqual((decimal)6.1497, Math.Round((decimal)r.Atr, 4));
-            Assert.AreEqual((decimal)2.5072, Math.Round((decimal)r.Atrp, 4));
+            Assert.AreEqual(2.67m, Math.Round((decimal)r.Tr, 4));
+            Assert.AreEqual(6.1497m, Math.Round((decimal)r.Atr, 4));
+            Assert.AreEqual(2.5072m, Math.Round((decimal)r.Atrp, 4));
         }
 
 

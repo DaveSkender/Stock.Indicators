@@ -25,10 +25,10 @@ namespace StockIndicators.Tests
 
             // sample value
             SmaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)251.86, r.Sma);
-            Assert.AreEqual((decimal)9.45, r.Mad);
-            Assert.AreEqual((double)119.2510, Math.Round((double)r.Mse, 4));
-            Assert.AreEqual((double)0.037637, Math.Round((double)r.Mape, 6));
+            Assert.AreEqual(251.86m, r.Sma);
+            Assert.AreEqual(9.45m, r.Mad);
+            Assert.AreEqual(119.2510m, Math.Round((decimal)r.Mse, 4));
+            Assert.AreEqual(0.037637m, Math.Round((decimal)r.Mape, 6));
         }
 
 

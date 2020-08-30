@@ -29,7 +29,6 @@ The first `N-1` periods will have `null` Oscillator values since there's not eno
 | -- |-- |--
 | `Date` | DateTime | Date
 | `WilliamR` | decimal | Oscillator over prior `N` lookback periods
-| `IsIncreasing` | bool | Direction since last period (e.g. up or down).  Persists for no change.
 
 ## Example
 

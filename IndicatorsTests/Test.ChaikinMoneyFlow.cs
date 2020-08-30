@@ -25,9 +25,9 @@ namespace StockIndicators.Tests
 
             // sample value
             CmfResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
-            Assert.AreEqual((decimal)118396116.25, Math.Round(r.MoneyFlowVolume, 2));
-            Assert.AreEqual((decimal)-20257893.60, Math.Round((decimal)r.Cmf, 2));
+            Assert.AreEqual(0.8052m, Math.Round(r.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25m, Math.Round(r.MoneyFlowVolume, 2));
+            Assert.AreEqual(-20257893.60m, Math.Round((decimal)r.Cmf, 2));
         }
 
 
