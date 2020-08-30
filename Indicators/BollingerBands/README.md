@@ -28,7 +28,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average (SMA) of Close price (center line)
 | `UpperBand` | decimal | Upper line is `D` standard deviations above the SMA

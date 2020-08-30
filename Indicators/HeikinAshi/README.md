@@ -25,7 +25,6 @@ The first period will have `null` values since there's not enough data to calcul
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Open` | decimal | Modified open price
 | `High` | decimal | Modified high price

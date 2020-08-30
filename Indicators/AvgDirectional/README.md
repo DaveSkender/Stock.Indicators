@@ -27,7 +27,6 @@ The first `2×N-1` periods will have `null` values for ADX since there's not eno
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Pdi` | decimal | Plus Directional Index (+DI) for `N` lookback periods
 | `Mdi` | decimal | Minus Directional Index (-DI) for `N` lookback periods

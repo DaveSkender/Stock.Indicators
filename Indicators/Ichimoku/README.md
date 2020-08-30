@@ -29,7 +29,6 @@ The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since 
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `TenkanSen` | decimal | Conversion / signal line
 | `KijunSen` | decimal | Base line

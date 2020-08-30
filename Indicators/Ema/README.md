@@ -39,7 +39,6 @@ Double EMA: The first `2×N-1` periods will have `null` values since there's not
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Ema` | decimal | Exponential moving average for `N` lookback period
 

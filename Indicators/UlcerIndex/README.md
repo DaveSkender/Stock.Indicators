@@ -27,7 +27,6 @@ The first `N-1` slow periods + signal period will have `null` values since there
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `UI` | decimal | The UlcerIndex value
 

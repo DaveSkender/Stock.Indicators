@@ -29,7 +29,6 @@ The first `S-1` slow periods + signal period will have `null` values since there
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Macd` | decimal | The MACD line is the difference between slow and fast moving averages
 | `Signal` | decimal | Moving average of the `MACD` line

@@ -28,7 +28,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Beta` | decimal | Beta coefficient based on `N` lookback periods
 

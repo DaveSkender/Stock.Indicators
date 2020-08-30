@@ -27,7 +27,6 @@ The first `N-(integer of SQRT(N))-1` periods will have `null` values since there
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Hma` | decimal | Hull moving average for `N` lookback periods
 

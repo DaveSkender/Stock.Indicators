@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
     [Serializable]
     public class Quote
     {
-        public int? Index { get; protected internal set; }
+        internal int? Index { get; set; }
         public DateTime Date { get; set; }
         public decimal Open { get; set; }
         public decimal High { get; set; }
@@ -17,7 +17,7 @@ namespace Skender.Stock.Indicators
     [Serializable]
     public class ResultBase
     {
-        public int Index { get; protected internal set; }
+        internal int Index { get; set; }
         public DateTime Date { get; set; }
     }
 

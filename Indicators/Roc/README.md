@@ -27,7 +27,6 @@ The first `N` periods will have `null` values for ROC since there's not enough d
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Roc` | decimal | Rate of Change over `N` lookback periods
 

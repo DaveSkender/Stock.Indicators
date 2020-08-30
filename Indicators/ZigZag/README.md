@@ -35,7 +35,6 @@ If you do not supply enough points to cover the percent change, there will be no
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `ZigZag` | decimal | Zig Zag line for `percentChange`
 | `PointType` | string | Zig Zag endpoint type (`H` for high point, `L` for low point)

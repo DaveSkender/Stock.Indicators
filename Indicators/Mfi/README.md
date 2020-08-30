@@ -26,7 +26,6 @@ The first `N` periods will have `null` MFI values since they cannot be calculate
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Mfi` | decimal | Money Flow Index
 

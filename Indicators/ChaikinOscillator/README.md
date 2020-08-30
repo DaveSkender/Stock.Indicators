@@ -28,7 +28,6 @@ The first `S-1` periods will have `null` values for `Oscillator` since there's n
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `MoneyFlowMultiplier` | decimal | Money Flow Multiplier
 | `MoneyFlowVolume` | decimal | Money Flow Volume
