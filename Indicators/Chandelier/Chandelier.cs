@@ -7,14 +7,15 @@ namespace Skender.Stock.Indicators
     {
         // CHANDELIER EXIT
         public static IEnumerable<ChandelierResult> GetChandelier(
-            IEnumerable<Quote> history, int lookbackPeriod = 22, decimal multiplier = 3.0m, string variant = "long")
+            IEnumerable<Quote> history, int lookbackPeriod = 22, 
+            decimal multiplier = 3.0m, ChandelierType type = ChandelierType.Long)
         {
 
             // clean quotes
             Cleaners.PrepareHistory(history);
 
             // validate inputs
-            ValidateChandelier(history, lookbackPeriod, multiplier, variant);
+            ValidateChandelier(history, lookbackPeriod, multiplier);
 
             // initialize
             List<ChandelierResult> results = new List<ChandelierResult>();
@@ -42,15 +43,15 @@ namespace Skender.Stock.Indicators
                         .FirstOrDefault()
                         .Atr;
 
-                    switch (variant)
+                    switch (type)
                     {
-                        case "long":
+                        case ChandelierType.Long:
 
                             decimal maxHigh = period.Select(x => x.High).Max();
                             result.ChandelierExit = maxHigh - atr * multiplier;
                             break;
 
-                        case "short":
+                        case ChandelierType.Short:
 
                             decimal minLow = period.Select(x => x.Low).Min();
                             result.ChandelierExit = minLow + atr * multiplier;
@@ -69,7 +70,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateChandelier(
-            IEnumerable<Quote> history, int lookbackPeriod, decimal multiplier, string variant)
+            IEnumerable<Quote> history, int lookbackPeriod, decimal multiplier)
         {
 
             // check parameters
@@ -81,11 +82,6 @@ namespace Skender.Stock.Indicators
             if (multiplier <= 0)
             {
                 throw new BadParameterException("Multiplier must be greater than 0 for Chandelier Exit.");
-            }
-
-            if (variant != "long" && variant != "short")
-            {
-                throw new BadParameterException("Variant must be either 'long' or 'short' Chandelier Exit.");
             }
 
             // check history
