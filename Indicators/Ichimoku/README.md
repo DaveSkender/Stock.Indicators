@@ -33,7 +33,7 @@ The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since 
 | `TenkanSen` | decimal | Conversion / signal line
 | `KijunSen` | decimal | Base line
 | `SenkouSpanA` | decimal | Leading span A
-| `SenkauSpanB` | decimal | Leading span B
+| `SenkouSpanB` | decimal | Leading span B
 | `ChikouSpan` | decimal | Lagging span
 
 ## Example

@@ -1,16 +1,27 @@
-﻿# Guide and Pro tips
+﻿<!-- markdownlint-disable MD026 -->
+# Guide and Pro tips
 
-- [Example usage](#example-usage)
 - [Prerequisite data](#prerequisite-data)
-- [Using the Quote class](#quote)
-- [Cleaning history](#cleaning-history)
+- [Example usage](#example-usage)
+- [About historical quotes](#quote)
+- [Pre-cleaning history](#cleaning-history)
 - [Using derived classes](#using-derived-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Contributing guidelines](CONTRIBUTING.md)
-- [Frequently asked questions (FAQ)](FAQ.md)
-- [List of indicators and overlays](INDICATORS.md)
+
+## Prerequisite data
+
+Most indicators require that you provide historical quote data and additional configuration parameters.
+
+You can get historical quotes from your favorite stock data provider.
+Historical data is an `IEnumerable` of the `Quote` class ([see below](#quote)).
+
+For additional configuration parameters, default values are provided when there is an industry standard.
+You can, of course, override these and provide your own values.
 
 ## Example usage
+
+All indicator methods will produce all possible results for the provided history -- it is not just a single data point returned.  For example, if you provide 3 years worth of quote history for the SMA method, you'll get 3 years of SMA result values.
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -35,16 +46,6 @@ SMA on 12/31/2018 was $251.86
 
 See [individual indicator pages](INDICATORS.md) for specific guidance.
 
-## Prerequisite data
-
-Most indicators require that you provide historical quote data and additional configuration parameters.
-
-You can get historical quotes from your favorite stock data provider.
-Historical data is an `IEnumerable` of the `Quote` class ([see below](#quote)).
-
-For additional configuration parameters, default values are provided when there is an industry standard.
-You can, of course, override these and provide your own values.
-
 ## Quote
 
 Historical quotes should be of consistent time frequency (e.g. per minute, hour, day, etc.).
@@ -58,7 +59,19 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 | `Close` | decimal | Close price
 | `Volume` | long | Volume
 
-See [Cleaning History](#cleaning-history) section below if you want to pre-clean the history (optional).  You can also derive and extend classes (optional), see the [Using Derived Classes](#using-derived-classes) section below.
+See [Pre-cleaning History](#cleaning-history) section below if you want to pre-clean the history (optional).  You can also derive and extend classes (optional), see the [Using derived classes](#using-derived-classes) section below.
+
+### Where can I get historical quote data?
+
+There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Alpha Vantage](https://www.alphavantage.co).
+
+### How much historical quote data do I need?
+
+Each indicator will need different amounts to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, most use cases will require that you provide more than the minimum.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadHistoryException` will be thrown if you do not provide enough history.
+
+Note that some indicators, especially those that are derived from [Exponential Moving Average](/Indicators/Ema/README.md), use a smoothing technique where there is convergence over time.  While you can calculate these with the minimum amount of data, the precision to two decimal points often requires 250 or more preceding historical records.
+
+For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of total historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.
 
 ## Cleaning history
 
