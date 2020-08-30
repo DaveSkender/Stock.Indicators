@@ -54,8 +54,6 @@ namespace Skender.Stock.Indicators
             }
 
             IEnumerable<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriod);
-            decimal? prevMacd = null;
-            decimal? prevSignal = null;
 
             // add signal, histogram to result
             foreach (MacdResult r in results)
@@ -69,10 +67,6 @@ namespace Skender.Stock.Indicators
 
                 r.Signal = ds.Ema;
                 r.Histogram = r.Macd - r.Signal;
-
-                // store for next iteration
-                prevMacd = r.Macd;
-                prevSignal = r.Signal;
             }
 
             return results;
