@@ -14,7 +14,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // check parameters
             ValidateChaikinOsc(history, fastPeriod, slowPeriod);

@@ -23,6 +23,16 @@ namespace IndicatorsExternalTests
     [TestClass]
     public class ExternalModelTests
     {
+        [TestMethod()]
+        public void CleanHistory()
+        {
+            IEnumerable<Quote> history = History.GetHistory();
+            Cleaners.PrepareHistory(history);
+
+            Indicator.GetSma(history, 5);
+        }
+
+
 
         [TestMethod()]
         public void ReadQuoteClass()
@@ -51,7 +61,7 @@ namespace IndicatorsExternalTests
         public void DerivedQuoteClassLinq()
         {
             IEnumerable<Quote> history = History.GetHistory();
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // can use a derive Quote class using Linq
 

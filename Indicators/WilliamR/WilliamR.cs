@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // validate parameters
             ValidateWilliam(history, lookbackPeriod);
