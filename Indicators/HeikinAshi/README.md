@@ -25,14 +25,11 @@ The first period will have `null` values since there's not enough data to calcul
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Open` | decimal | Modified open price
 | `High` | decimal | Modified high price
 | `Low` | decimal | Modified low price
 | `Close` | decimal | Modified close price
-| `IsBullish` | bool | Indication of bar direction.  Persists for no change.
-| `Weakness` | decimal | Size of directional shadow, weakness of signal (no shadow is strong)
 
 ## Example
 

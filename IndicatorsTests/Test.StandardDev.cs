@@ -26,8 +26,8 @@ namespace StockIndicators.Tests
             // sample value
             StdDevResult r = results.Where(x => x.Index == 502).FirstOrDefault();
 
-            Assert.AreEqual((decimal)5.4738, Math.Round((decimal)r.StdDev, 4));
-            Assert.AreEqual((decimal)0.524312, Math.Round((decimal)r.ZScore, 6));
+            Assert.AreEqual(5.4738m, Math.Round((decimal)r.StdDev, 4));
+            Assert.AreEqual(0.524312m, Math.Round((decimal)r.ZScore, 6));
         }
 
 

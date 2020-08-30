@@ -7,6 +7,5 @@ namespace Skender.Stock.Indicators
     {
         public decimal? StochRsi { get; set; }
         public decimal? Signal { get; set; }
-        public bool? IsIncreasing { get; set; }
     }
 }

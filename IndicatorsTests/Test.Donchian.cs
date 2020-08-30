@@ -25,22 +25,19 @@ namespace StockIndicators.Tests
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.UpperBand != null).Count());
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.LowerBand != null).Count());
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Width != null).Count());
-            Assert.AreEqual(128, results.Where(x => x.IsDiverging == true).Count());
 
             // sample value
             DonchianResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)251.5050, Math.Round((decimal)r1.Centerline, 4));
-            Assert.AreEqual((decimal)273.5900, Math.Round((decimal)r1.UpperBand, 4));
-            Assert.AreEqual((decimal)229.4200, Math.Round((decimal)r1.LowerBand, 4));
-            Assert.AreEqual((decimal)0.175623, Math.Round((decimal)r1.Width, 6));
-            Assert.IsNull(r1.IsDiverging);
+            Assert.AreEqual(251.5050m, Math.Round((decimal)r1.Centerline, 4));
+            Assert.AreEqual(273.5900m, Math.Round((decimal)r1.UpperBand, 4));
+            Assert.AreEqual(229.4200m, Math.Round((decimal)r1.LowerBand, 4));
+            Assert.AreEqual(0.175623m, Math.Round((decimal)r1.Width, 6));
 
             DonchianResult r2 = results.Where(x => x.Index == 486).FirstOrDefault();
-            Assert.AreEqual((decimal)265.2300, Math.Round((decimal)r2.Centerline, 4));
-            Assert.AreEqual((decimal)274.3900, Math.Round((decimal)r2.UpperBand, 4));
-            Assert.AreEqual((decimal)256.0700, Math.Round((decimal)r2.LowerBand, 4));
-            Assert.AreEqual((decimal)0.069072, Math.Round((decimal)r2.Width, 6));
-            Assert.AreEqual(true, r2.IsDiverging);
+            Assert.AreEqual(265.2300m, Math.Round((decimal)r2.Centerline, 4));
+            Assert.AreEqual(274.3900m, Math.Round((decimal)r2.UpperBand, 4));
+            Assert.AreEqual(256.0700m, Math.Round((decimal)r2.LowerBand, 4));
+            Assert.AreEqual(0.069072m, Math.Round((decimal)r2.Width, 6));
         }
 
 

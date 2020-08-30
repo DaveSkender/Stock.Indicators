@@ -25,7 +25,6 @@ The first period OBV will have `0` value since there's not enough data to calcul
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Obv` | long | On-balance Volume
 

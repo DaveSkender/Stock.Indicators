@@ -14,7 +14,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // check parameters
             ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
@@ -53,7 +53,6 @@ namespace Skender.Stock.Indicators
                     // turn down
                     if (h.Low < currentSar)
                     {
-                        result.IsReversal = true;
                         result.Sar = extremePoint;
 
                         isRising = false;
@@ -64,7 +63,6 @@ namespace Skender.Stock.Indicators
                     // continue rising
                     else
                     {
-                        result.IsReversal = false;
                         result.Sar = currentSar;
 
                         // SAR cannot be higher than last two lows
@@ -92,7 +90,6 @@ namespace Skender.Stock.Indicators
                     // turn up
                     if (h.High > currentSar)
                     {
-                        result.IsReversal = true;
                         result.Sar = extremePoint;
 
                         isRising = true;
@@ -103,7 +100,6 @@ namespace Skender.Stock.Indicators
                     // continue falling
                     else
                     {
-                        result.IsReversal = false;
                         result.Sar = currentSar;
 
                         // SAR cannot be lower than last two highs
@@ -123,7 +119,6 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-                result.IsRising = isRising;
                 priorSar = (decimal)result.Sar;
 
                 results.Add(result);

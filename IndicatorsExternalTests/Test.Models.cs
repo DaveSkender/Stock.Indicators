@@ -9,14 +9,12 @@ namespace IndicatorsExternalTests
 {
     public class MyQuote : Quote
     {
-        public new int Index { get; set; }
         public bool MyProperty { get; set; }
         public decimal MyClose { get; set; }
     }
 
     public class MyIndicator : EmaResult
     {
-        public new int Index { get; set; }
         public bool MyProperty { get; set; }
         public float MyEma { get; set; }
     }
@@ -25,6 +23,16 @@ namespace IndicatorsExternalTests
     [TestClass]
     public class ExternalModelTests
     {
+        [TestMethod()]
+        public void CleanHistory()
+        {
+            IEnumerable<Quote> history = History.GetHistory();
+            Cleaners.PrepareHistory(history);
+
+            Indicator.GetSma(history, 5);
+        }
+
+
 
         [TestMethod()]
         public void ReadQuoteClass()
@@ -33,7 +41,7 @@ namespace IndicatorsExternalTests
             List<Quote> h = Cleaners.PrepareHistory(history);
 
             Quote f = h.FirstOrDefault();
-            Console.WriteLine("Index:{0},Date:{1},Close:{2}", f.Index, f.Date, f.Close);
+            Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);
         }
 
         [TestMethod()]
@@ -42,26 +50,24 @@ namespace IndicatorsExternalTests
             // can use a derive Quote class
             MyQuote myQuote = new MyQuote
             {
-                Index = 0,
                 Date = DateTime.Now,
                 MyProperty = true
             };
 
-            Assert.AreEqual(0, myQuote.Index);
+            Assert.AreEqual(true, myQuote.MyProperty);
         }
 
         [TestMethod()]
         public void DerivedQuoteClassLinq()
         {
             IEnumerable<Quote> history = History.GetHistory();
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // can use a derive Quote class using Linq
 
             IEnumerable<MyQuote> myHistory = history
                 .Select(x => new MyQuote
                 {
-                    Index = (int)x.Index,
                     Date = x.Date,
                     MyClose = x.Close,
                     MyProperty = false
@@ -76,13 +82,12 @@ namespace IndicatorsExternalTests
             // can use a derive Indicator class
             MyIndicator myIndicator = new MyIndicator
             {
-                Index = 0,
                 Date = DateTime.Now,
                 MyEma = 123.456f,
                 MyProperty = false
             };
 
-            Assert.AreEqual(0, myIndicator.Index);
+            Assert.AreEqual(false, myIndicator.MyProperty);
         }
 
         [TestMethod()]
@@ -97,7 +102,6 @@ namespace IndicatorsExternalTests
                 .Where(x => x.Ema != null)
                 .Select(x => new MyIndicator
                 {
-                    Index = x.Index,
                     Date = x.Date,
                     MyEma = (float)x.Ema,
                     MyProperty = false

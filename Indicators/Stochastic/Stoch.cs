@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // validate parameters
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
@@ -57,8 +57,6 @@ namespace Skender.Stock.Indicators
 
 
             // signal and period direction info
-            decimal? lastOsc = null;
-            bool? lastIsIncreasing = null;
             int stochIndex = lookbackPeriod + smoothPeriod - 1;
 
             foreach (StochResult r in results
@@ -79,27 +77,6 @@ namespace Skender.Stock.Indicators
                         .Select(v => v.Oscillator)
                         .Average();
                 }
-
-                // add direction
-                if (lastOsc != null)
-                {
-                    if (r.Oscillator > lastOsc)
-                    {
-                        r.IsIncreasing = true;
-                    }
-                    else if (r.Oscillator < lastOsc)
-                    {
-                        r.IsIncreasing = false;
-                    }
-                    else
-                    {
-                        // no change, keep trend
-                        r.IsIncreasing = lastIsIncreasing;
-                    }
-                }
-
-                lastOsc = (decimal)r.Oscillator;
-                lastIsIncreasing = r.IsIncreasing;
             }
 
             return results;

@@ -25,12 +25,12 @@ namespace StockIndicators.Tests
 
             // sample values
             PmoResult r1 = results.Where(x => x.Index == 93).FirstOrDefault();
-            Assert.AreEqual((decimal)0.6159, Math.Round((decimal)r1.Pmo, 4));
-            Assert.AreEqual((decimal)0.5582, Math.Round((decimal)r1.Signal, 4));
+            Assert.AreEqual(0.6159m, Math.Round((decimal)r1.Pmo, 4));
+            Assert.AreEqual(0.5582m, Math.Round((decimal)r1.Signal, 4));
 
             PmoResult r2 = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)-2.7016, Math.Round((decimal)r2.Pmo, 4));
-            Assert.AreEqual((decimal)-2.3117, Math.Round((decimal)r2.Signal, 4));
+            Assert.AreEqual(-2.7016m, Math.Round((decimal)r2.Pmo, 4));
+            Assert.AreEqual(-2.3117m, Math.Round((decimal)r2.Signal, 4));
         }
 
 

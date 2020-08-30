@@ -40,8 +40,6 @@ namespace Skender.Stock.Indicators
                 }
 
                 lastDate = h.Date;
-
-                // TODO: more error evaluation (impossible values, missing values, etc.)
             }
 
             return history.OrderBy(x => x.Index).ToList();

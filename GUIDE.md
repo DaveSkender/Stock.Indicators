@@ -71,7 +71,7 @@ If you intend to use the same composed `IEnumerable<Quote> history` in multiple 
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // pre-clean
-history = Cleaners.PrepareHistory(history);
+Cleaners.PrepareHistory(history);
 ```
 
 ## Using derived classes

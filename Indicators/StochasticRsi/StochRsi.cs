@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // validate parameters
             ValidateStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
@@ -56,7 +56,6 @@ namespace Skender.Stock.Indicators
 
                     result.StochRsi = sto.Oscillator;
                     result.Signal = sto.Signal;
-                    result.IsIncreasing = sto.IsIncreasing;
                 }
 
                 results.Add(result);

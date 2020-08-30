@@ -52,7 +52,6 @@ namespace Skender.Stock.Indicators
 
             // initial first record
             decimal lastRSI = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
-            bool? lastIsIncreasing = null;
 
             RsiResult first = results.Where(x => x.Index == lookbackPeriod + 1).FirstOrDefault();
             first.Rsi = lastRSI;
@@ -73,22 +72,7 @@ namespace Skender.Stock.Indicators
                     r.Rsi = 100;
                 }
 
-                if (r.Rsi > lastRSI)
-                {
-                    r.IsIncreasing = true;
-                }
-                else if (r.Rsi < lastRSI)
-                {
-                    r.IsIncreasing = false;
-                }
-                else
-                {
-                    // no change, keep trend
-                    r.IsIncreasing = lastIsIncreasing;
-                }
-
                 lastRSI = (decimal)r.Rsi;
-                lastIsIncreasing = r.IsIncreasing;
             }
 
             return results;

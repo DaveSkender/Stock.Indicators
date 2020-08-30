@@ -27,7 +27,6 @@ The first `N-1` periods will have `null` Aroon values since there's not enough d
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `AroonUp` | decimal | Based on last High price
 | `AroonDown` | decimal | Based on last Low price

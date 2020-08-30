@@ -26,7 +26,7 @@ namespace StockIndicators.Tests
 
             // sample value
             CciResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)-52.9946, Math.Round((decimal)r.Cci, 4));
+            Assert.AreEqual(-52.9946m, Math.Round((decimal)r.Cci, 4));
         }
 
 

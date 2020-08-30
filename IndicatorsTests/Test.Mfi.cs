@@ -25,10 +25,10 @@ namespace StockIndicators.Tests
 
             // sample values
             MfiResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)39.9494, Math.Round((decimal)r1.Mfi, 4));
+            Assert.AreEqual(39.9494m, Math.Round((decimal)r1.Mfi, 4));
 
             MfiResult r2 = results.Where(x => x.Index == 440).FirstOrDefault();
-            Assert.AreEqual((decimal)69.0622, Math.Round((decimal)r2.Mfi, 4));
+            Assert.AreEqual(69.0622m, Math.Round((decimal)r2.Mfi, 4));
         }
 
 

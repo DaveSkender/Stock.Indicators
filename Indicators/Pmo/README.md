@@ -29,7 +29,6 @@ The first `T+S-1` periods will have `null` values for PMO since there's not enou
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Pmo` | decimal | Price Momentum Oscillator
 | `Signal` | decimal | Signal line is EMA of PMO

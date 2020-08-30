@@ -27,7 +27,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `StdDev` | decimal | Standard Deviation of Close price based on `N` lookback periods
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)

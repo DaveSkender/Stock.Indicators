@@ -25,30 +25,16 @@ namespace StockIndicators.Tests
 
             // sample values (long)
             ChandelierResult a = longResult.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)256.5860, Math.Round((decimal)a.ChandelierExit, 4));
-            Assert.AreEqual(false, a.IsExitCross);
-            Assert.AreEqual(true, a.IsCrossed);
+            Assert.AreEqual(256.5860m, Math.Round((decimal)a.ChandelierExit, 4));
 
-            ChandelierResult b = longResult.Where(x => x.Index == 486).FirstOrDefault();
-            Assert.AreEqual(false, b.IsExitCross);
-            Assert.AreEqual(false, b.IsCrossed);
-
-            ChandelierResult c = longResult.Where(x => x.Index == 487).FirstOrDefault();
-            Assert.AreEqual(true, c.IsExitCross);
-            Assert.AreEqual(true, c.IsCrossed);
-
-            ChandelierResult d = longResult.Where(x => x.Index == 493).FirstOrDefault();
-            Assert.AreEqual((decimal)259.0480, Math.Round((decimal)d.ChandelierExit, 4));
-            Assert.AreEqual(false, d.IsExitCross);
-            Assert.AreEqual(true, d.IsCrossed);
+            ChandelierResult b = longResult.Where(x => x.Index == 493).FirstOrDefault();
+            Assert.AreEqual(259.0480m, Math.Round((decimal)b.ChandelierExit, 4));
 
             // short
             IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m, "short");
 
-            ChandelierResult e = shortResult.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)246.4240, Math.Round((decimal)e.ChandelierExit, 4));
-            Assert.AreEqual(false, e.IsExitCross);
-            Assert.AreEqual(false, e.IsCrossed);
+            ChandelierResult c = shortResult.Where(x => x.Index == 502).FirstOrDefault();
+            Assert.AreEqual(246.4240m, Math.Round((decimal)c.ChandelierExit, 4));
         }
 
 

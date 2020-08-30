@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // check parameters
             ValidateHeikinAshi(history);
@@ -20,7 +20,6 @@ namespace Skender.Stock.Indicators
 
             decimal? prevOpen = null;
             decimal? prevClose = null;
-            bool prevTrend = false;
 
             foreach (Quote h in history)
             {
@@ -39,26 +38,6 @@ namespace Skender.Stock.Indicators
                 decimal[] arrL = { h.Low, open, close };
                 decimal low = arrL.Min();
 
-                // trend (bullish (buy / green), bearish (sell / red)
-                // strength (size of directional shadow / no shadow is strong)
-                bool trend;
-                decimal strength;
-
-                if (close > open)
-                {
-                    trend = true;
-                    strength = open - low;
-                }
-                else if (close < open)
-                {
-                    trend = false;
-                    strength = high - open;
-                }
-                else
-                {
-                    trend = prevTrend;
-                    strength = high - low;
-                }
 
                 HeikinAshiResult result = new HeikinAshiResult
                 {
@@ -67,16 +46,13 @@ namespace Skender.Stock.Indicators
                     Open = open,
                     High = high,
                     Low = low,
-                    Close = close,
-                    IsBullish = trend,
-                    Weakness = strength,
+                    Close = close
                 };
                 results.Add(result);
 
                 // save for next iteration
                 prevOpen = open;
                 prevClose = close;
-                prevTrend = trend;
             }
 
             return results;

@@ -28,14 +28,12 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average (SMA) of Close price (center line)
 | `UpperBand` | decimal | Upper line is `D` standard deviations above the SMA
 | `LowerBand` | decimal | Lower line is `D` standard deviations below the SMA
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
 | `Width` | decimal | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
-| `IsDiverging` | bool | Upper and Lower bands are diverging
 
 ## Example
 

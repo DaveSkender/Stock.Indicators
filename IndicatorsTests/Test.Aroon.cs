@@ -25,9 +25,9 @@ namespace StockIndicators.Tests
 
             // sample value
             AroonResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)28.0000, Math.Round((decimal)r.AroonUp, 4));
-            Assert.AreEqual((decimal)88.0000, Math.Round((decimal)r.AroonDown, 4));
-            Assert.AreEqual((decimal)-60.0000, Math.Round((decimal)r.Oscillator, 4));
+            Assert.AreEqual(28.0000m, Math.Round((decimal)r.AroonUp, 4));
+            Assert.AreEqual(88.0000m, Math.Round((decimal)r.AroonDown, 4));
+            Assert.AreEqual(-60.0000m, Math.Round((decimal)r.Oscillator, 4));
         }
 
 

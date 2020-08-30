@@ -11,14 +11,13 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // validate parameters
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
-            decimal? prevWidth = null;
 
             // roll through history
             foreach (Quote h in history)
@@ -44,14 +43,6 @@ namespace Skender.Stock.Indicators
 
                     result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / (decimal)stdDev;
                     result.Width = (result.Sma == 0) ? null : (result.UpperBand - result.LowerBand) / result.Sma;
-
-                    if (prevWidth != null)
-                    {
-                        result.IsDiverging = (result.Width > prevWidth);
-                    }
-
-                    // for next iteration
-                    prevWidth = result.Width;
                 }
 
                 results.Add(result);

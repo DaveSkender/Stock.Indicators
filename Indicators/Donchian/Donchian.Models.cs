@@ -9,6 +9,5 @@ namespace Skender.Stock.Indicators
         public decimal? Centerline { get; set; }
         public decimal? LowerBand { get; set; }
         public decimal? Width { get; set; }
-        public bool? IsDiverging { get; set; }
     }
 }

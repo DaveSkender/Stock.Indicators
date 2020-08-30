@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            Cleaners.PrepareHistory(history);
 
             // validate inputs
             ValidateChandelier(history, lookbackPeriod, multiplier, variant);
@@ -19,7 +19,6 @@ namespace Skender.Stock.Indicators
             // initialize
             List<ChandelierResult> results = new List<ChandelierResult>();
             IEnumerable<AtrResult> atrResult = GetAtr(history, lookbackPeriod);  // uses ATR
-            decimal prevClose = 0;
 
             // roll through history
             foreach (Quote h in history)
@@ -49,16 +48,12 @@ namespace Skender.Stock.Indicators
 
                             decimal maxHigh = period.Select(x => x.High).Max();
                             result.ChandelierExit = maxHigh - atr * multiplier;
-                            result.IsExitCross = (prevClose >= result.ChandelierExit && h.Close < result.ChandelierExit);
-                            result.IsCrossed = (h.Close < result.ChandelierExit);
                             break;
 
                         case "short":
 
                             decimal minLow = period.Select(x => x.Low).Min();
                             result.ChandelierExit = minLow + atr * multiplier;
-                            result.IsExitCross = (prevClose <= result.ChandelierExit && h.Close > result.ChandelierExit);
-                            result.IsCrossed = (h.Close > result.ChandelierExit);
                             break;
 
                         default:
@@ -66,8 +61,6 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-
-                prevClose = h.Close;
                 results.Add(result);
             }
 

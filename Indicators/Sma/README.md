@@ -27,7 +27,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average for `N` lookback periods
 | `Mad` | decimal | Mean absolute deviation

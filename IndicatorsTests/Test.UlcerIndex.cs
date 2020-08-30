@@ -26,7 +26,7 @@ namespace StockIndicators.Tests
 
             // sample value
             UlcerIndexResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)5.7255, Math.Round((decimal)r.UI, 4));
+            Assert.AreEqual(5.7255m, Math.Round((decimal)r.UI, 4));
         }
 
 

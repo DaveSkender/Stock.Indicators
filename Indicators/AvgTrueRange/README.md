@@ -27,7 +27,6 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
 | `Tr` | decimal | True Range for current period
 | `Atr` | decimal | Average True Range for `N` lookback periods

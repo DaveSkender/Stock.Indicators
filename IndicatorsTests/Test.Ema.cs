@@ -25,7 +25,7 @@ namespace StockIndicators.Tests
 
             // sample value
             EmaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)249.3519, Math.Round((decimal)r.Ema, 4));
+            Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
         }
 
 

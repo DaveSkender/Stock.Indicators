@@ -25,9 +25,9 @@ namespace StockIndicators.Tests
 
             // sample value
             AdxResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual((decimal)17.7565, Math.Round((decimal)r.Pdi, 4));
-            Assert.AreEqual((decimal)31.1510, Math.Round((decimal)r.Mdi, 4));
-            Assert.AreEqual((decimal)34.2987, Math.Round((decimal)r.Adx, 4));
+            Assert.AreEqual(17.7565m, Math.Round((decimal)r.Pdi, 4));
+            Assert.AreEqual(31.1510m, Math.Round((decimal)r.Mdi, 4));
+            Assert.AreEqual(34.2987m, Math.Round((decimal)r.Adx, 4));
         }
 
 

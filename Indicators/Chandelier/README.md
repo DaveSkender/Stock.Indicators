@@ -29,11 +29,8 @@ The first `N` periods will have `null` Chandelier values since there's not enoug
 
 | name | type | notes
 | -- |-- |--
-| `Index` | int | Sequence of dates
 | `Date` | DateTime | Date
-| `ChandelierExit` | decimal | Based on last High price
-| `IsExitCross` | bool | Price has crossed the Exit value in this period.  Inverse crosses are not indicated.  This indicates a "close" signal.
-| `IsCrossed` | bool | Price is below (long) or above (short) the Exit value.
+| `ChandelierExit` | decimal | Exit line
 
 ## Example
 
