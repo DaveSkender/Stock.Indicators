@@ -1,6 +1,6 @@
 # License
 
-Copyright @2020 Dave Skender
+Copyright @2019 Dave Skender
 
 The public compiled NuGet package `Skender.Stock.Indicators` is free to use in any manner.  You can get it here: https://www.nuget.org/packages/Skender.Stock.Indicators
 
