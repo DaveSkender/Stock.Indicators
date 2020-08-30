@@ -15,7 +15,6 @@ Explore more information:
 - [List of indicators and overlays](INDICATORS.md)
 - [Getting started](#getting-started)
 - [Guide and Pro tips](GUIDE.md)
-- [Frequently asked questions (FAQ)](FAQ.md)
 - [Contributing guidelines](CONTRIBUTING.md)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
@@ -40,7 +39,7 @@ Install-Package Skender.Stock.Indicators
 ```csharp
 using Skender.Stock.Indicators;
 
-[..]
+[..]  // prerequisite: acquire quote history from your own source
 
 // example: get 20-period simple moving average
 IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
