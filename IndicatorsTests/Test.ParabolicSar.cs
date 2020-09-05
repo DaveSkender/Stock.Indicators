@@ -28,6 +28,7 @@ namespace StockIndicators.Tests
             // sample value
             ParabolicSarResult r = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual(229.7662m, Math.Round((decimal)r.Sar, 4));
+            Assert.AreEqual(false, r.IsReversal);
         }
 
 
