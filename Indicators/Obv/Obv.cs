@@ -29,11 +29,11 @@ namespace Skender.Stock.Indicators
                 }
                 else if (h.Close > prevClose)
                 {
-                    obv += h.Volume;
+                    obv += (long)h.Volume;
                 }
                 else if (h.Close < prevClose)
                 {
-                    obv -= h.Volume;
+                    obv -= (long)h.Volume;
                 }
 
                 ObvResult result = new ObvResult
