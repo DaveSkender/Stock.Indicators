@@ -26,7 +26,7 @@ The first period OBV will have `0` value since there's not enough data to calcul
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Obv` | long | On-balance Volume
+| `Obv` | decimal | On-balance Volume
 
 **Warning**: absolute values in OBV are somewhat meaningless, so use with caution.
 

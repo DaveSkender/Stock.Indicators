@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<ObvResult> results = new List<ObvResult>();
 
             decimal? prevClose = null;
-            long obv = 0;
+            decimal obv = 0;
 
             foreach (Quote h in history)
             {
