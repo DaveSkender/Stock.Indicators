@@ -57,7 +57,7 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 | `High` | decimal | High price
 | `Low` | decimal | Low price
 | `Close` | decimal | Close price
-| `Volume` | long | Volume
+| `Volume` | decimal | Volume
 
 See [Pre-cleaning History](#cleaning-history) section below if you want to pre-clean the history (optional).  You can also derive and extend classes (optional), see the [Using derived classes](#using-derived-classes) section below.
 
