@@ -10,7 +10,7 @@ namespace StockIndicators.Tests
     internal partial class History
     {
 
-        internal static IEnumerable<Quote> GetHistoryLong(int days = 23281)
+        internal static IEnumerable<Quote> GetHistoryLong(int days = 5285)
         {
             List<Quote> h = new List<Quote> {
             new Quote { Date = DateTime.ParseExact("1999-09-07","yyyy-MM-dd",cultureProvider), Open=1357.24m, High=1361.39m, Low=1349.59m, Close=1350.45m, Volume = 715300000 },
