@@ -33,6 +33,30 @@ namespace StockIndicators.Tests
 
 
         [TestMethod()]
+        public void PrepareLongHistoryTest()
+        {
+            IEnumerable<Quote> historyLong = History.GetHistoryLong();
+
+            IEnumerable<Quote> h = Cleaners.PrepareHistory(historyLong);
+
+            // assertions
+
+            // should always be the same number of results as there is history
+            Assert.AreEqual(5285, h.Count());
+
+            // should always have index
+            Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
+
+            // last index should be 502
+            Quote r = historyLong
+                .Where(x => x.Date == DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", cultureProvider))
+                .FirstOrDefault();
+
+            Assert.AreEqual(5285, r.Index);
+        }
+
+
+        [TestMethod()]
         public void CleanBasicDataTest()
         {
             // compose basic data

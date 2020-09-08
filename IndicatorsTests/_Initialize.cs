@@ -12,14 +12,12 @@ namespace StockIndicators.Tests
 
         internal static IEnumerable<Quote> history;
         internal static IEnumerable<Quote> historyOther;
-        internal static IEnumerable<Quote> historyLong;
 
         [AssemblyInitialize]
         public static void Initialize(TestContext testContext)
         {
             history = History.GetHistory();
             historyOther = History.GetHistoryOther();
-            historyLong = History.GetHistoryLong();
         }
     }
 }
