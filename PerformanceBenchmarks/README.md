@@ -1,6 +1,6 @@
 # Performance benchmarks
 
-## for v0.10.5 (internal release)
+## for v0.10.6 (internal release)
 
 As a baseline, here is the starting point on the performance of the current indicators **using two years of historical daily stock quotes** (e.g. 502 periods) with default or typical parameters.  I believe the performance to be correlated with `history` length, so you can extrapolate based how much you use.
 
