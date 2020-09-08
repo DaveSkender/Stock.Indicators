@@ -37,6 +37,10 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request, when submitting changes.
 
+### Performance benchmarking
+
+- Running the `PerformanceBenchmarks` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find or update the latest results [here](/PerformanceBenchmarks/README.md).
+
 ## Submitting changes
 
 Submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)).

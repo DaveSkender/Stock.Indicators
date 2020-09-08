@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("IndicatorsExternalTests")]
+[assembly: InternalsVisibleTo("PerformanceBenchmarks")]
 namespace StockIndicators.Tests
 {
     // MAIN HISTORY
