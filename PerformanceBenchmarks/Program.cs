@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
 using Skender.Stock.Indicators;
 using StockIndicators.Tests;
@@ -10,15 +9,15 @@ namespace PerformanceBenchmarks
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             Console.WriteLine("Running benchmarks");
-            Summary[] summary = BenchmarkRunner.Run(typeof(Program).Assembly);
+            BenchmarkRunner.Run(typeof(Program).Assembly);
         }
     }
 
     [MarkdownExporterAttribute.GitHub]
-    public class TwentyYearDailyHistory
+    public class Marks
     {
         private readonly IEnumerable<Quote> h = History.GetHistory();
 
