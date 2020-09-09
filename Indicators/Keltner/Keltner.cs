@@ -18,14 +18,17 @@ namespace Skender.Stock.Indicators
             ValidateKeltner(history, emaPeriod, multiplier, atrPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<KeltnerResult> results = new List<KeltnerResult>();
-            IEnumerable<EmaResult> emaResults = GetEma(history, emaPeriod);
-            IEnumerable<AtrResult> atrResults = GetAtr(history, atrPeriod);
+            List<EmaResult> emaResults = GetEma(history, emaPeriod).ToList();
+            List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
             int lookbackPeriod = Math.Max(emaPeriod, atrPeriod);
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+
                 KeltnerResult result = new KeltnerResult
                 {
                     Index = (int)h.Index,
@@ -34,11 +37,8 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    IEnumerable<Quote> period = history
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index);
-
-                    EmaResult ema = emaResults.Where(x => x.Index == h.Index).FirstOrDefault();
-                    AtrResult atr = atrResults.Where(x => x.Index == h.Index).FirstOrDefault();
+                    EmaResult ema = emaResults[i];
+                    AtrResult atr = atrResults[i];
 
                     result.UpperBand = ema.Ema + multiplier * atr.Atr;
                     result.LowerBand = ema.Ema - multiplier * atr.Atr;
