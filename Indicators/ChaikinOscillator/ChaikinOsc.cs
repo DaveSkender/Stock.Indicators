@@ -20,9 +20,19 @@ namespace Skender.Stock.Indicators
             ValidateChaikinOsc(history, fastPeriod, slowPeriod);
 
             // initialize
-            List<ChaikinOscResult> results = new List<ChaikinOscResult>();
-            List<AdlResult> adlResults = GetAdl(history).ToList();
+            IEnumerable<AdlResult> adlResults = GetAdl(history);
 
+            // money flow
+            List<ChaikinOscResult> results = adlResults
+                .Select(r => new ChaikinOscResult
+                {
+                    Index = r.Index,
+                    Date = r.Date,
+                    MoneyFlowMultiplier = r.MoneyFlowMultiplier,
+                    MoneyFlowVolume = r.MoneyFlowVolume,
+                    Adl = r.Adl
+                })
+                .ToList();
 
             // EMA of ADL
             IEnumerable<BasicData> adlBasicData = adlResults
@@ -31,31 +41,15 @@ namespace Skender.Stock.Indicators
             List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod).ToList();
             List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod).ToList();
 
-
-            // roll through history
-            for (int i = 0; i < adlResults.Count; i++)
+            // add Oscillator
+            for (int i = slowPeriod - 1; i < results.Count; i++)
             {
-                AdlResult r = adlResults[i];
+                ChaikinOscResult r = results[i];
 
-                ChaikinOscResult result = new ChaikinOscResult
-                {
-                    Index = r.Index,
-                    Date = r.Date,
-                    MoneyFlowMultiplier = r.MoneyFlowMultiplier,
-                    MoneyFlowVolume = r.MoneyFlowVolume,
-                    Adl = r.Adl
-                };
+                EmaResult f = adlEmaFast[i];
+                EmaResult s = adlEmaSlow[i];
 
-                // add Oscillator
-                if (r.Index >= slowPeriod)
-                {
-                    EmaResult f = adlEmaFast[i];
-                    EmaResult s = adlEmaSlow[i];
-
-                    result.Oscillator = f.Ema - s.Ema;
-                }
-
-                results.Add(result);
+                r.Oscillator = f.Ema - s.Ema;
             }
 
             return results;
