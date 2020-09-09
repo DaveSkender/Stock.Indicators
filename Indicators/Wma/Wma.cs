@@ -16,12 +16,14 @@ namespace Skender.Stock.Indicators
             ValidateWma(history, lookbackPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<WmaResult> results = new List<WmaResult>();
             decimal divisor = (lookbackPeriod * (lookbackPeriod + 1)) / 2m;
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 WmaResult result = new WmaResult
                 {
@@ -31,7 +33,7 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = history
+                    List<Quote> period = historyList
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .ToList();
 
