@@ -16,11 +16,14 @@ namespace Skender.Stock.Indicators
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<StochResult> results = new List<StochResult>();
 
             // oscillator
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+
                 StochResult result = new StochResult
                 {
                     Index = (int)h.Index,
@@ -29,7 +32,7 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = history
+                    List<Quote> period = historyList
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .ToList();
 
@@ -59,8 +62,7 @@ namespace Skender.Stock.Indicators
             // signal and period direction info
             int stochIndex = lookbackPeriod + smoothPeriod - 1;
 
-            foreach (StochResult r in results
-                .Where(x => x.Index >= stochIndex))
+            foreach (StochResult r in results.Where(x => x.Index >= stochIndex))
             {
                 // add signal
                 int signalIndex = lookbackPeriod + smoothPeriod + signalPeriod - 2;
