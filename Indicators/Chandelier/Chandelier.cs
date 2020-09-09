@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     {
         // CHANDELIER EXIT
         public static IEnumerable<ChandelierResult> GetChandelier(
-            IEnumerable<Quote> history, int lookbackPeriod = 22, 
+            IEnumerable<Quote> history, int lookbackPeriod = 22,
             decimal multiplier = 3.0m, ChandelierType type = ChandelierType.Long)
         {
 
@@ -18,12 +18,14 @@ namespace Skender.Stock.Indicators
             ValidateChandelier(history, lookbackPeriod, multiplier);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<ChandelierResult> results = new List<ChandelierResult>();
-            IEnumerable<AtrResult> atrResult = GetAtr(history, lookbackPeriod);  // uses ATR
+            List<AtrResult> atrResult = GetAtr(history, lookbackPeriod).ToList();  // uses ATR
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 ChandelierResult result = new ChandelierResult
                 {
@@ -34,14 +36,11 @@ namespace Skender.Stock.Indicators
                 // add exit values
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = history
-                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
+                    List<Quote> period = historyList
+                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .ToList();
 
-                    decimal atr = (decimal)atrResult
-                        .Where(x => x.Index == h.Index)
-                        .FirstOrDefault()
-                        .Atr;
+                    decimal atr = (decimal)atrResult[i].Atr;
 
                     switch (type)
                     {
