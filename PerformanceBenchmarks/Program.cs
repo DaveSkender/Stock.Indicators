@@ -19,192 +19,205 @@ namespace PerformanceBenchmarks
     [MarkdownExporterAttribute.GitHub]
     public class Marks
     {
-        private readonly IEnumerable<Quote> h = History.GetHistory();
+        private readonly IEnumerable<Quote> hm = History.GetHistory();
+        private readonly IEnumerable<Quote> ho = History.GetHistoryOther();
 
         [Benchmark]
         public void GetAdl()
         {
-            Indicator.GetAdl(h);
+            Indicator.GetAdl(hm);
         }
 
         [Benchmark]
         public void GetAroon()
         {
-            Indicator.GetAroon(h);
+            Indicator.GetAroon(hm);
         }
 
         [Benchmark]
         public void GetAdx()
         {
-            Indicator.GetAdx(h);
+            Indicator.GetAdx(hm);
         }
 
         [Benchmark]
         public void GetAtr()
         {
-            Indicator.GetAtr(h);
+            Indicator.GetAtr(hm);
+        }
+
+        [Benchmark]
+        public void GetBeta()
+        {
+            Indicator.GetBeta(hm, ho, 30);
         }
 
         [Benchmark]
         public void GetBollingerBands()
         {
-            Indicator.GetBollingerBands(h);
+            Indicator.GetBollingerBands(hm);
         }
 
         [Benchmark]
         public void GetCci()
         {
-            Indicator.GetCci(h);
+            Indicator.GetCci(hm);
         }
 
         [Benchmark]
         public void GetCmf()
         {
-            Indicator.GetCmf(h);
+            Indicator.GetCmf(hm);
         }
 
         [Benchmark]
         public void GetChaikinOsc()
         {
-            Indicator.GetChaikinOsc(h);
+            Indicator.GetChaikinOsc(hm);
         }
 
         [Benchmark]
         public void GetChandelier()
         {
-            Indicator.GetChandelier(h);
+            Indicator.GetChandelier(hm);
         }
 
         [Benchmark]
         public void GetConnorsRsi()
         {
-            Indicator.GetConnorsRsi(h);
+            Indicator.GetConnorsRsi(hm);
+        }
+
+        [Benchmark]
+        public void GetCorrelation()
+        {
+            Indicator.GetCorrelation(hm, ho, 30);
         }
 
         [Benchmark]
         public void GetDonchian()
         {
-            Indicator.GetDonchian(h);
+            Indicator.GetDonchian(hm);
         }
 
         [Benchmark]
         public void GetEma()
         {
-            Indicator.GetEma(h, 14);
+            Indicator.GetEma(hm, 14);
         }
 
         [Benchmark]
         public void GetHeikinAshi()
         {
-            Indicator.GetHeikinAshi(h);
+            Indicator.GetHeikinAshi(hm);
         }
 
         [Benchmark]
         public void GetHma()
         {
-            Indicator.GetHma(h, 14);
+            Indicator.GetHma(hm, 14);
         }
 
         [Benchmark]
         public void GetIchimoku()
         {
-            Indicator.GetIchimoku(h);
+            Indicator.GetIchimoku(hm);
         }
 
         [Benchmark]
         public void GetKeltner()
         {
-            Indicator.GetKeltner(h);
+            Indicator.GetKeltner(hm);
         }
 
         [Benchmark]
         public void GetMacd()
         {
-            Indicator.GetMacd(h);
+            Indicator.GetMacd(hm);
         }
 
         [Benchmark]
         public void GetMfi()
         {
-            Indicator.GetMfi(h);
+            Indicator.GetMfi(hm);
         }
 
         [Benchmark]
         public void GetObv()
         {
-            Indicator.GetObv(h);
+            Indicator.GetObv(hm);
         }
 
         [Benchmark]
         public void GetParabolicSar()
         {
-            Indicator.GetParabolicSar(h);
+            Indicator.GetParabolicSar(hm);
         }
 
         [Benchmark]
         public void GetPmo()
         {
-            Indicator.GetPmo(h);
+            Indicator.GetPmo(hm);
         }
 
         [Benchmark]
         public void GetRoc()
         {
-            Indicator.GetRoc(h, 20);
+            Indicator.GetRoc(hm, 20);
         }
 
         [Benchmark]
         public void GetRsi()
         {
-            Indicator.GetRsi(h);
+            Indicator.GetRsi(hm);
         }
 
         [Benchmark]
         public void GetSma()
         {
-            Indicator.GetSma(h, 10);
+            Indicator.GetSma(hm, 10);
         }
 
         [Benchmark]
         public void GetStdDev()
         {
-            Indicator.GetStdDev(h, 20);
+            Indicator.GetStdDev(hm, 20);
         }
 
         [Benchmark]
         public void GetStoch()
         {
-            Indicator.GetStoch(h);
+            Indicator.GetStoch(hm);
         }
 
         [Benchmark]
         public void GetStochRsi()
         {
-            Indicator.GetStochRsi(h, 14, 14, 3);
+            Indicator.GetStochRsi(hm, 14, 14, 3);
         }
 
         [Benchmark]
         public void GetUlcerIndex()
         {
-            Indicator.GetUlcerIndex(h);
+            Indicator.GetUlcerIndex(hm);
         }
 
         [Benchmark]
         public void GetWilliamR()
         {
-            Indicator.GetWilliamR(h);
+            Indicator.GetWilliamR(hm);
         }
 
         [Benchmark]
         public void GetWma()
         {
-            Indicator.GetWma(h, 30);
+            Indicator.GetWma(hm, 30);
         }
 
         [Benchmark]
         public void GetZigZag()
         {
-            Indicator.GetZigZag(h);
+            Indicator.GetZigZag(hm);
         }
     }
 }
