@@ -11,23 +11,26 @@ namespace Skender.Stock.Indicators
             IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
         {
             // clean quotes
-            historyA = Cleaners.PrepareHistory(historyA);
-            historyB = Cleaners.PrepareHistory(historyB);
+            List<Quote> historyListA = Cleaners.PrepareHistory(historyA).ToList();
+            List<Quote> historyListB = Cleaners.PrepareHistory(historyB).ToList();
 
             // validate parameters
-            ValidateCorrelation(historyA, historyB, lookbackPeriod);
+            ValidateCorrelation(historyListA, historyListB, lookbackPeriod);
 
             // initialize
             List<CorrResult> results = new List<CorrResult>();
 
 
             // roll through history for interim data
-            foreach (Quote a in historyA)
+            for (int i = 0; i < historyListA.Count; i++)
             {
-                Quote b = historyB.Where(x => x.Date == a.Date).FirstOrDefault();
-                if (b == null)
+                Quote a = historyListA[i];
+                Quote b = historyListB[i];
+
+                if (a.Date != b.Date)
                 {
-                    throw new BadHistoryException("Correlation requires matching dates in provided histories.  {0} not found in historyB.");
+                    throw new BadHistoryException(
+                        "Date sequence does not match.  Correlation requires matching dates in provided histories.");
                 }
 
                 CorrResult result = new CorrResult
@@ -42,8 +45,10 @@ namespace Skender.Stock.Indicators
             }
 
             // compute correlation
-            foreach (CorrResult r in results.Where(x => x.Index >= lookbackPeriod))
+            for (int i = lookbackPeriod - 1; i < results.Count; i++)
             {
+                CorrResult r = results[i];
+
                 List<CorrResult> period = results
                     .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
                     .ToList();
@@ -65,7 +70,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateCorrelation(IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
+        private static void ValidateCorrelation(List<Quote> historyA, List<Quote> historyB, int lookbackPeriod)
         {
 
             // check parameters
@@ -75,7 +80,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistoryA = historyA.Count();
+            int qtyHistoryA = historyA.Count;
             int minHistoryA = lookbackPeriod;
             if (qtyHistoryA < minHistoryA)
             {
@@ -85,13 +90,12 @@ namespace Skender.Stock.Indicators
                         qtyHistoryA, minHistoryA));
             }
 
-            int qtyHistoryB = historyB.Count();
+            int qtyHistoryB = historyB.Count;
             if (qtyHistoryB < qtyHistoryA)
             {
                 throw new BadHistoryException(
                     "B history should have at least as many records as A history for Correlation.");
             }
-
         }
     }
 
