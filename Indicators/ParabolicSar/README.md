@@ -16,7 +16,7 @@ IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, acc
 | `accelerationStep` | decimal | Incremental step size.  Must be greater than 0.  Default is 0.02
 | `maxAccelerationFactor` | decimal | Maximimum step limit.  Must be greater than 0 and larger than `accelerationStep`.  Default is 0.2
 
-NOTE: Initial Parabolic SAR values before the first reversal are not accurate.
+NOTE: Initial Parabolic SAR values before the first reversal are not accurate and is excluded from the results.
 
 ## Response
 
@@ -24,7 +24,7 @@ NOTE: Initial Parabolic SAR values before the first reversal are not accurate.
 IEnumerable<ParabolicSarResult>
 ```
 
-The first period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first trend will have `null` values since it is not accurate and based on an initial guess.  We always return the same number of elements as there are in the historical quotes.
 
 ### ParabolicSarResult
 

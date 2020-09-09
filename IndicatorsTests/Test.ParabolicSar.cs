@@ -23,12 +23,20 @@ namespace StockIndicators.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(501, results.Where(x => x.Sar != null).Count());
+            Assert.AreEqual(488, results.Where(x => x.Sar != null).Count());
 
-            // sample value
-            ParabolicSarResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual(229.7662m, Math.Round((decimal)r.Sar, 4));
-            Assert.AreEqual(false, r.IsReversal);
+            // sample values
+            ParabolicSarResult r1 = results.Where(x => x.Index == 15).FirstOrDefault();
+            Assert.AreEqual(212.83m, Math.Round((decimal)r1.Sar, 4));
+            Assert.AreEqual(true, r1.IsReversal);
+
+            ParabolicSarResult r2 = results.Where(x => x.Index == 17).FirstOrDefault();
+            Assert.AreEqual(212.9924m, Math.Round((decimal)r2.Sar, 4));
+            Assert.AreEqual(false, r2.IsReversal);
+
+            ParabolicSarResult r3 = results.Where(x => x.Index == 502).FirstOrDefault();
+            Assert.AreEqual(229.7662m, Math.Round((decimal)r3.Sar, 4));
+            Assert.AreEqual(false, r3.IsReversal);
         }
 
 

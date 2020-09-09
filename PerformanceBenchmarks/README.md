@@ -2,7 +2,7 @@
 
 ## for v0.10.7
 
-These are the execution time for the current indicators **using two years of historical daily stock quotes** (e.g. 502 periods) with default or typical parameters.
+These are the execution times for the current indicators using two years of historical daily stock quotes (502 periods) with default or typical parameters.
 
 ``` bash
 BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19041.508 (2004/?/20H1)
@@ -34,7 +34,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |           GetMacd |    621.0 μs |     6.02 μs |     5.63 μs |
 |            GetMfi |  9,389.9 μs |    56.31 μs |    49.92 μs |
 |            GetObv |    252.6 μs |     5.02 μs |     9.54 μs |
-|   GetParabolicSar | 32,957.5 μs | 1,329.52 μs | 3,920.11 μs |
+|   GetParabolicSar |    299.8 μs |      TBD μs |      TBD μs |
 |            GetPmo | 38,080.1 μs |   748.88 μs | 1,460.64 μs |
 |            GetRoc | 32,278.3 μs |   630.76 μs |   647.74 μs |
 |            GetRsi |    945.4 μs |    15.41 μs |    13.66 μs |
