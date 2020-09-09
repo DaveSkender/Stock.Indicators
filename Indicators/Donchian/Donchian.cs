@@ -17,11 +17,14 @@ namespace Skender.Stock.Indicators
             ValidateDonchian(history, lookbackPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<DonchianResult> results = new List<DonchianResult>();
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+
                 DonchianResult result = new DonchianResult
                 {
                     Index = (int)h.Index,
@@ -30,7 +33,7 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = history
+                    List<Quote> period = historyList
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .ToList();
 
