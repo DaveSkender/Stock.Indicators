@@ -38,7 +38,7 @@ namespace Skender.Stock.Indicators
             foreach (CciResult result in results.Where(x => x.Index >= lookbackPeriod))
             {
                 List<CciResult> period = results
-                    .Where(x => x.Index <= result.Index && x.Index > (result.Index - lookbackPeriod))
+                    .Where(x => x.Index > (result.Index - lookbackPeriod) && x.Index <= result.Index)
                     .ToList();
 
                 decimal smaTp = (decimal)period.Select(x => x.Tp).Average();

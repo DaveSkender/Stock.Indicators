@@ -17,11 +17,14 @@ namespace Skender.Stock.Indicators
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+
                 BollingerBandsResult result = new BollingerBandsResult
                 {
                     Index = (int)h.Index,
@@ -30,18 +33,18 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    double[] periodClose = history
+                    double[] periodClose = historyList
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .Select(x => (double)x.Close)
                         .ToArray();
 
-                    double stdDev = Functions.StdDev(periodClose);
+                    decimal stdDev = (decimal)Functions.StdDev(periodClose);
 
                     result.Sma = (decimal)periodClose.Average();
-                    result.UpperBand = result.Sma + standardDeviations * (decimal)stdDev;
-                    result.LowerBand = result.Sma - standardDeviations * (decimal)stdDev;
+                    result.UpperBand = result.Sma + standardDeviations * stdDev;
+                    result.LowerBand = result.Sma - standardDeviations * stdDev;
 
-                    result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / (decimal)stdDev;
+                    result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / stdDev;
                     result.Width = (result.Sma == 0) ? null : (result.UpperBand - result.LowerBand) / result.Sma;
                 }
 

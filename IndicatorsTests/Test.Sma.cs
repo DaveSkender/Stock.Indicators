@@ -14,7 +14,7 @@ namespace StockIndicators.Tests
         public void GetSmaTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);
+            IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod, true);
 
             // assertions
 

@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             List<StochRsiResult> results = new List<StochRsiResult>();
 
             // get RSI
-            IEnumerable<RsiResult> rsiResults = GetRsi(history, rsiPeriod);
+            List<RsiResult> rsiResults = GetRsi(history, rsiPeriod).ToList();
 
             // convert rsi to quote format
             List<Quote> rsiQuotes = rsiResults
@@ -36,11 +36,12 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // get Stochastic of RSI
-            IEnumerable<StochResult> stoResults = GetStoch(rsiQuotes, stochPeriod, signalPeriod, smoothPeriod);
+            List<StochResult> stoResults = GetStoch(rsiQuotes, stochPeriod, signalPeriod, smoothPeriod).ToList();
 
             // compose
-            foreach (RsiResult r in rsiResults)
+            for (int i = 0; i < rsiResults.Count; i++)
             {
+                RsiResult r = rsiResults[i];
 
                 StochRsiResult result = new StochRsiResult
                 {
@@ -50,9 +51,7 @@ namespace Skender.Stock.Indicators
 
                 if (r.Index >= rsiPeriod + stochPeriod)
                 {
-                    StochResult sto = stoResults
-                        .Where(x => x.Index == r.Index - stochPeriod)
-                        .FirstOrDefault();
+                    StochResult sto = stoResults[r.Index - stochPeriod - 1];
 
                     result.StochRsi = sto.Oscillator;
                     result.Signal = sto.Signal;

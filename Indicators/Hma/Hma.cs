@@ -17,36 +17,38 @@ namespace Skender.Stock.Indicators
             ValidateHma(history, lookbackPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<Quote> synthHistory = new List<Quote>();
 
-            IEnumerable<WmaResult> wmaN1 = GetWma(history, lookbackPeriod);
-            IEnumerable<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2);
+            List<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
+            List<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
 
             // create interim synthetic history
-            foreach (Quote h in history)
+            // roll through history
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+
                 Quote sh = new Quote
                 {
                     Date = h.Date
                 };
 
-                WmaResult w1 = wmaN1.Where(x => x.Index == h.Index).FirstOrDefault();
-                WmaResult w2 = wmaN2.Where(x => x.Index == h.Index).FirstOrDefault();
+                WmaResult w1 = wmaN1[i];
+                WmaResult w2 = wmaN2[i];
 
                 if (w1.Wma != null && w2.Wma != null)
                 {
                     sh.Close = (decimal)(w2.Wma * 2m - w1.Wma);
                     synthHistory.Add(sh);
-                    //Console.WriteLine("{0},{1},{2},{3}", h.Index, w1.Wma, w2.Wma, sh.Close);  // debugging only
                 }
-
             }
 
             // initialize results, add back truncated null results
             int sqN = (int)Math.Sqrt(lookbackPeriod);
             int shiftQty = lookbackPeriod - 1;
 
-            List<HmaResult> results = history
+            List<HmaResult> results = historyList
                 .Select(x => new HmaResult
                 {
                     Index = (int)x.Index,

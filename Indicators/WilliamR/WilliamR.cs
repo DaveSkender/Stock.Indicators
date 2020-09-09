@@ -15,23 +15,15 @@ namespace Skender.Stock.Indicators
             // validate parameters
             ValidateWilliam(history, lookbackPeriod);
 
-            // initialize
-            List<WilliamResult> results = new List<WilliamResult>();
-            IEnumerable<StochResult> stoch = GetStoch(history, lookbackPeriod, 1, 1); // fast variant
-
             // convert Stochastic to William %R
-            foreach (StochResult s in stoch)
-            {
-                WilliamResult result = new WilliamResult
+            return GetStoch(history, lookbackPeriod, 1, 1) // fast variant
+                .Select(s => new WilliamResult
                 {
                     Index = s.Index,
                     Date = s.Date,
                     WilliamR = s.Oscillator - 100
-                };
-                results.Add(result);
-            }
-
-            return results;
+                })
+                .ToList();
         }
 
 

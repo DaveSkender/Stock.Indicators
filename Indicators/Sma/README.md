@@ -14,6 +14,7 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](../../GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `extended` | bool | A `true` will include values for MAD, MSE, and MAPE.  Default is `false`.
 
 ## Response
 
@@ -32,6 +33,8 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Mad` | decimal | Mean absolute deviation
 | `Mse` | decimal | Mean square error
 | `Mape` | decimal | Mean absolute percentage error
+
+MAD, MSE, and MAPE values are only included if you set `extended` to `true`
 
 ## Example
 

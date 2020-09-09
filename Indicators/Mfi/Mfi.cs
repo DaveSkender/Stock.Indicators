@@ -16,13 +16,15 @@ namespace Skender.Stock.Indicators
             ValidateMfi(history, lookbackPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<MfiResult> results = new List<MfiResult>();
 
             decimal? prevTP = null;
 
             // preliminary data
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 MfiResult result = new MfiResult
                 {
@@ -54,13 +56,16 @@ namespace Skender.Stock.Indicators
             }
 
             // add money flow index
-            foreach (MfiResult r in results.Where(x => x.Index > lookbackPeriod))
+            for (int i = lookbackPeriod; i < results.Count; i++)
             {
-                IEnumerable<MfiResult> period = results
-                    .Where(x => x.Index > r.Index - lookbackPeriod && x.Index <= r.Index);
+                MfiResult r = results[i];
 
-                IEnumerable<MfiResult> posMFs = period.Where(x => x.Direction == 1);
-                IEnumerable<MfiResult> negMFs = period.Where(x => x.Direction == -1);
+                List<MfiResult> period = results
+                    .Where(x => x.Index > r.Index - lookbackPeriod && x.Index <= r.Index)
+                    .ToList();
+
+                List<MfiResult> posMFs = period.Where(x => x.Direction == 1).ToList();
+                List<MfiResult> negMFs = period.Where(x => x.Direction == -1).ToList();
 
                 // handle no negative case
                 if (!negMFs.Any() || negMFs.Select(x => x.RawMF).Sum() == 0)

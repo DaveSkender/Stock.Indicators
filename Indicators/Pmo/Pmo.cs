@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<PmoResult> results = new List<PmoResult>();
-            IEnumerable<RocResult> roc = GetRoc(history, 1);
+            List<RocResult> roc = GetRoc(history, 1).ToList();
 
             int startIndex = 0;
             decimal smoothingMultiplier = 2m / timePeriod;
@@ -34,8 +34,9 @@ namespace Skender.Stock.Indicators
             // get ROC EMA variant
             startIndex = timePeriod + 1;
 
-            foreach (RocResult r in roc)
+            for (int i = 0; i < roc.Count; i++)
             {
+                RocResult r = roc[i];
 
                 PmoResult result = new PmoResult
                 {
@@ -49,11 +50,11 @@ namespace Skender.Stock.Indicators
                 }
                 else if (r.Index == startIndex)
                 {
-                    List<RocResult> period = roc
+                    result.RocEma = roc
                         .Where(x => x.Index > r.Index - timePeriod && x.Index <= r.Index)
-                        .ToList();
-
-                    result.RocEma = period.Select(x => x.Roc).Average();
+                        .ToList()
+                        .Select(x => x.Roc)
+                        .Average();
                 }
 
                 lastRocEma = result.RocEma;
@@ -64,19 +65,21 @@ namespace Skender.Stock.Indicators
             // calculate PMO
             startIndex = timePeriod + smoothingPeriod;
 
-            foreach (PmoResult p in results.Where(x => x.Index >= startIndex))
+            for (int i = startIndex - 1; i < results.Count; i++)
             {
+                PmoResult p = results[i];
+
                 if (p.Index > startIndex)
                 {
                     p.Pmo = (p.RocEma - lastPmo) * smoothingConstant + lastPmo;
                 }
                 else if (p.Index == startIndex)
                 {
-                    List<PmoResult> period = results
+                    p.Pmo = results
                         .Where(x => x.Index > p.Index - smoothingPeriod && x.Index <= p.Index)
-                        .ToList();
-
-                    p.Pmo = period.Select(x => x.RocEma).Average();
+                        .ToList()
+                        .Select(x => x.RocEma)
+                        .Average();
                 }
 
                 lastPmo = p.Pmo;
@@ -85,19 +88,21 @@ namespace Skender.Stock.Indicators
             // add Signal
             startIndex = timePeriod + smoothingPeriod + signalPeriod - 1;
 
-            foreach (PmoResult p in results.Where(x => x.Index >= startIndex))
+            for (int i = startIndex - 1; i < results.Count; i++)
             {
+                PmoResult p = results[i];
+
                 if (p.Index > startIndex)
                 {
                     p.Signal = (p.Pmo - lastSignal) * signalConstant + lastSignal;
                 }
                 else if (p.Index == startIndex)
                 {
-                    List<PmoResult> period = results
+                    p.Signal = results
                         .Where(x => x.Index > p.Index - signalPeriod && x.Index <= p.Index)
-                        .ToList();
-
-                    p.Signal = period.Select(x => x.Pmo).Average();
+                        .ToList()
+                        .Select(x => x.Pmo)
+                        .Average();
                 }
 
                 lastSignal = p.Signal;

@@ -7,7 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE
-        public static IEnumerable<SmaResult> GetSma(IEnumerable<Quote> history, int lookbackPeriod)
+        public static IEnumerable<SmaResult> GetSma(
+            IEnumerable<Quote> history, int lookbackPeriod, bool extended = false)
         {
 
             // clean quotes
@@ -17,11 +18,13 @@ namespace Skender.Stock.Indicators
             ValidateSma(history, lookbackPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<SmaResult> results = new List<SmaResult>();
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 SmaResult result = new SmaResult
                 {
@@ -31,8 +34,8 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = history
-                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
+                    List<Quote> period = historyList
+                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .ToList();
 
                     // simple moving average
@@ -40,21 +43,26 @@ namespace Skender.Stock.Indicators
                         .Select(x => x.Close)
                         .Average();
 
-                    // mean absolute deviation
-                    result.Mad = period
-                        .Select(x => Math.Abs(x.Close - (decimal)result.Sma))
-                        .Average();
+                    // add optional extended values
+                    if (extended)
+                    {
 
-                    // mean squared error
-                    result.Mse = period
-                        .Select(x => (x.Close - (decimal)result.Sma) * (x.Close - (decimal)result.Sma))
-                        .Average();
+                        // mean absolute deviation
+                        result.Mad = period
+                            .Select(x => Math.Abs(x.Close - (decimal)result.Sma))
+                            .Average();
 
-                    // mean absolute percent error
-                    result.Mape = period
-                        .Where(x => x.Close != 0)
-                        .Select(x => Math.Abs(x.Close - (decimal)result.Sma) / x.Close)
-                        .Average();
+                        // mean squared error
+                        result.Mse = period
+                            .Select(x => (x.Close - (decimal)result.Sma) * (x.Close - (decimal)result.Sma))
+                            .Average();
+
+                        // mean absolute percent error
+                        result.Mape = period
+                            .Where(x => x.Close != 0)
+                            .Select(x => Math.Abs(x.Close - (decimal)result.Sma) / x.Close)
+                            .Average();
+                    }
                 }
 
                 results.Add(result);

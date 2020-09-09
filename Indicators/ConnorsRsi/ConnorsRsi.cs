@@ -12,27 +12,29 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C").ToList();
 
             // check parameters
             ValidateConnorsRsi(bd, rsiPeriod, streakPeriod, rankPeriod);
 
             // initialize
             List<ConnorsRsiResult> results = new List<ConnorsRsiResult>();
-            IEnumerable<RsiResult> rsiResults = CalcRsi(bd, rsiPeriod);
+            List<RsiResult> rsiResults = CalcRsi(bd, rsiPeriod).ToList();
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
 
             decimal? lastClose = null;
             decimal streak = 0;
 
             // compose interim results
-            foreach (BasicData h in bd)
+            for (int i = 0; i < bd.Count; i++)
             {
+                BasicData h = bd[i];
+
                 ConnorsRsiResult result = new ConnorsRsiResult
                 {
                     Index = (int)h.Index,
                     Date = h.Date,
-                    RsiClose = rsiResults.Where(x => x.Index == h.Index).FirstOrDefault().Rsi
+                    RsiClose = rsiResults[i].Rsi
                 };
 
                 // bypass for first record
@@ -78,11 +80,13 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index > rankPeriod)
                 {
-                    IEnumerable<ConnorsRsiResult> period = results
-                        .Where(x => x.Index >= (h.Index - rankPeriod) && x.Index < h.Index);
+                    List<ConnorsRsiResult> period = results
+                        .Where(x => x.Index >= (h.Index - rankPeriod) && x.Index < h.Index)
+                        .ToList();
 
-                    result.PercentRank = (decimal)100 * period
-                        .Where(x => x.PeriodGain < result.PeriodGain).Count() / rankPeriod;
+                    result.PercentRank = 100m * period
+                        .Where(x => x.PeriodGain < result.PeriodGain)
+                        .Count() / rankPeriod;
                 }
 
                 results.Add(result);

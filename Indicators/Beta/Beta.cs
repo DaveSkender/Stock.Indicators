@@ -17,14 +17,16 @@ namespace Skender.Stock.Indicators
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
 
             // initialize results
+            List<Quote> historyEvalList = historyEval.ToList();
             List<BetaResult> results = new List<BetaResult>();
 
             // get prerequisite data
-            IEnumerable<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod);
+            List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod).ToList();
 
             // roll through history for interim data
-            foreach (Quote e in historyEval)
+            for (int i = 0; i < historyEvalList.Count; i++)
             {
+                Quote e = historyEvalList[i];
 
                 BetaResult result = new BetaResult
                 {
@@ -33,7 +35,7 @@ namespace Skender.Stock.Indicators
                 };
 
                 // calculate beta, if available
-                CorrResult c = correlation.Where(x => x.Date == e.Date).FirstOrDefault();
+                CorrResult c = correlation[i];
 
                 if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
                 {
