@@ -17,11 +17,13 @@ namespace Skender.Stock.Indicators
             ValidateUlcer(history, lookbackPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<UlcerIndexResult> results = new List<UlcerIndexResult>();
 
-            // preliminary data
-            foreach (Quote h in history)
+            // roll through history
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 UlcerIndexResult result = new UlcerIndexResult
                 {
@@ -31,7 +33,7 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = history
+                    List<Quote> period = historyList
                         .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
                         .ToList();
 
