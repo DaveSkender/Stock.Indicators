@@ -17,8 +17,9 @@ namespace Skender.Stock.Indicators
             ValidateAdx(history, lookbackPeriod);
 
             // initialize results and working variables
-            IEnumerable<AtrResult> atrResults = GetAtr(history, lookbackPeriod); // uses True Range value
+            List<Quote> historyList = history.ToList();
             List<AdxResult> results = new List<AdxResult>();
+            List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -33,8 +34,9 @@ namespace Skender.Stock.Indicators
             decimal sumDx = 0;
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 AdxResult result = new AdxResult
                 {
@@ -51,7 +53,7 @@ namespace Skender.Stock.Indicators
                     continue;
                 }
 
-                decimal tr = (decimal)atrResults.Where(x => x.Index == h.Index).FirstOrDefault().Tr;
+                decimal tr = (decimal)atrResults[i].Tr;
                 decimal pdm1 = (h.High - prevHigh) > (prevLow - h.Low) ? Math.Max(h.High - prevHigh, 0) : 0;
                 decimal mdm1 = (prevLow - h.Low) > (h.High - prevHigh) ? Math.Max(prevLow - h.Low, 0) : 0;
 
