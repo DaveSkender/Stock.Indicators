@@ -20,17 +20,20 @@ namespace Skender.Stock.Indicators
             ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<ParabolicSarResult> results = new List<ParabolicSarResult>();
-            Quote first = history.Where(x => x.Index == 1).FirstOrDefault();
+            Quote first = historyList[0];
 
             decimal accelerationFactor = accelerationStep;
             decimal extremePoint = first.High;
             decimal priorSar = first.Low;
-            bool isRising = true;
+            bool isRising = true;  // initial guess
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+
                 ParabolicSarResult result = new ParabolicSarResult
                 {
                     Index = (int)h.Index,
@@ -43,7 +46,6 @@ namespace Skender.Stock.Indicators
                     results.Add(result);
                     continue;
                 }
-
 
                 // was rising
                 if (isRising)
@@ -68,13 +70,16 @@ namespace Skender.Stock.Indicators
                         result.Sar = currentSar;
 
                         // SAR cannot be higher than last two lows
-                        decimal minLastTwo = history
-                            .Where(x => x.Index >= h.Index - 2 && x.Index < h.Index)
-                            .ToList()
-                            .Select(x => x.Low)
-                            .Min();
+                        if (i >= 2)
+                        {
+                            decimal minLastTwo = Math.Min(historyList[i - 1].Low, historyList[i - 2].Low);
 
-                        result.Sar = Math.Min((decimal)result.Sar, minLastTwo);
+                            result.Sar = Math.Min((decimal)result.Sar, minLastTwo);
+                        }
+                        else
+                        {
+                            result.Sar = (decimal)result.Sar;
+                        }
 
                         if (h.High > extremePoint)
                         {
@@ -107,13 +112,16 @@ namespace Skender.Stock.Indicators
                         result.Sar = currentSar;
 
                         // SAR cannot be lower than last two highs
-                        decimal maxLastTwo = history
-                            .Where(x => x.Index >= h.Index - 2 && x.Index < h.Index)
-                            .ToList()
-                            .Select(x => x.High)
-                            .Max();
+                        if (i >= 2)
+                        {
+                            decimal maxLastTwo = Math.Max(historyList[i - 1].High, historyList[i - 2].High);
 
-                        result.Sar = Math.Max((decimal)result.Sar, maxLastTwo);
+                            result.Sar = Math.Max((decimal)result.Sar, maxLastTwo);
+                        }
+                        else
+                        {
+                            result.Sar = (decimal)result.Sar;
+                        }
 
                         if (h.Low < extremePoint)
                         {
@@ -126,6 +134,21 @@ namespace Skender.Stock.Indicators
                 priorSar = (decimal)result.Sar;
 
                 results.Add(result);
+            }
+
+            // remove first trend to reversal, since it is an invalid guess
+            ParabolicSarResult firstReversal = results
+                .Where(x => x.IsReversal == true)
+                .OrderBy(x => x.Index)
+                .FirstOrDefault();
+
+            if (firstReversal != null)
+            {
+                foreach (ParabolicSarResult r in results.Where(x => x.Index <= firstReversal.Index))
+                {
+                    r.Sar = null;
+                    r.IsReversal = null;
+                }
             }
 
             return results;
