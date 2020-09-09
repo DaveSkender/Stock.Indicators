@@ -16,11 +16,13 @@ namespace Skender.Stock.Indicators
             ValidateAroon(history, lookbackPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<AroonResult> results = new List<AroonResult>();
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 AroonResult result = new AroonResult
                 {
@@ -31,7 +33,7 @@ namespace Skender.Stock.Indicators
                 // add aroons
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = history
+                    List<Quote> period = historyList
                         .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
                         .ToList();
 
