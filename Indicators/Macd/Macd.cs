@@ -10,22 +10,24 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            history = Cleaners.PrepareHistory(history);
 
             // check parameters
             ValidateMacd(history, fastPeriod, slowPeriod, signalPeriod);
 
             // initialize
-            IEnumerable<EmaResult> emaFast = GetEma(history, fastPeriod);
-            IEnumerable<EmaResult> emaSlow = GetEma(history, slowPeriod);
+            List<Quote> historyList = history.ToList();
+            List<EmaResult> emaFast = GetEma(history, fastPeriod).ToList();
+            List<EmaResult> emaSlow = GetEma(history, slowPeriod).ToList();
 
             List<BasicData> emaDiff = new List<BasicData>();
             List<MacdResult> results = new List<MacdResult>();
 
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
-                EmaResult df = emaFast.Where(x => x.Index == h.Index).FirstOrDefault();
-                EmaResult ds = emaSlow.Where(x => x.Index == h.Index).FirstOrDefault();
+                Quote h = historyList[i];
+                EmaResult df = emaFast[i];
+                EmaResult ds = emaSlow[i];
 
                 MacdResult result = new MacdResult
                 {
@@ -53,19 +55,12 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
             }
 
-            IEnumerable<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriod);
+            // add signal and histogram to result
+            List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriod).ToList();
 
-            // add signal, histogram to result
-            foreach (MacdResult r in results)
+            foreach (MacdResult r in results.Where(x => x.Index >= slowPeriod))
             {
-                EmaResult ds = emaSignal
-                    .Where(x => x.Index == r.Index - slowPeriod + 1)
-                    .FirstOrDefault();
-
-                if (ds?.Ema == null)
-                {
-                    continue;
-                }
+                EmaResult ds = emaSignal[r.Index - slowPeriod];
 
                 r.Signal = ds.Ema;
                 r.Histogram = r.Macd - r.Signal;
