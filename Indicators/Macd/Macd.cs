@@ -24,8 +24,8 @@ namespace Skender.Stock.Indicators
 
             foreach (Quote h in history)
             {
-                EmaResult df = emaFast.Where(x => x.Date == h.Date).FirstOrDefault();
-                EmaResult ds = emaSlow.Where(x => x.Date == h.Date).FirstOrDefault();
+                EmaResult df = emaFast.Where(x => x.Index == h.Index).FirstOrDefault();
+                EmaResult ds = emaSlow.Where(x => x.Index == h.Index).FirstOrDefault();
 
                 MacdResult result = new MacdResult
                 {
@@ -42,8 +42,8 @@ namespace Skender.Stock.Indicators
                     // temp data for interim EMA of macd
                     BasicData diff = new BasicData
                     {
+                        Index = h.Index - slowPeriod + 1,
                         Date = h.Date,
-                        Index = h.Index - slowPeriod,
                         Value = macd
                     };
 
@@ -58,7 +58,9 @@ namespace Skender.Stock.Indicators
             // add signal, histogram to result
             foreach (MacdResult r in results)
             {
-                EmaResult ds = emaSignal.Where(x => x.Date == r.Date).FirstOrDefault();
+                EmaResult ds = emaSignal
+                    .Where(x => x.Index == r.Index - slowPeriod + 1)
+                    .FirstOrDefault();
 
                 if (ds?.Ema == null)
                 {

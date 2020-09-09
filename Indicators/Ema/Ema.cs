@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             // initialize EMA
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
             decimal lastEma = basicData
-                .Where(x => x.Index < lookbackPeriod)
+                .Where(x => x.Index <= lookbackPeriod)
                 .ToList()
                 .Select(x => x.Value)
                 .Average();
@@ -48,10 +48,14 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod)
+                if (h.Index > lookbackPeriod)
                 {
                     result.Ema = lastEma + k * (h.Value - lastEma);
                     lastEma = (decimal)result.Ema;
+                }
+                else if (h.Index == lookbackPeriod)
+                {
+                    result.Ema = lastEma;
                 }
 
                 results.Add(result);
