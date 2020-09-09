@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             List<Quote> historyList = history.ToList();
             List<ZigZagResult> results = new List<ZigZagResult>();
             decimal changeThreshold = percentChange / 100m;
-            Quote firstQuote = history.First();
+            Quote firstQuote = historyList[0];
             ZigZagEval eval = GetZigZagEval(type, firstQuote);
 
             ZigZagPoint lastPoint = new ZigZagPoint
@@ -44,7 +44,7 @@ namespace Skender.Stock.Indicators
                 PointType = "L"
             };
 
-            int finalPointIndex = history.Select(x => (int)x.Index).Max();
+            int finalPointIndex = historyList.Select(x => (int)x.Index).Max();
 
             // roll through history until to find initial trend
             for (int i = 0; i < historyList.Count; i++)
@@ -97,7 +97,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagPoint EvaluateNextPoint(List<Quote> history,
+        private static ZigZagPoint EvaluateNextPoint(List<Quote> historyList,
             ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint)
         {
             // initialize 
@@ -112,7 +112,7 @@ namespace Skender.Stock.Indicators
                 PointType = trendUp ? "H" : "L"
             };
 
-            List<Quote> period = history
+            List<Quote> period = historyList
                 .Where(x => x.Index > lastPoint.Index)
                 .ToList();
 
@@ -161,7 +161,7 @@ namespace Skender.Stock.Indicators
             }
 
             // handle last unconfirmed point
-            int finalPointIndex = history.Select(x => (int)x.Index).Max();
+            int finalPointIndex = historyList.Select(x => (int)x.Index).Max();
             if (extremePoint.Index == finalPointIndex && change < changeThreshold)
             {
                 extremePoint.PointType = null;
@@ -171,13 +171,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawZigZagLine(List<ZigZagResult> results, List<Quote> history,
+        private static void DrawZigZagLine(List<ZigZagResult> results, List<Quote> historyList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint)
         {
             // initialize
             List<ZigZagResult> newResults = new List<ZigZagResult>();
 
-            List<Quote> period = history
+            List<Quote> period = historyList
                 .Where(x => x.Index > lastPoint.Index && x.Index <= nextPoint.Index)
                 .ToList();
 

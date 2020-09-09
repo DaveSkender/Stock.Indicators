@@ -29,15 +29,15 @@ namespace PerformanceBenchmarks
         }
 
         [Benchmark]
-        public void GetAroon()
-        {
-            Indicator.GetAroon(hm);
-        }
-
-        [Benchmark]
         public void GetAdx()
         {
             Indicator.GetAdx(hm);
+        }
+
+        [Benchmark]
+        public void GetAroon()
+        {
+            Indicator.GetAroon(hm);
         }
 
         [Benchmark]
@@ -50,6 +50,12 @@ namespace PerformanceBenchmarks
         public void GetBeta()
         {
             Indicator.GetBeta(hm, ho, 30);
+        }
+
+        [Benchmark]
+        public void GetCorrelation()
+        {
+            Indicator.GetCorrelation(hm, ho, 30);
         }
 
         [Benchmark]
@@ -86,12 +92,6 @@ namespace PerformanceBenchmarks
         public void GetConnorsRsi()
         {
             Indicator.GetConnorsRsi(hm);
-        }
-
-        [Benchmark]
-        public void GetCorrelation()
-        {
-            Indicator.GetCorrelation(hm, ho, 30);
         }
 
         [Benchmark]
