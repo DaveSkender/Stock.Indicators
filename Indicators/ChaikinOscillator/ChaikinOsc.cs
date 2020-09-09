@@ -21,20 +21,21 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<ChaikinOscResult> results = new List<ChaikinOscResult>();
-            IEnumerable<AdlResult> adlResults = GetAdl(history);
+            List<AdlResult> adlResults = GetAdl(history).ToList();
 
 
             // EMA of ADL
             IEnumerable<BasicData> adlBasicData = adlResults
                 .Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Adl });
 
-            IEnumerable<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod);
-            IEnumerable<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod);
+            List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod).ToList();
+            List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod).ToList();
 
 
             // roll through history
-            foreach (AdlResult r in adlResults)
+            for (int i = 0; i < adlResults.Count; i++)
             {
+                AdlResult r = adlResults[i];
 
                 ChaikinOscResult result = new ChaikinOscResult
                 {
@@ -48,8 +49,8 @@ namespace Skender.Stock.Indicators
                 // add Oscillator
                 if (r.Index >= slowPeriod)
                 {
-                    EmaResult f = adlEmaFast.Where(x => x.Index == r.Index).FirstOrDefault();
-                    EmaResult s = adlEmaSlow.Where(x => x.Index == r.Index).FirstOrDefault();
+                    EmaResult f = adlEmaFast[i];
+                    EmaResult s = adlEmaSlow[i];
 
                     result.Oscillator = f.Ema - s.Ema;
                 }
