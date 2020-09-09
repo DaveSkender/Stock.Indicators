@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 [assembly: InternalsVisibleTo("IndicatorsTests")]
 namespace Skender.Stock.Indicators
 {
     public static class Cleaners
     {
-        private static readonly CultureInfo cultureProvider = new CultureInfo("en-US", false);
+        private static readonly CultureInfo nativeCulture = Thread.CurrentThread.CurrentUICulture;
 
 
         public static List<Quote> PrepareHistory(IEnumerable<Quote> history)
@@ -36,7 +37,8 @@ namespace Skender.Stock.Indicators
 
                 if (lastDate == h.Date)
                 {
-                    throw new BadHistoryException(string.Format(cultureProvider, "Duplicate date found on {0}.", h.Date));
+                    throw new BadHistoryException(
+                        string.Format(nativeCulture, "Duplicate date found on {0}.", h.Date));
                 }
 
                 lastDate = h.Date;
@@ -70,7 +72,8 @@ namespace Skender.Stock.Indicators
 
                 if (lastDate == h.Date)
                 {
-                    throw new BadHistoryException(string.Format(cultureProvider, "Duplicate date found on {0}.", h.Date));
+                    throw new BadHistoryException(
+                        string.Format(nativeCulture, "Duplicate date found on {0}.", h.Date));
                 }
 
                 lastDate = h.Date;

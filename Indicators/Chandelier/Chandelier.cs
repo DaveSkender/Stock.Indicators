@@ -90,7 +90,7 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Chandelier Exit.  " +
-                        string.Format(cultureProvider,
+                        string.Format(englishCulture,
                         "You provided {0} periods of history when at least {1} is required.",
                         qtyHistory, minHistory));
             }
