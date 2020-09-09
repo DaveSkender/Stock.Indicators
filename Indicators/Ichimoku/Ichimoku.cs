@@ -18,11 +18,13 @@ namespace Skender.Stock.Indicators
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
 
             // initialize
+            List<Quote> historyList = history.ToList();
             List<IchimokuResult> results = new List<IchimokuResult>();
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 IchimokuResult result = new IchimokuResult
                 {
@@ -34,7 +36,7 @@ namespace Skender.Stock.Indicators
                 if (h.Index >= signalPeriod)
                 {
 
-                    List<Quote> tenkanPeriod = history
+                    List<Quote> tenkanPeriod = historyList
                         .Where(x => x.Index > (h.Index - signalPeriod) && x.Index <= h.Index)
                         .ToList();
 
@@ -47,7 +49,7 @@ namespace Skender.Stock.Indicators
                 // kijun-sen base line
                 if (h.Index >= shortSpanPeriod)
                 {
-                    List<Quote> kijunPeriod = history
+                    List<Quote> kijunPeriod = historyList
                         .Where(x => x.Index > (h.Index - shortSpanPeriod) && x.Index <= h.Index)
                         .ToList();
 
@@ -60,10 +62,7 @@ namespace Skender.Stock.Indicators
                 // senkou span A
                 if (h.Index >= 2 * shortSpanPeriod)
                 {
-
-                    IchimokuResult skq = results
-                        .Where(x => x.Index == h.Index - shortSpanPeriod)
-                        .FirstOrDefault();
+                    IchimokuResult skq = results[(int)h.Index - shortSpanPeriod - 1];
 
                     if (skq != null && skq.TenkanSen != null && skq.KijunSen != null)
                     {
@@ -74,7 +73,7 @@ namespace Skender.Stock.Indicators
                 // senkou span B
                 if (h.Index >= shortSpanPeriod + longSpanPeriod)
                 {
-                    List<Quote> senkauPeriod = history
+                    List<Quote> senkauPeriod = historyList
                         .Where(x => x.Index > (h.Index - shortSpanPeriod - longSpanPeriod)
                             && x.Index <= h.Index - shortSpanPeriod)
                         .ToList();
@@ -86,15 +85,10 @@ namespace Skender.Stock.Indicators
                 }
 
                 // chikou line
-                Quote chikouQuote = history
-                    .Where(x => x.Index == h.Index + shortSpanPeriod)
-                    .FirstOrDefault();
-
-                if (chikouQuote != null)
+                if (h.Index + shortSpanPeriod <= historyList.Count)
                 {
-                    result.ChikouSpan = chikouQuote.Close;
+                    result.ChikouSpan = historyList[(int)h.Index + shortSpanPeriod - 1].Close;
                 }
-
                 results.Add(result);
             }
 
