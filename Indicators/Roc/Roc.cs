@@ -16,11 +16,13 @@ namespace Skender.Stock.Indicators
             ValidateRoc(history, lookbackPeriod);
 
             // initialize
+            var historyList = history.ToList();
             List<RocResult> results = new List<RocResult>();
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 RocResult result = new RocResult
                 {
@@ -30,10 +32,7 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index > lookbackPeriod)
                 {
-                    Quote back = history
-                        .Where(x => x.Index == h.Index - lookbackPeriod)
-                        .FirstOrDefault();
-
+                    Quote back = historyList[(int)h.Index - lookbackPeriod - 1];
                     result.Roc = 100 * (h.Close - back.Close) / back.Close;
                 }
 
