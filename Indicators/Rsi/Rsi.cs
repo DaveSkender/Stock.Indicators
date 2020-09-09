@@ -21,18 +21,19 @@ namespace Skender.Stock.Indicators
         {
 
             // clean data
-            basicData = Cleaners.PrepareBasicData(basicData);
+            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData).ToList();
 
             // check parameters
             ValidateRsi(basicData, lookbackPeriod);
 
             // initialize
-            decimal lastValue = basicData.First().Value;
+            decimal lastValue = bdList[0].Value;
             List<RsiResult> results = new List<RsiResult>();
 
             // load gain data
-            foreach (BasicData h in basicData)
+            for (int i = 0; i < bdList.Count; i++)
             {
+                BasicData h = bdList[i];
 
                 RsiResult result = new RsiResult
                 {
