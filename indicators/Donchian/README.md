@@ -1,0 +1,54 @@
+﻿# Donchian Channels
+
+Donchian Channels are derived from highed High and lowest Low values over a lookback period.
+[More info ...](https://en.wikipedia.org/wiki/Donchian_channel)
+
+```csharp
+// usage
+IEnumerable<DonchianResult> results = Indicator.GetDonchian(history, lookbackPeriod);  
+```
+
+## Parameters
+
+| name | type | notes
+| -- |-- |--
+| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for an appropriate sample size.  Default is 20.
+
+## Response
+
+```csharp
+IEnumerable<DonchianResult>
+```
+
+The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+### DonchianResult
+
+| name | type | notes
+| -- |-- |--
+| `Date` | DateTime | Date
+| `UpperBand` | decimal | Upper line is the highest High over `N` periods
+| `Centerline` | decimal | Simple average of Upper and Lower bands
+| `LowerBand` | decimal | Lower line is the lowest Low over `N` periods
+| `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
+| `IsDiverging` | bool | Upper and Lower bands are diverging.  `null` when `Width` is neither increase nor decreasing.
+
+## Example
+
+```csharp
+// fetch historical quotes from your favorite feed, in Quote format
+IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+
+// calculate Donchian(20)
+IEnumerable<DonchianResult> results = Indicator.GetDonchian(history,20);
+
+// use results as needed
+DateTime evalDate = DateTime.Parse("12/31/2018");
+DonchianResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+Console.WriteLine("Upper Donchian Channel on {0} was ${1}", result.Date, result.UpperBand);
+```
+
+```bash
+Upper Donchian Channel on 12/31/2018 was $273.59
+```
