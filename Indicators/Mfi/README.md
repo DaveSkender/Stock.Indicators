@@ -11,7 +11,7 @@ IEnumerable<MfiResult> results = Indicator.GetMfi(history,lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+1` historical quotes.
+| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+1` historical quotes.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
 
 ## Response

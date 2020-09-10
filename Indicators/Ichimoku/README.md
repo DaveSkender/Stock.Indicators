@@ -12,7 +12,7 @@ IEnumerable<IchimokuResult> results = Indicator.GetIchimoku(history, lookbackPer
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least the maximum of `N` or `S` or `L` periods of `history`; though, given the leading and lagging nature, we recommend notably more.
+| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least the maximum of `N` or `S` or `L` periods of `history`; though, given the leading and lagging nature, we recommend notably more.
 | `signalPeriod` | int | Number of periods (`N`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9.
 | `shortSpanPeriod` | int | Number of periods (`S`) in the shorter Kijun-sen midpoint evaluation.  It also sets the Chikou span lag/shift.  Must be greater than 0.  Default is 26.
 | `longSpanPeriod` | int | Number of periods (`L`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `S`.  Default is 52.

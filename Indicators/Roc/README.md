@@ -12,7 +12,7 @@ IEnumerable<RocResult> results = Indicator.GetRoc(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+1` periods of `history`.
+| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+1` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.
 
 ## Response

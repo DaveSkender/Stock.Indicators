@@ -11,7 +11,7 @@ IEnumerable<ObvResult> results = Indicator.GetObv(history);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least two historical quotes; however, since this is a trendline, more is recommended.
+| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least two historical quotes; however, since this is a trendline, more is recommended.
 
 ## Response
 

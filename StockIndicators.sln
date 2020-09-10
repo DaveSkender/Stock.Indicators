@@ -12,11 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		azure-pipelines.yml = azure-pipelines.yml
 		docs\CONTRIBUTING.md = docs\CONTRIBUTING.md
 		gitversion.yml = gitversion.yml
-		GUIDE.md = GUIDE.md
-		INDICATORS.md = INDICATORS.md
+		docs\GUIDE.md = docs\GUIDE.md
+		docs\INDICATORS.md = docs\INDICATORS.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
-		SECURITY.md = SECURITY.md
+		docs\SECURITY.md = docs\SECURITY.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndicatorsTests", "IndicatorsTests\IndicatorsTests.csproj", "{40FB4F6A-9EE9-4F78-804E-1A3D7E741E28}"
