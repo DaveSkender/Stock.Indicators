@@ -49,7 +49,7 @@ steps:
     displayName: "test internal"
     inputs:
       command: test
-      projects: "**/IndicatorsTests.csproj"
+      projects: "**/Tests.Indicators.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       testRunTitle: "Library Internal Tests"
       vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
@@ -58,7 +58,7 @@ steps:
     displayName: "test external"
     inputs:
       command: test
-      projects: "**/IndicatorsExternalTests.csproj"
+      projects: "**/Tests.External.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
@@ -84,14 +84,14 @@ steps:
     inputs:
       command: pack
       vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
-      packagesToPack: Indicators/Indicators.csproj
+      packagesToPack: indicators/Indicators.csproj
       versioningScheme: byEnvVar
       versionEnvVar: GitVersion.NuGetVersion
 
   - task: CopyFiles@2
     displayName: "stage artifacts"
     inputs:
-      SourceFolder: Indicators
+      SourceFolder: indicators
       Contents: "**/*.nupkg"
       TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
