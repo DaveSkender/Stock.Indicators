@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Indicators\Indicators.csproj" />
+    <ProjectReference Include="..\..\indicators\Indicators.csproj" />
   </ItemGroup>
 
 </Project>

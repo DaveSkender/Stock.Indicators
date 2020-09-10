@@ -5,8 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("IndicatorsExternalTests")]
-[assembly: InternalsVisibleTo("PerformanceBenchmarks")]
+[assembly: InternalsVisibleTo("Tests.External")]
+[assembly: InternalsVisibleTo("Tests.Performance")]
 namespace StockIndicators.Tests
 {
     // MAIN HISTORY

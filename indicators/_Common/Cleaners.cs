@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-[assembly: InternalsVisibleTo("IndicatorsTests")]
+[assembly: InternalsVisibleTo("Tests.Indicators")]
 namespace Skender.Stock.Indicators
 {
     public static class Cleaners

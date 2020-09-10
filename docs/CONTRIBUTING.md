@@ -39,7 +39,7 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 
 ### Performance benchmarking
 
-- Running the `PerformanceBenchmarks` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find or update the latest results [here](../PerformanceBenchmarks/README.md).
+- Running the `PerformanceBenchmarks` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find or update the latest results [here](../tests/performance/README.md).
 
 ## Submitting changes
 
