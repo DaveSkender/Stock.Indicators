@@ -7,7 +7,7 @@
 - [Pre-cleaning history](#cleaning-history)
 - [Using derived classes](#using-derived-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
-- [Contributing guidelines](CONTRIBUTING.md)
+- [Contributing guidelines](docs/CONTRIBUTING.md)
 
 ## Prerequisite data
 
