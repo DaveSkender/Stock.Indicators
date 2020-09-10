@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators.Tests
+namespace Internal.Tests
 {
     // LONG HISTORY
 

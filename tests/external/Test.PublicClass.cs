@@ -1,11 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
-using StockIndicators.Tests;
+using Internal.Tests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IndicatorsExternalTests
+namespace External.Tests
 {
     public class MyQuote : Quote
     {
@@ -21,8 +21,9 @@ namespace IndicatorsExternalTests
 
 
     [TestClass]
-    public class ExternalModelTests
+    public class PublicClassTests
     {
+
         [TestMethod()]
         public void CleanHistory()
         {
@@ -31,8 +32,6 @@ namespace IndicatorsExternalTests
 
             Indicator.GetSma(history, 5);
         }
-
-
 
         [TestMethod()]
         public void ReadQuoteClass()

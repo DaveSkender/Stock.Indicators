@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Skender.Stock.Indicators;
-using StockIndicators.Tests;
+using Internal.Tests;
 using System;
 using System.Collections.Generic;
 

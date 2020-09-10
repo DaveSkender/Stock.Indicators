@@ -2,7 +2,7 @@
 using Skender.Stock.Indicators;
 using System;
 
-namespace StockIndicators.Tests
+namespace Internal.Tests
 {
     [TestClass]
     public class ExceptionTests : TestBase

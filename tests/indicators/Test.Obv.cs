@@ -3,7 +3,7 @@ using Skender.Stock.Indicators;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StockIndicators.Tests
+namespace Internal.Tests
 {
     [TestClass]
     public class ObvTests : TestBase

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Tests.External")]
 [assembly: InternalsVisibleTo("Tests.Performance")]
-namespace StockIndicators.Tests
+namespace Internal.Tests
 {
     // MAIN HISTORY
 
