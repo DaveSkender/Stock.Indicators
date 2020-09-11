@@ -15,7 +15,7 @@ steps:
     displayName: build
     inputs:
       projects: "**/Tests.Performance.csproj"
-      arguments: "--disable-parallel --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
+      arguments: "--configuration Release"
       vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: DotNetCoreCLI@2
@@ -23,14 +23,14 @@ steps:
     inputs:
       command: run
       projects: "**/Tests.Performance.csproj"
-      arguments: "--configuration Release --no-restore"
+      arguments: "--configuration Release --no-restore --no-build"
       vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: CopyFiles@2
     displayName: "stage artifacts"
     inputs:
       SourceFolder: tests/performance
-      Contents: "**/BenchmarkDotNet.Artifacts\results"
+      Contents: "**/BenchmarkDotNet.Artifacts/results"
       TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
       OverWrite: true
