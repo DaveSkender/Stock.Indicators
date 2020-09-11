@@ -1,4 +1,4 @@
-# indicators and overlays
+# Indicators and overlays
 
 - [Acumulation Distribution Line (ADL)](../indicators/Adl/README.md#content)
 - [Aroon Oscillator](../indicators/Aroon/README.md#content)
