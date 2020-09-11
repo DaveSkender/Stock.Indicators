@@ -1,3 +1,3 @@
 theme: jekyll-theme-cayman
 include: [ 'docs/CONTRIBUTING.md', 'LICENSE.md' ]
-exclude: [ 'IndicatorTests','IndicatorExternalTests','*.sln','*.csproj','*.cs','*.xlsx','*.yml' ]
+exclude: [ 'tests','*.sln','*.csproj','*.cs','*.xlsx','*.yml' ]
