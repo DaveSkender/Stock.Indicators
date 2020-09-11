@@ -39,7 +39,7 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 
 ### Performance benchmarking
 
-- Running the `Tests.Performance` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find or update the latest results [here](../tests/performance/README.md).
+- Running the `Tests.Performance` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find the latest results [here](../tests/performance/README.md).
 
 ## Submitting changes
 
@@ -74,7 +74,7 @@ We use the `GitVersion` tool for versioning.  It is mostly auto generated in the
 
 ## Contact info
 
-Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
+Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.  The public developers chat group is here: [Microsoft Teams](https://teams.microsoft.com/l/team/19%3a1b9209d6959e442694a28c91250ad708%40thread.skype/conversations?groupId=199d1962-4cdd-46fb-998b-7e24d0f225cf&tenantId=089fffad-8315-4180-8556-a1105149f47e)
 
 Thanks,
 Dave Skender
