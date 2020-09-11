@@ -32,13 +32,6 @@ steps:
       arguments: "/output buildserver"
 
   - task: DotNetCoreCLI@2
-    displayName: "restore packages"
-    inputs:
-      command: restore
-      projects: "**/*.csproj"
-      vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
-
-  - task: DotNetCoreCLI@2
     displayName: build
     inputs:
       projects: "**/*.csproj"
@@ -50,7 +43,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       testRunTitle: "Library Internal Tests"
       vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
@@ -59,7 +52,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.External.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
       vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
