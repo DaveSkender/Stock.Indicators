@@ -80,7 +80,7 @@ steps:
   - task: CopyFiles@2
     displayName: "stage artifacts"
     inputs:
-      SourceFolder: indicators
+      SourceFolder: "indicators"
       Contents: "**/*.nupkg"
       TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
