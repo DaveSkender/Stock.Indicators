@@ -50,4 +50,4 @@ steps:
   - task: PublishBuildArtifacts@1
     displayName: 'save artifacts'
     inputs:
-      ArtifactName: packages
+      ArtifactName: results
