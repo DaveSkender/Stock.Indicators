@@ -39,7 +39,15 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 
 ### Performance benchmarking
 
-- Running the `Tests.Performance` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find the latest results [here](../tests/performance/README.md).
+Running the `Tests.Performance` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find the latest results [here](../tests/performance/README.md).
+
+```bash
+# run all performance bencmarks
+dotnet run -c Release
+
+# run individual performance benchmark
+dotnet run -c Release --filter *.GetAdx
+```
 
 ## Submitting changes
 
@@ -47,9 +55,11 @@ Submit a Pull Request with a clear list of what you've done (read more about [pu
 
 Always write a clear log message for your commits. One-line messages are fine for most changes, but bigger changes that require more explanation should look like this:
 
-    $ git commit -m "A brief summary of the commit
-    > 
-    > A paragraph describing what changed and its impact."
+```bash
+git commit -m "A brief summary of the commit
+>
+> A paragraph describing what changed and its impact."
+```
 
 After a Pull Request is reviewed, accepted, and [squash] merged to master, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
