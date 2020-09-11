@@ -1,0 +1,18 @@
+trigger:
+  - master
+
+pr:
+  - master
+
+pool:
+  name: Azure Pipelines
+  vmImage: "windows-2019"
+
+variables:
+  BuildConfiguration: "Release"
+
+steps:
+  - task: UseDotNet@2
+    displayName: "use .Net Core SDK 3.1.x"
+    inputs:
+      version: 3.1.x
