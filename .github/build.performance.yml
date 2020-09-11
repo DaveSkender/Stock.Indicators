@@ -41,8 +41,8 @@ steps:
   - task: CopyFiles@2
     displayName: "stage artifacts"
     inputs:
-      SourceFolder: tests/performance
-      Contents: "**/BenchmarkDotNet.Artifacts/results"
+      SourceFolder: "tests/performance"
+      Contents: "**/BenchmarkDotNet.Artifacts/results/**"
       TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
       OverWrite: true
