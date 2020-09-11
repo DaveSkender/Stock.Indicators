@@ -6,7 +6,7 @@
 [![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21?logo=AzureDevops&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=master&view=codecoverage-tab)
 [![CodeQL](https://github.com/DaveSkender/Stock.Indicators/workflows/CodeQL/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/security/code-scanning)
 
-[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a multi-targeting .NET library that produces [stock indicators](docs/INDICATORS.md).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
+[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a .NET library that produces [stock indicators](docs/INDICATORS.md).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
 
 It can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
 
@@ -61,4 +61,4 @@ This NuGet package is an open-source project.  If you want to report or contribu
 
 ## Contact us
 
-Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
+Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.  For extended chat, join us on our public [Microsoft Teams site](https://teams.microsoft.com/l/team/19%3a1b9209d6959e442694a28c91250ad708%40thread.skype/conversations?groupId=199d1962-4cdd-46fb-998b-7e24d0f225cf&tenantId=089fffad-8315-4180-8556-a1105149f47e).

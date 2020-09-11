@@ -1,4 +1,4 @@
-# Contributing to Stock.Indicators
+# Contributing guidelines
 
 [![Board Status](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/69f29c08-2257-4429-9cea-1629abcd3064/_apis/work/boardbadge/a1dfc6ae-7836-4b56-a849-9a48698252c2)](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/_boards/board/t/69f29c08-2257-4429-9cea-1629abcd3064/Microsoft.RequirementCategory/)
 
@@ -9,14 +9,14 @@ This project is simpler than most, so it's a good place to start contributing to
 Before contributing, please be aware that we are accepting these sorts of changes:
 
 - Bug reports and fixes
-- New generic indicators and overlays (lets say, "by the book" and reputable definitions)
+- New generic indicators and overlays (reputable "by the book" definitions only)
 
 We are not accepting things that should be done in your own wrapper code:
 
 - Personal customizations and preferences
 - Modified or augmented outputs that are not backed by standard definitions
 
-## Reporting bug or feature requests
+## Reporting bugs and feature requests
 
 If you are reporting a bug or feature request, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem or recommended feature.  For bugs, be sure to include steps to reproduce, code samples, and any reference materials.
 
@@ -26,20 +26,20 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 - Our backlog is [here](https://dev.azure.com/skender/Stock.Indicators/_boards/board/t/Stock.Indicators)
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.
 - All new indicators should include unit tests.
-- Update the main `INDICATORS.md` file if you're adding a new indicator, and the `README.md` file for the individual indicator.  This is our only user documentation.
+- Update the `INDICATORS.md` file if you're adding a new indicator, and the `README.md` file for the individual indicator.  This is our only user documentation.
 - Do not comingle multiple contributions.  Please keep changes small and separate.
 
 ## Testing
 
-- Review the IndicatorTests folder/project for examples of unit tests.  Just copy one of these.
+- Review the `tests/indicators` folder for examples of unit tests.  Just copy one of these.
 - New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to attach your manual calculations to the Pull Request when [submitting changes](#submitting-changes).
-- Stock History is automatically added to unit test methods.  A `History.xlsx` Excel file is included in the `Test Data` folder that is an exact copy of what is used in the unit tests.  Use this for your manual calculations to ensure that it is correct.  Do not commit changes to this Excel file.
+- Stock History is automatically added to unit test methods.  A `History.xlsx` Excel file is included in the `test data` folder that is an exact copy of what is used in the unit tests.  Use this for your manual calculations to ensure that it is correct.  Do not commit changes to this Excel file.
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request, when submitting changes.
 
 ### Performance benchmarking
 
-- Running the `Tests.Performance` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find or update the latest results [here](../tests/performance/README.md).
+- Running the `Tests.Performance` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find the latest results [here](../tests/performance/README.md).
 
 ## Submitting changes
 
@@ -74,7 +74,7 @@ We use the `GitVersion` tool for versioning.  It is mostly auto generated in the
 
 ## Contact info
 
-Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.
+Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.  The public developers chat group is here: [Microsoft Teams](https://teams.microsoft.com/l/team/19%3a1b9209d6959e442694a28c91250ad708%40thread.skype/conversations?groupId=199d1962-4cdd-46fb-998b-7e24d0f225cf&tenantId=089fffad-8315-4180-8556-a1105149f47e)
 
 Thanks,
 Dave Skender

@@ -1,5 +1,8 @@
 trigger:
   - master
+  
+# no PR triggers
+pr: none
 
 pool:
   name: Azure Pipelines
@@ -50,4 +53,4 @@ steps:
   - task: PublishBuildArtifacts@1
     displayName: 'save artifacts'
     inputs:
-      ArtifactName: packages
+      ArtifactName: results
