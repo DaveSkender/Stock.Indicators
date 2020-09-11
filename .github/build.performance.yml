@@ -12,10 +12,24 @@ steps:
       version: 3.1.x
 
   - task: DotNetCoreCLI@2
+    displayName: "use GitVersion"
+    inputs:
+      command: custom
+      custom: tool
+      arguments: "install -g gitversion.tool --version 5.3.7"
+
+  - task: DotNetCoreCLI@2
+    displayName: "run GitVersion"
+    inputs:
+      command: custom
+      custom: gitversion
+      arguments: "/output buildserver"
+
+  - task: DotNetCoreCLI@2
     displayName: build
     inputs:
       projects: "**/Tests.Performance.csproj"
-      arguments: "--configuration Release"
+      arguments: "--configuration Release /p:Version=$(GitVersion.NuGetVersion)"
 
   - task: DotNetCoreCLI@2
     displayName: "run benchmarks"
