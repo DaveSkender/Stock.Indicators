@@ -1,11 +1,11 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using Skender.Stock.Indicators;
 using Internal.Tests;
+using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 
-namespace PerformanceBenchmarks
+namespace Performance.Tests
 {
     public class Program
     {
