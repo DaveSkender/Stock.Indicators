@@ -75,7 +75,7 @@ For example, if you are using daily data and want one year of precise EMA(250) d
 
 ## Cleaning history
 
-Historical quotes are automatically cleaned on every call to the library.  This is needed to do minimal basic data quality checks and to ensure that it is sequenced properly.  You do not need to pre-clean your historical quotes; however, there are some scenarios where it may be advantageous.  While the library is quite fast, there is a very small performance cost to cleaning that can add up if you are doing massive bulk operations on a given static `history`, such as computing every indicator or every possible permutation of an indicator.
+Historical quotes are automatically cleaned on every call to the library.  This is needed to do minimal basic data quality checks and to ensure that it is sequenced properly.  **You do not need to pre-clean your historical quotes**; however, there are some scenarios where it may be advantageous.  While the library is quite fast, there is a very small performance cost to cleaning that can add up if you are doing massive bulk operations on a given static `history`, such as computing every indicator or every possible permutation of an indicator.
 
 If you intend to use the same composed `IEnumerable<Quote> history` in multiple calls and want to optimize speed, we recommend you pre-clean it so that it does not perform that operation on every call to the library.  If you pre-clean, the provided `history` will be used as-is without re-cleaning.
 
