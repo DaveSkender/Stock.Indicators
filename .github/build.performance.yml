@@ -16,7 +16,6 @@ steps:
     inputs:
       projects: "**/Tests.Performance.csproj"
       arguments: "--configuration Release"
-      vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: DotNetCoreCLI@2
     displayName: "run benchmarks"
@@ -24,7 +23,6 @@ steps:
       command: run
       projects: "**/Tests.Performance.csproj"
       arguments: "--configuration Release --no-restore --no-build"
-      vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: CopyFiles@2
     displayName: "stage artifacts"

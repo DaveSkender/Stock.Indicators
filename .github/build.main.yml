@@ -36,7 +36,6 @@ steps:
     inputs:
       projects: "**/*.csproj"
       arguments: "--disable-parallel --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
-      vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: DotNetCoreCLI@2
     displayName: "test internal"
@@ -45,7 +44,6 @@ steps:
       projects: "**/Tests.Indicators.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       testRunTitle: "Library Internal Tests"
-      vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: DotNetCoreCLI@2
     displayName: "test external"
@@ -55,7 +53,6 @@ steps:
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
-      vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
     displayName: "format code coverage"
@@ -76,7 +73,6 @@ steps:
     displayName: "pack for NuGet"
     inputs:
       command: pack
-      vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
       packagesToPack: indicators/Indicators.csproj
       versioningScheme: byEnvVar
       versionEnvVar: GitVersion.NuGetVersion
