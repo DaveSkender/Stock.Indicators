@@ -1,5 +1,8 @@
 trigger:
   - master
+  
+# no PR triggers
+pr: none
 
 pool:
   name: Azure Pipelines
