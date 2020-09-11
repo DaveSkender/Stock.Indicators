@@ -35,7 +35,7 @@ steps:
     displayName: build
     inputs:
       projects: "**/*.csproj"
-      arguments: "--disable-parallel --configuration $(BuildConfiguration) --no-restore /p:Version=$(GitVersion.NuGetVersion)"
+      arguments: "--disable-parallel --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
       vstsFeed: "5123ca47-74f2-4d67-a5d4-c4d90b8d670a/96cedadb-756b-4db1-8a0d-029c7ed294c7"
 
   - task: DotNetCoreCLI@2
