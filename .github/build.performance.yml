@@ -41,11 +41,11 @@ steps:
   - task: CopyFiles@2
     displayName: 'stage artifacts'
     inputs:
+      SourceFolder: 'BenchmarkDotNet.Artifacts\results'
       Contents: '**'
       TargetFolder: '$(Build.ArtifactStagingDirectory)'
       CleanTargetFolder: true
       OverWrite: true
-      flattenFolders: false
 
   - task: PublishBuildArtifacts@1
     displayName: 'save artifacts'
