@@ -6,13 +6,13 @@
 [![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21?logo=AzureDevops&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=master&view=codecoverage-tab)
 [![CodeQL](https://github.com/DaveSkender/Stock.Indicators/workflows/CodeQL/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/security/code-scanning)
 
-[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a .NET library that produces [stock indicators](docs/INDICATORS.md).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
+[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a .NET library that produces [stock indicators](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
 
 It can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
 
 Explore more information:
 
-- [List of indicators and overlays](docs/INDICATORS.md)
+- [List of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html)
 - [Getting started](#getting-started)
 - [Guide and Pro tips](docs/GUIDE.md)
 - [Contributing guidelines](docs/CONTRIBUTING.md)
@@ -45,7 +45,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 ```
 
-See [individual indicator pages](docs/INDICATORS.md) for specific guidance.
+See [individual indicator pages](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html) for specific guidance.
 
 ## Frameworks targeted
 
