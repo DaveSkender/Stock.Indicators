@@ -113,6 +113,12 @@ namespace Performance.Tests
         }
 
         [Benchmark]
+        public void GetDoubleEma()
+        {
+            Indicator.GetDoubleEma(hm, 14);
+        }
+        
+        [Benchmark]
         public void GetEma()
         {
             Indicator.GetEma(hm, 14);
