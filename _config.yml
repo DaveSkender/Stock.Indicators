@@ -1,3 +1,4 @@
 theme: jekyll-theme-cayman
 include: [ 'docs/CONTRIBUTING.md', 'LICENSE.md' ]
 exclude: [ 'tests/indicators','tests/external','*.sln','*.csproj','*.cs','*.xlsx','*.yml' ]
+google_analytics: UA-100790637-2
