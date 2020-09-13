@@ -35,11 +35,11 @@ namespace Skender.Stock.Indicators
                 if (r.Index >= lookbackPeriod)
                 {
                     List<AdlResult> periodCmf = adlResults
-                        .Where(x => x.Index <= r.Index && x.Index > (r.Index - lookbackPeriod))
+                        .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
                         .ToList();
 
                     List<Quote> periodVol = historyList
-                        .Where(x => x.Index <= r.Index && x.Index > (r.Index - lookbackPeriod))
+                        .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
                         .ToList();
 
                     decimal avgMfv = periodCmf
