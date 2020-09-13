@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            var historyList = history.ToList();
+            List<Quote> historyList = history.ToList();
             List<CmfResult> results = new List<CmfResult>();
             IEnumerable<AdlResult> adlResults = GetAdl(history);
 
@@ -34,20 +34,17 @@ namespace Skender.Stock.Indicators
 
                 if (r.Index >= lookbackPeriod)
                 {
-                    List<AdlResult> periodCmf = adlResults
-                        .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
-                        .ToList();
 
-                    List<Quote> periodVol = historyList
+                    decimal avgMfv = adlResults
                         .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
-                        .ToList();
-
-                    decimal avgMfv = periodCmf
                         .Select(x => x.MoneyFlowVolume)
+                        .ToArray()
                         .Average();
 
-                    decimal avgVol = periodVol
+                    decimal avgVol = historyList
+                        .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
                         .Select(x => x.Volume)
+                        .ToArray()
                         .Average();
 
                     if (avgVol != 0)
