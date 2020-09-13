@@ -5,6 +5,6 @@ namespace Skender.Stock.Indicators
     [Serializable]
     public class UlcerIndexResult : ResultBase
     {
-        public decimal? UI { get; internal set; }
+        public decimal? UI { get; set; }
     }
 }
