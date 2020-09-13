@@ -31,10 +31,10 @@ namespace Skender.Stock.Indicators
                 };
 
                 // add aroons
-                if (h.Index >= lookbackPeriod)
+                if (h.Index > lookbackPeriod)
                 {
                     List<Quote> period = historyList
-                        .Where(x => x.Index <= h.Index && x.Index > (h.Index - lookbackPeriod))
+                        .Where(x => x.Index <= h.Index && x.Index >= (h.Index - lookbackPeriod))
                         .ToList();
 
                     decimal lastHighPrice = period.Select(x => x.High).Max();
