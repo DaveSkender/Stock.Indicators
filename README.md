@@ -15,7 +15,7 @@ Explore more information:
 - [List of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html)
 - [Getting started](#getting-started)
 - [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html)
-- [Contributing guidelines#content](docs/CONTRIBUTING.md)
+- [Contributing guidelines](docs/CONTRIBUTING.md#content)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
 - [Contact us](#contact-us)
