@@ -16,18 +16,31 @@ namespace Internal.Tests
             int lookbackPeriod = 20;
             IEnumerable<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod);
 
+            foreach (CmfResult r in results)
+            {
+                Console.WriteLine("{0},{1:F4},{2:F2},{3:F6}", r.Index, r.MoneyFlowMultiplier, r.MoneyFlowVolume, r.Cmf);
+            }
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Cmf != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Cmf != null).Count());
 
-            // sample value
-            CmfResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual(0.8052m, Math.Round(r.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(r.MoneyFlowVolume, 2));
-            Assert.AreEqual(-20257893.60m, Math.Round((decimal)r.Cmf, 2));
+            // sample values
+            CmfResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            Assert.AreEqual(0.8052m, Math.Round(r1.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25m, Math.Round(r1.MoneyFlowVolume, 2));
+            Assert.AreEqual(-0.123754m, Math.Round((decimal)r1.Cmf, 6));
+
+            CmfResult r2 = results.Where(x => x.Index == 250).FirstOrDefault();
+            Assert.AreEqual(0.7778m, Math.Round(r2.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(36433792.89m, Math.Round(r2.MoneyFlowVolume, 2));
+            Assert.AreEqual(-0.040226m, Math.Round((decimal)r2.Cmf, 6));
+
+            CmfResult r3 = results.Where(x => x.Index == 50).FirstOrDefault();
+            Assert.AreEqual(0.5468m, Math.Round(r3.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(55609259m, Math.Round(r3.MoneyFlowVolume, 2));
+            Assert.AreEqual(0.350596m, Math.Round((decimal)r3.Cmf, 6));
         }
 
 
