@@ -81,7 +81,7 @@ namespace Skender.Stock.Indicators
                     decimal max = senkauPeriod.Select(x => x.High).Max();
                     decimal min = senkauPeriod.Select(x => x.Low).Min();
 
-                    result.SenkauSpanB = (min + max) / 2;
+                    result.SenkouSpanB = (min + max) / 2;
                 }
 
                 // chikou line
