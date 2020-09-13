@@ -54,6 +54,14 @@ steps:
       publishTestResults: false
       testRunTitle: 'Library External Tests'
 
+  - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+    displayName: 'generate code coverage report'
+    inputs:
+      reports: '**/coverage.cobertura.xml'
+      targetdir: '$(Build.ArtifactStagingDirectory)/TestResults'
+      reporttypes: 'Cobertura;Badges'
+      title: 'Stock.Indicators Library Tests'
+      
   - task: PublishCodeCoverageResults@1
     displayName: 'publish code coverage'
     inputs:
