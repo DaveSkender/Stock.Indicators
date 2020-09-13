@@ -33,14 +33,26 @@ namespace Skender.Stock.Indicators
 
                 if (r.Index >= lookbackPeriod)
                 {
-                    List<AdlResult> period = adlResults
+                    List<AdlResult> periodCmf = adlResults
                         .Where(x => x.Index <= r.Index && x.Index > (r.Index - lookbackPeriod))
                         .ToList();
 
-                    // simple moving average
-                    result.Cmf = period
+                    List<Quote> periodVol = history
+                        .Where(x => x.Index <= r.Index && x.Index > (r.Index - lookbackPeriod))
+                        .ToList();
+
+                    decimal avgMfv = periodCmf
                         .Select(x => x.MoneyFlowVolume)
                         .Average();
+
+                    decimal avgVol = periodVol
+                        .Select(x => x.Volume)
+                        .Average();
+
+                    if (avgVol != 0)
+                    {
+                        result.Cmf = avgMfv / avgVol;
+                    }
                 }
 
                 results.Add(result);
