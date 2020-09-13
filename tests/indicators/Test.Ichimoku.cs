@@ -27,7 +27,7 @@ namespace Internal.Tests
             Assert.AreEqual(494, results.Where(x => x.TenkanSen != null).Count());
             Assert.AreEqual(477, results.Where(x => x.KijunSen != null).Count());
             Assert.AreEqual(451, results.Where(x => x.SenkouSpanA != null).Count());
-            Assert.AreEqual(425, results.Where(x => x.SenkauSpanB != null).Count());
+            Assert.AreEqual(425, results.Where(x => x.SenkouSpanB != null).Count());
             Assert.AreEqual(476, results.Where(x => x.ChikouSpan != null).Count());
 
             // sample values
@@ -35,14 +35,14 @@ namespace Internal.Tests
             Assert.AreEqual(265.575m, r1.TenkanSen);
             Assert.AreEqual(263.965m, r1.KijunSen);
             Assert.AreEqual(274.9475m, r1.SenkouSpanA);
-            Assert.AreEqual(274.95m, r1.SenkauSpanB);
+            Assert.AreEqual(274.95m, r1.SenkouSpanB);
             Assert.AreEqual(245.28m, r1.ChikouSpan);
 
             IchimokuResult r2 = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual(241.26m, r2.TenkanSen);
             Assert.AreEqual(251.505m, r2.KijunSen);
             Assert.AreEqual(264.77m, r2.SenkouSpanA);
-            Assert.AreEqual(269.82m, r2.SenkauSpanB);
+            Assert.AreEqual(269.82m, r2.SenkouSpanB);
             Assert.AreEqual(null, r2.ChikouSpan);
         }
 
