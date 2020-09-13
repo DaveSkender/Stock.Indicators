@@ -18,18 +18,20 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<EmaResult> results = new List<EmaResult>();
-            IEnumerable<EmaResult> emaN = CalcEma(bd, lookbackPeriod);
+            List<EmaResult> emaN = CalcEma(bd, lookbackPeriod).ToList();
 
             List<BasicData> bd2 = emaN
                 .Where(x => x.Ema != null)
                 .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();  // note: ToList seems to be required when changing data
 
-            IEnumerable<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriod);
+            List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriod).ToList();
 
             // compose final results
-            foreach (EmaResult h in emaN)
+            for (int i = 0; i < emaN.Count; i++)
             {
+                EmaResult h = emaN[i];
+
                 EmaResult result = new EmaResult
                 {
                     Index = h.Index,
@@ -38,7 +40,7 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= 2 * lookbackPeriod)
                 {
-                    EmaResult emaEma = emaN2.Where(x => x.Index == h.Index - lookbackPeriod + 1).FirstOrDefault();
+                    EmaResult emaEma = emaN2[h.Index - lookbackPeriod];
                     result.Ema = 2 * h.Ema - emaEma.Ema;
                 }
 
