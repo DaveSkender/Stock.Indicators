@@ -59,7 +59,7 @@ steps:
     inputs:
       reports: '**/coverage.cobertura.xml'
       targetdir: '$(Build.ArtifactStagingDirectory)/TestResults'
-      reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
+      reporttypes: 'Cobertura;Badges'
       title: 'Stock.Indicators Library Tests'
 
   - task: PublishCodeCoverageResults@1
