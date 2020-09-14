@@ -65,12 +65,6 @@ namespace Performance.Tests
         }
 
         [Benchmark]
-        public void GetCorrelation()
-        {
-            Indicator.GetCorrelation(hm, ho, 30);
-        }
-
-        [Benchmark]
         public void GetBollingerBands()
         {
             Indicator.GetBollingerBands(hm);
@@ -80,12 +74,6 @@ namespace Performance.Tests
         public void GetCci()
         {
             Indicator.GetCci(hm);
-        }
-
-        [Benchmark]
-        public void GetCmf()
-        {
-            Indicator.GetCmf(hm);
         }
 
         [Benchmark]
@@ -101,9 +89,21 @@ namespace Performance.Tests
         }
 
         [Benchmark]
+        public void GetCmf()
+        {
+            Indicator.GetCmf(hm);
+        }
+
+        [Benchmark]
         public void GetConnorsRsi()
         {
             Indicator.GetConnorsRsi(hm);
+        }
+
+        [Benchmark]
+        public void GetCorrelation()
+        {
+            Indicator.GetCorrelation(hm, ho, 30);
         }
 
         [Benchmark]
