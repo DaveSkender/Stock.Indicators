@@ -3,6 +3,8 @@
 Standard Deviation of Close price over a lookback period.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:standard_deviation_volatility)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod);  

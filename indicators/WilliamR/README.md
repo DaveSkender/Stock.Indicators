@@ -3,6 +3,8 @@
 William %R is a stochastic oscillator that looks back `N` periods to produce an indicator with scale of -100 to 0.  It is exactly the same as the Fast variant of [Stochastic Oscillator](../Stochastic/README.md), but with a different scaling.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:williams_r)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history, lookbackPeriod);  

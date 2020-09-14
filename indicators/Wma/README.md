@@ -3,6 +3,8 @@
 Weighted moving average is the linear weighted average of `Close` price over `N` lookback periods.  This also called Linear Weighted Moving Average (LWMA).
 [More info ...](https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/wma)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<WmaResult> results = Indicator.GetWma(history, lookbackPeriod);  

@@ -2,6 +2,8 @@
 
 Exponentially weighted moving average of the Close price over `N` periods.  More info on: [EMA](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_averages) and [Double EMA](https://www.investopedia.com/terms/d/double-exponential-moving-average.asp)
 
+![image](chart.png)
+
 ```csharp
 // usage for EMA (standard)
 IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);

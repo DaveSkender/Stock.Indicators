@@ -3,6 +3,8 @@
 HMA is a modified linear weighted average of `Close` price over `N` lookback periods that reduces lag.
 [More info ...](https://alanhull.com/hull-moving-average)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<HmaResult> results = Indicator.GetHma(history, lookbackPeriod);  

@@ -3,6 +3,8 @@
 Beta shows how strongly one stock responds to systemic volatility of the entire market.
 [More info ...](https://en.wikipedia.org/wiki/Beta_(finance))
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<BetaResult> results = Indicator.GetBeta(historyMarket, historyEval, lookbackPeriod);  

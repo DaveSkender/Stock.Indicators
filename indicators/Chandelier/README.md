@@ -3,6 +3,8 @@
 Chandelier Exit is typically used for stop-loss and can be computed for both long or short types.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history, lookbackPeriod, multiplier, type);  

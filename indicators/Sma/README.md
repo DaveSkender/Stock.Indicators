@@ -3,6 +3,8 @@
 Simple moving average is the average of Close price of `N` lookback periods.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_averages)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);  

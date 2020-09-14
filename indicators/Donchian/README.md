@@ -3,6 +3,8 @@
 Donchian Channels are derived from highed High and lowest Low values over a lookback period.
 [More info ...](https://en.wikipedia.org/wiki/Donchian_channel)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<DonchianResult> results = Indicator.GetDonchian(history, lookbackPeriod);  
@@ -32,7 +34,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Centerline` | decimal | Simple average of Upper and Lower bands
 | `LowerBand` | decimal | Lower line is the lowest Low over `N` periods
 | `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
-| `IsDiverging` | bool | Upper and Lower bands are diverging.  `null` when `Width` is neither increase nor decreasing.
 
 ## Example
 

@@ -3,6 +3,8 @@
 Chaikin Oscillator is the difference between fast and slow Exponential Moving Averages (EMA) of the Accumulation and Distribution Line (ADL).
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chaikin_oscillator)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod);  

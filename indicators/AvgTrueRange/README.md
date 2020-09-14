@@ -3,6 +3,8 @@
 Measure of volatility that captures gaps and limits between periods.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:average_true_range_atr)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);  

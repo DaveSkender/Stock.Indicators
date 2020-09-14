@@ -3,6 +3,8 @@
 Chaikin Money Flow is the simple moving average of the Money Flow Volume over `N` lookback periods.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chaikin_money_flow_cmf)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod);  

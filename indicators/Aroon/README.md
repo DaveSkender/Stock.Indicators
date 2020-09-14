@@ -3,6 +3,8 @@
 Aroon is a simple oscillator view of how long the new high or low price occured over a lookback period.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<AroonResult> results = Indicator.GetAroon(history, lookbackPeriod);  

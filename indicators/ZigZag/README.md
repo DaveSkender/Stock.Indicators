@@ -3,6 +3,8 @@
 Zig Zag is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<ZigZagResult> results = Indicator.GetZigZag(history,type,percentChange);  

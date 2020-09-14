@@ -3,6 +3,8 @@
 Oscillator depicting deviation from typical price range.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:commodity_channel_index_cci)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<CciResult> results = Indicator.GetCci(history, lookbackPeriod);  

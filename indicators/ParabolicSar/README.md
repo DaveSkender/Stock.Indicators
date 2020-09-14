@@ -3,6 +3,8 @@
 Parabolic SAR (stop and reverse) is a price-time based indicator.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:parabolic_sar)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, accelerationStep, maxAccelerationFactor);  
@@ -14,7 +16,7 @@ IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, acc
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  Provide sufficient history to capture prior trend reversals, before your usage period.  At least two history records are required to calculate; however, we recommend at least 100 data points.
 | `accelerationStep` | decimal | Incremental step size.  Must be greater than 0.  Default is 0.02
-| `maxAccelerationFactor` | decimal | Maximimum step limit.  Must be greater than 0 and larger than `accelerationStep`.  Default is 0.2
+| `maxAccelerationFactor` | decimal | Maximimum step limit.  Must be greater than `accelerationStep`.  Default is 0.2
 
 NOTE: Initial Parabolic SAR values before the first reversal are not accurate and is excluded from the results.
 

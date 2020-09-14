@@ -2,6 +2,8 @@
 
 A price-volume oscillator that shows buying and selling momentum.  [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:money_flow_index_mfi)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<MfiResult> results = Indicator.GetMfi(history,lookbackPeriod);

@@ -3,6 +3,8 @@
 Correlation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and covariance are also output.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:correlation_coeffici)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookbackPeriod);  
