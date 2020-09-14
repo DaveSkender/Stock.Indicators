@@ -7,6 +7,8 @@ A modified candlestick pattern that uses prior day for smoothing.  [More info ..
 IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);  
 ```
 
+![image](chart.png)
+
 ## Parameters
 
 | name | type | notes
