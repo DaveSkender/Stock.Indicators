@@ -3,6 +3,8 @@
 MACD is a simple oscillator view of two converging/diverging exponential moving averages.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_average_convergence_divergence_macd)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);  

@@ -3,6 +3,8 @@
 UI is a measure of downside volatility over the lookback period.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:ulcer_index)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod);  
@@ -28,7 +30,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `UI` | decimal | The UlcerIndex value
+| `UI` | decimal | Ulcer Index
 
 ## Example
 
@@ -42,9 +44,9 @@ IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history,14);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 UlcerIndexResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("UlcerIndex on {0} was ${1}", result.Date, result.UI);
+Console.WriteLine("Ulcer Index on {0} was ${1}", result.Date, result.UI);
 ```
 
 ```bash
-UlcerIndex on 12/31/2018 was 5.73
+Ulcer Index on 12/31/2018 was 5.73
 ```

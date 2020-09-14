@@ -3,6 +3,8 @@
 Stochastic Oscillator is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:stochastic_oscillator_fast_slow_and_full)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  

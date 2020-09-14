@@ -3,6 +3,8 @@
 Keltner Channels are based on an EMA centerline and ATR band widths.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:keltner_channels)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<KeltnerResult> results = Indicator.GetKeltner(history, emaPeriod, multiplier, atrPeriod);  

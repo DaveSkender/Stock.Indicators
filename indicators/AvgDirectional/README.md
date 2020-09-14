@@ -3,6 +3,8 @@
 Measure of price directional movement.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:average_directional_index_adx)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);  

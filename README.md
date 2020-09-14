@@ -14,8 +14,8 @@ Explore more information:
 
 - [List of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html)
 - [Getting started](#getting-started)
-- [Guide and Pro tips](docs/GUIDE.md)
-- [Contributing guidelines](docs/CONTRIBUTING.md)
+- [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html)
+- [Contributing guidelines](docs/CONTRIBUTING.md#content)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
 - [Contact us](#contact-us)
@@ -57,7 +57,7 @@ See [individual indicator pages](https://daveskender.github.io/Stock.Indicators/
 
 [![board status](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/69f29c08-2257-4429-9cea-1629abcd3064/_apis/work/boardbadge/a1dfc6ae-7836-4b56-a849-9a48698252c2)](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/_boards/board/t/69f29c08-2257-4429-9cea-1629abcd3064/Microsoft.RequirementCategory/)
 
-This NuGet package is an open-source project.  If you want to report or contribute bug fixes, new indicators, or feature requests, please review our [contributing guidelines](docs/CONTRIBUTING.md).
+This NuGet package is an open-source project.  If you want to report or contribute bug fixes, new indicators, or feature requests, please review our [contributing guidelines](docs/CONTRIBUTING.md#content).
 
 ## Contact us
 

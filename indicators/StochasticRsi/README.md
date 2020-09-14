@@ -4,6 +4,8 @@ Stochastic interpretation of the Relative Strength Index.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi)
 It is different from, and often confused with the more traditional [Stochastic Oscillator](../Stochastic/README.md)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);

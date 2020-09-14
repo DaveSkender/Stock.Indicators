@@ -3,6 +3,8 @@
 The Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:ichimoku_cloud)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<IchimokuResult> results = Indicator.GetIchimoku(history, lookbackPeriod);  

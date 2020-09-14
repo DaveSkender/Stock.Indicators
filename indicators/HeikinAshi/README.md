@@ -2,6 +2,8 @@
 
 A modified candlestick pattern that uses prior day for smoothing.  [More info ...](https://school.stockcharts.com/doku.php?id=chart_analysis:heikin_ashi)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);  

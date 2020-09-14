@@ -4,6 +4,8 @@ Relative Strength Index measures strength of winning/losing streak over `N` look
 RSI values over 70 are considered overbought, while values under 30 are considered oversold.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:relative_strength_index_rsi)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);  

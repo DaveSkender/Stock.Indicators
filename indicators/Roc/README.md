@@ -3,6 +3,8 @@
 Rate of Change is the percent change of Close price over `N` lookback periods.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:rate_of_change_roc_and_momentum)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<RocResult> results = Indicator.GetRoc(history, lookbackPeriod);

@@ -2,6 +2,8 @@
 
 A rolling accumulation of Chaikin Money Flow Volume.  [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:accumulation_distribution_line)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<AdlResult> results = Indicator.GetAdl(history);  

@@ -3,6 +3,8 @@
 DecisionPoint Price Momentum Oscillator is double-smoothed ROC based momentum indicator.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<PmoResult> results = Indicator.GetPmo(history, timePeriod, smoothingPeriod, signalPeriod);

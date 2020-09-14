@@ -2,6 +2,8 @@
 
 A rolling accumulation of volume based on Close price direction.  [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:on_balance_volume_obv)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<ObvResult> results = Indicator.GetObv(history);  

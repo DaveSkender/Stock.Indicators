@@ -3,6 +3,8 @@
 Bollinger Bands indicate volatility and displays standard deviation boundary lines from moving average of Close price.
 [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:bollinger_bands)
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviation);  
