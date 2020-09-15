@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateCci(history, lookbackPeriod);
@@ -20,9 +20,10 @@ namespace Skender.Stock.Indicators
             List<CciResult> results = new List<CciResult>();
 
 
-            // roll through history to get Typical Price
-            foreach (Quote h in history)
+            // roll through history
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 CciResult result = new CciResult
                 {
@@ -31,25 +32,29 @@ namespace Skender.Stock.Indicators
                     Tp = (h.High + h.Low + h.Close) / 3
                 };
                 results.Add(result);
-            }
 
-
-            // roll through interim results to calculate CCI
-            foreach (CciResult result in results.Where(x => x.Index >= lookbackPeriod))
-            {
-                List<CciResult> period = results
-                    .Where(x => x.Index > (result.Index - lookbackPeriod) && x.Index <= result.Index)
-                    .ToList();
-
-                decimal smaTp = (decimal)period.Select(x => x.Tp).Average();
-                decimal meanDv = 0;
-
-                foreach (CciResult p in period)
+                if (h.Index >= lookbackPeriod)
                 {
-                    meanDv += Math.Abs(smaTp - (decimal)p.Tp);
+                    // average TP over lookback
+                    decimal avgTp = 0;
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    {
+                        CciResult d = results[p];
+                        avgTp += (decimal)d.Tp;
+                    }
+                    avgTp /= lookbackPeriod;
+
+                    // average Deviation over lookback
+                    decimal avgDv = 0;
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    {
+                        CciResult d = results[p];
+                        avgDv += Math.Abs(avgTp - (decimal)d.Tp);
+                    }
+                    avgDv /= lookbackPeriod;
+
+                    result.Cci = (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
                 }
-                meanDv /= lookbackPeriod;
-                result.Cci = (result.Tp - smaTp) / ((decimal)0.015 * meanDv);
             }
 
             return results;
