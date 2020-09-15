@@ -91,9 +91,9 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameters
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriod < 1)
             {
-                throw new BadParameterException("Lookback period must be greater than 1 for RSI.");
+                throw new BadParameterException("Lookback period must be greater than 0 for RSI.");
             }
 
             // check history
