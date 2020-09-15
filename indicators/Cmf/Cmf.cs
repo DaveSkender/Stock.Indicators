@@ -10,13 +10,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<CmfResult> results = new List<CmfResult>();
             IEnumerable<AdlResult> adlResults = GetAdl(history);
 

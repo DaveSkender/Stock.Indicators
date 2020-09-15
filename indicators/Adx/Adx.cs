@@ -11,13 +11,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // verify parameters
             ValidateAdx(history, lookbackPeriod);
 
             // initialize results and working variables
-            List<Quote> historyList = history.ToList();
             List<AdxResult> results = new List<AdxResult>();
             List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
 

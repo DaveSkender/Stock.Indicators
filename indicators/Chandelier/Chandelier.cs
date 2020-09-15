@@ -12,13 +12,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate inputs
             ValidateChandelier(history, lookbackPeriod, multiplier);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<ChandelierResult> results = new List<ChandelierResult>();
             List<AtrResult> atrResult = GetAtr(history, lookbackPeriod).ToList();  // uses ATR
 

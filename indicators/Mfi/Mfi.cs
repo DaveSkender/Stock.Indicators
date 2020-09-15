@@ -10,13 +10,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateMfi(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<MfiResult> results = new List<MfiResult>();
 
             decimal? prevTP = null;

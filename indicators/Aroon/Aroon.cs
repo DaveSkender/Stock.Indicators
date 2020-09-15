@@ -10,13 +10,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateAroon(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<AroonResult> results = new List<AroonResult>();
 
             // roll through history

@@ -12,13 +12,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateSma(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<SmaResult> results = new List<SmaResult>();
 
             // roll through history

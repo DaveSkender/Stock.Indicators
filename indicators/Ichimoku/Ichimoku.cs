@@ -12,13 +12,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<IchimokuResult> results = new List<IchimokuResult>();
 
             // roll through history

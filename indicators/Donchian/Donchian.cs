@@ -11,13 +11,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateDonchian(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<DonchianResult> results = new List<DonchianResult>();
 
             // roll through history

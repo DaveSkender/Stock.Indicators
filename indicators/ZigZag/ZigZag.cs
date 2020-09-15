@@ -11,13 +11,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateZigZag(history, percentChange);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<ZigZagResult> results = new List<ZigZagResult>();
             decimal changeThreshold = percentChange / 100m;
             Quote firstQuote = historyList[0];

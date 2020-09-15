@@ -11,13 +11,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<BollingerBandsResult> results = new List<BollingerBandsResult>();
 
             // roll through history

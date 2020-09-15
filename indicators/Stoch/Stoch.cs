@@ -10,13 +10,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<StochResult> results = new List<StochResult>();
 
             // oscillator

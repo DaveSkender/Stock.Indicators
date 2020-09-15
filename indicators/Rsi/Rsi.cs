@@ -54,7 +54,7 @@ namespace Skender.Stock.Indicators
             // initial first record
             decimal lastRSI = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
 
-            RsiResult first = results.Where(x => x.Index == lookbackPeriod + 1).FirstOrDefault();
+            RsiResult first = results.FirstOrDefault(x => x.Index == lookbackPeriod + 1);
             first.Rsi = lastRSI;
 
             // calculate RSI

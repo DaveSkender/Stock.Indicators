@@ -10,13 +10,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateRoc(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<RocResult> results = new List<RocResult>();
 
             // roll through history
