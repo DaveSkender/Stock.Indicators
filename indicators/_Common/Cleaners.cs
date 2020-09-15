@@ -23,12 +23,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException("No historical quotes provided.");
             }
 
-            if (historyList.Count > int.MaxValue)
-            {
-                throw new BadHistoryException(
-                    string.Format(nativeCulture, "Max history exceeded. Limit to {0}", int.MaxValue));
-            }
-
             // return if already processed (no missing indexes)
             if (!historyList.Any(x => x.Index == null))
             {
@@ -64,12 +58,6 @@ namespace Skender.Stock.Indicators
             if (bdList == null || bdList.Count == 0)
             {
                 throw new BadHistoryException("No historical quotes provided.");
-            }
-
-            if (bdList.Count > int.MaxValue)
-            {
-                throw new BadHistoryException(
-                    string.Format(nativeCulture, "Max history exceeded. Limit to {0}", int.MaxValue));
             }
 
             // return if already processed (no missing indexes)
