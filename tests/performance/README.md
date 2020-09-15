@@ -1,6 +1,6 @@
 # Performance benchmarks
 
-## for v0.10.27
+Updated for v0.10.30
 
 These are the execution times for the current indicators using two years of historical daily stock quotes (502 periods) with default or typical parameters.
 
@@ -12,39 +12,57 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
   DefaultJob : .NET Core 3.1.8 (CoreCLR 4.700.20.41105, CoreFX 4.700.20.41903), X64 RyuJIT
 ```
 
-|            Method |       Mean |    Error |    StdDev |     Median |
-|------------------ |-----------:|---------:|----------:|-----------:|
-|            GetAdl |   338.2 μs |  6.73 μs |  15.61 μs |   334.9 μs |
-|            GetAdx | 1,224.2 μs | 14.83 μs |  13.14 μs | 1,226.3 μs |
-|          GetAroon | 2,928.1 μs | 37.89 μs |  35.44 μs | 2,908.6 μs |
-|            GetAtr |   374.8 μs |  5.15 μs |   4.82 μs |   374.2 μs |
-|           GetBeta | 3,935.8 μs | 34.91 μs |  32.65 μs | 3,936.8 μs |
-|    GetCorrelation | 3,723.0 μs | 64.69 μs |  60.51 μs | 3,726.1 μs |
-| GetBollingerBands | 2,147.5 μs | 18.51 μs |  15.46 μs | 2,147.0 μs |
-|            GetCci | 2,431.7 μs | 26.14 μs |  23.17 μs | 2,432.3 μs |
-|            GetCmf | 3,570.9 μs | 71.05 μs | 198.07 μs | 3,526.1 μs |
-|     GetChaikinOsc |   757.1 μs | 16.19 μs |  46.72 μs |   731.9 μs |
-|     GetChandelier | 2,217.9 μs | 31.25 μs |  27.70 μs | 2,209.5 μs |
-|     GetConnorsRsi | 4,079.3 μs | 38.89 μs |  36.38 μs | 4,076.3 μs |
-|       GetDonchian | 2,152.2 μs | 37.63 μs |  31.43 μs | 2,138.2 μs |
-|      GetDoubleEma |   538.9 μs |  3.48 μs |   3.09 μs |   538.2 μs |
-|            GetEma |   358.7 μs |  2.32 μs |   2.17 μs |   358.6 μs |
-|     GetHeikinAshi |   348.5 μs |  1.46 μs |   1.22 μs |   348.3 μs |
-|            GetHma | 6,740.9 μs | 52.67 μs |  46.69 μs | 6,754.0 μs |
-|       GetIchimoku | 6,407.0 μs | 52.49 μs |  49.10 μs | 6,384.7 μs |
-|        GetKeltner | 1,034.1 μs |  8.06 μs |   7.54 μs | 1,035.1 μs |
-|           GetMacd |   573.1 μs |  6.11 μs |   5.42 μs |   572.5 μs |
-|            GetMfi | 2,070.1 μs | 14.38 μs |  12.01 μs | 2,069.6 μs |
-|            GetObv |   217.7 μs |  1.85 μs |   1.73 μs |   217.4 μs |
-|   GetParabolicSar |   256.7 μs |  1.23 μs |   1.09 μs |   256.5 μs |
-|            GetPmo |   729.8 μs | 31.25 μs |  92.15 μs |   710.8 μs |
-|            GetRoc |   342.2 μs |  4.37 μs |   3.87 μs |   341.4 μs |
-|            GetRsi |   798.5 μs |  6.06 μs |   5.67 μs |   797.8 μs |
-|            GetSma | 2,570.3 μs | 40.71 μs |  36.09 μs | 2,570.8 μs |
-|         GetStdDev | 2,812.9 μs | 32.96 μs |  48.32 μs | 2,807.9 μs |
-|          GetStoch | 5,928.9 μs | 57.62 μs |  53.89 μs | 5,932.3 μs |
-|       GetStochRsi | 5,006.4 μs | 60.66 μs |  56.74 μs | 5,007.8 μs |
-|     GetUlcerIndex | 7,355.8 μs | 54.86 μs |  51.31 μs | 7,378.9 μs |
-|       GetWilliamR | 3,292.1 μs | 46.88 μs |  43.85 μs | 3,284.2 μs |
-|            GetWma | 5,901.4 μs | 95.95 μs |  80.12 μs | 5,867.6 μs |
-|         GetZigZag |   589.5 μs |  8.82 μs |   8.25 μs |   590.9 μs |
+## indicators
+
+|            Method |       Mean |    Error |   StdDev |     Median |
+|------------------ |-----------:|---------:|---------:|-----------:|
+|            GetAdl |   229.4 us |  2.40 us |  2.25 us |   227.9 us |
+|            GetAdx |   942.2 us |  6.35 us |  5.94 us |   940.9 us |
+|          GetAroon |   390.0 us |  3.49 us |  3.09 us |   388.8 us |
+|            GetAtr |   267.6 us |  2.05 us |  1.81 us |   267.1 us |
+|           GetBeta | 1,435.9 us | 14.76 us | 13.80 us | 1,427.9 us |
+| GetBollingerBands |   464.7 us |  3.04 us |  2.84 us |   464.8 us |
+|            GetCci | 1,134.0 us |  3.16 us |  2.64 us | 1,134.1 us |
+|     GetChaikinOsc |   533.2 us |  2.76 us |  2.30 us |   533.6 us |
+|     GetChandelier |   499.2 us |  1.92 us |  1.71 us |   499.5 us |
+|            GetCmf |   826.4 us |  4.48 us |  4.19 us |   825.7 us |
+|     GetConnorsRsi | 1,684.4 us |  9.09 us |  8.50 us | 1,681.9 us |
+|    GetCorrelation | 1,226.4 us |  8.60 us |  7.62 us | 1,224.3 us |
+|       GetDonchian |   382.4 us |  5.14 us |  4.81 us |   380.4 us |
+|      GetDoubleEma |   323.6 us |  1.94 us |  1.62 us |   323.2 us |
+|            GetEma |   190.3 us |  3.78 us |  8.77 us |   186.5 us |
+|     GetHeikinAshi |   270.8 us |  1.91 us |  1.78 us |   270.2 us |
+|            GetHma | 1,790.9 us | 28.42 us | 35.94 us | 1,785.2 us |
+|       GetIchimoku |   970.1 us |  5.43 us |  5.08 us |   969.3 us |
+|        GetKeltner |   742.3 us |  3.33 us |  2.78 us |   742.7 us |
+|           GetMacd |   500.3 us |  2.35 us |  2.08 us |   499.7 us |
+|            GetMfi |   564.6 us |  2.15 us |  1.91 us |   563.9 us |
+|            GetObv |   145.3 us |  0.50 us |  0.44 us |   145.2 us |
+|   GetParabolicSar |   144.1 us |  0.45 us |  0.40 us |   144.1 us |
+|            GetPmo |   435.3 us |  4.10 us |  3.83 us |   433.9 us |
+|            GetRoc |   130.1 us |  0.60 us |  0.50 us |   130.0 us |
+|            GetRsi |   447.9 us |  3.18 us |  2.82 us |   447.5 us |
+|            GetSma |   165.3 us |  0.57 us |  0.48 us |   165.2 us |
+|         GetStdDev |   399.8 us |  3.65 us |  3.24 us |   398.7 us |
+|          GetStoch |   438.1 us |  2.61 us |  3.20 us |   436.7 us |
+|       GetStochRsi |   891.1 us |  6.78 us |  6.01 us |   890.0 us |
+|     GetUlcerIndex | 1,551.6 us | 16.60 us | 14.71 us | 1,544.8 us |
+|       GetWilliamR |   396.8 us |  6.56 us |  7.81 us |   393.3 us |
+|            GetWma |   930.6 us |  5.19 us |  4.60 us |   929.1 us |
+|         GetZigZag |   285.5 us |  1.83 us |  1.71 us |   285.2 us |
+
+## cleaners
+
+|           Method |     Mean |    Error |   StdDev |
+|----------------- |---------:|---------:|---------:|
+|   PrepareHistory | 73.00 us | 0.467 us | 0.414 us |
+| PrepareBasicData | 32.71 us | 0.375 us | 0.351 us |
+
+## shared functions
+
+| Method | Periods |        Mean |     Error |    StdDev |      Median |
+|------- |-------- |------------:|----------:|----------:|------------:|
+| StdDev |      20 |    41.32 ns |  1.526 ns |  4.404 ns |    38.53 ns |
+| StdDev |      50 |   100.08 ns |  0.846 ns |  0.750 ns |    99.76 ns |
+| StdDev |     250 |   537.13 ns |  2.564 ns |  2.273 ns |   537.04 ns |
+| StdDev |    1000 | 2,173.03 ns | 36.878 ns | 32.691 ns | 2,157.19 ns |
