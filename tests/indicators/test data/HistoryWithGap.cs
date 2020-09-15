@@ -1,21 +1,16 @@
 ﻿using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Tests.External")]
-[assembly: InternalsVisibleTo("Tests.Performance")]
 namespace Internal.Tests
 {
-    // MAIN HISTORY
+    // GAP HISTORY
 
     internal partial class History
     {
-        internal static readonly CultureInfo englishCulture = new CultureInfo("en-US", false);
 
-        internal static IEnumerable<Quote> GetHistory(int days = 502)
+        internal static IEnumerable<Quote> GetHistoryWithGap(int days = 502)
         {
             // intentionally out of sequence
             List<Quote> h = new List<Quote> {
@@ -504,27 +499,27 @@ namespace Internal.Tests
             new Quote { Date = DateTime.ParseExact("2018-11-29","yyyy-MM-dd",englishCulture), Open=267.06m, High=268.86m, Low=265.82m, Close=267.33m, Volume = 84395640 },
             new Quote { Date = DateTime.ParseExact("2018-11-30","yyyy-MM-dd",englishCulture), Open=267.16m, High=269.57m, Low=266.81m, Close=268.96m, Volume = 100648032 },
 
-            new Quote { Date = DateTime.ParseExact("2018-03-01","yyyy-MM-dd",englishCulture), Open=261.4m, High=263.1m, Low=256.19m, Close=257.83m, Volume = 183626128 },
-            new Quote { Date = DateTime.ParseExact("2018-03-02","yyyy-MM-dd",englishCulture), Open=256m, High=259.77m, Low=255.05m, Close=259.16m, Volume = 144408144 },
-            new Quote { Date = DateTime.ParseExact("2018-03-05","yyyy-MM-dd",englishCulture), Open=257.86m, High=262.83m, Low=257.74m, Close=262.15m, Volume = 101032888 },
-            new Quote { Date = DateTime.ParseExact("2018-03-06","yyyy-MM-dd",englishCulture), Open=263.22m, High=263.31m, Low=261.18m, Close=262.82m, Volume = 82245904 },
-            new Quote { Date = DateTime.ParseExact("2018-03-07","yyyy-MM-dd",englishCulture), Open=260.45m, High=263.11m, Low=260.24m, Close=262.72m, Volume = 90396808 },
-            new Quote { Date = DateTime.ParseExact("2018-03-08","yyyy-MM-dd",englishCulture), Open=263.46m, High=264.13m, Low=262.37m, Close=263.99m, Volume = 69462520 },
-            new Quote { Date = DateTime.ParseExact("2018-03-09","yyyy-MM-dd",englishCulture), Open=265.53m, High=268.59m, Low=265.19m, Close=268.59m, Volume = 117975584 },
-            new Quote { Date = DateTime.ParseExact("2018-03-12","yyyy-MM-dd",englishCulture), Open=268.9m, High=269.59m, Low=267.83m, Close=268.25m, Volume = 74678496 },
-            new Quote { Date = DateTime.ParseExact("2018-03-13","yyyy-MM-dd",englishCulture), Open=269.52m, High=270.07m, Low=265.85m, Close=266.52m, Volume = 95490048 },
-            new Quote { Date = DateTime.ParseExact("2018-03-14","yyyy-MM-dd",englishCulture), Open=267.57m, High=267.77m, Low=264.54m, Close=265.15m, Volume = 109949368 },
-            new Quote { Date = DateTime.ParseExact("2018-03-15","yyyy-MM-dd",englishCulture), Open=265.71m, High=266.41m, Low=264.31m, Close=264.86m, Volume = 86627344 },
-            new Quote { Date = DateTime.ParseExact("2018-03-16","yyyy-MM-dd",englishCulture), Open=265.44m, High=266.3m, Low=265.09m, Close=265.15m, Volume = 103769888 },
-            new Quote { Date = DateTime.ParseExact("2018-03-19","yyyy-MM-dd",englishCulture), Open=264.32m, High=265.34m, Low=259.75m, Close=261.56m, Volume = 112937344 },
-            new Quote { Date = DateTime.ParseExact("2018-03-20","yyyy-MM-dd",englishCulture), Open=261.99m, High=262.7m, Low=261.26m, Close=262m, Volume = 61797672 },
-            new Quote { Date = DateTime.ParseExact("2018-03-21","yyyy-MM-dd",englishCulture), Open=261.96m, High=264.25m, Low=261.27m, Close=261.5m, Volume = 81397104 },
-            new Quote { Date = DateTime.ParseExact("2018-03-22","yyyy-MM-dd",englishCulture), Open=259.06m, High=259.99m, Low=254.66m, Close=254.96m, Volume = 153866192 },
-            new Quote { Date = DateTime.ParseExact("2018-03-23","yyyy-MM-dd",englishCulture), Open=255.45m, High=256.27m, Low=249.32m, Close=249.53m, Volume = 189801520 },
-            new Quote { Date = DateTime.ParseExact("2018-03-26","yyyy-MM-dd",englishCulture), Open=253.48m, High=256.67m, Low=250.84m, Close=256.36m, Volume = 146803168 },
-            new Quote { Date = DateTime.ParseExact("2018-03-27","yyyy-MM-dd",englishCulture), Open=257.38m, High=257.96m, Low=250.29m, Close=252m, Volume = 134378272 },
-            new Quote { Date = DateTime.ParseExact("2018-03-28","yyyy-MM-dd",englishCulture), Open=252.14m, High=253.97m, Low=250.04m, Close=251.25m, Volume = 151452896 },
-            new Quote { Date = DateTime.ParseExact("2018-03-29","yyyy-MM-dd",englishCulture), Open=252.5m, High=256.5m, Low=251.26m, Close=254.46m, Volume = 128487112 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-01","yyyy-MM-dd",cultureProvider), Open=261.4m, High=263.1m, Low=256.19m, Close=257.83m, Volume = 183626128 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-02","yyyy-MM-dd",cultureProvider), Open=256m, High=259.77m, Low=255.05m, Close=259.16m, Volume = 144408144 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-05","yyyy-MM-dd",cultureProvider), Open=257.86m, High=262.83m, Low=257.74m, Close=262.15m, Volume = 101032888 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-06","yyyy-MM-dd",cultureProvider), Open=263.22m, High=263.31m, Low=261.18m, Close=262.82m, Volume = 82245904 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-07","yyyy-MM-dd",cultureProvider), Open=260.45m, High=263.11m, Low=260.24m, Close=262.72m, Volume = 90396808 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-08","yyyy-MM-dd",cultureProvider), Open=263.46m, High=264.13m, Low=262.37m, Close=263.99m, Volume = 69462520 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-09","yyyy-MM-dd",cultureProvider), Open=265.53m, High=268.59m, Low=265.19m, Close=268.59m, Volume = 117975584 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-12","yyyy-MM-dd",cultureProvider), Open=268.9m, High=269.59m, Low=267.83m, Close=268.25m, Volume = 74678496 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-13","yyyy-MM-dd",cultureProvider), Open=269.52m, High=270.07m, Low=265.85m, Close=266.52m, Volume = 95490048 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-14","yyyy-MM-dd",cultureProvider), Open=267.57m, High=267.77m, Low=264.54m, Close=265.15m, Volume = 109949368 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-15","yyyy-MM-dd",cultureProvider), Open=265.71m, High=266.41m, Low=264.31m, Close=264.86m, Volume = 86627344 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-16","yyyy-MM-dd",cultureProvider), Open=265.44m, High=266.3m, Low=265.09m, Close=265.15m, Volume = 103769888 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-19","yyyy-MM-dd",cultureProvider), Open=264.32m, High=265.34m, Low=259.75m, Close=261.56m, Volume = 112937344 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-20","yyyy-MM-dd",cultureProvider), Open=261.99m, High=262.7m, Low=261.26m, Close=262m, Volume = 61797672 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-21","yyyy-MM-dd",cultureProvider), Open=261.96m, High=264.25m, Low=261.27m, Close=261.5m, Volume = 81397104 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-22","yyyy-MM-dd",cultureProvider), Open=259.06m, High=259.99m, Low=254.66m, Close=254.96m, Volume = 153866192 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-23","yyyy-MM-dd",cultureProvider), Open=255.45m, High=256.27m, Low=249.32m, Close=249.53m, Volume = 189801520 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-26","yyyy-MM-dd",cultureProvider), Open=253.48m, High=256.67m, Low=250.84m, Close=256.36m, Volume = 146803168 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-27","yyyy-MM-dd",cultureProvider), Open=257.38m, High=257.96m, Low=250.29m, Close=252m, Volume = 134378272 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-28","yyyy-MM-dd",cultureProvider), Open=252.14m, High=253.97m, Low=250.04m, Close=251.25m, Volume = 151452896 },
+            //new Quote { Date = DateTime.ParseExact("2018-03-29","yyyy-MM-dd",cultureProvider), Open=252.5m, High=256.5m, Low=251.26m, Close=254.46m, Volume = 128487112 },
             };
 
             return h

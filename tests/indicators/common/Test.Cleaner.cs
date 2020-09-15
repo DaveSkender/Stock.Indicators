@@ -65,6 +65,7 @@ namespace Internal.Tests
             IEnumerable<BasicData> l = Cleaners.ConvertHistoryToBasic(history, "L");
             IEnumerable<BasicData> c = Cleaners.ConvertHistoryToBasic(history, "C");
             IEnumerable<BasicData> v = Cleaners.ConvertHistoryToBasic(history, "V");
+            IEnumerable<BasicData> e = Cleaners.ConvertHistoryToBasic(history, "E");
 
             // remove index
             foreach (BasicData x in c) { x.Index = null; }
@@ -100,6 +101,9 @@ namespace Internal.Tests
             Assert.AreEqual(242.87m, rl.Value);
             Assert.AreEqual(245.28m, rc.Value);
             Assert.AreEqual(147031456, rv.Value);
+
+            // E bad paramters should return empty dataset
+            Assert.AreEqual(false, e.Any());
         }
 
 
