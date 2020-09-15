@@ -32,12 +32,26 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = historyList
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .ToList();
+                    decimal highHigh = 0;
+                    decimal lowLow = decimal.MaxValue;
 
-                    result.UpperBand = period.Select(h => h.High).Max();
-                    result.LowerBand = period.Select(l => l.Low).Min();
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
+
+                        if (d.High > highHigh)
+                        {
+                            highHigh = d.High;
+                        }
+
+                        if (d.Low < lowLow)
+                        {
+                            lowLow = d.Low;
+                        }
+                    }
+
+                    result.UpperBand = highHigh;
+                    result.LowerBand = lowLow;
                     result.Centerline = (result.UpperBand + result.LowerBand) / 2;
                     result.Width = (result.Centerline == 0) ? null : (result.UpperBand - result.LowerBand) / result.Centerline;
                 }

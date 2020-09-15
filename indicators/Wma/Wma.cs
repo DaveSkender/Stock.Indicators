@@ -32,13 +32,14 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = historyList
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .ToList();
+                    decimal wma = 0;
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
+                        wma += d.Close * (lookbackPeriod - (decimal)(h.Index - d.Index)) / divisor;
+                    }
 
-                    result.Wma = period
-                        .Select(x => x.Close * (lookbackPeriod - (h.Index - x.Index)) / divisor)
-                        .Sum();
+                    result.Wma = wma;
                 }
 
                 results.Add(result);

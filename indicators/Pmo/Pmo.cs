@@ -22,8 +22,6 @@ namespace Skender.Stock.Indicators
             // initialize
             List<PmoResult> results = new List<PmoResult>();
             List<RocResult> roc = GetRoc(history, 1).ToList();
-
-            int startIndex = 0;
             decimal smoothingMultiplier = 2m / timePeriod;
             decimal smoothingConstant = 2m / smoothingPeriod;
             decimal signalConstant = 2m / (signalPeriod + 1);
@@ -32,7 +30,7 @@ namespace Skender.Stock.Indicators
             decimal? lastSignal = null;
 
             // get ROC EMA variant
-            startIndex = timePeriod + 1;
+            int startIndex = timePeriod + 1;
 
             for (int i = 0; i < roc.Count; i++)
             {
@@ -50,11 +48,13 @@ namespace Skender.Stock.Indicators
                 }
                 else if (r.Index == startIndex)
                 {
-                    result.RocEma = roc
-                        .Where(x => x.Index > r.Index - timePeriod && x.Index <= r.Index)
-                        .ToList()
-                        .Select(x => x.Roc)
-                        .Average();
+                    decimal sumRoc = 0;
+                    for (int p = r.Index - timePeriod; p < r.Index; p++)
+                    {
+                        RocResult d = roc[p];
+                        sumRoc += (decimal)d.Roc;
+                    }
+                    result.RocEma = sumRoc / timePeriod;
                 }
 
                 lastRocEma = result.RocEma;
@@ -67,22 +67,24 @@ namespace Skender.Stock.Indicators
 
             for (int i = startIndex - 1; i < results.Count; i++)
             {
-                PmoResult p = results[i];
+                PmoResult pr = results[i];
 
-                if (p.Index > startIndex)
+                if (pr.Index > startIndex)
                 {
-                    p.Pmo = (p.RocEma - lastPmo) * smoothingConstant + lastPmo;
+                    pr.Pmo = (pr.RocEma - lastPmo) * smoothingConstant + lastPmo;
                 }
-                else if (p.Index == startIndex)
+                else if (pr.Index == startIndex)
                 {
-                    p.Pmo = results
-                        .Where(x => x.Index > p.Index - smoothingPeriod && x.Index <= p.Index)
-                        .ToList()
-                        .Select(x => x.RocEma)
-                        .Average();
+                    decimal sumRocEma = 0;
+                    for (int p = pr.Index - smoothingPeriod; p < pr.Index; p++)
+                    {
+                        PmoResult d = results[p];
+                        sumRocEma += (decimal)d.RocEma;
+                    }
+                    pr.Pmo = sumRocEma / smoothingPeriod;
                 }
 
-                lastPmo = p.Pmo;
+                lastPmo = pr.Pmo;
             }
 
             // add Signal
@@ -90,22 +92,24 @@ namespace Skender.Stock.Indicators
 
             for (int i = startIndex - 1; i < results.Count; i++)
             {
-                PmoResult p = results[i];
+                PmoResult pr = results[i];
 
-                if (p.Index > startIndex)
+                if (pr.Index > startIndex)
                 {
-                    p.Signal = (p.Pmo - lastSignal) * signalConstant + lastSignal;
+                    pr.Signal = (pr.Pmo - lastSignal) * signalConstant + lastSignal;
                 }
-                else if (p.Index == startIndex)
+                else if (pr.Index == startIndex)
                 {
-                    p.Signal = results
-                        .Where(x => x.Index > p.Index - signalPeriod && x.Index <= p.Index)
-                        .ToList()
-                        .Select(x => x.Pmo)
-                        .Average();
+                    decimal sumPmo = 0;
+                    for (int p = pr.Index - signalPeriod; p < pr.Index; p++)
+                    {
+                        PmoResult d = results[p];
+                        sumPmo += (decimal)d.Pmo;
+                    }
+                    pr.Signal = sumPmo / signalPeriod;
                 }
 
-                lastSignal = p.Signal;
+                lastSignal = pr.Signal;
             }
 
             return results;

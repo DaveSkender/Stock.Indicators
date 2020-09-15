@@ -78,18 +78,24 @@ namespace Skender.Stock.Indicators
                 // percentile rank
                 result.PeriodGain = (decimal)((lastClose <= 0) ? null : (h.Value - lastClose) / lastClose);
 
+                results.Add(result);
+
                 if (h.Index > rankPeriod)
                 {
-                    List<ConnorsRsiResult> period = results
-                        .Where(x => x.Index >= (h.Index - rankPeriod) && x.Index < h.Index)
-                        .ToList();
+                    int qty = 0;
+                    for (int p = (int)h.Index - rankPeriod - 1; p < h.Index; p++)
+                    {
+                        ConnorsRsiResult r = results[p];
+                        if (r.PeriodGain < result.PeriodGain)
+                        {
+                            qty++;
+                        }
+                    }
 
-                    result.PercentRank = 100m * period
-                        .Where(x => x.PeriodGain < result.PeriodGain)
-                        .Count() / rankPeriod;
+                    result.PercentRank = 100m * qty / rankPeriod;
                 }
 
-                results.Add(result);
+
                 lastClose = h.Value;
             }
 
@@ -99,15 +105,15 @@ namespace Skender.Stock.Indicators
                 .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Streak })
                 .ToList();
 
-            IEnumerable<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriod);
+            List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriod).ToList();
 
             // compose final results
-            foreach (ConnorsRsiResult r in results.Where(x => x.Index >= streakPeriod + 2))
+            for (int p = streakPeriod + 2; p < results.Count; p++)
             {
-                r.RsiStreak = rsiStreakResults
-                    .Where(x => x.Index == r.Index - 1)
-                    .FirstOrDefault()
-                    .Rsi;
+                ConnorsRsiResult r = results[p];
+                RsiResult k = rsiStreakResults[p - 1];
+
+                r.RsiStreak = k.Rsi;
 
                 if (r.Index >= startPeriod)
                 {

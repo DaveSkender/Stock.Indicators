@@ -59,22 +59,32 @@ namespace Skender.Stock.Indicators
             {
                 MfiResult r = results[i];
 
-                List<MfiResult> period = results
-                    .Where(x => x.Index > r.Index - lookbackPeriod && x.Index <= r.Index)
-                    .ToList();
+                decimal sumPosMFs = 0;
+                decimal sumNegMFs = 0;
 
-                List<MfiResult> posMFs = period.Where(x => x.Direction == 1).ToList();
-                List<MfiResult> negMFs = period.Where(x => x.Direction == -1).ToList();
+                for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
+                {
+                    MfiResult d = results[p];
+
+                    if (d.Direction == 1)
+                    {
+                        sumPosMFs += d.RawMF;
+                    }
+                    else if (d.Direction == -1)
+                    {
+                        sumNegMFs += d.RawMF;
+                    }
+                }
 
                 // handle no negative case
-                if (!negMFs.Any() || negMFs.Select(x => x.RawMF).Sum() == 0)
+                if (sumNegMFs == 0)
                 {
                     r.Mfi = 100;
                     continue;
                 }
 
                 // calculate MFI normally
-                decimal mfRatio = posMFs.Select(x => x.RawMF).Sum() / negMFs.Select(x => x.RawMF).Sum();
+                decimal mfRatio = sumPosMFs / sumNegMFs;
 
                 r.Mfi = 100 - (100 / (1 + mfRatio));
             }

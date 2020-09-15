@@ -32,21 +32,22 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = historyList
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .ToList();
-
                     double sumSquared = 0;
-
-                    foreach (Quote p in period)
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
                     {
-                        decimal maxClose = period
-                            .Where(x => x.Index <= p.Index)
-                            .Select(x => x.Close)
-                            .Max();
+                        Quote d = historyList[p];
 
-                        decimal percentDrawdown = 100 * (p.Close - maxClose) / maxClose;
+                        decimal maxClose = 0;
+                        for (int q = (int)h.Index - lookbackPeriod; q < d.Index; q++)
+                        {
+                            Quote dd = historyList[q];
+                            if (dd.Close > maxClose)
+                            {
+                                maxClose = dd.Close;
+                            }
+                        }
 
+                        decimal percentDrawdown = 100 * (d.Close - maxClose) / maxClose;
                         sumSquared += (double)(percentDrawdown * percentDrawdown);
                     }
 

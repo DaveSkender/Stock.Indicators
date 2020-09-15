@@ -175,6 +175,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetSmaExtended()
+        {
+            return Indicator.GetSma(hm, 10, true);
+        }
+
+        [Benchmark]
         public object GetStdDev()
         {
             return Indicator.GetStdDev(hm, 20);
@@ -207,7 +213,7 @@ namespace Tests.Performance
         [Benchmark]
         public object GetWma()
         {
-            return Indicator.GetWma(hm, 30);
+            return Indicator.GetWma(hm, 14);
         }
 
         [Benchmark]

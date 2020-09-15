@@ -31,12 +31,23 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = historyList
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .ToList();
+                    decimal highHigh = 0;
+                    decimal lowLow = decimal.MaxValue;
 
-                    decimal lowLow = period.Select(v => v.Low).Min();
-                    decimal highHigh = period.Select(v => v.High).Max();
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
+
+                        if (d.High > highHigh)
+                        {
+                            highHigh = d.High;
+                        }
+
+                        if (d.Low < lowLow)
+                        {
+                            lowLow = d.Low;
+                        }
+                    }
 
                     if (lowLow != highHigh)
                     {
@@ -72,11 +83,14 @@ namespace Skender.Stock.Indicators
                 }
                 else if (r.Index >= signalIndex)
                 {
-                    r.Signal = results
-                        .Where(x => x.Index > (r.Index - signalPeriod) && x.Index <= r.Index)
-                        .ToList()
-                        .Select(v => v.Oscillator)
-                        .Average();
+                    decimal sumOsc = 0m;
+                    for (int p = r.Index - signalPeriod; p < r.Index; p++)
+                    {
+                        StochResult d = results[p];
+                        sumOsc += (decimal)d.Oscillator;
+                    }
+
+                    r.Signal = sumOsc / signalPeriod;
                 }
             }
 
@@ -90,12 +104,19 @@ namespace Skender.Stock.Indicators
             // temporarily store interim smoothed oscillator
             int smoothIndex = lookbackPeriod + smoothPeriod - 1;
 
-            foreach (StochResult r in results.Where(x => x.Index >= smoothIndex))
+            //foreach (StochResult r in results.Where(x => x.Index >= smoothIndex))
+            for (int i = smoothIndex - 1; i < results.Count; i++)
             {
-                r.Smooth = results.Where(x => x.Index > (r.Index - smoothPeriod) && x.Index <= r.Index)
-                                 .ToList()
-                                 .Select(v => v.Oscillator)
-                                 .Average();
+                StochResult r = results[i];
+
+                decimal sumOsc = 0m;
+                for (int p = r.Index - smoothPeriod; p < r.Index; p++)
+                {
+                    StochResult d = results[p];
+                    sumOsc += (decimal)d.Oscillator;
+                }
+
+                r.Smooth = sumOsc / smoothPeriod;
             }
 
             // replace oscillator

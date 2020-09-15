@@ -28,52 +28,59 @@ namespace Skender.Stock.Indicators
 
             // initialize
             decimal lastValue = bdList[0].Value;
+            decimal avgGain = 0m;
+            decimal avgLoss = 0m;
             List<RsiResult> results = new List<RsiResult>();
 
-            // load gain data
+            // roll through history
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData h = bdList[i];
 
-                RsiResult result = new RsiResult
+                RsiResult r = new RsiResult
                 {
                     Index = (int)h.Index,
                     Date = h.Date,
                     Gain = (h.Value > lastValue) ? h.Value - lastValue : 0,
                     Loss = (h.Value < lastValue) ? lastValue - h.Value : 0
                 };
-                results.Add(result);
-
+                results.Add(r);
                 lastValue = h.Value;
-            }
 
-            // initialize average gain
-            decimal avgGain = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Gain).Average();
-            decimal avgLoss = results.Where(x => x.Index <= lookbackPeriod).Select(g => g.Loss).Average();
-
-            // initial first record
-            decimal lastRSI = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
-
-            RsiResult first = results.FirstOrDefault(x => x.Index == lookbackPeriod + 1);
-            first.Rsi = lastRSI;
-
-            // calculate RSI
-            foreach (RsiResult r in results.Where(x => x.Index > (lookbackPeriod + 1)))
-            {
-                avgGain = (avgGain * (lookbackPeriod - 1) + r.Gain) / lookbackPeriod;
-                avgLoss = (avgLoss * (lookbackPeriod - 1) + r.Loss) / lookbackPeriod;
-
-                if (avgLoss > 0)
+                // calculate RSI
+                if (h.Index > lookbackPeriod + 1)
                 {
-                    decimal rs = avgGain / avgLoss;
-                    r.Rsi = 100 - (100 / (1 + rs));
-                }
-                else
-                {
-                    r.Rsi = 100;
+                    avgGain = (avgGain * (lookbackPeriod - 1) + r.Gain) / lookbackPeriod;
+                    avgLoss = (avgLoss * (lookbackPeriod - 1) + r.Loss) / lookbackPeriod;
+
+                    if (avgLoss > 0)
+                    {
+                        decimal rs = avgGain / avgLoss;
+                        r.Rsi = 100 - (100 / (1 + rs));
+                    }
+                    else
+                    {
+                        r.Rsi = 100;
+                    }
                 }
 
-                lastRSI = (decimal)r.Rsi;
+                // initialize average gain
+                else if (h.Index == lookbackPeriod + 1)
+                {
+                    decimal sumGain = 0;
+                    decimal sumLoss = 0;
+
+                    for (int p = 0; p < lookbackPeriod; p++)
+                    {
+                        RsiResult d = results[p];
+                        sumGain += d.Gain;
+                        sumLoss += d.Loss;
+                    }
+                    avgGain = sumGain / lookbackPeriod;
+                    avgLoss = sumLoss / lookbackPeriod;
+
+                    r.Rsi = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
+                }
             }
 
             return results;

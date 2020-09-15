@@ -34,13 +34,23 @@ namespace Skender.Stock.Indicators
                 // tenkan-sen conversion line
                 if (h.Index >= signalPeriod)
                 {
+                    decimal max = 0;
+                    decimal min = decimal.MaxValue;
 
-                    List<Quote> tenkanPeriod = historyList
-                        .Where(x => x.Index > (h.Index - signalPeriod) && x.Index <= h.Index)
-                        .ToList();
+                    for (int p = (int)h.Index - signalPeriod; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
 
-                    decimal max = tenkanPeriod.Select(x => x.High).Max();
-                    decimal min = tenkanPeriod.Select(x => x.Low).Min();
+                        if (d.High > max)
+                        {
+                            max = d.High;
+                        }
+
+                        if (d.Low < min)
+                        {
+                            min = d.Low;
+                        }
+                    }
 
                     result.TenkanSen = (min + max) / 2;
                 }
@@ -48,12 +58,23 @@ namespace Skender.Stock.Indicators
                 // kijun-sen base line
                 if (h.Index >= shortSpanPeriod)
                 {
-                    List<Quote> kijunPeriod = historyList
-                        .Where(x => x.Index > (h.Index - shortSpanPeriod) && x.Index <= h.Index)
-                        .ToList();
+                    decimal max = 0;
+                    decimal min = decimal.MaxValue;
 
-                    decimal max = kijunPeriod.Select(x => x.High).Max();
-                    decimal min = kijunPeriod.Select(x => x.Low).Min();
+                    for (int p = (int)h.Index - shortSpanPeriod; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
+
+                        if (d.High > max)
+                        {
+                            max = d.High;
+                        }
+
+                        if (d.Low < min)
+                        {
+                            min = d.Low;
+                        }
+                    }
 
                     result.KijunSen = (min + max) / 2;
                 }
@@ -72,13 +93,24 @@ namespace Skender.Stock.Indicators
                 // senkou span B
                 if (h.Index >= shortSpanPeriod + longSpanPeriod)
                 {
-                    List<Quote> senkauPeriod = historyList
-                        .Where(x => x.Index > (h.Index - shortSpanPeriod - longSpanPeriod)
-                            && x.Index <= h.Index - shortSpanPeriod)
-                        .ToList();
+                    decimal max = 0;
+                    decimal min = decimal.MaxValue;
 
-                    decimal max = senkauPeriod.Select(x => x.High).Max();
-                    decimal min = senkauPeriod.Select(x => x.Low).Min();
+                    for (int p = (int)h.Index - shortSpanPeriod - longSpanPeriod;
+                        p < h.Index - shortSpanPeriod; p++)
+                    {
+                        Quote d = historyList[p];
+
+                        if (d.High > max)
+                        {
+                            max = d.High;
+                        }
+
+                        if (d.Low < min)
+                        {
+                            min = d.Low;
+                        }
+                    }
 
                     result.SenkouSpanB = (min + max) / 2;
                 }

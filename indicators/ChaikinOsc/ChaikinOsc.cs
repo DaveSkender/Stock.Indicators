@@ -19,11 +19,8 @@ namespace Skender.Stock.Indicators
             // check parameters
             ValidateChaikinOsc(history, fastPeriod, slowPeriod);
 
-            // initialize
-            IEnumerable<AdlResult> adlResults = GetAdl(history);
-
             // money flow
-            List<ChaikinOscResult> results = adlResults
+            List<ChaikinOscResult> results = GetAdl(history)
                 .Select(r => new ChaikinOscResult
                 {
                     Index = r.Index,
@@ -35,7 +32,7 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // EMA of ADL
-            IEnumerable<BasicData> adlBasicData = adlResults
+            IEnumerable<BasicData> adlBasicData = results
                 .Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Adl });
 
             List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod).ToList();

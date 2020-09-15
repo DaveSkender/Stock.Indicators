@@ -33,34 +33,38 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = historyList
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .ToList();
+                    decimal sumSma = 0m;
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
+                        sumSma += d.Close;
+                    }
 
-                    // simple moving average
-                    result.Sma = period
-                        .Select(x => x.Close)
-                        .Average();
+                    result.Sma = sumSma / lookbackPeriod;
 
                     // add optional extended values
                     if (extended)
                     {
+                        decimal sumMad = 0m;
+                        decimal sumMse = 0m;
+                        decimal sumMape = 0m;
+
+                        for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                        {
+                            Quote d = historyList[p];
+                            sumMad += Math.Abs(d.Close - (decimal)result.Sma);
+                            sumMse += (d.Close - (decimal)result.Sma) * (d.Close - (decimal)result.Sma);
+                            sumMape += Math.Abs(d.Close - (decimal)result.Sma) / d.Close;
+                        }
 
                         // mean absolute deviation
-                        result.Mad = period
-                            .Select(x => Math.Abs(x.Close - (decimal)result.Sma))
-                            .Average();
+                        result.Mad = sumMad / lookbackPeriod;
 
                         // mean squared error
-                        result.Mse = period
-                            .Select(x => (x.Close - (decimal)result.Sma) * (x.Close - (decimal)result.Sma))
-                            .Average();
+                        result.Mse = sumMse / lookbackPeriod;
 
                         // mean absolute percent error
-                        result.Mape = period
-                            .Where(x => x.Close != 0)
-                            .Select(x => Math.Abs(x.Close - (decimal)result.Sma) / x.Close)
-                            .Average();
+                        result.Mape = sumMape / lookbackPeriod;
                     }
                 }
 

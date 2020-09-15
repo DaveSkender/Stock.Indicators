@@ -35,9 +35,6 @@ namespace Skender.Stock.Indicators
                 // add exit values
                 if (h.Index >= lookbackPeriod)
                 {
-                    List<Quote> period = historyList
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .ToList();
 
                     decimal atr = (decimal)atrResult[i].Atr;
 
@@ -45,13 +42,31 @@ namespace Skender.Stock.Indicators
                     {
                         case ChandelierType.Long:
 
-                            decimal maxHigh = period.Select(x => x.High).Max();
+                            decimal maxHigh = 0;
+                            for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                            {
+                                Quote d = historyList[p];
+                                if (d.High > maxHigh)
+                                {
+                                    maxHigh = d.High;
+                                }
+                            }
+
                             result.ChandelierExit = maxHigh - atr * multiplier;
                             break;
 
                         case ChandelierType.Short:
 
-                            decimal minLow = period.Select(x => x.Low).Min();
+                            decimal minLow = decimal.MaxValue;
+                            for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                            {
+                                Quote d = historyList[p];
+                                if (d.Low < minLow)
+                                {
+                                    minLow = d.Low;
+                                }
+                            }
+
                             result.ChandelierExit = minLow + atr * multiplier;
                             break;
 
