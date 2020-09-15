@@ -39,7 +39,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |            GetMfi |   564.6 us |  2.15 us |  1.91 us |   563.9 us |
 |            GetObv |   145.3 us |  0.50 us |  0.44 us |   145.2 us |
 |   GetParabolicSar |   144.1 us |  0.45 us |  0.40 us |   144.1 us |
-|            GetPmo |   435.3 us |  4.10 us |  3.83 us |   433.9 us |
+|            GetPmo |   461.2 us |  4.40 us |  3.68 us |   460.7 us |
 |            GetRoc |   130.1 us |  0.60 us |  0.50 us |   130.0 us |
 |            GetRsi |   447.9 us |  3.18 us |  2.82 us |   447.5 us |
 |            GetSma |   165.3 us |  0.57 us |  0.48 us |   165.2 us |

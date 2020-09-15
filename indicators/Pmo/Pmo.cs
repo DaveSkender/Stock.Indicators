@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // RATE OF CHANGE (PMO)
+        // PRICE MOMENTUM OSCILLATOR (PMO)
         public static IEnumerable<PmoResult> GetPmo(
             IEnumerable<Quote> history,
             int timePeriod = 35,
@@ -20,16 +20,50 @@ namespace Skender.Stock.Indicators
             ValidatePmo(history, timePeriod, smoothingPeriod, signalPeriod);
 
             // initialize
-            List<PmoResult> results = new List<PmoResult>();
-            List<RocResult> roc = GetRoc(history, 1).ToList();
-            decimal smoothingMultiplier = 2m / timePeriod;
+            List<PmoResult> results = CalcPmoRocEma(history, timePeriod);
             decimal smoothingConstant = 2m / smoothingPeriod;
-            decimal signalConstant = 2m / (signalPeriod + 1);
-            decimal? lastRocEma = null;
             decimal? lastPmo = null;
-            decimal? lastSignal = null;
 
-            // get ROC EMA variant
+            // calculate PMO
+            int startIndex = timePeriod + smoothingPeriod;
+
+            for (int i = startIndex - 1; i < results.Count; i++)
+            {
+                PmoResult pr = results[i];
+
+                if (pr.Index > startIndex)
+                {
+                    pr.Pmo = (pr.RocEma - lastPmo) * smoothingConstant + lastPmo;
+                }
+                else if (pr.Index == startIndex)
+                {
+                    decimal sumRocEma = 0;
+                    for (int p = pr.Index - smoothingPeriod; p < pr.Index; p++)
+                    {
+                        PmoResult d = results[p];
+                        sumRocEma += (decimal)d.RocEma;
+                    }
+                    pr.Pmo = sumRocEma / smoothingPeriod;
+                }
+
+                lastPmo = pr.Pmo;
+            }
+
+            // add Signal
+            CalcPmoSignal(results, timePeriod, smoothingPeriod, signalPeriod);
+
+            return results;
+        }
+
+
+        private static List<PmoResult> CalcPmoRocEma(IEnumerable<Quote> history, int timePeriod)
+        {
+            // initialize
+            decimal smoothingMultiplier = 2m / timePeriod;
+            decimal? lastRocEma = null;
+            List<RocResult> roc = GetRoc(history, 1).ToList();
+            List<PmoResult> results = new List<PmoResult>();
+
             int startIndex = timePeriod + 1;
 
             for (int i = 0; i < roc.Count; i++)
@@ -62,33 +96,20 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
             }
 
-            // calculate PMO
-            startIndex = timePeriod + smoothingPeriod;
+            return results;
+        }
 
-            for (int i = startIndex - 1; i < results.Count; i++)
-            {
-                PmoResult pr = results[i];
 
-                if (pr.Index > startIndex)
-                {
-                    pr.Pmo = (pr.RocEma - lastPmo) * smoothingConstant + lastPmo;
-                }
-                else if (pr.Index == startIndex)
-                {
-                    decimal sumRocEma = 0;
-                    for (int p = pr.Index - smoothingPeriod; p < pr.Index; p++)
-                    {
-                        PmoResult d = results[p];
-                        sumRocEma += (decimal)d.RocEma;
-                    }
-                    pr.Pmo = sumRocEma / smoothingPeriod;
-                }
+        private static IEnumerable<PmoResult> CalcPmoSignal(
+            List<PmoResult> results,
+            int timePeriod,
+            int smoothingPeriod,
+            int signalPeriod)
+        {
+            decimal signalConstant = 2m / (signalPeriod + 1);
+            decimal? lastSignal = null;
 
-                lastPmo = pr.Pmo;
-            }
-
-            // add Signal
-            startIndex = timePeriod + smoothingPeriod + signalPeriod - 1;
+            int startIndex = timePeriod + smoothingPeriod + signalPeriod - 1;
 
             for (int i = startIndex - 1; i < results.Count; i++)
             {
@@ -111,6 +132,7 @@ namespace Skender.Stock.Indicators
 
                 lastSignal = pr.Signal;
             }
+
 
             return results;
         }
