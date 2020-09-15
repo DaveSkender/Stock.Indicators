@@ -33,16 +33,24 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index >= lookbackPeriod)
                 {
-                    double[] periodClose = historyList
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .Select(x => (double)x.Close)
-                        .ToArray();
+                    double[] periodClose = new double[lookbackPeriod];
+                    decimal sum = 0m;
+                    int n = 0;
 
+                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
+                        periodClose[n] = (double)d.Close;
+                        sum += d.Close;
+                        n++;
+                    }
+
+                    decimal periodAvg = sum / lookbackPeriod;
                     decimal stdDev = (decimal)Functions.StdDev(periodClose);
 
-                    result.Sma = (decimal)periodClose.Average();
-                    result.UpperBand = result.Sma + standardDeviations * stdDev;
-                    result.LowerBand = result.Sma - standardDeviations * stdDev;
+                    result.Sma = periodAvg;
+                    result.UpperBand = periodAvg + standardDeviations * stdDev;
+                    result.LowerBand = periodAvg - standardDeviations * stdDev;
 
                     result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / stdDev;
                     result.Width = (result.Sma == 0) ? null : (result.UpperBand - result.LowerBand) / result.Sma;
