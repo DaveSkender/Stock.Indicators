@@ -16,40 +16,40 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 
 |            Method |       Mean |    Error |   StdDev |     Median |
 |------------------ |-----------:|---------:|---------:|-----------:|
-|            GetAdl |   229.4 us |  2.40 us |  2.25 us |   227.9 us |
-|            GetAdx |   942.2 us |  6.35 us |  5.94 us |   940.9 us |
-|          GetAroon |   390.0 us |  3.49 us |  3.09 us |   388.8 us |
-|            GetAtr |   267.6 us |  2.05 us |  1.81 us |   267.1 us |
-|           GetBeta | 1,435.9 us | 14.76 us | 13.80 us | 1,427.9 us |
-| GetBollingerBands |   464.7 us |  3.04 us |  2.84 us |   464.8 us |
-|            GetCci | 1,134.0 us |  3.16 us |  2.64 us | 1,134.1 us |
-|     GetChaikinOsc |   533.2 us |  2.76 us |  2.30 us |   533.6 us |
-|     GetChandelier |   499.2 us |  1.92 us |  1.71 us |   499.5 us |
-|            GetCmf |   826.4 us |  4.48 us |  4.19 us |   825.7 us |
-|     GetConnorsRsi | 1,684.4 us |  9.09 us |  8.50 us | 1,681.9 us |
-|    GetCorrelation | 1,226.4 us |  8.60 us |  7.62 us | 1,224.3 us |
-|       GetDonchian |   382.4 us |  5.14 us |  4.81 us |   380.4 us |
-|      GetDoubleEma |   323.6 us |  1.94 us |  1.62 us |   323.2 us |
-|            GetEma |   190.3 us |  3.78 us |  8.77 us |   186.5 us |
-|     GetHeikinAshi |   270.8 us |  1.91 us |  1.78 us |   270.2 us |
-|            GetHma | 1,790.9 us | 28.42 us | 35.94 us | 1,785.2 us |
-|       GetIchimoku |   970.1 us |  5.43 us |  5.08 us |   969.3 us |
-|        GetKeltner |   742.3 us |  3.33 us |  2.78 us |   742.7 us |
-|           GetMacd |   500.3 us |  2.35 us |  2.08 us |   499.7 us |
-|            GetMfi |   564.6 us |  2.15 us |  1.91 us |   563.9 us |
-|            GetObv |   145.3 us |  0.50 us |  0.44 us |   145.2 us |
-|   GetParabolicSar |   144.1 us |  0.45 us |  0.40 us |   144.1 us |
-|            GetPmo |   461.2 us |  4.40 us |  3.68 us |   460.7 us |
-|            GetRoc |   130.1 us |  0.60 us |  0.50 us |   130.0 us |
-|            GetRsi |   447.9 us |  3.18 us |  2.82 us |   447.5 us |
-|            GetSma |   165.3 us |  0.57 us |  0.48 us |   165.2 us |
-|         GetStdDev |   399.8 us |  3.65 us |  3.24 us |   398.7 us |
-|          GetStoch |   438.1 us |  2.61 us |  3.20 us |   436.7 us |
-|       GetStochRsi |   891.1 us |  6.78 us |  6.01 us |   890.0 us |
-|     GetUlcerIndex | 1,551.6 us | 16.60 us | 14.71 us | 1,544.8 us |
-|       GetWilliamR |   396.8 us |  6.56 us |  7.81 us |   393.3 us |
-|            GetWma |   930.6 us |  5.19 us |  4.60 us |   929.1 us |
-|         GetZigZag |   285.5 us |  1.83 us |  1.71 us |   285.2 us |
+|            GetAdl |   227.6 us |  1.33 us |  1.18 us |   227.3 us |
+|            GetAdx |   939.4 us |  3.88 us |  3.03 us |   938.6 us |
+|          GetAroon |   384.0 us |  7.12 us |  6.66 us |   382.7 us |
+|            GetAtr |   264.3 us |  2.02 us |  1.68 us |   263.6 us |
+|           GetBeta | 1,412.8 us | 27.66 us | 27.17 us | 1,397.8 us |
+| GetBollingerBands |   467.1 us |  8.79 us |  9.41 us |   463.1 us |
+|            GetCci | 1,119.5 us | 13.29 us | 11.10 us | 1,116.4 us |
+|     GetChaikinOsc |   547.4 us |  2.84 us |  2.66 us |   547.3 us |
+|     GetChandelier |   505.2 us |  3.40 us |  3.01 us |   504.1 us |
+|            GetCmf |   816.6 us |  8.15 us |  7.63 us |   812.7 us |
+|     GetConnorsRsi | 1,683.3 us | 12.81 us | 11.98 us | 1,677.7 us |
+|    GetCorrelation | 1,228.5 us | 18.65 us | 16.53 us | 1,220.7 us |
+|       GetDonchian |   376.0 us |  3.15 us |  2.95 us |   374.8 us |
+|      GetDoubleEma |   319.4 us |  1.66 us |  1.30 us |   319.2 us |
+|            GetEma |   181.7 us |  1.91 us |  1.78 us |   181.5 us |
+|     GetHeikinAshi |   292.0 us |  4.23 us |  3.96 us |   291.0 us |
+|            GetHma | 1,780.2 us | 16.52 us | 15.46 us | 1,772.2 us |
+|       GetIchimoku |   935.7 us | 10.13 us |  9.48 us |   929.7 us |
+|        GetKeltner |   754.7 us | 14.70 us | 33.48 us |   742.5 us |
+|           GetMacd |   509.7 us |  9.38 us | 18.51 us |   500.6 us |
+|            GetMfi |   560.7 us |  2.74 us |  2.43 us |   560.4 us |
+|            GetObv |   143.2 us |  0.43 us |  0.34 us |   143.2 us |
+|   GetParabolicSar |   147.1 us |  2.03 us |  1.70 us |   146.5 us |
+|            GetPmo |   422.8 us |  2.39 us |  2.00 us |   422.2 us |
+|            GetRoc |   129.5 us |  0.34 us |  0.28 us |   129.4 us |
+|            GetRsi |   444.5 us |  4.49 us |  4.20 us |   442.9 us |
+|            GetSma |   165.6 us |  0.53 us |  0.42 us |   165.7 us |
+|         GetStdDev |   405.9 us |  4.32 us |  4.04 us |   404.8 us |
+|          GetStoch |   442.8 us |  1.10 us |  0.86 us |   442.7 us |
+|       GetStochRsi |   889.9 us |  7.94 us |  7.04 us |   887.2 us |
+|     GetUlcerIndex | 1,588.7 us | 29.36 us | 24.52 us | 1,577.7 us |
+|       GetWilliamR |   398.0 us |  7.72 us | 10.82 us |   393.7 us |
+|            GetWma |   935.6 us |  9.47 us |  8.86 us |   931.2 us |
+|         GetZigZag |   308.0 us |  3.76 us |  3.34 us |   307.6 us |
 
 ## cleaners
 
@@ -60,9 +60,9 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 
 ## shared functions
 
-| Method | Periods |        Mean |     Error |    StdDev |      Median |
-|------- |-------- |------------:|----------:|----------:|------------:|
-| StdDev |      20 |    41.32 ns |  1.526 ns |  4.404 ns |    38.53 ns |
-| StdDev |      50 |   100.08 ns |  0.846 ns |  0.750 ns |    99.76 ns |
-| StdDev |     250 |   537.13 ns |  2.564 ns |  2.273 ns |   537.04 ns |
-| StdDev |    1000 | 2,173.03 ns | 36.878 ns | 32.691 ns | 2,157.19 ns |
+| Method | Periods |        Mean |     Error |    StdDev |
+|------- |-------- |------------:|----------:|----------:|
+| StdDev |      20 |    38.13 ns |  0.775 ns |  0.687 ns |
+| StdDev |      50 |    98.43 ns |  1.998 ns |  2.991 ns |
+| StdDev |     250 |   532.63 ns |  1.947 ns |  1.626 ns |
+| StdDev |    1000 | 2,158.71 ns | 14.582 ns | 12.927 ns |
