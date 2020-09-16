@@ -25,7 +25,7 @@ namespace Internal.Tests
 
             // sample values
             WmaResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual(246.5110m, Math.Round((decimal)r1.Wma,4));
+            Assert.AreEqual(246.5110m, Math.Round((decimal)r1.Wma, 4));
 
             WmaResult r2 = results.Where(x => x.Index == 150).FirstOrDefault();
             Assert.AreEqual(235.5253m, Math.Round((decimal)r2.Wma, 4));

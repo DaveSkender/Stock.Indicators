@@ -31,6 +31,27 @@ namespace Internal.Tests
             Assert.AreEqual(69.0622m, Math.Round((decimal)r2.Mfi, 4));
         }
 
+        [TestMethod()]
+        public void GetMfiSmallPeriodTest()
+        {
+            int lookbackPeriod = 4;
+            IEnumerable<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod);
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is history
+            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502 - lookbackPeriod, results.Where(x => x.Mfi != null).Count());
+
+            // sample values
+            MfiResult r1 = results.Where(x => x.Index == 32).FirstOrDefault();
+            Assert.AreEqual(100m, Math.Round((decimal)r1.Mfi, 4));
+
+            MfiResult r2 = results.Where(x => x.Index == 44).FirstOrDefault();
+            Assert.AreEqual(0m, Math.Round((decimal)r2.Mfi, 4));
+        }
+
 
         /* EXCEPTIONS */
 

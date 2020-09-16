@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
-[assembly: InternalsVisibleTo("Tests.Indicators")]
 namespace Skender.Stock.Indicators
 {
+
     public static class Cleaners
     {
         private static readonly CultureInfo nativeCulture = Thread.CurrentThread.CurrentUICulture;
@@ -17,23 +16,25 @@ namespace Skender.Stock.Indicators
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            if (history == null || !history.Any())
+            List<Quote> historyList = history?.OrderBy(x => x.Date).ToList();
+
+            if (historyList == null || historyList.Count == 0)
             {
                 throw new BadHistoryException("No historical quotes provided.");
             }
 
             // return if already processed (no missing indexes)
-            if (!history.Any(x => x.Index == null))
+            if (!historyList.Any(x => x.Index == null))
             {
-                return history.OrderBy(x => x.Index).ToList();
+                return historyList;
             }
 
             // add index and check for errors
-            int i = 1;
             DateTime lastDate = DateTime.MinValue;
-            foreach (Quote h in history.OrderBy(x => x.Date))
+            for (int i = 0; i < historyList.Count; i++)
             {
-                h.Index = i++;
+                Quote h = historyList[i];
+                h.Index = i + 1;
 
                 if (lastDate == h.Date)
                 {
@@ -44,7 +45,7 @@ namespace Skender.Stock.Indicators
                 lastDate = h.Date;
             }
 
-            return history.OrderBy(x => x.Index).ToList();
+            return historyList;
         }
 
 
@@ -52,36 +53,36 @@ namespace Skender.Stock.Indicators
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            if (basicData == null || !basicData.Any())
+            List<BasicData> bdList = basicData?.OrderBy(x => x.Date).ToList();
+
+            if (bdList == null || bdList.Count == 0)
             {
-                throw new BadHistoryException("No basic data provided.");
+                throw new BadHistoryException("No historical quotes provided.");
             }
 
             // return if already processed (no missing indexes)
-            if (!basicData.Any(x => x.Index == null))
+            if (!bdList.Any(x => x.Index == null))
             {
-                return basicData.OrderBy(x => x.Index).ToList();
+                return bdList;
             }
 
             // add index and check for errors
-            int i = 1;
             DateTime lastDate = DateTime.MinValue;
-            foreach (BasicData h in basicData.OrderBy(x => x.Date))
+            for (int i = 0; i < bdList.Count; i++)
             {
-                h.Index = i++;
+                BasicData d = bdList[i];
+                d.Index = i + 1;
 
-                if (lastDate == h.Date)
+                if (lastDate == d.Date)
                 {
                     throw new BadHistoryException(
-                        string.Format(nativeCulture, "Duplicate date found on {0}.", h.Date));
+                        string.Format(nativeCulture, "Duplicate date found on {0}.", d.Date));
                 }
 
-                lastDate = h.Date;
-
-                // TODO: more error evaluation (impossible values, missing values, etc.)
+                lastDate = d.Date;
             }
 
-            return basicData.OrderBy(x => x.Index).ToList();
+            return bdList;
         }
 
 

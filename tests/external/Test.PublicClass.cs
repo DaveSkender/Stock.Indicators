@@ -1,6 +1,6 @@
+using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
-using Internal.Tests;
 using System;
 using System.Collections.Generic;
 using System.Linq;

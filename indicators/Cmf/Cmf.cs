@@ -5,24 +5,24 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // SIMPLE MOVING AVERAGE
+        // CHAIKIN MONEY FLOW
         public static IEnumerable<CmfResult> GetCmf(IEnumerable<Quote> history, int lookbackPeriod = 20)
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<CmfResult> results = new List<CmfResult>();
-            IEnumerable<AdlResult> adlResults = GetAdl(history);
+            List<AdlResult> adlResults = GetAdl(history).ToList();
 
             // roll through history
-            foreach (AdlResult r in adlResults)
+            for (int i = 0; i < adlResults.Count; i++)
             {
+                AdlResult r = adlResults[i];
 
                 CmfResult result = new CmfResult
                 {
@@ -34,18 +34,20 @@ namespace Skender.Stock.Indicators
 
                 if (r.Index >= lookbackPeriod)
                 {
+                    decimal sumMfv = 0;
+                    decimal sumVol = 0;
 
-                    decimal avgMfv = adlResults
-                        .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
-                        .Select(x => x.MoneyFlowVolume)
-                        .ToArray()
-                        .Average();
+                    for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
+                    {
+                        Quote h = historyList[p];
+                        sumVol += h.Volume;
 
-                    decimal avgVol = historyList
-                        .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
-                        .Select(x => x.Volume)
-                        .ToArray()
-                        .Average();
+                        AdlResult d = adlResults[p];
+                        sumMfv += d.MoneyFlowVolume;
+                    }
+
+                    decimal avgMfv = sumMfv / lookbackPeriod;
+                    decimal avgVol = sumVol / lookbackPeriod;
 
                     if (avgVol != 0)
                     {

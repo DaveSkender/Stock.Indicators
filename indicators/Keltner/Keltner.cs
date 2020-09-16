@@ -12,13 +12,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateKeltner(history, emaPeriod, multiplier, atrPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<KeltnerResult> results = new List<KeltnerResult>();
             List<EmaResult> emaResults = GetEma(history, emaPeriod).ToList();
             List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();

@@ -20,38 +20,44 @@ namespace Skender.Stock.Indicators
         private static IEnumerable<StdDevResult> CalcStdDev(IEnumerable<BasicData> basicData, int lookbackPeriod)
         {
             // clean data
-            basicData = Cleaners.PrepareBasicData(basicData);
+            List<BasicData> basicDataList = Cleaners.PrepareBasicData(basicData).ToList();
 
             // validate inputs
             ValidateStdDev(basicData, lookbackPeriod);
 
             // initialize results
             List<StdDevResult> results = new List<StdDevResult>();
-            decimal? prevValue = null;
 
             // roll through history and compute lookback standard deviation
-            foreach (BasicData h in basicData)
+            foreach (BasicData bd in basicDataList)
             {
                 StdDevResult result = new StdDevResult
                 {
-                    Index = (int)h.Index,
-                    Date = h.Date,
+                    Index = (int)bd.Index,
+                    Date = bd.Date,
                 };
 
-                if (h.Index >= lookbackPeriod)
+                if (bd.Index >= lookbackPeriod)
                 {
-                    // price based
-                    double[] period = basicData
-                        .Where(x => x.Index > (h.Index - lookbackPeriod) && x.Index <= h.Index)
-                        .Select(x => (double)x.Value)
-                        .ToArray();
+                    double[] periodValues = new double[lookbackPeriod];
+                    decimal sum = 0m;
+                    int n = 0;
 
-                    result.StdDev = (decimal)Functions.StdDev(period);
-                    result.ZScore = (h.Value - (decimal)period.Average()) / result.StdDev;
+                    for (int p = (int)bd.Index - lookbackPeriod; p < bd.Index; p++)
+                    {
+                        BasicData d = basicDataList[p];
+                        periodValues[n] = (double)d.Value;
+                        sum += d.Value;
+                        n++;
+                    }
+
+                    decimal periodAvg = sum / lookbackPeriod;
+
+                    result.StdDev = (decimal)Functions.StdDev(periodValues);
+                    result.ZScore = (bd.Value - periodAvg) / result.StdDev;
                 }
 
                 results.Add(result);
-                prevValue = h.Value;
             }
 
             return results;

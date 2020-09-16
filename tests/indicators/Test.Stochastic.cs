@@ -72,6 +72,24 @@ namespace Internal.Tests
             Assert.AreEqual(60.5706m, Math.Round((decimal)r2.Signal, 4));
         }
 
+        [TestMethod()]
+        public void GetStochFastSmallPeriodTest()
+        {
+            int lookbackPeriod = 1;
+            int signalPeriod = 10;
+            int smoothPeriod = 1;
+
+            IEnumerable<StochResult> results = Indicator.GetStoch(
+                history, lookbackPeriod, signalPeriod, smoothPeriod);
+
+            // sample values
+            StochResult r1 = results.Where(x => x.Index == 71).FirstOrDefault();
+            Assert.AreEqual(0m, Math.Round((decimal)r1.Oscillator, 4));
+
+            StochResult r2 = results.Where(x => x.Index == 72).FirstOrDefault();
+            Assert.AreEqual(100m, Math.Round((decimal)r2.Oscillator, 4));
+        }
+
 
         /* EXCEPTIONS */
 

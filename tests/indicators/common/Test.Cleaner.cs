@@ -25,7 +25,7 @@ namespace Internal.Tests
 
             // last index should be 502
             Quote r = history
-                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", cultureProvider))
+                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture))
                 .FirstOrDefault();
 
             Assert.AreEqual(502, r.Index);
@@ -49,7 +49,7 @@ namespace Internal.Tests
 
             // last index should be 502
             Quote r = historyLong
-                .Where(x => x.Date == DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", cultureProvider))
+                .Where(x => x.Date == DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", englishCulture))
                 .FirstOrDefault();
 
             Assert.AreEqual(5285, r.Index);
@@ -88,7 +88,7 @@ namespace Internal.Tests
 
             // use close as special case to evaluate index
             BasicData rc = c
-                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", cultureProvider))
+                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture))
                 .FirstOrDefault();
 
             // last index should be 502
@@ -103,9 +103,7 @@ namespace Internal.Tests
         }
 
 
-
         /* BAD HISTORY EXCEPTIONS */
-
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "No historical quotes.")]
         public void NoHistory()
@@ -120,11 +118,11 @@ namespace Internal.Tests
         {
             List<Quote> badHistory = new List<Quote>
             {
-            new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", cultureProvider), Open=214.86m, High=220.33m, Low=210.96m, Close=216.99m, Volume = 5923254 },
-            new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", cultureProvider), Open=214.75m, High=228.00m, Low=214.31m, Close=226.99m, Volume = 11213471 },
-            new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", cultureProvider), Open=226.42m, High=227.48m, Low=221.95m, Close=226.75m, Volume = 5911695 },
-            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Open=226.93m, High=230.31m, Low=225.45m, Close=229.01m, Volume = 5527893 },
-            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Open=228.97m, High=231.92m, Low=228.00m, Close=231.28m, Volume = 3979484 }
+            new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open=214.86m, High=220.33m, Low=210.96m, Close=216.99m, Volume = 5923254 },
+            new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open=214.75m, High=228.00m, Low=214.31m, Close=226.99m, Volume = 11213471 },
+            new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open=226.42m, High=227.48m, Low=221.95m, Close=226.75m, Volume = 5911695 },
+            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open=226.93m, High=230.31m, Low=225.45m, Close=229.01m, Volume = 5527893 },
+            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open=228.97m, High=231.92m, Low=228.00m, Close=231.28m, Volume = 3979484 }
             };
 
             Cleaners.PrepareHistory(badHistory);
@@ -145,15 +143,22 @@ namespace Internal.Tests
         {
             List<BasicData> bd = new List<BasicData>
             {
-            new BasicData { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", cultureProvider), Value=214.86m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", cultureProvider), Value=214.75m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", cultureProvider), Value=226.42m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Value=226.93m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", cultureProvider), Value=228.97m}
+            new BasicData { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Value=214.86m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Value=214.75m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Value=226.42m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Value=226.93m},
+            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Value=228.97m}
             };
 
             Cleaners.PrepareBasicData(bd);
         }
 
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Bad element.")]
+        public void CleanBasicDataBadParamTest()
+        {
+            // compose basic data
+            Cleaners.ConvertHistoryToBasic(history, "E");
+        }
     }
 }

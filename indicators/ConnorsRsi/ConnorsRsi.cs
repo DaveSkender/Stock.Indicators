@@ -18,9 +18,40 @@ namespace Skender.Stock.Indicators
             ValidateConnorsRsi(bd, rsiPeriod, streakPeriod, rankPeriod);
 
             // initialize
-            List<ConnorsRsiResult> results = new List<ConnorsRsiResult>();
-            List<RsiResult> rsiResults = CalcRsi(bd, rsiPeriod).ToList();
+            List<ConnorsRsiResult> results = CalcConnorsRsiBaseline(bd, rsiPeriod, rankPeriod);
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
+
+            // RSI of streak
+            List<BasicData> bdStreak = results
+                .Where(x => x.Streak != null)
+                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Streak })
+                .ToList();
+
+            List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriod).ToList();
+
+            // compose final results
+            for (int p = streakPeriod + 2; p < results.Count; p++)
+            {
+                ConnorsRsiResult r = results[p];
+                RsiResult k = rsiStreakResults[p - 1];
+
+                r.RsiStreak = k.Rsi;
+
+                if (r.Index >= startPeriod)
+                {
+                    r.ConnorsRsi = (r.RsiClose + r.RsiStreak + r.PercentRank) / 3;
+                }
+            }
+
+            return results;
+        }
+
+
+        private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
+            List<BasicData> bd, int rsiPeriod, int rankPeriod)
+        {
+            List<RsiResult> rsiResults = CalcRsi(bd, rsiPeriod).ToList();
+            List<ConnorsRsiResult> results = new List<ConnorsRsiResult>();
 
             decimal? lastClose = null;
             decimal streak = 0;
@@ -78,41 +109,25 @@ namespace Skender.Stock.Indicators
                 // percentile rank
                 result.PeriodGain = (decimal)((lastClose <= 0) ? null : (h.Value - lastClose) / lastClose);
 
+                results.Add(result);
+
                 if (h.Index > rankPeriod)
                 {
-                    List<ConnorsRsiResult> period = results
-                        .Where(x => x.Index >= (h.Index - rankPeriod) && x.Index < h.Index)
-                        .ToList();
+                    int qty = 0;
+                    for (int p = (int)h.Index - rankPeriod - 1; p < h.Index; p++)
+                    {
+                        ConnorsRsiResult r = results[p];
+                        if (r.PeriodGain < result.PeriodGain)
+                        {
+                            qty++;
+                        }
+                    }
 
-                    result.PercentRank = 100m * period
-                        .Where(x => x.PeriodGain < result.PeriodGain)
-                        .Count() / rankPeriod;
+                    result.PercentRank = 100m * qty / rankPeriod;
                 }
 
-                results.Add(result);
+
                 lastClose = h.Value;
-            }
-
-            // RSI of streak
-            List<BasicData> bdStreak = results
-                .Where(x => x.Streak != null)
-                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Streak })
-                .ToList();
-
-            IEnumerable<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriod);
-
-            // compose final results
-            foreach (ConnorsRsiResult r in results.Where(x => x.Index >= streakPeriod + 2))
-            {
-                r.RsiStreak = rsiStreakResults
-                    .Where(x => x.Index == r.Index - 1)
-                    .FirstOrDefault()
-                    .Rsi;
-
-                if (r.Index >= startPeriod)
-                {
-                    r.ConnorsRsi = (r.RsiClose + r.RsiStreak + r.PercentRank) / 3;
-                }
             }
 
             return results;

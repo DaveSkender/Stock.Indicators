@@ -14,13 +14,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<ParabolicSarResult> results = new List<ParabolicSarResult>();
             Quote first = historyList[0];
 

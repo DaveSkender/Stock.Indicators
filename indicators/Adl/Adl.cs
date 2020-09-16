@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // ON-BALANCE VOLUME
+        // ACCUMULATION / DISTRIBUTION LINE
         public static IEnumerable<AdlResult> GetAdl(IEnumerable<Quote> history)
         {
 

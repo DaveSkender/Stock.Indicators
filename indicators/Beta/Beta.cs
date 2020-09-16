@@ -11,13 +11,12 @@ namespace Skender.Stock.Indicators
         {
             // clean quotes
             historyMarket = Cleaners.PrepareHistory(historyMarket);
-            historyEval = Cleaners.PrepareHistory(historyEval);
+            List<Quote> historyEvalList = Cleaners.PrepareHistory(historyEval).ToList();
 
             // validate parameters
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
 
             // initialize results
-            List<Quote> historyEvalList = historyEval.ToList();
             List<BetaResult> results = new List<BetaResult>();
 
             // get prerequisite data

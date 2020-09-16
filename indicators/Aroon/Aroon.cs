@@ -10,13 +10,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateAroon(history, lookbackPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<AroonResult> results = new List<AroonResult>();
 
             // roll through history
@@ -33,24 +32,27 @@ namespace Skender.Stock.Indicators
                 // add aroons
                 if (h.Index > lookbackPeriod)
                 {
-                    List<Quote> period = historyList
-                        .Where(x => x.Index <= h.Index && x.Index >= (h.Index - lookbackPeriod))
-                        .ToList();
+                    decimal lastHighPrice = 0;
+                    decimal lastLowPrice = decimal.MaxValue;
+                    int lastHighIndex = 0;
+                    int lastLowIndex = 0;
 
-                    decimal lastHighPrice = period.Select(x => x.High).Max();
-                    decimal lastLowPrice = period.Select(x => x.Low).Min();
+                    for (int p = (int)h.Index - lookbackPeriod - 1; p < h.Index; p++)
+                    {
+                        Quote d = historyList[p];
 
-                    int lastHighIndex = period
-                        .Where(x => x.High == lastHighPrice)
-                        .OrderBy(x => x.Index)  // implies "new" high, so not picking new tie for high
-                        .Select(x => (int)x.Index)
-                        .FirstOrDefault();
+                        if (d.High > lastHighPrice)
+                        {
+                            lastHighPrice = d.High;
+                            lastHighIndex = (int)d.Index;
+                        }
 
-                    int lastLowIndex = period
-                        .Where(x => x.Low == lastLowPrice)
-                        .OrderBy(x => x.Index)
-                        .Select(x => (int)x.Index)
-                        .FirstOrDefault();
+                        if (d.Low < lastLowPrice)
+                        {
+                            lastLowPrice = d.Low;
+                            lastLowIndex = (int)d.Index;
+                        }
+                    }
 
                     result.AroonUp = 100 * (decimal)(lookbackPeriod - (h.Index - lastHighIndex)) / lookbackPeriod;
                     result.AroonDown = 100 * (decimal)(lookbackPeriod - (h.Index - lastLowIndex)) / lookbackPeriod;

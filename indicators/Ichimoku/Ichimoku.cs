@@ -12,13 +12,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<IchimokuResult> results = new List<IchimokuResult>();
 
             // roll through history
@@ -33,31 +32,10 @@ namespace Skender.Stock.Indicators
                 };
 
                 // tenkan-sen conversion line
-                if (h.Index >= signalPeriod)
-                {
-
-                    List<Quote> tenkanPeriod = historyList
-                        .Where(x => x.Index > (h.Index - signalPeriod) && x.Index <= h.Index)
-                        .ToList();
-
-                    decimal max = tenkanPeriod.Select(x => x.High).Max();
-                    decimal min = tenkanPeriod.Select(x => x.Low).Min();
-
-                    result.TenkanSen = (min + max) / 2;
-                }
+                CalcIchimokuTenkanSen(historyList, result, h, signalPeriod);
 
                 // kijun-sen base line
-                if (h.Index >= shortSpanPeriod)
-                {
-                    List<Quote> kijunPeriod = historyList
-                        .Where(x => x.Index > (h.Index - shortSpanPeriod) && x.Index <= h.Index)
-                        .ToList();
-
-                    decimal max = kijunPeriod.Select(x => x.High).Max();
-                    decimal min = kijunPeriod.Select(x => x.Low).Min();
-
-                    result.KijunSen = (min + max) / 2;
-                }
+                CalcIchimokuKijunSen(historyList, result, h, shortSpanPeriod);
 
                 // senkou span A
                 if (h.Index >= 2 * shortSpanPeriod)
@@ -71,18 +49,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // senkou span B
-                if (h.Index >= shortSpanPeriod + longSpanPeriod)
-                {
-                    List<Quote> senkauPeriod = historyList
-                        .Where(x => x.Index > (h.Index - shortSpanPeriod - longSpanPeriod)
-                            && x.Index <= h.Index - shortSpanPeriod)
-                        .ToList();
-
-                    decimal max = senkauPeriod.Select(x => x.High).Max();
-                    decimal min = senkauPeriod.Select(x => x.Low).Min();
-
-                    result.SenkouSpanB = (min + max) / 2;
-                }
+                CalcIchimokuSenkouB(historyList, result, h, shortSpanPeriod, longSpanPeriod);
 
                 // chikou line
                 if (h.Index + shortSpanPeriod <= historyList.Count)
@@ -93,6 +60,97 @@ namespace Skender.Stock.Indicators
             }
 
             return results;
+        }
+
+
+        private static void CalcIchimokuTenkanSen(
+            List<Quote> historyList,
+            IchimokuResult result,
+            Quote h, int signalPeriod)
+        {
+            if (h.Index >= signalPeriod)
+            {
+                decimal max = 0;
+                decimal min = decimal.MaxValue;
+
+                for (int p = (int)h.Index - signalPeriod; p < h.Index; p++)
+                {
+                    Quote d = historyList[p];
+
+                    if (d.High > max)
+                    {
+                        max = d.High;
+                    }
+
+                    if (d.Low < min)
+                    {
+                        min = d.Low;
+                    }
+                }
+
+                result.TenkanSen = (min + max) / 2;
+            }
+        }
+
+
+        private static void CalcIchimokuKijunSen(
+            List<Quote> historyList, 
+            IchimokuResult result, 
+            Quote h, int shortSpanPeriod)
+        {
+            if (h.Index >= shortSpanPeriod)
+            {
+                decimal max = 0;
+                decimal min = decimal.MaxValue;
+
+                for (int p = (int)h.Index - shortSpanPeriod; p < h.Index; p++)
+                {
+                    Quote d = historyList[p];
+
+                    if (d.High > max)
+                    {
+                        max = d.High;
+                    }
+
+                    if (d.Low < min)
+                    {
+                        min = d.Low;
+                    }
+                }
+
+                result.KijunSen = (min + max) / 2;
+            }
+        }
+
+
+        private static void CalcIchimokuSenkouB(
+            List<Quote> historyList,
+            IchimokuResult result,
+            Quote h, int shortSpanPeriod, int longSpanPeriod)
+        {
+            if (h.Index >= shortSpanPeriod + longSpanPeriod)
+            {
+                decimal max = 0;
+                decimal min = decimal.MaxValue;
+
+                for (int p = (int)h.Index - shortSpanPeriod - longSpanPeriod;
+                    p < h.Index - shortSpanPeriod; p++)
+                {
+                    Quote d = historyList[p];
+
+                    if (d.High > max)
+                    {
+                        max = d.High;
+                    }
+
+                    if (d.Low < min)
+                    {
+                        min = d.Low;
+                    }
+                }
+
+                result.SenkouSpanB = (min + max) / 2;
+            }
         }
 
 

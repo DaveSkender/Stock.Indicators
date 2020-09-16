@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // RATE OF CHANGE (PMO)
+        // PRICE MOMENTUM OSCILLATOR (PMO)
         public static IEnumerable<PmoResult> GetPmo(
             IEnumerable<Quote> history,
             int timePeriod = 35,
@@ -20,19 +20,51 @@ namespace Skender.Stock.Indicators
             ValidatePmo(history, timePeriod, smoothingPeriod, signalPeriod);
 
             // initialize
-            List<PmoResult> results = new List<PmoResult>();
-            List<RocResult> roc = GetRoc(history, 1).ToList();
-
-            int startIndex = 0;
-            decimal smoothingMultiplier = 2m / timePeriod;
+            List<PmoResult> results = CalcPmoRocEma(history, timePeriod);
             decimal smoothingConstant = 2m / smoothingPeriod;
-            decimal signalConstant = 2m / (signalPeriod + 1);
-            decimal? lastRocEma = null;
             decimal? lastPmo = null;
-            decimal? lastSignal = null;
 
-            // get ROC EMA variant
-            startIndex = timePeriod + 1;
+            // calculate PMO
+            int startIndex = timePeriod + smoothingPeriod;
+
+            for (int i = startIndex - 1; i < results.Count; i++)
+            {
+                PmoResult pr = results[i];
+
+                if (pr.Index > startIndex)
+                {
+                    pr.Pmo = (pr.RocEma - lastPmo) * smoothingConstant + lastPmo;
+                }
+                else if (pr.Index == startIndex)
+                {
+                    decimal sumRocEma = 0;
+                    for (int p = pr.Index - smoothingPeriod; p < pr.Index; p++)
+                    {
+                        PmoResult d = results[p];
+                        sumRocEma += (decimal)d.RocEma;
+                    }
+                    pr.Pmo = sumRocEma / smoothingPeriod;
+                }
+
+                lastPmo = pr.Pmo;
+            }
+
+            // add Signal
+            CalcPmoSignal(results, timePeriod, smoothingPeriod, signalPeriod);
+
+            return results;
+        }
+
+
+        private static List<PmoResult> CalcPmoRocEma(IEnumerable<Quote> history, int timePeriod)
+        {
+            // initialize
+            decimal smoothingMultiplier = 2m / timePeriod;
+            decimal? lastRocEma = null;
+            List<RocResult> roc = GetRoc(history, 1).ToList();
+            List<PmoResult> results = new List<PmoResult>();
+
+            int startIndex = timePeriod + 1;
 
             for (int i = 0; i < roc.Count; i++)
             {
@@ -50,11 +82,13 @@ namespace Skender.Stock.Indicators
                 }
                 else if (r.Index == startIndex)
                 {
-                    result.RocEma = roc
-                        .Where(x => x.Index > r.Index - timePeriod && x.Index <= r.Index)
-                        .ToList()
-                        .Select(x => x.Roc)
-                        .Average();
+                    decimal sumRoc = 0;
+                    for (int p = r.Index - timePeriod; p < r.Index; p++)
+                    {
+                        RocResult d = roc[p];
+                        sumRoc += (decimal)d.Roc;
+                    }
+                    result.RocEma = sumRoc / timePeriod;
                 }
 
                 lastRocEma = result.RocEma;
@@ -62,51 +96,43 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
             }
 
-            // calculate PMO
-            startIndex = timePeriod + smoothingPeriod;
+            return results;
+        }
+
+
+        private static IEnumerable<PmoResult> CalcPmoSignal(
+            List<PmoResult> results,
+            int timePeriod,
+            int smoothingPeriod,
+            int signalPeriod)
+        {
+            decimal signalConstant = 2m / (signalPeriod + 1);
+            decimal? lastSignal = null;
+
+            int startIndex = timePeriod + smoothingPeriod + signalPeriod - 1;
 
             for (int i = startIndex - 1; i < results.Count; i++)
             {
-                PmoResult p = results[i];
+                PmoResult pr = results[i];
 
-                if (p.Index > startIndex)
+                if (pr.Index > startIndex)
                 {
-                    p.Pmo = (p.RocEma - lastPmo) * smoothingConstant + lastPmo;
+                    pr.Signal = (pr.Pmo - lastSignal) * signalConstant + lastSignal;
                 }
-                else if (p.Index == startIndex)
+                else if (pr.Index == startIndex)
                 {
-                    p.Pmo = results
-                        .Where(x => x.Index > p.Index - smoothingPeriod && x.Index <= p.Index)
-                        .ToList()
-                        .Select(x => x.RocEma)
-                        .Average();
+                    decimal sumPmo = 0;
+                    for (int p = pr.Index - signalPeriod; p < pr.Index; p++)
+                    {
+                        PmoResult d = results[p];
+                        sumPmo += (decimal)d.Pmo;
+                    }
+                    pr.Signal = sumPmo / signalPeriod;
                 }
 
-                lastPmo = p.Pmo;
+                lastSignal = pr.Signal;
             }
 
-            // add Signal
-            startIndex = timePeriod + smoothingPeriod + signalPeriod - 1;
-
-            for (int i = startIndex - 1; i < results.Count; i++)
-            {
-                PmoResult p = results[i];
-
-                if (p.Index > startIndex)
-                {
-                    p.Signal = (p.Pmo - lastSignal) * signalConstant + lastSignal;
-                }
-                else if (p.Index == startIndex)
-                {
-                    p.Signal = results
-                        .Where(x => x.Index > p.Index - signalPeriod && x.Index <= p.Index)
-                        .ToList()
-                        .Select(x => x.Pmo)
-                        .Average();
-                }
-
-                lastSignal = p.Signal;
-            }
 
             return results;
         }

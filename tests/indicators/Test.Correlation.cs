@@ -31,7 +31,6 @@ namespace Internal.Tests
 
 
         /* EXCEPTIONS */
-
         [TestMethod()]
         [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
         public void BadLookback()
@@ -51,6 +50,14 @@ namespace Internal.Tests
         public void InsufficientEvalHistory()
         {
             Indicator.GetCorrelation(history, historyOther.Where(x => x.Index <= 300), 30);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(BadHistoryException), "Mismatch history.")]
+        public void GetCorrelationMismatchTest()
+        {
+            IEnumerable<Quote> historyGap = History.GetHistoryWithGap();
+            Indicator.GetCorrelation(historyGap, historyOther, 20);
         }
 
     }

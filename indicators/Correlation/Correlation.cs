@@ -15,7 +15,7 @@ namespace Skender.Stock.Indicators
             List<Quote> historyListB = Cleaners.PrepareHistory(historyB).ToList();
 
             // validate parameters
-            ValidateCorrelation(historyListA, historyListB, lookbackPeriod);
+            ValidateCorrelation(historyA, historyB, lookbackPeriod);
 
             // initialize
             List<CorrResult> results = new List<CorrResult>();
@@ -33,44 +33,58 @@ namespace Skender.Stock.Indicators
                         "Date sequence does not match.  Correlation requires matching dates in provided histories.");
                 }
 
-                CorrResult result = new CorrResult
+                CorrResult r = new CorrResult
                 {
                     Index = (int)a.Index,
                     Date = a.Date,
                     PriceA = a.Close,
-                    PriceB = b.Close
-                    // other values calculated in class properties
+                    PriceB = b.Close,
+                    PriceA2 = a.Close * a.Close,
+                    PriceB2 = b.Close * b.Close,
+                    PriceAB = a.Close * b.Close
                 };
-                results.Add(result);
-            }
 
-            // compute correlation
-            for (int i = lookbackPeriod - 1; i < results.Count; i++)
-            {
-                CorrResult r = results[i];
+                results.Add(r);
 
-                List<CorrResult> period = results
-                    .Where(x => x.Index > (r.Index - lookbackPeriod) && x.Index <= r.Index)
-                    .ToList();
+                // compute correlation
+                if (i + 1 >= lookbackPeriod)
+                {
+                    decimal sumPriceA = 0m;
+                    decimal sumPriceB = 0m;
+                    decimal sumPriceA2 = 0m;
+                    decimal sumPriceB2 = 0m;
+                    decimal sumPriceAB = 0m;
 
-                decimal avgA = period.Select(x => x.PriceA).Average();
-                decimal avgB = period.Select(x => x.PriceB).Average();
-                decimal avgA2 = period.Select(x => x.PriceA2).Average();
-                decimal avgB2 = period.Select(x => x.PriceB2).Average();
-                decimal avgAB = period.Select(x => x.PriceAB).Average();
+                    for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
+                    {
+                        CorrResult d = results[p];
 
-                r.VarianceA = avgA2 - avgA * avgA;
-                r.VarianceB = avgB2 - avgB * avgB;
-                r.Covariance = avgAB - avgA * avgB;
-                r.Correlation = r.Covariance / (decimal)Math.Sqrt((double)(r.VarianceA * r.VarianceB));
-                r.RSquared = r.Correlation * r.Correlation;
+                        sumPriceA += d.PriceA;
+                        sumPriceB += d.PriceB;
+                        sumPriceA2 += d.PriceA2;
+                        sumPriceB2 += d.PriceB2;
+                        sumPriceAB += d.PriceAB;
+                    }
+
+                    decimal avgA = sumPriceA / lookbackPeriod;
+                    decimal avgB = sumPriceB / lookbackPeriod;
+                    decimal avgA2 = sumPriceA2 / lookbackPeriod;
+                    decimal avgB2 = sumPriceB2 / lookbackPeriod;
+                    decimal avgAB = sumPriceAB / lookbackPeriod;
+
+                    r.VarianceA = avgA2 - avgA * avgA;
+                    r.VarianceB = avgB2 - avgB * avgB;
+                    r.Covariance = avgAB - avgA * avgB;
+                    r.Correlation = r.Covariance / (decimal)Math.Sqrt((double)(r.VarianceA * r.VarianceB));
+                    r.RSquared = r.Correlation * r.Correlation;
+                }
             }
 
             return results;
         }
 
 
-        private static void ValidateCorrelation(List<Quote> historyA, List<Quote> historyB, int lookbackPeriod)
+        private static void ValidateCorrelation(IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
         {
 
             // check parameters
@@ -80,7 +94,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistoryA = historyA.Count;
+            int qtyHistoryA = historyA.Count();
             int minHistoryA = lookbackPeriod;
             if (qtyHistoryA < minHistoryA)
             {
@@ -90,7 +104,7 @@ namespace Skender.Stock.Indicators
                         qtyHistoryA, minHistoryA));
             }
 
-            int qtyHistoryB = historyB.Count;
+            int qtyHistoryB = historyB.Count();
             if (qtyHistoryB < qtyHistoryA)
             {
                 throw new BadHistoryException(

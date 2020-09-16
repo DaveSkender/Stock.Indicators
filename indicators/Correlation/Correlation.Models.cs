@@ -14,8 +14,8 @@ namespace Skender.Stock.Indicators
         // internal use only
         internal decimal PriceA { get; set; }
         internal decimal PriceB { get; set; }
-        internal decimal PriceA2 => PriceA * PriceA;
-        internal decimal PriceB2 => PriceB * PriceB;
-        internal decimal PriceAB => PriceA * PriceB;
+        internal decimal PriceA2 { get; set; }
+        internal decimal PriceB2 { get; set; }
+        internal decimal PriceAB { get; set; }
     }
 }
