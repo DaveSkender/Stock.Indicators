@@ -20,7 +20,7 @@ IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod)
 IEnumerable<VolSmaResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` values for `VolSma` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### VolSmaResult
 
@@ -42,15 +42,15 @@ The result set is a modified version of the `Quote` class.
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
-// calculate 20-period VolSma
+// calculate 20-period SMA of Volume
 IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history,20);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 VolSmaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("VolSma on {0} was ${1}", result.Date, result.VolSma);
+Console.WriteLine("Average Volume on {0} was ${1}", result.Date, result.VolSma);
 ```
 
 ```bash
-VolSma on 12/31/2018 was $251.86
+Average Volume on 12/31/2018 was 163695200
 ```

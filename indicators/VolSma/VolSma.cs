@@ -26,7 +26,6 @@ namespace Skender.Stock.Indicators
             // check parameters
             ValidateVolSma(history, lookbackPeriod);
 
-
             // roll through history
             for (int i = lookbackPeriod - 1; i < results.Count; i++)
             {
@@ -35,8 +34,8 @@ namespace Skender.Stock.Indicators
                 decimal sumVolSma = 0m;
                 for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
                 {
-                    Quote d = results[p];
-                    sumVolSma += d.Volume;
+                    VolSmaResult q = results[p];
+                    sumVolSma += q.Volume;
                 }
 
                 h.VolSma = sumVolSma / lookbackPeriod;
