@@ -205,6 +205,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetVolSma()
+        {
+            return Indicator.GetVolSma(hm, 14);
+        }
+
+        [Benchmark]
         public object GetWilliamR()
         {
             return Indicator.GetWilliamR(hm);
