@@ -2,6 +2,8 @@
 
 The Volume Simple Moving Average is the average volume over `N` lookback periods.  This is helpful when you are trying to assess whether volume is above or below average.
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod);  
