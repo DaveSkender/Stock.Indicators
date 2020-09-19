@@ -1,6 +1,6 @@
 ﻿# Volume Simple Moving Average
 
-The Volume Simple Moving Average is the average volume over `N` lookback periods.  This is helpful when you are trying to assess whether volume is above or below average.
+The Volume Simple Moving Average is the average volume over `N` lookback periods.  This is helpful when you are trying to assess whether volume is above or below normal.
 
 ![image](chart.png)
 
@@ -26,15 +26,9 @@ The first `N-1` periods will have `null` values for `VolSma` since there's not e
 
 ### VolSmaResult
 
-The result set is a modified version of the `Quote` class.
-
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Open` | decimal | Open price
-| `High` | decimal | High price
-| `Low` | decimal | Low price
-| `Close` | decimal | Close price
 | `Volume` | decimal | Volume
 | `VolSma` | decimal | Simple moving average of `Volume` for `N` lookback periods
 

@@ -32,10 +32,6 @@ namespace Internal.Tests
 
             VolSmaResult r3 = results.Where(x => x.Index == 502).FirstOrDefault();
             Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture), r3.Date);
-            Assert.AreEqual(244.92m, r3.Open);
-            Assert.AreEqual(245.54m, r3.High);
-            Assert.AreEqual(242.87m, r3.Low);
-            Assert.AreEqual(245.28m, r3.Close);
             Assert.AreEqual(147031456m, r3.Volume);
             Assert.AreEqual(163695200m, r3.VolSma);
         }

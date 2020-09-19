@@ -13,12 +13,8 @@ namespace Skender.Stock.Indicators
             List<VolSmaResult> results = Cleaners.PrepareHistory(history)
                 .Select(x => new VolSmaResult
                 {
-                    Index = x.Index,
+                    Index = (int)x.Index,
                     Date = x.Date,
-                    Open = x.Open,
-                    High = x.High,
-                    Low = x.Low,
-                    Close = x.Close,
                     Volume = x.Volume
                 })
                 .ToList();
