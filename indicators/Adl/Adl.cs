@@ -6,14 +6,14 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ACCUMULATION / DISTRIBUTION LINE
-        public static IEnumerable<AdlResult> GetAdl(IEnumerable<Quote> history)
+        public static IEnumerable<AdlResult> GetAdl(IEnumerable<Quote> history, int? smaPeriod = null)
         {
 
             // clean quotes
             Cleaners.PrepareHistory(history);
 
             // check parameters
-            ValidateAdl(history);
+            ValidateAdl(history, smaPeriod);
 
             // initialize
             List<AdlResult> results = new List<AdlResult>();
@@ -37,14 +37,33 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
 
                 prevAdl = adl;
+
+                // optional SMA
+                if (smaPeriod != null && h.Index >= smaPeriod)
+                {
+                    decimal sumSma = 0m;
+                    for (int p = (int)h.Index - (int)smaPeriod; p < h.Index; p++)
+                    {
+                        sumSma += results[p].Adl;
+                    }
+
+                    result.Sma = sumSma / smaPeriod;
+
+                }
             }
 
             return results;
         }
 
 
-        private static void ValidateAdl(IEnumerable<Quote> history)
+        private static void ValidateAdl(IEnumerable<Quote> history, int? smaPeriod)
         {
+
+            // check parameters
+            if (smaPeriod != null && smaPeriod <= 0)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for ADL SMA.");
+            }
 
             // check history
             int qtyHistory = history.Count();

@@ -19,6 +19,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetAdlWithSma()
+        {
+            return Indicator.GetAdl(hm, 14);
+        }
+
+        [Benchmark]
         public object GetAdx()
         {
             return Indicator.GetAdx(hm);
