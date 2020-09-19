@@ -8,7 +8,7 @@ A rolling accumulation of Chaikin Money Flow Volume.  [More info ...](https://sc
 // usage
 IEnumerable<AdlResult> results = Indicator.GetAdl(history);  
 
-// usage with optional overlay SMA of ADL (not shown above)
+// usage with optional overlay SMA of ADL (shown above)
 IEnumerable<AdlResult> results = Indicator.GetAdl(history,smaPeriod);  
 ```
 

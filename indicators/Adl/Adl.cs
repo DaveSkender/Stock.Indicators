@@ -61,7 +61,7 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (smaPeriod != null && smaPeriod <= 0)
             {
-                throw new BadParameterException("Lookback period must be greater than 0 for ADL SMA.");
+                throw new BadParameterException("SMA period must be greater than 0 for ADL.");
             }
 
             // check history

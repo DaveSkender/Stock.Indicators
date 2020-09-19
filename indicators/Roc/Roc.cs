@@ -6,14 +6,15 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // RATE OF CHANGE (ROC)
-        public static IEnumerable<RocResult> GetRoc(IEnumerable<Quote> history, int lookbackPeriod)
+        public static IEnumerable<RocResult> GetRoc(
+            IEnumerable<Quote> history, int lookbackPeriod, int? smaPeriod = null)
         {
 
             // clean quotes
             List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
-            ValidateRoc(history, lookbackPeriod);
+            ValidateRoc(history, lookbackPeriod, smaPeriod);
 
             // initialize
             List<RocResult> results = new List<RocResult>();
@@ -36,19 +37,36 @@ namespace Skender.Stock.Indicators
                 }
 
                 results.Add(result);
+
+                // optional SMA
+                if (smaPeriod != null && h.Index >= lookbackPeriod + smaPeriod)
+                {
+                    decimal sumSma = 0m;
+                    for (int p = (int)h.Index - (int)smaPeriod; p < h.Index; p++)
+                    {
+                        sumSma += (decimal)results[p].Roc;
+                    }
+
+                    result.Sma = sumSma / smaPeriod;
+                }
             }
 
             return results;
         }
 
 
-        private static void ValidateRoc(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateRoc(IEnumerable<Quote> history, int lookbackPeriod, int? smaPeriod)
         {
 
             // check parameters
             if (lookbackPeriod <= 0)
             {
                 throw new BadParameterException("Lookback period must be greater than 0 for ROC.");
+            }
+
+            if (smaPeriod != null && smaPeriod <= 0)
+            {
+                throw new BadParameterException("SMA period must be greater than 0 for ROC.");
             }
 
             // check history

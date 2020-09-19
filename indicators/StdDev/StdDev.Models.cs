@@ -7,5 +7,6 @@ namespace Skender.Stock.Indicators
     {
         public decimal? StdDev { get; set; }
         public decimal? ZScore { get; set; }
+        public decimal? Sma { get; set; }
     }
 }
