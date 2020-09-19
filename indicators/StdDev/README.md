@@ -36,7 +36,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Date` | DateTime | Date
 | `StdDev` | decimal | Standard Deviation of Close price based on `N` lookback periods
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
-| `Sma` | decimal | SMA of the `Roc` based on `smaPeriod` periods, if specified
+| `Sma` | decimal | SMA of the `StDev` based on `smaPeriod` periods, if specified
 
 ## Example
 
