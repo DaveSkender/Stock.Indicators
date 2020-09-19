@@ -6,24 +6,26 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STANDARD DEVIATION
-        public static IEnumerable<StdDevResult> GetStdDev(IEnumerable<Quote> history, int lookbackPeriod)
+        public static IEnumerable<StdDevResult> GetStdDev(
+            IEnumerable<Quote> history, int lookbackPeriod, int? smaPeriod = null)
         {
 
             // convert to basic data
             IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
-            return CalcStdDev(bd, lookbackPeriod);
+            return CalcStdDev(bd, lookbackPeriod, smaPeriod);
         }
 
 
-        private static IEnumerable<StdDevResult> CalcStdDev(IEnumerable<BasicData> basicData, int lookbackPeriod)
+        private static IEnumerable<StdDevResult> CalcStdDev(
+            IEnumerable<BasicData> basicData, int lookbackPeriod, int? smaPeriod = null)
         {
             // clean data
             List<BasicData> basicDataList = Cleaners.PrepareBasicData(basicData).ToList();
 
             // validate inputs
-            ValidateStdDev(basicData, lookbackPeriod);
+            ValidateStdDev(basicData, lookbackPeriod, smaPeriod);
 
             // initialize results
             List<StdDevResult> results = new List<StdDevResult>();
@@ -58,19 +60,36 @@ namespace Skender.Stock.Indicators
                 }
 
                 results.Add(result);
+
+                // optional SMA
+                if (smaPeriod != null && bd.Index >= lookbackPeriod + smaPeriod-1)
+                {
+                    decimal sumSma = 0m;
+                    for (int p = (int)bd.Index - (int)smaPeriod; p < bd.Index; p++)
+                    {
+                        sumSma += (decimal)results[p].StdDev;
+                    }
+
+                    result.Sma = sumSma / smaPeriod;
+                }
             }
 
             return results;
         }
 
 
-        private static void ValidateStdDev(IEnumerable<BasicData> basicData, int lookbackPeriod)
+        private static void ValidateStdDev(IEnumerable<BasicData> basicData, int lookbackPeriod, int? smaPeriod)
         {
 
             // check parameters
             if (lookbackPeriod <= 1)
             {
                 throw new BadParameterException("Lookback period must be greater than 1 for Standard Deviation.");
+            }
+
+            if (smaPeriod != null && smaPeriod <= 0)
+            {
+                throw new BadParameterException("SMA period must be greater than 0 for Standard Deviation.");
             }
 
             // check history

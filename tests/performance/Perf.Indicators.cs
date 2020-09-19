@@ -205,6 +205,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetStdDevWithSma()
+        {
+            return Indicator.GetStdDev(hm, 20, 14);
+        }
+
+        [Benchmark]
         public object GetStoch()
         {
             return Indicator.GetStoch(hm);
