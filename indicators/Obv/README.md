@@ -8,7 +8,7 @@ A rolling accumulation of volume based on Close price direction.  [More info ...
 // usage
 IEnumerable<ObvResult> results = Indicator.GetObv(history);
 
-// usage with optional overlay SMA of OBV (not shown above)
+// usage with optional overlay SMA of OBV (shown above)
 IEnumerable<AdlResult> results = Indicator.GetObv(history,smaPeriod);  
 ```
 
