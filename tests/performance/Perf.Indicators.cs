@@ -151,6 +151,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetObvWithSma()
+        {
+            return Indicator.GetObv(hm, 14);
+        }
+
+        [Benchmark]
         public object GetParabolicSar()
         {
             return Indicator.GetParabolicSar(hm);

@@ -6,14 +6,14 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ON-BALANCE VOLUME
-        public static IEnumerable<ObvResult> GetObv(IEnumerable<Quote> history)
+        public static IEnumerable<ObvResult> GetObv(IEnumerable<Quote> history, int? smaPeriod = null)
         {
 
             // clean quotes
             Cleaners.PrepareHistory(history);
 
             // check parameters
-            ValidateObv(history);
+            ValidateObv(history, smaPeriod);
 
             // initialize
             List<ObvResult> results = new List<ObvResult>();
@@ -45,14 +45,32 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
 
                 prevClose = h.Close;
+
+                // optional SMA
+                if (smaPeriod != null && h.Index > smaPeriod)
+                {
+                    decimal sumSma = 0m;
+                    for (int p = (int)h.Index - (int)smaPeriod; p < h.Index; p++)
+                    {
+                        sumSma += results[p].Obv;
+                    }
+
+                    result.Sma = sumSma / smaPeriod;
+                }
             }
 
             return results;
         }
 
 
-        private static void ValidateObv(IEnumerable<Quote> history)
+        private static void ValidateObv(IEnumerable<Quote> history, int? smaPeriod)
         {
+
+            // check parameters
+            if (smaPeriod != null && smaPeriod <= 0)
+            {
+                throw new BadParameterException("Lookback period must be greater than 0 for ADL SMA.");
+            }
 
             // check history
             int qtyHistory = history.Count();
