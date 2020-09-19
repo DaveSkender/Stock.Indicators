@@ -53,8 +53,8 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
-        public void BadLookback()
+        [ExpectedException(typeof(BadParameterException), "Bad SMA period.")]
+        public void BadSmaPeriod()
         {
             Indicator.GetObv(history, 0);
         }

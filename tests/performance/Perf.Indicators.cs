@@ -175,6 +175,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetRocWithSma()
+        {
+            return Indicator.GetRoc(hm, 20, 14);
+        }
+
+        [Benchmark]
         public object GetRsi()
         {
             return Indicator.GetRsi(hm);
