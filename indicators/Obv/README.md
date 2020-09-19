@@ -6,7 +6,10 @@ A rolling accumulation of volume based on Close price direction.  [More info ...
 
 ```csharp
 // usage
-IEnumerable<ObvResult> results = Indicator.GetObv(history);  
+IEnumerable<ObvResult> results = Indicator.GetObv(history);
+
+// usage with optional overlay SMA of OBV (not shown above)
+IEnumerable<AdlResult> results = Indicator.GetObv(history,smaPeriod);  
 ```
 
 ## Parameters
@@ -14,6 +17,7 @@ IEnumerable<ObvResult> results = Indicator.GetObv(history);
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least two historical quotes; however, since this is a trendline, more is recommended.
+| `smaPeriod` | int | Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
 
 ## Response
 
@@ -29,6 +33,7 @@ The first period OBV will have `0` value since there's not enough data to calcul
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Obv` | decimal | On-balance Volume
+| `Sma` | decimal | SMA of the OBV based on `smaPeriod` periods, if specified
 
 **Warning**: absolute values in OBV are somewhat meaningless, so use with caution.
 
