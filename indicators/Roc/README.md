@@ -19,7 +19,7 @@ IEnumerable<RocResult> results = Indicator.GetRoc(history, lookbackPeriod, smaPe
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+1` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.
-| `smaPeriod` | int | Optional.  Number of periods (`N`) in the moving average of ROC.  Must be greater than 0, if specified.
+| `smaPeriod` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ## Response
 
@@ -35,7 +35,7 @@ The first `N` periods will have `null` values for ROC since there's not enough d
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Roc` | decimal | Rate of Change over `N` lookback periods
-| `Sma` | decimal | SMA of the `Roc` based on `smaPeriod` periods, if specified
+| `Sma` | decimal | SMA of the ROC based on `smaPeriod` periods, if specified
 
 ## Example
 
