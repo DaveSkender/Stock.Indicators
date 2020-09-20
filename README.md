@@ -20,6 +20,10 @@ Explore more information:
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
 - [Contact us](#contact-us)
 
+## Sample indicators
+
+![image](docs/examples.png)
+
 ## Getting started
 
 ### Installation and setup
