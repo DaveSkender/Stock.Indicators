@@ -24,7 +24,7 @@ Explore more information:
 
 ![image](docs/examples.png)
 
-See [full list of indicators](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html).
+See [full list of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html).
 
 ## Getting started
 
