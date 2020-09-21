@@ -19,6 +19,7 @@
 - [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
 - [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
 - [Keltner Channel](../indicators/Keltner/README.md#content)
+- [Momentum Oscillator](../indicators/Roc/README.md#content)
 - [Money Flow Index (MFI)](../indicators/Mfi/README.md#content)
 - [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/README.md#content)
 - [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
