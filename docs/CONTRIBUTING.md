@@ -76,7 +76,7 @@ For the NuGet packaging, we're using:
 
 ## About versioning
 
-We use the `GitVersion` tool for versioning.  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=18).  This only needs to be done on the merge to `master`, so your feature branch does not need to include this as it will get squashed anyway.
+We use the `GitVersion` tool for versioning.  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).  This only needs to be done on the merge to `master`, so your feature branch does not need to include this as it will get squashed anyway.
 
 - Adding `+semver: major` as a commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element

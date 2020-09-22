@@ -19,7 +19,7 @@ IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod,
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
-| `smaPeriod` | int | Optional.  Number of periods (`N`) in the moving average of ROC.  Must be greater than 0, if specified.
+| `smaPeriod` | int | Optional.  Number of periods in the moving average of STDEV.  Must be greater than 0, if specified.
 
 ## Response
 
@@ -36,7 +36,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Date` | DateTime | Date
 | `StdDev` | decimal | Standard Deviation of Close price based on `N` lookback periods
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
-| `Sma` | decimal | SMA of the `StDev` based on `smaPeriod` periods, if specified
+| `Sma` | decimal | SMA of the STDEV based on `smaPeriod` periods, if specified
 
 ## Example
 
