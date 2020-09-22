@@ -1,6 +1,6 @@
 ﻿# Slope and Linear Regression
 
-[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope), determined by Linear Regression on Close price.  It can be used to help identify trend strength and direction.  R-Squared (R&sup2;) is also output as a fitness measure of the linear regression; this is not the same as the more prevalent [Correlation (R&sup2;)](../Correlation/README.md).  A best-fit `Line` is also returned for the last lookback segment.
+[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope), determined by Linear Regression on Close price.  It can be used to help identify trend strength and direction.  Standard Deviation and R-Squared (R&sup2;) is also output as a fitness measure of the linear regression; this is not the same as the more prevalent [Correlation (R&sup2;)](../Correlation/README.md).  A best-fit `Line` is also returned for the last lookback segment.
 
 <!-- ![image](chart.png) -->
 
