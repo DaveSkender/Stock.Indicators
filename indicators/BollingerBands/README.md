@@ -1,7 +1,6 @@
 ﻿# Bollinger Bands
 
-Bollinger Bands indicate volatility and displays standard deviation boundary lines from moving average of Close price.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:bollinger_bands)
+[Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) indicate volatility and displays standard deviation boundary lines from moving average of Close price.
 
 ![image](chart.png)
 
@@ -34,6 +33,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Sma` | decimal | Simple moving average (SMA) of Close price (center line)
 | `UpperBand` | decimal | Upper line is `D` standard deviations above the SMA
 | `LowerBand` | decimal | Lower line is `D` standard deviations below the SMA
+| `PercentB` | decimal | `%b` is the location withing the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)`
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
 | `Width` | decimal | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
 
