@@ -56,8 +56,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Mismatch history.")]
         public void GetCorrelationMismatchTest()
         {
-            IEnumerable<Quote> historyGap = History.GetHistoryWithGap();
-            Indicator.GetCorrelation(historyGap, historyOther, 20);
+            IEnumerable<Quote> historyMismatch = History.GetHistoryWithMismatchDates();
+            Indicator.GetCorrelation(historyMismatch, historyOther, 20);
         }
 
     }
