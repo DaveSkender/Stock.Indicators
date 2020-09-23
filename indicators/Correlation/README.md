@@ -1,7 +1,6 @@
 ﻿# Correlation Coefficient
 
-Correlation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and covariance are also output.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:correlation_coeffici)
+[Correlation Coefficient](https://school.stockcharts.com/doku.php?id=technical_indicators:correlation_coeffici) between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and covariance are also output.
 
 ![image](chart.png)
 
@@ -14,9 +13,11 @@ IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookback
 
 | name | type | notes
 | -- |-- |--
-| `historyA` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  The `A` history will be used to establish result length, so use the shorter history here.
-| `historyB` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must have at least the same matching date elements of `historyA`.  Exception will be thrown if not matched.
+| `historyA` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical quotes (A).
+| `historyB` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical quotes (B) must have at least the same matching date elements of `historyA`.  Exception will be thrown if not matched.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
+
+Note: Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods for both versions of `history`.  Mismatch histories will produce a `BadHistoryException`.
 
 ## Response
 
@@ -41,8 +42,8 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
-IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
+IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 
 // calculate 20-period Correlation
 IEnumerable<CorrResult> results = Indicator.GetCorr(historySPX,historyTSLA,20);
