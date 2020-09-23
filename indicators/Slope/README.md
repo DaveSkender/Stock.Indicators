@@ -1,8 +1,8 @@
 ﻿# Slope and Linear Regression
 
-[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope), determined by Linear Regression on Close price.  It can be used to help identify trend strength and direction.  Standard Deviation and R-Squared (R&sup2;) is also output as a fitness measure of the linear regression; this is not the same as the more prevalent [Correlation (R&sup2;)](../Correlation/README.md).  A best-fit `Line` is also returned for the last lookback segment.
+[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on Close price.  It can be used to help identify trend strength and direction.  Standard Deviation, R&sup2;, and a best-fit `Line` (for last lookback segment) are also output.
 
-<!-- ![image](chart.png) -->
+![image](chart.png)
 
 ```csharp
 // usage
@@ -33,7 +33,7 @@ The first `N-1` periods will have `null` values for `Slope` since there's not en
 | `Intercept` | decimal | Y-Intercept `m` of the best-fit line
 | `StdDev` | double | Standard Deviation of Close price over `N` lookback periods
 | `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination
-| `Line` | decimal | Best-fit line `y` segment for the last 'N' periods (`y=mx+b` where x is period)
+| `Line` | decimal | Best-fit line `y` segment over the last 'N' periods (i.e. `y=mx+b` using last period values)
 
 ## Example
 
@@ -47,9 +47,9 @@ IEnumerable<SlopeResult> results = Indicator.GetSlope(history,20);
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
 SlopeResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("Slope(20) on {0} was {1}", result.Date, result.Slope);
+Console.WriteLine("SLOPE(20) on {0} was {1}", result.Date, result.Slope);
 ```
 
 ```bash
-Slope(20) on 12/31/2018 was 0.85
+SLOPE(20) on 12/31/2018 was -1.69
 ```

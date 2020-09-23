@@ -7,8 +7,6 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SLOPE AND LINEAR REGRESSION
-        // ref: https://stattrek.com/regression/linear-regression.aspx
-
         public static IEnumerable<SlopeResult> GetSlope(IEnumerable<Quote> history, int lookbackPeriod)
         {
             // clean quotes
@@ -33,7 +31,7 @@ namespace Skender.Stock.Indicators
 
                 results.Add(r);
 
-                // skip initial lookback period
+                // skip initialization period
                 if (h.Index < lookbackPeriod)
                 {
                     continue;
@@ -54,10 +52,10 @@ namespace Skender.Stock.Indicators
                 decimal avgX = sumX / lookbackPeriod;
                 decimal avgY = sumY / lookbackPeriod;
 
-                // least squares method (for single X variable)
-                decimal sumSqXY = 0m;
+                // least squares method
                 decimal sumSqX = 0m;
-                decimal sumSqY = 0;
+                decimal sumSqY = 0m;
+                decimal sumSqXY = 0m;
 
                 for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
                 {
@@ -74,7 +72,7 @@ namespace Skender.Stock.Indicators
                 r.Slope = sumSqXY / sumSqX;
                 r.Intercept = avgY - r.Slope * avgX;
 
-                // calculate R-Squared
+                // calculate Standard Deviation and R-Squared
                 double stdDevX = Math.Sqrt((double)sumSqX / lookbackPeriod);
                 double stdDevY = Math.Sqrt((double)sumSqY / lookbackPeriod);
                 r.StdDev = stdDevY;
@@ -84,16 +82,15 @@ namespace Skender.Stock.Indicators
                     double R = ((double)sumSqXY / (stdDevX * stdDevY)) / lookbackPeriod;
                     r.RSquared = R * R;
                 }
+            }
 
-                // add last Line (y = mx + b)
-                if (i + 1 == historyList.Count)
-                {
-                    for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
-                    {
-                        SlopeResult d = results[p];
-                        d.Line = r.Slope * d.Index + r.Intercept;
-                    }
-                }
+            // add last Line (y = mx + b)
+            SlopeResult last = results[historyList.Count - 1];
+
+            for (int p = last.Index - lookbackPeriod; p < last.Index; p++)
+            {
+                SlopeResult d = results[p];
+                d.Line = last.Slope * d.Index + last.Intercept;
             }
 
             return results;
@@ -106,7 +103,7 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod <= 0)
             {
-                throw new BadParameterException("Lookback period must be greater than 0 for Slope.");
+                throw new BadParameterException("Lookback period must be greater than 0 for Slope/Linear Regression.");
             }
 
             // check history
@@ -114,7 +111,7 @@ namespace Skender.Stock.Indicators
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Slope.  " +
+                throw new BadHistoryException("Insufficient history provided for Slope/Linear Regression.  " +
                         string.Format(englishCulture,
                         "You provided {0} periods of history when at least {1} is required.",
                         qtyHistory, minHistory));
