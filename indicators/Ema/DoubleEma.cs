@@ -30,18 +30,18 @@ namespace Skender.Stock.Indicators
             // compose final results
             for (int i = 0; i < emaN.Count; i++)
             {
-                EmaResult h = emaN[i];
+                EmaResult e1 = emaN[i];
 
                 EmaResult result = new EmaResult
                 {
-                    Index = h.Index,
-                    Date = h.Date
+                    Index = e1.Index,
+                    Date = e1.Date
                 };
 
-                if (h.Index >= 2 * lookbackPeriod)
+                if (e1.Index >= 2 * lookbackPeriod - 1)
                 {
-                    EmaResult emaEma = emaN2[h.Index - lookbackPeriod];
-                    result.Ema = 2 * h.Ema - emaEma.Ema;
+                    EmaResult e2 = emaN2[e1.Index - lookbackPeriod];
+                    result.Ema = 2 * e1.Ema - e2.Ema;
                 }
 
                 results.Add(result);
