@@ -69,21 +69,14 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistoryEval = historyEval.Count();
-            int minHistoryEval = 1;
-            if (qtyHistoryEval < minHistoryEval)
-            {
-                throw new BadHistoryException("Insufficient history provided for Price Relative.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistoryEval, minHistoryEval));
-            }
-
             int qtyHistoryBase = historyBase.Count();
             if (qtyHistoryBase != qtyHistoryEval)
             {
                 throw new BadHistoryException(
                     "Base history should have at least as many records as Eval history for Price Relative.");
             }
+
+            // NOTE: history of less than 1 is caught in the Cleaner
         }
     }
 
