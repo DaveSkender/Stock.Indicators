@@ -36,15 +36,8 @@ namespace Skender.Stock.Indicators
                 CorrResult r = new CorrResult
                 {
                     Index = (int)a.Index,
-                    Date = a.Date,
-                    PriceA = a.Close,
-                    PriceB = b.Close,
-                    PriceA2 = a.Close * a.Close,
-                    PriceB2 = b.Close * b.Close,
-                    PriceAB = a.Close * b.Close
+                    Date = a.Date
                 };
-
-                results.Add(r);
 
                 // compute correlation
                 if (i + 1 >= lookbackPeriod)
@@ -57,13 +50,14 @@ namespace Skender.Stock.Indicators
 
                     for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
                     {
-                        CorrResult d = results[p];
+                        Quote qa = historyListA[p];
+                        Quote qb = historyListB[p];
 
-                        sumPriceA += d.PriceA;
-                        sumPriceB += d.PriceB;
-                        sumPriceA2 += d.PriceA2;
-                        sumPriceB2 += d.PriceB2;
-                        sumPriceAB += d.PriceAB;
+                        sumPriceA += qa.Close;
+                        sumPriceB += qb.Close;
+                        sumPriceA2 += qa.Close * qa.Close;
+                        sumPriceB2 += qb.Close * qb.Close;
+                        sumPriceAB += qa.Close * qb.Close;
                     }
 
                     decimal avgA = sumPriceA / lookbackPeriod;
@@ -78,6 +72,8 @@ namespace Skender.Stock.Indicators
                     r.Correlation = r.Covariance / (decimal)Math.Sqrt((double)(r.VarianceA * r.VarianceB));
                     r.RSquared = r.Correlation * r.Correlation;
                 }
+
+                results.Add(r);
             }
 
             return results;
@@ -105,7 +101,7 @@ namespace Skender.Stock.Indicators
             }
 
             int qtyHistoryB = historyB.Count();
-            if (qtyHistoryB < qtyHistoryA)
+            if (qtyHistoryB != qtyHistoryA)
             {
                 throw new BadHistoryException(
                     "B history should have at least as many records as A history for Correlation.");
