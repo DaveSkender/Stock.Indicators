@@ -169,6 +169,18 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetPrs()
+        {
+            return Indicator.GetPrs(hm, ho);
+        }
+
+        [Benchmark]
+        public object GetPrsWithSma()
+        {
+            return Indicator.GetPrs(hm, ho, 14);
+        }
+
+        [Benchmark]
         public object GetRoc()
         {
             return Indicator.GetRoc(hm, 20);
