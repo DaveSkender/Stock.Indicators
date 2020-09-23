@@ -2,7 +2,7 @@
 
 [Price Relative Strength (PRS)](https://school.stockcharts.com/doku.php?id=technical_indicators:price_relative), also called Comparative Relative Strength, shows the ratio of two quote histories, based on Close price.  This is not the same as the more prevalent [Relative Strength Index (RSI)](../Rsi/README.md).
 
-<!-- ![image](chart.png) -->
+![image](chart.png)
 
 ```csharp
 // usage
@@ -28,7 +28,7 @@ Note: Historical Quotes data should be at any consistent frequency (day, hour, m
 IEnumerable<PrsResult>
 ```
 
-The first `N` periods will have `null` values for `Momentum` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` values for `Sma` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### PrResult
 
