@@ -29,8 +29,8 @@ The first `N-1` periods will have `null` values for `Slope` since there's not en
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Slope` | decimal | Slope `b` of the best-fit line of Close price
-| `Intercept` | decimal | Y-Intercept `m` of the best-fit line
+| `Slope` | decimal | Slope `m` of the best-fit line of Close price
+| `Intercept` | decimal | Y-Intercept `b` of the best-fit line
 | `StdDev` | double | Standard Deviation of Close price over `N` lookback periods
 | `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination
 | `Line` | decimal | Best-fit line `y` over the last 'N' periods (i.e. `y=mx+b` using last period values)
