@@ -45,7 +45,7 @@ namespace Tests.Performance
         [Benchmark]
         public object GetBeta()
         {
-            return Indicator.GetBeta(hm, ho, 30);
+            return Indicator.GetBeta(hm, ho, 20);
         }
 
         [Benchmark]
@@ -87,7 +87,7 @@ namespace Tests.Performance
         [Benchmark]
         public object GetCorrelation()
         {
-            return Indicator.GetCorrelation(hm, ho, 30);
+            return Indicator.GetCorrelation(hm, ho, 20);
         }
 
         [Benchmark]
@@ -184,6 +184,12 @@ namespace Tests.Performance
         public object GetRsi()
         {
             return Indicator.GetRsi(hm);
+        }
+
+        [Benchmark]
+        public object GetSlope()
+        {
+            return Indicator.GetSlope(hm, 20);
         }
 
         [Benchmark]
