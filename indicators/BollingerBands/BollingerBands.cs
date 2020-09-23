@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             {
                 Quote h = historyList[i];
 
-                BollingerBandsResult result = new BollingerBandsResult
+                BollingerBandsResult r = new BollingerBandsResult
                 {
                     Index = (int)h.Index,
                     Date = h.Date
@@ -47,15 +47,16 @@ namespace Skender.Stock.Indicators
                     decimal periodAvg = sum / lookbackPeriod;
                     decimal stdDev = (decimal)Functions.StdDev(periodClose);
 
-                    result.Sma = periodAvg;
-                    result.UpperBand = periodAvg + standardDeviations * stdDev;
-                    result.LowerBand = periodAvg - standardDeviations * stdDev;
+                    r.Sma = periodAvg;
+                    r.UpperBand = periodAvg + standardDeviations * stdDev;
+                    r.LowerBand = periodAvg - standardDeviations * stdDev;
 
-                    result.ZScore = (stdDev == 0) ? null : (h.Close - result.Sma) / stdDev;
-                    result.Width = (result.Sma == 0) ? null : (result.UpperBand - result.LowerBand) / result.Sma;
+                    r.PercentB = (h.Close - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                    r.ZScore = (stdDev == 0) ? null : (h.Close - r.Sma) / stdDev;
+                    r.Width = (r.Sma == 0) ? null : (r.UpperBand - r.LowerBand) / r.Sma;
                 }
 
-                results.Add(result);
+                results.Add(r);
             }
 
             return results;
