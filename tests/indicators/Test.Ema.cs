@@ -21,11 +21,17 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Ema != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
 
-            // sample value
-            EmaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
+            // sample values
+            EmaResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            Assert.AreEqual(249.3519m, Math.Round((decimal)r1.Ema, 4));
+
+            EmaResult r2 = results.Where(x => x.Index == 250).FirstOrDefault();
+            Assert.AreEqual(255.3873m, Math.Round((decimal)r2.Ema, 4));
+
+            EmaResult r3 = results.Where(x => x.Index == 30).FirstOrDefault();
+            Assert.AreEqual(216.6228m, Math.Round((decimal)r3.Ema, 4));
         }
 
 

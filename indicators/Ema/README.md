@@ -1,6 +1,6 @@
-﻿# Exponential Moving Average (EMA) and Double EMA (DEMA)
+﻿# Exponential Moving Average (EMA), Double EMA (DEMA), and Triple EMA (TEMA)
 
-Exponentially weighted moving average of the Close price over `N` periods.  More info on: [EMA](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_averages) and [Double EMA](https://www.investopedia.com/terms/d/double-exponential-moving-average.asp)
+[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_Moving_Average) of the Close price over `N` periods.  Double and Triple variants are also available.
 
 ![image](chart.png)
 
@@ -10,6 +10,10 @@ IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);
 
 // usage for Double EMA
 IEnumerable<EmaResult> results = Indicator.GetDoubleEma(history, lookbackPeriod);
+
+// usage for Triple EMA
+IEnumerable<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod);
+
 ```
 
 ## Parameters
@@ -25,6 +29,8 @@ IEnumerable<EmaResult> results = Indicator.GetDoubleEma(history, lookbackPeriod)
 
 **Double EMA**: You must supply at least 3×`N` or 2×`N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least 2×`N`+250 data points prior to the intended usage date for maximum precision.
 
+**Triple EMA**: You must supply at least 4×`N` or 3×`N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least 3×`N`+250 data points prior to the intended usage date for maximum precision.
+
 ## Response
 
 ```csharp
@@ -36,6 +42,8 @@ We always return the same number of elements as there are in the historical quot
 Standard EMA: The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
 Double EMA: The first `2×N-1` periods will have `null` values since there's not enough data to calculate.
+
+Triple EMA: The first `3×N-2` periods will have `null` values since there's not enough data to calculate.
 
 ### EmaResult
 

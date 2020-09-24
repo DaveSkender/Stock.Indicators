@@ -241,6 +241,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetTripleEma()
+        {
+            return Indicator.GetTripleEma(hm, 14);
+        }
+
+        [Benchmark]
         public object GetUlcerIndex()
         {
             return Indicator.GetUlcerIndex(hm);

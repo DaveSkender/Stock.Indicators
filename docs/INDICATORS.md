@@ -34,6 +34,7 @@
 - [Standard Deviation](../indicators/StdDev/README.md#content)
 - [Stochastic Oscillator](../indicators/Stoch/README.md#content)
 - [Stochastic RSI](../indicators/StochRsi/README.md#content)
+- [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
 - [Ulcer Index](../indicators/UlcerIndex/README.md#content)
 - [Volume Simple Moving Average](../indicators/VolSma/README.md#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)

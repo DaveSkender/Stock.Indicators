@@ -519,8 +519,8 @@ namespace Internal.Tests
             };
 
             return h
-                .OrderBy(x => x.Date)
-                .Skip(Math.Max(0, h.Count - days)); // takes days off end
+                .OrderByDescending(x => x.Date)
+                .Take(days);
         }
 
     }
