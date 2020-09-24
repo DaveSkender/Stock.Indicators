@@ -8,14 +8,14 @@ namespace Skender.Stock.Indicators
     {
         // ULTIMATE OSCILLATOR
         public static IEnumerable<UltimateResult> GetUltimate(
-            IEnumerable<Quote> history, int shortAverage = 7, int middleAverage = 14, int longAverage = 28)
+            IEnumerable<Quote> history, int shortPeriod = 7, int middlePeriod = 14, int longPeriod = 28)
         {
 
             // clean quotes
             List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // check parameters
-            ValidateUltimate(history, shortAverage, middleAverage, longAverage);
+            ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
 
             // initialize
             List<UltimateResult> results = new List<UltimateResult>();
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
                     r.Tr = Math.Max(h.High, priorClose) - Math.Min(h.Low, priorClose);
                 }
 
-                if (h.Index >= longAverage + 1)
+                if (h.Index >= longPeriod + 1)
                 {
                     decimal sumBP1 = 0m;
                     decimal sumBP2 = 0m;
@@ -49,19 +49,19 @@ namespace Skender.Stock.Indicators
                     decimal sumTR2 = 0m;
                     decimal sumTR3 = 0m;
 
-                    for (int p = (int)h.Index - longAverage; p < h.Index; p++)
+                    for (int p = (int)h.Index - longPeriod; p < h.Index; p++)
                     {
                         UltimateResult pr = results[p];
 
                         // short aggregate
-                        if (pr.Index > h.Index - shortAverage)
+                        if (pr.Index > h.Index - shortPeriod)
                         {
                             sumBP1 += (decimal)pr.Bp;
                             sumTR1 += (decimal)pr.Tr;
                         }
 
                         // middle aggregate
-                        if (pr.Index > h.Index - middleAverage)
+                        if (pr.Index > h.Index - middlePeriod)
                         {
                             sumBP2 += (decimal)pr.Bp;
                             sumTR2 += (decimal)pr.Tr;
@@ -87,23 +87,23 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateUltimate(
-            IEnumerable<Quote> history, int shortAverage = 7, int middleAverage = 14, int longAverage = 28)
+            IEnumerable<Quote> history, int shortPeriod = 7, int middleAverage = 14, int longPeriod = 28)
         {
 
             // check parameters
-            if (shortAverage <= 0 || middleAverage <= 0 || longAverage <= 0)
+            if (shortPeriod <= 0 || middleAverage <= 0 || longPeriod <= 0)
             {
                 throw new BadParameterException("Average periods must be greater than 0 for Ultimate Oscillator.");
             }
 
-            if (shortAverage >= middleAverage || middleAverage >= longAverage)
+            if (shortPeriod >= middleAverage || middleAverage >= longPeriod)
             {
                 throw new BadParameterException("Average periods must be increasingly larger than each other for Ultimate Oscillator.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = longAverage + 1;
+            int minHistory = longPeriod + 1;
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for Ultimate.  " +

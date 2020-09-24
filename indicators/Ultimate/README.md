@@ -1,6 +1,6 @@
 ﻿# Ultimate Oscillator
 
-[Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several lookback periods to weigh buying power against true range price.
+[Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several lookback periods to weigh buying power against true range price to produce on oversold / overbought oscillator.
 
 ![image](chart.png)
 
