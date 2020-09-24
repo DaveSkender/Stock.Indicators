@@ -48,7 +48,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for 3*N+100.")]
         public void InsufficientHistoryA()
         {
-            Indicator.GetDoubleEma(history.Where(x => x.Index < 190), 30);
+            Indicator.GetTripleEma(history.Where(x => x.Index < 190), 30);
         }
 
         [TestMethod()]
@@ -56,7 +56,7 @@ namespace Internal.Tests
         public void InsufficientHistoryB()
         {
             IEnumerable<Quote> historyLong = History.GetHistoryLong(999);
-            Indicator.GetDoubleEma(historyLong, 250);
+            Indicator.GetTripleEma(historyLong, 250);
         }
     }
 }
