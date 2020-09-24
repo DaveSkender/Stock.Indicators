@@ -43,7 +43,7 @@ Standard EMA: The first `N-1` periods will have `null` values since there's not 
 
 Double EMA: The first `2×N-1` periods will have `null` values since there's not enough data to calculate.
 
-Triple EMA: The first `2×N-1` periods will have `null` values since there's not enough data to calculate.
+Triple EMA: The first `3×N-2` periods will have `null` values since there's not enough data to calculate.
 
 ### EmaResult
 
