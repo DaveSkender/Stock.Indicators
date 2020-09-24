@@ -8,6 +8,10 @@ pool:
   name: Azure Pipelines
   vmImage: 'windows-2019'
 
+jobs:
+- job: Performance Benchmarks
+  timeoutInMinutes: 100
+
 steps:
   - task: UseDotNet@2
     displayName: 'use .Net Core SDK 3.1.x'
