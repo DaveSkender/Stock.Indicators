@@ -4,13 +4,13 @@ trigger:
 # no PR triggers
 pr: none
 
+jobs:
+- job: 'Performance Benchmarks'
+  timeoutInMinutes: 100
+
 pool:
   name: Azure Pipelines
   vmImage: 'windows-2019'
-
-jobs:
-- job: Performance Benchmarks
-  timeoutInMinutes: 100
 
 steps:
   - task: UseDotNet@2
