@@ -1,7 +1,6 @@
 ﻿# Parabolic SAR
 
-Parabolic SAR (stop and reverse) is a price-time based indicator.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:parabolic_sar)
+[Parabolic SAR](https://en.wikipedia.org/wiki/Parabolic_SAR) (stop and reverse) is a price-time based indicator.
 
 ![image](chart.png)
 

@@ -1,7 +1,6 @@
 ﻿# Keltner Channels
 
-Keltner Channels are based on an EMA centerline and ATR band widths.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:keltner_channels)
+[Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.
 
 ![image](chart.png)
 

@@ -1,7 +1,6 @@
 ﻿# Standard Deviation (Volatility)
 
-Standard Deviation of Close price over a lookback period.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:standard_deviation_volatility)
+Rolling [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of Close price over a lookback period.
 
 ![image](chart.png)
 

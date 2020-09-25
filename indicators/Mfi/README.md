@@ -1,6 +1,6 @@
 ﻿# Money Flow Index (MFI)
 
-A price-volume oscillator that shows buying and selling momentum.  [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:money_flow_index_mfi)
+[Money Flow Index](https://en.wikipedia.org/wiki/Money_flow_index) is a price-volume oscillator that shows buying and selling momentum.
 
 ![image](chart.png)
 

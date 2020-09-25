@@ -1,7 +1,6 @@
 ﻿# Chaikin Oscillator
 
-Chaikin Oscillator is the difference between fast and slow Exponential Moving Averages (EMA) of the Accumulation and Distribution Line (ADL).
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chaikin_oscillator)
+[Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation and Distribution Line](../adl/README.md) (ADL).
 
 ![image](chart.png)
 

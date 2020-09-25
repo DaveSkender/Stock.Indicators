@@ -1,7 +1,6 @@
 ﻿# Rate of Change (ROC) and Momentum Oscillator
 
-Rate of Change, also known as Momentum Oscillator, is the percent change of Close price over `N` lookback periods.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:rate_of_change_roc_and_momentum)
+[Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of Close price over `N` lookback periods.
 
 ![image](chart.png)
 

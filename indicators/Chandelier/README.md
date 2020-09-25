@@ -1,7 +1,6 @@
 ﻿# Chandelier Exit
 
-Chandelier Exit is typically used for stop-loss and can be computed for both long or short types.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit)
+[Chandelier Exit](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit) is typically used for stop-loss and can be computed for both long or short types.
 
 ![image](chart.png)
 

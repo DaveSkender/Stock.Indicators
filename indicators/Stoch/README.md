@@ -1,7 +1,6 @@
 ﻿# Stochastic Oscillator
 
-Stochastic Oscillator is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:stochastic_oscillator_fast_slow_and_full)
+[Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator) is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.
 
 ![image](chart.png)
 

@@ -1,7 +1,6 @@
 ﻿# Moving Average Convergence/Divergence (MACD)
 
-MACD is a simple oscillator view of two converging/diverging exponential moving averages.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:moving_average_convergence_divergence_macd)
+[MACD](https://en.wikipedia.org/wiki/MACD) is a simple oscillator view of two converging/diverging exponential moving averages.
 
 ![image](chart.png)
 

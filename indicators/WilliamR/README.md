@@ -1,7 +1,6 @@
-﻿# William %R
+﻿# Williams %R
 
-William %R is a stochastic oscillator that looks back `N` periods to produce an indicator with scale of -100 to 0.  It is exactly the same as the Fast variant of [Stochastic Oscillator](../Stochastic/README.md), but with a different scaling.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:williams_r)
+ [Williams %R](https://en.wikipedia.org/wiki/Williams_%25R) is a stochastic oscillator that looks back `N` periods to produce an indicator with scale of -100 to 0.  It is exactly the same as the Fast variant of [Stochastic Oscillator](../Stochastic/README.md), but with a different scaling.
 
 ![image](chart.png)
 
