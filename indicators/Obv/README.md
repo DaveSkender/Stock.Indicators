@@ -1,6 +1,6 @@
 ﻿# On-Balance Volume
 
-A rolling accumulation of volume based on Close price direction.  [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:on_balance_volume_obv)
+[On-balance Volume](https://en.wikipedia.org/wiki/On-balance_volume) is a rolling accumulation of volume based on Close price direction.
 
 ![image](chart.png)
 

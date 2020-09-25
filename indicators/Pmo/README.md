@@ -1,7 +1,6 @@
 ﻿# Price Momentum Oscillator (PMO)
 
-DecisionPoint Price Momentum Oscillator is double-smoothed ROC based momentum indicator.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo)
+DecisionPoint [Price Momentum Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo) is double-smoothed ROC based momentum indicator.
 
 ![image](chart.png)
 

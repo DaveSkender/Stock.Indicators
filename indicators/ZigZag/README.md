@@ -1,7 +1,6 @@
-﻿# Zig Zag line
+﻿# Zig Zag
 
-Zig Zag is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag)
+[Zig Zag](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag) is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
 
 ![image](chart.png)
 

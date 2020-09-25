@@ -1,7 +1,6 @@
 ﻿# Chaikin Money Flow (CMF)
 
-Chaikin Money Flow is the simple moving average of the Money Flow Volume over `N` lookback periods.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:chaikin_money_flow_cmf)
+[Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the Money Flow Volume over `N` lookback periods.
 
 ![image](chart.png)
 

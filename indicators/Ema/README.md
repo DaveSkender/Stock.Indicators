@@ -1,6 +1,6 @@
 ﻿# Exponential Moving Average (EMA), Double EMA (DEMA), and Triple EMA (TEMA)
 
-[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_Moving_Average) of the Close price over `N` periods.  Double and Triple variants are also available.
+[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over `N` periods.  Double and Triple variants are also available.
 
 ![image](chart.png)
 

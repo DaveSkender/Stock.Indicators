@@ -38,5 +38,5 @@
 - [Ulcer Index](../indicators/UlcerIndex/README.md#content)
 - [Volume Simple Moving Average](../indicators/VolSma/README.md#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
-- [William %R](../indicators/WilliamR/README.md#content)
+- [Williams %R](../indicators/WilliamR/README.md#content)
 - [Zig Zag](../indicators/ZigZag/README.md#content)

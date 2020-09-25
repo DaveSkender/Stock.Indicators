@@ -1,8 +1,7 @@
 ﻿# Relative Strength Index (RSI)
 
-Relative Strength Index measures strength of winning/losing streak over `N` lookback periods on a scale of 0 to 100.
+[Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of winning/losing streak over `N` lookback periods on a scale of 0 to 100.
 RSI values over 70 are considered overbought, while values under 30 are considered oversold.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:relative_strength_index_rsi)
 
 ![image](chart.png)
 

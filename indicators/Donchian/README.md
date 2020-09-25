@@ -1,7 +1,6 @@
 ﻿# Donchian Channels
 
-Donchian Channels are derived from highed High and lowest Low values over a lookback period.
-[More info ...](https://en.wikipedia.org/wiki/Donchian_channel)
+[Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel) are derived from highed High and lowest Low values over a lookback period.
 
 ![image](chart.png)
 

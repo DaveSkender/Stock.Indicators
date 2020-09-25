@@ -1,6 +1,6 @@
 ﻿# Heikin-Ashi
 
-A modified candlestick pattern that uses prior day for smoothing.  [More info ...](https://school.stockcharts.com/doku.php?id=chart_analysis:heikin_ashi)
+[Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that uses prior day for smoothing.
 
 ![image](chart.png)
 

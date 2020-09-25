@@ -1,6 +1,6 @@
-﻿# Accumulation Distribution Line (ADL)
+﻿# Accumulation/Distribution Line (ADL)
 
-A rolling accumulation of Chaikin Money Flow Volume.  [More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:accumulation_distribution_line)
+The [accumulation/distribution line](https://en.wikipedia.org/wiki/Accumulation/distribution_index) is rolling accumulation of Chaikin Money Flow Volume.
 
 ![image](chart.png)
 

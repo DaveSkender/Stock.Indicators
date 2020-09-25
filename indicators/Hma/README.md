@@ -1,7 +1,6 @@
 ﻿# Hull Moving Average (HMA)
 
-HMA is a modified linear weighted average of `Close` price over `N` lookback periods that reduces lag.
-[More info ...](https://alanhull.com/hull-moving-average)
+[Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified linear weighted average of `Close` price over `N` lookback periods that reduces lag.
 
 ![image](chart.png)
 

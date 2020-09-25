@@ -1,7 +1,6 @@
 ﻿# Ichimoku Cloud
 
-The Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:ichimoku_cloud)
+[Ichimoku Cloud](https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D), also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
 
 ![image](chart.png)
 

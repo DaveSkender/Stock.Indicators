@@ -1,7 +1,6 @@
 ﻿# Ulcer Index (UI)
 
-UI is a measure of downside volatility over the lookback period.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:ulcer_index)
+[Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_index) is a measure of downside volatility over a lookback period.
 
 ![image](chart.png)
 

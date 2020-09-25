@@ -1,7 +1,6 @@
 ﻿# Beta Coefficient
 
-Beta shows how strongly one stock responds to systemic volatility of the entire market.
-[More info ...](https://en.wikipedia.org/wiki/Beta_(finance))
+[Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one stock responds to systemic volatility of the entire market.
 
 ![image](chart.png)
 

@@ -1,7 +1,6 @@
 ﻿# Average True Range (ATR)
 
-Measure of volatility that captures gaps and limits between periods.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:average_true_range_atr)
+[Average True Range](https://en.wikipedia.org/wiki/Average_true_range) is a measure of volatility that captures gaps and limits between periods.
 
 ![image](chart.png)
 

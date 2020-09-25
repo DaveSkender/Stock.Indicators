@@ -1,7 +1,6 @@
 ﻿# Average Directional Index (ADX)
 
-Measure of price directional movement.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:average_directional_index_adx)
+[Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
 
 ![image](chart.png)
 

@@ -1,7 +1,6 @@
 ﻿# Stochastic RSI
 
-Stochastic interpretation of the Relative Strength Index.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi)
+[Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.
 It is different from, and often confused with the more traditional [Stochastic Oscillator](../Stochastic/README.md)
 
 ![image](chart.png)

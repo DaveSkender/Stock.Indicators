@@ -1,7 +1,6 @@
 ﻿# Commodity Channel Index (CCI)
 
-Oscillator depicting deviation from typical price range.
-[More info ...](https://school.stockcharts.com/doku.php?id=technical_indicators:commodity_channel_index_cci)
+[Commodity Channel Index](https://en.wikipedia.org/wiki/Commodity_channel_index) is an oscillator depicting deviation from typical price range, often used to identify cyclical trends.
 
 ![image](chart.png)
 
