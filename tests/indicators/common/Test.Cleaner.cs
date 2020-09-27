@@ -13,7 +13,13 @@ namespace Internal.Tests
         [TestMethod()]
         public void PrepareHistoryTest()
         {
-            IEnumerable<Quote> h = Cleaners.PrepareHistory(history);
+            IEnumerable<Quote> newHistory = History.GetHistory();
+
+            // confirm no-Index before cleaning
+            Assert.IsFalse(newHistory.Any(x => x.Index != null));
+
+            // clean
+            IEnumerable<Quote> h = Cleaners.PrepareHistory(newHistory);
 
             // assertions
 
@@ -24,11 +30,15 @@ namespace Internal.Tests
             Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
 
             // last index should be 502
-            Quote r = history
+            Quote r = newHistory
                 .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture))
                 .FirstOrDefault();
 
             Assert.AreEqual(502, r.Index);
+
+            // ensure expected List address
+            List<Quote> historyList = h.ToList();
+            Assert.AreEqual(502, historyList[501].Index);
         }
 
 

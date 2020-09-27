@@ -10,14 +10,7 @@ namespace Internal.Tests
     {
         internal static readonly CultureInfo englishCulture = new CultureInfo("en-US", false);
 
-        internal static IEnumerable<Quote> history;
-        internal static IEnumerable<Quote> historyOther;
-
-        [AssemblyInitialize]
-        public static void Initialize(TestContext testContext)
-        {
-            history = History.GetHistory();
-            historyOther = History.GetHistoryOther();
-        }
+        internal static readonly IEnumerable<Quote> history = History.GetHistory();
+        internal static readonly IEnumerable<Quote> historyOther = History.GetHistoryOther();
     }
 }

@@ -5302,7 +5302,8 @@ namespace Internal.Tests
 
             return h
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
     }
 }
