@@ -37,7 +37,6 @@ namespace Skender.Stock.Indicators
                     Index = (int)ei.Index,
                     Date = ei.Date,
                     Prs = ei.Close / bi.Close  // relative strength ratio
-
                 };
                 results.Add(r);
 
