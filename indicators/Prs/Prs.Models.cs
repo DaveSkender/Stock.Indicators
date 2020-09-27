@@ -7,5 +7,6 @@ namespace Skender.Stock.Indicators
     {
         public decimal? Prs { get; set; }
         public decimal? Sma { get; set; }
+        public decimal? PrsPercent { get; set; }
     }
 }
