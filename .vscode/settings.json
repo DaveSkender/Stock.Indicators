@@ -4,7 +4,8 @@
         "**/bin/**": true,
         "**/obj/**": true,
         "**/_site/**": true,
-        "**/TestResults/**": true
+        "**/TestResults/**": true,
+        "**/*.csproj.user": true
     },
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 3000,

@@ -259,6 +259,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetUltimate()
+        {
+            return Indicator.GetUltimate(hm);
+        }
+
+        [Benchmark]
         public object GetVolSma()
         {
             return Indicator.GetVolSma(hm, 14);
