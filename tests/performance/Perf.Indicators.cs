@@ -177,7 +177,13 @@ namespace Tests.Performance
         [Benchmark]
         public object GetPrsWithSma()
         {
-            return Indicator.GetPrs(hm, ho, 14);
+            return Indicator.GetPrs(hm, ho, null, 5);
+        }
+
+        [Benchmark]
+        public object GetPrsWithLookBackAndSma()
+        {
+            return Indicator.GetPrs(hm, ho, 30, 5);
         }
 
         [Benchmark]
