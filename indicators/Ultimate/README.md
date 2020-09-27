@@ -14,9 +14,9 @@ IEnumerable<UltimateResult> results = Indicator.GetUltimate(history, shortPeriod
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `L+1` periods of `history`.
-| `shortPeriod` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.
-| `middlePeriod` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.
-| `longPeriod` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.
+| `shortPeriod` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
+| `middlePeriod` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
+| `longPeriod` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
 
 ## Response
 
