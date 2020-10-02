@@ -2,7 +2,7 @@
 
 [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3× EMA smoothing of the Close price over `N` periods.
 
-<!-- ![image](chart.png) -->
+![image](chart.png)
 
 ```csharp
 // usage for Trix
