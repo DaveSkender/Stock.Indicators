@@ -253,6 +253,18 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetTrix()
+        {
+            return Indicator.GetTrix(hm, 14);
+        }
+
+        [Benchmark]
+        public object GetTrixWithSma()
+        {
+            return Indicator.GetTrix(hm, 14, 5);
+        }
+
+        [Benchmark]
         public object GetUlcerIndex()
         {
             return Indicator.GetUlcerIndex(hm);
