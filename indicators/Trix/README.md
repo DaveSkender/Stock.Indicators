@@ -1,6 +1,6 @@
 ﻿# Triple EMA Oscillator (TRIX)
 
-[TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3× EMA smoothing of the Close price over `N` periods.
+[TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3× EMA smoothing of the Close price over `N` periods.  TRIX is often confused with [TEMA](../ema/README.md).
 
 ![image](chart.png)
 
