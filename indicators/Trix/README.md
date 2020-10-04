@@ -1,6 +1,6 @@
 ﻿# Triple EMA Oscillator (TRIX)
 
-[TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3× EMA smoothing of the Close price over `N` periods.  TRIX is often confused with [TEMA](../ema/README.md).
+[TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the Close price over `N` periods.  TRIX is often confused with [TEMA](../Ema/README.md).
 
 ![image](chart.png)
 
@@ -37,8 +37,8 @@ We always return the same number of elements as there are in the historical quot
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema3` | decimal | 3× EMAs of the Close price
-| `Trix` | decimal | Rate of Change of 3× EMA
+| `Ema3` | decimal | 3 EMAs of the Close price
+| `Trix` | decimal | Rate of Change of 3 EMAs
 | `Signal` | decimal | SMA of `Trix` based on `signalPeriod` periods, if specified
 
 ## Example
