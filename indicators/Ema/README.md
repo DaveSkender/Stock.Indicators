@@ -1,6 +1,6 @@
 ﻿# Exponential Moving Average (EMA), Double EMA (DEMA), and Triple EMA (TEMA)
 
-[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over `N` periods.  Double and Triple variants are also available.
+[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over `N` periods.  Double and Triple variants are also available.  Note: [TEMA](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is often confused with the alternative [TRIX](../trix/README.md) oscillator.
 
 ![image](chart.png)
 
@@ -42,7 +42,7 @@ Standard EMA: The first `N-1` periods will have `null` values since there's not 
 
 Double EMA: The first `2×N-1` periods will have `null` values since there's not enough data to calculate.
 
-Triple EMA: The first `3×N-2` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted straight 3×EMA value, please use the `Ema3` output from the [TRIX](../trix/README.md) indicator instead.
+Triple EMA: The first `3×N-2` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3×EMA value, please use the `Ema3` output from the [TRIX](../trix/README.md) oscillator instead.
 
 ### EmaResult
 
