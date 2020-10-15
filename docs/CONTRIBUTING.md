@@ -6,15 +6,16 @@ Thanks for taking the time to contribute!
 
 This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
 
-Before contributing, please be aware that we are accepting these sorts of changes:
+We are accepting these sorts of changes and requests:
 
 - Bug reports and fixes
-- New generic indicators and overlays (reputable "by the book" definitions only)
+- Usability improvements
+- New reputable "by the book" indicators and overlays that are in the public domain
 
 We are not accepting things that should be done in your own wrapper code:
 
 - Personal customizations and preferences
-- Modified or augmented outputs that are not backed by standard definitions
+- Modified or augmented outputs that are not instrinsic to the standard definition
 
 ## Reporting bugs and feature requests
 
