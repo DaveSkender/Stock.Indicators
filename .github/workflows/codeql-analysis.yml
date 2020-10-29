@@ -7,12 +7,12 @@ on:
     # The branches below must be a subset of the branches above
     branches: [master]
   schedule:
-    - cron: '0 16 * * 3'
+    - cron: '0 10 15 * *'
 
 jobs:
   analyse:
     name: Analyse
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
