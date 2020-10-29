@@ -50,8 +50,8 @@ jobs:
     - name: Restore packages
       run: dotnet restore
 
-    - name: Build software
-      run: dotnet build --disable-parallel --configuration Release --no-restore
+    #- name: Build software
+    #  run: dotnet build --disable-parallel --configuration Release --no-restore
 
     - name: Perform CodeQL analysis
       uses: github/codeql-action/analyze@v1
