@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
-    <PackageReference Include="NHibernate" Version="5.3.3" />
+    <PackageReference Include="NHibernate" Version="5.3.4" />
   </ItemGroup>
 
   <ItemGroup>
