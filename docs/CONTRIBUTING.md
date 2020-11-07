@@ -85,7 +85,7 @@ We use the `GitVersion` tool for versioning.  It is mostly auto generated in the
 
 ## Contact info
 
-Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).  The public developers chat group is here: [Microsoft Teams](https://teams.microsoft.com/l/team/19%3a1b9209d6959e442694a28c91250ad708%40thread.skype/conversations?groupId=199d1962-4cdd-46fb-998b-7e24d0f225cf&tenantId=089fffad-8315-4180-8556-a1105149f47e)
+Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 Thanks,
 Dave Skender
