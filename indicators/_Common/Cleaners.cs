@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             }
 
             // return if already processed (no missing indexes)
-            if (!historyList.Any(x => x.Index == null))
+            if (!historyList.Any(x => x.Index == null) && historyList[0] == 1)
             {
                 return historyList;
             }
