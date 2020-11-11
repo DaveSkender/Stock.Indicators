@@ -61,7 +61,7 @@ namespace Skender.Stock.Indicators
             }
 
             // return if already processed (no missing indexes)
-            if (!bdList.Any(x => x.Index == null))
+            if (!bdList.Any(x => x.Index == null) && bdList[0].Index == 1)
             {
                 return bdList;
             }
