@@ -47,7 +47,7 @@ jobs:
     - name: Install .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.301'  
+        dotnet-version: '5.0.x'  
     
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.2
