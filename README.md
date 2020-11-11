@@ -55,6 +55,7 @@ See [individual indicator pages](https://daveskender.github.io/Stock.Indicators/
 
 ## Frameworks targeted
 
+- .NET 5.0
 - .NET Core 3.1
 - .NET Standard 2.0, 2.1
 - .NET Framework 4.6.1

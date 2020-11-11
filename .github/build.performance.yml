@@ -1,58 +1,65 @@
 trigger:
   - master
-  
+
 # no PR triggers
 pr: none
 
 jobs:
-- job: PerformanceBenchmarks
-  timeoutInMinutes: 100
-  pool:
-    name: Azure Pipelines
-    vmImage: 'windows-2019'
-  steps:
-  - task: UseDotNet@2
-    displayName: 'use .Net Core SDK 3.1.x'
-    inputs:
-      version: 3.1.x
+  - job: PerformanceBenchmarks
+    timeoutInMinutes: 100
 
-  - task: DotNetCoreCLI@2
-    displayName: 'use GitVersion'
-    inputs:
-      command: custom
-      custom: tool
-      arguments: 'install -g gitversion.tool --version 5.5.0'
+    pool:
+      name: Azure Pipelines
+      vmImage: "windows-2019"
 
-  - task: DotNetCoreCLI@2
-    displayName: 'run GitVersion'
-    inputs:
-      command: custom
-      custom: gitversion
-      arguments: '/output buildserver'
+    steps:
+      - task: UseDotNet@2
+        displayName: "use .Net SDK 3.1.x"
+        inputs:
+          version: 3.1.x
 
-  - task: DotNetCoreCLI@2
-    displayName: build
-    inputs:
-      projects: '**/Tests.Performance.csproj'
-      arguments: '--configuration Release /p:Version=$(GitVersion.NuGetVersion)'
+      - task: DotNetCoreCLI@2
+        displayName: "use GitVersion"
+        inputs:
+          command: custom
+          custom: tool
+          arguments: "install -g gitversion.tool --version 5.5.0"
 
-  - task: DotNetCoreCLI@2
-    displayName: 'run benchmarks'
-    inputs:
-      command: run
-      projects: '**/Tests.Performance.csproj'
-      arguments: '--configuration Release --no-restore --no-build'
+      - task: DotNetCoreCLI@2
+        displayName: "run GitVersion"
+        inputs:
+          command: custom
+          custom: gitversion
+          arguments: "/output buildserver"
 
-  - task: CopyFiles@2
-    displayName: 'stage artifacts'
-    inputs:
-      SourceFolder: 'BenchmarkDotNet.Artifacts\results'
-      Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-      CleanTargetFolder: true
-      OverWrite: true
+      - task: UseDotNet@2
+        displayName: "use .Net SDK 5.0.x"
+        inputs:
+          version: 5.0.x
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'save artifacts'
-    inputs:
-      ArtifactName: results
+      - task: DotNetCoreCLI@2
+        displayName: build
+        inputs:
+          projects: "**/Tests.Performance.csproj"
+          arguments: "--configuration Release /p:Version=$(GitVersion.NuGetVersion)"
+
+      - task: DotNetCoreCLI@2
+        displayName: "run benchmarks"
+        inputs:
+          command: run
+          projects: "**/Tests.Performance.csproj"
+          arguments: "--configuration Release --no-restore --no-build"
+
+      - task: CopyFiles@2
+        displayName: "stage artifacts"
+        inputs:
+          SourceFolder: 'BenchmarkDotNet.Artifacts\results'
+          Contents: "**"
+          TargetFolder: "$(Build.ArtifactStagingDirectory)"
+          CleanTargetFolder: true
+          OverWrite: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: "save artifacts"
+        inputs:
+          ArtifactName: results
