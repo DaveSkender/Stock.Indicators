@@ -13,7 +13,7 @@ variables:
 
 steps:
   - task: UseDotNet@2
-    displayName: 'use .Net Core SDK 5.0.x'
+    displayName: 'use .Net SDK 5.0.x'
     inputs:
       version: 5.0.x
 
