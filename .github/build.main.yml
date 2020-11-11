@@ -6,71 +6,76 @@ pr:
 
 pool:
   name: Azure Pipelines
-  vmImage: 'windows-2019'
+  vmImage: "windows-2019"
 
 variables:
-  BuildConfiguration: 'Release'
+  BuildConfiguration: "Release"
 
 steps:
   - task: UseDotNet@2
-    displayName: 'use .Net SDK 5.0.x'
+    displayName: "use .Net SDK 3.1.x"
+    inputs:
+      version: 3.1.x
+
+  - task: DotNetCoreCLI@2
+    displayName: "use GitVersion"
+    inputs:
+      command: custom
+      custom: tool
+      arguments: "install -g gitversion.tool --version 5.5.0"
+
+  - task: DotNetCoreCLI@2
+    displayName: "run GitVersion"
+    inputs:
+      command: custom
+      custom: gitversion
+      arguments: "/output buildserver"
+
+  - task: UseDotNet@2
+    displayName: "use .Net SDK 5.0.x"
     inputs:
       version: 5.0.x
 
   - task: DotNetCoreCLI@2
-    displayName: 'use GitVersion'
-    inputs:
-      command: custom
-      custom: tool
-      arguments: 'install -g gitversion.tool --version 5.5.0'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'run GitVersion'
-    inputs:
-      command: custom
-      custom: gitversion
-      arguments: '/output buildserver'
-
-  - task: DotNetCoreCLI@2
     displayName: build
     inputs:
-      projects: '**/*.csproj'
-      arguments: '--disable-parallel --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)'
+      projects: "**/*.csproj"
+      arguments: "--disable-parallel --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
   - task: DotNetCoreCLI@2
-    displayName: 'test internal'
+    displayName: "test internal"
     inputs:
       command: test
-      projects: '**/Tests.Indicators.csproj'
-      arguments: '--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-      testRunTitle: 'Library Internal Tests'
+      projects: "**/Tests.Indicators.csproj"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+      testRunTitle: "Library Internal Tests"
 
   - task: DotNetCoreCLI@2
-    displayName: 'test external'
+    displayName: "test external"
     inputs:
       command: test
-      projects: '**/Tests.External.csproj'
-      arguments: '--configuration $(BuildConfiguration) --no-restore --no-build  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false'
+      projects: "**/Tests.External.csproj"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
       publishTestResults: false
-      testRunTitle: 'Library External Tests'
+      testRunTitle: "Library External Tests"
 
   - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
-    displayName: 'format code coverage'
+    displayName: "format code coverage"
     inputs:
-      reports: '**/coverage.cobertura.xml'
-      targetdir: '$(Build.ArtifactStagingDirectory)/TestResults'
-      reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
-      title: 'Stock.Indicators Library Tests'
+      reports: "**/coverage.cobertura.xml"
+      targetdir: "$(Build.ArtifactStagingDirectory)/TestResults"
+      reporttypes: "HtmlInline_AzurePipelines;Cobertura;Badges"
+      title: "Stock.Indicators Library Tests"
 
   - task: PublishCodeCoverageResults@1
-    displayName: 'publish code coverage'
+    displayName: "publish code coverage"
     inputs:
       codeCoverageTool: Cobertura
-      summaryFileLocation: '$(Build.ArtifactStagingDirectory)/TestResults/cobertura.xml'
-      reportDirectory: '$(Build.ArtifactStagingDirectory)/TestResults'
+      summaryFileLocation: "$(Build.ArtifactStagingDirectory)/TestResults/cobertura.xml"
+      reportDirectory: "$(Build.ArtifactStagingDirectory)/TestResults"
 
   - task: DotNetCoreCLI@2
-    displayName: 'pack for NuGet'
+    displayName: "pack for NuGet"
     inputs:
       command: pack
       packagesToPack: indicators/Indicators.csproj
@@ -78,16 +83,16 @@ steps:
       versionEnvVar: GitVersion.NuGetVersion
 
   - task: CopyFiles@2
-    displayName: 'stage artifacts'
+    displayName: "stage artifacts"
     inputs:
-      SourceFolder: 'indicators'
-      Contents: '**/*.nupkg'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      SourceFolder: "indicators"
+      Contents: "**/*.nupkg"
+      TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
       OverWrite: true
       flattenFolders: true
 
   - task: PublishBuildArtifacts@1
-    displayName: 'save artifacts'
+    displayName: "save artifacts"
     inputs:
       ArtifactName: packages
