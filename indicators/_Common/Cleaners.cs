@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             }
 
             // return if already processed (no missing indexes)
-            if (!historyList.Any(x => x.Index == null))
+            if (!historyList.Any(x => x.Index == null) && historyList[0].Index == 1)
             {
                 return historyList;
             }
@@ -49,6 +49,24 @@ namespace Skender.Stock.Indicators
         }
 
 
+        public static IEnumerable<Quote> RemoveIndex(this IEnumerable<Quote> history)
+        {
+            // validate
+            if (history == null)
+            {
+                return history;
+            }
+
+            // reset the internal index
+            foreach (Quote h in history)
+            {
+                h.Index = null;
+            }
+
+            return history;
+        }
+
+
         internal static List<BasicData> PrepareBasicData(IEnumerable<BasicData> basicData)
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
@@ -61,7 +79,7 @@ namespace Skender.Stock.Indicators
             }
 
             // return if already processed (no missing indexes)
-            if (!bdList.Any(x => x.Index == null))
+            if (!bdList.Any(x => x.Index == null) && bdList[0].Index == 1)
             {
                 return bdList;
             }

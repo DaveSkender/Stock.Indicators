@@ -30,11 +30,18 @@ namespace Internal.Tests
             Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
 
             // last index should be 502
-            Quote r = newHistory
+            Quote r1 = h
                 .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture))
                 .FirstOrDefault();
 
-            Assert.AreEqual(502, r.Index);
+            Assert.AreEqual(502, r1.Index);
+
+            // spot check an out of sequence date
+            Quote r2 = h
+                .Where(x => x.Date == DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture))
+                .FirstOrDefault();
+
+            Assert.AreEqual(21, r2.Index);
 
             // ensure expected List address
             List<Quote> historyList = h.ToList();
@@ -63,6 +70,78 @@ namespace Internal.Tests
                 .FirstOrDefault();
 
             Assert.AreEqual(5285, r.Index);
+        }
+
+
+        [TestMethod()]
+        public void CutHistoryTest()
+        {
+            // if history post-cleaning, is cut down in size it should not corrupt the results
+
+            int i = 0;
+            IEnumerable<Quote> history = History.GetHistory(200);
+            IEnumerable<Quote> h = Cleaners.PrepareHistory(history);
+
+            // assertions
+
+            // should be 200 periods, initially
+            Assert.AreEqual(200, h.Count());
+
+            // should always have index
+            Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
+
+
+            // should be 20 results and no index corruption
+            IEnumerable<RsiResult> r1 = Indicator.GetRsi(h.TakeLast(20), 14);
+            Assert.AreEqual(20, r1.Count());
+
+            i = 1;
+            foreach (RsiResult x in r1)
+            {
+                Assert.AreEqual(i++, x.Index);
+            }
+
+            // should be 50 results and no index corruption
+            IEnumerable<RsiResult> r2 = Indicator.GetRsi(h.TakeLast(50), 14);
+            Assert.AreEqual(50, r2.Count());
+
+            i = 1;
+            foreach (RsiResult x in r2)
+            {
+                Assert.AreEqual(i++, x.Index);
+            }
+
+            // should be original 200 periods and no index corruption, after temp mods
+            Assert.AreEqual(200, h.Count());
+
+            i = 1;
+            foreach(Quote x in h)
+            {
+                Assert.AreEqual(i++, x.Index);
+            }
+        }
+
+
+        [TestMethod()]
+        public void ResetHistoryTest()
+        {
+            // if history post-cleaning, is cut down in size it should not corrupt the results
+
+            IEnumerable<Quote> history = History.GetHistory(200);
+            IEnumerable<Quote> h = Cleaners.PrepareHistory(history);
+
+            // assertions
+
+            // should be 200 periods, initially
+            Assert.AreEqual(200, h.Count());
+
+            // should always have index
+            Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
+
+            h.RemoveIndex();
+
+            // should not have index after reset
+            Assert.IsFalse(h.Where(x => x.Index != null).Any());
         }
 
 
