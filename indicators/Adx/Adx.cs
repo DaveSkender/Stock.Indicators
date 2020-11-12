@@ -82,9 +82,9 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index == lookbackPeriod + 1)
                 {
-                    trs = sumTr / lookbackPeriod;
-                    pdm = sumPdm / lookbackPeriod;
-                    mdm = sumMdm / lookbackPeriod;
+                    trs = sumTr;
+                    pdm = sumPdm;
+                    mdm = sumMdm;
                 }
                 else
                 {
