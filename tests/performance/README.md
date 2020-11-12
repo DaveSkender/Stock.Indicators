@@ -58,7 +58,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |      GetUlcerIndex | 1,380.28 μs |  6.563 μs |  5.481 μs | 1,378.85 μs |
 |        GetUltimate |   600.91 μs |  4.134 μs |  3.452 μs |   602.13 μs |
 |          GetVolSma |   121.56 μs |  0.691 μs |  0.613 μs |   121.65 μs |
-|        GetWilliamsR |   292.65 μs |  1.621 μs |  1.517 μs |   292.32 μs |
+|       GetWilliamsR |   292.65 μs |  1.621 μs |  1.517 μs |   292.32 μs |
 |             GetWma |   756.90 μs |  2.817 μs |  2.353 μs |   757.01 μs |
 |          GetZigZag |   232.81 μs |  3.206 μs |  2.503 μs |   232.23 μs |
 
