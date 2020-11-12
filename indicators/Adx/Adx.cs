@@ -149,7 +149,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod + 1;
+            int minHistory = 2 * lookbackPeriod + 150;
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for ADX.  " +

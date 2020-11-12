@@ -24,10 +24,10 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 2 * lookbackPeriod + 1, results.Where(x => x.Adx != null).Count());
 
             // sample value
-            AdxResult r = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual(17.7565m, Math.Round((decimal)r.Pdi, 4));
-            Assert.AreEqual(31.1510m, Math.Round((decimal)r.Mdi, 4));
-            Assert.AreEqual(34.2987m, Math.Round((decimal)r.Adx, 4));
+            AdxResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            Assert.AreEqual(17.7565m, Math.Round((decimal)r1.Pdi, 4));
+            Assert.AreEqual(31.1510m, Math.Round((decimal)r1.Mdi, 4));
+            Assert.AreEqual(34.2987m, Math.Round((decimal)r1.Adx, 4));
         }
 
 
@@ -44,7 +44,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetAdx(history.Where(x => x.Index < 61), 30);
+            Indicator.GetAdx(history.Where(x => x.Index < 210), 30);
         }
 
     }

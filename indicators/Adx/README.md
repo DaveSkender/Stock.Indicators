@@ -13,7 +13,7 @@ IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N`+1 periods of `history` to get any results; however, since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N`+150 periods of `history` to allow for smoothing convergence; however, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
 | `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
 
 ## Response
@@ -22,7 +22,7 @@ IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);
 IEnumerable<AdxResult>
 ```
 
-The first `2×N-1` periods will have `null` values for ADX since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `2×N-1` periods will have `null` values for ADX since there's not enough data to calculate.  The first 150 values will be less precise due to smoothing convergence.  We always return the same number of elements as there are in the historical quotes.
 
 ### AdxResult
 
