@@ -82,9 +82,9 @@ namespace Skender.Stock.Indicators
 
                 if (h.Index == lookbackPeriod + 1)
                 {
-                    trs = sumTr / lookbackPeriod;
-                    pdm = sumPdm / lookbackPeriod;
-                    mdm = sumMdm / lookbackPeriod;
+                    trs = sumTr;
+                    pdm = sumPdm;
+                    mdm = sumMdm;
                 }
                 else
                 {
@@ -149,7 +149,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod + 1;
+            int minHistory = 2 * lookbackPeriod + 150;
             if (qtyHistory < minHistory)
             {
                 throw new BadHistoryException("Insufficient history provided for ADX.  " +
