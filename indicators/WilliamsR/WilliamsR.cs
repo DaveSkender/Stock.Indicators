@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // WILLIAM %R OSCILLATOR
-        public static IEnumerable<WilliamResult> GetWilliamR(IEnumerable<Quote> history, int lookbackPeriod = 14)
+        public static IEnumerable<WilliamsResult> GetWilliamsR(IEnumerable<Quote> history, int lookbackPeriod = 14)
         {
 
             // clean quotes
@@ -17,11 +17,11 @@ namespace Skender.Stock.Indicators
 
             // convert Stochastic to William %R
             return GetStoch(history, lookbackPeriod, 1, 1) // fast variant
-                .Select(s => new WilliamResult
+                .Select(s => new WilliamsResult
                 {
                     Index = s.Index,
                     Date = s.Date,
-                    WilliamR = s.Oscillator - 100
+                    WilliamsR = s.Oscillator - 100
                 })
                 .ToList();
         }
