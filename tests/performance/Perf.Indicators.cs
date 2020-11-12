@@ -283,9 +283,9 @@ namespace Tests.Performance
         }
 
         [Benchmark]
-        public object GetWilliamR()
+        public object GetWilliamsR()
         {
-            return Indicator.GetWilliamR(hm);
+            return Indicator.GetWilliamsR(hm);
         }
 
         [Benchmark]

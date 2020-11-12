@@ -7,28 +7,28 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class WilliamRTests : TestBase
+    public class WilliamsRTests : TestBase
     {
 
         [TestMethod()]
-        public void GetWilliamRTest()
+        public void GetWilliamsRTest()
         {
             int lookbackPeriod = 14;
-            IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history, lookbackPeriod);
+            IEnumerable<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPeriod);
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count());
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.WilliamR != null).Count());
+            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.WilliamsR != null).Count());
 
             // sample values
-            WilliamResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
-            Assert.AreEqual(-52.0121m, Math.Round((decimal)r1.WilliamR, 4));
+            WilliamsResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            Assert.AreEqual(-52.0121m, Math.Round((decimal)r1.WilliamsR, 4));
 
-            WilliamResult r2 = results.Where(x => x.Index == 344).FirstOrDefault();
-            Assert.AreEqual(-19.8211m, Math.Round((decimal)r2.WilliamR, 4));
+            WilliamsResult r2 = results.Where(x => x.Index == 344).FirstOrDefault();
+            Assert.AreEqual(-19.8211m, Math.Round((decimal)r2.WilliamsR, 4));
         }
 
 
@@ -38,14 +38,14 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
         public void BadLookback()
         {
-            Indicator.GetWilliamR(history, 0);
+            Indicator.GetWilliamsR(history, 0);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetWilliamR(history.Where(x => x.Index < 30), 30);
+            Indicator.GetWilliamsR(history.Where(x => x.Index < 30), 30);
         }
 
     }

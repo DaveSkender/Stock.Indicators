@@ -6,7 +6,7 @@
 
 ```csharp
 // usage
-IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history, lookbackPeriod);  
+IEnumerable<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -19,17 +19,17 @@ IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history, lookbackPeri
 ## Response
 
 ```csharp
-IEnumerable<WilliamResult>
+IEnumerable<WilliamsResult>
 ```
 
 The first `N-1` periods will have `null` Oscillator values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-### WilliamResult
+### WilliamsResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `WilliamR` | decimal | Oscillator over prior `N` lookback periods
+| `WilliamsR` | decimal | Oscillator over prior `N` lookback periods
 
 ## Example
 
@@ -37,15 +37,15 @@ The first `N-1` periods will have `null` Oscillator values since there's not eno
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
-// calculate WilliamR(14)
-IEnumerable<WilliamResult> results = Indicator.GetWilliamR(history,14);
+// calculate WilliamsR(14)
+IEnumerable<WilliamsResult> results = Indicator.GetWilliamsR(history,14);
 
 // use results as needed
 DateTime evalDate = DateTime.Parse("12/31/2018");
-WilliamResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
-Console.WriteLine("William %R on {0} was {1}", result.Date, result.WilliamR);
+WilliamsResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+Console.WriteLine("Williams %R on {0} was {1}", result.Date, result.WilliamsR);
 ```
 
 ```bash
-William %R on 12/31/2018 was -52.0
+Williams %R on 12/31/2018 was -52.0
 ```
