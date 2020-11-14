@@ -123,7 +123,7 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void ResetHistoryTest()
+        public void RemoveHistoryTest()
         {
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
@@ -142,6 +142,12 @@ namespace Internal.Tests
 
             // should not have index after reset
             Assert.IsFalse(h.Where(x => x.Index != null).Any());
+
+            // test for null handling
+            h = null;
+            h.RemoveIndex();
+
+            Assert.AreEqual(null, h);
         }
 
 
