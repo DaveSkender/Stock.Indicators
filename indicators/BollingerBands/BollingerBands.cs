@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -70,12 +71,14 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod <= 1)
             {
-                throw new BadParameterException("Lookback period must be greater than 1 for Bollinger Bands.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 1 for Bollinger Bands.");
             }
 
             if (standardDeviations <= 0)
             {
-                throw new BadParameterException("Standard Deviations must be greater than 0 for Bollinger Bands.");
+                throw new ArgumentOutOfRangeException(nameof(standardDeviations), standardDeviations,
+                    "Standard Deviations must be greater than 0 for Bollinger Bands.");
             }
 
             // check history
@@ -83,10 +86,12 @@ namespace Skender.Stock.Indicators
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Bollinger Bands.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for Bollinger Bands.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
         }
 

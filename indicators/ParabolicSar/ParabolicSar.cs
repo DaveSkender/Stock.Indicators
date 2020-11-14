@@ -160,17 +160,23 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (accelerationStep <= 0)
             {
-                throw new BadParameterException("Acceleration Step must be greater than 0 for Parabolic SAR.");
+                throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep,
+                    "Acceleration Step must be greater than 0 for Parabolic SAR.");
             }
 
             if (maxAccelerationFactor <= 0)
             {
-                throw new BadParameterException("Max Acceleration Factor must be greater than 0 for Parabolic SAR.");
+                throw new ArgumentOutOfRangeException(nameof(maxAccelerationFactor), maxAccelerationFactor,
+                    "Max Acceleration Factor must be greater than 0 for Parabolic SAR.");
             }
 
             if (accelerationStep > maxAccelerationFactor)
             {
-                throw new BadParameterException("Acceleration Step must be smaller than Max Accleration Factor for Parabolic SAR.");
+                string message = string.Format(englishCulture,
+                    "Acceleration Step must be smaller than provided Max Accleration Factor ({0}) for Parabolic SAR.",
+                    maxAccelerationFactor);
+
+                throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep, message);
             }
 
             // check history
@@ -178,10 +184,12 @@ namespace Skender.Stock.Indicators
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Parabolic SAR.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for Parabolic SAR.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

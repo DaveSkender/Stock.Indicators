@@ -33,8 +33,8 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetCci(history, 0);
         }

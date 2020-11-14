@@ -67,10 +67,12 @@ namespace Skender.Stock.Indicators
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Heikin-Ashi.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for Heikin-Ashi.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

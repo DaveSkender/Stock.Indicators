@@ -48,22 +48,22 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad RSI period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad RSI period.")]
         public void BadRsiPeriod()
         {
             Indicator.GetConnorsRsi(history, 1, 2, 100);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad Streak period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Streak period.")]
         public void BadStreakPeriod()
         {
             Indicator.GetConnorsRsi(history, 3, 1, 100);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad Rank period.")]
-        public void BadPctRankPeriods()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Rank period.")]
+        public void BadPctRankPeriod()
         {
             Indicator.GetConnorsRsi(history, 3, 2, 1);
         }

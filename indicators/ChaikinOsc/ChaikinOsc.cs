@@ -59,28 +59,31 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (fastPeriod <= 0)
             {
-                throw new BadParameterException("Fast lookback period must be greater than 0 for Chaikin Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
+                    "Fast lookback period must be greater than 0 for Chaikin Oscillator.");
             }
 
             // check parameters
             if (slowPeriod <= fastPeriod)
             {
-                throw new BadParameterException("Slow lookback period must be greater than Fast lookback period for Chaikin Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
+                    "Slow lookback period must be greater than Fast lookback period for Chaikin Oscillator.");
             }
-
 
             // check history
             int qtyHistory = history.Count();
             int minHistory = Math.Max(2 * slowPeriod, slowPeriod + 100);
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Chaikin Oscillator.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, for a slow period of {2}, "
-                          + "we recommend you use at least {3} data points prior to the intended "
-                          + "usage date for maximum precision.",
-                          qtyHistory, minHistory, slowPeriod, slowPeriod + 250));
+                string message = "Insufficient history provided for Chaikin Oscillator.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for a slow period of {2}, "
+                    + "we recommend you use at least {3} data points prior to the intended "
+                    + "usage date for maximum precision.",
+                    qtyHistory, minHistory, slowPeriod, slowPeriod + 250);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

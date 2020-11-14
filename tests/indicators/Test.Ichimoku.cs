@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,21 +51,21 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad signal period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad signal period.")]
         public void BadSignalPeriod()
         {
             Indicator.GetIchimoku(history, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad short span period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad short span period.")]
         public void BadShortSpanPeriod()
         {
             Indicator.GetIchimoku(history, 9, 0, 52);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad long span period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad long span period.")]
         public void BadLongSpanPeriod()
         {
             Indicator.GetIchimoku(history, 9, 26, 26);

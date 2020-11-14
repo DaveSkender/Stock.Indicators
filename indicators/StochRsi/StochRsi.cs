@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -71,22 +72,26 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (rsiPeriod <= 0)
             {
-                throw new BadParameterException("RSI period must be greater than 0 for Stochastic RSI.");
+                throw new ArgumentOutOfRangeException(nameof(rsiPeriod), rsiPeriod,
+                    "RSI period must be greater than 0 for Stochastic RSI.");
             }
 
             if (stochPeriod <= 0)
             {
-                throw new BadParameterException("STOCH period must be greater than 0 for Stochastic RSI.");
+                throw new ArgumentOutOfRangeException(nameof(stochPeriod), stochPeriod,
+                    "STOCH period must be greater than 0 for Stochastic RSI.");
             }
 
             if (signalPeriod <= 0)
             {
-                throw new BadParameterException("Signal period must be greater than 0 for Stochastic RSI.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
+                    "Signal period must be greater than 0 for Stochastic RSI.");
             }
 
             if (smoothPeriod <= 0)
             {
-                throw new BadParameterException("Smooth period must be greater than 0 for Stochastic RSI.");
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriod), smoothPeriod,
+                    "Smooth period must be greater than 0 for Stochastic RSI.");
             }
 
             // check history
@@ -94,10 +99,12 @@ namespace Skender.Stock.Indicators
             int minHistory = rsiPeriod + stochPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Stochastic RSI.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for Stochastic RSI.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
         }
     }

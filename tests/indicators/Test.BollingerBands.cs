@@ -54,14 +54,14 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetBollingerBands(history, 1);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad standard deviations.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad standard deviations.")]
         public void InsufficientStandardDeviations()
         {
             Indicator.GetBollingerBands(history, 2, 0);

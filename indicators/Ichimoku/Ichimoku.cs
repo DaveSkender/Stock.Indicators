@@ -94,8 +94,8 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuKijunSen(
-            List<Quote> historyList, 
-            IchimokuResult result, 
+            List<Quote> historyList,
+            IchimokuResult result,
             Quote h, int shortSpanPeriod)
         {
             if (h.Index >= shortSpanPeriod)
@@ -161,17 +161,20 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (signalPeriod <= 0)
             {
-                throw new BadParameterException("Signal period must be greater than 0 for ICHIMOKU.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
+                    "Signal period must be greater than 0 for ICHIMOKU.");
             }
 
             if (shortSpanPeriod <= 0)
             {
-                throw new BadParameterException("Short span period must be greater than 0 for ICHIMOKU.");
+                throw new ArgumentOutOfRangeException(nameof(shortSpanPeriod), shortSpanPeriod,
+                    "Short span period must be greater than 0 for ICHIMOKU.");
             }
 
             if (longSpanPeriod <= shortSpanPeriod)
             {
-                throw new BadParameterException("Long span period must be greater than small span period for ICHIMOKU.");
+                throw new ArgumentOutOfRangeException(nameof(longSpanPeriod), longSpanPeriod,
+                    "Long span period must be greater than small span period for ICHIMOKU.");
             }
 
             // check history
@@ -179,10 +182,12 @@ namespace Skender.Stock.Indicators
             int minHistory = Math.Max(signalPeriod, Math.Max(shortSpanPeriod, longSpanPeriod));
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for ICHIMOKU.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for ICHIMOKU.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

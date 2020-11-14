@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -87,26 +88,29 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateRsi(IEnumerable<BasicData> basicData, int lookbackPeriod)
+        private static void ValidateRsi(IEnumerable<BasicData> history, int lookbackPeriod)
         {
 
             // check parameters
             if (lookbackPeriod < 1)
             {
-                throw new BadParameterException("Lookback period must be greater than 0 for RSI.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 0 for RSI.");
             }
 
             // check history
-            int qtyHistory = basicData.Count();
+            int qtyHistory = history.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for RSI.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
+                string message = "Insufficient history provided for RSI.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least 250 data points prior to the intended "
+                    + "usage date for maximum precision.", qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -53,7 +54,7 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad SMA period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
         public void BadSmaPeriod()
         {
             Indicator.GetObv(history, 0);

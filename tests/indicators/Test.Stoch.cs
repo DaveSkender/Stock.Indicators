@@ -94,21 +94,21 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetStoch(history, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad signal period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad signal period.")]
         public void BadSignal()
         {
             Indicator.GetStoch(history, 14, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad smoothing period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad smoothing period.")]
         public void BadSmooth()
         {
             Indicator.GetStoch(history, 14, 3, 0);

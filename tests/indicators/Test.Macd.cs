@@ -49,28 +49,28 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Fast period must be greater than 0.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Fast period must be greater than 0.")]
         public void BadFastPeriod()
         {
             Indicator.GetMacd(history, 0, 26, 9);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Slow period must be greater than 0.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Slow period must be greater than 0.")]
         public void BadSlowPeriod()
         {
             Indicator.GetMacd(history, 12, 0, 9);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Signal period must be greater than or equal to 0.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Signal period must be greater than or equal to 0.")]
         public void BadSignalPeriod()
         {
             Indicator.GetMacd(history, 12, 26, -1);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Slow smaller than Fast period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Slow smaller than Fast period.")]
         public void BadFastAndSlowCombo()
         {
             Indicator.GetMacd(history, 26, 20, 9);

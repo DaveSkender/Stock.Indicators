@@ -63,28 +63,28 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad RSI lookback.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad RSI lookback.")]
         public void BadRsiLookback()
         {
             Indicator.GetStochRsi(history, 0, 14, 3, 1);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad STO lookback.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad STO lookback.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetStochRsi(history, 14, 0, 3, 3);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad STO signal period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad STO signal period.")]
         public void BadSignal()
         {
             Indicator.GetStochRsi(history, 14, 14, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad STO smoothing period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad STO smoothing period.")]
         public void BadSmooth()
         {
             Indicator.GetStochRsi(history, 14, 14, 3, 0);
