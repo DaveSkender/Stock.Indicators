@@ -23,7 +23,7 @@ jobs:
         inputs:
           command: custom
           custom: tool
-          arguments: "install -g gitversion.tool --version 5.5.0"
+          arguments: "install -g gitversion.tool --version 5.5.1"
 
       - task: DotNetCoreCLI@2
         displayName: "run GitVersion"
