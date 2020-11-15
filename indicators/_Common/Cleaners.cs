@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
 
             if (historyList == null || historyList.Count == 0)
             {
-                throw new BadHistoryException("No historical quotes provided.");
+                throw new BadHistoryException(nameof(history), "No historical quotes provided.");
             }
 
             // return if already processed (no missing indexes)
@@ -67,15 +67,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        internal static List<BasicData> PrepareBasicData(IEnumerable<BasicData> basicData)
+        internal static List<BasicData> PrepareBasicData(IEnumerable<BasicData> history)
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            List<BasicData> bdList = basicData?.OrderBy(x => x.Date).ToList();
+            List<BasicData> bdList = history?.OrderBy(x => x.Date).ToList();
 
             if (bdList == null || bdList.Count == 0)
             {
-                throw new BadHistoryException("No historical quotes provided.");
+                throw new BadHistoryException(nameof(history), "No historical quotes provided.");
             }
 
             // return if already processed (no missing indexes)

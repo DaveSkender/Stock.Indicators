@@ -49,8 +49,8 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetAdx(history, 1);
         }
@@ -59,7 +59,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetAdx(history.Where(x => x.Index < 210), 30);
+            Indicator.GetAdx(history.Where(x => x.Index < 160), 30);
         }
 
     }

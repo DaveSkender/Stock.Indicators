@@ -47,21 +47,21 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad EMA period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad EMA period.")]
         public void BadEmaPeriod()
         {
             Indicator.GetKeltner(history, 1, 2, 10);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad ATR period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad ATR period.")]
         public void BadAtrPeriod()
         {
             Indicator.GetKeltner(history, 20, 2, 1);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad multiplier.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad multiplier.")]
         public void BadMultiplier()
         {
             Indicator.GetKeltner(history, 20, 0, 10);

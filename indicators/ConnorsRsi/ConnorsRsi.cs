@@ -135,37 +135,41 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateConnorsRsi(
-            IEnumerable<BasicData> basicData, int rsiPeriod, int streakPeriod, int rankPeriod)
+            IEnumerable<BasicData> history, int rsiPeriod, int streakPeriod, int rankPeriod)
         {
 
             // check parameters
             if (rsiPeriod <= 1)
             {
-                throw new BadParameterException("RSI period for Close price must be greater than 1 for ConnorsRsi.");
+                throw new ArgumentOutOfRangeException(nameof(rsiPeriod), rsiPeriod,
+                    "RSI period for Close price must be greater than 1 for ConnorsRsi.");
             }
 
             if (streakPeriod <= 1)
             {
-                throw new BadParameterException("RSI period for Streak must be greater than 1 for ConnorsRsi.");
+                throw new ArgumentOutOfRangeException(nameof(streakPeriod), streakPeriod,
+                    "RSI period for Streak must be greater than 1 for ConnorsRsi.");
             }
 
             if (rankPeriod <= 1)
             {
-                throw new BadParameterException("Percent Rank period must be greater than 1 for ConnorsRsi.");
+                throw new ArgumentOutOfRangeException(nameof(rankPeriod), rankPeriod,
+                    "Percent Rank period must be greater than 1 for ConnorsRsi.");
             }
 
-
             // check history
-            int qtyHistory = basicData.Count();
+            int qtyHistory = history.Count();
             int minHistory = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod + 2));
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for ConnorsRsi.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
+                string message = "Insufficient history provided for ConnorsRsi.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least 250 data points prior to the intended "
+                    + "usage date for maximum precision.", qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
         }
     }

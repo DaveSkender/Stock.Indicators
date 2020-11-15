@@ -65,29 +65,31 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateEma(IEnumerable<BasicData> basicData, int lookbackPeriod)
+        private static void ValidateEma(IEnumerable<BasicData> history, int lookbackPeriod)
         {
 
             // check parameters
             if (lookbackPeriod <= 0)
             {
-                throw new BadParameterException("Lookback period must be greater than 0 for EMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 0 for EMA.");
             }
 
             // check history
-            int qtyHistory = basicData.Count();
+            int qtyHistory = history.Count();
             int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for EMA.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, for a lookback period of {2}, "
-                          + "we recommend you use at least {3} data points prior to the intended "
-                          + "usage date for maximum precision.",
-                          qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250));
-            }
+                string message = "Insufficient history provided for EMA.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "we recommend you use at least {3} data points prior to the intended "
+                    + "usage date for maximum precision.",
+                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
 
+                throw new BadHistoryException(nameof(history), message);
+            }
         }
 
     }

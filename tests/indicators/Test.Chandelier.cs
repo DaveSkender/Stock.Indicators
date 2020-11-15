@@ -41,14 +41,14 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetChandelier(history, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad multiplier.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad multiplier.")]
         public void BadMultiplier()
         {
             Indicator.GetChandelier(history, 25, 0);

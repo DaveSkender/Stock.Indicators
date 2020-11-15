@@ -46,14 +46,14 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
         public void BadLookbackPeriod()
         {
             Indicator.GetPrs(history, historyOther, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad SMA period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
         public void BadSmaPeriod()
         {
             Indicator.GetPrs(history, historyOther, 14, 0);

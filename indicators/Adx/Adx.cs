@@ -144,20 +144,23 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod <= 1)
             {
-                throw new BadParameterException("Lookback period must be greater than 1 for ADX.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 1 for ADX.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod + 150;
+            int minHistory = 2 * lookbackPeriod + 100;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for ADX.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
+                string message = "Insufficient history provided for ADX.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least 250 data points prior to the intended "
+                    + "usage date for maximum precision.", qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
         }
     }

@@ -80,7 +80,8 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod <= 1)
             {
-                throw new BadParameterException("Lookback period must be greater than 1 for HMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 1 for HMA.");
             }
 
             // check history
@@ -88,10 +89,12 @@ namespace Skender.Stock.Indicators
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for HMA.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for HMA.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

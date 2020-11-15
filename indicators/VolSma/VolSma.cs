@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -28,7 +29,7 @@ namespace Skender.Stock.Indicators
                 VolSmaResult h = results[i];
 
                 decimal sumVolSma = 0m;
-                for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                for (int p = h.Index - lookbackPeriod; p < h.Index; p++)
                 {
                     VolSmaResult q = results[p];
                     sumVolSma += q.Volume;
@@ -47,7 +48,8 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod <= 0)
             {
-                throw new BadParameterException("Lookback period must be greater than 0 for VolSma.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 0 for VolSma.");
             }
 
             // check history
@@ -55,10 +57,12 @@ namespace Skender.Stock.Indicators
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for VolSma.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for VolSma.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

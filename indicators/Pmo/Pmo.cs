@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -148,17 +149,20 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (timePeriod <= 1)
             {
-                throw new BadParameterException("Time period must be greater than 1 for PMO.");
+                throw new ArgumentOutOfRangeException(nameof(timePeriod), timePeriod,
+                    "Time period must be greater than 1 for PMO.");
             }
 
             if (smoothingPeriod <= 0)
             {
-                throw new BadParameterException("Smoothing period must be greater than 0 for PMO.");
+                throw new ArgumentOutOfRangeException(nameof(smoothingPeriod), smoothingPeriod,
+                    "Smoothing period must be greater than 0 for PMO.");
             }
 
             if (signalPeriod <= 0)
             {
-                throw new BadParameterException("Signal period must be greater than 0 for PMO.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
+                    "Signal period must be greater than 0 for PMO.");
             }
 
             // check history
@@ -166,13 +170,15 @@ namespace Skender.Stock.Indicators
             int minHistory = timePeriod + smoothingPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for PMO.  " +
-                       string.Format(englishCulture,
-                       "You provided {0} periods of history when at least {1} is required.  "
-                         + "Since this uses a several smoothing operations, "
-                         + "we recommend you use at least {2} data points prior to the intended "
-                         + "usage date for maximum precision.",
-                         qtyHistory, minHistory, minHistory + signalPeriod + 250));
+                string message = "Insufficient history provided for PMO.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a several smoothing operations, "
+                    + "we recommend you use at least {2} data points prior to the intended "
+                    + "usage date for maximum precision.",
+                    qtyHistory, minHistory, minHistory + signalPeriod + 250);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

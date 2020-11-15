@@ -43,21 +43,21 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Acc Step must be greater than 0.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Acc Step must be greater than 0.")]
         public void BadAccelerationStep()
         {
             Indicator.GetParabolicSar(history, 0, 1);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Max Acc Factor must be greater than 0.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Max Acc Factor must be greater than 0.")]
         public void BadMaxAcclerationFactor()
         {
             Indicator.GetParabolicSar(history, 0.02m, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Step larger than Factor.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Step larger than Factor.")]
         public void BadParameterCombo()
         {
             Indicator.GetParabolicSar(history, 6, 2);

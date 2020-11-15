@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -62,7 +63,7 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
 
                 // optional SMA
-                if (smaPeriod != null && bd.Index >= lookbackPeriod + smaPeriod-1)
+                if (smaPeriod != null && bd.Index >= lookbackPeriod + smaPeriod - 1)
                 {
                     decimal sumSma = 0m;
                     for (int p = (int)bd.Index - (int)smaPeriod; p < bd.Index; p++)
@@ -78,30 +79,35 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStdDev(IEnumerable<BasicData> basicData, int lookbackPeriod, int? smaPeriod)
+        private static void ValidateStdDev(IEnumerable<BasicData> history, int lookbackPeriod, int? smaPeriod)
         {
 
             // check parameters
             if (lookbackPeriod <= 1)
             {
-                throw new BadParameterException("Lookback period must be greater than 1 for Standard Deviation.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 1 for Standard Deviation.");
             }
 
             if (smaPeriod != null && smaPeriod <= 0)
             {
-                throw new BadParameterException("SMA period must be greater than 0 for Standard Deviation.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
+                    "SMA period must be greater than 0 for Standard Deviation.");
             }
 
             // check history
-            int qtyHistory = basicData.Count();
+            int qtyHistory = history.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Standard Deviation.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for Standard Deviation.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
+
         }
     }
 

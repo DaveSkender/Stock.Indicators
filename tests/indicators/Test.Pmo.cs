@@ -37,21 +37,21 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad time period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad time period.")]
         public void BadTimePeriod()
         {
             Indicator.GetPmo(history, 1);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad smoothing period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad smoothing period.")]
         public void BadSmoothingPeriod()
         {
             Indicator.GetPmo(history, 5, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad signal period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad signal period.")]
         public void BadSignalPeriod()
         {
             Indicator.GetPmo(history, 5, 5, 0);

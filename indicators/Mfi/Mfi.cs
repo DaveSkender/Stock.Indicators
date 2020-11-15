@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -98,7 +99,8 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod <= 1)
             {
-                throw new BadParameterException("Lookback period must be greater than 1 for MFI.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 1 for MFI.");
             }
 
             // check history
@@ -106,10 +108,12 @@ namespace Skender.Stock.Indicators
             int minHistory = lookbackPeriod + 1;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Money Flow Index.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for Money Flow Index.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

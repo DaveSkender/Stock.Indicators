@@ -29,7 +29,7 @@ namespace Skender.Stock.Indicators
 
                 if (a.Date != b.Date)
                 {
-                    throw new BadHistoryException(
+                    throw new BadHistoryException(nameof(historyA), a.Date,
                         "Date sequence does not match.  Correlation requires matching dates in provided histories.");
                 }
 
@@ -86,7 +86,8 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod <= 0)
             {
-                throw new BadParameterException("Lookback period must be greater than 0 for Correlation.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 0 for Correlation.");
             }
 
             // check history
@@ -94,16 +95,18 @@ namespace Skender.Stock.Indicators
             int minHistoryA = lookbackPeriod;
             if (qtyHistoryA < minHistoryA)
             {
-                throw new BadHistoryException("Insufficient history provided for Correlation.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistoryA, minHistoryA));
+                string message = "Insufficient history provided for Correlation.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistoryA, minHistoryA);
+
+                throw new BadHistoryException(nameof(historyA), message);
             }
 
             int qtyHistoryB = historyB.Count();
             if (qtyHistoryB != qtyHistoryA)
             {
-                throw new BadHistoryException(
+                throw new BadHistoryException(nameof(historyB),
                     "B history should have at least as many records as A history for Correlation.");
             }
         }

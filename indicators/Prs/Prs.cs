@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -28,7 +29,7 @@ namespace Skender.Stock.Indicators
 
                 if (ei.Date != bi.Date)
                 {
-                    throw new BadHistoryException(
+                    throw new BadHistoryException(nameof(historyEval), ei.Date,
                         "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
                 }
 
@@ -79,12 +80,14 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (lookbackPeriod != null && lookbackPeriod <= 0)
             {
-                throw new BadParameterException("Lookback period must be greater than 0 for Price Relative Strength.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                    "Lookback period must be greater than 0 for Price Relative Strength.");
             }
 
             if (smaPeriod != null && smaPeriod <= 0)
             {
-                throw new BadParameterException("SMA period must be greater than 0 for Price Relative Strength.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
+                    "SMA period must be greater than 0 for Price Relative Strength.");
             }
 
             // check history
@@ -95,15 +98,17 @@ namespace Skender.Stock.Indicators
             int? minHistory = lookbackPeriod;
             if (minHistory != null && qtyHistoryEval < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Price Relative Strength.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistoryEval, minHistory));
+                string message = "Insufficient history provided for Price Relative Strength.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistoryEval, minHistory);
+
+                throw new BadHistoryException(nameof(historyEval), message);
             }
 
             if (qtyHistoryBase != qtyHistoryEval)
             {
-                throw new BadHistoryException(
+                throw new BadHistoryException(nameof(historyBase),
                     "Base history should have at least as many records as Eval history for Price Relative.");
             }
 

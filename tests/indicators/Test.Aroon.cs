@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -55,8 +56,8 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback period.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetAroon(history, 0);
         }

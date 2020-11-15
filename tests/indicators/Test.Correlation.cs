@@ -32,8 +32,8 @@ namespace Internal.Tests
 
         /* EXCEPTIONS */
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad lookback.")]
-        public void BadLookback()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
+        public void BadLookbackPeriod()
         {
             Indicator.GetCorrelation(history, historyOther, 0);
         }

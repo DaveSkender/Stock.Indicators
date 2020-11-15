@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -290,7 +291,8 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (percentChange <= 0)
             {
-                throw new BadParameterException("Percent change must be greater than 0 for ZIGZAG.");
+                throw new ArgumentOutOfRangeException(nameof(percentChange), percentChange,
+                    "Percent change must be greater than 0 for ZIGZAG.");
             }
 
             // check histor
@@ -298,10 +300,12 @@ namespace Skender.Stock.Indicators
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for ZIGZAG.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for ZIGZAG.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

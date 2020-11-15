@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -76,23 +77,27 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (fastPeriod <= 0)
             {
-                throw new BadParameterException("Fast period must be greater than 0 for MACD.");
+                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
+                    "Fast period must be greater than 0 for MACD.");
             }
 
             if (slowPeriod <= 0)
             {
-                throw new BadParameterException("Slow period must be greater than 0 for MACD.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
+                    "Slow period must be greater than 0 for MACD.");
             }
 
             if (signalPeriod < 0)
             {
-                throw new BadParameterException("Signal period must be greater than or equal to 0 for MACD.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
+                    "Signal period must be greater than or equal to 0 for MACD.");
             }
 
 
             if (slowPeriod < fastPeriod)
             {
-                throw new BadParameterException("Fast period must be smaller than the slow period for MACD.");
+                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
+                    "Fast period must be smaller than the slow period for MACD.");
             }
 
             // check history
@@ -100,12 +105,14 @@ namespace Skender.Stock.Indicators
             int minHistory = 2 * slowPeriod + signalPeriod;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for MACD.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, "
-                          + "we recommend you use at least 250 data points prior to the intended "
-                          + "usage date for maximum precision.", qtyHistory, minHistory));
+                string message = "Insufficient history provided for MACD.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least 250 data points prior to the intended "
+                    + "usage date for maximum precision.", qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

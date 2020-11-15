@@ -93,12 +93,14 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (shortPeriod <= 0 || middleAverage <= 0 || longPeriod <= 0)
             {
-                throw new BadParameterException("Average periods must be greater than 0 for Ultimate Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(longPeriod), longPeriod,
+                    "Average periods must be greater than 0 for Ultimate Oscillator.");
             }
 
             if (shortPeriod >= middleAverage || middleAverage >= longPeriod)
             {
-                throw new BadParameterException("Average periods must be increasingly larger than each other for Ultimate Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(middleAverage), middleAverage,
+                    "Average periods must be increasingly larger than each other for Ultimate Oscillator.");
             }
 
             // check history
@@ -106,10 +108,12 @@ namespace Skender.Stock.Indicators
             int minHistory = longPeriod + 1;
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Ultimate.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.",
-                        qtyHistory, minHistory));
+                string message = "Insufficient history provided for Ultimate.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
+
+                throw new BadHistoryException(nameof(history), message);
             }
 
         }

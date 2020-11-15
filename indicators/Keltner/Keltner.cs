@@ -59,17 +59,20 @@ namespace Skender.Stock.Indicators
             // check parameters
             if (emaPeriod <= 1)
             {
-                throw new BadParameterException("EMA period must be greater than 1 for Keltner Channel.");
+                throw new ArgumentOutOfRangeException(nameof(emaPeriod), emaPeriod,
+                    "EMA period must be greater than 1 for Keltner Channel.");
             }
 
             if (atrPeriod <= 1)
             {
-                throw new BadParameterException("ATR period must be greater than 1 for Keltner Channel.");
+                throw new ArgumentOutOfRangeException(nameof(atrPeriod), atrPeriod,
+                    "ATR period must be greater than 1 for Keltner Channel.");
             }
 
             if (multiplier <= 0)
             {
-                throw new BadParameterException("Multiplier must be greater than 0 for Keltner Channel.");
+                throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
+                    "Multiplier must be greater than 0 for Keltner Channel.");
             }
 
             // check history
@@ -78,13 +81,15 @@ namespace Skender.Stock.Indicators
             int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
             if (qtyHistory < minHistory)
             {
-                throw new BadHistoryException("Insufficient history provided for Keltner Channel.  " +
-                        string.Format(englishCulture,
-                        "You provided {0} periods of history when at least {1} is required.  "
-                          + "Since this uses a smoothing technique, for a lookback period of {2}, "
-                          + "we recommend you use at least {3} data points prior to the intended "
-                          + "usage date for maximum precision.",
-                          qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250));
+                string message = "Insufficient history provided for Keltner Channel.  " +
+                    string.Format(englishCulture,
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "we recommend you use at least {3} data points prior to the intended "
+                    + "usage date for maximum precision.",
+                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
+
+                throw new BadHistoryException(nameof(history), message);
             }
         }
 

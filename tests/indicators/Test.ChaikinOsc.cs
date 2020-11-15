@@ -36,14 +36,14 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad fast lookback.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad fast lookback.")]
         public void BadFastLookback()
         {
             Indicator.GetChaikinOsc(history, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad slow lookback.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad slow lookback.")]
         public void BadSlowLookback()
         {
             Indicator.GetChaikinOsc(history, 10, 5);

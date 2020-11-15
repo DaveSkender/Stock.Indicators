@@ -60,7 +60,7 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad SMA period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
         public void BadSmaPeriod()
         {
             Indicator.GetAdl(history, 0);

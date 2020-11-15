@@ -38,21 +38,21 @@ namespace Internal.Tests
         /* EXCEPTIONS */
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad short period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad short period.")]
         public void BadShortPeriod()
         {
             Indicator.GetUltimate(history, 0);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad middle period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad middle period.")]
         public void BadMiddlePeriod()
         {
             Indicator.GetUltimate(history, 7, 6);
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(BadParameterException), "Bad long period.")]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad long period.")]
         public void BadLongPeriod()
         {
             Indicator.GetUltimate(history, 7, 14, 11);
