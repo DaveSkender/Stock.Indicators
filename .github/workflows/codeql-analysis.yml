@@ -52,7 +52,7 @@ jobs:
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.5
         with:
-          versionSpec: "5.5.0"
+          versionSpec: "5.5.1"
 
       - name: Restore packages
         run: dotnet restore
