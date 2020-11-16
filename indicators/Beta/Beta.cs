@@ -30,7 +30,6 @@ namespace Skender.Stock.Indicators
 
                 BetaResult result = new BetaResult
                 {
-                    Index = (int)e.Index,
                     Date = e.Date
                 };
 
