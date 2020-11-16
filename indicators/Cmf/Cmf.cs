@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < adlResults.Count; i++)
             {
                 AdlResult r = adlResults[i];
-                var index = i + 1;
+                int index = i + 1;
 
                 CmfResult result = new CmfResult
                 {
