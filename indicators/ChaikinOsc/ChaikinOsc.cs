@@ -23,7 +23,6 @@ namespace Skender.Stock.Indicators
             List<ChaikinOscResult> results = GetAdl(history)
                 .Select(r => new ChaikinOscResult
                 {
-                    Index = r.Index,
                     Date = r.Date,
                     MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                     MoneyFlowVolume = r.MoneyFlowVolume,
@@ -33,7 +32,7 @@ namespace Skender.Stock.Indicators
 
             // EMA of ADL
             IEnumerable<BasicData> adlBasicData = results
-                .Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Adl });
+                .Select(x => new BasicData { Date = x.Date, Value = x.Adl });
 
             List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod).ToList();
             List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod).ToList();

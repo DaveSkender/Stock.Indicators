@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean data
-            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData).ToList();
+            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData);
 
             // check parameters
             ValidateRsi(basicData, lookbackPeriod);

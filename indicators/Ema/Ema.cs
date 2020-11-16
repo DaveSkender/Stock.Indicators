@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            basicData = Cleaners.PrepareBasicData(basicData);
+            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData);
 
             // validate parameters
             ValidateEma(basicData, lookbackPeriod);
@@ -32,28 +32,31 @@ namespace Skender.Stock.Indicators
 
             // initialize EMA
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
-            decimal lastEma = basicData
-                .Where(x => x.Index <= lookbackPeriod)
-                .ToList()
-                .Select(x => x.Value)
-                .Average();
+            decimal lastEma = 0;
+
+            for (int i = 0; i < lookbackPeriod; i++)
+            {
+                lastEma += bdList[i].Value;
+            }
+            lastEma /= lookbackPeriod;
 
             // roll through history
-            foreach (BasicData h in basicData)
+            for (int i = 0; i < bdList.Count; i++)
             {
+                BasicData h = bdList[i];
+                int index = i + 1;
 
                 EmaResult result = new EmaResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index > lookbackPeriod)
+                if (index > lookbackPeriod)
                 {
                     result.Ema = lastEma + k * (h.Value - lastEma);
                     lastEma = (decimal)result.Ema;
                 }
-                else if (h.Index == lookbackPeriod)
+                else if (index == lookbackPeriod)
                 {
                     result.Ema = lastEma;
                 }

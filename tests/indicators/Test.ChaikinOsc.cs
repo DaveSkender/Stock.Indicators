@@ -15,17 +15,17 @@ namespace Internal.Tests
         {
             int fastPeriod = 3;
             int slowPeriod = 10;
-            IEnumerable<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod);
+            List<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - slowPeriod + 1, results.Where(x => x.Oscillator != null).Count());
 
             // sample value
-            ChaikinOscResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            ChaikinOscResult r = results[501];
             Assert.AreEqual(3439986548.42m, Math.Round(r.Adl, 2));
             Assert.AreEqual(0.8052m, Math.Round(r.MoneyFlowMultiplier, 4));
             Assert.AreEqual(118396116.25m, Math.Round(r.MoneyFlowVolume, 2));

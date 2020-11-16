@@ -104,7 +104,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        internal static IEnumerable<BasicData> ConvertHistoryToBasic(IEnumerable<Quote> history, string element = "C")
+        internal static List<BasicData> ConvertHistoryToBasic(IEnumerable<Quote> history, string element = "C")
         {
             // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
 

@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             IEnumerable<BasicData> basicData, int lookbackPeriod, int? smaPeriod = null)
         {
             // clean data
-            List<BasicData> basicDataList = Cleaners.PrepareBasicData(basicData).ToList();
+            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData);
 
             // validate inputs
             ValidateStdDev(basicData, lookbackPeriod, smaPeriod);
@@ -32,7 +32,7 @@ namespace Skender.Stock.Indicators
             List<StdDevResult> results = new List<StdDevResult>();
 
             // roll through history and compute lookback standard deviation
-            foreach (BasicData bd in basicDataList)
+            foreach (BasicData bd in bdList)
             {
                 StdDevResult result = new StdDevResult
                 {
@@ -48,7 +48,7 @@ namespace Skender.Stock.Indicators
 
                     for (int p = (int)bd.Index - lookbackPeriod; p < bd.Index; p++)
                     {
-                        BasicData d = basicDataList[p];
+                        BasicData d = bdList[p];
                         periodValues[n] = (double)d.Value;
                         sum += d.Value;
                         n++;

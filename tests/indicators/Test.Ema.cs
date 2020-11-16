@@ -14,23 +14,23 @@ namespace Internal.Tests
         public void GetEmaTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);
+            List<EmaResult> results = Indicator.GetEma(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
 
             // sample values
-            EmaResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            EmaResult r1 = results[501];
             Assert.AreEqual(249.3519m, Math.Round((decimal)r1.Ema, 4));
 
-            EmaResult r2 = results.Where(x => x.Index == 250).FirstOrDefault();
+            EmaResult r2 = results[249];
             Assert.AreEqual(255.3873m, Math.Round((decimal)r2.Ema, 4));
 
-            EmaResult r3 = results.Where(x => x.Index == 30).FirstOrDefault();
+            EmaResult r3 = results[29];
             Assert.AreEqual(216.6228m, Math.Round((decimal)r3.Ema, 4));
         }
 
