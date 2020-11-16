@@ -36,15 +36,15 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 AdxResult result = new AdxResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
                 // skip first period
-                if (h.Index == 1)
+                if (index == 1)
                 {
                     results.Add(result);
                     prevHigh = h.High;
@@ -60,7 +60,7 @@ namespace Skender.Stock.Indicators
                 prevLow = h.Low;
 
                 // initialization period
-                if (h.Index <= lookbackPeriod + 1)
+                if (index <= lookbackPeriod + 1)
                 {
                     sumTr += tr;
                     sumPdm += pdm1;
@@ -68,7 +68,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // skip DM initialization period
-                if (h.Index <= lookbackPeriod)
+                if (index <= lookbackPeriod)
                 {
                     results.Add(result);
                     continue;
@@ -80,7 +80,7 @@ namespace Skender.Stock.Indicators
                 decimal pdm;
                 decimal mdm;
 
-                if (h.Index == lookbackPeriod + 1)
+                if (index == lookbackPeriod + 1)
                 {
                     trs = sumTr;
                     pdm = sumPdm;
@@ -110,7 +110,7 @@ namespace Skender.Stock.Indicators
                 // calculate ADX
                 decimal adx;
 
-                if (h.Index > 2 * lookbackPeriod)
+                if (index > 2 * lookbackPeriod)
                 {
                     adx = (prevAdx * (lookbackPeriod - 1) + dx) / lookbackPeriod;
                     result.Adx = adx;
@@ -118,7 +118,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // initial ADX
-                else if (h.Index == 2 * lookbackPeriod)
+                else if (index == 2 * lookbackPeriod)
                 {
                     sumDx += dx;
                     adx = sumDx / lookbackPeriod;
