@@ -35,12 +35,11 @@ namespace Skender.Stock.Indicators
 
                 ParabolicSarResult result = new ParabolicSarResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
                 // skip first one
-                if (h.Index == 1)
+                if (i == 0)
                 {
                     results.Add(result);
                     continue;
@@ -138,13 +137,16 @@ namespace Skender.Stock.Indicators
             // remove first trend to reversal, since it is an invalid guess
             ParabolicSarResult firstReversal = results
                 .Where(x => x.IsReversal == true)
-                .OrderBy(x => x.Index)
+                .OrderBy(x => x.Date)
                 .FirstOrDefault();
 
             if (firstReversal != null)
             {
-                foreach (ParabolicSarResult r in results.Where(x => x.Index <= firstReversal.Index))
+                int cutIndex = results.IndexOf(firstReversal);
+
+                for (int d = 0; d <= cutIndex; d++)
                 {
+                    ParabolicSarResult r = results[d];
                     r.Sar = null;
                     r.IsReversal = null;
                 }
