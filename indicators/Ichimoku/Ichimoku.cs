@@ -24,23 +24,23 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 IchimokuResult result = new IchimokuResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
                 // tenkan-sen conversion line
-                CalcIchimokuTenkanSen(historyList, result, h, signalPeriod);
+                CalcIchimokuTenkanSen(index, historyList, result, signalPeriod);
 
                 // kijun-sen base line
-                CalcIchimokuKijunSen(historyList, result, h, shortSpanPeriod);
+                CalcIchimokuKijunSen(index, historyList, result, shortSpanPeriod);
 
                 // senkou span A
-                if (h.Index >= 2 * shortSpanPeriod)
+                if (index >= 2 * shortSpanPeriod)
                 {
-                    IchimokuResult skq = results[(int)h.Index - shortSpanPeriod - 1];
+                    IchimokuResult skq = results[index - shortSpanPeriod - 1];
 
                     if (skq != null && skq.TenkanSen != null && skq.KijunSen != null)
                     {
@@ -49,12 +49,12 @@ namespace Skender.Stock.Indicators
                 }
 
                 // senkou span B
-                CalcIchimokuSenkouB(historyList, result, h, shortSpanPeriod, longSpanPeriod);
+                CalcIchimokuSenkouB(index, historyList, result, shortSpanPeriod, longSpanPeriod);
 
                 // chikou line
-                if (h.Index + shortSpanPeriod <= historyList.Count)
+                if (index + shortSpanPeriod <= historyList.Count)
                 {
-                    result.ChikouSpan = historyList[(int)h.Index + shortSpanPeriod - 1].Close;
+                    result.ChikouSpan = historyList[index + shortSpanPeriod - 1].Close;
                 }
                 results.Add(result);
             }
@@ -64,16 +64,14 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuTenkanSen(
-            List<Quote> historyList,
-            IchimokuResult result,
-            Quote h, int signalPeriod)
+            int index, List<Quote> historyList, IchimokuResult result, int signalPeriod)
         {
-            if (h.Index >= signalPeriod)
+            if (index >= signalPeriod)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = (int)h.Index - signalPeriod; p < h.Index; p++)
+                for (int p = index - signalPeriod; p < index; p++)
                 {
                     Quote d = historyList[p];
 
@@ -94,16 +92,14 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuKijunSen(
-            List<Quote> historyList,
-            IchimokuResult result,
-            Quote h, int shortSpanPeriod)
+            int index, List<Quote> historyList, IchimokuResult result, int shortSpanPeriod)
         {
-            if (h.Index >= shortSpanPeriod)
+            if (index >= shortSpanPeriod)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = (int)h.Index - shortSpanPeriod; p < h.Index; p++)
+                for (int p = index - shortSpanPeriod; p < index; p++)
                 {
                     Quote d = historyList[p];
 
@@ -124,17 +120,15 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuSenkouB(
-            List<Quote> historyList,
-            IchimokuResult result,
-            Quote h, int shortSpanPeriod, int longSpanPeriod)
+            int index, List<Quote> historyList, IchimokuResult result, int shortSpanPeriod, int longSpanPeriod)
         {
-            if (h.Index >= shortSpanPeriod + longSpanPeriod)
+            if (index >= shortSpanPeriod + longSpanPeriod)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = (int)h.Index - shortSpanPeriod - longSpanPeriod;
-                    p < h.Index - shortSpanPeriod; p++)
+                for (int p = index - shortSpanPeriod - longSpanPeriod;
+                    p < index - shortSpanPeriod; p++)
                 {
                     Quote d = historyList[p];
 
