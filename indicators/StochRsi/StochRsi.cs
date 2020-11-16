@@ -28,7 +28,6 @@ namespace Skender.Stock.Indicators
                 .Where(x => x.Rsi != null)
                 .Select(x => new Quote
                 {
-                    Index = null,
                     Date = x.Date,
                     High = (decimal)x.Rsi,
                     Low = (decimal)x.Rsi,
@@ -43,16 +42,16 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < rsiResults.Count; i++)
             {
                 RsiResult r = rsiResults[i];
+                int index = i + 1;
 
                 StochRsiResult result = new StochRsiResult
                 {
-                    Index = r.Index,
                     Date = r.Date
                 };
 
-                if (r.Index >= rsiPeriod + stochPeriod)
+                if (index >= rsiPeriod + stochPeriod)
                 {
-                    StochResult sto = stoResults[r.Index - stochPeriod - 1];
+                    StochResult sto = stoResults[index - stochPeriod - 1];
 
                     result.StochRsi = sto.Oscillator;
                     result.Signal = sto.Signal;

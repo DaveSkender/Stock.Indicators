@@ -37,10 +37,10 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData h = bdList[i];
+                int index = i + 1;
 
                 RsiResult r = new RsiResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     Gain = (h.Value > lastValue) ? h.Value - lastValue : 0,
                     Loss = (h.Value < lastValue) ? lastValue - h.Value : 0
@@ -49,7 +49,7 @@ namespace Skender.Stock.Indicators
                 lastValue = h.Value;
 
                 // calculate RSI
-                if (h.Index > lookbackPeriod + 1)
+                if (index > lookbackPeriod + 1)
                 {
                     avgGain = (avgGain * (lookbackPeriod - 1) + r.Gain) / lookbackPeriod;
                     avgLoss = (avgLoss * (lookbackPeriod - 1) + r.Loss) / lookbackPeriod;
@@ -66,7 +66,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // initialize average gain
-                else if (h.Index == lookbackPeriod + 1)
+                else if (index == lookbackPeriod + 1)
                 {
                     decimal sumGain = 0;
                     decimal sumLoss = 0;
