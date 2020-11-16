@@ -24,20 +24,20 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 WmaResult result = new WmaResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     decimal wma = 0;
-                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote d = historyList[p];
-                        wma += d.Close * (lookbackPeriod - (decimal)(h.Index - d.Index)) / divisor;
+                        wma += d.Close * (lookbackPeriod - (decimal)(index - p - 1)) / divisor;
                     }
 
                     result.Wma = wma;
