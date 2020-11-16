@@ -53,7 +53,7 @@ namespace Skender.Stock.Indicators
                     r.LowerBand = periodAvg - standardDeviations * stdDev;
 
                     r.PercentB = (r.UpperBand == r.LowerBand) ? null 
-                        : h.Close - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                        : (h.Close - r.LowerBand) / (r.UpperBand - r.LowerBand);
                     
                     r.ZScore = (stdDev == 0) ? null : (h.Close - r.Sma) / stdDev;
                     r.Width = (r.Sma == 0) ? null : (r.UpperBand - r.LowerBand) / r.Sma;
