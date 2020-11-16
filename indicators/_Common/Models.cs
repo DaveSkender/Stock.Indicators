@@ -17,7 +17,6 @@ namespace Skender.Stock.Indicators
     [Serializable]
     public class ResultBase
     {
-        internal int Index { get; set; }
         public DateTime Date { get; set; }
     }
 

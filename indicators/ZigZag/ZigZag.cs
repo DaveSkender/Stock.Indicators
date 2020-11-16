@@ -44,7 +44,7 @@ namespace Skender.Stock.Indicators
                 PointType = "L"
             };
 
-            int finalPointIndex = historyList.Select(x => (int)x.Index).Max();
+            int finalPointIndex = historyList.Count;
 
             // roll through history until to find initial trend
             for (int i = 0; i < historyList.Count; i++)
@@ -75,7 +75,6 @@ namespace Skender.Stock.Indicators
             // add first point to results
             ZigZagResult firstResult = new ZigZagResult
             {
-                Index = (int)firstQuote.Index,
                 Date = firstQuote.Date
             };
             results.Add(firstResult);
@@ -103,7 +102,6 @@ namespace Skender.Stock.Indicators
             // initialize 
             bool trendUp = (lastPoint.PointType == "L");
             decimal change = 0;
-            ZigZagEval eval = new ZigZagEval();
 
             ZigZagPoint extremePoint = new ZigZagPoint
             {
@@ -112,14 +110,11 @@ namespace Skender.Stock.Indicators
                 PointType = trendUp ? "H" : "L"
             };
 
-            List<Quote> period = historyList
-                .Where(x => x.Index > lastPoint.Index)
-                .ToList();
-
             // find extreme point before reversal point
-            foreach (Quote h in period)
+            for (int i = lastPoint.Index; i < historyList.Count; i++)
             {
-                eval = GetZigZagEval(type, h);
+                Quote h = historyList[i];
+                ZigZagEval eval = GetZigZagEval(type, h);
 
                 // reset extreme point
                 switch (trendUp)
@@ -161,7 +156,7 @@ namespace Skender.Stock.Indicators
             }
 
             // handle last unconfirmed point
-            int finalPointIndex = historyList.Select(x => (int)x.Index).Max();
+            int finalPointIndex = historyList.Count;
             if (extremePoint.Index == finalPointIndex && change < changeThreshold)
             {
                 extremePoint.PointType = null;
@@ -174,26 +169,21 @@ namespace Skender.Stock.Indicators
         private static void DrawZigZagLine(List<ZigZagResult> results, List<Quote> historyList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint)
         {
-            // initialize
-            List<ZigZagResult> newResults = new List<ZigZagResult>();
-
-            List<Quote> period = historyList
-                .Where(x => x.Index > lastPoint.Index && x.Index <= nextPoint.Index)
-                .ToList();
 
             decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
 
             // add new line segment
-            foreach (Quote h in period)
+            for (int i = lastPoint.Index; i < nextPoint.Index; i++)
             {
+                Quote h = historyList[i];
+                int index = i + 1;
 
                 ZigZagResult result = new ZigZagResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
-                    ZigZag = (lastPoint.Index != 1 || h.Index == nextPoint.Index) ?
-                        lastPoint.Value + increment * (h.Index - lastPoint.Index) : null,
-                    PointType = ((int)h.Index == nextPoint.Index) ? nextPoint.PointType : null
+                    ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
+                        lastPoint.Value + increment * (index - lastPoint.Index) : null,
+                    PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
                 };
 
                 results.Add(result);
@@ -237,22 +227,22 @@ namespace Skender.Stock.Indicators
             }
 
             // narrow to period
-            List<ZigZagResult> period = results
-                .Where(x => x.Index >= priorPoint.Index && x.Index <= nextPoint.Index)
-                .ToList();
-
             decimal increment = (nextPoint.Value - priorPoint.Value) / (nextPoint.Index - priorPoint.Index);
 
             // add new line segment
-            foreach (ZigZagResult r in period)
+            //foreach (ZigZagResult r in period)
+            for (int i = priorPoint.Index - 1; i < nextPoint.Index; i++)
             {
+                ZigZagResult r = results[i];
+                int index = i + 1;
+
                 if (isHighLine)
                 {
-                    r.RetraceHigh = priorPoint.Value + increment * (r.Index - priorPoint.Index);
+                    r.RetraceHigh = priorPoint.Value + increment * (index - priorPoint.Index);
                 }
                 else
                 {
-                    r.RetraceLow = priorPoint.Value + increment * (r.Index - priorPoint.Index);
+                    r.RetraceLow = priorPoint.Value + increment * (index - priorPoint.Index);
                 }
             }
         }
