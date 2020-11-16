@@ -13,23 +13,23 @@ namespace Internal.Tests
         [TestMethod()]
         public void GetUltimateTest()
         {
-            IEnumerable<UltimateResult> results = Indicator.GetUltimate(history, 7, 14, 28);
+            List<UltimateResult> results = Indicator.GetUltimate(history, 7, 14, 28).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(474, results.Where(x => x.Ultimate != null).Count());
 
             // sample values
-            UltimateResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            UltimateResult r1 = results[501];
             Assert.AreEqual(49.5257m, Math.Round((decimal)r1.Ultimate, 4));
 
-            UltimateResult r2 = results.Where(x => x.Index == 250).FirstOrDefault();
+            UltimateResult r2 = results[249];
             Assert.AreEqual(45.3121m, Math.Round((decimal)r2.Ultimate, 4));
 
-            UltimateResult r3 = results.Where(x => x.Index == 75).FirstOrDefault();
+            UltimateResult r3 = results[74];
             Assert.AreEqual(51.7770m, Math.Round((decimal)r3.Ultimate, 4));
 
         }
