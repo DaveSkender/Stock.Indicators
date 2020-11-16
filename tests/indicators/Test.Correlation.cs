@@ -14,17 +14,19 @@ namespace Internal.Tests
         public void GetCorrelationTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<CorrResult> results = Indicator.GetCorrelation(history, historyOther, lookbackPeriod);
+            List<CorrResult> results =
+                Indicator.GetCorrelation(history, historyOther, lookbackPeriod)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Correlation != null).Count());
 
             // sample value
-            CorrResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            CorrResult r = results[501];
             Assert.AreEqual(0.8460m, Math.Round((decimal)r.Correlation, 4));
             Assert.AreEqual(0.7157m, Math.Round((decimal)r.RSquared, 4));
         }

@@ -26,6 +26,7 @@ namespace Skender.Stock.Indicators
             {
                 Quote a = historyListA[i];
                 Quote b = historyListB[i];
+                int index = i + 1;
 
                 if (a.Date != b.Date)
                 {
@@ -35,12 +36,11 @@ namespace Skender.Stock.Indicators
 
                 CorrResult r = new CorrResult
                 {
-                    Index = (int)a.Index,
                     Date = a.Date
                 };
 
                 // compute correlation
-                if (i + 1 >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     decimal sumPriceA = 0m;
                     decimal sumPriceB = 0m;
@@ -48,7 +48,7 @@ namespace Skender.Stock.Indicators
                     decimal sumPriceB2 = 0m;
                     decimal sumPriceAB = 0m;
 
-                    for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote qa = historyListA[p];
                         Quote qb = historyListB[p];
