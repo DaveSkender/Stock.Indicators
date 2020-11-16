@@ -15,17 +15,17 @@ namespace Internal.Tests
         {
             int lookbackPeriod = 14;
 
-            IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod);
+            List<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.UI != null).Count());
 
             // sample value
-            UlcerIndexResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            UlcerIndexResult r = results[501];
             Assert.AreEqual(5.7255m, Math.Round((decimal)r.UI, 4));
         }
 
