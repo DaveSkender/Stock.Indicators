@@ -14,17 +14,17 @@ namespace Internal.Tests
         public void GetSmaTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod, true);
+            List<SmaResult> results = Indicator.GetSma(history, lookbackPeriod, true).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Sma != null).Count());
 
             // sample value
-            SmaResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            SmaResult r = results[501];
             Assert.AreEqual(251.86m, r.Sma);
             Assert.AreEqual(9.45m, r.Mad);
             Assert.AreEqual(119.2510m, Math.Round((decimal)r.Mse, 4));

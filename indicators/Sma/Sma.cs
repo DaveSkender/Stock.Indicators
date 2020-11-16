@@ -24,17 +24,17 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 SmaResult result = new SmaResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     decimal sumSma = 0m;
-                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote d = historyList[p];
                         sumSma += d.Close;
@@ -49,7 +49,7 @@ namespace Skender.Stock.Indicators
                         decimal sumMse = 0m;
                         decimal sumMape = 0m;
 
-                        for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                        for (int p = index - lookbackPeriod; p < index; p++)
                         {
                             Quote d = historyList[p];
                             sumMad += Math.Abs(d.Close - (decimal)result.Sma);
