@@ -26,15 +26,15 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 ChandelierResult result = new ChandelierResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
                 // add exit values
-                if (h.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
 
                     decimal atr = (decimal)atrResult[i].Atr;
@@ -44,7 +44,7 @@ namespace Skender.Stock.Indicators
                         case ChandelierType.Long:
 
                             decimal maxHigh = 0;
-                            for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                            for (int p = index - lookbackPeriod; p < index; p++)
                             {
                                 Quote d = historyList[p];
                                 if (d.High > maxHigh)
@@ -59,7 +59,7 @@ namespace Skender.Stock.Indicators
                         case ChandelierType.Short:
 
                             decimal minLow = decimal.MaxValue;
-                            for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                            for (int p = index - lookbackPeriod; p < index; p++)
                             {
                                 Quote d = historyList[p];
                                 if (d.Low < minLow)
