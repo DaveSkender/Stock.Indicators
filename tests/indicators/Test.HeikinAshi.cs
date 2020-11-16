@@ -14,15 +14,15 @@ namespace Internal.Tests
         public void GetHeikinAshiTest()
         {
 
-            IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);
+            List<HeikinAshiResult> results = Indicator.GetHeikinAshi(history).ToList();
 
             // assertions
 
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
 
             // sample value
-            HeikinAshiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            HeikinAshiResult r = results[501];
             Assert.AreEqual(241.3018m, Math.Round(r.Open, 4));
             Assert.AreEqual(245.54m, Math.Round(r.High, 4));
             Assert.AreEqual(241.3018m, Math.Round(r.Low, 4));
