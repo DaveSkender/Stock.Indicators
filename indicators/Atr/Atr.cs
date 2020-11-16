@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
 
             // validate parameters
             ValidateAtr(history, lookbackPeriod);
@@ -25,16 +25,17 @@ namespace Skender.Stock.Indicators
             decimal sumTr = 0;
 
             // roll through history
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+                int index = i + 1;
 
                 AtrResult result = new AtrResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index > 1)
+                if (index > 1)
                 {
                     highMinusPrevClose = Math.Abs(h.High - prevClose);
                     lowMinusPrevClose = Math.Abs(h.Low - prevClose);
@@ -43,14 +44,14 @@ namespace Skender.Stock.Indicators
                 decimal tr = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
                 result.Tr = tr;
 
-                if (h.Index > lookbackPeriod)
+                if (index > lookbackPeriod)
                 {
                     // calculate ATR
                     result.Atr = (prevAtr * (lookbackPeriod - 1) + tr) / lookbackPeriod;
                     result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
-                else if (h.Index == lookbackPeriod)
+                else if (index == lookbackPeriod)
                 {
                     // initialize ATR
                     sumTr += tr;
