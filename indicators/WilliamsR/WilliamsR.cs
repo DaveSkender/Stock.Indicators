@@ -20,7 +20,6 @@ namespace Skender.Stock.Indicators
             return GetStoch(history, lookbackPeriod, 1, 1) // fast variant
                 .Select(s => new WilliamsResult
                 {
-                    Index = s.Index,
                     Date = s.Date,
                     WilliamsR = s.Oscillator - 100
                 })
