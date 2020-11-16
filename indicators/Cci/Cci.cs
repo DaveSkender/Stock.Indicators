@@ -24,20 +24,20 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 CciResult result = new CciResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     Tp = (h.High + h.Low + h.Close) / 3
                 };
                 results.Add(result);
 
-                if (h.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     // average TP over lookback
                     decimal avgTp = 0;
-                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         CciResult d = results[p];
                         avgTp += (decimal)d.Tp;
@@ -46,7 +46,7 @@ namespace Skender.Stock.Indicators
 
                     // average Deviation over lookback
                     decimal avgDv = 0;
-                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         CciResult d = results[p];
                         avgDv += Math.Abs(avgTp - (decimal)d.Tp);

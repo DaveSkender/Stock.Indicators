@@ -15,17 +15,17 @@ namespace Internal.Tests
         {
             int lookbackPeriod = 20;
 
-            IEnumerable<CciResult> results = Indicator.GetCci(history, lookbackPeriod);
+            List<CciResult> results = Indicator.GetCci(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Cci != null).Count());
 
             // sample value
-            CciResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            CciResult r = results[501];
             Assert.AreEqual(-52.9946m, Math.Round((decimal)r.Cci, 4));
         }
 
