@@ -4,7 +4,7 @@
 - [Prerequisite data](#prerequisite-data)
 - [Example usage](#example-usage)
 - [About historical quotes](#quote)
-- [Pre-cleaning history](#cleaning-history)
+- [Validating history](#validating-history)
 - [Using derived classes](#using-derived-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Contributing guidelines](CONTRIBUTING.md)
@@ -59,7 +59,10 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 | `Close` | decimal | Close price
 | `Volume` | decimal | Volume
 
-See [Pre-cleaning History](#cleaning-history) section below if you want to pre-clean the history (optional).  You can also derive and extend classes (optional), see the [Using derived classes](#using-derived-classes) section below.
+More information:
+
+- See [Validating history](#validating-history) to learn about optional pre-validation your historical data with the `ValidateHistory` helper function.  The indicator methods will re-sort your historical quotes, but it will not check for duplicates and other bad data.  This function will do that, but it is optional as it can impede performance if used in higher frequency applications.
+- See [Using derived classes](#using-derived-classes) to learn how you can extend these classes.
 
 ### Where can I get historical quote data?
 
@@ -73,18 +76,16 @@ Note that some indicators, especially those that are derived from [Exponential M
 
 For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of total historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.
 
-## Cleaning history
+## Validating history
 
-Historical quotes are automatically cleaned on every call to the library.  This is needed to do minimal basic data quality checks and to ensure that it is sequenced properly.  **You do not need to pre-clean your historical quotes**; however, there are some scenarios where it may be advantageous.  While the library is quite fast, there is a very small performance cost to cleaning that can add up if you are doing massive bulk operations on a given static `history`, such as computing every indicator or every possible permutation of an indicator.
-
-If you intend to use the same composed `IEnumerable<Quote> history` in multiple calls and want to optimize speed, we recommend you pre-clean it so that it does not perform that operation on every call to the library.  If you pre-clean, the provided `history` will be used as-is without re-cleaning.
+Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want to do a more advanced check of your `IEnumerable<Quote> history` (historical quotes) you can validate it with the helper cleaner, to check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically include it.
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
-// pre-clean
-history = Cleaners.PrepareHistory(history);
+// advanced cleaning
+List<Quote> validatedHistory = Cleaners.ValidateHistory(history);
 ```
 
 ## Using derived classes

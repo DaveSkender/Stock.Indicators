@@ -28,7 +28,7 @@ namespace External.Tests
         public void CleanHistory()
         {
             IEnumerable<Quote> history = History.GetHistory();
-            history = Cleaners.PrepareHistory(history);
+            history = Cleaners.ValidateHistory(history);
 
             Indicator.GetSma(history, 5);
         }
@@ -37,7 +37,7 @@ namespace External.Tests
         public void ReadQuoteClass()
         {
             IEnumerable<Quote> history = History.GetHistory();
-            List<Quote> h = Cleaners.PrepareHistory(history);
+            List<Quote> h = Cleaners.ValidateHistory(history);
 
             Quote f = h.FirstOrDefault();
             Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);
@@ -60,7 +60,7 @@ namespace External.Tests
         public void DerivedQuoteClassLinq()
         {
             IEnumerable<Quote> history = History.GetHistory();
-            history = Cleaners.PrepareHistory(history);
+            history = Cleaners.ValidateHistory(history);
 
             // can use a derive Quote class using Linq
 

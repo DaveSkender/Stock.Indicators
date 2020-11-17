@@ -44,9 +44,9 @@ namespace Tests.Performance
         }
 
         [Benchmark]
-        public static object PrepareHistory()
+        public static object ValidateHistory()
         {
-            return Cleaners.PrepareHistory(h);
+            return Cleaners.ValidateHistory(h);
         }
 
         [Benchmark]

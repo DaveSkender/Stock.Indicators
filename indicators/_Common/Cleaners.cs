@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
     {
         private static readonly CultureInfo nativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-        public static List<Quote> PrepareHistory(IEnumerable<Quote> history)
+        public static List<Quote> ValidateHistory(IEnumerable<Quote> history)
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 

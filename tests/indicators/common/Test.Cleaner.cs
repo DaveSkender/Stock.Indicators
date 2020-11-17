@@ -11,12 +11,12 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void PrepareHistoryTest()
+        public void ValidateHistoryTest()
         {
             IEnumerable<Quote> history = History.GetHistory();
 
             // clean
-            List<Quote> h = Cleaners.PrepareHistory(history);
+            List<Quote> h = Cleaners.ValidateHistory(history);
 
             // assertions
 
@@ -34,11 +34,11 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void PrepareLongHistoryTest()
+        public void ValidateLongHistoryTest()
         {
             IEnumerable<Quote> historyLong = History.GetHistoryLong();
 
-            List<Quote> h = Cleaners.PrepareHistory(historyLong);
+            List<Quote> h = Cleaners.ValidateHistory(historyLong);
 
             // assertions
 
@@ -57,7 +57,7 @@ namespace Internal.Tests
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
             IEnumerable<Quote> history = History.GetHistory(200);
-            List<Quote> h = Cleaners.PrepareHistory(history);
+            List<Quote> h = Cleaners.ValidateHistory(history);
 
             // assertions
 
@@ -156,7 +156,7 @@ namespace Internal.Tests
         public void NoHistory()
         {
             List<Quote> badHistory = new List<Quote>();
-            Cleaners.PrepareHistory(badHistory);
+            Cleaners.ValidateHistory(badHistory);
         }
 
         [TestMethod()]
@@ -172,7 +172,7 @@ namespace Internal.Tests
             new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open=228.97m, High=231.92m, Low=228.00m, Close=231.28m, Volume = 3979484 }
             };
 
-            Cleaners.PrepareHistory(badHistory);
+            Cleaners.ValidateHistory(badHistory);
         }
 
 
