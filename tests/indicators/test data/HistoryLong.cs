@@ -9,6 +9,7 @@ namespace Internal.Tests
 
     internal partial class History
     {
+        // note: declarations in primary History file
 
         internal static IEnumerable<Quote> GetHistoryLong(int days = 5285)
         {
