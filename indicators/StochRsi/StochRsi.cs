@@ -11,9 +11,6 @@ namespace Skender.Stock.Indicators
             int rsiPeriod, int stochPeriod, int signalPeriod, int smoothPeriod = 1)
         {
 
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
-
             // validate parameters
             ValidateStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
 

@@ -50,7 +50,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetVolSma(history.Where(x => x.Index < 10), 10);
+            IEnumerable<Quote> h = History.GetHistory(9);
+            Indicator.GetVolSma(h, 10);
         }
     }
 }

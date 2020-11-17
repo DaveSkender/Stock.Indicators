@@ -74,14 +74,16 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history 100.")]
         public void InsufficientHistory100()
         {
-            Indicator.GetKeltner(history.Where(x => x.Index < 120), 20, 2, 10);
+            IEnumerable<Quote> h = History.GetHistory(119);
+            Indicator.GetKeltner(h, 20, 2, 10);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history 250.")]
         public void InsufficientHistory250()
         {
-            Indicator.GetKeltner(history.Where(x => x.Index < 500), 20, 2, 250);
+            IEnumerable<Quote> h = History.GetHistory(499);
+            Indicator.GetKeltner(h, 20, 2, 250);
         }
 
     }

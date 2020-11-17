@@ -53,14 +53,16 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for S+100.")]
         public void InsufficientHistory100()
         {
-            Indicator.GetChaikinOsc(history.Where(x => x.Index < 110), 3, 10);
+            IEnumerable<Quote> h = History.GetHistory(109);
+            Indicator.GetChaikinOsc(h, 3, 10);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2×S.")]
         public void InsufficientHistory250()
         {
-            Indicator.GetChaikinOsc(history.Where(x => x.Index < 500), 3, 250);
+            IEnumerable<Quote> h = History.GetHistory(499);
+            Indicator.GetChaikinOsc(h, 3, 250);
         }
 
     }

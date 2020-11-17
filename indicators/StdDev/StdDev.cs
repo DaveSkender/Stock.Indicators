@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -12,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert to basic data
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcStdDev(bd, lookbackPeriod, smaPeriod);
@@ -20,13 +19,11 @@ namespace Skender.Stock.Indicators
 
 
         private static IEnumerable<StdDevResult> CalcStdDev(
-            IEnumerable<BasicData> basicData, int lookbackPeriod, int? smaPeriod = null)
+            List<BasicData> bdList, int lookbackPeriod, int? smaPeriod = null)
         {
-            // clean data
-            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData);
 
             // validate inputs
-            ValidateStdDev(basicData, lookbackPeriod, smaPeriod);
+            ValidateStdDev(bdList, lookbackPeriod, smaPeriod);
 
             // initialize results
             List<StdDevResult> results = new List<StdDevResult>();
@@ -81,7 +78,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStdDev(IEnumerable<BasicData> history, int lookbackPeriod, int? smaPeriod)
+        private static void ValidateStdDev(List<BasicData> history, int lookbackPeriod, int? smaPeriod)
         {
 
             // check parameters
@@ -98,7 +95,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = history.Count;
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {

@@ -55,7 +55,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for 3*N+100.")]
         public void InsufficientHistoryA()
         {
-            Indicator.GetTrix(history.Where(x => x.Index < 190), 30);
+            IEnumerable<Quote> h = History.GetHistory(189);
+            Indicator.GetTrix(h, 30);
         }
 
         [TestMethod()]

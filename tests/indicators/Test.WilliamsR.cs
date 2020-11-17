@@ -45,7 +45,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetWilliamsR(history.Where(x => x.Index < 30), 30);
+            IEnumerable<Quote> h = History.GetHistory(29);
+            Indicator.GetWilliamsR(h, 30);
         }
 
     }

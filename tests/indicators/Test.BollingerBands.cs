@@ -72,7 +72,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetBollingerBands(history.Where(x => x.Index < 30), 30, 2);
+            IEnumerable<Quote> h = History.GetHistory(29);
+            Indicator.GetBollingerBands(h, 30, 2);
         }
 
     }

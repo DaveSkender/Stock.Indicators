@@ -11,30 +11,17 @@ namespace Skender.Stock.Indicators
     {
         private static readonly CultureInfo nativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-
         public static List<Quote> PrepareHistory(IEnumerable<Quote> history)
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            List<Quote> historyList = history?.OrderBy(x => x.Date).ToList();
+            List<Quote> historyList = history.Sort();
 
-            if (historyList == null || historyList.Count == 0)
-            {
-                throw new BadHistoryException(nameof(history), "No historical quotes provided.");
-            }
-
-            // return if already processed (no missing indexes)
-            if (!historyList.Any(x => x.Index == null))
-            {
-                return historyList;
-            }
-
-            // add index and check for errors
+            // check for duplicates
             DateTime lastDate = DateTime.MinValue;
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
-                h.Index = i + 1;
 
                 if (lastDate == h.Date)
                 {
@@ -48,78 +35,42 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-
-        public static IEnumerable<Quote> RemoveIndex(this IEnumerable<Quote> history)
+        internal static List<Quote> Sort(this IEnumerable<Quote> history)
         {
+            List<Quote> historyList = history.OrderBy(x => x.Date).ToList();
+
             // validate
-            if (history == null)
+            if (historyList == null || historyList.Count == 0)
             {
-                return history;
+                throw new BadHistoryException(nameof(history), "No historical quotes provided.");
             }
 
-            // reset the internal index
-            foreach (Quote h in history)
-            {
-                h.Index = null;
-            }
-
-            return history;
+            return historyList;
         }
 
-
-        internal static List<BasicData> PrepareBasicData(IEnumerable<BasicData> history)
+        internal static List<BasicData> ConvertHistoryToBasic(IEnumerable<Quote> history, string element = "C")
         {
-            // we cannot rely on date consistency when looking back, so we add an index and sort
+            // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
+            // convert to basic data format
+            IEnumerable<BasicData> basicData = element switch
+            {
+                "O" => history.Select(x => new BasicData { Date = x.Date, Value = x.Open }),
+                "H" => history.Select(x => new BasicData { Date = x.Date, Value = x.High }),
+                "L" => history.Select(x => new BasicData { Date = x.Date, Value = x.Low }),
+                "C" => history.Select(x => new BasicData { Date = x.Date, Value = x.Close }),
+                "V" => history.Select(x => new BasicData { Date = x.Date, Value = x.Volume }),
+                _ => new List<BasicData>(),
+            };
 
-            List<BasicData> bdList = history?.OrderBy(x => x.Date).ToList();
+            List<BasicData> bdList = basicData.OrderBy(x => x.Date).ToList();
 
+            // validate
             if (bdList == null || bdList.Count == 0)
             {
                 throw new BadHistoryException(nameof(history), "No historical quotes provided.");
             }
 
-            // return if already processed (no missing indexes)
-            if (!bdList.Any(x => x.Index == null))
-            {
-                return bdList;
-            }
-
-            // add index and check for errors
-            DateTime lastDate = DateTime.MinValue;
-            for (int i = 0; i < bdList.Count; i++)
-            {
-                BasicData d = bdList[i];
-                d.Index = i + 1;
-
-                if (lastDate == d.Date)
-                {
-                    throw new BadHistoryException(
-                        string.Format(nativeCulture, "Duplicate date found on {0}.", d.Date));
-                }
-
-                lastDate = d.Date;
-            }
-
             return bdList;
-        }
-
-
-        internal static List<BasicData> ConvertHistoryToBasic(IEnumerable<Quote> history, string element = "C")
-        {
-            // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
-
-            // convert to basic data format
-            IEnumerable<BasicData> basicData = element switch
-            {
-                "O" => history.Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Open }),
-                "H" => history.Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.High }),
-                "L" => history.Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Low }),
-                "C" => history.Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Close }),
-                "V" => history.Select(x => new BasicData { Index = x.Index, Date = x.Date, Value = x.Volume }),
-                _ => new List<BasicData>(),
-            };
-
-            return PrepareBasicData(basicData);
         }
     }
 }

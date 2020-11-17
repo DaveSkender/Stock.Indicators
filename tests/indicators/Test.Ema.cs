@@ -48,14 +48,16 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for N+100.")]
         public void InsufficientHistoryA()
         {
-            Indicator.GetEma(history.Where(x => x.Index < 130), 30);
+            IEnumerable<Quote> h = History.GetHistory(129);
+            Indicator.GetEma(h, 30);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2×N.")]
         public void InsufficientHistoryB()
         {
-            Indicator.GetEma(history.Where(x => x.Index < 500), 250);
+            IEnumerable<Quote> h = History.GetHistory(499);
+            Indicator.GetEma(h, 250);
         }
 
     }

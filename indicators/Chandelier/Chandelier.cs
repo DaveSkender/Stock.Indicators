@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // validate inputs
             ValidateChandelier(history, lookbackPeriod, multiplier);

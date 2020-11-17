@@ -44,14 +44,17 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetCorrelation(history.Where(x => x.Index < 30), historyOther.Where(x => x.Index < 30), 30);
+            IEnumerable<Quote> h1 = History.GetHistory(29);
+            IEnumerable<Quote> h2 = History.GetHistoryOther(29);
+            Indicator.GetCorrelation(h1, h2, 30);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Not enought Eval history.")]
         public void InsufficientEvalHistory()
         {
-            Indicator.GetCorrelation(history, historyOther.Where(x => x.Index <= 300), 30);
+            IEnumerable<Quote> h = History.GetHistory(300);
+            Indicator.GetCorrelation(history, h, 30);
         }
 
         [TestMethod()]

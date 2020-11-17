@@ -10,9 +10,6 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<WilliamsResult> GetWilliamsR(IEnumerable<Quote> history, int lookbackPeriod = 14)
         {
 
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
-
             // validate parameters
             ValidateWilliam(history, lookbackPeriod);
 

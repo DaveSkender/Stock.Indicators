@@ -76,7 +76,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetIchimoku(history.Where(x => x.Index < 52), 9, 26, 52);
+            IEnumerable<Quote> h = History.GetHistory(51);
+            Indicator.GetIchimoku(h, 9, 26, 52);
         }
     }
 }

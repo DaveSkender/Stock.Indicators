@@ -36,18 +36,23 @@ namespace Tests.Performance
     public class MarkCleaners
     {
         private static readonly IEnumerable<Quote> h = History.GetHistory();
-        private static readonly IEnumerable<BasicData> b = Cleaners.ConvertHistoryToBasic(h);
 
         [Benchmark]
-        public object PrepareHistory()
+        public static object SortHistory()
+        {
+            return h.Sort();
+        }
+
+        [Benchmark]
+        public static object PrepareHistory()
         {
             return Cleaners.PrepareHistory(h);
         }
 
         [Benchmark]
-        public object PrepareBasicData()
+        public static object ConvertToBasicData()
         {
-            return Cleaners.PrepareBasicData(b);
+            return Cleaners.ConvertHistoryToBasic(h);
         }
 
     }

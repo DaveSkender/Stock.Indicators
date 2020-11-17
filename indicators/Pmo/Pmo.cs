@@ -14,9 +14,6 @@ namespace Skender.Stock.Indicators
             int signalPeriod = 10)
         {
 
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
-
             // check parameters
             ValidatePmo(history, timePeriod, smoothingPeriod, signalPeriod);
 

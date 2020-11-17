@@ -122,7 +122,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetStoch(history.Where(x => x.Index < 33), 30, 3, 3);
+            IEnumerable<Quote> h = History.GetHistory(32);
+            Indicator.GetStoch(h, 30, 3, 3);
         }
 
     }

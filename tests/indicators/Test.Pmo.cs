@@ -62,7 +62,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetPmo(history.Where(x => x.Index < 55), 35, 20, 10);
+            IEnumerable<Quote> h = History.GetHistory(54);
+            Indicator.GetPmo(h, 35, 20, 10);
         }
     }
 }

@@ -69,7 +69,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetParabolicSar(history.Where(x => x.Index < 2), (decimal)0.02, (decimal)0.2);
+            IEnumerable<Quote> h = History.GetHistory(1);
+            Indicator.GetParabolicSar(h, (decimal)0.02, (decimal)0.2);
         }
 
     }

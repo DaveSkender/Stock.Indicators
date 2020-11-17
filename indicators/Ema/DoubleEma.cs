@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // validate parameters
             ValidateDema(bd, lookbackPeriod);

@@ -62,7 +62,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetChandelier(history.Where(x => x.Index <= 30), 30);
+            IEnumerable<Quote> h = History.GetHistory(30);
+            Indicator.GetChandelier(h, 30);
         }
 
     }

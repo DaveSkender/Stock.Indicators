@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes and initialize results
-            List<VolSmaResult> results = Cleaners.PrepareHistory(history)
+            List<VolSmaResult> results = history.Sort()
                 .Select(x => new VolSmaResult
                 {
                     Date = x.Date,

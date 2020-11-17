@@ -6,15 +6,12 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // SIMPLE MOVING AVERAGE
+        // CHAIKIN OSCILLATOR
         public static IEnumerable<ChaikinOscResult> GetChaikinOsc(
             IEnumerable<Quote> history,
             int fastPeriod = 3,
             int slowPeriod = 10)
         {
-
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
 
             // check parameters
             ValidateChaikinOsc(history, fastPeriod, slowPeriod);
@@ -31,8 +28,9 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // EMA of ADL
-            IEnumerable<BasicData> adlBasicData = results
-                .Select(x => new BasicData { Date = x.Date, Value = x.Adl });
+            List<BasicData> adlBasicData = results
+                .Select(x => new BasicData { Date = x.Date, Value = x.Adl })
+                .ToList();
 
             List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod).ToList();
             List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod).ToList();

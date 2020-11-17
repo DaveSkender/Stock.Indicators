@@ -66,14 +66,16 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetPrs(history, historyOther.Where(x => x.Index < 14), 14);
+            IEnumerable<Quote> h = History.GetHistoryOther(13);
+            Indicator.GetPrs(history, h, 14);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Not enought Eval history.")]
         public void InsufficientEvalHistory()
         {
-            Indicator.GetPrs(history, historyOther.Where(x => x.Index <= 300), 14);
+            IEnumerable<Quote> h = History.GetHistoryOther(300);
+            Indicator.GetPrs(history, h, 14);
         }
 
         [TestMethod()]

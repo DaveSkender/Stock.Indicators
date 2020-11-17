@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<SlopeResult> GetSlope(IEnumerable<Quote> history, int lookbackPeriod)
         {
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // validate parameters
             ValidateSlope(history, lookbackPeriod);

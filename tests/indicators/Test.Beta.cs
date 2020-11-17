@@ -62,14 +62,17 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetBeta(history.Where(x => x.Index < 30), historyOther.Where(x => x.Index < 30), 30);
+            IEnumerable<Quote> h1 = History.GetHistory(29);
+            IEnumerable<Quote> h2 = History.GetHistoryOther(29);
+            Indicator.GetBeta(h1, h2, 30);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Not enought Eval history.")]
         public void InsufficientEvalHistory()
         {
-            Indicator.GetBeta(history, historyOther.Where(x => x.Index <= 300), 30);
+            IEnumerable<Quote> h = History.GetHistoryOther(300);
+            Indicator.GetBeta(history, h, 30);
         }
 
     }

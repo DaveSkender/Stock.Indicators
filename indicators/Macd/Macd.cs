@@ -11,13 +11,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateMacd(history, fastPeriod, slowPeriod, signalPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<EmaResult> emaFast = GetEma(history, fastPeriod).ToList();
             List<EmaResult> emaSlow = GetEma(history, slowPeriod).ToList();
 

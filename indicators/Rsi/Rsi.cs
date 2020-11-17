@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -11,21 +10,18 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcRsi(bd, lookbackPeriod);
         }
 
 
-        private static IEnumerable<RsiResult> CalcRsi(IEnumerable<BasicData> basicData, int lookbackPeriod = 14)
+        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod = 14)
         {
 
-            // clean data
-            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData);
-
             // check parameters
-            ValidateRsi(basicData, lookbackPeriod);
+            ValidateRsi(bdList, lookbackPeriod);
 
             // initialize
             decimal lastValue = bdList[0].Value;
@@ -88,7 +84,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateRsi(IEnumerable<BasicData> history, int lookbackPeriod)
+        private static void ValidateRsi(List<BasicData> history, int lookbackPeriod)
         {
 
             // check parameters
@@ -99,7 +95,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = history.Count;
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {

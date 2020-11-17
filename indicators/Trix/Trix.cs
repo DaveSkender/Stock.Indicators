@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // validate parameters
             ValidateTrix(bd, lookbackPeriod);
@@ -25,14 +25,14 @@ namespace Skender.Stock.Indicators
 
             List<BasicData> bd2 = emaN1
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Ema })
+                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriod).ToList();
 
             List<BasicData> bd3 = emaN2
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Ema })
+                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriod).ToList();

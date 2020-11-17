@@ -136,7 +136,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetZigZag(history.Where(x => x.Index < 2));
+            IEnumerable<Quote> h = History.GetHistory(1);
+            Indicator.GetZigZag(h);
         }
     }
 }

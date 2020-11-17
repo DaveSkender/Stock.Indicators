@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -11,21 +10,18 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcEma(bd, lookbackPeriod);
         }
 
 
-        private static IEnumerable<EmaResult> CalcEma(IEnumerable<BasicData> basicData, int lookbackPeriod)
+        private static IEnumerable<EmaResult> CalcEma(List<BasicData> bdList, int lookbackPeriod)
         {
 
-            // clean quotes
-            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData);
-
             // validate parameters
-            ValidateEma(basicData, lookbackPeriod);
+            ValidateEma(bdList, lookbackPeriod);
 
             // initialize
             List<EmaResult> results = new List<EmaResult>();
@@ -68,7 +64,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateEma(IEnumerable<BasicData> history, int lookbackPeriod)
+        private static void ValidateEma(List<BasicData> history, int lookbackPeriod)
         {
 
             // check parameters
@@ -79,7 +75,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = history.Count;
             int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
             if (qtyHistory < minHistory)
             {

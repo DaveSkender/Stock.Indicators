@@ -53,7 +53,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetCmf(history.Where(x => x.Index <= 20), 20);
+            IEnumerable<Quote> h = History.GetHistory(20);
+            Indicator.GetCmf(h, 20);
         }
     }
 }

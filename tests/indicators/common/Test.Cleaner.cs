@@ -13,39 +13,23 @@ namespace Internal.Tests
         [TestMethod()]
         public void PrepareHistoryTest()
         {
-            IEnumerable<Quote> newHistory = History.GetHistory();
-
-            // confirm no-Index before cleaning
-            Assert.IsFalse(newHistory.Any(x => x.Index != null));
+            IEnumerable<Quote> history = History.GetHistory();
 
             // clean
-            IEnumerable<Quote> h = Cleaners.PrepareHistory(newHistory);
+            List<Quote> h = Cleaners.PrepareHistory(history);
 
             // assertions
 
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, h.Count());
+            Assert.AreEqual(502, h.Count);
 
-            // should always have index
-            Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
-
-            // last index should be 502
-            Quote r1 = h
-                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture))
-                .FirstOrDefault();
-
-            Assert.AreEqual(502, r1.Index);
+            // check last date
+            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(lastDate, h[501].Date);
 
             // spot check an out of sequence date
-            Quote r2 = h
-                .Where(x => x.Date == DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture))
-                .FirstOrDefault();
-
-            Assert.AreEqual(21, r2.Index);
-
-            // ensure expected List address
-            List<Quote> historyList = h.ToList();
-            Assert.AreEqual(502, historyList[501].Index);
+            DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(spotDate, h[20].Date);
         }
 
 
@@ -54,101 +38,80 @@ namespace Internal.Tests
         {
             IEnumerable<Quote> historyLong = History.GetHistoryLong();
 
-            IEnumerable<Quote> h = Cleaners.PrepareHistory(historyLong);
+            List<Quote> h = Cleaners.PrepareHistory(historyLong);
 
             // assertions
 
             // should always be the same number of results as there is history
-            Assert.AreEqual(5285, h.Count());
+            Assert.AreEqual(5285, h.Count);
 
-            // should always have index
-            Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
-
-            // last index should be 502
-            Quote r = historyLong
-                .Where(x => x.Date == DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", englishCulture))
-                .FirstOrDefault();
-
-            Assert.AreEqual(5285, r.Index);
+            // check last date
+            DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(lastDate, h[5284].Date);
         }
 
 
-        //[TestMethod()]
-        //public void CutHistoryTest()
-        //{
-        //    // TODO: remove internal Index, then restore this test
-        //    // if history post-cleaning, is cut down in size it should not corrupt the results
-
-        //    int i = 0;
-        //    IEnumerable<Quote> history = History.GetHistory(200);
-        //    IEnumerable<Quote> h = Cleaners.PrepareHistory(history);
-
-        //    // assertions
-
-        //    // should be 200 periods, initially
-        //    Assert.AreEqual(200, h.Count());
-
-        //    // should always have index
-        //    Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
-
-
-        //    // should be 20 results and no index corruption
-        //    IEnumerable<RsiResult> r1 = Indicator.GetRsi(h.TakeLast(20), 14);
-        //    Assert.AreEqual(20, r1.Count());
-
-        //    i = 1;
-        //    foreach (RsiResult x in r1)
-        //    {
-        //        Assert.AreEqual(i++, x.Index);
-        //    }
-
-        //    // should be 50 results and no index corruption
-        //    IEnumerable<RsiResult> r2 = Indicator.GetRsi(h.TakeLast(50), 14);
-        //    Assert.AreEqual(50, r2.Count());
-
-        //    i = 1;
-        //    foreach (RsiResult x in r2)
-        //    {
-        //        Assert.AreEqual(i++, x.Index);
-        //    }
-
-        //    // should be original 200 periods and no index corruption, after temp mods
-        //    Assert.AreEqual(200, h.Count());
-
-        //    i = 1;
-        //    foreach(Quote x in h)
-        //    {
-        //        Assert.AreEqual(i++, x.Index);
-        //    }
-        //}
-
-
         [TestMethod()]
-        public void RemoveHistoryTest()
+        public void CutHistoryTest()
         {
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
             IEnumerable<Quote> history = History.GetHistory(200);
-            IEnumerable<Quote> h = Cleaners.PrepareHistory(history);
+            List<Quote> h = Cleaners.PrepareHistory(history);
 
             // assertions
 
             // should be 200 periods, initially
-            Assert.AreEqual(200, h.Count());
+            Assert.AreEqual(200, h.Count);
 
-            // should always have index
-            Assert.IsFalse(h.Where(x => x.Index == null || x.Index <= 0).Any());
+            // should be 20 results and no index corruption
+            List<RsiResult> r1 = Indicator.GetRsi(h.TakeLast(20), 14).ToList();
+            Assert.AreEqual(20, r1.Count);
 
-            h.RemoveIndex();
+            for (int i = 1; i < r1.Count; i++)
+            {
+                Assert.IsTrue(r1[i].Date >= r1[i - 1].Date);
+            }
 
-            // should not have index after reset
-            Assert.IsFalse(h.Where(x => x.Index != null).Any());
+            // should be 50 results and no index corruption
+            List<RsiResult> r2 = Indicator.GetRsi(h.TakeLast(50), 14).ToList();
+            Assert.AreEqual(50, r2.Count);
 
-            // test for null handling
-            h = null;
-            h.RemoveIndex();
+            for (int i = 1; i < r2.Count; i++)
+            {
+                Assert.IsTrue(r2[i].Date >= r2[i - 1].Date);
+            }
 
-            Assert.AreEqual(null, h);
+            // should be original 200 periods and no index corruption, after temp mods
+            Assert.AreEqual(200, h.Count);
+
+            for (int i = 1; i < h.Count; i++)
+            {
+                Assert.IsTrue(h[i].Date >= h[i - 1].Date);
+            }
+        }
+
+
+        [TestMethod()]
+        public void SortHistoryTest()
+        {
+            IEnumerable<Quote> history = History.GetHistory();
+
+            // clean
+            List<Quote> h = history.Sort();
+
+            // assertions
+
+            // should always be the same number of results as there is history
+            Assert.AreEqual(502, h.Count);
+
+            // check last date
+            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(lastDate, h[501].Date);
+
+            // spot check an out of sequence date
+            DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(spotDate, h[20].Date);
         }
 
 
@@ -156,39 +119,27 @@ namespace Internal.Tests
         public void CleanBasicDataTest()
         {
             // compose basic data
-            IEnumerable<BasicData> o = Cleaners.ConvertHistoryToBasic(history, "O");
-            IEnumerable<BasicData> h = Cleaners.ConvertHistoryToBasic(history, "H");
-            IEnumerable<BasicData> l = Cleaners.ConvertHistoryToBasic(history, "L");
-            IEnumerable<BasicData> c = Cleaners.ConvertHistoryToBasic(history, "C");
-            IEnumerable<BasicData> v = Cleaners.ConvertHistoryToBasic(history, "V");
-
-            // remove index
-            foreach (BasicData x in c) { x.Index = null; }
-
-            // re-clean index
-            c = Cleaners.PrepareBasicData(c);
+            List<BasicData> o = Cleaners.ConvertHistoryToBasic(history, "O");
+            List<BasicData> h = Cleaners.ConvertHistoryToBasic(history, "H");
+            List<BasicData> l = Cleaners.ConvertHistoryToBasic(history, "L");
+            List<BasicData> c = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> v = Cleaners.ConvertHistoryToBasic(history, "V");
 
             // assertions
 
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, c.Count());
-
-            // should always have index
-            Assert.IsFalse(c.Where(x => x.Index == null || x.Index <= 0).Any());
+            Assert.AreEqual(502, c.Count);
 
             // samples
-            BasicData ro = o.Where(x => x.Index == 502).FirstOrDefault();
-            BasicData rh = h.Where(x => x.Index == 502).FirstOrDefault();
-            BasicData rl = l.Where(x => x.Index == 502).FirstOrDefault();
-            BasicData rv = v.Where(x => x.Index == 502).FirstOrDefault();
+            BasicData ro = o[501];
+            BasicData rh = h[501];
+            BasicData rl = l[501];
+            BasicData rc = c[501];
+            BasicData rv = v[501];
 
-            // use close as special case to evaluate index
-            BasicData rc = c
-                .Where(x => x.Date == DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture))
-                .FirstOrDefault();
-
-            // last index should be 502
-            Assert.AreEqual(502, rc.Index);
+            // proper last date
+            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(lastDate, rc.Date);
 
             // last values should be correct
             Assert.AreEqual(244.92m, ro.Value);
@@ -229,24 +180,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "No historical basic data.")]
         public void NoBasicData()
         {
-            List<BasicData> bd = new List<BasicData>();
-            Cleaners.PrepareBasicData(bd);
-        }
-
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Duplicate date found.")]
-        public void DuplicateBasicData()
-        {
-            List<BasicData> bd = new List<BasicData>
-            {
-            new BasicData { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Value=214.86m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Value=214.75m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Value=226.42m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Value=226.93m},
-            new BasicData { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Value=228.97m}
-            };
-
-            Cleaners.PrepareBasicData(bd);
+            List<Quote> h = new List<Quote>();
+            Cleaners.ConvertHistoryToBasic(h);
         }
 
         [TestMethod()]

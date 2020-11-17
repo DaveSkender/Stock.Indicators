@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateZigZag(history, percentChange);
@@ -25,21 +25,21 @@ namespace Skender.Stock.Indicators
 
             ZigZagPoint lastPoint = new ZigZagPoint
             {
-                Index = eval.Index,
+                Index = 1,
                 Value = firstQuote.Close,
                 PointType = "U"
             };
 
             ZigZagPoint lastHighPoint = new ZigZagPoint
             {
-                Index = eval.Index,
+                Index = 1,
                 Value = eval.High,
                 PointType = "H"
             };
 
             ZigZagPoint lastLowPoint = new ZigZagPoint
             {
-                Index = eval.Index,
+                Index = 1,
                 Value = eval.Low,
                 PointType = "L"
             };
@@ -102,6 +102,7 @@ namespace Skender.Stock.Indicators
             // initialize 
             bool trendUp = (lastPoint.PointType == "L");
             decimal change = 0;
+            ZigZagEval eval = new ZigZagEval();
 
             ZigZagPoint extremePoint = new ZigZagPoint
             {
@@ -114,7 +115,7 @@ namespace Skender.Stock.Indicators
             for (int i = lastPoint.Index; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
-                ZigZagEval eval = GetZigZagEval(type, h);
+                eval = GetZigZagEval(type, h);
 
                 // reset extreme point
                 switch (trendUp)
@@ -250,10 +251,7 @@ namespace Skender.Stock.Indicators
 
         private static ZigZagEval GetZigZagEval(ZigZagType type, Quote q)
         {
-            ZigZagEval eval = new ZigZagEval()
-            {
-                Index = (int)q.Index
-            };
+            ZigZagEval eval = new ZigZagEval();
 
             // consider `type`
             switch (type)

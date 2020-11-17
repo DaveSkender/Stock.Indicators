@@ -11,8 +11,8 @@ namespace Skender.Stock.Indicators
             IEnumerable<Quote> historyA, IEnumerable<Quote> historyB, int lookbackPeriod)
         {
             // clean quotes
-            List<Quote> historyListA = Cleaners.PrepareHistory(historyA).ToList();
-            List<Quote> historyListB = Cleaners.PrepareHistory(historyB).ToList();
+            List<Quote> historyListA = historyA.Sort();
+            List<Quote> historyListB = historyB.Sort();
 
             // validate parameters
             ValidateCorrelation(historyA, historyB, lookbackPeriod);

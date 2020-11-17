@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // validate parameters
             ValidateUlcer(history, lookbackPeriod);
@@ -36,9 +36,10 @@ namespace Skender.Stock.Indicators
                     for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote d = historyList[p];
+                        int dIndex = p + 1;
 
                         decimal maxClose = 0;
-                        for (int q = index - lookbackPeriod; q < d.Index; q++)
+                        for (int q = index - lookbackPeriod; q < dIndex; q++)
                         {
                             Quote dd = historyList[q];
                             if (dd.Close > maxClose)

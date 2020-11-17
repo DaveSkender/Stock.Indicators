@@ -48,7 +48,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2*N+100.")]
         public void InsufficientHistoryA()
         {
-            Indicator.GetDoubleEma(history.Where(x => x.Index < 160), 30);
+            IEnumerable<Quote> h = History.GetHistory(159);
+            Indicator.GetDoubleEma(h, 30);
         }
 
         [TestMethod()]

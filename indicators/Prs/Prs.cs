@@ -11,8 +11,8 @@ namespace Skender.Stock.Indicators
             IEnumerable<Quote> historyBase, IEnumerable<Quote> historyEval, int? lookbackPeriod = null, int? smaPeriod = null)
         {
             // clean quotes
-            List<Quote> historyBaseList = Cleaners.PrepareHistory(historyBase).ToList();
-            List<Quote> historyEvalList = Cleaners.PrepareHistory(historyEval).ToList();
+            List<Quote> historyBaseList = historyBase.Sort();
+            List<Quote> historyEvalList = historyEval.Sort();
 
             // validate parameters
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
