@@ -73,7 +73,7 @@ For example, if you are using daily data and want one year of precise EMA(250) d
 
 ## Validating history
 
-Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced checks on your `IEnumerable<Quote> history` (historical quotes) you can validate it with the helper function `ValidateHistory`.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically include it.
+Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<Quote> history` (historical quotes) you can validate it with the `ValidateHistory` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
