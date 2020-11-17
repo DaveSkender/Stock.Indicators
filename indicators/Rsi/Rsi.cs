@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -11,21 +10,18 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcRsi(bd, lookbackPeriod);
         }
 
 
-        private static IEnumerable<RsiResult> CalcRsi(IEnumerable<BasicData> basicData, int lookbackPeriod = 14)
+        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod = 14)
         {
 
-            // clean data
-            List<BasicData> bdList = Cleaners.PrepareBasicData(basicData).ToList();
-
             // check parameters
-            ValidateRsi(basicData, lookbackPeriod);
+            ValidateRsi(bdList, lookbackPeriod);
 
             // initialize
             decimal lastValue = bdList[0].Value;
@@ -37,10 +33,10 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData h = bdList[i];
+                int index = i + 1;
 
                 RsiResult r = new RsiResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     Gain = (h.Value > lastValue) ? h.Value - lastValue : 0,
                     Loss = (h.Value < lastValue) ? lastValue - h.Value : 0
@@ -49,7 +45,7 @@ namespace Skender.Stock.Indicators
                 lastValue = h.Value;
 
                 // calculate RSI
-                if (h.Index > lookbackPeriod + 1)
+                if (index > lookbackPeriod + 1)
                 {
                     avgGain = (avgGain * (lookbackPeriod - 1) + r.Gain) / lookbackPeriod;
                     avgLoss = (avgLoss * (lookbackPeriod - 1) + r.Loss) / lookbackPeriod;
@@ -66,7 +62,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // initialize average gain
-                else if (h.Index == lookbackPeriod + 1)
+                else if (index == lookbackPeriod + 1)
                 {
                     decimal sumGain = 0;
                     decimal sumLoss = 0;
@@ -88,7 +84,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateRsi(IEnumerable<BasicData> history, int lookbackPeriod)
+        private static void ValidateRsi(List<BasicData> history, int lookbackPeriod)
         {
 
             // check parameters
@@ -99,7 +95,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = history.Count;
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {

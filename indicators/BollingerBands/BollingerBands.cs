@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // validate parameters
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
@@ -24,20 +24,20 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 BollingerBandsResult r = new BollingerBandsResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     double[] periodClose = new double[lookbackPeriod];
                     decimal sum = 0m;
                     int n = 0;
 
-                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote d = historyList[p];
                         periodClose[n] = (double)d.Close;

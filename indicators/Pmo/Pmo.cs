@@ -14,9 +14,6 @@ namespace Skender.Stock.Indicators
             int signalPeriod = 10)
         {
 
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
-
             // check parameters
             ValidatePmo(history, timePeriod, smoothingPeriod, signalPeriod);
 
@@ -31,15 +28,16 @@ namespace Skender.Stock.Indicators
             for (int i = startIndex - 1; i < results.Count; i++)
             {
                 PmoResult pr = results[i];
+                int index = i + 1;
 
-                if (pr.Index > startIndex)
+                if (index > startIndex)
                 {
                     pr.Pmo = (pr.RocEma - lastPmo) * smoothingConstant + lastPmo;
                 }
-                else if (pr.Index == startIndex)
+                else if (index == startIndex)
                 {
                     decimal sumRocEma = 0;
-                    for (int p = pr.Index - smoothingPeriod; p < pr.Index; p++)
+                    for (int p = index - smoothingPeriod; p < index; p++)
                     {
                         PmoResult d = results[p];
                         sumRocEma += (decimal)d.RocEma;
@@ -70,21 +68,21 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < roc.Count; i++)
             {
                 RocResult r = roc[i];
+                int index = i + 1;
 
                 PmoResult result = new PmoResult
                 {
-                    Index = r.Index,
                     Date = r.Date
                 };
 
-                if (r.Index > startIndex)
+                if (index > startIndex)
                 {
                     result.RocEma = r.Roc * smoothingMultiplier + lastRocEma * (1 - smoothingMultiplier);
                 }
-                else if (r.Index == startIndex)
+                else if (index == startIndex)
                 {
                     decimal sumRoc = 0;
-                    for (int p = r.Index - timePeriod; p < r.Index; p++)
+                    for (int p = index - timePeriod; p < index; p++)
                     {
                         RocResult d = roc[p];
                         sumRoc += (decimal)d.Roc;
@@ -115,15 +113,16 @@ namespace Skender.Stock.Indicators
             for (int i = startIndex - 1; i < results.Count; i++)
             {
                 PmoResult pr = results[i];
+                int index = i + 1;
 
-                if (pr.Index > startIndex)
+                if (index > startIndex)
                 {
                     pr.Signal = (pr.Pmo - lastSignal) * signalConstant + lastSignal;
                 }
-                else if (pr.Index == startIndex)
+                else if (index == startIndex)
                 {
                     decimal sumPmo = 0;
-                    for (int p = pr.Index - signalPeriod; p < pr.Index; p++)
+                    for (int p = index - signalPeriod; p < index; p++)
                     {
                         PmoResult d = results[p];
                         sumPmo += (decimal)d.Pmo;

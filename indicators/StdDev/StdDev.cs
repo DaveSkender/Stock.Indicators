@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -12,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert to basic data
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcStdDev(bd, lookbackPeriod, smaPeriod);
@@ -20,35 +19,35 @@ namespace Skender.Stock.Indicators
 
 
         private static IEnumerable<StdDevResult> CalcStdDev(
-            IEnumerable<BasicData> basicData, int lookbackPeriod, int? smaPeriod = null)
+            List<BasicData> bdList, int lookbackPeriod, int? smaPeriod = null)
         {
-            // clean data
-            List<BasicData> basicDataList = Cleaners.PrepareBasicData(basicData).ToList();
 
             // validate inputs
-            ValidateStdDev(basicData, lookbackPeriod, smaPeriod);
+            ValidateStdDev(bdList, lookbackPeriod, smaPeriod);
 
             // initialize results
             List<StdDevResult> results = new List<StdDevResult>();
 
             // roll through history and compute lookback standard deviation
-            foreach (BasicData bd in basicDataList)
+            for (int i = 0; i < bdList.Count; i++)
             {
+                BasicData bd = bdList[i];
+                int index = i + 1;
+
                 StdDevResult result = new StdDevResult
                 {
-                    Index = (int)bd.Index,
                     Date = bd.Date,
                 };
 
-                if (bd.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     double[] periodValues = new double[lookbackPeriod];
                     decimal sum = 0m;
                     int n = 0;
 
-                    for (int p = (int)bd.Index - lookbackPeriod; p < bd.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
-                        BasicData d = basicDataList[p];
+                        BasicData d = bdList[p];
                         periodValues[n] = (double)d.Value;
                         sum += d.Value;
                         n++;
@@ -63,10 +62,10 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
 
                 // optional SMA
-                if (smaPeriod != null && bd.Index >= lookbackPeriod + smaPeriod - 1)
+                if (smaPeriod != null && index >= lookbackPeriod + smaPeriod - 1)
                 {
                     decimal sumSma = 0m;
-                    for (int p = (int)bd.Index - (int)smaPeriod; p < bd.Index; p++)
+                    for (int p = index - (int)smaPeriod; p < index; p++)
                     {
                         sumSma += (decimal)results[p].StdDev;
                     }
@@ -79,7 +78,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStdDev(IEnumerable<BasicData> history, int lookbackPeriod, int? smaPeriod)
+        private static void ValidateStdDev(List<BasicData> history, int lookbackPeriod, int? smaPeriod)
         {
 
             // check parameters
@@ -96,7 +95,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = history.Count;
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
             {

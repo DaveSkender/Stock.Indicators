@@ -14,20 +14,20 @@ namespace Internal.Tests
         public void GetMfiTest()
         {
             int lookbackPeriod = 14;
-            IEnumerable<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod);
+            List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod, results.Where(x => x.Mfi != null).Count());
 
             // sample values
-            MfiResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            MfiResult r1 = results[501];
             Assert.AreEqual(39.9494m, Math.Round((decimal)r1.Mfi, 4));
 
-            MfiResult r2 = results.Where(x => x.Index == 440).FirstOrDefault();
+            MfiResult r2 = results[439];
             Assert.AreEqual(69.0622m, Math.Round((decimal)r2.Mfi, 4));
         }
 
@@ -35,20 +35,20 @@ namespace Internal.Tests
         public void GetMfiSmallPeriodTest()
         {
             int lookbackPeriod = 4;
-            IEnumerable<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod);
+            List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod, results.Where(x => x.Mfi != null).Count());
 
             // sample values
-            MfiResult r1 = results.Where(x => x.Index == 32).FirstOrDefault();
+            MfiResult r1 = results[31];
             Assert.AreEqual(100m, Math.Round((decimal)r1.Mfi, 4));
 
-            MfiResult r2 = results.Where(x => x.Index == 44).FirstOrDefault();
+            MfiResult r2 = results[43];
             Assert.AreEqual(0m, Math.Round((decimal)r2.Mfi, 4));
         }
 
@@ -66,7 +66,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for N+1.")]
         public void InsufficientHistoryA()
         {
-            Indicator.GetMfi(history.Where(x => x.Index < 15), 14);
+            IEnumerable<Quote> h = History.GetHistory(14);
+            Indicator.GetMfi(h, 14);
         }
 
     }

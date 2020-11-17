@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateHeikinAshi(history);
@@ -21,8 +21,9 @@ namespace Skender.Stock.Indicators
             decimal? prevOpen = null;
             decimal? prevClose = null;
 
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
 
                 // close
                 decimal close = (h.Open + h.High + h.Low + h.Close) / 4;
@@ -41,7 +42,6 @@ namespace Skender.Stock.Indicators
 
                 HeikinAshiResult result = new HeikinAshiResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     Open = open,
                     High = high,

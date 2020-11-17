@@ -14,20 +14,20 @@ namespace Internal.Tests
         public void GetWmaTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<WmaResult> results = Indicator.GetWma(history, lookbackPeriod);
+            List<WmaResult> results = Indicator.GetWma(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Wma != null).Count());
 
             // sample values
-            WmaResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            WmaResult r1 = results[501];
             Assert.AreEqual(246.5110m, Math.Round((decimal)r1.Wma, 4));
 
-            WmaResult r2 = results.Where(x => x.Index == 150).FirstOrDefault();
+            WmaResult r2 = results[149];
             Assert.AreEqual(235.5253m, Math.Round((decimal)r2.Wma, 4));
         }
 
@@ -45,7 +45,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetWma(history.Where(x => x.Index < 10), 10);
+            IEnumerable<Quote> h = History.GetHistory(9);
+            Indicator.GetWma(h, 10);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateObv(history, smaPeriod);
@@ -22,8 +22,11 @@ namespace Skender.Stock.Indicators
             decimal? prevClose = null;
             decimal obv = 0;
 
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+                int index = i + 1;
+
                 if (prevClose == null || h.Close == prevClose)
                 {
                     // no change to OBV
@@ -39,7 +42,6 @@ namespace Skender.Stock.Indicators
 
                 ObvResult result = new ObvResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     Obv = obv
                 };
@@ -48,10 +50,10 @@ namespace Skender.Stock.Indicators
                 prevClose = h.Close;
 
                 // optional SMA
-                if (smaPeriod != null && h.Index > smaPeriod)
+                if (smaPeriod != null && index > smaPeriod)
                 {
                     decimal sumSma = 0m;
-                    for (int p = (int)h.Index - (int)smaPeriod; p < h.Index; p++)
+                    for (int p = index - (int)smaPeriod; p < index; p++)
                     {
                         sumSma += results[p].Obv;
                     }

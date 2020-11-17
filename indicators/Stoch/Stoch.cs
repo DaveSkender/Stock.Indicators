@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // validate parameters
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
@@ -23,19 +23,19 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 StochResult result = new StochResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     decimal highHigh = 0;
                     decimal lowLow = decimal.MaxValue;
 
-                    for (int p = (int)h.Index - lookbackPeriod; p < h.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote d = historyList[p];
 
@@ -71,10 +71,13 @@ namespace Skender.Stock.Indicators
 
 
             // signal and period direction info
-            int stochIndex = lookbackPeriod + smoothPeriod - 1;
+            int stochIndex = lookbackPeriod + smoothPeriod - 2;
 
-            foreach (StochResult r in results.Where(x => x.Index >= stochIndex))
+            for (int i = stochIndex; i < results.Count; i++)
             {
+                StochResult r = results[i];
+                int index = i + 1;
+
                 // add signal
                 int signalIndex = lookbackPeriod + smoothPeriod + signalPeriod - 2;
 
@@ -82,10 +85,10 @@ namespace Skender.Stock.Indicators
                 {
                     r.Signal = r.Oscillator;
                 }
-                else if (r.Index >= signalIndex)
+                else if (index >= signalIndex)
                 {
                     decimal sumOsc = 0m;
-                    for (int p = r.Index - signalPeriod; p < r.Index; p++)
+                    for (int p = index - signalPeriod; p < index; p++)
                     {
                         StochResult d = results[p];
                         sumOsc += (decimal)d.Oscillator;
@@ -99,19 +102,20 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static List<StochResult> SmoothOscillator(List<StochResult> results, int lookbackPeriod, int smoothPeriod)
+        private static List<StochResult> SmoothOscillator(
+            List<StochResult> results, int lookbackPeriod, int smoothPeriod)
         {
 
             // temporarily store interim smoothed oscillator
-            int smoothIndex = lookbackPeriod + smoothPeriod - 1;
+            int smoothIndex = lookbackPeriod + smoothPeriod - 2;
 
-            //foreach (StochResult r in results.Where(x => x.Index >= smoothIndex))
-            for (int i = smoothIndex - 1; i < results.Count; i++)
+            for (int i = smoothIndex; i < results.Count; i++)
             {
                 StochResult r = results[i];
+                int index = i + 1;
 
                 decimal sumOsc = 0m;
-                for (int p = r.Index - smoothPeriod; p < r.Index; p++)
+                for (int p = index - smoothPeriod; p < index; p++)
                 {
                     StochResult d = results[p];
                     sumOsc += (decimal)d.Oscillator;

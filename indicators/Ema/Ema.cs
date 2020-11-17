@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -11,49 +10,49 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // calculate
             return CalcEma(bd, lookbackPeriod);
         }
 
 
-        private static IEnumerable<EmaResult> CalcEma(IEnumerable<BasicData> basicData, int lookbackPeriod)
+        private static IEnumerable<EmaResult> CalcEma(List<BasicData> bdList, int lookbackPeriod)
         {
 
-            // clean quotes
-            basicData = Cleaners.PrepareBasicData(basicData);
-
             // validate parameters
-            ValidateEma(basicData, lookbackPeriod);
+            ValidateEma(bdList, lookbackPeriod);
 
             // initialize
             List<EmaResult> results = new List<EmaResult>();
 
             // initialize EMA
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
-            decimal lastEma = basicData
-                .Where(x => x.Index <= lookbackPeriod)
-                .ToList()
-                .Select(x => x.Value)
-                .Average();
+            decimal lastEma = 0;
+
+            for (int i = 0; i < lookbackPeriod; i++)
+            {
+                lastEma += bdList[i].Value;
+            }
+            lastEma /= lookbackPeriod;
 
             // roll through history
-            foreach (BasicData h in basicData)
+            for (int i = 0; i < bdList.Count; i++)
             {
+                BasicData h = bdList[i];
+                int index = i + 1;
 
                 EmaResult result = new EmaResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index > lookbackPeriod)
+                if (index > lookbackPeriod)
                 {
                     result.Ema = lastEma + k * (h.Value - lastEma);
                     lastEma = (decimal)result.Ema;
                 }
-                else if (h.Index == lookbackPeriod)
+                else if (index == lookbackPeriod)
                 {
                     result.Ema = lastEma;
                 }
@@ -65,7 +64,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateEma(IEnumerable<BasicData> history, int lookbackPeriod)
+        private static void ValidateEma(List<BasicData> history, int lookbackPeriod)
         {
 
             // check parameters
@@ -76,7 +75,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int qtyHistory = history.Count();
+            int qtyHistory = history.Count;
             int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
             if (qtyHistory < minHistory)
             {

@@ -14,26 +14,30 @@ namespace Internal.Tests
         public void GetChandleierTest()
         {
             int lookbackPeriod = 22;
-            IEnumerable<ChandelierResult> longResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m);
+            List<ChandelierResult> longResult =
+                Indicator.GetChandelier(history, lookbackPeriod, 3.0m)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, longResult.Count());
+            Assert.AreEqual(502, longResult.Count);
             Assert.AreEqual(502 - lookbackPeriod + 1, longResult.Where(x => x.ChandelierExit != null).Count());
 
             // sample values (long)
-            ChandelierResult a = longResult.Where(x => x.Index == 502).FirstOrDefault();
+            ChandelierResult a = longResult[501];
             Assert.AreEqual(256.5860m, Math.Round((decimal)a.ChandelierExit, 4));
 
-            ChandelierResult b = longResult.Where(x => x.Index == 493).FirstOrDefault();
+            ChandelierResult b = longResult[492];
             Assert.AreEqual(259.0480m, Math.Round((decimal)b.ChandelierExit, 4));
 
             // short
-            IEnumerable<ChandelierResult> shortResult = Indicator.GetChandelier(history, lookbackPeriod, 3.0m, ChandelierType.Short);
+            List<ChandelierResult> shortResult =
+                Indicator.GetChandelier(history, lookbackPeriod, 3.0m, ChandelierType.Short)
+                .ToList();
 
-            ChandelierResult c = shortResult.Where(x => x.Index == 502).FirstOrDefault();
+            ChandelierResult c = shortResult[501];
             Assert.AreEqual(246.4240m, Math.Round((decimal)c.ChandelierExit, 4));
         }
 
@@ -58,7 +62,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetChandelier(history.Where(x => x.Index <= 30), 30);
+            IEnumerable<Quote> h = History.GetHistory(30);
+            Indicator.GetChandelier(h, 30);
         }
 
     }

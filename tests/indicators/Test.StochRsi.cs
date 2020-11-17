@@ -18,18 +18,19 @@ namespace Internal.Tests
             int signalPeriod = 3;
             int smoothPeriod = 1;
 
-            IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(
-                history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
+            List<StochRsiResult> results =
+                Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                .ToList();
 
             // assertions
 
             // proper quantities
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2, results.Where(x => x.StochRsi != null).Count());
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - signalPeriod - smoothPeriod + 3, results.Where(x => x.Signal != null).Count());
 
             // sample value
-            StochRsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            StochRsiResult r = results[501];
             Assert.AreEqual(97.5244m, Math.Round((decimal)r.StochRsi, 4));
             Assert.AreEqual(89.8385m, Math.Round((decimal)r.Signal, 4));
         }
@@ -43,18 +44,19 @@ namespace Internal.Tests
             int signalPeriod = 3;
             int smoothPeriod = 3;
 
-            IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(
-                history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
+            List<StochRsiResult> results =
+                Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                .ToList();
 
             // assertions
 
             // proper quantities
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2, results.Where(x => x.StochRsi != null).Count());
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - signalPeriod - smoothPeriod + 3, results.Where(x => x.Signal != null).Count());
 
             // sample value
-            StochRsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            StochRsiResult r = results[501];
             Assert.AreEqual(89.8385m, Math.Round((decimal)r.StochRsi, 4));
             Assert.AreEqual(73.4176m, Math.Round((decimal)r.Signal, 4));
         }
@@ -94,7 +96,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetStochRsi(history.Where(x => x.Index < 60), 30, 30, 5, 5);
+            IEnumerable<Quote> h = History.GetHistory(59);
+            Indicator.GetStochRsi(h, 30, 30, 5, 5);
         }
 
     }

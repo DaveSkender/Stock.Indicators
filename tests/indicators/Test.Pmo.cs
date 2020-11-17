@@ -13,22 +13,22 @@ namespace Internal.Tests
         [TestMethod()]
         public void GetPmoTest()
         {
-            IEnumerable<PmoResult> results = Indicator.GetPmo(history, 35, 20, 10);
+            List<PmoResult> results = Indicator.GetPmo(history, 35, 20, 10).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(448, results.Where(x => x.Pmo != null).Count());
             Assert.AreEqual(439, results.Where(x => x.Signal != null).Count());
 
             // sample values
-            PmoResult r1 = results.Where(x => x.Index == 93).FirstOrDefault();
+            PmoResult r1 = results[92];
             Assert.AreEqual(0.6159m, Math.Round((decimal)r1.Pmo, 4));
             Assert.AreEqual(0.5582m, Math.Round((decimal)r1.Signal, 4));
 
-            PmoResult r2 = results.Where(x => x.Index == 502).FirstOrDefault();
+            PmoResult r2 = results[501];
             Assert.AreEqual(-2.7016m, Math.Round((decimal)r2.Pmo, 4));
             Assert.AreEqual(-2.3117m, Math.Round((decimal)r2.Signal, 4));
         }
@@ -62,7 +62,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetPmo(history.Where(x => x.Index < 55), 35, 20, 10);
+            IEnumerable<Quote> h = History.GetHistory(54);
+            Indicator.GetPmo(h, 35, 20, 10);
         }
     }
 }

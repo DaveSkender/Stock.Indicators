@@ -16,14 +16,15 @@ namespace Internal.Tests
             int lookbackPeriod = 20;
             int standardDeviations = 2;
 
-            IEnumerable<BollingerBandsResult> results =
-                Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviations);
+            List<BollingerBandsResult> results =
+                Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviations)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
             Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
             Assert.AreEqual(483, results.Where(x => x.LowerBand != null).Count());
@@ -33,7 +34,7 @@ namespace Internal.Tests
 
 
             // sample values
-            BollingerBandsResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            BollingerBandsResult r1 = results[501];
             Assert.AreEqual(251.8600m, Math.Round((decimal)r1.Sma, 4));
             Assert.AreEqual(273.7004m, Math.Round((decimal)r1.UpperBand, 4));
             Assert.AreEqual(230.0196m, Math.Round((decimal)r1.LowerBand, 4));
@@ -41,7 +42,7 @@ namespace Internal.Tests
             Assert.AreEqual(-0.602552m, Math.Round((decimal)r1.ZScore, 6));
             Assert.AreEqual(0.173433m, Math.Round((decimal)r1.Width, 6));
 
-            BollingerBandsResult r2 = results.Where(x => x.Index == 250).FirstOrDefault();
+            BollingerBandsResult r2 = results[249];
             Assert.AreEqual(255.5500m, Math.Round((decimal)r2.Sma, 4));
             Assert.AreEqual(259.5642m, Math.Round((decimal)r2.UpperBand, 4));
             Assert.AreEqual(251.5358m, Math.Round((decimal)r2.LowerBand, 4));
@@ -71,7 +72,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetBollingerBands(history.Where(x => x.Index < 30), 30, 2);
+            IEnumerable<Quote> h = History.GetHistory(29);
+            Indicator.GetBollingerBands(h, 30, 2);
         }
 
     }

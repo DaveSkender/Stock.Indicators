@@ -10,9 +10,6 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<WilliamsResult> GetWilliamsR(IEnumerable<Quote> history, int lookbackPeriod = 14)
         {
 
-            // clean quotes
-            history = Cleaners.PrepareHistory(history);
-
             // validate parameters
             ValidateWilliam(history, lookbackPeriod);
 
@@ -20,7 +17,6 @@ namespace Skender.Stock.Indicators
             return GetStoch(history, lookbackPeriod, 1, 1) // fast variant
                 .Select(s => new WilliamsResult
                 {
-                    Index = s.Index,
                     Date = s.Date,
                     WilliamsR = s.Oscillator - 100
                 })

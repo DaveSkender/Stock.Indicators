@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             // RSI of streak
             List<BasicData> bdStreak = results
                 .Where(x => x.Streak != null)
-                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Streak })
+                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Streak })
                 .ToList();
 
             List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriod).ToList();
@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
 
                 r.RsiStreak = k.Rsi;
 
-                if (r.Index >= startPeriod)
+                if (p + 1 >= startPeriod)
                 {
                     r.ConnorsRsi = (r.RsiClose + r.RsiStreak + r.PercentRank) / 3;
                 }
@@ -60,10 +60,10 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < bd.Count; i++)
             {
                 BasicData h = bd[i];
+                int index = i + 1;
 
                 ConnorsRsiResult result = new ConnorsRsiResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     RsiClose = rsiResults[i].Rsi
                 };
@@ -111,10 +111,10 @@ namespace Skender.Stock.Indicators
 
                 results.Add(result);
 
-                if (h.Index > rankPeriod)
+                if (index > rankPeriod)
                 {
                     int qty = 0;
-                    for (int p = (int)h.Index - rankPeriod - 1; p < h.Index; p++)
+                    for (int p = index - rankPeriod - 1; p < index; p++)
                     {
                         ConnorsRsiResult r = results[p];
                         if (r.PeriodGain < result.PeriodGain)

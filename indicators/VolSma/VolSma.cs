@@ -11,10 +11,9 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes and initialize results
-            List<VolSmaResult> results = Cleaners.PrepareHistory(history)
+            List<VolSmaResult> results = history.Sort()
                 .Select(x => new VolSmaResult
                 {
-                    Index = (int)x.Index,
                     Date = x.Date,
                     Volume = x.Volume
                 })
@@ -27,9 +26,10 @@ namespace Skender.Stock.Indicators
             for (int i = lookbackPeriod - 1; i < results.Count; i++)
             {
                 VolSmaResult h = results[i];
+                int index = i + 1;
 
                 decimal sumVolSma = 0m;
-                for (int p = h.Index - lookbackPeriod; p < h.Index; p++)
+                for (int p = index - lookbackPeriod; p < index; p++)
                 {
                     VolSmaResult q = results[p];
                     sumVolSma += q.Volume;

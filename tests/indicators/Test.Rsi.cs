@@ -14,17 +14,17 @@ namespace Internal.Tests
         public void GetRsiTest()
         {
             int lookbackPeriod = 14;
-            IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
+            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
 
             // sample value
-            RsiResult r = results.Where(x => x.Index == 502).FirstOrDefault();
+            RsiResult r = results[501];
             Assert.AreEqual(42.0773m, Math.Round((decimal)r.Rsi, 4));
         }
 
@@ -32,20 +32,20 @@ namespace Internal.Tests
         public void GetRsiSmallPeriodTest()
         {
             int lookbackPeriod = 1;
-            IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
+            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(501, results.Where(x => x.Rsi != null).Count());
 
             // sample values
-            RsiResult r1 = results.Where(x => x.Index == 29).FirstOrDefault();
+            RsiResult r1 = results[28];
             Assert.AreEqual(100m, Math.Round((decimal)r1.Rsi, 4));
 
-            RsiResult r2 = results.Where(x => x.Index == 53).FirstOrDefault();
+            RsiResult r2 = results[52];
             Assert.AreEqual(0m, Math.Round((decimal)r2.Rsi, 4));
         }
 
@@ -63,7 +63,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetRsi(history.Where(x => x.Index < 30), 30);
+            IEnumerable<Quote> h = History.GetHistory(29);
+            Indicator.GetRsi(h, 30);
         }
 
     }

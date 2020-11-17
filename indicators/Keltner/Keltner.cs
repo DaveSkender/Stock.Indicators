@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // validate parameters
             ValidateKeltner(history, emaPeriod, multiplier, atrPeriod);
@@ -27,14 +27,14 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 KeltnerResult result = new KeltnerResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     EmaResult ema = emaResults[i];
                     AtrResult atr = atrResults[i];
@@ -42,7 +42,8 @@ namespace Skender.Stock.Indicators
                     result.UpperBand = ema.Ema + multiplier * atr.Atr;
                     result.LowerBand = ema.Ema - multiplier * atr.Atr;
                     result.Centerline = ema.Ema;
-                    result.Width = (result.Centerline == 0) ? null : (result.UpperBand - result.LowerBand) / result.Centerline;
+                    result.Width = (result.Centerline == 0) ? null
+                        : (result.UpperBand - result.LowerBand) / result.Centerline;
                 }
 
                 results.Add(result);

@@ -14,23 +14,23 @@ namespace Internal.Tests
         public void GetTripleEmaTest()
         {
             int lookbackPeriod = 20;
-            IEnumerable<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod);
+            List<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(445, results.Where(x => x.Ema != null).Count());
 
             // sample values
-            EmaResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            EmaResult r1 = results[501];
             Assert.AreEqual(238.7690m, Math.Round((decimal)r1.Ema, 4));
 
-            EmaResult r2 = results.Where(x => x.Index == 250).FirstOrDefault();
+            EmaResult r2 = results[249];
             Assert.AreEqual(258.6208m, Math.Round((decimal)r2.Ema, 4));
 
-            EmaResult r3 = results.Where(x => x.Index == 68).FirstOrDefault();
+            EmaResult r3 = results[67];
             Assert.AreEqual(222.9105m, Math.Round((decimal)r3.Ema, 4));
         }
 
@@ -48,7 +48,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history for 3*N+100.")]
         public void InsufficientHistoryA()
         {
-            Indicator.GetTripleEma(history.Where(x => x.Index < 190), 30);
+            IEnumerable<Quote> h = History.GetHistory(189);
+            Indicator.GetTripleEma(h, 30);
         }
 
         [TestMethod()]

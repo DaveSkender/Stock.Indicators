@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
@@ -25,10 +25,10 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 UltimateResult r = new UltimateResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
                 results.Add(r);
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
                     r.Tr = Math.Max(h.High, priorClose) - Math.Min(h.Low, priorClose);
                 }
 
-                if (h.Index >= longPeriod + 1)
+                if (index >= longPeriod + 1)
                 {
                     decimal sumBP1 = 0m;
                     decimal sumBP2 = 0m;
@@ -49,19 +49,20 @@ namespace Skender.Stock.Indicators
                     decimal sumTR2 = 0m;
                     decimal sumTR3 = 0m;
 
-                    for (int p = (int)h.Index - longPeriod; p < h.Index; p++)
+                    for (int p = index - longPeriod; p < index; p++)
                     {
                         UltimateResult pr = results[p];
+                        int pIndex = p + 1;
 
                         // short aggregate
-                        if (pr.Index > h.Index - shortPeriod)
+                        if (pIndex > index - shortPeriod)
                         {
                             sumBP1 += (decimal)pr.Bp;
                             sumTR1 += (decimal)pr.Tr;
                         }
 
                         // middle aggregate
-                        if (pr.Index > h.Index - middlePeriod)
+                        if (pIndex > index - middlePeriod)
                         {
                             sumBP2 += (decimal)pr.Bp;
                             sumTR2 += (decimal)pr.Tr;

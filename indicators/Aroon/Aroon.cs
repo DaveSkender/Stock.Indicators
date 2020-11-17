@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // validate parameters
             ValidateAroon(history, lookbackPeriod);
@@ -23,40 +23,40 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 AroonResult result = new AroonResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
                 // add aroons
-                if (h.Index > lookbackPeriod)
+                if (index > lookbackPeriod)
                 {
                     decimal lastHighPrice = 0;
                     decimal lastLowPrice = decimal.MaxValue;
                     int lastHighIndex = 0;
                     int lastLowIndex = 0;
 
-                    for (int p = (int)h.Index - lookbackPeriod - 1; p < h.Index; p++)
+                    for (int p = index - lookbackPeriod - 1; p < index; p++)
                     {
                         Quote d = historyList[p];
 
                         if (d.High > lastHighPrice)
                         {
                             lastHighPrice = d.High;
-                            lastHighIndex = (int)d.Index;
+                            lastHighIndex = p + 1;
                         }
 
                         if (d.Low < lastLowPrice)
                         {
                             lastLowPrice = d.Low;
-                            lastLowIndex = (int)d.Index;
+                            lastLowIndex = p + 1;
                         }
                     }
 
-                    result.AroonUp = 100 * (decimal)(lookbackPeriod - (h.Index - lastHighIndex)) / lookbackPeriod;
-                    result.AroonDown = 100 * (decimal)(lookbackPeriod - (h.Index - lastLowIndex)) / lookbackPeriod;
+                    result.AroonUp = 100 * (decimal)(lookbackPeriod - (index - lastHighIndex)) / lookbackPeriod;
+                    result.AroonDown = 100 * (decimal)(lookbackPeriod - (index - lastLowIndex)) / lookbackPeriod;
                     result.Oscillator = result.AroonUp - result.AroonDown;
                 }
 

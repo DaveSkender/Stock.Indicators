@@ -14,20 +14,20 @@ namespace Internal.Tests
         public void GetObvTest()
         {
 
-            IEnumerable<ObvResult> results = Indicator.GetObv(history);
+            List<ObvResult> results = Indicator.GetObv(history).ToList();
 
             // assertions
 
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Where(x => x.Sma == null).Count());
 
             // sample values
-            ObvResult r1 = results.Where(x => x.Index == 250).FirstOrDefault();
+            ObvResult r1 = results[249];
             Assert.AreEqual(1780918888m, r1.Obv);
             Assert.AreEqual(null, r1.Sma);
 
-            ObvResult r2 = results.Where(x => x.Index == 502).FirstOrDefault();
+            ObvResult r2 = results[501];
             Assert.AreEqual(539843504, r2.Obv);
             Assert.AreEqual(null, r2.Sma);
         }
@@ -36,16 +36,16 @@ namespace Internal.Tests
         public void GetObvWithSmaTest()
         {
 
-            IEnumerable<ObvResult> results = Indicator.GetObv(history, 20);
+            List<ObvResult> results = Indicator.GetObv(history, 20).ToList();
 
             // assertions
 
             // should always be the same number of results as there is history
-            Assert.AreEqual(502, results.Count());
+            Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Sma != null).Count());
 
             // sample values
-            ObvResult r1 = results.Where(x => x.Index == 502).FirstOrDefault();
+            ObvResult r1 = results[501];
             Assert.AreEqual(539843504, r1.Obv);
             Assert.AreEqual(1016208844.40m, r1.Sma);
         }
@@ -64,7 +64,8 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            Indicator.GetObv(history.Where(x => x.Index < 2));
+            IEnumerable<Quote> h = History.GetHistory(1);
+            Indicator.GetObv(h);
         }
 
     }

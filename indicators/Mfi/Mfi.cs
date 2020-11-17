@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateMfi(history, lookbackPeriod);
@@ -28,7 +28,6 @@ namespace Skender.Stock.Indicators
 
                 MfiResult result = new MfiResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     TruePrice = (h.High + h.Low + h.Close) / 3
                 };
@@ -59,11 +58,12 @@ namespace Skender.Stock.Indicators
             for (int i = lookbackPeriod; i < results.Count; i++)
             {
                 MfiResult r = results[i];
+                int index = i + 1;
 
                 decimal sumPosMFs = 0;
                 decimal sumNegMFs = 0;
 
-                for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
+                for (int p = index - lookbackPeriod; p < index; p++)
                 {
                     MfiResult d = results[p];
 

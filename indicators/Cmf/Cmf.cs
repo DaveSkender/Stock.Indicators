@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateCmf(history, lookbackPeriod);
@@ -24,21 +24,21 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < adlResults.Count; i++)
             {
                 AdlResult r = adlResults[i];
+                int index = i + 1;
 
                 CmfResult result = new CmfResult
                 {
-                    Index = r.Index,
                     Date = r.Date,
                     MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                     MoneyFlowVolume = r.MoneyFlowVolume
                 };
 
-                if (r.Index >= lookbackPeriod)
+                if (index >= lookbackPeriod)
                 {
                     decimal sumMfv = 0;
                     decimal sumVol = 0;
 
-                    for (int p = r.Index - lookbackPeriod; p < r.Index; p++)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote h = historyList[p];
                         sumVol += h.Volume;

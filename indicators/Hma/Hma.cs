@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateHma(history, lookbackPeriod);
@@ -48,19 +48,17 @@ namespace Skender.Stock.Indicators
             int shiftQty = lookbackPeriod - 1;
 
             List<HmaResult> results = historyList
+                .Take(shiftQty)
                 .Select(x => new HmaResult
                 {
-                    Index = (int)x.Index,
                     Date = x.Date
                 })
-                .Where(x => x.Index <= shiftQty)
                 .ToList();
 
             // calculate final HMA = WMA with period SQRT(n)
             List<HmaResult> hmaResults = GetWma(synthHistory, sqN)
                 .Select(x => new HmaResult
                 {
-                    Index = x.Index + shiftQty,
                     Date = x.Date,
                     Hma = x.Wma
                 })
@@ -68,7 +66,7 @@ namespace Skender.Stock.Indicators
 
             // add WMA to results
             results.AddRange(hmaResults);
-            results = results.OrderBy(x => x.Index).ToList();
+            results = results.OrderBy(x => x.Date).ToList();
 
             return results;
         }

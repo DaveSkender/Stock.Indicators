@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateAdl(history, smaPeriod);
@@ -21,15 +21,17 @@ namespace Skender.Stock.Indicators
             decimal prevAdl = 0;
 
             // get money flow multiplier
-            foreach (Quote h in history)
+            for (int i = 0; i < historyList.Count; i++)
             {
+                Quote h = historyList[i];
+                int index = i + 1;
+
                 decimal mfm = (h.High == h.Low) ? 0 : ((h.Close - h.Low) - (h.High - h.Close)) / (h.High - h.Low);
                 decimal mfv = mfm * h.Volume;
                 decimal adl = mfv + prevAdl;
 
                 AdlResult result = new AdlResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date,
                     MoneyFlowMultiplier = mfm,
                     MoneyFlowVolume = mfv,
@@ -40,10 +42,10 @@ namespace Skender.Stock.Indicators
                 prevAdl = adl;
 
                 // optional SMA
-                if (smaPeriod != null && h.Index >= smaPeriod)
+                if (smaPeriod != null && index >= smaPeriod)
                 {
                     decimal sumSma = 0m;
-                    for (int p = (int)h.Index - (int)smaPeriod; p < h.Index; p++)
+                    for (int p = index - (int)smaPeriod; p < index; p++)
                     {
                         sumSma += results[p].Adl;
                     }

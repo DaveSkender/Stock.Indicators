@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // validate parameters
             ValidateDema(bd, lookbackPeriod);
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
 
             List<BasicData> bd2 = emaN
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Ema })
+                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();  // note: ToList seems to be required when changing data
 
             List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriod).ToList();
@@ -31,16 +31,16 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < emaN.Count; i++)
             {
                 EmaResult e1 = emaN[i];
+                int index = i + 1;
 
                 EmaResult result = new EmaResult
                 {
-                    Index = e1.Index,
                     Date = e1.Date
                 };
 
-                if (e1.Index >= 2 * lookbackPeriod - 1)
+                if (index >= 2 * lookbackPeriod - 1)
                 {
-                    EmaResult e2 = emaN2[e1.Index - lookbackPeriod];
+                    EmaResult e2 = emaN2[index - lookbackPeriod];
                     result.Ema = 2 * e1.Ema - e2.Ema;
                 }
 

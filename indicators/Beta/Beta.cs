@@ -11,8 +11,7 @@ namespace Skender.Stock.Indicators
             IEnumerable<Quote> historyMarket, IEnumerable<Quote> historyEval, int lookbackPeriod)
         {
             // clean quotes
-            historyMarket = Cleaners.PrepareHistory(historyMarket);
-            List<Quote> historyEvalList = Cleaners.PrepareHistory(historyEval).ToList();
+            List<Quote> historyEvalList = historyEval.Sort();
 
             // validate parameters
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
@@ -30,7 +29,6 @@ namespace Skender.Stock.Indicators
 
                 BetaResult result = new BetaResult
                 {
-                    Index = (int)e.Index,
                     Date = e.Date
                 };
 

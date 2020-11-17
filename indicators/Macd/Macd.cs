@@ -11,13 +11,12 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            history = Cleaners.PrepareHistory(history);
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateMacd(history, fastPeriod, slowPeriod, signalPeriod);
 
             // initialize
-            List<Quote> historyList = history.ToList();
             List<EmaResult> emaFast = GetEma(history, fastPeriod).ToList();
             List<EmaResult> emaSlow = GetEma(history, slowPeriod).ToList();
 
@@ -32,7 +31,6 @@ namespace Skender.Stock.Indicators
 
                 MacdResult result = new MacdResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
@@ -45,7 +43,6 @@ namespace Skender.Stock.Indicators
                     // temp data for interim EMA of macd
                     BasicData diff = new BasicData
                     {
-                        Index = h.Index - slowPeriod + 1,
                         Date = h.Date,
                         Value = macd
                     };
@@ -59,9 +56,10 @@ namespace Skender.Stock.Indicators
             // add signal and histogram to result
             List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriod).ToList();
 
-            foreach (MacdResult r in results.Where(x => x.Index >= slowPeriod))
+            for (int d = slowPeriod - 1; d < results.Count; d++)
             {
-                EmaResult ds = emaSignal[r.Index - slowPeriod];
+                MacdResult r = results[d];
+                EmaResult ds = emaSignal[d + 1 - slowPeriod];
 
                 r.Signal = ds.Ema;
                 r.Histogram = r.Macd - r.Signal;

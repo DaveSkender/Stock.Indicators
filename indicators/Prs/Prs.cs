@@ -11,8 +11,8 @@ namespace Skender.Stock.Indicators
             IEnumerable<Quote> historyBase, IEnumerable<Quote> historyEval, int? lookbackPeriod = null, int? smaPeriod = null)
         {
             // clean quotes
-            List<Quote> historyBaseList = Cleaners.PrepareHistory(historyBase).ToList();
-            List<Quote> historyEvalList = Cleaners.PrepareHistory(historyEval).ToList();
+            List<Quote> historyBaseList = historyBase.Sort();
+            List<Quote> historyEvalList = historyEval.Sort();
 
             // validate parameters
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
@@ -26,6 +26,7 @@ namespace Skender.Stock.Indicators
             {
                 Quote bi = historyBaseList[i];
                 Quote ei = historyEvalList[i];
+                int index = i + 1;
 
                 if (ei.Date != bi.Date)
                 {
@@ -35,13 +36,12 @@ namespace Skender.Stock.Indicators
 
                 PrsResult r = new PrsResult
                 {
-                    Index = (int)ei.Index,
                     Date = ei.Date,
                     Prs = ei.Close / bi.Close  // relative strength ratio
                 };
                 results.Add(r);
 
-                if (lookbackPeriod != null && r.Index > lookbackPeriod)
+                if (lookbackPeriod != null && index > lookbackPeriod)
                 {
                     Quote bo = historyBaseList[i - (int)lookbackPeriod];
                     Quote eo = historyEvalList[i - (int)lookbackPeriod];
@@ -56,10 +56,10 @@ namespace Skender.Stock.Indicators
                 }
 
                 // optional moving average of PRS
-                if (smaPeriod != null && r.Index >= smaPeriod)
+                if (smaPeriod != null && index >= smaPeriod)
                 {
                     decimal sumRs = 0m;
-                    for (int p = r.Index - (int)smaPeriod; p < r.Index; p++)
+                    for (int p = index - (int)smaPeriod; p < index; p++)
                     {
                         PrsResult d = results[p];
                         sumRs += (decimal)d.Prs;

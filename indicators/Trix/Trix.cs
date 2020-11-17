@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            IEnumerable<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // validate parameters
             ValidateTrix(bd, lookbackPeriod);
@@ -25,14 +25,14 @@ namespace Skender.Stock.Indicators
 
             List<BasicData> bd2 = emaN1
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Ema })
+                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriod).ToList();
 
             List<BasicData> bd3 = emaN2
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicData { Index = null, Date = x.Date, Value = (decimal)x.Ema })
+                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriod).ToList();
@@ -41,19 +41,19 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < emaN1.Count; i++)
             {
                 EmaResult e1 = emaN1[i];
+                int index = i + 1;
 
                 TrixResult result = new TrixResult
                 {
-                    Index = e1.Index,
                     Date = e1.Date
                 };
 
                 results.Add(result);
 
-                if (e1.Index >= 3 * lookbackPeriod - 2)
+                if (index >= 3 * lookbackPeriod - 2)
                 {
-                    EmaResult e2 = emaN2[e1.Index - lookbackPeriod];
-                    EmaResult e3 = emaN3[e2.Index - lookbackPeriod];
+                    EmaResult e2 = emaN2[index - lookbackPeriod];
+                    EmaResult e3 = emaN3[index - 2 * lookbackPeriod + 1];
 
                     result.Ema3 = e3.Ema;
 
@@ -65,10 +65,10 @@ namespace Skender.Stock.Indicators
                     lastEma = e3.Ema;
 
                     // optional SMA
-                    if (signalPeriod != null && e1.Index >= 3 * lookbackPeriod - 2 + signalPeriod)
+                    if (signalPeriod != null && index >= 3 * lookbackPeriod - 2 + signalPeriod)
                     {
                         decimal sumSma = 0m;
-                        for (int p = e1.Index - (int)signalPeriod; p < e1.Index; p++)
+                        for (int p = index - (int)signalPeriod; p < index; p++)
                         {
                             sumSma += (decimal)results[p].Trix;
                         }

@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         {
 
             // clean quotes
-            List<Quote> historyList = Cleaners.PrepareHistory(history).ToList();
+            List<Quote> historyList = history.Sort();
 
             // check parameters
             ValidateRoc(history, lookbackPeriod, smaPeriod);
@@ -24,26 +24,26 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
                 RocResult result = new RocResult
                 {
-                    Index = (int)h.Index,
                     Date = h.Date
                 };
 
-                if (h.Index > lookbackPeriod)
+                if (index > lookbackPeriod)
                 {
-                    Quote back = historyList[(int)h.Index - lookbackPeriod - 1];
+                    Quote back = historyList[index - lookbackPeriod - 1];
                     result.Roc = 100 * (h.Close - back.Close) / back.Close;
                 }
 
                 results.Add(result);
 
                 // optional SMA
-                if (smaPeriod != null && h.Index >= lookbackPeriod + smaPeriod)
+                if (smaPeriod != null && index >= lookbackPeriod + smaPeriod)
                 {
                     decimal sumSma = 0m;
-                    for (int p = (int)h.Index - (int)smaPeriod; p < h.Index; p++)
+                    for (int p = index - (int)smaPeriod; p < index; p++)
                     {
                         sumSma += (decimal)results[p].Roc;
                     }
