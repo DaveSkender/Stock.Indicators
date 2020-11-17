@@ -38,19 +38,19 @@ namespace Tests.Performance
         private static readonly IEnumerable<Quote> h = History.GetHistory();
 
         [Benchmark]
-        public static object SortHistory()
+        public object SortHistory()
         {
             return h.Sort();
         }
 
         [Benchmark]
-        public static object ValidateHistory()
+        public object ValidateHistory()
         {
             return Cleaners.ValidateHistory(h);
         }
 
         [Benchmark]
-        public static object ConvertToBasicData()
+        public object ConvertToBasicData()
         {
             return Cleaners.ConvertHistoryToBasic(h);
         }
