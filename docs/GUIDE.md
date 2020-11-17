@@ -59,11 +59,6 @@ Historical quotes should be of consistent time frequency (e.g. per minute, hour,
 | `Close` | decimal | Close price
 | `Volume` | decimal | Volume
 
-More information:
-
-- See [Validating history](#validating-history) to learn about optional pre-validation your historical data with the `ValidateHistory` helper function.  The indicator methods will re-sort your historical quotes, but it will not check for duplicates and other bad data.  This function will do that, but it is optional as it can impede performance if used in higher frequency applications.
-- See [Using derived classes](#using-derived-classes) to learn how you can extend these classes.
-
 ### Where can I get historical quote data?
 
 There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [TwelveData](https://twelvedata.com) or [Alpha Vantage](https://www.alphavantage.co).
@@ -78,7 +73,7 @@ For example, if you are using daily data and want one year of precise EMA(250) d
 
 ## Validating history
 
-Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want to do a more advanced check of your `IEnumerable<Quote> history` (historical quotes) you can validate it with the helper cleaner, to check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically include it.
+Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<Quote> history` (historical quotes) you can validate it with the `ValidateHistory` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format
