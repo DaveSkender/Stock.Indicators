@@ -21,25 +21,25 @@ namespace Skender.Stock.Indicators
             List<ZigZagResult> results = new List<ZigZagResult>();
             decimal changeThreshold = percentChange / 100m;
             Quote firstQuote = historyList[0];
-            ZigZagEval eval = GetZigZagEval(type, firstQuote);
+            ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);
 
             ZigZagPoint lastPoint = new ZigZagPoint
             {
-                Index = 1,
+                Index = eval.Index,
                 Value = firstQuote.Close,
                 PointType = "U"
             };
 
             ZigZagPoint lastHighPoint = new ZigZagPoint
             {
-                Index = 1,
+                Index = eval.Index,
                 Value = eval.High,
                 PointType = "H"
             };
 
             ZigZagPoint lastLowPoint = new ZigZagPoint
             {
-                Index = 1,
+                Index = eval.Index,
                 Value = eval.Low,
                 PointType = "L"
             };
@@ -50,8 +50,9 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
+                int index = i + 1;
 
-                eval = GetZigZagEval(type, h);
+                eval = GetZigZagEval(type, index, h);
                 decimal changeUp = (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
                 decimal changeDn = (lastHighPoint.Value - eval.Low) / lastHighPoint.Value;
 
@@ -102,7 +103,6 @@ namespace Skender.Stock.Indicators
             // initialize 
             bool trendUp = (lastPoint.PointType == "L");
             decimal change = 0;
-            ZigZagEval eval = new ZigZagEval();
 
             ZigZagPoint extremePoint = new ZigZagPoint
             {
@@ -115,7 +115,9 @@ namespace Skender.Stock.Indicators
             for (int i = lastPoint.Index; i < historyList.Count; i++)
             {
                 Quote h = historyList[i];
-                eval = GetZigZagEval(type, h);
+                int index = i + 1;
+
+                ZigZagEval eval = GetZigZagEval(type, index, h);
 
                 // reset extreme point
                 switch (trendUp)
@@ -249,9 +251,12 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagEval GetZigZagEval(ZigZagType type, Quote q)
+        private static ZigZagEval GetZigZagEval(ZigZagType type, int index, Quote q)
         {
-            ZigZagEval eval = new ZigZagEval();
+            ZigZagEval eval = new ZigZagEval()
+            {
+                Index = index
+            };
 
             // consider `type`
             switch (type)
