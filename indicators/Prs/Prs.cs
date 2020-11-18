@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
                 PrsResult r = new PrsResult
                 {
                     Date = ei.Date,
-                    Prs = ei.Close / bi.Close  // relative strength ratio
+                    Prs = (bi.Close == 0) ? null : ei.Close / bi.Close  // relative strength ratio
                 };
                 results.Add(r);
 
@@ -58,11 +58,11 @@ namespace Skender.Stock.Indicators
                 // optional moving average of PRS
                 if (smaPeriod != null && index >= smaPeriod)
                 {
-                    decimal sumRs = 0m;
+                    decimal? sumRs = 0m;
                     for (int p = index - (int)smaPeriod; p < index; p++)
                     {
                         PrsResult d = results[p];
-                        sumRs += (decimal)d.Prs;
+                        sumRs += d.Prs;
                     }
                     r.Sma = sumRs / smaPeriod;
                 }

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetHeikinAshiTest()
+        public void GetHeikinAshi()
         {
 
             List<HeikinAshiResult> results = Indicator.GetHeikinAshi(history).ToList();
@@ -27,6 +27,13 @@ namespace Internal.Tests
             Assert.AreEqual(245.54m, Math.Round(r.High, 4));
             Assert.AreEqual(241.3018m, Math.Round(r.Low, 4));
             Assert.AreEqual(244.6525m, Math.Round(r.Close, 4));
+        }
+
+        [TestMethod()]
+        public void GetHeikinAshiBadData()
+        {
+            IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(historyBad);
+            Assert.AreEqual(502, r.Count());
         }
 
 

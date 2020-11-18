@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetConnorsRsiTest()
+        public void GetConnorsRsi()
         {
             int rsiPeriod = 3;
             int streakPeriod = 2;
@@ -42,6 +42,13 @@ namespace Internal.Tests
             Assert.AreEqual(90.0000m, Math.Round((decimal)r2.PercentRank, 4));
             Assert.AreEqual(61.6053m, Math.Round((decimal)r2.ConnorsRsi, 4));
 
+        }
+
+        [TestMethod()]
+        public void GetConnorsRsiBadData()
+        {
+            IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(historyBad, 4, 3, 25);
+            Assert.AreEqual(502, r.Count());
         }
 
 

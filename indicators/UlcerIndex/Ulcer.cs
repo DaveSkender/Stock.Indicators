@@ -32,7 +32,7 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriod)
                 {
-                    double sumSquared = 0;
+                    double? sumSquared = 0;
                     for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         Quote d = historyList[p];
@@ -48,11 +48,14 @@ namespace Skender.Stock.Indicators
                             }
                         }
 
-                        decimal percentDrawdown = 100 * (d.Close - maxClose) / maxClose;
-                        sumSquared += (double)(percentDrawdown * percentDrawdown);
+                        decimal? percentDrawdown = (maxClose == 0) ? null
+                            : 100 * (d.Close - maxClose) / maxClose;
+
+                        sumSquared += (double?)(percentDrawdown * percentDrawdown);
                     }
 
-                    result.UI = (decimal)Math.Sqrt(sumSquared / lookbackPeriod);
+                    result.UI = (sumSquared == null) ? null
+                        : (decimal)Math.Sqrt((double)sumSquared / lookbackPeriod);
                 }
                 results.Add(result);
             }

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetAdlTest()
+        public void GetAdl()
         {
 
             List<AdlResult> results = Indicator.GetAdl(history).ToList();
@@ -37,7 +37,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetAdlWithSmaTest()
+        public void GetAdlBadData()
+        {
+            IEnumerable<AdlResult> r = Indicator.GetAdl(historyBad);
+            Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void GetAdlWithSma()
         {
 
             List<AdlResult> results = Indicator.GetAdl(history, 20).ToList();

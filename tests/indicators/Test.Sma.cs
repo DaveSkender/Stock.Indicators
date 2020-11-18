@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetSmaTest()
+        public void GetSma()
         {
             int lookbackPeriod = 20;
             List<SmaResult> results = Indicator.GetSma(history, lookbackPeriod, true).ToList();
@@ -29,6 +29,13 @@ namespace Internal.Tests
             Assert.AreEqual(9.45m, r.Mad);
             Assert.AreEqual(119.2510m, Math.Round((decimal)r.Mse, 4));
             Assert.AreEqual(0.037637m, Math.Round((decimal)r.Mape, 6));
+        }
+
+        [TestMethod()]
+        public void GetSmaBadData()
+        {
+            IEnumerable<SmaResult> r = Indicator.GetSma(historyBad, 15, true);
+            Assert.AreEqual(502, r.Count());
         }
 
 

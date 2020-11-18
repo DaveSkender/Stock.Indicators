@@ -34,7 +34,9 @@ namespace Skender.Stock.Indicators
                 if (index > lookbackPeriod)
                 {
                     Quote back = historyList[index - lookbackPeriod - 1];
-                    result.Roc = 100 * (h.Close - back.Close) / back.Close;
+
+                    result.Roc = (back.Close == 0) ? null
+                        : 100 * (h.Close - back.Close) / back.Close;
                 }
 
                 results.Add(result);
@@ -42,10 +44,10 @@ namespace Skender.Stock.Indicators
                 // optional SMA
                 if (smaPeriod != null && index >= lookbackPeriod + smaPeriod)
                 {
-                    decimal sumSma = 0m;
+                    decimal? sumSma = 0m;
                     for (int p = index - (int)smaPeriod; p < index; p++)
                     {
-                        sumSma += (decimal)results[p].Roc;
+                        sumSma += results[p].Roc;
                     }
 
                     result.Sma = sumSma / smaPeriod;

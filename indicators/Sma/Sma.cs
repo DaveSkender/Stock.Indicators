@@ -47,14 +47,16 @@ namespace Skender.Stock.Indicators
                     {
                         decimal sumMad = 0m;
                         decimal sumMse = 0m;
-                        decimal sumMape = 0m;
+                        decimal? sumMape = 0m;
 
                         for (int p = index - lookbackPeriod; p < index; p++)
                         {
                             Quote d = historyList[p];
                             sumMad += Math.Abs(d.Close - (decimal)result.Sma);
                             sumMse += (d.Close - (decimal)result.Sma) * (d.Close - (decimal)result.Sma);
-                            sumMape += Math.Abs(d.Close - (decimal)result.Sma) / d.Close;
+
+                            sumMape += (d.Close == 0) ? null
+                                : Math.Abs(d.Close - (decimal)result.Sma) / d.Close;
                         }
 
                         // mean absolute deviation

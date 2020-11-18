@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetAtrTest()
+        public void GetAtr()
         {
             int lookbackPeriod = 14;
             List<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod).ToList();
@@ -28,6 +28,13 @@ namespace Internal.Tests
             Assert.AreEqual(2.67m, Math.Round((decimal)r.Tr, 4));
             Assert.AreEqual(6.1497m, Math.Round((decimal)r.Atr, 4));
             Assert.AreEqual(2.5072m, Math.Round((decimal)r.Atrp, 4));
+        }
+
+        [TestMethod()]
+        public void GetAtrBadData()
+        {
+            IEnumerable<AtrResult> r = Indicator.GetAtr(historyBad, 20);
+            Assert.AreEqual(502, r.Count());
         }
 
 

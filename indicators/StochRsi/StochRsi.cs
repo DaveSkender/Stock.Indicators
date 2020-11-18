@@ -48,7 +48,7 @@ namespace Skender.Stock.Indicators
 
                 if (index >= rsiPeriod + stochPeriod)
                 {
-                    StochResult sto = stoResults[index - stochPeriod - 1];
+                    StochResult sto = stoResults[index - rsiPeriod - 1];
 
                     result.StochRsi = sto.Oscillator;
                     result.Signal = sto.Signal;

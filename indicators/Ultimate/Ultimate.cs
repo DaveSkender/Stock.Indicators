@@ -73,9 +73,9 @@ namespace Skender.Stock.Indicators
                         sumTR3 += (decimal)pr.Tr;
                     }
 
-                    decimal avg1 = sumBP1 / sumTR1;
-                    decimal avg2 = sumBP2 / sumTR2;
-                    decimal avg3 = sumBP3 / sumTR3;
+                    decimal? avg1 = (sumTR1 == 0) ? null : sumBP1 / sumTR1;
+                    decimal? avg2 = (sumTR2 == 0) ? null : sumBP2 / sumTR2;
+                    decimal? avg3 = (sumTR3 == 0) ? null : sumBP3 / sumTR3;
 
                     r.Ultimate = 100 * (4m * avg1 + 2m * avg2 + avg3) / 7m;
                 }

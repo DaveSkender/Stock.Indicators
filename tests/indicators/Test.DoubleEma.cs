@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetDoubleEmaTest()
+        public void GetDoubleEma()
         {
             int lookbackPeriod = 20;
             List<EmaResult> results = Indicator.GetDoubleEma(history, lookbackPeriod).ToList();
@@ -32,6 +32,13 @@ namespace Internal.Tests
 
             EmaResult r3 = results[51];
             Assert.AreEqual(226.0011m, Math.Round((decimal)r3.Ema, 4));
+        }
+
+        [TestMethod()]
+        public void GetDoubleEmaBadData()
+        {
+            IEnumerable<EmaResult> r = Indicator.GetDoubleEma(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
         }
 
 

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetSlopeTest()
+        public void GetSlope()
         {
             int lookbackPeriod = 20;
             List<SlopeResult> results = Indicator.GetSlope(history, lookbackPeriod).ToList();
@@ -48,8 +48,16 @@ namespace Internal.Tests
             Assert.AreEqual(null, r3.Line);
         }
 
+        [TestMethod()]
+        public void GetSlopeBadData()
+        {
+            IEnumerable<SlopeResult> r = Indicator.GetSlope(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
+        }
+
 
         /* EXCEPTIONS */
+
         [TestMethod()]
         [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
         public void BadLookbackPeriod()

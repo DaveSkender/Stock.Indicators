@@ -53,7 +53,8 @@ namespace Skender.Stock.Indicators
                     }
                     avgDv /= lookbackPeriod;
 
-                    result.Cci = (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
+                    result.Cci = (avgDv == 0) ? null
+                        : (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
                 }
             }
 

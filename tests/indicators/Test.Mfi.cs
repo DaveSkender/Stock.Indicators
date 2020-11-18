@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetMfiTest()
+        public void GetMfi()
         {
             int lookbackPeriod = 14;
             List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod).ToList();
@@ -32,7 +32,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetMfiSmallPeriodTest()
+        public void GetMfiBadData()
+        {
+            IEnumerable<MfiResult> r = Indicator.GetMfi(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void GetMfiSmall()
         {
             int lookbackPeriod = 4;
             List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod).ToList();

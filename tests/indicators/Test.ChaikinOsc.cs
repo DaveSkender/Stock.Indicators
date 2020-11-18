@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetChaikinOscTest()
+        public void GetChaikinOsc()
         {
             int fastPeriod = 3;
             int slowPeriod = 10;
@@ -30,6 +30,13 @@ namespace Internal.Tests
             Assert.AreEqual(0.8052m, Math.Round(r.MoneyFlowMultiplier, 4));
             Assert.AreEqual(118396116.25m, Math.Round(r.MoneyFlowVolume, 2));
             Assert.AreEqual(-19135200.72m, Math.Round((decimal)r.Oscillator, 2));
+        }
+
+        [TestMethod()]
+        public void GetChaikinOscBadData()
+        {
+            IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(historyBad, 5, 15);
+            Assert.AreEqual(502, r.Count());
         }
 
 

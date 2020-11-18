@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetUltimateTest()
+        public void GetUltimate()
         {
             List<UltimateResult> results = Indicator.GetUltimate(history, 7, 14, 28).ToList();
 
@@ -32,6 +32,13 @@ namespace Internal.Tests
             UltimateResult r3 = results[74];
             Assert.AreEqual(51.7770m, Math.Round((decimal)r3.Ultimate, 4));
 
+        }
+
+        [TestMethod()]
+        public void GetUltimateBadData()
+        {
+            IEnumerable<UltimateResult> r = Indicator.GetUltimate(historyBad, 1, 2, 3);
+            Assert.AreEqual(502, r.Count());
         }
 
 
