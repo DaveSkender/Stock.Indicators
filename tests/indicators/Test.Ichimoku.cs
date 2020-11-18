@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetIchimokuTest()
+        public void GetIchimoku()
         {
             int signalPeriod = 9;
             int shortSpanPeriod = 26;
@@ -46,6 +46,13 @@ namespace Internal.Tests
             Assert.AreEqual(264.77m, r2.SenkouSpanA);
             Assert.AreEqual(269.82m, r2.SenkouSpanB);
             Assert.AreEqual(null, r2.ChikouSpan);
+        }
+
+        [TestMethod()]
+        public void GetIchimokuBadData()
+        {
+            IEnumerable<IchimokuResult> r = Indicator.GetIchimoku(historyBad, 8, 20, 35);
+            Assert.AreEqual(502, r.Count());
         }
 
 

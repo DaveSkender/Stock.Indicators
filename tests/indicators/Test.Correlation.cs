@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetCorrelationTest()
+        public void GetCorrelation()
         {
             int lookbackPeriod = 20;
             List<CorrResult> results =
@@ -31,8 +31,16 @@ namespace Internal.Tests
             Assert.AreEqual(0.7157m, Math.Round((decimal)r.RSquared, 4));
         }
 
+        [TestMethod()]
+        public void GetCorrelationBadData()
+        {
+            IEnumerable<CorrResult> r = Indicator.GetCorrelation(historyBad, historyBad, 15);
+            Assert.AreEqual(502, r.Count());
+        }
+
 
         /* EXCEPTIONS */
+
         [TestMethod()]
         [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
         public void BadLookbackPeriod()

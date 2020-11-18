@@ -56,7 +56,9 @@ namespace Skender.Stock.Indicators
                     decimal periodAvg = sum / lookbackPeriod;
 
                     result.StdDev = (decimal)Functions.StdDev(periodValues);
-                    result.ZScore = (bd.Value - periodAvg) / result.StdDev;
+
+                    result.ZScore = (result.StdDev == 0) ? null
+                        : (bd.Value - periodAvg) / result.StdDev;
                 }
 
                 results.Add(result);

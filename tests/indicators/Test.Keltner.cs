@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetKeltnerTest()
+        public void GetKeltner()
         {
             int emaPeriod = 20;
             int multiplier = 2;
@@ -44,6 +44,13 @@ namespace Internal.Tests
             Assert.AreEqual(265.4599m, Math.Round((decimal)r2.Centerline, 4));
             Assert.AreEqual(255.4938m, Math.Round((decimal)r2.LowerBand, 4));
             Assert.AreEqual(0.075085m, Math.Round((decimal)r2.Width, 6));
+        }
+
+        [TestMethod()]
+        public void GetKeltnerBadData()
+        {
+            IEnumerable<KeltnerResult> r = Indicator.GetKeltner(historyBad, 10, 3, 15);
+            Assert.AreEqual(502, r.Count());
         }
 
 

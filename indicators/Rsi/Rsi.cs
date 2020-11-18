@@ -67,7 +67,7 @@ namespace Skender.Stock.Indicators
                     decimal sumGain = 0;
                     decimal sumLoss = 0;
 
-                    for (int p = 0; p < lookbackPeriod; p++)
+                    for (int p = 1; p <= lookbackPeriod; p++)
                     {
                         RsiResult d = results[p];
                         sumGain += d.Gain;

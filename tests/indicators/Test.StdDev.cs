@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetStdDevTest()
+        public void GetStdDev()
         {
             int lookbackPeriod = 10;
             List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod).ToList();
@@ -38,7 +38,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStdDevWithSmaTest()
+        public void GetStdDevBadData()
+        {
+            IEnumerable<StdDevResult> r = Indicator.GetStdDev(historyBad, 15, 3);
+            Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void GetStdDevWithSma()
         {
             int lookbackPeriod = 10;
             int smaPeriod = 5;

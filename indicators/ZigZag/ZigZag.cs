@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
         {
             // initialize 
             bool trendUp = (lastPoint.PointType == "L");
-            decimal change = 0;
+            decimal? change = 0;
 
             ZigZagPoint extremePoint = new ZigZagPoint
             {
@@ -131,7 +131,8 @@ namespace Skender.Stock.Indicators
                         }
                         else
                         {
-                            change = (extremePoint.Value - eval.Low) / extremePoint.Value;
+                            change = (extremePoint.Value == 0) ? null
+                                : (extremePoint.Value - eval.Low) / extremePoint.Value;
                         }
 
                         break;
@@ -145,7 +146,8 @@ namespace Skender.Stock.Indicators
                         }
                         else
                         {
-                            change = (eval.High - extremePoint.Value) / extremePoint.Value;
+                            change = (extremePoint.Value == 0) ? null
+                                : (eval.High - extremePoint.Value) / extremePoint.Value;
                         }
 
                         break;

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetPrsTest()
+        public void GetPrs()
         {
             int lookbackPeriod = 30;
             int smaPeriod = 10;
@@ -43,6 +43,13 @@ namespace Internal.Tests
             Assert.AreEqual(1.108340m, Math.Round((decimal)r3.Prs, 6));
             Assert.AreEqual(null, r3.Sma);
             Assert.AreEqual(null, r3.PrsPercent);
+        }
+
+        [TestMethod()]
+        public void GetPrsBadData()
+        {
+            IEnumerable<PrsResult> r = Indicator.GetPrs(historyBad, historyBad, 15, 4);
+            Assert.AreEqual(502, r.Count());
         }
 
 

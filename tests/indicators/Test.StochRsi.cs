@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetStochRsiTest()
+        public void GetStochRsi()
         {
             int rsiPeriod = 14;
             int stochPeriod = 14;
@@ -29,15 +29,26 @@ namespace Internal.Tests
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2, results.Where(x => x.StochRsi != null).Count());
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - signalPeriod - smoothPeriod + 3, results.Where(x => x.Signal != null).Count());
 
-            // sample value
-            StochRsiResult r = results[501];
-            Assert.AreEqual(97.5244m, Math.Round((decimal)r.StochRsi, 4));
-            Assert.AreEqual(89.8385m, Math.Round((decimal)r.Signal, 4));
+            // sample values
+            StochRsiResult r1 = results[501];
+            Assert.AreEqual(97.5244m, Math.Round((decimal)r1.StochRsi, 4));
+            Assert.AreEqual(89.8385m, Math.Round((decimal)r1.Signal, 4));
+
+            StochRsiResult r2 = results[249];
+            Assert.AreEqual(36.5517m, Math.Round((decimal)r2.StochRsi, 4));
+            Assert.AreEqual(27.3094m, Math.Round((decimal)r2.Signal, 4));
+
+            StochRsiResult r3 = results[152];
+            Assert.AreEqual(0m, Math.Round((decimal)r3.StochRsi, 4));
+            Assert.AreEqual(0m, Math.Round((decimal)r3.Signal, 4));
+
+            StochRsiResult r4 = results[31];
+            Assert.AreEqual(93.3333m, Math.Round((decimal)r4.StochRsi, 4));
+            Assert.AreEqual(97.7778m, Math.Round((decimal)r4.Signal, 4));
         }
 
-
         [TestMethod()]
-        public void GetStochRsiSlowTest()
+        public void GetStochRsiSlow()
         {
             int rsiPeriod = 14;
             int stochPeriod = 14;
@@ -55,10 +66,29 @@ namespace Internal.Tests
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - smoothPeriod + 2, results.Where(x => x.StochRsi != null).Count());
             Assert.AreEqual(502 - rsiPeriod - stochPeriod - signalPeriod - smoothPeriod + 3, results.Where(x => x.Signal != null).Count());
 
-            // sample value
-            StochRsiResult r = results[501];
-            Assert.AreEqual(89.8385m, Math.Round((decimal)r.StochRsi, 4));
-            Assert.AreEqual(73.4176m, Math.Round((decimal)r.Signal, 4));
+            // sample values
+            StochRsiResult r1 = results[501];
+            Assert.AreEqual(89.8385m, Math.Round((decimal)r1.StochRsi, 4));
+            Assert.AreEqual(73.4176m, Math.Round((decimal)r1.Signal, 4));
+
+            StochRsiResult r2 = results[249];
+            Assert.AreEqual(27.3094m, Math.Round((decimal)r2.StochRsi, 4));
+            Assert.AreEqual(33.2716m, Math.Round((decimal)r2.Signal, 4));
+
+            StochRsiResult r3 = results[152];
+            Assert.AreEqual(0m, Math.Round((decimal)r3.StochRsi, 4));
+            Assert.AreEqual(20.0263m, Math.Round((decimal)r3.Signal, 4));
+
+            StochRsiResult r4 = results[31];
+            Assert.AreEqual(97.7778m, Math.Round((decimal)r4.StochRsi, 4));
+            Assert.AreEqual(99.2593m, Math.Round((decimal)r4.Signal, 4));
+        }
+
+        [TestMethod()]
+        public void GetStochRsiBadData()
+        {
+            IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(historyBad, 15, 20, 3, 2);
+            Assert.AreEqual(502, r.Count());
         }
 
 

@@ -12,5 +12,6 @@ namespace Internal.Tests
 
         internal static readonly IEnumerable<Quote> history = History.GetHistory();
         internal static readonly IEnumerable<Quote> historyOther = History.GetHistoryOther();
+        internal static readonly IEnumerable<Quote> historyBad = History.GetHistoryBad();
     }
 }

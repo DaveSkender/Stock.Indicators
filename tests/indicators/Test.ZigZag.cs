@@ -122,6 +122,13 @@ namespace Internal.Tests
             Assert.AreEqual(null, r5.PointType);
         }
 
+        [TestMethod()]
+        public void GetZigZagBadData()
+        {
+            IEnumerable<ZigZagResult> r = Indicator.GetZigZag(historyBad);
+            Assert.AreEqual(502, r.Count());
+        }
+
 
         /* EXCEPTIONS */
 

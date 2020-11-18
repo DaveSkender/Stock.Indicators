@@ -69,7 +69,10 @@ namespace Skender.Stock.Indicators
                     r.VarianceA = avgA2 - avgA * avgA;
                     r.VarianceB = avgB2 - avgB * avgB;
                     r.Covariance = avgAB - avgA * avgB;
-                    r.Correlation = r.Covariance / (decimal)Math.Sqrt((double)(r.VarianceA * r.VarianceB));
+
+                    r.Correlation = (r.VarianceA == 0 || r.VarianceB == 0) ? null
+                       : r.Covariance / (decimal)Math.Sqrt((double)(r.VarianceA * r.VarianceB));
+
                     r.RSquared = r.Correlation * r.Correlation;
                 }
 

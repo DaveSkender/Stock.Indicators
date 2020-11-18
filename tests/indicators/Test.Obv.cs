@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetObvTest()
+        public void GetObv()
         {
 
             List<ObvResult> results = Indicator.GetObv(history).ToList();
@@ -33,7 +33,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetObvWithSmaTest()
+        public void GetObvBadData()
+        {
+            IEnumerable<ObvResult> r = Indicator.GetObv(historyBad);
+            Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void GetObvWithSma()
         {
 
             List<ObvResult> results = Indicator.GetObv(history, 20).ToList();

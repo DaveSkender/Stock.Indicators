@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetCmfTest()
+        public void GetCmf()
         {
             int lookbackPeriod = 20;
             List<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod).ToList();
@@ -37,6 +37,13 @@ namespace Internal.Tests
             Assert.AreEqual(0.5468m, Math.Round(r3.MoneyFlowMultiplier, 4));
             Assert.AreEqual(55609259m, Math.Round(r3.MoneyFlowVolume, 2));
             Assert.AreEqual(0.350596m, Math.Round((decimal)r3.Cmf, 6));
+        }
+
+        [TestMethod()]
+        public void GetCmfBadData()
+        {
+            IEnumerable<CmfResult> r = Indicator.GetCmf(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
         }
 
 

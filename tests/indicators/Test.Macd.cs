@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetMacdTest()
+        public void GetMacd()
         {
             int fastPeriod = 12;
             int slowPeriod = 26;
@@ -45,6 +45,13 @@ namespace Internal.Tests
             Assert.AreEqual(2.2353m, Math.Round((decimal)r3.Macd, 4));
             Assert.AreEqual(2.3141m, Math.Round((decimal)r3.Signal, 4));
             Assert.AreEqual(-0.0789m, Math.Round((decimal)r3.Histogram, 4));
+        }
+
+        [TestMethod()]
+        public void GetMacdBadData()
+        {
+            IEnumerable<MacdResult> r = Indicator.GetMacd(historyBad, 10, 20, 5);
+            Assert.AreEqual(502, r.Count());
         }
 
 

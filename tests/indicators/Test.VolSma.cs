@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetVolSmaTest()
+        public void GetVolSma()
         {
             int lookbackPeriod = 20;
             List<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod).ToList();
@@ -34,6 +34,13 @@ namespace Internal.Tests
             Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture), r3.Date);
             Assert.AreEqual(147031456m, r3.Volume);
             Assert.AreEqual(163695200m, r3.VolSma);
+        }
+
+        [TestMethod()]
+        public void GetVolSmaBadData()
+        {
+            IEnumerable<VolSmaResult> r = Indicator.GetVolSma(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
         }
 
 

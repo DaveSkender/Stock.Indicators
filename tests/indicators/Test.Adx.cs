@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetAdxTest()
+        public void GetAdx()
         {
             int lookbackPeriod = 14;
             List<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod).ToList();
@@ -43,6 +43,13 @@ namespace Internal.Tests
             Assert.AreEqual(37.9719m, Math.Round((decimal)r4.Pdi, 4));
             Assert.AreEqual(14.1658m, Math.Round((decimal)r4.Mdi, 4));
             Assert.AreEqual(19.7949m, Math.Round((decimal)r4.Adx, 4));
+        }
+
+        [TestMethod()]
+        public void GetAdxBadData()
+        {
+            IEnumerable<AdxResult> r = Indicator.GetAdx(historyBad, 20);
+            Assert.AreEqual(502, r.Count());
         }
 
 
