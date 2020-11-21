@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // WILLIAM %R OSCILLATOR
-        public static IEnumerable<WilliamsResult> GetWilliamsR(IEnumerable<Quote> history, int lookbackPeriod = 14)
+        public static IEnumerable<WilliamsResult> GetWilliamsR<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14) where TQuote : IQuote
         {
 
             // validate parameters
@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateWilliam(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateWilliam<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
         {
 
             // check parameters

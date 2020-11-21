@@ -7,11 +7,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // BETA COEFFICIENT
-        public static IEnumerable<BetaResult> GetBeta(
-            IEnumerable<Quote> historyMarket, IEnumerable<Quote> historyEval, int lookbackPeriod)
+        public static IEnumerable<BetaResult> GetBeta<TQuote>(
+            IEnumerable<TQuote> historyMarket, IEnumerable<TQuote> historyEval, int lookbackPeriod) where TQuote : IQuote
         {
             // clean quotes
-            List<Quote> historyEvalList = historyEval.Sort();
+            List<TQuote> historyEvalList = historyEval.Sort();
 
             // validate parameters
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
@@ -25,7 +25,7 @@ namespace Skender.Stock.Indicators
             // roll through history for interim data
             for (int i = 0; i < historyEvalList.Count; i++)
             {
-                Quote e = historyEvalList[i];
+                TQuote e = historyEvalList[i];
 
                 BetaResult result = new BetaResult
                 {
@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateBeta(IEnumerable<Quote> historyMarket, IEnumerable<Quote> historyEval, int lookbackPeriod)
+        private static void ValidateBeta<TQuote>(IEnumerable<TQuote> historyMarket, IEnumerable<TQuote> historyEval, int lookbackPeriod) where TQuote : IQuote
         {
 
             // check parameters

@@ -7,11 +7,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STOCHASTIC OSCILLATOR
-        public static IEnumerable<StochResult> GetStoch(IEnumerable<Quote> history, int lookbackPeriod = 14, int signalPeriod = 3, int smoothPeriod = 3)
+        public static IEnumerable<StochResult> GetStoch<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14, int signalPeriod = 3, int smoothPeriod = 3) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // validate parameters
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             // oscillator
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 StochResult result = new StochResult
@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriod; p < index; p++)
                     {
-                        Quote d = historyList[p];
+                        TQuote d = historyList[p];
 
                         if (d.High > highHigh)
                         {
@@ -134,7 +134,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStoch(IEnumerable<Quote> history, int lookbackPeriod, int signalPeriod, int smoothPeriod)
+        private static void ValidateStoch<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod, int signalPeriod, int smoothPeriod) where TQuote : IQuote
         {
 
             // check parameters

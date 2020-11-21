@@ -7,11 +7,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ULCER INDEX (UI)
-        public static IEnumerable<UlcerIndexResult> GetUlcerIndex(IEnumerable<Quote> history, int lookbackPeriod = 14)
+        public static IEnumerable<UlcerIndexResult> GetUlcerIndex<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // validate parameters
             ValidateUlcer(history, lookbackPeriod);
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 UlcerIndexResult result = new UlcerIndexResult
@@ -35,13 +35,13 @@ namespace Skender.Stock.Indicators
                     double? sumSquared = 0;
                     for (int p = index - lookbackPeriod; p < index; p++)
                     {
-                        Quote d = historyList[p];
+                        TQuote d = historyList[p];
                         int dIndex = p + 1;
 
                         decimal maxClose = 0;
                         for (int q = index - lookbackPeriod; q < dIndex; q++)
                         {
-                            Quote dd = historyList[q];
+                            TQuote dd = historyList[q];
                             if (dd.Close > maxClose)
                             {
                                 maxClose = dd.Close;
@@ -64,7 +64,7 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
-        private static void ValidateUlcer(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateUlcer<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
         {
 
             // check parameters

@@ -7,11 +7,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // Money Flow Index
-        public static IEnumerable<MfiResult> GetMfi(IEnumerable<Quote> history, int lookbackPeriod = 14)
+        public static IEnumerable<MfiResult> GetMfi<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameters
             ValidateMfi(history, lookbackPeriod);
@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             // preliminary data
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
 
                 MfiResult result = new MfiResult
                 {
@@ -94,7 +94,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateMfi(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateMfi<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
         {
             // check parameters
             if (lookbackPeriod <= 1)

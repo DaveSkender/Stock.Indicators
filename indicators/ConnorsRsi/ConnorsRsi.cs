@@ -7,8 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CONNORS RSI
-        public static IEnumerable<ConnorsRsiResult> GetConnorsRsi(
-            IEnumerable<Quote> history, int rsiPeriod = 3, int streakPeriod = 2, int rankPeriod = 100)
+        public static IEnumerable<ConnorsRsiResult> GetConnorsRsi<TQuote>(
+            IEnumerable<TQuote> history, int rsiPeriod = 3, int streakPeriod = 2, int rankPeriod = 100) where TQuote : IQuote
         {
 
             // convert history to basic format

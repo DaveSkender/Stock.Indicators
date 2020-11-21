@@ -7,11 +7,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ON-BALANCE VOLUME
-        public static IEnumerable<ObvResult> GetObv(IEnumerable<Quote> history, int? smaPeriod = null)
+        public static IEnumerable<ObvResult> GetObv<TQuote>(IEnumerable<TQuote> history, int? smaPeriod = null) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameters
             ValidateObv(history, smaPeriod);
@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
 
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 if (prevClose == null || h.Close == prevClose)
@@ -66,7 +66,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateObv(IEnumerable<Quote> history, int? smaPeriod)
+        private static void ValidateObv<TQuote>(IEnumerable<TQuote> history, int? smaPeriod) where TQuote : IQuote
         {
 
             // check parameters

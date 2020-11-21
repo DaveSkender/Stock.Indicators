@@ -6,11 +6,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // HEIKIN-ASHI
-        public static IEnumerable<HeikinAshiResult> GetHeikinAshi(IEnumerable<Quote> history)
+        public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(IEnumerable<TQuote> history) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameters
             ValidateHeikinAshi(history);
@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
 
                 // close
                 decimal close = (h.Open + h.High + h.Low + h.Close) / 4;
@@ -59,7 +59,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateHeikinAshi(IEnumerable<Quote> history)
+        private static void ValidateHeikinAshi<TQuote>(IEnumerable<TQuote> history) where TQuote : IQuote
         {
 
             // check history

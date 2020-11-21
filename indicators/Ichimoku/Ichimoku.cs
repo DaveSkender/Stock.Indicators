@@ -7,12 +7,12 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ICHIMOKU CLOUD
-        public static IEnumerable<IchimokuResult> GetIchimoku(IEnumerable<Quote> history,
-            int signalPeriod = 9, int shortSpanPeriod = 26, int longSpanPeriod = 52)
+        public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(IEnumerable<TQuote> history,
+            int signalPeriod = 9, int shortSpanPeriod = 26, int longSpanPeriod = 52) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameters
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 IchimokuResult result = new IchimokuResult
@@ -63,8 +63,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void CalcIchimokuTenkanSen(
-            int index, List<Quote> historyList, IchimokuResult result, int signalPeriod)
+        private static void CalcIchimokuTenkanSen<TQuote>(
+            int index, List<TQuote> historyList, IchimokuResult result, int signalPeriod) where TQuote : IQuote
         {
             if (index >= signalPeriod)
             {
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - signalPeriod; p < index; p++)
                 {
-                    Quote d = historyList[p];
+                    TQuote d = historyList[p];
 
                     if (d.High > max)
                     {
@@ -91,8 +91,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void CalcIchimokuKijunSen(
-            int index, List<Quote> historyList, IchimokuResult result, int shortSpanPeriod)
+        private static void CalcIchimokuKijunSen<TQuote>(
+            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriod) where TQuote : IQuote
         {
             if (index >= shortSpanPeriod)
             {
@@ -101,7 +101,7 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - shortSpanPeriod; p < index; p++)
                 {
-                    Quote d = historyList[p];
+                    TQuote d = historyList[p];
 
                     if (d.High > max)
                     {
@@ -119,8 +119,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void CalcIchimokuSenkouB(
-            int index, List<Quote> historyList, IchimokuResult result, int shortSpanPeriod, int longSpanPeriod)
+        private static void CalcIchimokuSenkouB<TQuote>(
+            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriod, int longSpanPeriod) where TQuote : IQuote
         {
             if (index >= shortSpanPeriod + longSpanPeriod)
             {
@@ -130,7 +130,7 @@ namespace Skender.Stock.Indicators
                 for (int p = index - shortSpanPeriod - longSpanPeriod;
                     p < index - shortSpanPeriod; p++)
                 {
-                    Quote d = historyList[p];
+                    TQuote d = historyList[p];
 
                     if (d.High > max)
                     {
@@ -148,8 +148,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateIchimoku(IEnumerable<Quote> history,
-            int signalPeriod, int shortSpanPeriod, int longSpanPeriod)
+        private static void ValidateIchimoku<TQuote>(IEnumerable<TQuote> history,
+            int signalPeriod, int shortSpanPeriod, int longSpanPeriod) where TQuote : IQuote
         {
 
             // check parameters

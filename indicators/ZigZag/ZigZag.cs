@@ -7,12 +7,12 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ZIG ZAG
-        public static IEnumerable<ZigZagResult> GetZigZag(
-            IEnumerable<Quote> history, ZigZagType type = ZigZagType.Close, decimal percentChange = 5)
+        public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
+            IEnumerable<TQuote> history, ZigZagType type = ZigZagType.Close, decimal percentChange = 5) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameters
             ValidateZigZag(history, percentChange);
@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             // initialize
             List<ZigZagResult> results = new List<ZigZagResult>();
             decimal changeThreshold = percentChange / 100m;
-            Quote firstQuote = historyList[0];
+            TQuote firstQuote = historyList[0];
             ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);
 
             ZigZagPoint lastPoint = new ZigZagPoint
@@ -49,7 +49,7 @@ namespace Skender.Stock.Indicators
             // roll through history until to find initial trend
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 eval = GetZigZagEval(type, index, h);
@@ -97,10 +97,10 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagPoint EvaluateNextPoint(List<Quote> historyList,
-            ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint)
+        private static ZigZagPoint EvaluateNextPoint<TQuote>(List<TQuote> historyList,
+            ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
-            // initialize 
+            // initialize
             bool trendUp = (lastPoint.PointType == "L");
             decimal? change = 0;
 
@@ -114,7 +114,7 @@ namespace Skender.Stock.Indicators
             // find extreme point before reversal point
             for (int i = lastPoint.Index; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 ZigZagEval eval = GetZigZagEval(type, index, h);
@@ -171,8 +171,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawZigZagLine(List<ZigZagResult> results, List<Quote> historyList,
-            ZigZagPoint lastPoint, ZigZagPoint nextPoint)
+        private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> historyList,
+            ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
         {
 
             decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
@@ -180,7 +180,7 @@ namespace Skender.Stock.Indicators
             // add new line segment
             for (int i = lastPoint.Index; i < nextPoint.Index; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 ZigZagResult result = new ZigZagResult
@@ -253,7 +253,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagEval GetZigZagEval(ZigZagType type, int index, Quote q)
+        private static ZigZagEval GetZigZagEval<TQuote>(ZigZagType type, int index, TQuote q) where TQuote : IQuote
         {
             ZigZagEval eval = new ZigZagEval()
             {
@@ -280,7 +280,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateZigZag(IEnumerable<Quote> history, decimal percentChange)
+        private static void ValidateZigZag<TQuote>(IEnumerable<TQuote> history, decimal percentChange) where TQuote : IQuote
         {
 
             // check parameters
