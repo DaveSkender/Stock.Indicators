@@ -13,7 +13,7 @@ IEnumerable<SlopeResult> results = Indicator.GetSlope(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods.
 | `lookbackPeriod` | int | Number of periods (`N`) for the linear regression.  Must be greater than 0.
 
 ## Response

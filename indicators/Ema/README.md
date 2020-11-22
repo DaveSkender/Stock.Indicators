@@ -19,7 +19,7 @@ IEnumerable<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod)
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Minimum history requirements

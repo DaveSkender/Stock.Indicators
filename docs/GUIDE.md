@@ -4,6 +4,7 @@
 - [Prerequisite data](#prerequisite-data)
 - [Example usage](#example-usage)
 - [About historical quotes](#quote)
+- [Using generic Quote classes](#using-generic-quote-classes)
 - [Validating history](#validating-history)
 - [Using derived classes](#using-derived-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
@@ -14,7 +15,7 @@
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
 You can get historical quotes from your favorite stock data provider.
-Historical data is an `IEnumerable` of the `Quote` class ([see below](#quote)).
+Historical data is an `IEnumerable` of the `Quote` class ([see below](#quote)); however, it can also be supplied as a [generic quote type](#using-generic-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.
@@ -44,6 +45,8 @@ Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 SMA on 12/31/2018 was $251.86
 ```
 
+See [using generic Quote classes](#using-generic-quote-classes) if you prefer to use your custom quote class.
+
 See [individual indicator pages](INDICATORS.md) for specific guidance.
 
 ## Quote
@@ -71,9 +74,39 @@ Note that some indicators, especially those that are derived from [Exponential M
 
 For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of total historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.
 
+## Using generic Quote classes
+
+If you would like to use your own custom `MyCustomQuote` _quote_ class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
+
+```csharp
+public class MyCustomQuote : IQuote
+{
+    // required base properties
+    public DateTime Date { get; set; }
+    public decimal Open { get; set; }
+    public decimal High { get; set; }
+    public decimal Low { get; set; }
+    public decimal Close { get; set; }
+    public decimal Volume { get; set; }
+
+    // custom properties
+    public int myOtherProperty { get; set; }
+}
+```
+
+```csharp
+using Skender.Stock.Indicators;
+
+// fetch historical quotes from your favorite feed
+IEnumerable<MyCustomQuote> myHistory = GetHistoryFromFeed("MSFT");
+
+// example: get 20-period simple moving average
+IEnumerable<SmaResult> results = Indicator.GetSma(myHistory,20);
+```
+
 ## Validating history
 
-Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<Quote> history` (historical quotes) you can validate it with the `ValidateHistory` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
+Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<IQuote> history` (historical quotes) you can _optionally_ validate it with the `ValidateHistory` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
 
 ```csharp
 // fetch historical quotes from your favorite feed, in Quote format

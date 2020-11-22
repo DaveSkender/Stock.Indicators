@@ -13,7 +13,7 @@ IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N`+1 periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 2×`N` data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N`+1 periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 2×`N` data points prior to the intended usage date for maximum precision.
 | `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.
 
 ## Response

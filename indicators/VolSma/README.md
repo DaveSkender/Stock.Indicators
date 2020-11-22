@@ -13,7 +13,7 @@ IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod)
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ## Response

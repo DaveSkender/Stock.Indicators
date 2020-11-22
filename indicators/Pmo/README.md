@@ -13,7 +13,7 @@ IEnumerable<PmoResult> results = Indicator.GetPmo(history, timePeriod, smoothing
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `T+S` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `T+S` periods of `history`.
 | `timePeriod` | int | Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
 | `smoothingPeriod` | int | Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
 | `signalPeriod` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
