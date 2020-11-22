@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ON-BALANCE VOLUME
-        public static IEnumerable<ObvResult> GetObv<TQuote>(IEnumerable<TQuote> history, int? smaPeriod = null) where TQuote : IQuote
+        public static IEnumerable<ObvResult> GetObv<TQuote>(
+            IEnumerable<TQuote> history,
+            int? smaPeriod = null)
+            where TQuote : IQuote
         {
 
             // clean quotes

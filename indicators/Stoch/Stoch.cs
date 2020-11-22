@@ -7,7 +7,12 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STOCHASTIC OSCILLATOR
-        public static IEnumerable<StochResult> GetStoch<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14, int signalPeriod = 3, int smoothPeriod = 3) where TQuote : IQuote
+        public static IEnumerable<StochResult> GetStoch<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 14,
+            int signalPeriod = 3,
+            int smoothPeriod = 3)
+            where TQuote : IQuote
         {
 
             // clean quotes

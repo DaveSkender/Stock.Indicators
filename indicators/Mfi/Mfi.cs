@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // Money Flow Index
-        public static IEnumerable<MfiResult> GetMfi<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14) where TQuote : IQuote
+        public static IEnumerable<MfiResult> GetMfi<TQuote>(
+            IEnumerable<TQuote> history, 
+            int lookbackPeriod = 14) 
+            where TQuote : IQuote
         {
 
             // clean quotes

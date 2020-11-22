@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SLOPE AND LINEAR REGRESSION
-        public static IEnumerable<SlopeResult> GetSlope<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        public static IEnumerable<SlopeResult> GetSlope<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
             // clean quotes
             List<TQuote> historyList = history.Sort();

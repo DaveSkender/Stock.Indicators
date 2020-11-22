@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // HULL MOVING AVERAGE
-        public static IEnumerable<HmaResult> GetHma<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        public static IEnumerable<HmaResult> GetHma<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
             // clean quotes

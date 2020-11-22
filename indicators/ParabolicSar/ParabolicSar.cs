@@ -10,7 +10,8 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
             IEnumerable<TQuote> history,
             decimal accelerationStep = (decimal)0.02,
-            decimal maxAccelerationFactor = (decimal)0.2) where TQuote : IQuote
+            decimal maxAccelerationFactor = (decimal)0.2)
+            where TQuote : IQuote
         {
 
             // clean quotes

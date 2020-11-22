@@ -6,7 +6,9 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // HEIKIN-ASHI
-        public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(IEnumerable<TQuote> history) where TQuote : IQuote
+        public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(
+            IEnumerable<TQuote> history)
+            where TQuote : IQuote
         {
 
             // clean quotes

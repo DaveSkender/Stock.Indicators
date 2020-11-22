@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CHAIKIN MONEY FLOW
-        public static IEnumerable<CmfResult> GetCmf<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 20) where TQuote : IQuote
+        public static IEnumerable<CmfResult> GetCmf<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 20)
+            where TQuote : IQuote
         {
 
             // clean quotes

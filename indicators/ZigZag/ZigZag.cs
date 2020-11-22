@@ -8,7 +8,10 @@ namespace Skender.Stock.Indicators
     {
         // ZIG ZAG
         public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
-            IEnumerable<TQuote> history, ZigZagType type = ZigZagType.Close, decimal percentChange = 5) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            ZigZagType type = ZigZagType.Close,
+            decimal percentChange = 5)
+            where TQuote : IQuote
         {
 
             // clean quotes

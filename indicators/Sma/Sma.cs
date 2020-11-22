@@ -8,7 +8,10 @@ namespace Skender.Stock.Indicators
     {
         // SIMPLE MOVING AVERAGE
         public static IEnumerable<SmaResult> GetSma<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod, bool extended = false) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            bool extended = false)
+            where TQuote : IQuote
         {
 
             // clean quotes

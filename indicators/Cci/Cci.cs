@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // COMMODITY CHANNEL INDEX
-        public static IEnumerable<CciResult> GetCci<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 20) where TQuote : IQuote
+        public static IEnumerable<CciResult> GetCci<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 20)
+            where TQuote : IQuote
         {
 
             // clean quotes

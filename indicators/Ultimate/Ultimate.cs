@@ -8,7 +8,11 @@ namespace Skender.Stock.Indicators
     {
         // ULTIMATE OSCILLATOR
         public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
-            IEnumerable<TQuote> history, int shortPeriod = 7, int middlePeriod = 14, int longPeriod = 28) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int shortPeriod = 7,
+            int middlePeriod = 14,
+            int longPeriod = 28)
+            where TQuote : IQuote
         {
 
             // clean quotes

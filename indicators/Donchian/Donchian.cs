@@ -8,7 +8,9 @@ namespace Skender.Stock.Indicators
     {
         // DONCHIAN CHANNEL
         public static IEnumerable<DonchianResult> GetDonchian<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod = 20) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 20)
+            where TQuote : IQuote
         {
 
             // clean quotes

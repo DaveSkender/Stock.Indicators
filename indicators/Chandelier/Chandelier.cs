@@ -8,8 +8,11 @@ namespace Skender.Stock.Indicators
     {
         // CHANDELIER EXIT
         public static IEnumerable<ChandelierResult> GetChandelier<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod = 22,
-            decimal multiplier = 3.0m, ChandelierType type = ChandelierType.Long) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 22,
+            decimal multiplier = 3.0m,
+            ChandelierType type = ChandelierType.Long)
+            where TQuote : IQuote
         {
 
             // clean quotes

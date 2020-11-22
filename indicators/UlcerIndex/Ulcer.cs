@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ULCER INDEX (UI)
-        public static IEnumerable<UlcerIndexResult> GetUlcerIndex<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14) where TQuote : IQuote
+        public static IEnumerable<UlcerIndexResult> GetUlcerIndex<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 14)
+            where TQuote : IQuote
         {
 
             // clean quotes

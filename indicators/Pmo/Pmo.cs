@@ -11,7 +11,8 @@ namespace Skender.Stock.Indicators
             IEnumerable<TQuote> history,
             int timePeriod = 35,
             int smoothingPeriod = 20,
-            int signalPeriod = 10) where TQuote : IQuote
+            int signalPeriod = 10)
+            where TQuote : IQuote
         {
 
             // check parameters

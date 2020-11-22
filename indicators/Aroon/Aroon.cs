@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // AROON OSCILLATOR
-        public static IEnumerable<AroonResult> GetAroon<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 25) where TQuote : IQuote
+        public static IEnumerable<AroonResult> GetAroon<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 25)
+            where TQuote : IQuote
         {
 
             // clean quotes

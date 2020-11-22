@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // TRIPLE EXPONENTIAL MOVING AVERAGE
-        public static IEnumerable<EmaResult> GetTripleEma<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        public static IEnumerable<EmaResult> GetTripleEma<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
             // convert history to basic format

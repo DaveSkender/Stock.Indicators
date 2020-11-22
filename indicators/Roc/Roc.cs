@@ -8,7 +8,10 @@ namespace Skender.Stock.Indicators
     {
         // RATE OF CHANGE (ROC)
         public static IEnumerable<RocResult> GetRoc<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod, int? smaPeriod = null) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            int? smaPeriod = null)
+            where TQuote : IQuote
         {
 
             // clean quotes

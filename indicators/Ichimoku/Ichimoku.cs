@@ -7,8 +7,12 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ICHIMOKU CLOUD
-        public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(IEnumerable<TQuote> history,
-            int signalPeriod = 9, int shortSpanPeriod = 26, int longSpanPeriod = 52) where TQuote : IQuote
+        public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
+            IEnumerable<TQuote> history,
+            int signalPeriod = 9,
+            int shortSpanPeriod = 26,
+            int longSpanPeriod = 52)
+            where TQuote : IQuote
         {
 
             // clean quotes

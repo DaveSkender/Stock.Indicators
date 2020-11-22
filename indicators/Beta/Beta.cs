@@ -8,7 +8,10 @@ namespace Skender.Stock.Indicators
     {
         // BETA COEFFICIENT
         public static IEnumerable<BetaResult> GetBeta<TQuote>(
-            IEnumerable<TQuote> historyMarket, IEnumerable<TQuote> historyEval, int lookbackPeriod) where TQuote : IQuote
+            IEnumerable<TQuote> historyMarket,
+            IEnumerable<TQuote> historyEval,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
             // clean quotes
             List<TQuote> historyEvalList = historyEval.Sort();

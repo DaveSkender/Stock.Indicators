@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // AVERAGE TRUE RANGE
-        public static IEnumerable<AtrResult> GetAtr<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14) where TQuote : IQuote
+        public static IEnumerable<AtrResult> GetAtr<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 14)
+            where TQuote : IQuote
         {
 
             // clean quotes

@@ -8,7 +8,11 @@ namespace Skender.Stock.Indicators
     {
         // DONCHIAN CHANNEL
         public static IEnumerable<KeltnerResult> GetKeltner<TQuote>(
-            IEnumerable<TQuote> history, int emaPeriod = 20, decimal multiplier = 2, int atrPeriod = 10) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int emaPeriod = 20,
+            decimal multiplier = 2,
+            int atrPeriod = 10)
+            where TQuote : IQuote
         {
 
             // clean quotes

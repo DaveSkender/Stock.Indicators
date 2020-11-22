@@ -8,7 +8,10 @@ namespace Skender.Stock.Indicators
     {
         // BOLLINGER BANDS
         public static IEnumerable<BollingerBandsResult> GetBollingerBands<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod = 20, decimal standardDeviations = 2) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 20,
+            decimal standardDeviations = 2)
+            where TQuote : IQuote
         {
 
             // clean quotes

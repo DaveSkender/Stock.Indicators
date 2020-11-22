@@ -10,7 +10,8 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 3,
-            int slowPeriod = 10) where TQuote : IQuote
+            int slowPeriod = 10)
+            where TQuote : IQuote
         {
 
             // check parameters

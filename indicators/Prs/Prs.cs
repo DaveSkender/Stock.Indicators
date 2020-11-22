@@ -8,7 +8,11 @@ namespace Skender.Stock.Indicators
     {
         // PRICE RELATIVE STRENGTH
         public static IEnumerable<PrsResult> GetPrs<TQuote>(
-            IEnumerable<TQuote> historyBase, IEnumerable<TQuote> historyEval, int? lookbackPeriod = null, int? smaPeriod = null) where TQuote : IQuote
+            IEnumerable<TQuote> historyBase,
+            IEnumerable<TQuote> historyEval,
+            int? lookbackPeriod = null,
+            int? smaPeriod = null)
+            where TQuote : IQuote
         {
             // clean quotes
             List<TQuote> historyBaseList = historyBase.Sort();

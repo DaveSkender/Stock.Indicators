@@ -8,7 +8,10 @@ namespace Skender.Stock.Indicators
     {
         // CORRELATION COEFFICIENT
         public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
-            IEnumerable<TQuote> historyA, IEnumerable<TQuote> historyB, int lookbackPeriod) where TQuote : IQuote
+            IEnumerable<TQuote> historyA,
+            IEnumerable<TQuote> historyB,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
             // clean quotes
             List<TQuote> historyListA = historyA.Sort();

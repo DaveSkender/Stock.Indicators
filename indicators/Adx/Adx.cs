@@ -7,7 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // AVERAGE DIRECTIONAL INDEX
-        public static IEnumerable<AdxResult> GetAdx<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod = 14) where TQuote : IQuote
+        public static IEnumerable<AdxResult> GetAdx<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 14)
+            where TQuote : IQuote
         {
 
             // clean quotes
