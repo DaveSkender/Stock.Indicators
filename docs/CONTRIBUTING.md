@@ -24,7 +24,6 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 ## Developing
 
 - Read this first: [contributing to an open-source GitHub project](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940)
-- Design guidelines and naming conventions: we are using the generally accepted [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
 - Our backlog is [here](https://dev.azure.com/skender/Stock.Indicators/_boards/board/t/Stock.Indicators)
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.
 - All new indicators should include unit tests.
@@ -67,18 +66,17 @@ After a Pull Request is reviewed, accepted, and [squash] merged to master, we ma
 
 ## Code Reviews and Administration
 
-If you want to contribute administratively or help with code reviews, I'm also currently seeking a few core people to help so I don't have to be the only person to *review changes ... including my own!*
+If you want to contribute administratively or help with code reviews, I'm also currently seeking a few core people to help.  Please [contact us](#contact-info) if interested.
 
-## About the NuGet packaging
+## Standards and design guidelines
 
-For the NuGet packaging, we're using:
-
-- [Symantic Version 2.0](https://semver.org/)
+- [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
 - [NuGet best practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
+- [Semantic Version 2.0](https://semver.org)
 
 ## About versioning
 
-We use the `GitVersion` tool for versioning.  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).  This only needs to be done on the merge to `master`, so your feature branch does not need to include this as it will get squashed anyway.
+We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).  This only needs to be done on the merge to `master` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
 
 - Adding `+semver: major` as a commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element
