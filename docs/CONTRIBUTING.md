@@ -33,7 +33,7 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 ## Testing
 
 - Review the `tests/indicators` folder for examples of unit tests.  Just copy one of these.
-- New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to attach your manual calculations to the Pull Request when [submitting changes](#submitting-changes).
+- New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to include your manual calculations spreadsheet in the appropriate indicator folder when [submitting changes](#submitting-changes).
 - Stock History is automatically added to unit test methods.  A `History.xlsx` Excel file is included in the `test data` folder that is an exact copy of what is used in the unit tests.  Use this for your manual calculations to ensure that it is correct.  Do not commit changes to this Excel file.
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request, when submitting changes.
