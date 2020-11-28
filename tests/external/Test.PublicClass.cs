@@ -19,13 +19,28 @@ namespace External.Tests
         public float MyEma { get; set; }
     }
 
+    public class MyGenericQuote : IQuote
+    {
+        // required base properties
+        DateTime IQuote.Date => CloseDate;
+        public decimal Open { get; set; }
+        public decimal High { get; set; }
+        public decimal Low { get; set; }
+        public decimal Close { get; set; }
+        public decimal Volume { get; set; }
+
+        // custom properties
+        public int MyOtherProperty { get; set; }
+        public DateTime CloseDate { get; set; }
+    }
+
 
     [TestClass]
     public class PublicClassTests
     {
 
         [TestMethod()]
-        public void CleanHistory()
+        public void ValidateHistory()
         {
             IEnumerable<Quote> history = History.GetHistory();
             history = Cleaners.ValidateHistory(history);
@@ -73,6 +88,25 @@ namespace External.Tests
                 });
 
             Assert.IsTrue(myHistory.Any());
+        }
+
+        [TestMethod()]
+        public void CustomQuoteClass()
+        {
+            IEnumerable<MyGenericQuote> myGenericHistory = History.GetHistory()
+                .Select(x => new MyGenericQuote
+                {
+                    CloseDate = x.Date,
+                    Open = x.Open,
+                    High = x.High,
+                    Low = x.Low,
+                    Close = x.Close,
+                    Volume = x.Volume,
+                    MyOtherProperty = 123456
+                });
+
+            IEnumerable<EmaResult> emaResults = Indicator.GetEma(myGenericHistory, 14);
+            Assert.IsTrue(emaResults.Any());
         }
 
         [TestMethod()]

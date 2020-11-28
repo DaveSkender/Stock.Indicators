@@ -5,9 +5,9 @@
 - [Prerequisite data](#prerequisite-data)
 - [Example usage](#example-usage)
 - [About historical quotes](#quote)
-- [Using custom Quote classes](#using-custom-quote-classes)
+- [Using custom quote classes](#using-custom-quote-classes)
 - [Validating historical quotes](#validating-historical-quotes)
-- [Using derived Results classes](#using-derived-results-classes)
+- [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Contributing guidelines](CONTRIBUTING.md)
 
@@ -46,7 +46,7 @@ Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 SMA on 12/31/2018 was $251.86
 ```
 
-See [using custom Quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 See [individual indicator pages](INDICATORS.md) for specific guidance.
 
@@ -75,7 +75,7 @@ Note that some indicators, especially those that are derived from [Exponential M
 
 For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of total historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.
 
-## Using custom Quote classes
+## Using custom quote classes
 
 If you would like to use your own custom `MyCustomQuote` _quote_ class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
 
@@ -105,7 +105,7 @@ IEnumerable<MyCustomQuote> myHistory = GetHistoryFromFeed("MSFT");
 IEnumerable<SmaResult> results = Indicator.GetSma(myHistory,20);
 ```
 
-### Using custom Quote property names
+### Using custom quote property names
 
 If you have a model that has different properties names, but the same meaning, you only need to map them.
 Suppose your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
@@ -143,7 +143,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 List<Quote> validatedHistory = Cleaners.ValidateHistory(history);
 ```
 
-## Using derived Results classes
+## Using derived results classes
 
 The indicator result (e.g. `EmaResult`) classes can be extended in your code.  Here's an example of how you'd set that up:
 
@@ -186,7 +186,7 @@ public void MyClass(){
 If you prefer nested classes, here's an alternative method for customizing your results:
 
 ```csharp
-// your custom derived class
+// your custom nested class
 public class MyEma
 {
   public int MyId { get; set; }
