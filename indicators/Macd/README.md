@@ -45,8 +45,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<MacdResult> results = Indicator.GetMacd(history,12,26,9);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-MacdResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+MacdResult result = results.LastOrDefault();
 Console.WriteLine("MACD on {0} was ${1}", result.Date, result.Macd);
 ```
 

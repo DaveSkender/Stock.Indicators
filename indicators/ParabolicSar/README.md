@@ -45,8 +45,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history,0.02,0.2);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-ParabolicSarResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+ParabolicSarResult result = results.LastOrDefault();
 Console.WriteLine("SAR on {0} was ${1}", result.Date, result.Sar);
 ```
 

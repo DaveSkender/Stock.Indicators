@@ -43,8 +43,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<AtrResult> results = Indicator.GetAtr(history,14);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-AtrResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+AtrResult result = results.LastOrDefault();
 Console.WriteLine("ATR on {0} was ${1}", result.Date, result.Atr);
 ```
 

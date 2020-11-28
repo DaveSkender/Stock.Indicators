@@ -47,8 +47,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<ObvResult> results = Indicator.GetObv(history);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-ObvResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+ObvResult result = results.LastOrDefault();
 Console.WriteLine("OBV on {0} was {1}", result.Date, result.Obv);
 ```
 

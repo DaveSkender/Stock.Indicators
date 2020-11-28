@@ -47,8 +47,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPX");
 IEnumerable<StdDevResult> results = Indicator.GetStdDev(history,10);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-StdDevResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+StdDevResult result = results.LastOrDefault();
 Console.WriteLine("StdDev(SPX,10) on {0} was ${1}", result.Date, result.StdDev);
 ```
 

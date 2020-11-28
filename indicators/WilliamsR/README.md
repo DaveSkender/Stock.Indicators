@@ -41,8 +41,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<WilliamsResult> results = Indicator.GetWilliamsR(history,14);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-WilliamsResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+WilliamsResult result = results.LastOrDefault();
 Console.WriteLine("Williams %R on {0} was {1}", result.Date, result.WilliamsR);
 ```
 

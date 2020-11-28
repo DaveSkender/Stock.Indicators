@@ -51,8 +51,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<TrixResult> results = Indicator.GetTrix(history,14);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-TrixResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+TrixResult result = results.LastOrDefault();
 Console.WriteLine("Trix on {0} was ${1}", result.Date, result.Trix);
 ```
 

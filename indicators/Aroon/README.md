@@ -43,8 +43,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<AroonResult> results = Indicator.GetAroon(history,25);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-AroonResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+AroonResult result = results.LastOrDefault();
 Console.WriteLine("Aroon-Up(25) on {0} was ${1}", result.Date, result.AroonUp);
 ```
 

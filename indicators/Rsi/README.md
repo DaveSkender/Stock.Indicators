@@ -42,8 +42,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<RsiResult> results = Indicator.GetRsi(history,14);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-RsiResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+RsiResult result = results.LastOrDefault();
 Console.WriteLine("RSI on {0} was {1}", result.Date, result.Rsi);
 ```
 

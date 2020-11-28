@@ -50,8 +50,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history,22,3,ChandelierType.Long);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-ChandelierResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+ChandelierResult result = results.LastOrDefault();
 Console.WriteLine("ChandelierExit(22,3) on {0} was ${1}", result.Date, result.ChandelierExit);
 ```
 

@@ -33,7 +33,7 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 ## Testing
 
 - Review the `tests/indicators` folder for examples of unit tests.  Just copy one of these.
-- New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to attach your manual calculations to the Pull Request when [submitting changes](#submitting-changes).
+- New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to include your manual calculations spreadsheet in the appropriate indicator folder when [submitting changes](#submitting-changes).
 - Stock History is automatically added to unit test methods.  A `History.xlsx` Excel file is included in the `test data` folder that is an exact copy of what is used in the unit tests.  Use this for your manual calculations to ensure that it is correct.  Do not commit changes to this Excel file.
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request, when submitting changes.
@@ -66,18 +66,17 @@ After a Pull Request is reviewed, accepted, and [squash] merged to master, we ma
 
 ## Code Reviews and Administration
 
-If you want to contribute administratively or help with code reviews, I'm also currently seeking a few core people to help so I don't have to be the only person to *review changes ... including my own!*
+If you want to contribute administratively or help with code reviews, I'm also currently seeking a few core people to help.  Please [contact us](#contact-info) if interested.
 
-## About the NuGet packaging
+## Standards and design guidelines
 
-For the NuGet packaging, we're using:
-
-- [Symantic Version 2.0](https://semver.org/)
-- [NuGet best practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
+- [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
+- [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
+- [Semantic Version 2.0](https://semver.org)
 
 ## About versioning
 
-We use the `GitVersion` tool for versioning.  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).  This only needs to be done on the merge to `master`, so your feature branch does not need to include this as it will get squashed anyway.
+We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).  This only needs to be done on the merge to `master` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
 
 - Adding `+semver: major` as a commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element

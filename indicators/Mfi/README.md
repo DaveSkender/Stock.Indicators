@@ -41,8 +41,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<MfiResult> results = Indicator.GetMfi(history,14);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-MfiResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+MfiResult result = results.LastOrDefault();
 Console.WriteLine("MFI on {0} was {1}", result.Date, result.Mfi);
 ```
 

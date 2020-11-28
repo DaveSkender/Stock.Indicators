@@ -44,8 +44,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<StochResult> results = Indicator.GetStoch(history,14,3,3);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-StochResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+StochResult result = results.LastOrDefault();
 Console.WriteLine("STO on {0} was {1}", result.Date, result.Oscillator);
 ```
 
