@@ -51,8 +51,7 @@ IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 IEnumerable<PrResult> results = Indicator.GetPrs(historySPX,historyTSLA,14);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-PrResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+PrResult result = results.LastOrDefault();
 Console.WriteLine("PR(SPX,TSLA,14) on {0} was {1}", result.Date, result.PriceRatio);
 ```
 

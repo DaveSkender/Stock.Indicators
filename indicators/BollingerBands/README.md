@@ -47,8 +47,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history,20,2);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-BollingerBandsResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+BollingerBandsResult result = results.LastOrDefault();
 Console.WriteLine("Upper Bollinger Band on {0} was ${1}", result.Date, result.UpperBand);
 ```
 

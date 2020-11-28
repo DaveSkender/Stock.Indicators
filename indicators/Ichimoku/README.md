@@ -47,8 +47,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 IEnumerable<IchimokuResult> results = Indicator.GetIchimoku(history,9,26,52);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-IchimokuResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+IchimokuResult result = results.LastOrDefault();
 Console.WriteLine("Tenkan-sen on {0} was ${1}", result.Date, result.TenkanSen);
 ```
 

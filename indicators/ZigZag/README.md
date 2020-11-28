@@ -52,8 +52,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<ZigZagResult> results = Indicator.GetZigZag(history,ZigZagType.Close,3);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("02/18/2018");
-ZigZagResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+ZigZagResult result = results.LastOrDefault();
 Console.WriteLine("ZIGZAG on {0} was ${1}", result.Date, result.ZigZag);
 ```
 

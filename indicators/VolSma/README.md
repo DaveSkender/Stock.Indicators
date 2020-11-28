@@ -42,8 +42,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-VolSmaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+VolSmaResult result = results.LastOrDefault();
 Console.WriteLine("Average Volume on {0} was ${1}", result.Date, result.VolSma);
 ```
 

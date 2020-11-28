@@ -48,8 +48,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<KeltnerResult> results = Indicator.GetKeltner(history,20,2.0,10);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-KeltnerResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+KeltnerResult result = results.LastOrDefault();
 Console.WriteLine("Upper Keltner Channel on {0} was ${1}", result.Date, result.UpperBand);
 ```
 

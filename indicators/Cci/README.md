@@ -41,8 +41,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<CciResult> results = Indicator.GetCci(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-CciResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+CciResult result = results.LastOrDefault();
 Console.WriteLine("CCI on {0} was ${1}", result.Date, result.Cci);
 ```
 

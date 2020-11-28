@@ -45,8 +45,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<CmfResult> results = Indicator.GetCmf(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-CmfResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+CmfResult result = results.LastOrDefault();
 Console.WriteLine("CMF on {0} was ${1}", result.Date, result.Cmf);
 ```
 

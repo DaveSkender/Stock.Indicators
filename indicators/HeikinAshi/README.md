@@ -43,8 +43,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-HeikinAshiResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+HeikinAshiResult result = results.LastOrDefault();
 Console.WriteLine("Heikin-Ashi open price on {0} was ${1}", result.Date, result.Open);
 ```
 

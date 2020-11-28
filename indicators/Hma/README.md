@@ -41,8 +41,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 IEnumerable<HmaResult> results = Indicator.GetHma(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-HmaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+HmaResult result = results.LastOrDefault();
 Console.WriteLine("HMA on {0} was ${1}", result.Date, result.Hma);
 ```
 

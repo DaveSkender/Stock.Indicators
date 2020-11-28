@@ -49,8 +49,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<AdlResult> results = Indicator.GetAdl(history);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-AdlResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+AdlResult result = results.LastOrDefault();
 Console.WriteLine("ADL on {0} was {1}", result.Date, result.Adl);
 ```
 

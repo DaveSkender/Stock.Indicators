@@ -44,8 +44,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<DonchianResult> results = Indicator.GetDonchian(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-DonchianResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+DonchianResult result = results.LastOrDefault();
 Console.WriteLine("Upper Donchian Channel on {0} was ${1}", result.Date, result.UpperBand);
 ```
 

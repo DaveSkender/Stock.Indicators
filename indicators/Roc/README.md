@@ -46,8 +46,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<RocResult> results = Indicator.GetRoc(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-RocResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+RocResult result = results.LastOrDefault();
 Console.WriteLine("ROC on {0} was {1}%", result.Date, result.Roc);
 ```
 

@@ -41,8 +41,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history,14);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-UlcerIndexResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+UlcerIndexResult result = results.LastOrDefault();
 Console.WriteLine("Ulcer Index on {0} was ${1}", result.Date, result.UI);
 ```
 

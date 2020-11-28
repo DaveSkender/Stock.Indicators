@@ -37,8 +37,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-SmaResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+SmaResult result = results.LastOrDefault();
 Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 ```
 

@@ -45,8 +45,7 @@ IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 IEnumerable<SlopeResult> results = Indicator.GetSlope(history,20);
 
 // use results as needed
-DateTime evalDate = DateTime.Parse("12/31/2018");
-SlopeResult result = results.Where(x=>x.Date==evalDate).FirstOrDefault();
+SlopeResult result = results.LastOrDefault();
 Console.WriteLine("SLOPE(20) on {0} was {1}", result.Date, result.Slope);
 ```
 
