@@ -55,5 +55,5 @@ Console.WriteLine("ChandelierExit(22,3) on {0} was ${1}", result.Date, result.Ch
 ```
 
 ```bash
-ChandelierExit(22,3) on 12/31/2018 was 255.09
+ChandelierExit(22,3) on 12/31/2018 was $255.09
 ```

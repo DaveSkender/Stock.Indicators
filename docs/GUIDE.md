@@ -180,7 +180,7 @@ public void MyClass(){
 }
 ```
 
-### Using nested Results classes
+### Using nested results classes
 
 If you prefer nested classes, here's an alternative method for customizing your results:
 
