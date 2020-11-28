@@ -7,13 +7,16 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CHANDELIER EXIT
-        public static IEnumerable<ChandelierResult> GetChandelier(
-            IEnumerable<Quote> history, int lookbackPeriod = 22,
-            decimal multiplier = 3.0m, ChandelierType type = ChandelierType.Long)
+        public static IEnumerable<ChandelierResult> GetChandelier<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 22,
+            decimal multiplier = 3.0m,
+            ChandelierType type = ChandelierType.Long)
+            where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // validate inputs
             ValidateChandelier(history, lookbackPeriod, multiplier);
@@ -25,7 +28,7 @@ namespace Skender.Stock.Indicators
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 ChandelierResult result = new ChandelierResult
@@ -46,7 +49,7 @@ namespace Skender.Stock.Indicators
                             decimal maxHigh = 0;
                             for (int p = index - lookbackPeriod; p < index; p++)
                             {
-                                Quote d = historyList[p];
+                                TQuote d = historyList[p];
                                 if (d.High > maxHigh)
                                 {
                                     maxHigh = d.High;
@@ -61,7 +64,7 @@ namespace Skender.Stock.Indicators
                             decimal minLow = decimal.MaxValue;
                             for (int p = index - lookbackPeriod; p < index; p++)
                             {
-                                Quote d = historyList[p];
+                                TQuote d = historyList[p];
                                 if (d.Low < minLow)
                                 {
                                     minLow = d.Low;
@@ -83,8 +86,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateChandelier(
-            IEnumerable<Quote> history, int lookbackPeriod, decimal multiplier)
+        private static void ValidateChandelier<TQuote>(
+            IEnumerable<TQuote> history, int lookbackPeriod, decimal multiplier) where TQuote : IQuote
         {
 
             // check parameters

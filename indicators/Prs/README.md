@@ -16,8 +16,8 @@ IEnumerable<PrsResult> results = Indicator.GetPrs(historyBase, historyEval, smaP
 
 | name | type | notes
 | -- |-- |--
-| `historyBase` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | This is usually market index data, but could be any baseline data that you might use for comparison.  You must supply at least `N` periods of `historyBase` to calculate, but more is typically used if `lookbackPeriod` is specified.
-| `historyEval` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical quotes for evaluation.  You must supply the same number of periods as `historyBase`.
+| `historyBase` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | This is usually market index data, but could be any baseline data that you might use for comparison.  You must supply at least `N` periods of `historyBase` to calculate, but more is typically used if `lookbackPeriod` is specified.
+| `historyEval` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical quotes for evaluation.  You must supply the same number of periods as `historyBase`.
 | `lookbackPeriod` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
 | `smaPeriod` | int | Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
 

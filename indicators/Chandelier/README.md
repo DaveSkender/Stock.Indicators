@@ -13,7 +13,7 @@ IEnumerable<ChandelierResult> results = Indicator.GetChandelier(history, lookbac
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at `N+1` periods worth of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at `N+1` periods worth of `history`.
 | `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22.
 | `multiplier` | decimal | Multiplier number must be a positive value.  Default is 3.
 | `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.

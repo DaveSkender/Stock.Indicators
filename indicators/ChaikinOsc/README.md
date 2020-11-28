@@ -13,7 +13,7 @@ IEnumerable<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPer
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`S` or `S`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S`+250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`S` or `S`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S`+250 data points prior to the intended usage date for maximum precision.
 | `fastPeriod` | int | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3.
 | `slowPeriod` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10.
 

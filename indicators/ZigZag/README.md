@@ -13,7 +13,7 @@ IEnumerable<ZigZagResult> results = Indicator.GetZigZag(history,type,percentChan
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least two periods to calculate, but notably more is needed to be useful.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least two periods to calculate, but notably more is needed to be useful.
 | `type` | ZigZagType | Determines whether `Close` or `High/Low` are used to measure percent change.  See [ZigZagType options](#zigzagtype-options) below.  Default is `ZigZagType.Close`.
 | `percentChange` | decimal | Percent change required to establish a line endpoint.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 3 to 10.  Default is 5.
 

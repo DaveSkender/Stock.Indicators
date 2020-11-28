@@ -7,10 +7,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CHAIKIN OSCILLATOR
-        public static IEnumerable<ChaikinOscResult> GetChaikinOsc(
-            IEnumerable<Quote> history,
+        public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
+            IEnumerable<TQuote> history,
             int fastPeriod = 3,
             int slowPeriod = 10)
+            where TQuote : IQuote
         {
 
             // check parameters
@@ -50,7 +51,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateChaikinOsc(IEnumerable<Quote> history, int fastPeriod, int slowPeriod)
+        private static void ValidateChaikinOsc<TQuote>(IEnumerable<TQuote> history, int fastPeriod, int slowPeriod) where TQuote : IQuote
         {
 
             // check parameters

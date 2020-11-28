@@ -7,12 +7,16 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // PRICE RELATIVE STRENGTH
-        public static IEnumerable<PrsResult> GetPrs(
-            IEnumerable<Quote> historyBase, IEnumerable<Quote> historyEval, int? lookbackPeriod = null, int? smaPeriod = null)
+        public static IEnumerable<PrsResult> GetPrs<TQuote>(
+            IEnumerable<TQuote> historyBase,
+            IEnumerable<TQuote> historyEval,
+            int? lookbackPeriod = null,
+            int? smaPeriod = null)
+            where TQuote : IQuote
         {
             // clean quotes
-            List<Quote> historyBaseList = historyBase.Sort();
-            List<Quote> historyEvalList = historyEval.Sort();
+            List<TQuote> historyBaseList = historyBase.Sort();
+            List<TQuote> historyEvalList = historyEval.Sort();
 
             // validate parameters
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
@@ -24,8 +28,8 @@ namespace Skender.Stock.Indicators
             // roll through history for interim data
             for (int i = 0; i < historyEvalList.Count; i++)
             {
-                Quote bi = historyBaseList[i];
-                Quote ei = historyEvalList[i];
+                TQuote bi = historyBaseList[i];
+                TQuote ei = historyEvalList[i];
                 int index = i + 1;
 
                 if (ei.Date != bi.Date)
@@ -43,8 +47,8 @@ namespace Skender.Stock.Indicators
 
                 if (lookbackPeriod != null && index > lookbackPeriod)
                 {
-                    Quote bo = historyBaseList[i - (int)lookbackPeriod];
-                    Quote eo = historyEvalList[i - (int)lookbackPeriod];
+                    TQuote bo = historyBaseList[i - (int)lookbackPeriod];
+                    TQuote eo = historyEvalList[i - (int)lookbackPeriod];
 
                     if (bo.Close != 0 && eo.Close != 0)
                     {
@@ -73,8 +77,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidatePriceRelative(
-            IEnumerable<Quote> historyBase, IEnumerable<Quote> historyEval, int? lookbackPeriod, int? smaPeriod)
+        private static void ValidatePriceRelative<TQuote>(
+            IEnumerable<TQuote> historyBase, IEnumerable<TQuote> historyEval, int? lookbackPeriod, int? smaPeriod) where TQuote : IQuote
         {
 
             // check parameters
