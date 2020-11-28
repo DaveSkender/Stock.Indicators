@@ -71,7 +71,7 @@ If you want to contribute administratively or help with code reviews, I'm also c
 ## Standards and design guidelines
 
 - [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
-- [NuGet best practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
+- [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
 
 ## About versioning
