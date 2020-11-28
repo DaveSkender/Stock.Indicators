@@ -1,4 +1,5 @@
 ﻿<!-- markdownlint-disable MD026 -->
+
 # Guide and Pro tips
 
 - [Prerequisite data](#prerequisite-data)
@@ -90,7 +91,7 @@ public class MyCustomQuote : IQuote
     public decimal Volume { get; set; }
 
     // custom properties
-    public int myOtherProperty { get; set; }
+    public int MyOtherProperty { get; set; }
 }
 ```
 
@@ -103,6 +104,34 @@ IEnumerable<MyCustomQuote> myHistory = GetHistoryFromFeed("MSFT");
 // example: get 20-period simple moving average
 IEnumerable<SmaResult> results = Indicator.GetSma(myHistory,20);
 ```
+
+
+
+`IQuote` interface just requires you to implement property getters, so if you have a model that has properties with a different name but the same meaning, you have just to implement a wrapper on them.
+Suppose your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
+
+```csharp
+public class MyCustomQuote : IQuote
+{
+    // required base properties
+    DateTime IQuote.Date => CloseDate;
+    public decimal Open { get; set; }
+    public decimal High { get; set; }
+    public decimal Low { get; set; }
+    public decimal Close { get; set; }
+    public decimal Volume { get; set; }
+
+    // custom properties
+    public int MyOtherProperty { get; set; }
+    public DateTime CloseDate { get; set; }
+}
+```
+
+Note the use of explicit interface (property declaration is `IQuote.Date`), this is because having two properties that expose the same information can be confusing, this way Date property is only accessible when working with the IQuote type, while if you are working with a `MyCustomQuote` the Date property will be hidden, avoiding confusion.
+
+For more information on explicit interfaces, refer to the [c# documentation](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
+
+
 
 ## Validating history
 

@@ -4,12 +4,12 @@ namespace Skender.Stock.Indicators
 {
     public interface IQuote
     {
-        public DateTime Date { get; set; }
-        public decimal Open { get; set; }
-        public decimal High { get; set; }
-        public decimal Low { get; set; }
-        public decimal Close { get; set; }
-        public decimal Volume { get; set; }
+        public DateTime Date { get; }
+        public decimal Open { get; }
+        public decimal High { get; }
+        public decimal Low { get; }
+        public decimal Close { get; }
+        public decimal Volume { get; }
     }
 
     [Serializable]
