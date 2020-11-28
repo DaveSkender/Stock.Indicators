@@ -7,8 +7,13 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STOCHASTIC RSI
-        public static IEnumerable<StochRsiResult> GetStochRsi(IEnumerable<Quote> history,
-            int rsiPeriod, int stochPeriod, int signalPeriod, int smoothPeriod = 1)
+        public static IEnumerable<StochRsiResult> GetStochRsi<TQuote>(
+            IEnumerable<TQuote> history,
+            int rsiPeriod,
+            int stochPeriod,
+            int signalPeriod,
+            int smoothPeriod = 1)
+            where TQuote : IQuote
         {
 
             // validate parameters
@@ -61,8 +66,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStochRsi(IEnumerable<Quote> history,
-            int rsiPeriod, int stochPeriod, int signalPeriod, int smoothPeriod)
+        private static void ValidateStochRsi<TQuote>(IEnumerable<TQuote> history,
+            int rsiPeriod, int stochPeriod, int signalPeriod, int smoothPeriod) where TQuote : IQuote
         {
 
             // check parameters

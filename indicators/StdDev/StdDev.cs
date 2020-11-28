@@ -6,8 +6,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STANDARD DEVIATION
-        public static IEnumerable<StdDevResult> GetStdDev(
-            IEnumerable<Quote> history, int lookbackPeriod, int? smaPeriod = null)
+        public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            int? smaPeriod = null)
+            where TQuote : IQuote
         {
 
             // convert to basic data

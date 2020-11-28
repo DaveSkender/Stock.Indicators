@@ -19,13 +19,29 @@ namespace External.Tests
         public float MyEma { get; set; }
     }
 
+    public class MyGenericQuote : IQuote
+    {
+        // required base properties
+        DateTime IQuote.Date => CloseDate;
+        public decimal Open { get; set; }
+        public decimal High { get; set; }
+        public decimal Low { get; set; }
+        decimal IQuote.Close => CloseValue;
+        public decimal Volume { get; set; }
+
+        // custom properties
+        public int MyOtherProperty { get; set; }
+        public DateTime CloseDate { get; set; }
+        public decimal CloseValue { get; set; }
+    }
+
 
     [TestClass]
     public class PublicClassTests
     {
 
         [TestMethod()]
-        public void CleanHistory()
+        public void ValidateHistory()
         {
             IEnumerable<Quote> history = History.GetHistory();
             history = Cleaners.ValidateHistory(history);
@@ -73,6 +89,43 @@ namespace External.Tests
                 });
 
             Assert.IsTrue(myHistory.Any());
+        }
+
+        [TestMethod()]
+        public void CustomQuoteClass()
+        {
+            List<MyGenericQuote> myGenericHistory = History.GetHistory()
+                .Select(x => new MyGenericQuote
+                {
+                    CloseDate = x.Date,
+                    Open = x.Open,
+                    High = x.High,
+                    Low = x.Low,
+                    CloseValue = x.Close,
+                    Volume = x.Volume,
+                    MyOtherProperty = 123456
+                })
+                .ToList();
+
+            List<EmaResult> results = Indicator.GetEma(myGenericHistory, 20)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is history
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+
+            // sample values
+            EmaResult r1 = results[501];
+            Assert.AreEqual(249.3519m, Math.Round((decimal)r1.Ema, 4));
+
+            EmaResult r2 = results[249];
+            Assert.AreEqual(255.3873m, Math.Round((decimal)r2.Ema, 4));
+
+            EmaResult r3 = results[29];
+            Assert.AreEqual(216.6228m, Math.Round((decimal)r3.Ema, 4));
         }
 
         [TestMethod()]

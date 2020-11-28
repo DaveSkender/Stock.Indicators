@@ -7,10 +7,13 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SLOPE AND LINEAR REGRESSION
-        public static IEnumerable<SlopeResult> GetSlope(IEnumerable<Quote> history, int lookbackPeriod)
+        public static IEnumerable<SlopeResult> GetSlope<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // validate parameters
             ValidateSlope(history, lookbackPeriod);
@@ -21,7 +24,7 @@ namespace Skender.Stock.Indicators
             // roll through history for interim data
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 SlopeResult r = new SlopeResult
@@ -43,7 +46,7 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - lookbackPeriod; p < index; p++)
                 {
-                    Quote d = historyList[p];
+                    TQuote d = historyList[p];
 
                     sumX += p + 1m;
                     sumY += d.Close;
@@ -59,7 +62,7 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - lookbackPeriod; p < index; p++)
                 {
-                    Quote d = historyList[p];
+                    TQuote d = historyList[p];
 
                     decimal devX = (p + 1m - avgX);
                     decimal devY = (d.Close - avgY);
@@ -98,7 +101,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateSlope(IEnumerable<Quote> history, int lookbackPeriod)
+        private static void ValidateSlope<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
         {
 
             // check parameters

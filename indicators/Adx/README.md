@@ -13,7 +13,7 @@ IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[Quote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least 250 data points prior to the intended usage date for maximum precision.
 | `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
 
 ## Response

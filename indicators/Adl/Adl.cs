@@ -7,11 +7,11 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ACCUMULATION / DISTRIBUTION LINE
-        public static IEnumerable<AdlResult> GetAdl(IEnumerable<Quote> history, int? smaPeriod = null)
+        public static IEnumerable<AdlResult> GetAdl<TQuote>(IEnumerable<TQuote> history, int? smaPeriod = null) where TQuote : IQuote
         {
 
             // clean quotes
-            List<Quote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameters
             ValidateAdl(history, smaPeriod);
@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             // get money flow multiplier
             for (int i = 0; i < historyList.Count; i++)
             {
-                Quote h = historyList[i];
+                TQuote h = historyList[i];
                 int index = i + 1;
 
                 decimal mfm = (h.High == h.Low) ? 0 : ((h.Close - h.Low) - (h.High - h.Close)) / (h.High - h.Low);
@@ -58,7 +58,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateAdl(IEnumerable<Quote> history, int? smaPeriod)
+        private static void ValidateAdl<TQuote>(IEnumerable<TQuote> history, int? smaPeriod) where TQuote : IQuote
         {
 
             // check parameters
