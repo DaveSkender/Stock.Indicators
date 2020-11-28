@@ -66,5 +66,5 @@ Console.WriteLine("EMA on {0} was ${1}", result.Date, result.Ema);
 ```
 
 ```bash
-EMA on 12/31/2018 was $249.3519
+EMA on 12/31/2018 was $249.35
 ```

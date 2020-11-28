@@ -42,7 +42,7 @@ IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history,14);
 
 // use results as needed
 UlcerIndexResult result = results.LastOrDefault();
-Console.WriteLine("Ulcer Index on {0} was ${1}", result.Date, result.UI);
+Console.WriteLine("Ulcer Index on {0} was {1}", result.Date, result.UI);
 ```
 
 ```bash

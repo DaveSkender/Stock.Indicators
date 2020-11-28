@@ -52,7 +52,7 @@ IEnumerable<TrixResult> results = Indicator.GetTrix(history,14);
 
 // use results as needed
 TrixResult result = results.LastOrDefault();
-Console.WriteLine("Trix on {0} was ${1}", result.Date, result.Trix);
+Console.WriteLine("Trix on {0} was {1}", result.Date, result.Trix);
 ```
 
 ```bash

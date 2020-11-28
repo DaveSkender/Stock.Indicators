@@ -46,7 +46,7 @@ IEnumerable<CmfResult> results = Indicator.GetCmf(history,20);
 
 // use results as needed
 CmfResult result = results.LastOrDefault();
-Console.WriteLine("CMF on {0} was ${1}", result.Date, result.Cmf);
+Console.WriteLine("CMF on {0} was {1}", result.Date, result.Cmf);
 ```
 
 ```bash

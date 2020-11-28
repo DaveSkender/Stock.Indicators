@@ -42,7 +42,7 @@ IEnumerable<CciResult> results = Indicator.GetCci(history,20);
 
 // use results as needed
 CciResult result = results.LastOrDefault();
-Console.WriteLine("CCI on {0} was ${1}", result.Date, result.Cci);
+Console.WriteLine("CCI on {0} was {1}", result.Date, result.Cci);
 ```
 
 ```bash

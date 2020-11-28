@@ -48,7 +48,7 @@ IEnumerable<ChaikinOscResult> results = Indicator.GetChaikinOsc(history,20);
 
 // use results as needed
 ChaikinOscResult result = results.LastOrDefault();
-Console.WriteLine("Chaikin Oscillator on {0} was ${1}", result.Date, result.ChaikinOsc);
+Console.WriteLine("Chaikin Oscillator on {0} was {1}", result.Date, result.ChaikinOsc);
 ```
 
 ```bash

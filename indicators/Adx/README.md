@@ -44,7 +44,7 @@ IEnumerable<AdxResult> results = Indicator.GetAdx(history,14);
 
 // use results as needed
 AdxResult result = results.LastOrDefault();
-Console.WriteLine("ADX on {0} was ${1}", result.Date, result.Adx);
+Console.WriteLine("ADX on {0} was {1}", result.Date, result.Adx);
 ```
 
 ```bash
