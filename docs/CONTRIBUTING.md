@@ -21,9 +21,9 @@ If you are reporting a bug or feature request, please [submit an Issue](https://
 
 ## Project management
 
-- Planned work is managed in [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1?fullscreen=true).
-- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an Issue is user reported.
-- Pull requests are also shown in the backlog to track code review and completion progress.
+- Planned work is managed in [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an Issue is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
+- Pull Requests are also shown in the backlog to track code review and completion progress.
 
 ## Developing
 
@@ -54,7 +54,7 @@ dotnet run -c Release --filter *.GetAdx
 
 ## Submitting changes
 
-Submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)).
+Submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests)).
 
 Always write a clear log message for your commits. One-line messages are fine for most changes, but bigger changes that require more explanation should look like this:
 
