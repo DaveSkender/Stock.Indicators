@@ -43,7 +43,7 @@ IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history,20);
 
 // use results as needed
 VolSmaResult result = results.LastOrDefault();
-Console.WriteLine("Average Volume on {0} was ${1}", result.Date, result.VolSma);
+Console.WriteLine("Average Volume on {0} was {1}", result.Date, result.VolSma);
 ```
 
 ```bash

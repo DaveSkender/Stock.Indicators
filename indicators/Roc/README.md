@@ -33,7 +33,7 @@ The first `N` periods will have `null` values for ROC since there's not enough d
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Roc` | decimal | Rate of Change over `N` lookback periods
+| `Roc` | decimal | Rate of Change over `N` lookback periods (%, not decimal)
 | `Sma` | decimal | SMA of the ROC based on `smaPeriod` periods, if specified
 
 ## Example

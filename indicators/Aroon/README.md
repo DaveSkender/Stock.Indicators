@@ -44,7 +44,7 @@ IEnumerable<AroonResult> results = Indicator.GetAroon(history,25);
 
 // use results as needed
 AroonResult result = results.LastOrDefault();
-Console.WriteLine("Aroon-Up(25) on {0} was ${1}", result.Date, result.AroonUp);
+Console.WriteLine("Aroon-Up(25) on {0} was {1}", result.Date, result.AroonUp);
 ```
 
 ```bash

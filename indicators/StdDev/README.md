@@ -52,5 +52,5 @@ Console.WriteLine("StdDev(SPX,10) on {0} was ${1}", result.Date, result.StdDev);
 ```
 
 ```bash
-StdDev(SPX,10) on 12/31/2018 was $5.4738
+StdDev(SPX,10) on 12/31/2018 was $5.47
 ```

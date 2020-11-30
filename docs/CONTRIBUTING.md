@@ -1,7 +1,5 @@
 # Contributing guidelines
 
-[![Board Status](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/69f29c08-2257-4429-9cea-1629abcd3064/_apis/work/boardbadge/a1dfc6ae-7836-4b56-a849-9a48698252c2)](https://dev.azure.com/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/_boards/board/t/69f29c08-2257-4429-9cea-1629abcd3064/Microsoft.RequirementCategory/)
-
 Thanks for taking the time to contribute!
 
 This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
@@ -21,12 +19,16 @@ We are not accepting things that should be done in your own wrapper code:
 
 If you are reporting a bug or feature request, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem or recommended feature.  For bugs, be sure to include steps to reproduce, code samples, and any reference materials.
 
+## Project management
+
+- Planned work is managed in [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an Issue is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
+- Pull Requests are also shown in the backlog to track code review and completion progress.
+
 ## Developing
 
 - Read this first: [contributing to an open-source GitHub project](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940)
-- Our backlog is [here](https://dev.azure.com/skender/Stock.Indicators/_boards/board/t/Stock.Indicators)
-- If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.
-- All new indicators should include unit tests.
+- If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include unit tests.
 - Update the `INDICATORS.md` file if you're adding a new indicator, and the `README.md` file for the individual indicator.  This is our only user documentation.
 - Do not comingle multiple contributions.  Please keep changes small and separate.
 
@@ -52,7 +54,7 @@ dotnet run -c Release --filter *.GetAdx
 
 ## Submitting changes
 
-Submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)).
+Submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests)).
 
 Always write a clear log message for your commits. One-line messages are fine for most changes, but bigger changes that require more explanation should look like this:
 

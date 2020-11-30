@@ -44,7 +44,7 @@ IEnumerable<AtrResult> results = Indicator.GetAtr(history,14);
 
 // use results as needed
 AtrResult result = results.LastOrDefault();
-Console.WriteLine("ATR on {0} was ${1}", result.Date, result.Atr);
+Console.WriteLine("ATR on {0} was {1}", result.Date, result.Atr);
 ```
 
 ```bash

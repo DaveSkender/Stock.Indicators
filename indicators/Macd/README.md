@@ -46,7 +46,7 @@ IEnumerable<MacdResult> results = Indicator.GetMacd(history,12,26,9);
 
 // use results as needed
 MacdResult result = results.LastOrDefault();
-Console.WriteLine("MACD on {0} was ${1}", result.Date, result.Macd);
+Console.WriteLine("MACD on {0} was {1}", result.Date, result.Macd);
 ```
 
 ```bash
