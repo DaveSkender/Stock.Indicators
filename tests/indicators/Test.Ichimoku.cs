@@ -46,6 +46,20 @@ namespace Internal.Tests
             Assert.AreEqual(264.77m, r2.SenkouSpanA);
             Assert.AreEqual(269.82m, r2.SenkouSpanB);
             Assert.AreEqual(null, r2.ChikouSpan);
+
+            IchimokuResult r3 = results[51];
+            Assert.AreEqual(224.465m, r3.TenkanSen);
+            Assert.AreEqual(221.94m, r3.KijunSen);
+            Assert.AreEqual(214.8325m, r3.SenkouSpanA);
+            Assert.AreEqual(null, r3.SenkouSpanB);
+            Assert.AreEqual(226.35m, r3.ChikouSpan);
+
+            IchimokuResult r4 = results[249];
+            Assert.AreEqual(257.15m, r4.TenkanSen);
+            Assert.AreEqual(253.085m, r4.KijunSen);
+            Assert.AreEqual(246.3125m, r4.SenkouSpanA);
+            Assert.AreEqual(241.685m, r4.SenkouSpanB);
+            Assert.AreEqual(259.21m, r4.ChikouSpan);
         }
 
         [TestMethod()]
