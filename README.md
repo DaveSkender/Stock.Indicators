@@ -8,7 +8,7 @@
 
 [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a .NET library that produces [stock indicators](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
 
-It can be used in any kind of stock analysis software.  We had private trading algorithms and charts in mind when originally creating this open library.
+It can be used in any market analysis software that uses the standard OHLCV price series format, to include stocks, forex, cryptocurrencies, etc.  We had private trading algorithms, maching learning, and charting applications in mind when originally creating this open library.
 
 Explore more information:
 
