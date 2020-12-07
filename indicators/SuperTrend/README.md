@@ -1,6 +1,6 @@
 ﻿# SuperTrend
 
-[SuperTrend](https://www.barchart.com/education/technical-indicators/supertrend) attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](../Atr/README.md) band thresholds.
+The SuperTrend indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](../Atr/README.md) band thresholds.
 It can indicate a buy/sell signal or a trailing stop when the trend changes.
 
 ![image](chart.png)
