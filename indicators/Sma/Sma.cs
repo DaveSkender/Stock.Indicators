@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             ValidateSma(history, lookbackPeriod);
 
             // initialize
-            List<SmaResult> results = new List<SmaResult>();
+            List<SmaResult> results = new List<SmaResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

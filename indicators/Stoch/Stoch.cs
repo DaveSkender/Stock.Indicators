@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // initialize
-            List<StochResult> results = new List<StochResult>();
+            List<StochResult> results = new List<StochResult>(historyList.Count);
 
             // oscillator
             for (int i = 0; i < historyList.Count; i++)

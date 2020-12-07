@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateKeltner(history, emaPeriod, multiplier, atrPeriod);
 
             // initialize
-            List<KeltnerResult> results = new List<KeltnerResult>();
+            List<KeltnerResult> results = new List<KeltnerResult>(historyList.Count);
             List<EmaResult> emaResults = GetEma(history, emaPeriod).ToList();
             List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
             int lookbackPeriod = Math.Max(emaPeriod, atrPeriod);

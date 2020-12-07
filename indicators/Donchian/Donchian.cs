@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateDonchian(history, lookbackPeriod);
 
             // initialize
-            List<DonchianResult> results = new List<DonchianResult>();
+            List<DonchianResult> results = new List<DonchianResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

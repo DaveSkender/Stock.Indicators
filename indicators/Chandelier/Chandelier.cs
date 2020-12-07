@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateChandelier(history, lookbackPeriod, multiplier);
 
             // initialize
-            List<ChandelierResult> results = new List<ChandelierResult>();
+            List<ChandelierResult> results = new List<ChandelierResult>(historyList.Count);
             List<AtrResult> atrResult = GetAtr(history, lookbackPeriod).ToList();  // uses ATR
 
             // roll through history

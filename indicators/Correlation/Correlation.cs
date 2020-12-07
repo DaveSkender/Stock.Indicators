@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             ValidateCorrelation(historyA, historyB, lookbackPeriod);
 
             // initialize
-            List<CorrResult> results = new List<CorrResult>();
+            List<CorrResult> results = new List<CorrResult>(historyListA.Count);
 
 
             // roll through history for interim data

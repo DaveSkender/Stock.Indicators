@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            List<CmfResult> results = new List<CmfResult>();
+            List<CmfResult> results = new List<CmfResult>(historyList.Count);
             List<AdlResult> adlResults = GetAdl(history).ToList();
 
             // roll through history

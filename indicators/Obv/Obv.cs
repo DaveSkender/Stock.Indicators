@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateObv(history, smaPeriod);
 
             // initialize
-            List<ObvResult> results = new List<ObvResult>();
+            List<ObvResult> results = new List<ObvResult>(historyList.Count);
 
             decimal? prevClose = null;
             decimal obv = 0;

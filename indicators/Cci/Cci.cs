@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateCci(history, lookbackPeriod);
 
             // initialize
-            List<CciResult> results = new List<CciResult>();
+            List<CciResult> results = new List<CciResult>(historyList.Count);
 
 
             // roll through history

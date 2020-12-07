@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateWma(history, lookbackPeriod);
 
             // initialize
-            List<WmaResult> results = new List<WmaResult>();
+            List<WmaResult> results = new List<WmaResult>(historyList.Count);
             decimal divisor = (lookbackPeriod * (lookbackPeriod + 1)) / 2m;
 
             // roll through history

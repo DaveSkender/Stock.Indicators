@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateAdx(history, lookbackPeriod);
 
             // initialize results and working variables
-            List<AdxResult> results = new List<AdxResult>();
+            List<AdxResult> results = new List<AdxResult>(historyList.Count);
             List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
 
             decimal prevHigh = 0;

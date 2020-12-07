@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateUlcer(history, lookbackPeriod);
 
             // initialize
-            List<UlcerIndexResult> results = new List<UlcerIndexResult>();
+            List<UlcerIndexResult> results = new List<UlcerIndexResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

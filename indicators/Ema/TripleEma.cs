@@ -14,14 +14,14 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bdList = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // validate parameters
-            ValidateTema(bd, lookbackPeriod);
+            ValidateTema(bdList, lookbackPeriod);
 
             // initialize
-            List<EmaResult> results = new List<EmaResult>();
-            List<EmaResult> emaN1 = CalcEma(bd, lookbackPeriod).ToList();
+            List<EmaResult> results = new List<EmaResult>(bdList.Count);
+            List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriod).ToList();
 
             List<BasicData> bd2 = emaN1
                 .Where(x => x.Ema != null)

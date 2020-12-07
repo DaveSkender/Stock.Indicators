@@ -26,7 +26,7 @@ namespace Skender.Stock.Indicators
             List<EmaResult> emaSlow = GetEma(history, slowPeriod).ToList();
 
             List<BasicData> emaDiff = new List<BasicData>();
-            List<MacdResult> results = new List<MacdResult>();
+            List<MacdResult> results = new List<MacdResult>(historyList.Count);
 
             for (int i = 0; i < historyList.Count; i++)
             {

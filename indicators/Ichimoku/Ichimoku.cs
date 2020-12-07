@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
 
             // initialize
-            List<IchimokuResult> results = new List<IchimokuResult>();
+            List<IchimokuResult> results = new List<IchimokuResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

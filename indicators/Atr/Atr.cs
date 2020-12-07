@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateAtr(history, lookbackPeriod);
 
             // initialize results
-            List<AtrResult> results = new List<AtrResult>();
+            List<AtrResult> results = new List<AtrResult>(historyList.Count);
             decimal prevAtr = 0;
             decimal prevClose = 0;
             decimal highMinusPrevClose = 0;
