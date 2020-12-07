@@ -45,9 +45,9 @@ Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 SMA on 12/31/2018 was $251.86
 ```
 
-See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+See [individual indicator pages](INDICATORS.md) for specific usage guidance.
 
-See [individual indicator pages](INDICATORS.md) for specific guidance.
+See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 ## Quote
 
@@ -79,6 +79,10 @@ For example, if you are using daily data and want one year of precise EMA(250) d
 If you would like to use your own custom `MyCustomQuote` _quote_ class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
 
 ```csharp
+using Skender.Stock.Indicators;
+
+[..]
+
 public class MyCustomQuote : IQuote
 {
     // required base properties
@@ -95,8 +99,6 @@ public class MyCustomQuote : IQuote
 ```
 
 ```csharp
-using Skender.Stock.Indicators;
-
 // fetch historical quotes from your favorite feed
 IEnumerable<MyCustomQuote> myHistory = GetHistoryFromFeed("MSFT");
 
