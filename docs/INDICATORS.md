@@ -19,6 +19,7 @@
 - [Heikin-Ashi](../indicators/HeikinAshi/README.md#content)
 - [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
 - [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
+- [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/README.md#content)
 - [Keltner Channel](../indicators/Keltner/README.md#content)
 - [Linear Regression and Slope](../indicators/Slope/README.md#content)
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
