@@ -52,18 +52,18 @@ namespace Skender.Stock.Indicators
 
 
         private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
-            List<BasicData> bd, int rsiPeriod, int rankPeriod)
+            List<BasicData> bdList, int rsiPeriod, int rankPeriod)
         {
-            List<RsiResult> rsiResults = CalcRsi(bd, rsiPeriod).ToList();
-            List<ConnorsRsiResult> results = new List<ConnorsRsiResult>();
+            List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriod).ToList();
+            List<ConnorsRsiResult> results = new List<ConnorsRsiResult>(bdList.Count);
 
             decimal? lastClose = null;
             decimal streak = 0;
 
             // compose interim results
-            for (int i = 0; i < bd.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                BasicData h = bd[i];
+                BasicData h = bdList[i];
                 int index = i + 1;
 
                 ConnorsRsiResult result = new ConnorsRsiResult

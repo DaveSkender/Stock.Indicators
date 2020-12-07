@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
-            List<BollingerBandsResult> results = new List<BollingerBandsResult>();
+            List<BollingerBandsResult> results = new List<BollingerBandsResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

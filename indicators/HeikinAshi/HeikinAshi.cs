@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
             ValidateHeikinAshi(history);
 
             // initialize
-            List<HeikinAshiResult> results = new List<HeikinAshiResult>();
+            List<HeikinAshiResult> results = new List<HeikinAshiResult>(historyList.Count);
 
             decimal? prevOpen = null;
             decimal? prevClose = null;

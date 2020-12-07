@@ -17,7 +17,7 @@ namespace Skender.Stock.Indicators
             ValidateAdl(history, smaPeriod);
 
             // initialize
-            List<AdlResult> results = new List<AdlResult>();
+            List<AdlResult> results = new List<AdlResult>(historyList.Count);
             decimal prevAdl = 0;
 
             // get money flow multiplier

@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
 
             // initialize
-            List<UltimateResult> results = new List<UltimateResult>();
+            List<UltimateResult> results = new List<UltimateResult>(historyList.Count);
             decimal priorClose = 0;
 
             // roll through history

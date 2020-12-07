@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
             decimal lastValue = bdList[0].Value;
             decimal avgGain = 0m;
             decimal avgLoss = 0m;
-            List<RsiResult> results = new List<RsiResult>();
+            List<RsiResult> results = new List<RsiResult>(bdList.Count);
 
             // roll through history
             for (int i = 0; i < bdList.Count; i++)

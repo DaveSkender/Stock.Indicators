@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             ValidateZigZag(history, percentChange);
 
             // initialize
-            List<ZigZagResult> results = new List<ZigZagResult>();
+            List<ZigZagResult> results = new List<ZigZagResult>(historyList.Count);
             decimal changeThreshold = percentChange / 100m;
             TQuote firstQuote = historyList[0];
             ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);

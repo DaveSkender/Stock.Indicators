@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
 
             // initialize results
-            List<BetaResult> results = new List<BetaResult>();
+            List<BetaResult> results = new List<BetaResult>(historyEvalList.Count);
 
             // get prerequisite data
             List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod).ToList();

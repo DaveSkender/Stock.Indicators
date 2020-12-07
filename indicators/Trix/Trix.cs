@@ -15,16 +15,16 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bdList = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // validate parameters
-            ValidateTrix(bd, lookbackPeriod);
+            ValidateTrix(bdList, lookbackPeriod);
 
             // initialize
-            List<TrixResult> results = new List<TrixResult>();
+            List<TrixResult> results = new List<TrixResult>(bdList.Count);
             decimal? lastEma = null;
 
-            List<EmaResult> emaN1 = CalcEma(bd, lookbackPeriod).ToList();
+            List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriod).ToList();
 
             List<BasicData> bd2 = emaN1
                 .Where(x => x.Ema != null)

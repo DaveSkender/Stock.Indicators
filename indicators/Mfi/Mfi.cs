@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateMfi(history, lookbackPeriod);
 
             // initialize
-            List<MfiResult> results = new List<MfiResult>();
+            List<MfiResult> results = new List<MfiResult>(historyList.Count);
 
             decimal? prevTP = null;
 

@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             ValidateSlope(history, lookbackPeriod);
 
             // initialize
-            List<SlopeResult> results = new List<SlopeResult>();
+            List<SlopeResult> results = new List<SlopeResult>(historyList.Count);
 
             // roll through history for interim data
             for (int i = 0; i < historyList.Count; i++)

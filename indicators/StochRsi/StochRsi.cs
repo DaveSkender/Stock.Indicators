@@ -20,10 +20,8 @@ namespace Skender.Stock.Indicators
             ValidateStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
 
             // initialize
-            List<StochRsiResult> results = new List<StochRsiResult>();
-
-            // get RSI
             List<RsiResult> rsiResults = GetRsi(history, rsiPeriod).ToList();
+            List<StochRsiResult> results = new List<StochRsiResult>(rsiResults.Count);
 
             // convert rsi to quote format
             List<Quote> rsiQuotes = rsiResults

@@ -29,7 +29,7 @@ namespace Skender.Stock.Indicators
             ValidateStdDev(bdList, lookbackPeriod, smaPeriod);
 
             // initialize results
-            List<StdDevResult> results = new List<StdDevResult>();
+            List<StdDevResult> results = new List<StdDevResult>(bdList.Count);
 
             // roll through history and compute lookback standard deviation
             for (int i = 0; i < bdList.Count; i++)

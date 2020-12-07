@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
 
             // initialize
-            List<PrsResult> results = new List<PrsResult>();
+            List<PrsResult> results = new List<PrsResult>(historyEvalList.Count);
 
 
             // roll through history for interim data

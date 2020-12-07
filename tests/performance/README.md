@@ -1,4 +1,4 @@
-# Performance benchmarks for v1.2.0
+# Performance benchmarks for v1.3.0
 
 These are the execution times for the current indicators using two years of historical daily stock quotes (502 periods) with default or typical parameters.
 
@@ -12,63 +12,65 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 
 ## indicators
 
-|             Method |        Mean |     Error |    StdDev |      Median |
-|------------------- |------------:|----------:|----------:|------------:|
-|             GetAdl |   145.86 μs |  1.167 μs |  0.975 μs |   145.81 μs |
-|      GetAdlWithSma |   386.60 μs |  3.934 μs |  3.680 μs |   385.25 μs |
-|             GetAdx |   748.81 μs |  5.807 μs |  5.148 μs |   746.60 μs |
-|           GetAroon |   348.75 μs |  6.633 μs |  6.204 μs |   346.48 μs |
-|             GetAtr |   158.31 μs |  0.361 μs |  0.282 μs |   158.26 μs |
-|            GetBeta |   991.38 μs |  7.127 μs |  6.667 μs |   988.38 μs |
-|  GetBollingerBands |   470.79 μs |  8.007 μs | 13.155 μs |   464.10 μs |
-|             GetCci |   901.68 μs | 14.738 μs | 13.786 μs |   899.12 μs |
-|      GetChaikinOsc |   271.32 μs |  3.455 μs |  3.063 μs |   270.74 μs |
-|      GetChandelier |   369.23 μs |  4.169 μs |  3.899 μs |   367.52 μs |
-|             GetCmf |   676.63 μs |  6.819 μs |  6.378 μs |   676.22 μs |
-|      GetConnorsRsi | 1,228.35 μs | 13.353 μs | 11.837 μs | 1,222.89 μs |
-|     GetCorrelation |   905.19 μs |  8.713 μs |  8.557 μs |   901.41 μs |
-|        GetDonchian |   380.03 μs |  9.039 μs | 24.127 μs |   375.37 μs |
-|       GetDoubleEma |   193.67 μs |  3.806 μs |  7.512 μs |   192.17 μs |
-|             GetEma |   107.79 μs |  1.051 μs |  0.983 μs |   107.62 μs |
-|      GetHeikinAshi |   187.63 μs |  3.678 μs |  5.505 μs |   185.66 μs |
-|             GetHma | 1,473.86 μs | 18.819 μs | 15.714 μs | 1,467.52 μs |
-|        GetIchimoku | 1,005.75 μs |  1.881 μs |  1.468 μs | 1,006.13 μs |
-|         GetKeltner |   475.64 μs |  6.446 μs |  6.619 μs |   473.79 μs |
-|            GetMacd |   318.17 μs |  6.602 μs | 18.941 μs |   307.08 μs |
-|             GetMfi |   499.35 μs |  9.119 μs | 17.786 μs |   489.52 μs |
-|             GetObv |    61.98 μs |  0.419 μs |  0.372 μs |    61.89 μs |
-|      GetObvWithSma |   137.18 μs |  0.336 μs |  0.281 μs |   137.24 μs |
-|    GetParabolicSar |    95.59 μs |  0.738 μs |  0.616 μs |    95.41 μs |
-|             GetPmo |   264.77 μs |  0.737 μs |  0.616 μs |   264.56 μs |
-|             GetPrs |   133.95 μs |  0.880 μs |  0.780 μs |   133.74 μs |
-|      GetPrsWithSma |   221.04 μs |  4.194 μs |  9.635 μs |   219.82 μs |
-|             GetRoc |   101.99 μs |  0.850 μs |  0.710 μs |   101.88 μs |
-|      GetRocWithSma |   381.61 μs |  7.324 μs |  9.523 μs |   378.57 μs |
-|             GetRsi |   366.58 μs |  6.997 μs |  9.578 μs |   363.40 μs |
-|           GetSlope |   907.30 μs | 12.244 μs | 10.225 μs |   903.66 μs |
-|             GetSma |   111.67 μs |  1.745 μs |  2.077 μs |   110.69 μs |
-|     GetSmaExtended |   909.31 μs | 10.283 μs |  9.115 μs |   905.78 μs |
-|          GetStdDev |   294.74 μs |  1.719 μs |  1.435 μs |   294.28 μs |
-|   GetStdDevWithSma |   384.92 μs |  3.834 μs |  3.586 μs |   383.55 μs |
-|           GetStoch |   381.52 μs |  1.546 μs |  1.291 μs |   381.54 μs |
-|        GetStochRsi |   692.48 μs | 10.243 μs |  9.581 μs |   686.51 μs |
-|       GetTripleEma |   267.39 μs |  1.703 μs |  1.509 μs |   266.97 μs |
-|            GetTrix |   340.33 μs |  6.789 μs |  9.737 μs |   344.31 μs |
-|     GetTrixWithSma |   388.53 μs |  3.513 μs |  3.286 μs |   386.77 μs |
-|      GetUlcerIndex | 1,551.25 μs | 20.299 μs | 18.988 μs | 1,542.66 μs |
-|        GetUltimate |   602.90 μs |  7.759 μs |  6.879 μs |   600.57 μs |
-|          GetVolSma |   119.89 μs |  0.693 μs |  0.579 μs |   119.70 μs |
-|       GetWilliamsR |   287.91 μs |  0.556 μs |  0.464 μs |   287.93 μs |
-|             GetWma |   747.89 μs |  8.326 μs |  7.381 μs |   745.02 μs |
-|          GetZigZag |   146.63 μs |  0.746 μs |  0.623 μs |   146.49 μs |
+|            Method |        Mean |     Error |    StdDev |      Median |
+|------------------ |------------:|----------:|----------:|------------:|
+|            GetAdl |   147.37 μs |  2.835 μs |  3.375 μs |   146.46 μs |
+|     GetAdlWithSma |   389.71 μs |  7.464 μs |  6.617 μs |   388.85 μs |
+|            GetAdx |   746.59 μs |  5.873 μs |  4.904 μs |   743.81 μs |
+|          GetAroon |   360.96 μs |  4.385 μs |  4.101 μs |   358.70 μs |
+|            GetAtr |   161.96 μs |  1.701 μs |  1.591 μs |   162.13 μs |
+|           GetBeta |   968.08 μs |  5.535 μs |  5.178 μs |   966.15 μs |
+| GetBollingerBands |   466.91 μs |  8.937 μs |  8.777 μs |   463.49 μs |
+|            GetCci |   853.54 μs |  6.780 μs |  6.342 μs |   850.87 μs |
+|     GetChaikinOsc |   269.78 μs |  3.388 μs |  3.169 μs |   268.52 μs |
+|     GetChandelier |   364.92 μs |  5.723 μs |  5.353 μs |   363.33 μs |
+|            GetCmf |   674.32 μs |  5.351 μs |  5.005 μs |   673.48 μs |
+|     GetConnorsRsi | 1,198.88 μs |  3.201 μs |  2.673 μs | 1,198.51 μs |
+|    GetCorrelation |   882.43 μs |  6.782 μs |  5.663 μs |   883.75 μs |
+|       GetDonchian |   398.05 μs |  8.422 μs | 23.196 μs |   394.36 μs |
+|      GetDoubleEma |   186.70 μs |  2.520 μs |  2.902 μs |   185.41 μs |
+|            GetEma |   100.86 μs |  1.002 μs |  0.938 μs |   101.00 μs |
+|        GetFractal |    72.93 μs |  0.423 μs |  0.353 μs |    72.94 μs |
+|     GetHeikinAshi |   175.29 μs |  1.826 μs |  1.708 μs |   175.15 μs |
+|            GetHma | 1,375.60 μs | 12.810 μs | 11.356 μs | 1,371.08 μs |
+|       GetIchimoku |   989.24 μs |  2.008 μs |  1.676 μs |   988.77 μs |
+|        GetKeltner |   474.41 μs |  3.986 μs |  3.729 μs |   473.60 μs |
+|           GetMacd |   302.67 μs |  2.318 μs |  2.168 μs |   301.61 μs |
+|            GetMfi |   486.84 μs |  3.830 μs |  3.582 μs |   486.94 μs |
+|            GetObv |    62.74 μs |  0.142 μs |  0.110 μs |    62.73 μs |
+|     GetObvWithSma |   137.32 μs |  1.115 μs |  1.043 μs |   137.12 μs |
+|   GetParabolicSar |    95.17 μs |  1.782 μs |  3.168 μs |    93.95 μs |
+|            GetPmo |   261.27 μs |  1.196 μs |  0.934 μs |   260.98 μs |
+|            GetPrs |   132.97 μs |  0.447 μs |  0.397 μs |   133.07 μs |
+|     GetPrsWithSma |   208.16 μs |  2.699 μs |  2.524 μs |   207.28 μs |
+|            GetRoc |    97.49 μs |  0.917 μs |  0.858 μs |    97.21 μs |
+|     GetRocWithSma |   363.17 μs |  3.777 μs |  3.533 μs |   361.60 μs |
+|            GetRsi |   341.76 μs |  2.744 μs |  2.433 μs |   341.52 μs |
+|          GetSlope |   889.07 μs |  7.237 μs |  6.416 μs |   886.98 μs |
+|            GetSma |   109.54 μs |  0.966 μs |  0.904 μs |   109.59 μs |
+|    GetSmaExtended |   903.95 μs |  9.341 μs |  8.281 μs |   899.21 μs |
+|         GetStdDev |   295.16 μs |  1.357 μs |  1.203 μs |   294.64 μs |
+|  GetStdDevWithSma |   379.00 μs |  1.183 μs |  1.049 μs |   379.09 μs |
+|          GetStoch |   371.34 μs |  3.662 μs |  3.425 μs |   369.67 μs |
+|       GetStochRsi |   692.28 μs | 13.587 μs | 30.108 μs |   678.54 μs |
+|     GetSuperTrend |   300.35 μs |  1.424 μs |  1.189 μs |   299.98 μs |
+|      GetTripleEma |   269.44 μs |  5.305 μs | 10.222 μs |   263.51 μs |
+|           GetTrix |   320.76 μs |  2.795 μs |  2.478 μs |   319.58 μs |
+|    GetTrixWithSma |   383.26 μs |  7.164 μs | 11.153 μs |   376.97 μs |
+|     GetUlcerIndex | 1,507.04 μs |  3.684 μs |  3.077 μs | 1,506.10 μs |
+|       GetUltimate |   600.45 μs |  3.795 μs |  3.169 μs |   601.38 μs |
+|         GetVolSma |   120.02 μs |  0.974 μs |  0.911 μs |   119.89 μs |
+|      GetWilliamsR |   285.24 μs |  2.403 μs |  2.248 μs |   284.62 μs |
+|            GetWma |   738.75 μs |  6.561 μs |  6.138 μs |   737.18 μs |
+|         GetZigZag |   146.58 μs |  0.392 μs |  0.327 μs |   146.63 μs |
 
 ## internal cleaners
 
-|             Method |     Mean |    Error |   StdDev |   Median |
-|------------------- |---------:|---------:|---------:|---------:|
-|        SortHistory | 37.69 μs | 0.614 μs | 0.544 μs | 37.50 μs |
-|    ValidateHistory | 40.63 μs | 0.769 μs | 1.306 μs | 40.04 μs |
-| ConvertToBasicData | 44.88 μs | 0.862 μs | 0.806 μs | 44.56 μs |
+|             Method |     Mean |    Error |   StdDev |
+|------------------- |---------:|---------:|---------:|
+|        SortHistory | 38.12 μs | 0.384 μs | 0.320 μs |
+|    ValidateHistory | 40.28 μs | 0.624 μs | 1.076 μs |
+| ConvertToBasicData | 45.13 μs | 0.741 μs | 0.793 μs |
 
 ## internal math functions
 

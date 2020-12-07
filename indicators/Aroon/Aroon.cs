@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateAroon(history, lookbackPeriod);
 
             // initialize
-            List<AroonResult> results = new List<AroonResult>();
+            List<AroonResult> results = new List<AroonResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

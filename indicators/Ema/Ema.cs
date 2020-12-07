@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             ValidateEma(bdList, lookbackPeriod);
 
             // initialize
-            List<EmaResult> results = new List<EmaResult>();
+            List<EmaResult> results = new List<EmaResult>(bdList.Count);
 
             // initialize EMA
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
