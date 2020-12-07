@@ -1,6 +1,6 @@
 ﻿# SuperTrend
 
-[SuperTrend](https://www.barchart.com/education/technical-indicators/supertrend) attempts to determine the primary trend of Close price by using [Average True Range (ATR)](../Atr/README.md) band thresholds.
+[SuperTrend](https://www.barchart.com/education/technical-indicators/supertrend) attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](../Atr/README.md) band thresholds.
 It can indicate a buy/sell signal or a trailing stop when the trend changes.
 
 ![image](chart.png)
@@ -38,7 +38,7 @@ WARNING: the line segment before the first reversal is unreliable due to an init
 | `UpperBand` | decimal | Upper band only (bearish/red)
 | `LowerBand` | decimal | Lower band only (bullish/green)
 
-`UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `SuperTrend` is the contigous combination of both upper and lower line data.
+`UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `SuperTrend` is the contiguous combination of both upper and lower line data.
 
 ## Example
 
