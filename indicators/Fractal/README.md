@@ -1,6 +1,6 @@
 ﻿# Fractal
 
-[Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a price pattern that identifies a high or low point over 5 periods.
+Williams [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a price pattern that identifies a high or low point over 5 periods.
 
 ![image](chart.png)
 
