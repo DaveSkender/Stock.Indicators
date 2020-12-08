@@ -1,6 +1,6 @@
 ﻿# Kaufman's Adaptive Moving Average (KAMA)
 
-[KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of Close price over `N` lookback periods.
+[KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of Close price over configurable lookback periods.
 
 ![image](chart.png)
 
@@ -13,14 +13,14 @@ IEnumerable<KamaResult> results = Indicator.GetKama(history,erPeriod,fastPeriod,
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `E+1` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
 | `erPeriod` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
 | `fastPeriod` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
-| `slowPeriod` | int | Number of Slow EMA periods (`S`).  Must be greater than `fastPeriod`.  Default is 30.
+| `slowPeriod` | int | Number of Slow EMA periods.  Must be greater than `fastPeriod`.  Default is 30.
 
 ### Minimum history requirements
 
-You must supply at least 2×`S` or `S`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N`+250 data points prior to the intended usage date for maximum precision.
+You must supply at least 2×`E` or `E`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `E`+250 data points prior to the intended usage date for maximum precision.
 
 ## Response
 
