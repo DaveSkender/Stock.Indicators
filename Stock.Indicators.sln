@@ -21,7 +21,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9-4165-4823-9526-0CFAACCF1ACC}"
 	ProjectSection(SolutionItems) = preProject
 		.github\build.main.yml = .github\build.main.yml
-		.github\build.performance.yml = .github\build.performance.yml
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
