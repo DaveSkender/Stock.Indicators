@@ -125,16 +125,16 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * slowPeriod, slowPeriod + 100);
+            int minHistory = Math.Max(2 * erPeriod, erPeriod + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for KAMA.  " +
                     string.Format(englishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "Since this uses a smoothing technique, for an ER period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for maximum precision.",
-                    qtyHistory, minHistory, slowPeriod, slowPeriod + 250);
+                    qtyHistory, minHistory, erPeriod, erPeriod + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }
