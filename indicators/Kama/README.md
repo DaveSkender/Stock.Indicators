@@ -20,7 +20,7 @@ IEnumerable<KamaResult> results = Indicator.GetKama(history,erPeriod,fastPeriod,
 
 ### Minimum history requirements
 
-You must supply at least 2×`E` or `E`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `E`+250 data points prior to the intended usage date for maximum precision.
+You must supply at least 2×`E` or `E`+50 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `E`+100 data points prior to the intended usage date for maximum precision.
 
 ## Response
 
