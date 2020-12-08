@@ -17,6 +17,12 @@ steps:
     inputs:
       version: 3.1.x
 
+  - task: NuGetToolInstaller@1
+    displayName: "use Nuget 5.8.x"
+    inputs:
+      versionSpec: 5.8.x
+      checkLatest: false
+
   - task: DotNetCoreCLI@2
     displayName: "use GitVersion"
     inputs:
