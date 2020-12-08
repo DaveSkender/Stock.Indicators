@@ -133,6 +133,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetKama()
+        {
+            return Indicator.GetKama(h);
+        }
+
+        [Benchmark]
         public object GetKeltner()
         {
             return Indicator.GetKeltner(h);
