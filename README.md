@@ -8,7 +8,7 @@
 
 [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a .NET library that produces [stock indicators](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
 
-It can be used in any market analysis software for standard OHLCV price quotes, to include equities, commodities, forex, cryptocurrencies, etc.  We had private trading algorithms, machine learning, and charting systems in mind when originally creating this community library.
+It can be used in any market analysis software for standard OHLCV price quotes for equities, commodities, forex, cryptocurrencies, etc.  We had private trading algorithms, machine learning, and charting systems in mind when originally creating this community library.
 
 Explore more information:
 
@@ -16,6 +16,7 @@ Explore more information:
 - [Getting started](#getting-started)
 - [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html)
 - [Contributing guidelines](docs/CONTRIBUTING.md#content)
+- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
 - [Contact us](#contact-us)
@@ -66,4 +67,4 @@ This NuGet package is an open-source project.  If you want to report bugs or con
 
 ## Contact us
 
-Contact us through the NuGet [Contact Owners](https://www.nuget.org/packages/Skender.Stock.Indicators) method or [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with your question if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+[Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions) or [Submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
