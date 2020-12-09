@@ -151,6 +151,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetMama()
+        {
+            return Indicator.GetMama(h);
+        }
+
+        [Benchmark]
         public object GetMfi()
         {
             return Indicator.GetMfi(h);
