@@ -25,7 +25,6 @@ namespace Skender.Stock.Indicators
             List<KamaResult> results = new List<KamaResult>(historyList.Count);
             decimal scFast = 2m / (fastPeriod + 1);
             decimal scSlow = 2m / (slowPeriod + 1);
-            bool overflow = false;
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -52,23 +51,13 @@ namespace Skender.Stock.Indicators
 
                     if (sumPV != 0)
                     {
-                        try
-                        {
-                            // efficiency ratio and smoothing constant
-                            decimal er = change / sumPV;
-                            decimal sc = er * (scFast - scSlow) + scSlow;  // squared later
+                        // efficiency ratio and smoothing constant
+                        decimal er = change / sumPV;
+                        decimal sc = er * (scFast - scSlow) + scSlow;  // squared later
 
-                            // kama calculation
-                            decimal? pk = results[i - 1].Kama;  // prior KAMA
-                            r.Kama = pk + sc * sc * (h.Close - pk);
-                        }
-
-                        // handle overflow, which can happen in extreme variation cases
-                        catch (OverflowException)
-                        {
-                            r.Kama = null;
-                            overflow = true;
-                        }
+                        // kama calculation
+                        decimal? pk = results[i - 1].Kama;  // prior KAMA
+                        r.Kama = pk + sc * sc * (h.Close - pk);
                     }
 
                     // handle flatline case
@@ -85,14 +74,6 @@ namespace Skender.Stock.Indicators
                 }
 
                 results.Add(r);
-            }
-
-            // soft-report overflow
-            if (overflow)
-            {
-                Console.WriteLine(
-                     "WARNING: Extreme price variation caused an Overflow condition in KAMA.  " +
-                     "Impacted KAMA values were set to NULL.");
             }
 
             return results;
@@ -125,7 +106,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * erPeriod, erPeriod + 100);
+            int minHistory = Math.Max(2 * erPeriod, erPeriod + 50);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for KAMA.  " +
@@ -134,11 +115,10 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for an ER period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for maximum precision.",
-                    qtyHistory, minHistory, erPeriod, erPeriod + 250);
+                    qtyHistory, minHistory, erPeriod, erPeriod + 100);
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
 
         }
     }

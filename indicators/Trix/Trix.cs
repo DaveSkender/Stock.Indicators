@@ -67,21 +67,28 @@ namespace Skender.Stock.Indicators
 
                     lastEma = e3.Ema;
 
-                    // optional SMA
-                    if (signalPeriod != null && index >= 3 * lookbackPeriod - 2 + signalPeriod)
-                    {
-                        decimal sumSma = 0m;
-                        for (int p = index - (int)signalPeriod; p < index; p++)
-                        {
-                            sumSma += (decimal)results[p].Trix;
-                        }
-
-                        result.Signal = sumSma / signalPeriod;
-                    }
+                    // optional SMA signal
+                    GetTrixSignal(signalPeriod, index, lookbackPeriod, results);
                 }
             }
 
             return results;
+        }
+
+
+        private static void GetTrixSignal(
+            int? signalPeriod, int index, int lookbackPeriod, List<TrixResult> results)
+        {
+            if (signalPeriod != null && index >= 3 * lookbackPeriod - 2 + signalPeriod)
+            {
+                decimal sumSma = 0m;
+                for (int p = index - (int)signalPeriod; p < index; p++)
+                {
+                    sumSma += (decimal)results[p].Trix;
+                }
+
+                results[index - 1].Signal = sumSma / signalPeriod;
+            }
         }
 
 

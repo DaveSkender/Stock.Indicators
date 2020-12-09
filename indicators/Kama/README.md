@@ -1,4 +1,4 @@
-﻿# Kaufman's Adaptive Moving Average (KAMA)
+﻿# Kaufman's Adaptive Moving Average (KAMA) [:speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/210 "Community discussion about this indicator")
 
 [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of Close price over configurable lookback periods.
 
@@ -20,7 +20,7 @@ IEnumerable<KamaResult> results = Indicator.GetKama(history,erPeriod,fastPeriod,
 
 ### Minimum history requirements
 
-You must supply at least 2×`E` or `E`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `E`+250 data points prior to the intended usage date for maximum precision.
+You must supply at least 2×`E` or `E`+50 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `E`+100 data points prior to the intended usage date for maximum precision.
 
 ## Response
 
