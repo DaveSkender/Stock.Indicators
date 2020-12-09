@@ -2,3 +2,5 @@ theme: jekyll-theme-cayman
 include: [ 'docs/CONTRIBUTING.md', 'LICENSE.md' ]
 exclude: [ 'tests/indicators','tests/external','*.sln','*.csproj','*.cs','*.xlsx','*.yml' ]
 google_analytics: G-7602GXEZ0R
+plugins:
+  - jemoji
