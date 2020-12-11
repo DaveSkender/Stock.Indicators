@@ -1,6 +1,7 @@
-﻿# MESA Adaptive Moving Average (MAMA) [:speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
+﻿# MESA Adaptive Moving Average (MAMA)
 
 Created by John Ehlers, the [MAMA](http://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of Close price.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
 
 ![image](chart.png)
 
