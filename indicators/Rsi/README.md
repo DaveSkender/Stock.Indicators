@@ -1,7 +1,6 @@
 ﻿# Relative Strength Index (RSI)
 
-[Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of winning/losing streak over `N` lookback periods on a scale of 0 to 100.
-RSI values over 70 are considered overbought, while values under 30 are considered oversold.
+Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of winning/losing streak over `N` lookback periods on a scale of 0 to 100 to depict overbought and oversold conditions.
 
 ![image](chart.png)
 
@@ -14,8 +13,12 @@ IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.
+
+### Minimum history requirements
+
+You must supply at least `N+50` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `10×N` data points prior to the intended usage date for optimal precision.
 
 ## Response
 
@@ -24,6 +27,8 @@ IEnumerable<RsiResult>
 ```
 
 The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+WARNING: The first `10×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in RSI values for earlier periods.
 
 ### RsiResult
 

@@ -13,6 +13,7 @@ namespace Internal.Tests
 
         internal static IEnumerable<Quote> GetHistoryOther(int days = 502)
         {
+            // other stock data, for comparative indicators
             List<Quote> h = new List<Quote> {
             new Quote { Date = DateTime.ParseExact("2017-01-03","yyyy-MM-dd",englishCulture), Open=214.86m, High=220.33m, Low=210.96m, Close=216.99m, Volume = 5923254 },
             new Quote { Date = DateTime.ParseExact("2017-01-04","yyyy-MM-dd",englishCulture), Open=214.75m, High=228m, Low=214.31m, Close=226.99m, Volume = 11213471 },
