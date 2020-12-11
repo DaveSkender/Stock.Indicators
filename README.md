@@ -6,19 +6,19 @@
 [![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21?logo=AzureDevops&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=master&view=codecoverage-tab)
 [![CodeQL](https://github.com/DaveSkender/Stock.Indicators/workflows/CodeQL/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/security/code-scanning)
 
-[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a .NET library that produces [stock indicators](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html).  Send in historical stock price quotes and get back desired technical indicators (such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc).  Nothing more.
+[Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) is a .NET library that produces [stock indicators](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html).  Send in historical price quotes and get back desired technical indicators, such as moving average, relative strength, stochastic oscillator, parabolic SAR, etc.  Nothing more.
 
-It can be used in any market analysis software for standard OHLCV price quotes for equities, commodities, forex, cryptocurrencies, etc.  We had private trading algorithms, machine learning, and charting systems in mind when originally creating this community library.
+It can be used in any market analysis software using standard OHLCV price quotes for equities, commodities, forex, cryptocurrencies, and others.  We had private trading algorithms, machine learning, and charting systems in mind when originally creating this community library.
 
 Explore more information:
 
-- [List of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html)
+- [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html)
 - [Getting started](#getting-started)
 - [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html)
 - [Contributing guidelines](docs/CONTRIBUTING.md#content)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
-- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart that uses this library)
+- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
 - [Contact us](#contact-us)
 
 ## Samples
@@ -46,7 +46,7 @@ Install-Package Skender.Stock.Indicators
 ```csharp
 using Skender.Stock.Indicators;
 
-[..]  // prerequisite: acquire quote history from your own source
+[..]  // prerequisite: get quote history from your own source
 
 // example: get 20-period simple moving average
 IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
@@ -67,4 +67,4 @@ This NuGet package is an open-source project.  If you want to report bugs or con
 
 ## Contact us
 
-[Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions) or [Submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+[Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
