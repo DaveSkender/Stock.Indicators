@@ -17,13 +17,12 @@ We are not accepting things that should be done in your own wrapper code:
 
 ## Reporting bugs and feature requests
 
-If you are reporting a bug or feature request, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem or recommended feature.  For bugs, be sure to include steps to reproduce, code samples, and any reference materials.
+If you are reporting a bug or suspect a problem, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem + include steps to reproduce, code samples, and any reference materials.  For new features, add a new Idea in the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area.
 
 ## Project management
 
 - Planned work is managed in [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
-- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an Issue is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
-- Pull Requests are also shown in the backlog to track code review and completion progress.
+- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an Issue is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed; though, we prefer conversations in the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area.
 
 ## Developing
 
