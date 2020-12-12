@@ -65,7 +65,7 @@ namespace Internal.Tests
             Assert.AreEqual(200, h.Count);
 
             // should be 20 results and no index corruption
-            List<RsiResult> r1 = Indicator.GetRsi(h.TakeLast(20), 14).ToList();
+            List<SmaResult> r1 = Indicator.GetSma(h.TakeLast(20), 14).ToList();
             Assert.AreEqual(20, r1.Count);
 
             for (int i = 1; i < r1.Count; i++)
@@ -74,7 +74,7 @@ namespace Internal.Tests
             }
 
             // should be 50 results and no index corruption
-            List<RsiResult> r2 = Indicator.GetRsi(h.TakeLast(50), 14).ToList();
+            List<SmaResult> r2 = Indicator.GetSma(h.TakeLast(50), 14).ToList();
             Assert.AreEqual(50, r2.Count);
 
             for (int i = 1; i < r2.Count; i++)
