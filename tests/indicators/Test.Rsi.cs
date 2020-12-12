@@ -65,6 +65,22 @@ namespace Internal.Tests
             Assert.AreEqual(0m, Math.Round((decimal)r2.Rsi, 4));
         }
 
+        [TestMethod()]
+        public void GetRsiConvergence()
+        {
+            int lookbackPeriod = 14;
+
+            foreach (int qty in convergeQuantities.Where(q => q > 50 - lookbackPeriod))
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(lookbackPeriod + qty);
+                IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriod);
+
+                RsiResult l = r.LastOrDefault();
+                Console.WriteLine("RSI({0}) on {1:d} with {2,4} periods of history: {3:N8}",
+                    lookbackPeriod, l.Date, h.Count(), l.Rsi);
+            }
+        }
+
 
         /* EXCEPTIONS */
 
@@ -79,7 +95,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(29);
+            IEnumerable<Quote> h = History.GetHistory(79);
             Indicator.GetRsi(h, 30);
         }
 

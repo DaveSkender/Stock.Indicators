@@ -13,5 +13,8 @@ namespace Internal.Tests
         internal static readonly IEnumerable<Quote> history = History.GetHistory();
         internal static readonly IEnumerable<Quote> historyOther = History.GetHistoryOther();
         internal static readonly IEnumerable<Quote> historyBad = History.GetHistoryBad();
+
+        internal static readonly int[] convergeQuantities = 
+            new int[] { 5, 20, 50, 75, 100, 120, 150, 200, 250, 350, 500, 600, 700, 800, 900, 1000 };
     }
 }
