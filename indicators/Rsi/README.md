@@ -1,6 +1,6 @@
 ﻿# Relative Strength Index (RSI)
 
-Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of winning/losing streak over `N` lookback periods on a scale of 0 to 100 to depict overbought and oversold conditions.
+Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.
 
 ![image](chart.png)
 
