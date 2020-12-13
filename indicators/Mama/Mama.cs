@@ -93,41 +93,25 @@ namespace Skender.Stock.Indicators
                     }
 
                     // adjust period to thresholds
-                    if (pd[i] > 1.5 * pd[i - 1])
-                    {
-                        pd[i] = 1.5 * pd[i - 1];
-                    }
-
-                    if (pd[i] < 0.67 * pd[i - 1])
-                    {
-                        pd[i] = 0.67 * pd[i - 1];
-                    }
-
-                    if (pd[i] < 6d)
-                    {
-                        pd[i] = 6d;
-                    }
-
-                    if (pd[i] > 50d)
-                    {
-                        pd[i] = 50d;
-                    }
+                    pd[i] = (pd[i] > 1.5 * pd[i - 1]) ? 1.5 * pd[i - 1] : pd[i];
+                    pd[i] = (pd[i] < 0.67 * pd[i - 1]) ? 0.67 * pd[i - 1] : pd[i];
+                    pd[i] = (pd[i] < 6d) ? 6d : pd[i];
+                    pd[i] = (pd[i] > 50d) ? 50d : pd[i];
 
                     // smooth the period
                     pd[i] = 0.2 * pd[i] + 0.8 * pd[i - 1];
 
                     // determine phase position
-                    if (i1[i] != 0)
-                    {
-                        ph[i] = Math.Atan(q1[i] / i1[i]) * 180 / Math.PI;
-                    }
+                    ph[i] = (i1[i] != 0) ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
 
+                    // delta phase
                     decimal delta = (decimal)(ph[i - 1] - ph[i]);
                     if (delta < 1m)
                     {
                         delta = 1m;
                     }
 
+                    // adaptive alpha value
                     decimal alpha = (fastLimit / delta);
                     if (alpha < slowLimit)
                     {
