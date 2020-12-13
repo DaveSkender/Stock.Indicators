@@ -15,8 +15,8 @@ IEnumerable<MamaResult> results = Indicator.GetMama(history,fastLimit,slowLimit)
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
-| `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
-| `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05.
+| `fastLimit` | decimal | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
+| `slowLimit` | decimal | Slow limit threshold.  Must be greater than 0.  Default is 0.05.
 
 ### Minimum history requirements
 
