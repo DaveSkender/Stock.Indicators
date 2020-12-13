@@ -104,20 +104,13 @@ namespace Skender.Stock.Indicators
                     // determine phase position
                     ph[i] = (i1[i] != 0) ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
 
-                    // delta phase
-                    decimal delta = (decimal)(ph[i - 1] - ph[i]);
-                    if (delta < 1m)
-                    {
-                        delta = 1m;
-                    }
+                    // change in phase
+                    decimal delta = Math.Max((decimal)(ph[i - 1] - ph[i]), 1m);
 
                     // adaptive alpha value
-                    decimal alpha = (fastLimit / delta);
-                    if (alpha < slowLimit)
-                    {
-                        alpha = slowLimit;
-                    }
+                    decimal alpha = Math.Max(fastLimit / delta, slowLimit);
 
+                    // final indicators
                     r.Mama = alpha * (decimal)pr[i] + (1m - alpha) * results[i - 1].Mama;
                     r.Fama = 0.5m * alpha * r.Mama + (1m - 0.5m * alpha) * results[i - 1].Fama;
                 }
