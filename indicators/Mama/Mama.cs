@@ -157,18 +157,18 @@ namespace Skender.Stock.Indicators
             if (fastLimit <= slowLimit || fastLimit >= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(fastLimit), fastLimit,
-                    "Fast EMA period must be greater than Slow Limit and less than 1 for MAMA.");
+                    "Fast Limit must be greater than Slow Limit and less than 1 for MAMA.");
             }
 
             if (slowLimit <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(slowLimit), slowLimit,
-                    "Slow EMA period must be greater than 0 for MAMA.");
+                    "Slow Limit must be greater than 0 for MAMA.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 6;
+            int minHistory = 50;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for MAMA.  " +

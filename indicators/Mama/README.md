@@ -1,6 +1,6 @@
 ﻿# MESA Adaptive Moving Average (MAMA)
 
-Created by John Ehlers, the [MAMA](http://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of Close price.
+Created by John Ehlers, the [MAMA](http://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of high/low price.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -14,9 +14,13 @@ IEnumerable<MamaResult> results = Indicator.GetMama(history,fastLimit,slowLimit)
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 6 periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
 | `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
 | `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05.
+
+### Minimum history requirements
+
+Since this indicator has a warmup period, you must supply at least `50` periods of `history`.
 
 ## Response
 
@@ -24,14 +28,16 @@ IEnumerable<MamaResult> results = Indicator.GetMama(history,fastLimit,slowLimit)
 IEnumerable<MamaResult>
 ```
 
-The first 4 periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `5` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+WARNING: The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in MAMA values for earlier periods.
 
 ### MamaResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Mama` | decimal | MESA adaptive moving average
+| `Mama` | decimal | MESA adaptive moving average (MAMA)
 | `Fama` | decimal | Following adaptive moving average (FAMA)
 
 ## Example

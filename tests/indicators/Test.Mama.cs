@@ -63,6 +63,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void GetMamaConvergence()
+        {
+            foreach (int qty in convergeQuantities.Where(q => q >= 50))
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<MamaResult> r = Indicator.GetMama(h);
+
+                MamaResult l = r.LastOrDefault();
+                Console.WriteLine("MAMA on {0:d} with {1,4} periods of history: {2:N8}",
+                    l.Date, h.Count(), l.Mama);
+            }
+        }
+
 
         /* EXCEPTIONS */
 
@@ -91,7 +105,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(5);
+            IEnumerable<Quote> h = History.GetHistory(49);
             Indicator.GetMama(h);
         }
 
