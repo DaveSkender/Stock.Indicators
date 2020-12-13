@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators</Product>
-    <Description>Stock indicators.  Send in historical stock price quotes and get back desired technical indicators (such as stochastic RSI, average true range, parabolic SAR, etc).  Nothing more.</Description>
+    <Description>Stock indicators.  Send in historical price quotes and get back desired technical indicators (such as Stochastic RSI, Average True Range, Parabolic SAR, etc).  Nothing more.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://daveskender.github.io/Stock.Indicators</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
