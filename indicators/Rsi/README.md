@@ -1,6 +1,6 @@
 ﻿# Relative Strength Index (RSI)
 
-Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.
+Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.  [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/224 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -14,7 +14,7 @@ IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.
+| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Minimum history requirements
 
