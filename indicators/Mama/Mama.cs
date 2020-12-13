@@ -43,7 +43,6 @@ namespace Skender.Stock.Indicators
             double[] re = new double[size];
             double[] im = new double[size];
 
-            double[] smp = new double[size]; // smooth period
             double[] ph = new double[size]; // phase
 
             // roll through history
@@ -82,7 +81,7 @@ namespace Skender.Stock.Indicators
 
                     // homodyne discriminator
                     re[i] = i2[i] * i2[i - 1] + q2[i] * q2[i - 1];
-                    im[i] = i2[i] * q2[i - 1] + q2[i] * i2[i - 1];
+                    im[i] = i2[i] * q2[i - 1] - q2[i] * i2[i - 1];
 
                     re[i] = 0.2 * re[i] + 0.8 * re[i - 1];  // smoothing it
                     im[i] = 0.2 * im[i] + 0.8 * im[i - 1];
@@ -90,7 +89,7 @@ namespace Skender.Stock.Indicators
                     // calculate period
                     if (im[i] != 0 && re[i] != 0)
                     {
-                        pd[i] = 360d / Math.Atan(im[i] / re[i]);
+                        pd[i] = 2 * Math.PI / Math.Atan(im[i] / re[i]);
                     }
 
                     // adjust period to thresholds
@@ -116,21 +115,20 @@ namespace Skender.Stock.Indicators
 
                     // smooth the period
                     pd[i] = 0.2 * pd[i] + 0.8 * pd[i - 1];
-                    smp[i] = 0.33 * pd[i] + 0.67 * smp[i - 1];
 
                     // determine phase position
                     if (i1[i] != 0)
                     {
-                        ph[i] = Math.Atan(q1[i] / i1[i]);
+                        ph[i] = Math.Atan(q1[i] / i1[i]) * 180 / Math.PI;
                     }
 
-                    decimal deltaPhase = (decimal)(ph[i - 1] - ph[i]);
-                    if (deltaPhase < 1m)
+                    decimal delta = (decimal)(ph[i - 1] - ph[i]);
+                    if (delta < 1m)
                     {
-                        deltaPhase = 1m;
+                        delta = 1m;
                     }
 
-                    decimal alpha = (fastLimit / deltaPhase);
+                    decimal alpha = (fastLimit / delta);
                     if (alpha < slowLimit)
                     {
                         alpha = slowLimit;
@@ -138,14 +136,12 @@ namespace Skender.Stock.Indicators
 
                     r.Mama = alpha * (decimal)pr[i] + (1m - alpha) * results[i - 1].Mama;
                     r.Fama = 0.5m * alpha * r.Mama + (1m - 0.5m * alpha) * results[i - 1].Fama;
-
-                    throw new NotImplementedException("verify initialization values + do manual calcs");
                 }
 
                 // initialization period
                 else
                 {
-                    sumPr = pr[i];
+                    sumPr += pr[i];
 
                     if (i == 5)
                     {
@@ -165,7 +161,6 @@ namespace Skender.Stock.Indicators
                     re[i] = 0;
                     im[i] = 0;
 
-                    smp[i] = 0;
                     ph[i] = 0;
                 }
 
