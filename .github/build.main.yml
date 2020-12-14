@@ -12,11 +12,6 @@ variables:
   BuildConfiguration: "Release"
 
 steps:
-  - task: CmdLine@2
-    displayName: "fetch history for GitVersion"
-    inputs:
-      script: 'git fetch --prune'
-
   - task: UseDotNet@2
     displayName: "use .Net SDK 3.1.x"
     inputs:
@@ -58,7 +53,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build --disable-parallel /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       testRunTitle: "Library Internal Tests"
 
   - task: DotNetCoreCLI@2
@@ -66,7 +61,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.External.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build --disable-parallel /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
 
@@ -88,10 +83,11 @@ steps:
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
     inputs:
-      command: pack
-      packagesToPack: indicators/Indicators.csproj
-      versioningScheme: byEnvVar
-      versionEnvVar: GitVersion.NuGetVersion
+      command: 'pack'
+      packagesToPack: 'indicators/Indicators.csproj'
+      nobuild: true
+      versioningScheme: 'byEnvVar'
+      versionEnvVar: 'GitVersion.NuGetVersion'
 
   - task: CopyFiles@2
     displayName: "stage artifacts"
