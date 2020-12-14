@@ -1,6 +1,7 @@
 ﻿# Average Directional Index (ADX)
 
-[Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
+Created by J. Welles Wilder, the [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,8 +14,12 @@ IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least 250 data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
+
+### Minimum history requirements
+
+You must supply at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least `N+250` data points prior to the intended usage date for greater precision.
 
 ## Response
 

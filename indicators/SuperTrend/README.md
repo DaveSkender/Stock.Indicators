@@ -1,7 +1,8 @@
 ﻿# SuperTrend
 
-The SuperTrend indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](../Atr/README.md) band thresholds.
+Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)](../Atr/README.md) band thresholds.
 It can indicate a buy/sell signal or a trailing stop when the trend changes.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/235 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -14,9 +15,13 @@ IEnumerable<SuperTrendResult> results = Indicator.GetSuperTrend(history, lookbac
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N`+1 periods of `history`.  Since this uses a smoothing technique, we recommend you use at least 2×`N` data points prior to the intended usage date for maximum precision.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
 | `multiplier` | decimal | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
+
+### Minimum history requirements
+
+You must supply at least `N+1` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `2×N` periods prior to the intended usage date for optimal precision.
 
 ## Response
 

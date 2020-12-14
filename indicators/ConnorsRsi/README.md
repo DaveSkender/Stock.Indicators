@@ -1,6 +1,7 @@
 ﻿# ConnorsRSI
 
-[ConnorsRSI](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf) is a composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.  See [analysis](https://alvarezquanttrading.com/blog/connorsrsi-analysis).
+Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf) is a composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.  See [analysis](https://alvarezquanttrading.com/blog/connorsrsi-analysis).
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/260 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,14 +14,14 @@ IEnumerable<ConnorsRsiResult> results = Indicator.GetConnorsRsi(history, rsiPeri
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `rsiPeriod` | int | Lookback period (`R`) for the close price RSI.  Must be greater than 1.  Default is 3.
 | `streakPeriod` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
 | `rankPeriod` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.
 
-### History requirements
+### Minimum history requirements
 
-`N` is the greater of `R` and `S`, and `P`.  You must supply at least `N+2` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for maximum precision.
+`N` is the greater of `R` and `S`, and `P`.  You must supply at least `N+2` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for greater precision.
 
 ## Response
 

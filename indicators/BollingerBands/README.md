@@ -1,6 +1,7 @@
 ﻿# Bollinger Bands
 
-[Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) indicate volatility and displays standard deviation boundary lines from moving average of Close price.
+Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) indicate volatility and displays standard deviation boundary lines from moving average of Close price.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,9 +14,13 @@ IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history,
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
 | `standardDeviation` | int | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
+
+### Minimum history requirements
+
+You must supply at least `N` periods of `history`.
 
 ## Response
 

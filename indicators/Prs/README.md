@@ -1,6 +1,7 @@
 ﻿# Price Relative Strength (PRS)
 
 [Price Relative Strength (PRS)](https://en.wikipedia.org/wiki/Relative_strength), also called Comparative Relative Strength, shows the ratio of two quote histories, based on Close price.  It is often used to compare against a market index or sector ETF.  When using the optional `lookbackPeriod`, this also return relative percent change of the specified period.  This is not the same as the more prevalent [Relative Strength Index (RSI)](../Rsi/README.md).
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/243 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -16,12 +17,14 @@ IEnumerable<PrsResult> results = Indicator.GetPrs(historyBase, historyEval, smaP
 
 | name | type | notes
 | -- |-- |--
-| `historyBase` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | This is usually market index data, but could be any baseline data that you might use for comparison.  You must supply at least `N` periods of `historyBase` to calculate, but more is typically used if `lookbackPeriod` is specified.
+| `historyBase` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | This is usually market index data, but could be any baseline data that you might use for comparison.
 | `historyEval` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical quotes for evaluation.  You must supply the same number of periods as `historyBase`.
 | `lookbackPeriod` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
 | `smaPeriod` | int | Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
 
-Note: Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.
+### Minimum history requirements
+
+You must supply at least `N` periods of `historyBase` to calculate `PrsPercent` if `lookbackPeriod` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
 ## Response
 

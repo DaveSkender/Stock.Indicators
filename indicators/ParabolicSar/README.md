@@ -1,6 +1,7 @@
-﻿# Parabolic SAR
+﻿# Parabolic SAR (stop and reverse)
 
-[Parabolic SAR](https://en.wikipedia.org/wiki/Parabolic_SAR) (stop and reverse) is a price-time based indicator.
+Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parabolic_SAR) (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/245 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,11 +14,13 @@ IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, acc
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  At least two history records are required to calculate; however, we recommend at least 100 data points.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `accelerationStep` | decimal | Incremental step size.  Must be greater than 0.  Default is 0.02
 | `maxAccelerationFactor` | decimal | Maximimum step limit.  Must be greater than `accelerationStep`.  Default is 0.2
 
-NOTE: Initial Parabolic SAR values before the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient history to capture prior trend reversals, before your usage period.
+### Minimum history requirements
+
+At least two history records are required to calculate; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient history to capture prior trend reversals, before your intended usage period.
 
 ## Response
 

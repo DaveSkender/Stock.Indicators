@@ -1,6 +1,7 @@
 ﻿# Triple EMA Oscillator (TRIX)
 
-[TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the Close price over `N` periods.  TRIX is often confused with [TEMA](../Ema/README.md).
+Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the Close price over `N` periods.  TRIX is often confused with [TEMA](../Ema/README.md).
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/234 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -16,13 +17,13 @@ IEnumerable<TrixResult> results = Indicator.GetTrix(history, lookbackPeriod, sig
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
 | `signalPeriod` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
 ### Minimum history requirements
 
-You must supply at least 4×`N` or 3×`N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least 3×`N`+250 data points prior to the intended usage date for maximum precision.
+You must supply at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for greater precision.
 
 ## Response
 

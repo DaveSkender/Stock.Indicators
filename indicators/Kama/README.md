@@ -1,26 +1,27 @@
 ﻿# Kaufman's Adaptive Moving Average (KAMA)
 
-[KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of Close price over configurable lookback periods.  [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/210 "Community discussion about this indicator")
+Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of Close price over configurable lookback periods.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/210 "Community discussion about this indicator")
 
 ![image](chart.png)
 
 ```csharp
 // usage
-IEnumerable<KamaResult> results = Indicator.GetKama(history,erPeriod,fastPeriod,slowPeriod);  
+IEnumerable<KamaResult> results = Indicator.GetKama(history, erPeriod, fastPeriod, slowPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `erPeriod` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
 | `fastPeriod` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
 | `slowPeriod` | int | Number of Slow EMA periods.  Must be greater than `fastPeriod`.  Default is 30.
 
 ### Minimum history requirements
 
-You must supply at least 2×`E` or `E`+50 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `E`+100 data points prior to the intended usage date for maximum precision.
+You must supply at least `2×E` or `E+50` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `E+100` data points prior to the intended usage date for greater precision.
 
 ## Response
 
@@ -36,7 +37,6 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Kama` | decimal | Kaufman's adaptive moving average
-
 
 ## Example
 

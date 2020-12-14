@@ -1,6 +1,7 @@
 ﻿# Rate of Change (ROC) and Momentum Oscillator
 
 [Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of Close price over `N` lookback periods.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/242 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -16,9 +17,13 @@ IEnumerable<RocResult> results = Indicator.GetRoc(history, lookbackPeriod, smaPe
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+1` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.
 | `smaPeriod` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
+
+### Minimum history requirements
+
+You must supply at least `N+1` periods of `history`.
 
 ## Response
 
