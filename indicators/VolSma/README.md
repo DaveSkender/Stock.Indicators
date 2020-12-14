@@ -1,6 +1,7 @@
 ﻿# Volume Simple Moving Average
 
 The Volume Simple Moving Average is the average volume over `N` lookback periods.  This is helpful when you are trying to assess whether volume is above or below normal.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/230 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,8 +14,12 @@ IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod)
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+
+### Minimum history requirements
+
+You must supply at least `N` periods of `history`.
 
 ## Response
 

@@ -61,7 +61,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.External.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build  /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
 
@@ -83,10 +83,11 @@ steps:
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
     inputs:
-      command: pack
-      packagesToPack: indicators/Indicators.csproj
-      versioningScheme: byEnvVar
-      versionEnvVar: GitVersion.NuGetVersion
+      command: 'pack'
+      packagesToPack: 'indicators/Indicators.csproj'
+      nobuild: true
+      versioningScheme: 'byEnvVar'
+      versionEnvVar: 'GitVersion.NuGetVersion'
 
   - task: CopyFiles@2
     displayName: "stage artifacts"

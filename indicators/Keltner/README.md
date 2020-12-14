@@ -1,6 +1,7 @@
 ﻿# Keltner Channels
 
-[Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.
+Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/249 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,12 +14,14 @@ IEnumerable<KeltnerResult> results = Indicator.GetKeltner(history, emaPeriod, mu
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 2×`N` or `N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N`+250 data points prior to the intended usage date for maximum precision.
-| `emaPeriod` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for an appropriate sample size.  Default is 20.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `emaPeriod` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
 | `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
-| `atrPeriod` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate; however we suggest a larger period for an appropriate sample size.  Default is 10.
+| `atrPeriod` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
 
-Note: `N` is the greater of `E` or `A` periods.
+### Minimum history requirements
+
+You must supply at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for greater precision.  `N` is the greater of `E` or `A` periods.
 
 ## Response
 

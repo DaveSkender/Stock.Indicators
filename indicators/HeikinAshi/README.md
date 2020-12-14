@@ -1,6 +1,7 @@
 ﻿# Heikin-Ashi
 
-[Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that uses prior day for smoothing.
+Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that uses prior day for smoothing.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/254 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,7 +14,11 @@ IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least two historical quotes.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+
+### Minimum history requirements
+
+You must supply at least two periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
 
 ## Response
 

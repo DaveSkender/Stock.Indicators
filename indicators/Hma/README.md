@@ -1,6 +1,7 @@
 ﻿# Hull Moving Average (HMA)
 
-[Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified linear weighted average of `Close` price over `N` lookback periods that reduces lag.
+Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified linear weighted average of `Close` price over `N` lookback periods that reduces lag.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/252 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,8 +14,12 @@ IEnumerable<HmaResult> results = Indicator.GetHma(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
+
+### Minimum history requirements
+
+You must supply at least `N` periods of `history`.
 
 ## Response
 

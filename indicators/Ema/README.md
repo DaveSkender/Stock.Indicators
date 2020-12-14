@@ -1,6 +1,7 @@
 ﻿# Exponential Moving Average (EMA), Double EMA (DEMA), and Triple EMA (TEMA)
 
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over `N` periods.  Double and Triple variants are also available.  Note: [TEMA](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is often confused with the alternative [TRIX](../Trix/README.md) oscillator.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -19,16 +20,16 @@ IEnumerable<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod)
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Minimum history requirements
 
-**EMA** (standard): You must supply at least 2×`N` or `N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N`+250 data points prior to the intended usage date for maximum precision.
+**EMA** (standard): You must supply at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for greater precision.
 
-**Double EMA**: You must supply at least 3×`N` or 2×`N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least 2×`N`+250 data points prior to the intended usage date for maximum precision.
+**Double EMA**: You must supply at least `3×N` or `2×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for greater precision.
 
-**Triple EMA**: You must supply at least 4×`N` or 3×`N`+100 periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least 3×`N`+250 data points prior to the intended usage date for maximum precision.
+**Triple EMA**: You must supply at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for greater precision.
 
 ## Response
 

@@ -16,7 +16,7 @@
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
 You can get historical quotes from your favorite stock data provider.
-Historical data is an `IEnumerable` of the `Quote` class ([see below](#quote)); however, it can also be supplied as a generic [custom quote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+Historical price data is an `IEnumerable` of the `Quote` class ([see below](#quote)); however, it can also be supplied as a generic [custom quote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.
@@ -51,7 +51,7 @@ See [using custom quote classes](#using-custom-quote-classes) if you prefer to u
 
 ## Quote
 
-Historical quotes should be of consistent time frequency (e.g. per minute, hour, day, etc.).
+Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
 | name | type | notes
 | -- |-- |--
@@ -68,11 +68,11 @@ There are many places to get stock market data.  Check with your brokerage or ot
 
 ### How much historical quote data do I need?
 
-Each indicator will need different amounts to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, most use cases will require that you provide more than the minimum.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadHistoryException` will be thrown if you do not provide enough history.
+:warning: IMPORTANT! Each indicator will need different amounts of price quote `history` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, most use cases will require that you provide more than the minimum.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadHistoryException` will be thrown if you do not provide sufficient history to produce any results.
 
-Note that some indicators, especially those that are derived from [Exponential Moving Average](../indicators/Ema/README.md), use a smoothing technique where there is convergence over time.  While you can calculate these with the minimum amount of data, the precision to two decimal points often requires 250 or more preceding historical records.
+Note that some indicators, especially those that are derived from [Exponential Moving Average](../indicators/Ema/README.md), use a smoothing technique where there is precision convergence over time.  While you can calculate these with the minimum amount of data, the precision to two decimal points often requires 250 or more preceding historical records.
 
-For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of total historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.
+For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occassionally, even more is required for optimal precision.
 
 ## Using custom quote classes
 

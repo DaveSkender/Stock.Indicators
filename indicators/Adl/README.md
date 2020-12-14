@@ -1,6 +1,7 @@
 ﻿# Accumulation/Distribution Line (ADL)
 
-The [accumulation/distribution line](https://en.wikipedia.org/wiki/Accumulation/distribution_index) is rolling accumulation of Chaikin Money Flow Volume.
+Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.wikipedia.org/wiki/Accumulation/distribution_index) is rolling accumulation of Chaikin Money Flow Volume.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/271 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -9,15 +10,19 @@ The [accumulation/distribution line](https://en.wikipedia.org/wiki/Accumulation/
 IEnumerable<AdlResult> results = Indicator.GetAdl(history);  
 
 // usage with optional overlay SMA of ADL (shown above)
-IEnumerable<AdlResult> results = Indicator.GetAdl(history,smaPeriod);  
+IEnumerable<AdlResult> results = Indicator.GetAdl(history, smaPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least two historical quotes; however, since this is a trendline, more is recommended.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `smaPeriod` | int | Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
+
+### Minimum history requirements
+
+You must supply at least two historical quotes; however, since this is a trendline, more is recommended.
 
 ## Response
 
@@ -37,7 +42,7 @@ We always return the same number of elements as there are in the historical quot
 | `Adl` | decimal | Accumulation Distribution Line (ADL)
 | `Sma` | decimal | SMA of the ADL based on `smaPeriod` periods, if specified
 
-**Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
+:warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
 
 ## Example
 

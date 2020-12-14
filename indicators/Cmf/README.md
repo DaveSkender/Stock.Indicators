@@ -1,6 +1,7 @@
 ﻿# Chaikin Money Flow (CMF)
 
-[Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the Money Flow Volume over `N` lookback periods.
+Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the Money Flow Volume over `N` lookback periods.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/261 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,8 +14,12 @@ IEnumerable<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N+1` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+
+### Minimum history requirements
+
+You must supply at least `N+1` periods of `history`.
 
 ## Response
 
@@ -33,7 +38,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `MoneyFlowVolume` | decimal | Money Flow Volume
 | `Cmf` | decimal | Chaikin Money Flow = SMA of MFV for `N` lookback periods
 
-**Warning**: absolute values in MFV and CMF are somewhat meaningless, so use with caution.
+:warning: **Warning**: absolute values in MFV and CMF are somewhat meaningless, so use with caution.
 
 ## Example
 

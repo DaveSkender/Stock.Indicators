@@ -1,7 +1,7 @@
 ﻿# Simple Moving Average (SMA)
 
 [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average of Close price over `N` lookback periods.
-
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -14,9 +14,13 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 | `extended` | bool | A `true` will include values for MAD, MSE, and MAPE.  Default is `false`.
+
+### Minimum history requirements
+
+You must supply at least `N` periods of `history`.
 
 ## Response
 

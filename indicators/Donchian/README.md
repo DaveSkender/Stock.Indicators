@@ -1,6 +1,7 @@
 ﻿# Donchian Channels
 
-[Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel) are derived from highest High and lowest Low values over a lookback period.
+Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel) are derived from highest High and lowest Low values over a lookback period.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/257 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,8 +14,12 @@ IEnumerable<DonchianResult> results = Indicator.GetDonchian(history, lookbackPer
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for an appropriate sample size.  Default is 20.
+
+### Minimum history requirements
+
+You must supply at least `N` periods of `history`.
 
 ## Response
 

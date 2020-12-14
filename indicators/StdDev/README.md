@@ -1,6 +1,7 @@
-﻿# Standard Deviation (Volatility)
+﻿# Standard Deviation (volatility)
 
 Rolling [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of Close price over a lookback period.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -16,9 +17,13 @@ IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod,
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least `N` periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
 | `smaPeriod` | int | Optional.  Number of periods in the moving average of STDEV.  Must be greater than 0, if specified.
+
+### Minimum history requirements
+
+You must supply at least `N` periods of `history`.
 
 ## Response
 

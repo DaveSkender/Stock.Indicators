@@ -1,6 +1,7 @@
-﻿# Fractal
+﻿# Williams Fractal
 
-Williams [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a high or low point over ±2 periods.
+Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a high or low point over ±2 periods.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -13,7 +14,11 @@ IEnumerable<FractalResult> results = Indicator.GetFractal(history);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).  You must supply at least 5 periods of `history`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+
+### Minimum history requirements
+
+You must supply at least 5 periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
 
 ## Response
 
@@ -24,7 +29,7 @@ IEnumerable<FractalResult>
 The first and last two periods in `history` are unable to be calculated since there's not enough prior/following data.
 We always return the same number of elements as there are in the historical quotes.
 
-WARNING: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last two periods of `history`.
+:warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last two periods of `history`.
 
 ### FractalResult
 

@@ -13,7 +13,7 @@ IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical Quotes data should be at any consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Minimum history requirements
@@ -28,7 +28,7 @@ IEnumerable<RsiResult>
 
 The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-WARNING: The first `10×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in RSI values for earlier periods.
+:warning: **Warning**: The first `10×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in RSI values for earlier periods.
 
 ### RsiResult
 
