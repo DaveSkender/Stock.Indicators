@@ -15,7 +15,7 @@ steps:
   - task: CmdLine@2
     displayName: "fetch history for GitVersion"
     inputs:
-      script: 'git fetch --prune --unshallow'
+      script: 'git fetch --prune'
 
   - task: UseDotNet@2
     displayName: "use .Net SDK 3.1.x"
