@@ -53,7 +53,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build --disable-parallel /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       testRunTitle: "Library Internal Tests"
 
   - task: DotNetCoreCLI@2
@@ -61,7 +61,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.External.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build --disable-parallel /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
 
