@@ -30,7 +30,7 @@ IEnumerable<MamaResult>
 
 The first `5` periods will have `null` values for MAMA since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-WARNING: The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in MAMA values for earlier periods.
+:warning: **Warning**: The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in MAMA values for earlier periods.
 
 ### MamaResult
 

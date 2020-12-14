@@ -42,7 +42,7 @@ We always return the same number of elements as there are in the historical quot
 | `Adl` | decimal | Accumulation Distribution Line (ADL)
 | `Sma` | decimal | SMA of the ADL based on `smaPeriod` periods, if specified
 
-**Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
+:warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
 
 ## Example
 

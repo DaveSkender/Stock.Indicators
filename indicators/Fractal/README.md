@@ -29,7 +29,7 @@ IEnumerable<FractalResult>
 The first and last two periods in `history` are unable to be calculated since there's not enough prior/following data.
 We always return the same number of elements as there are in the historical quotes.
 
-WARNING: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last two periods of `history`.
+:warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last two periods of `history`.
 
 ### FractalResult
 

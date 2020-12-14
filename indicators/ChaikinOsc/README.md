@@ -40,7 +40,7 @@ The first `S-1` periods will have `null` values for `Oscillator` since there's n
 | `Adl` | decimal | Accumulation Distribution Line (ADL)
 | `Oscillator` | decimal | Chaikin Oscillator
 
-**Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless, so use with caution.
+:warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless, so use with caution.
 
 ## Example
 

@@ -32,7 +32,7 @@ IEnumerable<SuperTrendResult>
 The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
 We always return the same number of elements as there are in the historical quotes.
 
-WARNING: the line segment before the first reversal is unreliable due to an initial guess of trend direction.
+:warning: **Warning**: the line segment before the first reversal is unreliable due to an initial guess of trend direction.
 
 ### SuperTrendResult
 
