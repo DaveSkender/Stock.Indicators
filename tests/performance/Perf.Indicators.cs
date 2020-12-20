@@ -31,6 +31,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetAlma()
+        {
+            return Indicator.GetAlma(h);
+        }
+
+        [Benchmark]
         public object GetAroon()
         {
             return Indicator.GetAroon(h);
