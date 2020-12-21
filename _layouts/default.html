@@ -5,58 +5,58 @@
 
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
-  <head>
 
-    {% if site.google_analytics %}
-      <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '{{ site.google_analytics }}');
-      </script>
+<head>
+
+  {% if site.google_analytics %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', '{{ site.google_analytics }}');
+  </script>
+  {% endif %}
+  <meta charset="UTF-8">
+
+  {% seo %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+</head>
+
+<body>
+  <header class="page-header" style="padding:10px;" role="banner">
+
+    <h1 class="project-name" style="font-size:32px;margin:0;">
+      <a href="{{ site.baseurl }}/" style="text-decoration:none;color:unset">
+        Stock Indicators
+      </a>
+    </h1>
+
+    <h2 class="project-tagline" style="margin-bottom:12px;margin-top:0;font-size:16px;">
+      Send in historical price quotes and get back desired technical indicators.<br />Nothing more.
+    </h2>
+
+    <a href="{{ site.baseurl }}/docs/INDICATORS.html" class="btn">Indicators</a>
+    <a href="{{ site.baseurl }}/docs/GUIDE.html" class="btn">Guide</a>
+    <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" class="btn">NuGet Package</a>
+    {% if site.github.is_project_page %}
+    <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
     {% endif %}
-    <meta charset="UTF-8">
+  </header>
 
-{% seo %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#157878">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  </head>
-  <body>
-    <header class="page-header" style="padding:10px;" role="banner">
-      
-      <h1 class="project-name" style="font-size:32px;margin:0;">
-        <a href="{{ site.baseurl }}/" style="text-decoration:none;color:unset">
-          {{ site.title | default: site.title | default: site.github.repository_name }}
-        </a>
-      </h1>
-      
-      <h2 class="project-tagline" style="margin-bottom:12px;margin-top:0;font-size:16px;">
-        Send in historical stock price quotes and get back desired technical indicators.<br />Nothing more.
-      </h2>
+  <main id="content" class="main-content" role="main">
+    {{ content }}
 
-      <a href="{{ site.baseurl }}/docs/INDICATORS.html" class="btn">Indicators</a>
-      <a href="{{ site.baseurl }}/docs/GUIDE.html" class="btn">Guide</a>
-      <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" class="btn">NuGet Package</a>
+    <footer class="site-footer">
       {% if site.github.is_project_page %}
-        <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
+      <span class="site-footer-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a>
+        is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>.</span>
       {% endif %}
-      {% if site.show_downloads %}
-        <a href="{{ site.github.zip_url }}" class="btn">Download .zip</a>
-        <a href="{{ site.github.tar_url }}" class="btn">Download .tar.gz</a>
-      {% endif %}
-    </header>
+    </footer>
+  </main>
+</body>
 
-    <main id="content" class="main-content" role="main">
-      {{ content }}
-
-      <footer class="site-footer">
-        {% if site.github.is_project_page %}
-          <span class="site-footer-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>.</span>
-        {% endif %}
-      </footer>
-    </main>
-  </body>
 </html>
