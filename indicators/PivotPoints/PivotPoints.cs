@@ -96,88 +96,114 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // intentionally public (secret menu item)
-        public static PivotPointsResult GetPivotPoint(
+        internal static PivotPointsResult GetPivotPoint(
             PivotPointType type, decimal open, decimal high, decimal low, decimal close)
         {
-            PivotPointsResult wp = new PivotPointsResult();
-
-            switch (type)
+            return type switch
             {
-                case PivotPointType.Standard:
+                PivotPointType.Standard => GetPivotPointStandard(high, low, close),
+                PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
+                PivotPointType.Demark => GetPivotPointDemark(open, high, low, close),
+                PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
+                PivotPointType.Woodie => GetPivotPointWoodie(high, low, close),
+                _ => null
+            };
+        }
 
-                    wp.PP = (high + low + close) / 3;
-                    wp.S1 = wp.PP * 2 - high;
-                    wp.S2 = wp.PP - (high - low);
-                    wp.R1 = wp.PP * 2 - low;
-                    wp.R2 = wp.PP + (high - low);
-                    break;
+        public static PivotPointsResult GetPivotPointStandard(
+            decimal high, decimal low, decimal close)
+        {
+            decimal pp = (high + low + close) / 3;
 
-                case PivotPointType.Camarilla:
+            return new PivotPointsResult
+            {
+                PP = pp,
+                S1 = pp * 2 - high,
+                S2 = pp - (high - low),
+                R1 = pp * 2 - low,
+                R2 = pp + (high - low)
+            };
+        }
 
-                    wp.PP = (high + low + close) / 3;
-                    wp.S1 = close - 1.0833m * (high - low);
-                    wp.S2 = close - 1.1666m * (high - low);
-                    wp.S3 = close - 1.2500m * (high - low);
-                    wp.S4 = close - 1.5000m * (high - low);
-                    wp.R1 = close + 1.0833m * (high - low);
-                    wp.R2 = close + 1.1666m * (high - low);
-                    wp.R3 = close + 1.2500m * (high - low);
-                    wp.R4 = close + 1.5000m * (high - low);
-                    break;
+        public static PivotPointsResult GetPivotPointCamarilla(
+            decimal high, decimal low, decimal close)
+        {
+            return new PivotPointsResult
+            {
+                PP = (high + low + close) / 3,
+                S1 = close - 1.0833m * (high - low),
+                S2 = close - 1.1666m * (high - low),
+                S3 = close - 1.2500m * (high - low),
+                S4 = close - 1.5000m * (high - low),
+                R1 = close + 1.0833m * (high - low),
+                R2 = close + 1.1666m * (high - low),
+                R3 = close + 1.2500m * (high - low),
+                R4 = close + 1.5000m * (high - low)
+            };
+        }
 
-                case PivotPointType.Demark:
+        public static PivotPointsResult GetPivotPointDemark(
+            decimal open, decimal high, decimal low, decimal close)
+        {
+            decimal? x;
 
-                    decimal? x;
-
-                    if (close < open)
-                    {
-                        x = high + 2 * low + close;
-                    }
-                    else if (close > open)
-                    {
-                        x = 2 * high + low + close;
-                    }
-                    else if (close == open)
-                    {
-                        x = high + low + 2 * close;
-                    }
-                    else
-                    {
-                        x = null;
-                    }
-
-                    wp.PP = x / 4;
-                    wp.S1 = x / 2 - high;
-                    wp.R1 = x / 2 - low;
-                    break;
-
-                case PivotPointType.Fibonacci:
-
-                    wp.PP = (high + low + close) / 3;
-                    wp.S1 = wp.PP - 0.382m * (high - low);
-                    wp.S2 = wp.PP - 0.618m * (high - low);
-                    wp.S3 = wp.PP - 1.000m * (high - low);
-                    wp.R1 = wp.PP + 0.382m * (high - low);
-                    wp.R2 = wp.PP + 0.618m * (high - low);
-                    wp.R3 = wp.PP + 1.000m * (high - low);
-                    break;
-
-                case PivotPointType.Woodie:
-
-                    wp.PP = (high + low + 2 * close) / 4;
-                    wp.S1 = wp.PP * 2 - high;
-                    wp.S2 = wp.PP - high + low;
-                    wp.R1 = wp.PP * 2 - low;
-                    wp.R2 = wp.PP + high - low;
-                    break;
-
-                default:
-                    break;
+            if (close < open)
+            {
+                x = high + 2 * low + close;
+            }
+            else if (close > open)
+            {
+                x = 2 * high + low + close;
+            }
+            else if (close == open)
+            {
+                x = high + low + 2 * close;
+            }
+            else
+            {
+                x = null;
             }
 
-            return wp;
+            return new PivotPointsResult
+            {
+                PP = x / 4,
+                S1 = x / 2 - high,
+                R1 = x / 2 - low
+            };
         }
+
+        public static PivotPointsResult GetPivotPointFibonacci(
+            decimal high, decimal low, decimal close)
+        {
+            decimal pp = (high + low + close) / 3;
+
+            return new PivotPointsResult
+            {
+                PP = pp,
+                S1 = pp - 0.382m * (high - low),
+                S2 = pp - 0.618m * (high - low),
+                S3 = pp - 1.000m * (high - low),
+                R1 = pp + 0.382m * (high - low),
+                R2 = pp + 0.618m * (high - low),
+                R3 = pp + 1.000m * (high - low)
+            };
+        }
+
+        public static PivotPointsResult GetPivotPointWoodie(
+            decimal high, decimal low, decimal close)
+        {
+            decimal pp = (high + low + 2 * close) / 4;
+
+            return new PivotPointsResult
+            {
+                PP = pp,
+                S1 = pp * 2 - high,
+                S2 = pp - high + low,
+                R1 = pp * 2 - low,
+                R2 = pp + high - low
+            };
+        }
+
 
         private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
         {
@@ -192,28 +218,70 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidatePivotPoints<TQuote>(IEnumerable<TQuote> history, PeriodSize windowSize)
+        private static void ValidatePivotPoints<TQuote>(
+            IEnumerable<TQuote> history, PeriodSize windowSize)
             where TQuote : IQuote
         {
+            //Console.WriteLine(pointType);
+
+            //// check parameters
+            //PeriodSize[] sizes = {
+            //    PeriodSize.Hour,
+            //    PeriodSize.Day,
+            //    PeriodSize.Week,
+            //    PeriodSize.Month
+            //};
+
+            //if (!sizes.Contains(windowSize))
+            //{
+            //    throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
+            //        "Window Size must be Hour, Day, Week, or Month for Pivot Points.");
+            //}
+
+            //PivotPointType[] points = {
+            //    PivotPointType.Standard,
+            //    PivotPointType.Camarilla,
+            //    PivotPointType.Demark,
+            //    PivotPointType.Fibonacci,
+            //    PivotPointType.Woodie
+            //};
+
+            //if (!points.Contains(pointType))
+            //{
+            //    {
+            //        throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
+            //            "Point Type must be Standard, Camarilla, Demark, Fibonacci, or Woodie for Pivot Points.");
+            //    }
+            //}
 
             // count periods based on periodSize
-            int qtyWindows = windowSize switch
+            int qtyWindows = 0;
+
+            switch (windowSize)
             {
-                PeriodSize.Month => history.Select(x => x.Date.Month).Distinct().Count(),
+                case PeriodSize.Month:
+                    qtyWindows = history.Select(x => x.Date.Month).Distinct().Count();
+                    break;
 
-                PeriodSize.Week => history.Select(x => englishCalendar
+                case PeriodSize.Week:
+                    qtyWindows = history.Select(x => englishCalendar
                     .GetWeekOfYear(x.Date, englishCalendarWeekRule, englishFirstDayOfWeek))
-                    .Distinct().Count(),
+                    .Distinct().Count();
+                    break;
 
-                PeriodSize.Day => history.Select(x => x.Date.Day).Distinct().Count(),
+                case PeriodSize.Day:
+                    qtyWindows = history.Select(x => x.Date.Day).Distinct().Count();
+                    break;
 
-                PeriodSize.Hour => history.Select(x => x.Date.Hour).Distinct().Count(),
+                case PeriodSize.Hour:
+                    qtyWindows = history.Select(x => x.Date.Hour).Distinct().Count();
+                    break;
 
-                _ => 0
+                default:
+                    break;
             };
 
             // check history to ensure 2+ periods are present
-
             if (qtyWindows < 2)
             {
                 string message = "Insufficient history provided for Pivot Points.  " +

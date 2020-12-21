@@ -94,6 +94,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r6.S4);
         }
 
+
         [TestMethod()]
         public void GetPivotPointsBadData()
         {

@@ -43,12 +43,9 @@ namespace Skender.Stock.Indicators
 
     public enum PeriodSize
     {
-        // do not modify numbers,
-        // just add new random numbers if extending
-
-        Month = 3,
-        Week = 4,
-        Day = 5,
-        Hour = 6
+        Month,
+        Week,
+        Day,
+        Hour
     }
 }
