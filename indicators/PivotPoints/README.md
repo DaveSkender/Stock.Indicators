@@ -14,13 +14,13 @@ IEnumerable<PivotPointResult> results = Indicator.GetPivotPoints(history, window
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `windowSize` | PeriodSize | Size of the lookback window.
-| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`.
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc)
+| `windowSize` | PeriodSize | Size of the lookback window
+| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
 
 ### Minimum history requirements
 
-You must supply at least `2` windows of `history`.  For example, if you specify a `Weekly` window size, you need at least 14 days of `history`.  However, to ensure you have a full lookback period, we recommend you always use _more than_ `2` windows of history.
+You must supply at least `2` windows of `history`.  For example, if you specify a `Week` window size, you need at least 14 days of `history`.
 
 ### PeriodSize options (for windowSize)
 
@@ -48,6 +48,8 @@ IEnumerable<PivotPointsResult>
 ```
 
 The first window will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 days (1.5 months) of `history`.
 
 ### PivotPointResult
 
