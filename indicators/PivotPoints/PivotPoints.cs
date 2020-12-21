@@ -53,6 +53,11 @@ namespace Skender.Stock.Indicators
                     firstWindow = false;
 
                     // set new levels
+                    if (pointType == PivotPointType.Woodie)
+                    {
+                        windowOpen = h.Open;
+                    }
+
                     windowPoint = GetPivotPoint(pointType, windowOpen, windowHigh, windowLow, windowClose);
 
                     // reset window min/max thresholds
@@ -101,7 +106,7 @@ namespace Skender.Stock.Indicators
                 PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
                 PivotPointType.Demark => GetPivotPointDemark(open, high, low, close),
                 PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
-                PivotPointType.Woodie => GetPivotPointWoodie(high, low, close),
+                PivotPointType.Woodie => GetPivotPointWoodie(open, high, low),
                 _ => null
             };
         }
@@ -186,17 +191,19 @@ namespace Skender.Stock.Indicators
         }
 
         public static PivotPointsResult GetPivotPointWoodie(
-            decimal high, decimal low, decimal close)
+            decimal currentOpen, decimal high, decimal low)
         {
-            decimal pp = (high + low + 2 * close) / 4;
+            decimal pp = (high + low + 2 * currentOpen) / 4;
 
             return new PivotPointsResult
             {
                 PP = pp,
                 S1 = pp * 2 - high,
                 S2 = pp - high + low,
+                S3 = low - 2 * (high - pp),
                 R1 = pp * 2 - low,
-                R2 = pp + high - low
+                R2 = pp + high - low,
+                R3 = high + 2 * (pp - low),
             };
         }
 

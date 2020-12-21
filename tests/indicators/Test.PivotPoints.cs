@@ -262,12 +262,6 @@ namespace Internal.Tests
             List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
                 .ToList();
 
-            foreach (PivotPointsResult r in results)
-            {
-                Console.WriteLine("{0},{1:N4},{2:N4},{3:N4},{4:N4},{5:N4},{6:N4},{7:N4},{8:N4},{9:N4}",
-                    r.Date, r.PP, r.S1, r.S2, r.S3, r.S4, r.R1, r.R2, r.R3, r.R4);
-            }
-
             // assertions
 
             // proper quantities
@@ -333,6 +327,71 @@ namespace Internal.Tests
             Assert.AreEqual(null, r6.S4);
         }
 
+        [TestMethod()]
+        public void GetPivotPointsWoodie()
+        {
+            PeriodSize periodSize = PeriodSize.Day;
+            PivotPointType pointType = PivotPointType.Woodie;
+
+            IEnumerable<Quote> h = History.GetHistoryIntraday();
+            List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is history
+            Assert.AreEqual(1564, results.Count);
+            Assert.AreEqual(1173, results.Where(x => x.PP != null).Count());
+
+            // sample values
+            PivotPointsResult r1 = results[1563];
+            Assert.AreEqual(371.3625m, Math.Round((decimal)r1.PP, 4));
+            Assert.AreEqual(370.2650m, Math.Round((decimal)r1.S1, 4));
+            Assert.AreEqual(369.9525m, Math.Round((decimal)r1.S2, 4));
+            Assert.AreEqual(368.8550m, Math.Round((decimal)r1.S3, 4));
+            Assert.AreEqual(371.6750m, Math.Round((decimal)r1.R1, 4));
+            Assert.AreEqual(372.7725m, Math.Round((decimal)r1.R2, 4));
+            Assert.AreEqual(373.0850m, Math.Round((decimal)r1.R3, 4));
+
+            PivotPointsResult r2 = results[1173];
+            Assert.AreEqual(371.3625m, Math.Round((decimal)r2.PP, 4));
+            Assert.AreEqual(370.2650m, Math.Round((decimal)r2.S1, 4));
+            Assert.AreEqual(369.9525m, Math.Round((decimal)r2.S2, 4));
+            Assert.AreEqual(368.8550m, Math.Round((decimal)r2.S3, 4));
+            Assert.AreEqual(371.6750m, Math.Round((decimal)r2.R1, 4));
+            Assert.AreEqual(372.7725m, Math.Round((decimal)r2.R2, 4));
+            Assert.AreEqual(373.0850m, Math.Round((decimal)r2.R3, 4));
+
+            PivotPointsResult r3 = results[1172];
+            Assert.AreEqual(370.9769m, Math.Round((decimal)r3.PP, 4));
+            Assert.AreEqual(370.7938m, Math.Round((decimal)r3.S1, 4));
+            Assert.AreEqual(368.6845m, Math.Round((decimal)r3.S2, 4));
+            Assert.AreEqual(368.5014m, Math.Round((decimal)r3.S3, 4));
+            Assert.AreEqual(373.0862m, Math.Round((decimal)r3.R1, 4));
+            Assert.AreEqual(373.2693m, Math.Round((decimal)r3.R2, 4));
+            Assert.AreEqual(375.3786m, Math.Round((decimal)r3.R3, 4));
+
+            PivotPointsResult r4 = results[391];
+            Assert.AreEqual(368.7875m, Math.Round((decimal)r4.PP, 4));
+            Assert.AreEqual(367.9850m, Math.Round((decimal)r4.S1, 4));
+            Assert.AreEqual(365.1175m, Math.Round((decimal)r4.S2, 4));
+            Assert.AreEqual(364.3150m, Math.Round((decimal)r4.S3, 4));
+            Assert.AreEqual(371.6550m, Math.Round((decimal)r4.R1, 4));
+            Assert.AreEqual(372.4575m, Math.Round((decimal)r4.R2, 4));
+            Assert.AreEqual(375.3250m, Math.Round((decimal)r4.R3, 4));
+
+            PivotPointsResult r5 = results[390];
+            Assert.AreEqual(null, r5.R4);
+            Assert.AreEqual(null, r5.R3);
+            Assert.AreEqual(null, r5.PP);
+            Assert.AreEqual(null, r5.S1);
+            Assert.AreEqual(null, r5.S2);
+            Assert.AreEqual(null, r5.R1);
+            Assert.AreEqual(null, r5.R2);
+            Assert.AreEqual(null, r5.S3);
+            Assert.AreEqual(null, r5.S4);
+        }
 
 
         [TestMethod()]
