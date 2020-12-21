@@ -47,8 +47,6 @@ namespace Skender.Stock.Indicators
                 // new window evaluation
                 windowEval = GetWindowNumber(h.Date, windowSize);
 
-                //Console.WriteLine("{0},{1:N4},{2:N4},{3:N4},{4:N4}", i + 1, windowOpen, windowHigh, windowLow, windowClose);
-
                 if (windowEval != windowId)
                 {
                     windowId = windowEval;
@@ -82,8 +80,6 @@ namespace Skender.Stock.Indicators
                     r.R4 = windowPoint.R4;
                 }
 
-
-                //Console.WriteLine("{0},{1:N4},{2:N4},{3:N4},{4:N4},{5:N4}", i + 1, r.PP, r.S1, r.S2, r.R1, r.R2);
                 results.Add(r);
 
                 // capture window threholds (for next iteration)
@@ -222,37 +218,6 @@ namespace Skender.Stock.Indicators
             IEnumerable<TQuote> history, PeriodSize windowSize)
             where TQuote : IQuote
         {
-            //Console.WriteLine(pointType);
-
-            //// check parameters
-            //PeriodSize[] sizes = {
-            //    PeriodSize.Hour,
-            //    PeriodSize.Day,
-            //    PeriodSize.Week,
-            //    PeriodSize.Month
-            //};
-
-            //if (!sizes.Contains(windowSize))
-            //{
-            //    throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
-            //        "Window Size must be Hour, Day, Week, or Month for Pivot Points.");
-            //}
-
-            //PivotPointType[] points = {
-            //    PivotPointType.Standard,
-            //    PivotPointType.Camarilla,
-            //    PivotPointType.Demark,
-            //    PivotPointType.Fibonacci,
-            //    PivotPointType.Woodie
-            //};
-
-            //if (!points.Contains(pointType))
-            //{
-            //    {
-            //        throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
-            //            "Point Type must be Standard, Camarilla, Demark, Fibonacci, or Woodie for Pivot Points.");
-            //    }
-            //}
 
             // count periods based on periodSize
             int qtyWindows = 0;
