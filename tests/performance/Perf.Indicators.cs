@@ -187,6 +187,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetPivotPoints()
+        {
+            return Indicator.GetPivotPoints(h, PeriodSize.Month, PivotPointType.Standard);
+        }
+
+        [Benchmark]
         public object GetPmo()
         {
             return Indicator.GetPmo(h);
