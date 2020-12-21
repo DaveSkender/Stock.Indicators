@@ -2,6 +2,8 @@
 
 namespace Skender.Stock.Indicators
 {
+    // MODELS
+
     public interface IQuote
     {
         public DateTime Date { get; }
@@ -34,5 +36,19 @@ namespace Skender.Stock.Indicators
     {
         internal DateTime Date { get; set; }
         internal decimal Value { get; set; }
+    }
+
+
+    // ENUMERATIONS
+
+    public enum PeriodSize
+    {
+        // do not modify numbers,
+        // just add new random numbers if extending
+
+        Month = 3,
+        Week = 4,
+        Day = 5,
+        Hour = 6
     }
 }

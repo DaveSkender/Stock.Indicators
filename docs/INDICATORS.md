@@ -28,6 +28,7 @@
 - [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/README.md#content)
 - [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
 - [Parabolic SAR](../indicators/ParabolicSar/README.md#content)
+- [Pivot Points](../indicators/PivotPoints/README.md#content)
 - [Price (Comparative) Relative Strength (PRS)](../indicators/Prs/README.md#content)
 - [Price Momentum Oscillator (PMO)](../indicators/Pmo/README.md#content)
 - [Rate of Change (ROC)](../indicators/Roc/README.md#content)
