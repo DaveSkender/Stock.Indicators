@@ -30,7 +30,11 @@ namespace Skender.Stock.Indicators
             decimal lastValue = bdList[0].Value;
             decimal avgGain = 0m;
             decimal avgLoss = 0m;
-            List<RsiResult> results = new List<RsiResult>(bdList.Count);
+
+            int size = bdList.Count;
+            List<RsiResult> results = new List<RsiResult>(size);
+            decimal[] gain = new decimal[size]; // gain
+            decimal[] loss = new decimal[size]; // loss
 
             // roll through history
             for (int i = 0; i < bdList.Count; i++)
@@ -40,18 +44,19 @@ namespace Skender.Stock.Indicators
 
                 RsiResult r = new RsiResult
                 {
-                    Date = h.Date,
-                    Gain = (h.Value > lastValue) ? h.Value - lastValue : 0,
-                    Loss = (h.Value < lastValue) ? lastValue - h.Value : 0
+                    Date = h.Date
                 };
                 results.Add(r);
+
+                gain[i] = (h.Value > lastValue) ? h.Value - lastValue : 0;
+                loss[i] = (h.Value < lastValue) ? lastValue - h.Value : 0;
                 lastValue = h.Value;
 
                 // calculate RSI
                 if (index > lookbackPeriod + 1)
                 {
-                    avgGain = (avgGain * (lookbackPeriod - 1) + r.Gain) / lookbackPeriod;
-                    avgLoss = (avgLoss * (lookbackPeriod - 1) + r.Loss) / lookbackPeriod;
+                    avgGain = (avgGain * (lookbackPeriod - 1) + gain[i]) / lookbackPeriod;
+                    avgLoss = (avgLoss * (lookbackPeriod - 1) + loss[i]) / lookbackPeriod;
 
                     if (avgLoss > 0)
                     {
@@ -72,9 +77,8 @@ namespace Skender.Stock.Indicators
 
                     for (int p = 1; p <= lookbackPeriod; p++)
                     {
-                        RsiResult d = results[p];
-                        sumGain += d.Gain;
-                        sumLoss += d.Loss;
+                        sumGain += gain[p];
+                        sumLoss += loss[p];
                     }
                     avgGain = sumGain / lookbackPeriod;
                     avgLoss = sumLoss / lookbackPeriod;
