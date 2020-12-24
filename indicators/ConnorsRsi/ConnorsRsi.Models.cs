@@ -12,6 +12,5 @@ namespace Skender.Stock.Indicators
 
         // internal use only
         internal decimal? Streak { get; set; }
-        internal decimal? PeriodGain { get; set; }
     }
 }

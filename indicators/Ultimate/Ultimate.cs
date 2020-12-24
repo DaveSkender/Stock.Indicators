@@ -22,7 +22,11 @@ namespace Skender.Stock.Indicators
             ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
 
             // initialize
-            List<UltimateResult> results = new List<UltimateResult>(historyList.Count);
+            int size = historyList.Count;
+            List<UltimateResult> results = new List<UltimateResult>(size);
+            decimal[] bp = new decimal[size]; // buying pressure
+            decimal[] tr = new decimal[size]; // true range
+
             decimal priorClose = 0;
 
             // roll through history
@@ -39,8 +43,8 @@ namespace Skender.Stock.Indicators
 
                 if (i > 0)
                 {
-                    r.Bp = h.Close - Math.Min(h.Low, priorClose);
-                    r.Tr = Math.Max(h.High, priorClose) - Math.Min(h.Low, priorClose);
+                    bp[i] = h.Close - Math.Min(h.Low, priorClose);
+                    tr[i] = Math.Max(h.High, priorClose) - Math.Min(h.Low, priorClose);
                 }
 
                 if (index >= longPeriod + 1)
@@ -55,26 +59,25 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - longPeriod; p < index; p++)
                     {
-                        UltimateResult pr = results[p];
                         int pIndex = p + 1;
 
                         // short aggregate
                         if (pIndex > index - shortPeriod)
                         {
-                            sumBP1 += (decimal)pr.Bp;
-                            sumTR1 += (decimal)pr.Tr;
+                            sumBP1 += bp[p];
+                            sumTR1 += tr[p];
                         }
 
                         // middle aggregate
                         if (pIndex > index - middlePeriod)
                         {
-                            sumBP2 += (decimal)pr.Bp;
-                            sumTR2 += (decimal)pr.Tr;
+                            sumBP2 += bp[p];
+                            sumTR2 += tr[p];
                         }
 
                         // long aggregate
-                        sumBP3 += (decimal)pr.Bp;
-                        sumTR3 += (decimal)pr.Tr;
+                        sumBP3 += bp[p];
+                        sumTR3 += tr[p];
                     }
 
                     decimal? avg1 = (sumTR1 == 0) ? null : sumBP1 / sumTR1;

@@ -7,8 +7,5 @@ namespace Skender.Stock.Indicators
     {
         public decimal? Oscillator { get; set; }
         public decimal? Signal { get; set; }
-
-        // internal use only
-        internal decimal? Smooth { get; set; }
     }
 }

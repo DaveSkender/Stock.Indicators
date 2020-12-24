@@ -8,8 +8,8 @@ namespace Skender.Stock.Indicators
     {
         // Money Flow Index
         public static IEnumerable<MfiResult> GetMfi<TQuote>(
-            IEnumerable<TQuote> history, 
-            int lookbackPeriod = 14) 
+            IEnumerable<TQuote> history,
+            int lookbackPeriod = 14)
             where TQuote : IQuote
         {
 
@@ -20,7 +20,11 @@ namespace Skender.Stock.Indicators
             ValidateMfi(history, lookbackPeriod);
 
             // initialize
-            List<MfiResult> results = new List<MfiResult>(historyList.Count);
+            int size = historyList.Count;
+            List<MfiResult> results = new List<MfiResult>(size);
+            decimal[] tp = new decimal[size];  // true price
+            decimal[] mf = new decimal[size];  // raw MF value
+            int[] direction = new int[size];   // direction
 
             decimal? prevTP = null;
 
@@ -31,30 +35,32 @@ namespace Skender.Stock.Indicators
 
                 MfiResult result = new MfiResult
                 {
-                    Date = h.Date,
-                    TruePrice = (h.High + h.Low + h.Close) / 3
+                    Date = h.Date
                 };
 
+                // true price
+                tp[i] = (h.High + h.Low + h.Close) / 3;
+
                 // raw money flow
-                result.RawMF = result.TruePrice * h.Volume;
+                mf[i] = tp[i] * h.Volume;
 
                 // direction
-                if (prevTP == null || result.TruePrice == prevTP)
+                if (prevTP == null || tp[i] == prevTP)
                 {
-                    result.Direction = 0;
+                    direction[i] = 0;
                 }
-                else if (result.TruePrice > prevTP)
+                else if (tp[i] > prevTP)
                 {
-                    result.Direction = 1;
+                    direction[i] = 1;
                 }
-                else if (result.TruePrice < prevTP)
+                else if (tp[i] < prevTP)
                 {
-                    result.Direction = -1;
+                    direction[i] = -1;
                 }
 
                 results.Add(result);
 
-                prevTP = result.TruePrice;
+                prevTP = tp[i];
             }
 
             // add money flow index
@@ -68,15 +74,13 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - lookbackPeriod; p < index; p++)
                 {
-                    MfiResult d = results[p];
-
-                    if (d.Direction == 1)
+                    if (direction[p] == 1)
                     {
-                        sumPosMFs += d.RawMF;
+                        sumPosMFs += mf[p];
                     }
-                    else if (d.Direction == -1)
+                    else if (direction[p] == -1)
                     {
-                        sumNegMFs += d.RawMF;
+                        sumNegMFs += mf[p];
                     }
                 }
 

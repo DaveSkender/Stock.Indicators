@@ -5,6 +5,6 @@ namespace Skender.Stock.Indicators
     [Serializable]
     public class WmaResult : ResultBase
     {
-        public decimal? Wma { get; set; }  // weighted moving average
+        public decimal? Wma { get; set; }
     }
 }
