@@ -22,7 +22,8 @@ namespace Skender.Stock.Indicators
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // initialize
-            List<StochResult> results = new List<StochResult>(historyList.Count);
+            int size = historyList.Count;
+            List<StochResult> results = new List<StochResult>(size);
 
             // oscillator
             for (int i = 0; i < historyList.Count; i++)
@@ -71,14 +72,14 @@ namespace Skender.Stock.Indicators
             // smooth the oscillator
             if (smoothPeriod > 1)
             {
-                results = SmoothOscillator(results, lookbackPeriod, smoothPeriod);
+                results = SmoothOscillator(results, size, lookbackPeriod, smoothPeriod);
             }
 
 
             // signal and period direction info
             int stochIndex = lookbackPeriod + smoothPeriod - 2;
 
-            for (int i = stochIndex; i < results.Count; i++)
+            for (int i = stochIndex; i < size; i++)
             {
                 StochResult r = results[i];
                 int index = i + 1;
@@ -108,31 +109,30 @@ namespace Skender.Stock.Indicators
 
 
         private static List<StochResult> SmoothOscillator(
-            List<StochResult> results, int lookbackPeriod, int smoothPeriod)
+            List<StochResult> results, int size, int lookbackPeriod, int smoothPeriod)
         {
 
             // temporarily store interim smoothed oscillator
             int smoothIndex = lookbackPeriod + smoothPeriod - 2;
+            decimal?[] smooth = new decimal?[size]; // smoothed value
 
-            for (int i = smoothIndex; i < results.Count; i++)
+            for (int i = smoothIndex; i < size; i++)
             {
-                StochResult r = results[i];
                 int index = i + 1;
 
                 decimal sumOsc = 0m;
                 for (int p = index - smoothPeriod; p < index; p++)
                 {
-                    StochResult d = results[p];
-                    sumOsc += (decimal)d.Oscillator;
+                    sumOsc += (decimal)results[p].Oscillator;
                 }
 
-                r.Smooth = sumOsc / smoothPeriod;
+                smooth[i] = sumOsc / smoothPeriod;
             }
 
             // replace oscillator
-            foreach (StochResult r in results)
+            for (int i = 0; i < size; i++)
             {
-                r.Oscillator = (r.Smooth != null) ? r.Smooth : null;
+                results[i].Oscillator = (smooth[i] != null) ? smooth[i] : null;
             }
 
             return results;
