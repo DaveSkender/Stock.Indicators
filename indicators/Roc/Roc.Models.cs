@@ -6,6 +6,6 @@ namespace Skender.Stock.Indicators
     public class RocResult : ResultBase
     {
         public decimal? Roc { get; set; }
-        public decimal? Sma { get; set; }
+        public decimal? RocSma { get; set; }
     }
 }

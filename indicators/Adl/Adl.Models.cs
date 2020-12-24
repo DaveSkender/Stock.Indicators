@@ -8,6 +8,6 @@ namespace Skender.Stock.Indicators
         public decimal MoneyFlowMultiplier { get; set; }
         public decimal MoneyFlowVolume { get; set; }
         public decimal Adl { get; set; }
-        public decimal? Sma { get; set; }
+        public decimal? AdlSma { get; set; }
     }
 }

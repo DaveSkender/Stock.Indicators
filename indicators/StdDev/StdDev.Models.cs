@@ -6,7 +6,8 @@ namespace Skender.Stock.Indicators
     public class StdDevResult : ResultBase
     {
         public decimal? StdDev { get; set; }
+        public decimal? Mean { get; set; }
         public decimal? ZScore { get; set; }
-        public decimal? Sma { get; set; }
+        public decimal? StdDevSma { get; set; }
     }
 }

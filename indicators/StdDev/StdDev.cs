@@ -59,6 +59,7 @@ namespace Skender.Stock.Indicators
                     decimal periodAvg = sum / lookbackPeriod;
 
                     result.StdDev = (decimal)Functions.StdDev(periodValues);
+                    result.Mean = periodAvg;
 
                     result.ZScore = (result.StdDev == 0) ? null
                         : (bd.Value - periodAvg) / result.StdDev;
@@ -75,7 +76,7 @@ namespace Skender.Stock.Indicators
                         sumSma += (decimal)results[p].StdDev;
                     }
 
-                    result.Sma = sumSma / smaPeriod;
+                    result.StdDevSma = sumSma / smaPeriod;
                 }
             }
 

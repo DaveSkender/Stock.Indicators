@@ -38,7 +38,7 @@ The first period OBV will have `0` value since there's not enough data to calcul
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Obv` | decimal | On-balance Volume
-| `Sma` | decimal | SMA of the OBV based on `smaPeriod` periods, if specified
+| `ObvSma` | decimal | Moving average (SMA) of OBV based on `smaPeriod` periods, if specified
 
 :warning: **Warning**: absolute values in OBV are somewhat meaningless, so use with caution.
 
