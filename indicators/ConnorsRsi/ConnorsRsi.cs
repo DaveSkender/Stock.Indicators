@@ -54,14 +54,18 @@ namespace Skender.Stock.Indicators
         private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
             List<BasicData> bdList, int rsiPeriod, int rankPeriod)
         {
+            // initialize
             List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriod).ToList();
-            List<ConnorsRsiResult> results = new List<ConnorsRsiResult>(bdList.Count);
+
+            int size = bdList.Count;
+            List<ConnorsRsiResult> results = new List<ConnorsRsiResult>(size);
+            decimal?[] gain = new decimal?[size];
 
             decimal? lastClose = null;
             decimal streak = 0;
 
             // compose interim results
-            for (int i = 0; i < bdList.Count; i++)
+            for (int i = 0; i < size; i++)
             {
                 BasicData h = bdList[i];
                 int index = i + 1;
@@ -111,7 +115,7 @@ namespace Skender.Stock.Indicators
                 result.Streak = streak;
 
                 // percentile rank
-                result.PeriodGain = (lastClose == 0) ? null
+                gain[i] = (lastClose == 0) ? null
                     : (decimal)((lastClose <= 0) ? null : (h.Value - lastClose) / lastClose);
 
                 results.Add(result);
@@ -121,8 +125,7 @@ namespace Skender.Stock.Indicators
                     int qty = 0;
                     for (int p = index - rankPeriod - 1; p < index; p++)
                     {
-                        ConnorsRsiResult r = results[p];
-                        if (r.PeriodGain < result.PeriodGain)
+                        if (gain[p] < gain[i])
                         {
                             qty++;
                         }
