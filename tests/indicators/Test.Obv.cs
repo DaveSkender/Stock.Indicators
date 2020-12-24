@@ -20,16 +20,16 @@ namespace Internal.Tests
 
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502, results.Where(x => x.Sma == null).Count());
+            Assert.AreEqual(502, results.Where(x => x.ObvSma == null).Count());
 
             // sample values
             ObvResult r1 = results[249];
             Assert.AreEqual(1780918888m, r1.Obv);
-            Assert.AreEqual(null, r1.Sma);
+            Assert.AreEqual(null, r1.ObvSma);
 
             ObvResult r2 = results[501];
             Assert.AreEqual(539843504, r2.Obv);
-            Assert.AreEqual(null, r2.Sma);
+            Assert.AreEqual(null, r2.ObvSma);
         }
 
         [TestMethod()]
@@ -49,12 +49,12 @@ namespace Internal.Tests
 
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(482, results.Where(x => x.Sma != null).Count());
+            Assert.AreEqual(482, results.Where(x => x.ObvSma != null).Count());
 
             // sample values
             ObvResult r1 = results[501];
             Assert.AreEqual(539843504, r1.Obv);
-            Assert.AreEqual(1016208844.40m, r1.Sma);
+            Assert.AreEqual(1016208844.40m, r1.ObvSma);
         }
 
 

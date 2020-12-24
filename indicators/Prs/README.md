@@ -40,7 +40,7 @@ The `N` periods will have `null` values for `PrsPercent` and the first `S-1` per
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Prs` | decimal | Price Relative Strength compares `Eval` to `Base` histories
-| `Sma` | decimal | Moving Average (SMA) of `Prs` over `S` periods
+| `PrsSma` | decimal | Moving Average (SMA) of PRS over `S` periods
 | `PrsPercent` | decimal | Percent change difference between `Eval` and `Base` over `N` periods
 
 ## Example

@@ -6,6 +6,6 @@ namespace Skender.Stock.Indicators
     public class ObvResult : ResultBase
     {
         public decimal Obv { get; set; }
-        public decimal? Sma { get; set; }
+        public decimal? ObvSma { get; set; }
     }
 }

@@ -40,7 +40,7 @@ We always return the same number of elements as there are in the historical quot
 | `MoneyFlowMultiplier` | decimal | Money Flow Multiplier
 | `MoneyFlowVolume` | decimal | Money Flow Volume
 | `Adl` | decimal | Accumulation Distribution Line (ADL)
-| `Sma` | decimal | SMA of the ADL based on `smaPeriod` periods, if specified
+| `AdlSma` | decimal | Moving average (SMA) of ADL based on `smaPeriod` periods, if specified
 
 :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
 

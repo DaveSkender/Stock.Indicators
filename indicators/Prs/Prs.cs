@@ -68,7 +68,7 @@ namespace Skender.Stock.Indicators
                         PrsResult d = results[p];
                         sumRs += d.Prs;
                     }
-                    r.Sma = sumRs / smaPeriod;
+                    r.PrsSma = sumRs / smaPeriod;
                 }
 
             }

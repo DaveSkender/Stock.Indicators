@@ -53,7 +53,7 @@ namespace Skender.Stock.Indicators
                         sumSma += results[p].Roc;
                     }
 
-                    result.Sma = sumSma / smaPeriod;
+                    result.RocSma = sumSma / smaPeriod;
                 }
             }
 
