@@ -14,18 +14,18 @@ namespace Skender.Stock.Indicators
             int? smaPeriod = null)
             where TQuote : IQuote
         {
-            // clean quotes
+
+            // sort history
             List<TQuote> historyBaseList = historyBase.Sort();
             List<TQuote> historyEvalList = historyEval.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
 
             // initialize
             List<PrsResult> results = new List<PrsResult>(historyEvalList.Count);
 
-
-            // roll through history for interim data
+            // roll through history
             for (int i = 0; i < historyEvalList.Count; i++)
             {
                 TQuote bi = historyBaseList[i];
@@ -78,10 +78,14 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidatePriceRelative<TQuote>(
-            IEnumerable<TQuote> historyBase, IEnumerable<TQuote> historyEval, int? lookbackPeriod, int? smaPeriod) where TQuote : IQuote
+            IEnumerable<TQuote> historyBase,
+            IEnumerable<TQuote> historyEval,
+            int? lookbackPeriod,
+            int? smaPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod != null && lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -95,7 +99,6 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-
             int qtyHistoryEval = historyEval.Count();
             int qtyHistoryBase = historyBase.Count();
 
@@ -113,11 +116,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryBase != qtyHistoryEval)
             {
                 throw new BadHistoryException(nameof(historyBase),
-                    "Base history should have at least as many records as Eval history for Price Relative.");
+                    "Base history should have at least as many records as Eval history for PRS.");
             }
-
-            // NOTE: history of less than 1 is caught in the Cleaner
         }
     }
-
 }

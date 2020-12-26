@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // validate parameters
+            // check parameter arguments
             ValidateStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
 
             // initialize
@@ -64,11 +64,16 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStochRsi<TQuote>(IEnumerable<TQuote> history,
-            int rsiPeriod, int stochPeriod, int signalPeriod, int smoothPeriod) where TQuote : IQuote
+        private static void ValidateStochRsi<TQuote>(
+            IEnumerable<TQuote> history,
+            int rsiPeriod,
+            int stochPeriod,
+            int signalPeriod,
+            int smoothPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (rsiPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(rsiPeriod), rsiPeriod,
@@ -107,5 +112,4 @@ namespace Skender.Stock.Indicators
             }
         }
     }
-
 }

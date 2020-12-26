@@ -11,10 +11,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateFractal(history);
 
             // initialize
@@ -59,10 +59,12 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateFractal<TQuote>(IEnumerable<TQuote> history)
+        private static void ValidateFractal<TQuote>(
+            IEnumerable<TQuote> history)
+            where TQuote : IQuote
         {
 
-            // checked history
+            // check history
             int qtyHistory = history.Count();
             int minHistory = 5;
             if (qtyHistory < minHistory)
@@ -76,5 +78,4 @@ namespace Skender.Stock.Indicators
             }
         }
     }
-
 }

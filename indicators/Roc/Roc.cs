@@ -14,10 +14,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateRoc(history, lookbackPeriod, smaPeriod);
 
             // initialize
@@ -61,10 +61,14 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateRoc<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod, int? smaPeriod) where TQuote : IQuote
+        private static void ValidateRoc<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            int? smaPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -89,8 +93,6 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
     }
-
 }

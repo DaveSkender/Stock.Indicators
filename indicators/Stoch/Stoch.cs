@@ -15,17 +15,17 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // initialize
             int size = historyList.Count;
             List<StochResult> results = new List<StochResult>(size);
 
-            // oscillator
+            // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -139,10 +139,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStoch<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod, int signalPeriod, int smoothPeriod) where TQuote : IQuote
+        private static void ValidateStoch<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            int signalPeriod,
+            int smoothPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -175,5 +180,4 @@ namespace Skender.Stock.Indicators
             }
         }
     }
-
 }

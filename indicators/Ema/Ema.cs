@@ -20,16 +20,16 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static IEnumerable<EmaResult> CalcEma(List<BasicData> bdList, int lookbackPeriod)
+        private static IEnumerable<EmaResult> CalcEma(
+            List<BasicData> bdList, int lookbackPeriod)
         {
 
-            // validate parameters
+            // check parameter arguments
             ValidateEma(bdList, lookbackPeriod);
 
             // initialize
             List<EmaResult> results = new List<EmaResult>(bdList.Count);
 
-            // initialize EMA
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
             decimal lastEma = 0;
 
@@ -67,10 +67,12 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateEma(List<BasicData> history, int lookbackPeriod)
+        private static void ValidateEma(
+            List<BasicData> history,
+            int lookbackPeriod)
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -93,6 +95,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

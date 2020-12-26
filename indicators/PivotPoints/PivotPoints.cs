@@ -14,10 +14,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidatePivotPoints(history, windowSize);
 
             // initialize
@@ -110,6 +110,7 @@ namespace Skender.Stock.Indicators
                 _ => null
             };
         }
+
 
         public static PivotPointsResult GetPivotPointStandard(
             decimal high, decimal low, decimal close)
@@ -222,11 +223,12 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidatePivotPoints<TQuote>(
-            IEnumerable<TQuote> history, PeriodSize windowSize)
+            IEnumerable<TQuote> history,
+            PeriodSize windowSize)
             where TQuote : IQuote
         {
 
-            // count periods based on periodSize
+            // check parameter arguments
             int qtyWindows = 0;
 
             switch (windowSize)
@@ -253,7 +255,7 @@ namespace Skender.Stock.Indicators
                     break;
             };
 
-            // check history to ensure 2+ periods are present
+            // check history
             if (qtyWindows < 2)
             {
                 string message = "Insufficient history provided for Pivot Points.  " +
@@ -264,8 +266,6 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
     }
-
 }
