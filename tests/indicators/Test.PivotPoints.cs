@@ -92,6 +92,10 @@ namespace Internal.Tests
             Assert.AreEqual(null, r6.R2);
             Assert.AreEqual(null, r6.S3);
             Assert.AreEqual(null, r6.S4);
+
+            // special Demark case: test close = open
+            PivotPointsResult d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
+            Assert.AreEqual(550m / 4, d1.PP);
         }
 
         [TestMethod()]

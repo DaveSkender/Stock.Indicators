@@ -147,7 +147,7 @@ namespace Skender.Stock.Indicators
         public static PivotPointsResult GetPivotPointDemark(
             decimal open, decimal high, decimal low, decimal close)
         {
-            decimal? x;
+            decimal? x = null;
 
             if (close < open)
             {
@@ -160,10 +160,6 @@ namespace Skender.Stock.Indicators
             else if (close == open)
             {
                 x = high + low + 2 * close;
-            }
-            else
-            {
-                x = null;
             }
 
             return new PivotPointsResult
