@@ -435,5 +435,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistoryIntraday(30).OrderBy(x => x.Date).Take(29);
             Indicator.GetPivotPoints(h, PeriodSize.Hour);
         }
+
     }
 }

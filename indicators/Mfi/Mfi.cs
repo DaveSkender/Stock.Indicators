@@ -127,5 +127,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
+
     }
 }

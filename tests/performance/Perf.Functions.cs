@@ -56,5 +56,4 @@ namespace Tests.Performance
         }
 
     }
-
 }

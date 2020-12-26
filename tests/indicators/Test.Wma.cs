@@ -55,5 +55,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(9);
             Indicator.GetWma(h, 10);
         }
+
     }
 }

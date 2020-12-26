@@ -60,5 +60,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(9);
             Indicator.GetVolSma(h, 10);
         }
+
     }
 }

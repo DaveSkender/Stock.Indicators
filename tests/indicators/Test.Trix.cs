@@ -73,5 +73,6 @@ namespace Internal.Tests
             IEnumerable<Quote> historyLong = History.GetHistoryLong(999);
             Indicator.GetTrix(historyLong, 250);
         }
+
     }
 }

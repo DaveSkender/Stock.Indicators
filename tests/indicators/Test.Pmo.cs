@@ -64,7 +64,6 @@ namespace Internal.Tests
             Indicator.GetPmo(history, 5, 5, 0);
         }
 
-
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
@@ -72,5 +71,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(54);
             Indicator.GetPmo(h, 35, 20, 10);
         }
+
     }
 }

@@ -121,5 +121,6 @@ namespace Skender.Stock.Indicators
                     "B history should have at least as many records as A history for Correlation.");
             }
         }
+
     }
 }
