@@ -64,7 +64,7 @@ Historical price quotes should have a consistent frequency (day, hour, minute, e
 
 ### Where can I get historical quote data?
 
-There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [TwelveData](https://twelvedata.com) or [Alpha Vantage](https://www.alphavantage.co).
+There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Polygon.io](https://polygon.io), [TwelveData](https://twelvedata.com), or [Alpha Vantage](https://www.alphavantage.co).
 
 ### How much historical quote data do I need?
 
