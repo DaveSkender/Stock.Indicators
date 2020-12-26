@@ -85,7 +85,7 @@ namespace Skender.Stock.Indicators
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
-                    + "usage date for maximum precision.",
+                    + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriod, 3 * lookbackPeriod + 250);
 
                 throw new BadHistoryException(nameof(history), message);
