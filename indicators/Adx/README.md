@@ -19,7 +19,7 @@ IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);
 
 ### Minimum history requirements
 
-You must supply at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least `N+250` data points prior to the intended usage date for greater precision.
+You must supply at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
 ## Response
 

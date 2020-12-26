@@ -52,6 +52,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void GetAdxConvergence()
+        {
+            foreach (int qty in convergeQuantities.Where(q => q >= 128))
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<AdxResult> r = Indicator.GetAdx(h);
+
+                AdxResult l = r.LastOrDefault();
+                Console.WriteLine("ADX on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Adx);
+            }
+        }
+
 
         /* EXCEPTIONS */
 
