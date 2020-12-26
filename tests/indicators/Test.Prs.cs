@@ -92,5 +92,6 @@ namespace Internal.Tests
             IEnumerable<Quote> historyGap = History.GetHistoryWithMismatchDates();
             Indicator.GetPrs(historyGap, historyOther, 14);
         }
+
     }
 }

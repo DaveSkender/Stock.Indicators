@@ -91,5 +91,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(10);
             Indicator.GetRoc(h, 10);
         }
+
     }
 }

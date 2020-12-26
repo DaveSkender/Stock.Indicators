@@ -119,5 +119,6 @@ namespace Skender.Stock.Indicators
                     "Base history should have at least as many records as Eval history for PRS.");
             }
         }
+
     }
 }

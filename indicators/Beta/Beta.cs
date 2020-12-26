@@ -83,5 +83,6 @@ namespace Skender.Stock.Indicators
                     "Eval history should have at least as many records as Market history for Beta.");
             }
         }
+
     }
 }

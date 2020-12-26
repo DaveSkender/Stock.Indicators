@@ -66,5 +66,6 @@ namespace Internal.Tests
             IEnumerable<Quote> historyLong = History.GetHistoryLong(999);
             Indicator.GetTripleEma(historyLong, 250);
         }
+
     }
 }
