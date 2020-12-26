@@ -14,7 +14,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             ValidateChaikinOsc(history, fastPeriod, slowPeriod);
 
             // money flow
@@ -51,17 +51,20 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateChaikinOsc<TQuote>(IEnumerable<TQuote> history, int fastPeriod, int slowPeriod) where TQuote : IQuote
+        private static void ValidateChaikinOsc<TQuote>(
+            IEnumerable<TQuote> history,
+            int fastPeriod,
+            int slowPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (fastPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
                     "Fast lookback period must be greater than 0 for Chaikin Oscillator.");
             }
 
-            // check parameters
             if (slowPeriod <= fastPeriod)
             {
                 throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
@@ -83,8 +86,6 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
     }
-
 }

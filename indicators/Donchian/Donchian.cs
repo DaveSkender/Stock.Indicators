@@ -13,10 +13,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateDonchian(history, lookbackPeriod);
 
             // initialize
@@ -56,7 +56,8 @@ namespace Skender.Stock.Indicators
                     result.UpperBand = highHigh;
                     result.LowerBand = lowLow;
                     result.Centerline = (result.UpperBand + result.LowerBand) / 2;
-                    result.Width = (result.Centerline == 0) ? null : (result.UpperBand - result.LowerBand) / result.Centerline;
+                    result.Width = (result.Centerline == 0) ? null
+                        : (result.UpperBand - result.LowerBand) / result.Centerline;
                 }
 
                 results.Add(result);
@@ -67,10 +68,12 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateDonchian<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -90,7 +93,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
-
 }

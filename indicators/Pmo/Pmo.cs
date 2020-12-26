@@ -15,7 +15,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             ValidatePmo(history, timePeriod, smoothingPeriod, signalPeriod);
 
             // initialize
@@ -56,7 +56,10 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static List<PmoResult> CalcPmoRocEma<TQuote>(IEnumerable<TQuote> history, int timePeriod) where TQuote : IQuote
+        private static List<PmoResult> CalcPmoRocEma<TQuote>(
+            IEnumerable<TQuote> history,
+            int timePeriod)
+            where TQuote : IQuote
         {
             // initialize
             decimal smoothingMultiplier = 2m / timePeriod;
@@ -143,10 +146,11 @@ namespace Skender.Stock.Indicators
             IEnumerable<TQuote> history,
             int timePeriod,
             int smoothingPeriod,
-            int signalPeriod) where TQuote : IQuote
+            int signalPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (timePeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(timePeriod), timePeriod,
@@ -180,8 +184,6 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
     }
-
 }

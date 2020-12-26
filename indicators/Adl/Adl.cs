@@ -7,20 +7,23 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ACCUMULATION / DISTRIBUTION LINE
-        public static IEnumerable<AdlResult> GetAdl<TQuote>(IEnumerable<TQuote> history, int? smaPeriod = null) where TQuote : IQuote
+        public static IEnumerable<AdlResult> GetAdl<TQuote>(
+            IEnumerable<TQuote> history,
+            int? smaPeriod = null)
+            where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateAdl(history, smaPeriod);
 
             // initialize
             List<AdlResult> results = new List<AdlResult>(historyList.Count);
             decimal prevAdl = 0;
 
-            // get money flow multiplier
+            // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -58,10 +61,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateAdl<TQuote>(IEnumerable<TQuote> history, int? smaPeriod) where TQuote : IQuote
+        private static void ValidateAdl<TQuote>(
+            IEnumerable<TQuote> history,
+            int? smaPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (smaPeriod != null && smaPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
@@ -81,8 +87,6 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
     }
-
 }
