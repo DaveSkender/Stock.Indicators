@@ -13,13 +13,13 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateAtr(history, lookbackPeriod);
 
-            // initialize results
+            // initialize
             List<AtrResult> results = new List<AtrResult>(historyList.Count);
             decimal prevAtr = 0;
             decimal prevClose = 0;
@@ -76,9 +76,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateAtr<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        private static void ValidateAtr<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
-            // check parameters
+
+            // check parameter arguments
             if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -98,5 +102,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
+
     }
 }

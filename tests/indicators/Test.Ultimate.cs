@@ -72,5 +72,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(28);
             Indicator.GetUltimate(h, 7, 14, 28);
         }
+
     }
 }

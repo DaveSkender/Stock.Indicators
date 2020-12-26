@@ -11,10 +11,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateHeikinAshi(history);
 
             // initialize
@@ -23,6 +23,7 @@ namespace Skender.Stock.Indicators
             decimal? prevOpen = null;
             decimal? prevClose = null;
 
+            // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -31,7 +32,8 @@ namespace Skender.Stock.Indicators
                 decimal close = (h.Open + h.High + h.Low + h.Close) / 4;
 
                 // open
-                decimal open = (prevOpen == null) ? (h.Open + h.Close) / 2 : (decimal)(prevOpen + prevClose) / 2;
+                decimal open = (prevOpen == null) ? (h.Open + h.Close) / 2
+                    : (decimal)(prevOpen + prevClose) / 2;
 
                 // high
                 decimal[] arrH = { h.High, open, close };
@@ -61,7 +63,9 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateHeikinAshi<TQuote>(IEnumerable<TQuote> history) where TQuote : IQuote
+        private static void ValidateHeikinAshi<TQuote>(
+            IEnumerable<TQuote> history)
+            where TQuote : IQuote
         {
 
             // check history
@@ -76,8 +80,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

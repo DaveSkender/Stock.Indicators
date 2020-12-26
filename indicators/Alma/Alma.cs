@@ -15,10 +15,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateAlma(history, lookbackPeriod, offset, sigma);
 
             // initialize
@@ -72,11 +72,14 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateAlma<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod, double offset, double sigma)
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            double offset,
+            double sigma)
             where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -107,8 +110,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

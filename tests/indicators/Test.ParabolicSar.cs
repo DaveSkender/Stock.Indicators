@@ -44,7 +44,7 @@ namespace Internal.Tests
         [TestMethod()]
         public void GetParabolicSarBadData()
         {
-            var r = Indicator.GetParabolicSar(historyBad);
+            IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 

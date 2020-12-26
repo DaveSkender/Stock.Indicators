@@ -13,10 +13,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateAroon(history, lookbackPeriod);
 
             // initialize
@@ -70,16 +70,20 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateAroon<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod)
+        private static void ValidateAroon<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
-            // check parameters
+
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
                     "Lookback period must be greater than 0 for Aroon.");
             }
 
-            // checked history
+            // check history
             int qtyHistory = history.Count();
             int minHistory = lookbackPeriod;
             if (qtyHistory < minHistory)
@@ -92,6 +96,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-    }
 
+    }
 }

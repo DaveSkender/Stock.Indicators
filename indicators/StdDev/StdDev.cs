@@ -25,13 +25,13 @@ namespace Skender.Stock.Indicators
             List<BasicData> bdList, int lookbackPeriod, int? smaPeriod = null)
         {
 
-            // validate inputs
+            // check parameter arguments
             ValidateStdDev(bdList, lookbackPeriod, smaPeriod);
 
-            // initialize results
+            // initialize
             List<StdDevResult> results = new List<StdDevResult>(bdList.Count);
 
-            // roll through history and compute lookback standard deviation
+            // roll through history
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData bd = bdList[i];
@@ -84,10 +84,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateStdDev(List<BasicData> history, int lookbackPeriod, int? smaPeriod)
+        private static void ValidateStdDev(
+            List<BasicData> history,
+            int lookbackPeriod,
+            int? smaPeriod)
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -112,10 +115,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
+
     }
-
-
-
 }

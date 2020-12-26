@@ -146,5 +146,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(1);
             Indicator.GetZigZag(h);
         }
+
     }
 }

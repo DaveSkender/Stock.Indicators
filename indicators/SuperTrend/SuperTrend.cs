@@ -14,10 +14,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateSuperTrend(history, lookbackPeriod, multiplier);
 
             // initialize
@@ -93,9 +93,13 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateSuperTrend<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod, decimal multiplier)
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            decimal multiplier)
+            where TQuote : IQuote
         {
-            // check parameters
+
+            // check parameter arguments
             if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -108,7 +112,7 @@ namespace Skender.Stock.Indicators
                     "Multiplier must be greater than 0 for SuperTrend.");
             }
 
-            // checked history
+            // check history
             int qtyHistory = history.Count();
             int minHistory = lookbackPeriod + 1;
             if (qtyHistory < minHistory)
@@ -121,6 +125,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-    }
 
+    }
 }

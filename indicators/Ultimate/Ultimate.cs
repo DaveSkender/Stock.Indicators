@@ -15,10 +15,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
 
             // initialize
@@ -95,10 +95,14 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateUltimate<TQuote>(
-            IEnumerable<TQuote> history, int shortPeriod = 7, int middleAverage = 14, int longPeriod = 28) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int shortPeriod,
+            int middleAverage,
+            int longPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (shortPeriod <= 0 || middleAverage <= 0 || longPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(longPeriod), longPeriod,
@@ -123,8 +127,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

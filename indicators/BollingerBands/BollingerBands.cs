@@ -14,10 +14,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
@@ -70,10 +70,13 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateBollingerBands<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod, decimal standardDeviations) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            decimal standardDeviations)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -101,5 +104,4 @@ namespace Skender.Stock.Indicators
         }
 
     }
-
 }

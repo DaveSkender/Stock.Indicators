@@ -12,16 +12,17 @@ namespace Skender.Stock.Indicators
             int lookbackPeriod)
             where TQuote : IQuote
         {
-            // clean quotes
+
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateSlope(history, lookbackPeriod);
 
             // initialize
             List<SlopeResult> results = new List<SlopeResult>(historyList.Count);
 
-            // roll through history for interim data
+            // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -101,10 +102,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateSlope<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        private static void ValidateSlope<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -124,6 +128,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-    }
 
+    }
 }

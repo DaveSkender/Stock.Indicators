@@ -15,10 +15,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate inputs
+            // check parameter arguments
             ValidateChandelier(history, lookbackPeriod, multiplier);
 
             // initialize
@@ -87,10 +87,13 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateChandelier<TQuote>(
-            IEnumerable<TQuote> history, int lookbackPeriod, decimal multiplier) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int lookbackPeriod,
+            decimal multiplier)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -116,6 +119,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-    }
 
+    }
 }

@@ -15,10 +15,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateMacd(history, fastPeriod, slowPeriod, signalPeriod);
 
             // initialize
@@ -28,6 +28,7 @@ namespace Skender.Stock.Indicators
             List<BasicData> emaDiff = new List<BasicData>();
             List<MacdResult> results = new List<MacdResult>(historyList.Count);
 
+            // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -74,10 +75,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateMacd<TQuote>(IEnumerable<TQuote> history, int fastPeriod, int slowPeriod, int signalPeriod) where TQuote : IQuote
+        private static void ValidateMacd<TQuote>(
+            IEnumerable<TQuote> history,
+            int fastPeriod,
+            int slowPeriod,
+            int signalPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (fastPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
@@ -95,7 +101,6 @@ namespace Skender.Stock.Indicators
                 throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
                     "Signal period must be greater than or equal to 0 for MACD.");
             }
-
 
             if (slowPeriod < fastPeriod)
             {
@@ -117,8 +122,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

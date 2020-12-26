@@ -14,10 +14,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateZigZag(history, percentChange);
 
             // initialize
@@ -49,7 +49,7 @@ namespace Skender.Stock.Indicators
 
             int finalPointIndex = historyList.Count;
 
-            // roll through history until to find initial trend
+            // roll through history, to find initial trend
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -283,17 +283,20 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateZigZag<TQuote>(IEnumerable<TQuote> history, decimal percentChange) where TQuote : IQuote
+        private static void ValidateZigZag<TQuote>(
+            IEnumerable<TQuote> history,
+            decimal percentChange)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (percentChange <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(percentChange), percentChange,
                     "Percent change must be greater than 0 for ZIGZAG.");
             }
 
-            // check histor
+            // check history
             int qtyHistory = history.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
@@ -305,8 +308,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

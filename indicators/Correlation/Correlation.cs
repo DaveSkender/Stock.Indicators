@@ -13,18 +13,18 @@ namespace Skender.Stock.Indicators
             int lookbackPeriod)
             where TQuote : IQuote
         {
-            // clean quotes
+
+            // sort history
             List<TQuote> historyListA = historyA.Sort();
             List<TQuote> historyListB = historyB.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateCorrelation(historyA, historyB, lookbackPeriod);
 
             // initialize
             List<CorrResult> results = new List<CorrResult>(historyListA.Count);
 
-
-            // roll through history for interim data
+            // roll through history
             for (int i = 0; i < historyListA.Count; i++)
             {
                 TQuote a = historyListA[i];
@@ -87,10 +87,14 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateCorrelation<TQuote>(IEnumerable<TQuote> historyA, IEnumerable<TQuote> historyB, int lookbackPeriod) where TQuote : IQuote
+        private static void ValidateCorrelation<TQuote>(
+            IEnumerable<TQuote> historyA,
+            IEnumerable<TQuote> historyB,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -117,6 +121,6 @@ namespace Skender.Stock.Indicators
                     "B history should have at least as many records as A history for Correlation.");
             }
         }
-    }
 
+    }
 }

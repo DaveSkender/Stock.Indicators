@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
         private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod = 14)
         {
 
-            // check parameters
+            // check parameter arguments
             ValidateRsi(bdList, lookbackPeriod);
 
             // initialize
@@ -91,10 +91,12 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateRsi(List<BasicData> history, int lookbackPeriod)
+        private static void ValidateRsi(
+            List<BasicData> history,
+            int lookbackPeriod)
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -117,6 +119,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-    }
 
+    }
 }

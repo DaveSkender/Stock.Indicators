@@ -15,10 +15,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateKama(history, erPeriod, fastPeriod, slowPeriod);
 
             // initialize
@@ -81,11 +81,14 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateKama<TQuote>(
-            IEnumerable<TQuote> history, int erPeriod, int fastPeriod, int slowPeriod)
+            IEnumerable<TQuote> history,
+            int erPeriod,
+            int fastPeriod,
+            int slowPeriod)
             where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (erPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(erPeriod), erPeriod,
@@ -119,8 +122,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

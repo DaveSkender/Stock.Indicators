@@ -15,10 +15,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
 
             // initialize
@@ -68,7 +68,8 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuTenkanSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int signalPeriod) where TQuote : IQuote
+            int index, List<TQuote> historyList, IchimokuResult result, int signalPeriod)
+            where TQuote : IQuote
         {
             if (index >= signalPeriod)
             {
@@ -96,7 +97,8 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuKijunSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriod) where TQuote : IQuote
+            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriod)
+            where TQuote : IQuote
         {
             if (index >= shortSpanPeriod)
             {
@@ -124,7 +126,9 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuSenkouB<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriod, int longSpanPeriod) where TQuote : IQuote
+            int index, List<TQuote> historyList, IchimokuResult result,
+            int shortSpanPeriod, int longSpanPeriod)
+            where TQuote : IQuote
         {
             if (index >= shortSpanPeriod + longSpanPeriod)
             {
@@ -152,11 +156,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateIchimoku<TQuote>(IEnumerable<TQuote> history,
-            int signalPeriod, int shortSpanPeriod, int longSpanPeriod) where TQuote : IQuote
+        private static void ValidateIchimoku<TQuote>(
+            IEnumerable<TQuote> history,
+            int signalPeriod,
+            int shortSpanPeriod,
+            int longSpanPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (signalPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
@@ -187,8 +195,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

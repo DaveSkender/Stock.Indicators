@@ -14,10 +14,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
 
             // initialize
@@ -83,7 +83,8 @@ namespace Skender.Stock.Indicators
                         if (h.High > extremePoint)
                         {
                             extremePoint = h.High;
-                            accelerationFactor = Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
+                            accelerationFactor =
+                                Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
                         }
                     }
                 }
@@ -125,7 +126,8 @@ namespace Skender.Stock.Indicators
                         if (h.Low < extremePoint)
                         {
                             extremePoint = h.Low;
-                            accelerationFactor = Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
+                            accelerationFactor =
+                                Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
                         }
                     }
                 }
@@ -157,10 +159,14 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateParabolicSar<TQuote>(IEnumerable<TQuote> history, decimal accelerationStep, decimal maxAccelerationFactor) where TQuote : IQuote
+        private static void ValidateParabolicSar<TQuote>(
+            IEnumerable<TQuote> history,
+            decimal accelerationStep,
+            decimal maxAccelerationFactor)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (accelerationStep <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep,
@@ -194,8 +200,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

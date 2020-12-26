@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
             // convert history to basic format
             List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C").ToList();
 
-            // check parameters
+            // check parameter arguments
             ValidateConnorsRsi(bd, rsiPeriod, streakPeriod, rankPeriod);
 
             // initialize
@@ -143,10 +143,13 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateConnorsRsi(
-            IEnumerable<BasicData> history, int rsiPeriod, int streakPeriod, int rankPeriod)
+            IEnumerable<BasicData> history,
+            int rsiPeriod,
+            int streakPeriod,
+            int rankPeriod)
         {
 
-            // check parameters
+            // check parameter arguments
             if (rsiPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(rsiPeriod), rsiPeriod,
@@ -180,6 +183,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-    }
 
+    }
 }

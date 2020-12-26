@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // validate parameters
+            // check parameter arguments
             ValidateWilliam(history, lookbackPeriod);
 
             // convert Stochastic to William %R
@@ -27,10 +27,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateWilliam<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        private static void ValidateWilliam<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -50,6 +53,6 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-    }
 
+    }
 }

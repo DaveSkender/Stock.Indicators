@@ -15,10 +15,10 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateKeltner(history, emaPeriod, multiplier, atrPeriod);
 
             // initialize
@@ -58,10 +58,14 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateKeltner<TQuote>(
-            IEnumerable<TQuote> history, int emaPeriod, decimal multiplier, int atrPeriod) where TQuote : IQuote
+            IEnumerable<TQuote> history,
+            int emaPeriod,
+            decimal multiplier,
+            int atrPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (emaPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(emaPeriod), emaPeriod,
@@ -99,5 +103,4 @@ namespace Skender.Stock.Indicators
         }
 
     }
-
 }

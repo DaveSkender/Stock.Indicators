@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // clean quotes and initialize results
+            // sort history and initialize results
             List<VolSmaResult> results = history.Sort()
                 .Select(x => new VolSmaResult
                 {
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
                 })
                 .ToList();
 
-            // check parameters
+            // check parameter arguments
             ValidateVolSma(history, lookbackPeriod);
 
             // roll through history
@@ -45,10 +45,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateVolSma<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        private static void ValidateVolSma<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -67,8 +70,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

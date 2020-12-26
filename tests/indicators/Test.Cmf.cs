@@ -63,5 +63,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(20);
             Indicator.GetCmf(h, 20);
         }
+
     }
 }

@@ -100,5 +100,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(51);
             Indicator.GetIchimoku(h, 9, 26, 52);
         }
+
     }
 }

@@ -13,19 +13,18 @@ namespace Skender.Stock.Indicators
             int lookbackPeriod)
             where TQuote : IQuote
         {
-            // clean quotes
+
+            // sort history
             List<TQuote> historyEvalList = historyEval.Sort();
 
-            // validate parameters
+            // check parameter arguments
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
 
-            // initialize results
+            // initialize
             List<BetaResult> results = new List<BetaResult>(historyEvalList.Count);
-
-            // get prerequisite data
             List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod).ToList();
 
-            // roll through history for interim data
+            // roll through history
             for (int i = 0; i < historyEvalList.Count; i++)
             {
                 TQuote e = historyEvalList[i];
@@ -50,10 +49,14 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateBeta<TQuote>(IEnumerable<TQuote> historyMarket, IEnumerable<TQuote> historyEval, int lookbackPeriod) where TQuote : IQuote
+        private static void ValidateBeta<TQuote>(
+            IEnumerable<TQuote> historyMarket,
+            IEnumerable<TQuote> historyEval,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
 
-            // check parameters
+            // check parameter arguments
             if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -79,8 +82,7 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(historyEval),
                     "Eval history should have at least as many records as Market history for Beta.");
             }
-
         }
-    }
 
+    }
 }

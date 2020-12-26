@@ -6,17 +6,17 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // Money Flow Index
+        // MONEY FLOW INDEX
         public static IEnumerable<MfiResult> GetMfi<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 14)
             where TQuote : IQuote
         {
 
-            // clean quotes
+            // sort history
             List<TQuote> historyList = history.Sort();
 
-            // check parameters
+            // check parameter arguments
             ValidateMfi(history, lookbackPeriod);
 
             // initialize
@@ -28,7 +28,7 @@ namespace Skender.Stock.Indicators
 
             decimal? prevTP = null;
 
-            // preliminary data
+            // roll through history, to get preliminary data
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -101,9 +101,13 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void ValidateMfi<TQuote>(IEnumerable<TQuote> history, int lookbackPeriod) where TQuote : IQuote
+        private static void ValidateMfi<TQuote>(
+            IEnumerable<TQuote> history,
+            int lookbackPeriod)
+            where TQuote : IQuote
         {
-            // check parameters
+
+            // check parameter arguments
             if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
@@ -122,8 +126,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
-
         }
-    }
 
+    }
 }

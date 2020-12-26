@@ -72,5 +72,6 @@ namespace Internal.Tests
             IEnumerable<Quote> h = History.GetHistory(29);
             Indicator.GetSlope(h, 30);
         }
+
     }
 }
