@@ -39,6 +39,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void GetChaikinOscConvergence()
+        {
+            foreach (int qty in convergeQuantities.Where(q => q >= 110))
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(h);
+
+                ChaikinOscResult l = r.LastOrDefault();
+                Console.WriteLine("CHAIKIN OSC on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Oscillator);
+            }
+        }
+
 
         /* EXCEPTIONS */
 

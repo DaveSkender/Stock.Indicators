@@ -57,6 +57,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void GetAtrConvergence()
+        {
+            foreach (int qty in convergeQuantities.Where(q => q >= 115))
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<AtrResult> r = Indicator.GetAtr(h);
+
+                AtrResult l = r.LastOrDefault();
+                Console.WriteLine("ATR on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Atr);
+            }
+        }
+
 
         /* EXCEPTIONS */
 
@@ -71,7 +85,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(30);
+            IEnumerable<Quote> h = History.GetHistory(129);
             Indicator.GetAtr(h, 30);
         }
 

@@ -51,6 +51,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void GetConnorsRsiConvergence()
+        {
+            foreach (int qty in convergeQuantities.Where(q => q >= 103))
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(h, 3, 2, 10);
+
+                ConnorsRsiResult l = r.LastOrDefault();
+                Console.WriteLine("CRSI on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.ConnorsRsi);
+            }
+        }
+
 
         /* EXCEPTIONS */
 
@@ -79,7 +93,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(101);
+            IEnumerable<Quote> h = History.GetHistory(102);
             Indicator.GetConnorsRsi(h, 3, 2, 100);
         }
 
