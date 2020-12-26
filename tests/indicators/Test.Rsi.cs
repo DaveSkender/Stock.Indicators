@@ -70,13 +70,13 @@ namespace Internal.Tests
         {
             int lookbackPeriod = 14;
 
-            foreach (int qty in convergeQuantities.Where(q => q > 50 - lookbackPeriod))
+            foreach (int qty in convergeQuantities.Where(q => q > 100 - lookbackPeriod))
             {
                 IEnumerable<Quote> h = History.GetHistoryLong(lookbackPeriod + qty);
                 IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriod);
 
                 RsiResult l = r.LastOrDefault();
-                Console.WriteLine("RSI({0}) on {1:d} with {2,4} periods of history: {3:N8}",
+                Console.WriteLine("RSI({0}) on {1:d} with {2,4} periods: {3:N8}",
                     lookbackPeriod, l.Date, h.Count(), l.Rsi);
             }
         }
@@ -95,7 +95,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(79);
+            IEnumerable<Quote> h = History.GetHistory(129);
             Indicator.GetRsi(h, 30);
         }
 

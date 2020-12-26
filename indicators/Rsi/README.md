@@ -18,7 +18,7 @@ IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);
 
 ### Minimum history requirements
 
-You must supply at least `N+50` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `10×N` data points prior to the intended usage date for optimal precision.
+You must supply at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `10×N` data points prior to the intended usage date for better precision.
 
 ## Response
 
