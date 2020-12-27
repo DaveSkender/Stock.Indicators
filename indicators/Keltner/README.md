@@ -21,7 +21,7 @@ IEnumerable<KeltnerResult> results = Indicator.GetKeltner(history, emaPeriod, mu
 
 ### Minimum history requirements
 
-You must supply at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for greater precision.  `N` is the greater of `E` or `A` periods.
+You must supply at least `2×N` or `N+100` periods of `history`, whichever is more, where `N` is the greater of `E` or `A` periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 ## Response
 
@@ -30,6 +30,8 @@ IEnumerable<KeltnerResult>
 ```
 
 The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+:warning: **Warning**: The first `N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### KeltnerResult
 

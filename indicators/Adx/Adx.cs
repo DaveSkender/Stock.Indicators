@@ -168,8 +168,8 @@ namespace Skender.Stock.Indicators
                     string.Format(englishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
-                    + "we recommend you use at least 250 data points prior to the intended "
-                    + "usage date for maximum precision.", qtyHistory, minHistory);
+                    + "we recommend you use at least 2×N+250 data points prior to the intended "
+                    + "usage date for better precision.", qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }

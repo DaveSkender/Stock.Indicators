@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetConnorsRsi()
+        public void Standard()
         {
             int rsiPeriod = 3;
             int streakPeriod = 2;
@@ -45,10 +45,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetConnorsRsiBadData()
+        public void BadData()
         {
             IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(historyBad, 4, 3, 25);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(103 + qty);
+                IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(h, 3, 2, 10);
+
+                ConnorsRsiResult l = r.LastOrDefault();
+                Console.WriteLine("CRSI on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.ConnorsRsi);
+            }
         }
 
 
@@ -79,7 +93,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(101);
+            IEnumerable<Quote> h = History.GetHistory(102);
             Indicator.GetConnorsRsi(h, 3, 2, 100);
         }
 

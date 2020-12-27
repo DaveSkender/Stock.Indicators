@@ -105,7 +105,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count;
-            int minHistory = lookbackPeriod + 50;
+            int minHistory = lookbackPeriod + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for RSI.  " +
@@ -113,7 +113,7 @@ namespace Skender.Stock.Indicators
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "
-                    + "usage date for maximum precision.",
+                    + "usage date for better precision.",
                     qtyHistory, minHistory, Math.Max(10 * lookbackPeriod, minHistory));
 
                 throw new BadHistoryException(nameof(history), message);

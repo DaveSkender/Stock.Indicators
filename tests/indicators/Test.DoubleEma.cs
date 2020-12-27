@@ -41,6 +41,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void GetDemaConvergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(130 + qty);
+                IEnumerable<EmaResult> r = Indicator.GetDoubleEma(h, 15);
+
+                EmaResult l = r.LastOrDefault();
+                Console.WriteLine("DEMA on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Ema);
+            }
+        }
+
 
         /* EXCEPTIONS */
 

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetPmo()
+        public void Standard()
         {
             List<PmoResult> results = Indicator.GetPmo(history, 35, 20, 10).ToList();
 
@@ -34,10 +34,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetPmoBadData()
+        public void BadData()
         {
             IEnumerable<PmoResult> r = Indicator.GetPmo(historyBad, 25, 15, 5);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(130 + qty);
+                IEnumerable<PmoResult> r = Indicator.GetPmo(h);
+
+                PmoResult l = r.LastOrDefault();
+                Console.WriteLine("PMO on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Pmo);
+            }
         }
 
 

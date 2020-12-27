@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetStochRsi()
+        public void Standard()
         {
             int rsiPeriod = 14;
             int stochPeriod = 14;
@@ -48,7 +48,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStochRsiSlow()
+        public void SlowRsi()
         {
             int rsiPeriod = 14;
             int stochPeriod = 14;
@@ -85,10 +85,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStochRsiBadData()
+        public void BadData()
         {
             IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(historyBad, 15, 20, 3, 2);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities.Where(x => x <= 502))
+            {
+                IEnumerable<Quote> h = History.GetHistory(110 + qty);
+                IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(h, 14, 14, 3, 1);
+
+                StochRsiResult l = r.LastOrDefault();
+                Console.WriteLine("SRSI on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.StochRsi);
+            }
         }
 
 
@@ -126,7 +140,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(59);
+            IEnumerable<Quote> h = History.GetHistory(129);
             Indicator.GetStochRsi(h, 30, 30, 5, 5);
         }
 

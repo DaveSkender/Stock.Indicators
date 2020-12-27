@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetMama()
+        public void Standard()
         {
             decimal fastLimit = 0.5m;
             decimal slowLimit = 0.05m;
@@ -57,22 +57,22 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetMamaBadData()
+        public void BadData()
         {
             IEnumerable<MamaResult> r = Indicator.GetMama(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetMamaConvergence()
+        public void Convergence()
         {
-            foreach (int qty in convergeQuantities.Where(q => q >= 50))
+            foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<Quote> h = History.GetHistoryLong(50 + qty);
                 IEnumerable<MamaResult> r = Indicator.GetMama(h);
 
                 MamaResult l = r.LastOrDefault();
-                Console.WriteLine("MAMA on {0:d} with {1,4} periods of history: {2:N8}",
+                Console.WriteLine("MAMA on {0:d} with {1,4} periods: {2:N8}",
                     l.Date, h.Count(), l.Mama);
             }
         }

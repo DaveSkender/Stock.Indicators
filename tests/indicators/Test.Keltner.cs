@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetKeltner()
+        public void Standard()
         {
             int emaPeriod = 20;
             int multiplier = 2;
@@ -47,10 +47,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetKeltnerBadData()
+        public void BadData()
         {
             IEnumerable<KeltnerResult> r = Indicator.GetKeltner(historyBad, 10, 3, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(200 + qty);
+                IEnumerable<KeltnerResult> r = Indicator.GetKeltner(h, 100);
+
+                KeltnerResult l = r.LastOrDefault();
+                Console.WriteLine("KC-UP on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.UpperBand);
+            }
         }
 
 

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetKama()
+        public void Standard()
         {
             int erPeriod = 10;
             int fastPeriod = 2;
@@ -51,10 +51,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetKamaBadData()
+        public void BadData()
         {
             IEnumerable<KamaResult> r = Indicator.GetKama(historyBad);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(105 + qty);
+                IEnumerable<KamaResult> r = Indicator.GetKama(h, 10);
+
+                KamaResult l = r.LastOrDefault();
+                Console.WriteLine("KAMA on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Kama);
+            }
         }
 
 
@@ -85,7 +99,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(59);
+            IEnumerable<Quote> h = History.GetHistory(109);
             Indicator.GetKama(h, 10, 2, 20);
         }
 

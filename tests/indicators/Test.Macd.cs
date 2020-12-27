@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetMacd()
+        public void Standard()
         {
             int fastPeriod = 12;
             int slowPeriod = 26;
@@ -48,10 +48,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetMacdBadData()
+        public void BadData()
         {
             IEnumerable<MacdResult> r = Indicator.GetMacd(historyBad, 10, 20, 5);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(130 + qty);
+                IEnumerable<MacdResult> r = Indicator.GetMacd(h);
+
+                MacdResult l = r.LastOrDefault();
+                Console.WriteLine("MACD on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Macd);
+            }
         }
 
 

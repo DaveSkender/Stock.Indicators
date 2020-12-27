@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetAtr()
+        public void Standard()
         {
             int lookbackPeriod = 14;
             List<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod).ToList();
@@ -51,10 +51,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetAtrBadData()
+        public void BadData()
         {
             IEnumerable<AtrResult> r = Indicator.GetAtr(historyBad, 20);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(115 + qty);
+                IEnumerable<AtrResult> r = Indicator.GetAtr(h);
+
+                AtrResult l = r.LastOrDefault();
+                Console.WriteLine("ATR on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Atr);
+            }
         }
 
 
@@ -71,7 +85,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
         public void InsufficientHistory()
         {
-            IEnumerable<Quote> h = History.GetHistory(30);
+            IEnumerable<Quote> h = History.GetHistory(129);
             Indicator.GetAtr(h, 30);
         }
 

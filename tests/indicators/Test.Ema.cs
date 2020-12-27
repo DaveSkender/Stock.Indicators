@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetEma()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<EmaResult> results = Indicator.GetEma(history, lookbackPeriod).ToList();
@@ -35,10 +35,24 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetEmaBadData()
+        public void BadData()
         {
             IEnumerable<EmaResult> r = Indicator.GetEma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(115 + qty);
+                IEnumerable<EmaResult> r = Indicator.GetEma(h, 15);
+
+                EmaResult l = r.LastOrDefault();
+                Console.WriteLine("EMA on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Ema);
+            }
         }
 
 
