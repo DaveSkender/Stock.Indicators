@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetTrix()
+        public void Standard()
         {
             List<TrixResult> results = Indicator.GetTrix(history, 20, 5).ToList();
 
@@ -42,7 +42,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetTrixBadData()
+        public void BadData()
         {
             IEnumerable<TrixResult> r = Indicator.GetTrix(historyBad, 15, 2);
             Assert.AreEqual(502, r.Count());

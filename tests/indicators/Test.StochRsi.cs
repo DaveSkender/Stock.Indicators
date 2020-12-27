@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetStochRsi()
+        public void Standard()
         {
             int rsiPeriod = 14;
             int stochPeriod = 14;
@@ -48,7 +48,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStochRsiSlow()
+        public void SlowRsi()
         {
             int rsiPeriod = 14;
             int stochPeriod = 14;
@@ -85,7 +85,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStochRsiBadData()
+        public void BadData()
         {
             IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(historyBad, 15, 20, 3, 2);
             Assert.AreEqual(502, r.Count());

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetPmo()
+        public void Standard()
         {
             List<PmoResult> results = Indicator.GetPmo(history, 35, 20, 10).ToList();
 
@@ -34,7 +34,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetPmoBadData()
+        public void BadData()
         {
             IEnumerable<PmoResult> r = Indicator.GetPmo(historyBad, 25, 15, 5);
             Assert.AreEqual(502, r.Count());
