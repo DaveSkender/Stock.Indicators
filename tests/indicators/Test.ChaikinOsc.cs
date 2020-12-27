@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetChaikinOsc()
+        public void Standard()
         {
             int fastPeriod = 3;
             int slowPeriod = 10;
@@ -33,18 +33,18 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetChaikinOscBadData()
+        public void BadData()
         {
             IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(historyBad, 5, 15);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetChaikinOscConvergence()
+        public void Convergence()
         {
-            foreach (int qty in convergeQuantities.Where(q => q >= 110))
+            foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<Quote> h = History.GetHistoryLong(110 + qty);
                 IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(h);
 
                 ChaikinOscResult l = r.LastOrDefault();

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetConnorsRsi()
+        public void Standard()
         {
             int rsiPeriod = 3;
             int streakPeriod = 2;
@@ -45,18 +45,18 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetConnorsRsiBadData()
+        public void BadData()
         {
             IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(historyBad, 4, 3, 25);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetConnorsRsiConvergence()
+        public void Convergence()
         {
-            foreach (int qty in convergeQuantities.Where(q => q >= 103))
+            foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(qty);
+                IEnumerable<Quote> h = History.GetHistoryLong(103 + qty);
                 IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(h, 3, 2, 10);
 
                 ConnorsRsiResult l = r.LastOrDefault();

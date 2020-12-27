@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetRsi()
+        public void Standard()
         {
             int lookbackPeriod = 14;
             List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod).ToList();
@@ -38,14 +38,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetRsiBadData()
+        public void BadData()
         {
             IEnumerable<RsiResult> r = Indicator.GetRsi(historyBad, 20);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetRsiSmall()
+        public void SmallRsi()
         {
             int lookbackPeriod = 1;
             List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod).ToList();
@@ -66,7 +66,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetRsiConvergence()
+        public void Convergence()
         {
             int lookbackPeriod = 14;
 
