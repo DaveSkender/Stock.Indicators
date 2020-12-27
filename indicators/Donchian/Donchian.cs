@@ -26,19 +26,19 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
-                int index = i + 1;
 
                 DonchianResult result = new DonchianResult
                 {
                     Date = h.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (i >= lookbackPeriod)
                 {
                     decimal highHigh = 0;
                     decimal lowLow = decimal.MaxValue;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    // high/low over prior periods
+                    for (int p = i - lookbackPeriod; p < i; p++)
                     {
                         TQuote d = historyList[p];
 
@@ -74,15 +74,15 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for Donchian Channel.");
+                    "Lookback period must be greater than 0 for Donchian Channel.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriod + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Donchian Channel.  " +
