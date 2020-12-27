@@ -54,6 +54,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(130 + qty);
+                IEnumerable<MacdResult> r = Indicator.GetMacd(h);
+
+                MacdResult l = r.LastOrDefault();
+                Console.WriteLine("MACD on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Macd);
+            }
+        }
+
 
         /* EXCEPTIONS */
 

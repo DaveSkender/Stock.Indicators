@@ -21,7 +21,7 @@ IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPer
 
 ### Minimum history requirements
 
-You must supply at least `2×slowPeriod + signalPeriod` worth of `history`.  Since this uses a smoothing technique, we recommend you use at least 250 data points prior to the intended usage date for greater precision.
+You must supply at least `2×S+P` or `S+P+100` worth of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
 ## Response
 
@@ -30,6 +30,8 @@ IEnumerable<MacdResult>
 ```
 
 The first `S-1` slow periods + signal period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+:warning: **Warning**: The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### MacdResult
 
