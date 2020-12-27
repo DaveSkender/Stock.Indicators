@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetBollingerBands()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             int standardDeviations = 2;
@@ -52,7 +52,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetBollingerBandsBadData()
+        public void BadData()
         {
             IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(historyBad, 15, 3);
             Assert.AreEqual(502, r.Count());

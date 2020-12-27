@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetCmf()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod).ToList();
@@ -40,7 +40,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetCmfBadData()
+        public void BadData()
         {
             IEnumerable<CmfResult> r = Indicator.GetCmf(historyBad, 15);
             Assert.AreEqual(502, r.Count());

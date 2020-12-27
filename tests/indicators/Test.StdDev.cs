@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetStdDev()
+        public void Standard()
         {
             int lookbackPeriod = 10;
             List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod).ToList();
@@ -53,7 +53,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStdDevBadData()
+        public void BadData()
         {
             IEnumerable<StdDevResult> r = Indicator.GetStdDev(historyBad, 15, 3);
             Assert.AreEqual(502, r.Count());

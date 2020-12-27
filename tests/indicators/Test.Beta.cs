@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetBeta()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<BetaResult> results = Indicator.GetBeta(history, historyOther, lookbackPeriod).ToList();
@@ -29,14 +29,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetBetaBadData()
+        public void BadData()
         {
             IEnumerable<BetaResult> r = Indicator.GetBeta(historyBad, historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetBetaSame()
+        public void SameSame()
         {
             // Beta should be 1 if evaluating against self
             int lookbackPeriod = 20;

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetPivotPointsStandard()
+        public void Standard()
         {
             PeriodSize periodSize = PeriodSize.Month;
             PivotPointType pointType = PivotPointType.Standard;
@@ -99,7 +99,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetPivotPointsCamarilla()
+        public void Camarilla()
         {
             PeriodSize periodSize = PeriodSize.Week;
             PivotPointType pointType = PivotPointType.Camarilla;
@@ -173,7 +173,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetPivotPointsDemark()
+        public void Demark()
         {
             PeriodSize periodSize = PeriodSize.Month;
             PivotPointType pointType = PivotPointType.Demark;
@@ -257,7 +257,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetPivotPointsFibonacci()
+        public void Fibonacci()
         {
             PeriodSize periodSize = PeriodSize.Hour;
             PivotPointType pointType = PivotPointType.Fibonacci;
@@ -332,7 +332,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetPivotPointsWoodie()
+        public void Woodie()
         {
             PeriodSize periodSize = PeriodSize.Day;
             PivotPointType pointType = PivotPointType.Woodie;
@@ -399,7 +399,7 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void GetPivotPointsBadData()
+        public void BadData()
         {
             IEnumerable<PivotPointsResult> r = Indicator.GetPivotPoints(historyBad, PeriodSize.Week);
             Assert.AreEqual(502, r.Count());

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void ValidateHistoryTest()
+        public void ValidateHistory()
         {
             IEnumerable<Quote> history = History.GetHistory();
 
@@ -34,7 +34,7 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void ValidateLongHistoryTest()
+        public void ValidateLongHistory()
         {
             IEnumerable<Quote> historyLong = History.GetHistoryLong();
 
@@ -52,7 +52,7 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void CutHistoryTest()
+        public void CutHistory()
         {
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
@@ -93,7 +93,7 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void SortHistoryTest()
+        public void SortHistory()
         {
             IEnumerable<Quote> history = History.GetHistory();
 
@@ -116,7 +116,7 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void CleanBasicDataTest()
+        public void ConvertBasicData()
         {
             // compose basic data
             List<BasicData> o = Cleaners.ConvertHistoryToBasic(history, "O");
@@ -186,7 +186,7 @@ namespace Internal.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Bad element.")]
-        public void CleanBasicDataBadParamTest()
+        public void ConvertBasicDataBadParam()
         {
             // compose basic data
             Cleaners.ConvertHistoryToBasic(history, "E");

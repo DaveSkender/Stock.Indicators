@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetDoubleEma()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<EmaResult> results = Indicator.GetDoubleEma(history, lookbackPeriod).ToList();
@@ -35,14 +35,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetDoubleEmaBadData()
+        public void BadData()
         {
             IEnumerable<EmaResult> r = Indicator.GetDoubleEma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetDemaConvergence()
+        public void Convergence()
         {
             foreach (int qty in convergeQuantities)
             {

@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetUlcerIndex()
+        public void Standard()
         {
             int lookbackPeriod = 14;
             List<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod).ToList();
@@ -29,7 +29,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetUlcerIndexBadData()
+        public void BadData()
         {
             IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(historyBad, 15);
             Assert.AreEqual(502, r.Count());

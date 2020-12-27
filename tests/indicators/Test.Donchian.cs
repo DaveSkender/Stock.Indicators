@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetDonchian()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<DonchianResult> results = Indicator.GetDonchian(history, lookbackPeriod).ToList();
@@ -41,7 +41,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetDonchianBadData()
+        public void BadData()
         {
             IEnumerable<DonchianResult> r = Indicator.GetDonchian(historyBad, 15);
             Assert.AreEqual(502, r.Count());

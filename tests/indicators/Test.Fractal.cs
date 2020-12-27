@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetFractal()
+        public void Standard()
         {
             List<FractalResult> results = Indicator.GetFractal(history)
                 .ToList();
@@ -56,7 +56,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetFractalBadData()
+        public void BadData()
         {
             IEnumerable<FractalResult> r = Indicator.GetFractal(historyBad);
             Assert.AreEqual(502, r.Count());

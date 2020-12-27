@@ -15,7 +15,7 @@ namespace Internal.Tests
 
 
         [TestMethod()]
-        public void StdDevTest()
+        public void StdDev()
         {
             double sd = Functions.StdDev(closePrice);
 

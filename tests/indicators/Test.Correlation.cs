@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetCorrelation()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<CorrResult> results =
@@ -32,7 +32,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetCorrelationBadData()
+        public void BadData()
         {
             IEnumerable<CorrResult> r = Indicator.GetCorrelation(historyBad, historyBad, 15);
             Assert.AreEqual(502, r.Count());
@@ -67,7 +67,7 @@ namespace Internal.Tests
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "Mismatch history.")]
-        public void GetCorrelationMismatchTest()
+        public void MismatchHistory()
         {
             IEnumerable<Quote> historyMismatch = History.GetHistoryWithMismatchDates();
             Indicator.GetCorrelation(historyMismatch, historyOther, 20);

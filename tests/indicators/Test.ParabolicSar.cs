@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetParabolicSar()
+        public void Standard()
         {
             decimal acclerationStep = (decimal)0.02;
             decimal maxAccelerationFactor = (decimal)0.2;
@@ -42,7 +42,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetParabolicSarBadData()
+        public void BadData()
         {
             IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(historyBad);
             Assert.AreEqual(502, r.Count());

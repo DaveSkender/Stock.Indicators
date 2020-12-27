@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetVolSma()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod).ToList();
@@ -37,7 +37,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetVolSmaBadData()
+        public void BadData()
         {
             IEnumerable<VolSmaResult> r = Indicator.GetVolSma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
