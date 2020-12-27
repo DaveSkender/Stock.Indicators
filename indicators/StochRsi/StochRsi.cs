@@ -100,13 +100,16 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = rsiPeriod + stochPeriod;
+            int minHistory = Math.Max(rsiPeriod + stochPeriod, rsiPeriod + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Stochastic RSI.  " +
                     string.Format(englishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
-                    qtyHistory, minHistory);
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least {2} data points prior to the intended "
+                    + "usage date for better precision.",
+                    qtyHistory, minHistory, Math.Max(10 * rsiPeriod, minHistory));
 
                 throw new BadHistoryException(nameof(history), message);
             }
