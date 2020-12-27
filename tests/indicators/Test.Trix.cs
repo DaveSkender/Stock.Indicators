@@ -48,6 +48,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
+        [TestMethod()]
+        public void Convergence()
+        {
+            foreach (int qty in convergeQuantities)
+            {
+                IEnumerable<Quote> h = History.GetHistoryLong(140 + qty);
+                IEnumerable<TrixResult> r = Indicator.GetTrix(h, 15);
+
+                TrixResult l = r.LastOrDefault();
+                Console.WriteLine("TRIX on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Trix);
+            }
+        }
+
 
         /* EXCEPTIONS */
 

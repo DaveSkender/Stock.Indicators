@@ -23,7 +23,7 @@ IEnumerable<TrixResult> results = Indicator.GetTrix(history, lookbackPeriod, sig
 
 ### Minimum history requirements
 
-You must supply at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for greater precision.
+You must supply at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
 
 ## Response
 
@@ -32,6 +32,8 @@ IEnumerable<TrixResult>
 ```
 
 We always return the same number of elements as there are in the historical quotes.  The first `3×N-3` periods will have `null` values since there's not enough data to calculate.
+
+:warning: **Warning**: The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### TrixResult
 
