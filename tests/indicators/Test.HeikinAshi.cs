@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetHeikinAshi()
+        public void Standard()
         {
 
             List<HeikinAshiResult> results = Indicator.GetHeikinAshi(history).ToList();
@@ -30,7 +30,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetHeikinAshiBadData()
+        public void BadData()
         {
             IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(historyBad);
             Assert.AreEqual(502, r.Count());

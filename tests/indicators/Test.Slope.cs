@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetSlope()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<SlopeResult> results = Indicator.GetSlope(history, lookbackPeriod).ToList();
@@ -49,7 +49,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetSlopeBadData()
+        public void BadData()
         {
             IEnumerable<SlopeResult> r = Indicator.GetSlope(historyBad, 15);
             Assert.AreEqual(502, r.Count());

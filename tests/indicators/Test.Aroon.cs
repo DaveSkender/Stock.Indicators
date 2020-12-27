@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetAroon()
+        public void Standard()
         {
             int lookbackPeriod = 25;
             List<AroonResult> results = Indicator.GetAroon(history, lookbackPeriod).ToList();
@@ -53,7 +53,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetAroonBadData()
+        public void BadData()
         {
             IEnumerable<AroonResult> r = Indicator.GetAroon(historyBad, 20);
             Assert.AreEqual(502, r.Count());

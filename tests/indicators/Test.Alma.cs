@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetAlma()
+        public void Standard()
         {
             int lookbackPeriod = 10;
             double offset = 0.85;
@@ -48,7 +48,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetAlmaBadData()
+        public void BadData()
         {
             IEnumerable<AlmaResult> r = Indicator.GetAlma(historyBad, 14, 0.5, 3);
             Assert.AreEqual(502, r.Count());

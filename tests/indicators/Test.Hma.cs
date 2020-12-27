@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetHma()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<HmaResult> results = Indicator.GetHma(history, lookbackPeriod).ToList();
@@ -32,7 +32,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetHmaBadData()
+        public void BadData()
         {
             IEnumerable<HmaResult> r = Indicator.GetHma(historyBad, 15);
             Assert.AreEqual(502, r.Count());

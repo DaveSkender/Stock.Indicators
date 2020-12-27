@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetStochStandard()
+        public void Standard()
         {
             int lookbackPeriod = 14;
             int signalPeriod = 3;
@@ -36,14 +36,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStochBadData()
+        public void BadData()
         {
             IEnumerable<StochResult> r = Indicator.GetStoch(historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetStochNoSignal()
+        public void NoSignal()
         {
             int lookbackPeriod = 5;
             int signalPeriod = 1;
@@ -62,7 +62,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStochFast()
+        public void Fast()
         {
             int lookbackPeriod = 5;
             int signalPeriod = 10;
@@ -83,7 +83,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetStochFastSmall()
+        public void FastSmall()
         {
             int lookbackPeriod = 1;
             int signalPeriod = 10;

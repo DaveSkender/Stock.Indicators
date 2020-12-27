@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetWma()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<WmaResult> results = Indicator.GetWma(history, lookbackPeriod).ToList();
@@ -32,7 +32,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetWmaBadData()
+        public void BadData()
         {
             IEnumerable<WmaResult> r = Indicator.GetWma(historyBad, 15);
             Assert.AreEqual(502, r.Count());

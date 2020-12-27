@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetChandlier()
+        public void Standard()
         {
             int lookbackPeriod = 22;
             List<ChandelierResult> longResult =
@@ -42,7 +42,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetChandlierBadData()
+        public void BadData()
         {
             IEnumerable<ChandelierResult> r = Indicator.GetChandelier(historyBad, 15, 2m);
             Assert.AreEqual(502, r.Count());

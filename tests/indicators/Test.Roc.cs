@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetRoc()
+        public void Standard()
         {
             int lookbackPeriod = 20;
             List<RocResult> results = Indicator.GetRoc(history, lookbackPeriod).ToList();
@@ -35,14 +35,14 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetRocBadData()
+        public void BadData()
         {
             IEnumerable<RocResult> r = Indicator.GetRoc(historyBad, 35, 2);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        public void GetRocWithSma()
+        public void WithSma()
         {
             int lookbackPeriod = 20;
             int smaPeriod = 5;

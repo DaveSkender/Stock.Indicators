@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetCci()
+        public void Standard()
         {
             int lookbackPeriod = 20;
 
@@ -30,7 +30,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetCciBadData()
+        public void BadData()
         {
             IEnumerable<CciResult> r = Indicator.GetCci(historyBad, 15);
             Assert.AreEqual(502, r.Count());

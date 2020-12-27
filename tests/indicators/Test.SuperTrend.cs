@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetSuperTrend()
+        public void Standard()
         {
             int lookbackPeriod = 14;
             decimal multiplier = 3;
@@ -58,7 +58,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetSuperTrendBadData()
+        public void BadData()
         {
             IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(historyBad, 7);
             Assert.AreEqual(502, r.Count());

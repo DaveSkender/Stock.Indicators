@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetWilliamsR()
+        public void Standard()
         {
             int lookbackPeriod = 14;
             List<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPeriod).ToList();
@@ -32,7 +32,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetWilliamsRBadData()
+        public void BadData()
         {
             IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(historyBad, 20);
             Assert.AreEqual(502, r.Count());

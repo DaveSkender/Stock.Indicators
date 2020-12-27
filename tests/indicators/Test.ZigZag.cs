@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void GetZigZagClose()
+        public void StandardClose()
         {
             decimal percentChange = 3;
             List<ZigZagResult> results =
@@ -67,7 +67,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetZigZagHighLow()
+        public void StandardHighLow()
         {
             decimal percentChange = 3;
             List<ZigZagResult> results =
@@ -123,7 +123,7 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void GetZigZagBadData()
+        public void BadData()
         {
             IEnumerable<ZigZagResult> r = Indicator.GetZigZag(historyBad);
             Assert.AreEqual(502, r.Count());
