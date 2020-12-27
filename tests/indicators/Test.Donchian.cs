@@ -17,10 +17,6 @@ namespace Internal.Tests
             List<DonchianResult> results = Indicator.GetDonchian(history, lookbackPeriod).ToList();
 
             // assertions
-            foreach (DonchianResult r in results)
-            {
-                Console.WriteLine("{0:d},{1:N4},{2:N4},{3:N4},{4:N6}", r.Date, r.Centerline, r.UpperBand, r.LowerBand, r.Width);
-            }
 
             // proper quantities
             // should always be the same number of results as there is history
