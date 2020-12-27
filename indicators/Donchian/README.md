@@ -1,6 +1,6 @@
-﻿# Donchian Channels
+﻿# Donchian Channels (Price Channels)
 
-Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel) are derived from highest High and lowest Low values over a lookback period.
+Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel), also called Price Channels, are derived from highest High and lowest Low values over a lookback period.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/257 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -15,11 +15,11 @@ IEnumerable<DonchianResult> results = Indicator.GetDonchian(history, lookbackPer
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for an appropriate sample size.  Default is 20.
+| `lookbackPeriod` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
 
 ### Minimum history requirements
 
-You must supply at least `N` periods of `history`.
+You must supply at least `N+1` periods of `history`.
 
 ## Response
 
@@ -27,7 +27,7 @@ You must supply at least `N` periods of `history`.
 IEnumerable<DonchianResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### DonchianResult
 
