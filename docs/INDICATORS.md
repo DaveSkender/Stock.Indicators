@@ -26,6 +26,7 @@
 - [Money Flow Index (MFI)](../indicators/Mfi/README.md#content)
 - [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/README.md#content)
 - [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/README.md#content)
+- [Moving Average Envelopes](../indicators/MaEnvelopes/README.md#content)
 - [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
 - [Parabolic SAR](../indicators/ParabolicSar/README.md#content)
 - [Pivot Points](../indicators/PivotPoints/README.md#content)
