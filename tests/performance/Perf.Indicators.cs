@@ -157,6 +157,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetMaEnvelopesSMA()
+        {
+            return Indicator.GetMaEnvelopes(h, 20, 2.5, MaType.SMA);
+        }
+
+        [Benchmark]
         public object GetMama()
         {
             return Indicator.GetMama(h);
