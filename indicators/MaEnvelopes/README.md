@@ -17,12 +17,12 @@ IEnumerable<MaEnvelopeResult> results = Indicator.GetSmaEnvelopes(
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
-| `percentOffset` | double | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5.
+| `percentOffset` | double | Percent change for envelop offset.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5.
 | `movingAverageType` | MaType | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Minimum history requirements
 
-See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `history` and `lookbackPeriod`.
+See links in the supported [MaType options](#matype-options) section below for details on `history` and `lookbackPeriod` requirements.
 
 ### MaType options
 
@@ -46,9 +46,10 @@ These are the supported moving average types:
 IEnumerable<MaEnvelopeResult>
 ```
 
-The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.  We always return the same number of elements as there are in the historical quotes.
+The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.  
+We always return the same number of elements as there are in the historical quotes.
 
-:warning: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+:warning: See links in the supported [MaType options](#matype-options) section above for details and for more information about precision in early periods.
 
 ### MaEnvelopeResult
 
@@ -56,10 +57,10 @@ The first periods will have `null` values since there's not enough data to calcu
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Centerline` | decimal | Moving average for `N` lookback periods
-| `UpperEnvelope` | decimal | Upper envelope band
-| `LowerEnvelope` | decimal | Lower envelope band
+| `UpperEnvelope` | decimal | Upper band
+| `LowerEnvelope` | decimal | Lower band
 
-The moving average `Centerline` is based on the `movingAverageType` type specified.
+Moving average is based on the `movingAverageType` type specified.
 
 ## Example
 
