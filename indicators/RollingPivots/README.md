@@ -17,12 +17,14 @@ IEnumerable<PivotPointResult> results =
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc)
 | `windowPeriod` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.
-| `offsetPeriod` | int | Number of periods (`T`) to offset the window from the current period.  Must be greater than 0 and is typically less than or equal to `W`.
+| `offsetPeriod` | int | Number of periods (`O`) to offset the window from the current period.  Must be greater than 0 and is typically less than or equal to `W`.
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
+
+For example, a window of 10 with an offset of 5 would evaluate history like: `W W W W W W W W W W O O O O C`, where `W` is the window included in the Pivot Point calculation, and `O` is the distance from the current evaluation position `C`.  A `history` with daily bars using `W/O` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](../PivotPoints/README.md#content) indicator.
 
 ### Minimum history requirements
 
-You must supply at least `W+T` periods of `history`.
+You must supply at least `W+O` periods of `history`.
 
 ### PivotPointType options
 
@@ -40,7 +42,7 @@ You must supply at least `W+T` periods of `history`.
 IEnumerable<PivotPointsResult>
 ```
 
-The first `W+T-1` will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `W+O-1` will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### PivotPointResult
 
