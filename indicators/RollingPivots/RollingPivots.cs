@@ -45,14 +45,14 @@ namespace Skender.Stock.Indicators
                     decimal windowHigh = hi.High;
                     decimal windowLow = hi.Low;
 
-                    for (int p = s; p < i - offsetPeriod; p++)
+                    for (int p = s; p <= i - offsetPeriod; p++)
                     {
                         TQuote d = historyList[p];
                         windowHigh = (d.High > windowHigh) ? d.High : windowHigh;
                         windowLow = (d.Low < windowLow) ? d.Low : windowLow;
                     }
 
-                    // pivot points
+                    // window pivot points
                     PivotPointsResult wp =
                         GetPivotPoint(pointType, windowOpen, windowHigh, windowLow, windowClose);
 
