@@ -1,6 +1,4 @@
-﻿<!-- markdownlint-disable MD026 -->
-
-# Guide and Pro tips
+﻿# Guide and Pro tips
 
 - [Prerequisite data](#prerequisite-data)
 - [Example usage](#example-usage)
