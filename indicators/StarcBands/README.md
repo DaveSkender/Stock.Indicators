@@ -7,7 +7,8 @@ Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https:
 
 ```csharp
 // usage
-IEnumerable<StarcBandResult> results = Indicator.GetStarcBands(history, emaPeriod, multiplier, atrPeriod);  
+IEnumerable<StarcBandResult> results = 
+  Indicator.GetStarcBands(history, smaPeriod, multiplier, atrPeriod);  
 ```
 
 ## Parameters
