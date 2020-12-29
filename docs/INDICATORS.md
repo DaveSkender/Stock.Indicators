@@ -39,6 +39,7 @@
 - [Simple Moving Average (SMA)](../indicators/Sma/README.md#content)
 - [Slope and Linear Regression](../indicators/Slope/README.md#content)
 - [Standard Deviation](../indicators/StdDev/README.md#content)
+- [STARC Bands](../indicators/StarcBands/README.md#content)
 - [Stochastic Oscillator](../indicators/Stoch/README.md#content)
 - [Stochastic RSI](../indicators/StochRsi/README.md#content)
 - [SuperTrend](../indicators/SuperTrend/README.md#content)

@@ -1,6 +1,6 @@
 ﻿# Keltner Channels
 
-Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.
+Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.  See also [STARC Bands](../StarcBands/README.md#content) for an SMA centerline equivalent.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/249 "Community discussion about this indicator")
 
 ![image](chart.png)
