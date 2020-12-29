@@ -1,0 +1,75 @@
+﻿# Rolling Pivot Points
+
+Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window [Pivot Points](../PivotPoints/README.md#content).  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
+
+![image](chart.png)
+
+```csharp
+// usage
+IEnumerable<PivotPointResult> results = 
+  Indicator.GetRollingPivots(history, lookbackPeriod, pointType);  
+```
+
+## Parameters
+
+| name | type | notes
+| -- |-- |--
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc)
+| `windowPeriod` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.
+| `offsetPeriod` | int | Number of periods (`T`) to offset the window from the current period.  Must be greater than 0 and is typically less than or equal to `W`.
+| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
+
+### Minimum history requirements
+
+You must supply at least `W+T` periods of `history`.
+
+### PivotPointType options
+
+| type | description
+|-- |--
+| `PivotPointType.Standard` | Floor Trading (default)
+| `PivotPointType.Camarilla` | Camarilla
+| `PivotPointType.Demark` | Demark
+| `PivotPointType.Fibonacci` | Fibonacci
+| `PivotPointType.Woodie` | Woodie
+
+## Response
+
+```csharp
+IEnumerable<PivotPointsResult>
+```
+
+The first `W+T-1` will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+### PivotPointResult
+
+| name | type | notes
+| -- |-- |--
+| `Date` | DateTime | Date
+| `R3` | decimal | Resistance level 3
+| `R2` | decimal | Resistance level 2
+| `R1` | decimal | Resistance level 1
+| `PP` | decimal | Pivot Point
+| `S1` | decimal | Support level 1
+| `S2` | decimal | Support level 2
+| `S3` | decimal | Support level 3
+
+## Example
+
+```csharp
+// fetch historical quotes from your favorite feed, in Quote format
+IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+
+// calculate Woodie-style 14 period Rolling Pivot Points
+IEnumerable<PivotPointResult> results = 
+  Indicator.GetRollingPivots(history,14,PivotPointType.Woodie);
+
+// use results as needed
+PivotPointsResult result = results.LastOrDefault();
+Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
+```
+
+```bash
+PP on 12/31/2018 was $251.86
+```
