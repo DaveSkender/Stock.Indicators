@@ -29,7 +29,7 @@ IEnumerable<AdxResult>
 
 The first `2×N-1` periods will have `null` values for ADX since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in ATR values for earlier periods.
+:warning: **Warning**: The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### AdxResult
 
