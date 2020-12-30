@@ -49,6 +49,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetAwesome()
+        {
+            return Indicator.GetAwesome(h);
+        }
+
+        [Benchmark]
         public object GetBeta()
         {
             return Indicator.GetBeta(h, ho, 20);
