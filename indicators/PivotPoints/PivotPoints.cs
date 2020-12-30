@@ -132,15 +132,15 @@ namespace Skender.Stock.Indicators
         {
             return new PivotPointsResult
             {
-                PP = (high + low + close) / 3,
-                S1 = close - (1m + 1m / 12) * (high - low),
-                S2 = close - (1m + 1m / 6) * (high - low),
-                S3 = close - (1m + 1m / 4) * (high - low),
-                S4 = close - (1m + 1m / 2) * (high - low),
-                R1 = close + (1m + 1m / 12) * (high - low),
-                R2 = close + (1m + 1m / 6) * (high - low),
-                R3 = close + (1m + 1m / 4) * (high - low),
-                R4 = close + (1m + 1m / 2) * (high - low)
+                PP = close,
+                S1 = close - (1.1m / 12) * (high - low),
+                S2 = close - (1.1m / 6) * (high - low),
+                S3 = close - (1.1m / 4) * (high - low),
+                S4 = close - (1.1m / 2) * (high - low),
+                R1 = close + (1.1m / 12) * (high - low),
+                R2 = close + (1.1m / 6) * (high - low),
+                R3 = close + (1.1m / 4) * (high - low),
+                R4 = close + (1.1m / 2) * (high - low)
             };
         }
 
