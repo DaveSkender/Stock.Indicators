@@ -34,42 +34,39 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (i >= windowPeriod + offsetPeriod - 1)
+                if (i >= windowPeriod + offsetPeriod)
                 {
-                    decimal windowOpen = h.Open;  // for Woodie only
-                    decimal windowClose = historyList[i - offsetPeriod].Close;
 
-                    // extreme values
-                    int s = i - windowPeriod - offsetPeriod + 1;
+                    // window values
+                    int s = i - windowPeriod - offsetPeriod;
                     TQuote hi = historyList[s];
+
                     decimal windowHigh = hi.High;
                     decimal windowLow = hi.Low;
+                    decimal windowClose = historyList[i - offsetPeriod - 1].Close;
 
-                    for (int p = s; p <= i - offsetPeriod; p++)
+                    for (int p = s; p <= i - offsetPeriod - 1; p++)
                     {
                         TQuote d = historyList[p];
                         windowHigh = (d.High > windowHigh) ? d.High : windowHigh;
                         windowLow = (d.Low < windowLow) ? d.Low : windowLow;
                     }
 
-                    // window pivot points
+                    // pivot points
                     PivotPointsResult wp =
-                        GetPivotPoint(pointType, windowOpen, windowHigh, windowLow, windowClose);
+                        GetPivotPoint(pointType, h.Open, windowHigh, windowLow, windowClose);
 
                     r.PP = wp.PP;
-
-                    // support
                     r.S1 = wp.S1;
                     r.S2 = wp.S2;
                     r.S3 = wp.S3;
                     r.S4 = wp.S4;
-
-                    // resistance
                     r.R1 = wp.R1;
                     r.R2 = wp.R2;
                     r.R3 = wp.R3;
                     r.R4 = wp.R4;
                 }
+
                 results.Add(r);
             }
             return results;
@@ -90,10 +87,10 @@ namespace Skender.Stock.Indicators
                     "Window period must be greater than 0 for Rolling Pivot Points.");
             }
 
-            if (offsetPeriod <= 0)
+            if (offsetPeriod < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(offsetPeriod), offsetPeriod,
-                    "Offset period must be greater than 0 for Rolling Pivot Points.");
+                    "Offset period must be greater than or equal to 0 for Rolling Pivot Points.");
             }
 
             // check history
