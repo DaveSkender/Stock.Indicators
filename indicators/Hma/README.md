@@ -1,6 +1,6 @@
 ﻿# Hull Moving Average (HMA)
 
-Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified linear weighted average of `Close` price over `N` lookback periods that reduces lag.
+Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified weighted average of `Close` price over `N` lookback periods that reduces lag.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/252 "Community discussion about this indicator")
 
 ![image](chart.png)
