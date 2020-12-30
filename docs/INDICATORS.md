@@ -5,6 +5,7 @@
 - [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
 - [Average Directional Index (ADX)](../indicators/Adx/README.md#content)
 - [Average True Range (ATR)](../indicators/Atr/README.md#content)
+- [Awesome Oscillator (AO)](../indicators/Awesome/README.md#content)
 - [Beta Coefficient](../indicators/Beta/README.md#content)
 - [Bollinger Bands](../indicators/BollingerBands/README.md#content)
 - [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)
