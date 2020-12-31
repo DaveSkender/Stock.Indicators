@@ -7,7 +7,8 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 
 ```csharp
 // usage
-IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviation);  
+IEnumerable<BollingerBandsResult> results =
+  Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviation);  
 ```
 
 ## Parameters
@@ -49,11 +50,13 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate BollingerBands(12,26,9)
-IEnumerable<BollingerBandsResult> results = Indicator.GetBollingerBands(history,20,2);
+IEnumerable<BollingerBandsResult> results =
+  Indicator.GetBollingerBands(history,20,2);
 
 // use results as needed
 BollingerBandsResult result = results.LastOrDefault();
-Console.WriteLine("Upper Bollinger Band on {0} was ${1}", result.Date, result.UpperBand);
+Console.WriteLine("Upper Bollinger Band on {0} was ${1}",
+  result.Date, result.UpperBand);
 ```
 
 ```bash
