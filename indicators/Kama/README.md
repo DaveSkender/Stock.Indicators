@@ -7,7 +7,8 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 
 ```csharp
 // usage
-IEnumerable<KamaResult> results = Indicator.GetKama(history, erPeriod, fastPeriod, slowPeriod);  
+IEnumerable<KamaResult> results =
+  Indicator.GetKama(history, erPeriod, fastPeriod, slowPeriod);  
 ```
 
 ## Parameters
