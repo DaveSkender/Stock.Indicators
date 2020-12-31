@@ -7,7 +7,8 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 
 ```csharp
 // usage
-IEnumerable<IchimokuResult> results = Indicator.GetIchimoku(history, lookbackPeriod);  
+IEnumerable<IchimokuResult> results =
+  Indicator.GetIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);  
 ```
 
 ## Parameters
@@ -49,7 +50,8 @@ The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since 
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate ICHIMOKU(9,26,52)
-IEnumerable<IchimokuResult> results = Indicator.GetIchimoku(history,9,26,52);
+IEnumerable<IchimokuResult> results =
+  Indicator.GetIchimoku(history,9,26,52);
 
 // use results as needed
 IchimokuResult result = results.LastOrDefault();
