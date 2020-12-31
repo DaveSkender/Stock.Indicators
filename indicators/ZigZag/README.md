@@ -7,7 +7,8 @@
 
 ```csharp
 // usage
-IEnumerable<ZigZagResult> results = Indicator.GetZigZag(history, type, percentChange);  
+IEnumerable<ZigZagResult> results =
+  Indicator.GetZigZag(history, type, percentChange);  
 ```
 
 ## Parameters
@@ -54,7 +55,8 @@ If you do not supply enough points to cover the percent change, there will be no
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 3% change ZIGZAG
-IEnumerable<ZigZagResult> results = Indicator.GetZigZag(history,ZigZagType.Close,3);
+IEnumerable<ZigZagResult> results =
+  Indicator.GetZigZag(history,ZigZagType.Close,3);
 
 // use results as needed
 ZigZagResult result = results.LastOrDefault();
