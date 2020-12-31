@@ -7,7 +7,8 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 
 ```csharp
 // usage
-IEnumerable<AwesomeResult> results = Indicator.GetAwesome(history, fastPeriod, slowPeriod);  
+IEnumerable<AwesomeResult> results =
+  Indicator.GetAwesome(history, fastPeriod, slowPeriod);  
 ```
 
 ## Parameters
