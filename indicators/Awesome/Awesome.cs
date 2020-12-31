@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // HEIKIN-ASHI
+        // AWESOME OSCILLATOR
         public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 5,
@@ -85,7 +85,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 34;
+            int minHistory = slowPeriod;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Awesome Oscillator.  " +

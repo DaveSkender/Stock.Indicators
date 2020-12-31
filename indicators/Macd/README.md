@@ -7,7 +7,8 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 
 ```csharp
 // usage
-IEnumerable<MacdResult> results = Indicator.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);  
+IEnumerable<MacdResult> results =
+  Indicator.GetMacd(history, fastPeriod, slowPeriod, signalPeriod);  
 ```
 
 ## Parameters

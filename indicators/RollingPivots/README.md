@@ -42,7 +42,7 @@ You must supply at least `W+O` periods of `history`.
 IEnumerable<PivotPointsResult>
 ```
 
-The first `W+O-1` will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `W+O-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### PivotPointResult
 

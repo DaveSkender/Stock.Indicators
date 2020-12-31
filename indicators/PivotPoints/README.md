@@ -8,7 +8,8 @@ See also the alternative [Rolling Pivot Points](../RollingPivots/README.md#conte
 
 ```csharp
 // usage
-IEnumerable<PivotPointResult> results = Indicator.GetPivotPoints(history, windowSize, pointType);  
+IEnumerable<PivotPointResult> results =
+  Indicator.GetPivotPoints(history, windowSize, pointType);  
 ```
 
 ## Parameters
@@ -21,7 +22,7 @@ IEnumerable<PivotPointResult> results = Indicator.GetPivotPoints(history, window
 
 ### Minimum history requirements
 
-You must supply at least `2` windows of `history`.  For example, if you specify a `Week` window size, you need at least 14 days of `history`.
+You must supply at least `2` windows of `history`.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `history`.
 
 ### PeriodSize options (for windowSize)
 
@@ -50,7 +51,7 @@ IEnumerable<PivotPointsResult>
 
 The first window will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 days (1.5 months) of `history`.
+:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `history`.
 
 ### PivotPointResult
 
@@ -72,7 +73,8 @@ The first window will have `null` values since there's not enough data to calcul
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style month-based Pivot Points
-IEnumerable<PivotPointResult> results = Indicator.GetPivotPoints(history,PeriodSize.Month,PivotPointType.Woodie);
+IEnumerable<PivotPointResult> results =
+  Indicator.GetPivotPoints(history,PeriodSize.Month,PivotPointType.Woodie);
 
 // use results as needed
 PivotPointsResult result = results.LastOrDefault();

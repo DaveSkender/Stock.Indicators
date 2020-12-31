@@ -7,7 +7,8 @@
 
 ```csharp
 // usage
-IEnumerable<BetaResult> results = Indicator.GetBeta(historyMarket, historyEval, lookbackPeriod);  
+IEnumerable<BetaResult> results =
+  Indicator.GetBeta(historyMarket, historyEval, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -45,11 +46,13 @@ IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 
 // calculate 20-period Beta coefficient
-IEnumerable<BetaResult> results = Indicator.GetBeta(historySPX,historyTSLA,20);
+IEnumerable<BetaResult> results =
+  Indicator.GetBeta(historySPX,historyTSLA,20);
 
 // use results as needed
 BetaResult result = results.LastOrDefault();
-Console.WriteLine("Beta(SPX,TSLA,20) on {0} was {1}", result.Date, result.Beta);
+Console.WriteLine("Beta(SPX,TSLA,20) on {0} was {1}",
+  result.Date, result.Beta);
 ```
 
 ```bash
