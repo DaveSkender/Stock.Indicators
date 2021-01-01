@@ -65,6 +65,10 @@ See [individual indicator pages](https://daveskender.github.io/Stock.Indicators/
 
 This NuGet package is an open-source project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](docs/CONTRIBUTING.md#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
 
+## License
+
+This repository uses a standard Apache 2.0 license.  It enables open-source community development by protecting the project and contributors from certain legal risks, but also allows for use in closed source software.  Please review the [License](http://www.apache.org/licenses/LICENSE-2.0) before using or contributing to the software.
+
 ## Contact us
 
 [Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
