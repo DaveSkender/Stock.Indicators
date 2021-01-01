@@ -19,7 +19,7 @@
     <LangVersion>9.0</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE.md">
+    <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

@@ -4,7 +4,7 @@ tagline: "Send in historical price quotes and get back desired technical indicat
 theme: jekyll-theme-cayman
 
 include:
-  ["docs/GUIDE.md", "docs/INDICATORS.md", "docs/CONTRIBUTING.md", "LICENSE.md"]
+  ["docs/GUIDE.md", "docs/INDICATORS.md", "docs/CONTRIBUTING.md", "LICENSE"]
 
 exclude:
   [
