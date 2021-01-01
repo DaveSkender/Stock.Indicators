@@ -58,29 +58,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetBollingerBands(history, 1);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetBollingerBands(history, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad standard deviations.")]
-        public void InsufficientStandardDeviations()
-        {
-            Indicator.GetBollingerBands(history, 2, 0);
-        }
+            // bad standard deviation
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetBollingerBands(history, 2, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(29);
-            Indicator.GetBollingerBands(h, 30, 2);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetBollingerBands(History.GetHistory(29), 30, 2));
         }
 
     }

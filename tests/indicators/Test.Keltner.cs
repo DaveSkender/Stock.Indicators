@@ -67,44 +67,28 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad EMA period.")]
-        public void BadEmaPeriod()
+        public void Exceptions()
         {
-            Indicator.GetKeltner(history, 1, 2, 10);
-        }
+            // bad EMA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetKeltner(history, 1, 2, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad ATR period.")]
-        public void BadAtrPeriod()
-        {
-            Indicator.GetKeltner(history, 20, 2, 1);
-        }
+            // bad ATR period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetKeltner(history, 20, 2, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad multiplier.")]
-        public void BadMultiplier()
-        {
-            Indicator.GetKeltner(history, 20, 0, 10);
-        }
+            // bad multiplier
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetKeltner(history, 20, 0, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history 100.")]
-        public void InsufficientHistory100()
-        {
-            IEnumerable<Quote> h = History.GetHistory(119);
-            Indicator.GetKeltner(h, 20, 2, 10);
-        }
+            // insufficient history for N+100
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetKeltner(History.GetHistory(119), 20, 2, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history 250.")]
-        public void InsufficientHistory250()
-        {
-            IEnumerable<Quote> h = History.GetHistory(499);
-            Indicator.GetKeltner(h, 20, 2, 250);
+            // insufficient history for 2×N
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetKeltner(History.GetHistory(499), 20, 2, 250));
         }
 
     }

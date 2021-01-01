@@ -48,29 +48,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetChandelier(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetChandelier(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad multiplier.")]
-        public void BadMultiplier()
-        {
-            Indicator.GetChandelier(history, 25, 0);
-        }
+            // bad multiplier
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetChandelier(history, 25, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(30);
-            Indicator.GetChandelier(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetChandelier(History.GetHistory(30), 30));
         }
 
     }

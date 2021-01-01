@@ -69,36 +69,24 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad signal period.")]
-        public void BadSignalPeriod()
+        public void Exceptions()
         {
-            Indicator.GetIchimoku(history, 0);
-        }
+            // bad signal period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetIchimoku(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad short span period.")]
-        public void BadShortSpanPeriod()
-        {
-            Indicator.GetIchimoku(history, 9, 0, 52);
-        }
+            // bad short span period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetIchimoku(history, 9, 0, 52));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad long span period.")]
-        public void BadLongSpanPeriod()
-        {
-            Indicator.GetIchimoku(history, 9, 26, 26);
-        }
+            // bad long span period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetIchimoku(history, 9, 26, 26));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(51);
-            Indicator.GetIchimoku(h, 9, 26, 52);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetIchimoku(History.GetHistory(51), 9, 26, 52));
         }
 
     }

@@ -235,21 +235,18 @@ namespace Internal.Tests
             Assert.AreEqual(502, w.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad offset.")]
-        public void BadOffset()
+        public void Exceptions()
         {
-            Indicator.GetMaEnvelopes(history, 14, 0);
-        }
+            // bad offset period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMaEnvelopes(history, 14, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad MA type.")]
-        public void BadType()
-        {
-            Indicator.GetMaEnvelopes(history, 14, 5, MaType.KAMA);
+            // bad MA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMaEnvelopes(history, 14, 5, MaType.KAMA));
+
+            // note: insufficient history is tested elsewhere
         }
 
     }

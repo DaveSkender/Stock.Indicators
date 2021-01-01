@@ -54,36 +54,24 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad time period.")]
-        public void BadTimePeriod()
+        public void Exceptions()
         {
-            Indicator.GetPmo(history, 1);
-        }
+            // bad time period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetPmo(history, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad smoothing period.")]
-        public void BadSmoothingPeriod()
-        {
-            Indicator.GetPmo(history, 5, 0);
-        }
+            // bad smoothing period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetPmo(history, 5, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad signal period.")]
-        public void BadSignalPeriod()
-        {
-            Indicator.GetPmo(history, 5, 5, 0);
-        }
+            // bad signal period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetPmo(history, 5, 5, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(54);
-            Indicator.GetPmo(h, 35, 20, 10);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetPmo(History.GetHistory(54), 35, 20, 10));
         }
 
     }

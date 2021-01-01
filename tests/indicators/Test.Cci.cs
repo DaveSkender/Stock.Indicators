@@ -36,22 +36,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetCci(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetCci(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(30);
-            Indicator.GetCci(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetCci(History.GetHistory(30), 30));
         }
 
     }

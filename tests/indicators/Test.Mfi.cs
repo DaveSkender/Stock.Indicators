@@ -59,22 +59,16 @@ namespace Internal.Tests
             Assert.AreEqual(0m, Math.Round((decimal)r2.Mfi, 4));
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetMfi(history, 1);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMfi(history, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history for N+1.")]
-        public void InsufficientHistoryA()
-        {
-            IEnumerable<Quote> h = History.GetHistory(14);
-            Indicator.GetMfi(h, 14);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetMfi(History.GetHistory(14), 14));
         }
 
     }

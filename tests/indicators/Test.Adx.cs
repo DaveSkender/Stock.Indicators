@@ -66,22 +66,16 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetAdx(history, 1);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAdx(history, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(159);
-            Indicator.GetAdx(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetAdx(History.GetHistory(159), 30));
         }
 
     }

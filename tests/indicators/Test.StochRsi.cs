@@ -105,43 +105,28 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad RSI lookback.")]
-        public void BadRsiLookback()
+        public void Exceptions()
         {
-            Indicator.GetStochRsi(history, 0, 14, 3, 1);
-        }
+            // bad RSI period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStochRsi(history, 0, 14, 3, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad STO lookback.")]
-        public void BadLookbackPeriod()
-        {
-            Indicator.GetStochRsi(history, 14, 0, 3, 3);
-        }
+            // bad STO period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStochRsi(history, 14, 0, 3, 3));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad STO signal period.")]
-        public void BadSignal()
-        {
-            Indicator.GetStochRsi(history, 14, 14, 0);
-        }
+            // bad STO signal period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStochRsi(history, 14, 14, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad STO smoothing period.")]
-        public void BadSmooth()
-        {
-            Indicator.GetStochRsi(history, 14, 14, 3, 0);
-        }
+            // bad STO smoothing period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStochRsi(history, 14, 14, 3, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(129);
-            Indicator.GetStochRsi(h, 30, 30, 5, 5);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetStochRsi(History.GetHistory(129), 30, 30, 5, 5));
         }
 
     }

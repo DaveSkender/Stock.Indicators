@@ -77,36 +77,24 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Fast limit.")]
-        public void BadFastLimitCompare()
+        public void Exceptions()
         {
-            Indicator.GetMama(history, 0.5m, 0.5m);
-        }
+            // bad fast period (same as slow period)
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMama(history, 0.5m, 0.5m));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Fast limit.")]
-        public void BadFastLimitSize()
-        {
-            Indicator.GetMama(history, 1m, 0.5m);
-        }
+            // bad fast period (cannot be 1 or more)
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMama(history, 1m, 0.5m));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Slow limit.")]
-        public void BadSlowLimit()
-        {
-            Indicator.GetMama(history, 0.5m, 0m);
-        }
+            // bad slow period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMama(history, 0.5m, 0m));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(49);
-            Indicator.GetMama(h);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetMama(History.GetHistory(49)));
         }
 
     }

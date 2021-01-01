@@ -66,30 +66,20 @@ namespace Internal.Tests
             Assert.AreEqual(2.1558m, Math.Round((decimal)r2.RocSma, 4));
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetRoc(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetRoc(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
-        public void BadSmaPeriod()
-        {
-            Indicator.GetRoc(history, 14, 0);
-        }
+            // bad SMA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetRoc(history, 14, 0));
 
-
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(10);
-            Indicator.GetRoc(h, 10);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetRoc(History.GetHistory(10), 10));
         }
 
     }

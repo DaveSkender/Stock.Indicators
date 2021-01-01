@@ -68,43 +68,24 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Fast period must be greater than 0.")]
-        public void BadFastPeriod()
+        public void Exceptions()
         {
-            Indicator.GetMacd(history, 0, 26, 9);
-        }
+            // bad fast period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMacd(history, 0, 26, 9));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Slow period must be greater than 0.")]
-        public void BadSlowPeriod()
-        {
-            Indicator.GetMacd(history, 12, 0, 9);
-        }
+            // bad slow period must be larger than faster period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMacd(history, 12, 12, 9));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Signal period must be greater than or equal to 0.")]
-        public void BadSignalPeriod()
-        {
-            Indicator.GetMacd(history, 12, 26, -1);
-        }
+            // bad signal period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMacd(history, 12, 26, -1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Slow smaller than Fast period.")]
-        public void BadFastAndSlowCombo()
-        {
-            Indicator.GetMacd(history, 26, 20, 9);
-        }
-
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(60);
-            Indicator.GetMacd(h, 12, 26, 9);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetMacd(History.GetHistory(60), 12, 26, 9));
         }
 
     }

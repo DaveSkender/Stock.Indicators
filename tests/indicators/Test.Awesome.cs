@@ -47,29 +47,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad fast period.")]
-        public void BadFastPeriod()
+        public void Exceptions()
         {
-            Indicator.GetAwesome(history, 0, 34);
-        }
+            // bad fast period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAwesome(history, 0, 34));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad slow period.")]
-        public void BadSlowPeriod()
-        {
-            Indicator.GetAwesome(history, 25, 25);
-        }
+            // bad slow period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAwesome(history, 25, 25));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(33);
-            Indicator.GetAwesome(h, 5, 34);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetAwesome(History.GetHistory(33), 5, 34));
         }
 
     }

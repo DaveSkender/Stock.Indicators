@@ -101,36 +101,24 @@ namespace Internal.Tests
             Assert.AreEqual(100m, Math.Round((decimal)r2.Oscillator, 4));
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetStoch(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStoch(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad signal period.")]
-        public void BadSignal()
-        {
-            Indicator.GetStoch(history, 14, 0);
-        }
+            // bad signal period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStoch(history, 14, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad smoothing period.")]
-        public void BadSmooth()
-        {
-            Indicator.GetStoch(history, 14, 3, 0);
-        }
+            // bad smoothing period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStoch(history, 14, 3, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(32);
-            Indicator.GetStoch(h, 30, 3, 3);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetStoch(History.GetHistory(32), 30, 3, 3));
         }
 
     }

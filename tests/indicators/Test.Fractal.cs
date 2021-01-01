@@ -62,15 +62,12 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
+        public void Exceptions()
         {
-            IEnumerable<Quote> h = History.GetHistory(4);
-            Indicator.GetFractal(h);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetFractal(History.GetHistory(4)));
         }
 
     }

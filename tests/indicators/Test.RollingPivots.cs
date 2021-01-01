@@ -399,7 +399,6 @@ namespace Internal.Tests
             Assert.AreEqual(null, r5.S4);
         }
 
-
         [TestMethod()]
         public void BadData()
         {
@@ -407,29 +406,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad window period.")]
-        public void BadWindowPeriod()
+        public void Exceptions()
         {
-            Indicator.GetRollingPivots(history, 0, 10);
-        }
+            // bad window period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetRollingPivots(history, 0, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad offset period.")]
-        public void BadOffsetPeriod()
-        {
-            Indicator.GetRollingPivots(history, 10, -1);
-        }
+            // bad offset period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetRollingPivots(history, 10, -1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(19);
-            Indicator.GetRollingPivots(h, 10, 10);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetRollingPivots(History.GetHistory(19), 10, 10));
         }
 
     }

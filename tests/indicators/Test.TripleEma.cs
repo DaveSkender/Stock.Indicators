@@ -55,30 +55,20 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetTripleEma(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetTripleEma(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 3*N+100.")]
-        public void InsufficientHistoryA()
-        {
-            IEnumerable<Quote> h = History.GetHistory(189);
-            Indicator.GetTripleEma(h, 30);
-        }
+            // insufficient history for 3*N+100
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetTripleEma(History.GetHistory(189), 30));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 4×N.")]
-        public void InsufficientHistoryB()
-        {
-            IEnumerable<Quote> historyLong = History.GetHistoryLong(999);
-            Indicator.GetTripleEma(historyLong, 250);
+            // insufficient history for 4×N
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetTripleEma(History.GetHistoryLong(999), 250));
         }
 
     }

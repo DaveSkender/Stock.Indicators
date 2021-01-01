@@ -54,31 +54,23 @@ namespace Internal.Tests
             Assert.AreEqual(1, Math.Round((decimal)r.Beta, 4));
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetBeta(history, historyOther, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetBeta(history, historyOther, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
+            // insufficient history
             IEnumerable<Quote> h1 = History.GetHistory(29);
             IEnumerable<Quote> h2 = History.GetHistoryOther(29);
-            Indicator.GetBeta(h1, h2, 30);
-        }
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetBeta(h1, h2, 30));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Not enought Eval history.")]
-        public void InsufficientEvalHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistoryOther(300);
-            Indicator.GetBeta(history, h, 30);
+            // bad evaluation history
+            IEnumerable<Quote> eval = History.GetHistoryOther(300);
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetBeta(history, eval, 30));
         }
 
     }

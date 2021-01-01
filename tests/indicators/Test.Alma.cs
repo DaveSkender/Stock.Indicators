@@ -54,36 +54,24 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetAlma(history, 0, 1, 5);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAlma(history, 0, 1, 5));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Offset.")]
-        public void BadOffset()
-        {
-            Indicator.GetAlma(history, 15, 1.1, 3);
-        }
+            // bad offset
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAlma(history, 15, 1.1, 3));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Signma.")]
-        public void BadSigma()
-        {
-            Indicator.GetAlma(history, 10, 0.5, 0);
-        }
+            // bad sigma
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAlma(history, 10, 0.5, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(10);
-            Indicator.GetAlma(h, 11, 0.5);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetAlma(History.GetHistory(10), 11, 0.5));
         }
 
     }

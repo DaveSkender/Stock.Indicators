@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
                     "Signal period must be greater than or equal to 0 for MACD.");
             }
 
-            if (slowPeriod < fastPeriod)
+            if (slowPeriod <= fastPeriod)
             {
                 throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
                     "Fast period must be smaller than the slow period for MACD.");

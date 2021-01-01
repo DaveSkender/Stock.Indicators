@@ -71,36 +71,24 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad ER period.")]
-        public void BadErPeriod()
+        public void Exceptions()
         {
-            Indicator.GetKama(history, 0, 2, 30);
-        }
+            // bad ER period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetKama(history, 0, 2, 30));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Fast period.")]
-        public void BadFastPeriod()
-        {
-            Indicator.GetKama(history, 10, 0, 30);
-        }
+            // bad fast period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetKama(history, 10, 0, 30));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Slow period.")]
-        public void BadSlowPeriod()
-        {
-            Indicator.GetKama(history, 10, 5, 5);
-        }
+            // bad slow period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetKama(history, 10, 5, 5));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(109);
-            Indicator.GetKama(h, 10, 2, 20);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetKama(History.GetHistory(109), 10, 2, 20));
         }
 
     }

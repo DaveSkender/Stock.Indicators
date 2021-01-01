@@ -64,29 +64,20 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetSuperTrend(history, 1);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetSuperTrend(history, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad multiplier.")]
-        public void BadMultiplier()
-        {
-            Indicator.GetSuperTrend(history, 7, 0);
-        }
+            // bad multiplier
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetSuperTrend(history, 7, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(30);
-            Indicator.GetSuperTrend(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetSuperTrend(History.GetHistory(30), 30));
         }
 
     }

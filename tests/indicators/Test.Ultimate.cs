@@ -41,36 +41,24 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad short period.")]
-        public void BadShortPeriod()
+        public void Exceptions()
         {
-            Indicator.GetUltimate(history, 0);
-        }
+            // bad short period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetUltimate(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad middle period.")]
-        public void BadMiddlePeriod()
-        {
-            Indicator.GetUltimate(history, 7, 6);
-        }
+            // bad middle period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetUltimate(history, 7, 6));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad long period.")]
-        public void BadLongPeriod()
-        {
-            Indicator.GetUltimate(history, 7, 14, 11);
-        }
+            // bad long period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetUltimate(history, 7, 14, 11));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(28);
-            Indicator.GetUltimate(h, 7, 14, 28);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetUltimate(History.GetHistory(28), 7, 14, 28));
         }
 
     }

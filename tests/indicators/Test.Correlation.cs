@@ -38,39 +38,29 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetCorrelation(history, historyOther, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetCorrelation(history, historyOther, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
+            // insufficient history
             IEnumerable<Quote> h1 = History.GetHistory(29);
             IEnumerable<Quote> h2 = History.GetHistoryOther(29);
-            Indicator.GetCorrelation(h1, h2, 30);
-        }
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetCorrelation(h1, h2, 30));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Not enought Eval history.")]
-        public void InsufficientEvalHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(300);
-            Indicator.GetCorrelation(history, h, 30);
-        }
+            // bad eval history
+            IEnumerable<Quote> eval = History.GetHistoryOther(300);
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetCorrelation(history, eval, 30));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Mismatch history.")]
-        public void MismatchHistory()
-        {
+            // mismatched history
             IEnumerable<Quote> historyMismatch = History.GetHistoryWithMismatchDates();
-            Indicator.GetCorrelation(historyMismatch, historyOther, 20);
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetCorrelation(historyMismatch, historyOther, 20));
+
         }
 
     }

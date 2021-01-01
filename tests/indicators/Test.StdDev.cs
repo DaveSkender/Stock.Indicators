@@ -87,29 +87,20 @@ namespace Internal.Tests
             Assert.AreEqual(1.1422m, Math.Round((decimal)r2.StdDevSma, 4));
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetStdDev(history, 1);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStdDev(history, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
-        public void BadSmaPeriod()
-        {
-            Indicator.GetStdDev(history, 14, 0);
-        }
+            // bad SMA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStdDev(history, 14, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(29);
-            Indicator.GetStdDev(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetStdDev(History.GetHistory(29), 30));
         }
 
     }

@@ -79,44 +79,28 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad EMA period.")]
-        public void BadEmaPeriod()
+        public void Exceptions()
         {
-            Indicator.GetStarcBands(history, 1, 2, 10);
-        }
+            // bad EMA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStarcBands(history, 1, 2, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad ATR period.")]
-        public void BadAtrPeriod()
-        {
-            Indicator.GetStarcBands(history, 20, 2, 1);
-        }
+            // bad ATR period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStarcBands(history, 20, 2, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad multiplier.")]
-        public void BadMultiplier()
-        {
-            Indicator.GetStarcBands(history, 20, 0, 10);
-        }
+            // bad multiplier
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStarcBands(history, 20, 0, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history 120.")]
-        public void InsufficientHistory120()
-        {
-            IEnumerable<Quote> h = History.GetHistory(119);
-            Indicator.GetStarcBands(h, 120, 2, 10);
-        }
+            // insufficient history 120
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetStarcBands(History.GetHistory(119), 120, 2, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history 250.")]
-        public void InsufficientHistory250()
-        {
-            IEnumerable<Quote> h = History.GetHistory(249);
-            Indicator.GetStarcBands(h, 20, 2, 150);
+            // insufficient history 250
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetStarcBands(History.GetHistory(249), 20, 2, 150));
         }
 
     }
