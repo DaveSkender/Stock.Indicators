@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class CorrelationTests : TestBase
+    public class Correlation : TestBase
     {
 
         [TestMethod()]

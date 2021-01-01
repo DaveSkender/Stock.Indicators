@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class AroonTests : TestBase
+    public class Aroon : TestBase
     {
 
         [TestMethod()]

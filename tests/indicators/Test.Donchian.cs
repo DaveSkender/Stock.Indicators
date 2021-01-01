@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class DonchianTests : TestBase
+    public class Donchian : TestBase
     {
 
         [TestMethod()]

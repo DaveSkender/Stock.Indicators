@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class SmaTests : TestBase
+    public class Sma : TestBase
     {
 
         [TestMethod()]

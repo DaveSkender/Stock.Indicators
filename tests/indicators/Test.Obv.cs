@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ObvTests : TestBase
+    public class Obv : TestBase
     {
 
         [TestMethod()]

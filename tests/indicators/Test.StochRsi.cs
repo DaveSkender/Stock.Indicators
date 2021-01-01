@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class StochasticRsiTests : TestBase
+    public class StochRsi : TestBase
     {
 
         [TestMethod()]

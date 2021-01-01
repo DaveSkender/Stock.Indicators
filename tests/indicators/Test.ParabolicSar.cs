@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ParabolicSarTests : TestBase
+    public class ParabolicSar : TestBase
     {
 
         [TestMethod()]

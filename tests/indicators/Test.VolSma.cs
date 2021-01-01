@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class VolSmaTests : TestBase
+    public class VolSma : TestBase
     {
 
         [TestMethod()]

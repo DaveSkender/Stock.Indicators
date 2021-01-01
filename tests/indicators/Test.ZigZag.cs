@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ZigZagTests : TestBase
+    public class ZigZag : TestBase
     {
 
         [TestMethod()]

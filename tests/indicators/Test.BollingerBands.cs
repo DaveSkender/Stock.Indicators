@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class BollingerBandsTests : TestBase
+    public class BollingerBands : TestBase
     {
 
         [TestMethod()]

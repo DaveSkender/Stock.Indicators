@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class SuperTrendTests : TestBase
+    public class SuperTrend : TestBase
     {
 
         [TestMethod()]

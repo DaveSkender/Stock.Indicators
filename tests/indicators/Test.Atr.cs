@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class AvgTrueRangeTests : TestBase
+    public class Atr : TestBase
     {
 
         [TestMethod()]

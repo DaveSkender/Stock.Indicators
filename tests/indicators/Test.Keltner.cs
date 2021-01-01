@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class KeltnerTests : TestBase
+    public class Keltner : TestBase
     {
 
         [TestMethod()]

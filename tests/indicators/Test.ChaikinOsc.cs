@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ChaikinOscTests : TestBase
+    public class ChaikinOsc : TestBase
     {
 
         [TestMethod()]

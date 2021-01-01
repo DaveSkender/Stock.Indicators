@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class IchimokuTests : TestBase
+    public class Ichimoku : TestBase
     {
 
         [TestMethod()]

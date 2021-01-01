@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class PivotPointsTests : TestBase
+    public class PivotPoints : TestBase
     {
 
         [TestMethod()]
