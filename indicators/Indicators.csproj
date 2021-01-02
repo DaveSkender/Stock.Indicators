@@ -11,14 +11,14 @@
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageId>Skender.Stock.Indicators</PackageId>
-    <PackageTags>Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;Financial;Strategy;Chart;Charting;Oscillator;Overlay;Equity;Bitcoin;Crypto;Cryptocurrency;Forex;Quantitative;Historical;Quotes;Accumulation;Distribution;ADL;Aroon;True;Range;ATR;Bollinger;Bands;Commodity;CCI;Chandelier;Exit;Chaikin;Money;Flow;CMF;MFI;Kaufman;Adaptive;Simple;Weighted;Exponential;Moving;Average;Convergence;Divergence;MACD;SMA;EMA;DEMA;TEMA;TRIX;Relative;Strength;Index;RSI;ConnorsRSI;Stochastic;Directional;Movement;ADX;Donchian;Keltner;Channel;Heikin-Ashi;Hull;HMA;Ichimoku;Cloud;On-balance;Volume;OBV;Price;PMO;PRS;Parabolic;SAR;Stop;Reverse;PSAR;Rate;Change;ROC;Linear;Regression;R-Squared;Slope;Standard;Deviation;Beta;Correlation;SuperTrend;Ulcer;Ultimate;Williams;%R;Fractal;WMA;ZigZag;.NET;C#;Library;Package;</PackageTags>
+    <PackageTags>Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;Financial;Strategy;Chart;Charting;Oscillator;Overlay;Equity;Bitcoin;Crypto;Cryptocurrency;Forex;Quantitative;Historical;Quotes;Accumulation;Distribution;ADL;Aroon;True;Range;ATR;Bollinger;Bands;Commodity;CCI;Chandelier;Exit;Chaikin;Money;Flow;CMF;MFI;Kaufman;Adaptive;Simple;Weighted;Exponential;Moving;Average;Convergence;Divergence;MACD;SMA;EMA;DEMA;TEMA;TRIX;Relative;Strength;Index;RSI;ConnorsRSI;Stochastic;Directional;Movement;ADX;Donchian;Keltner;Channel;Heikin-Ashi;Hull;HMA;Ichimoku;Cloud;On-balance;Volume;OBV;Price;PMO;PRS;Parabolic;SAR;Stop;Reverse;PSAR;Pivot;Points;Rate;Change;ROC;Linear;Regression;R-Squared;Slope;Standard;Deviation;Beta;Correlation;SuperTrend;Ulcer;Ultimate;Williams;%R;Fractal;WMA;ZigZag;.NET;C#;Library;Package;</PackageTags>
     <PackageReleaseNotes>More info: https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
     <Copyright>@2020 Dave Skender</Copyright>
     <RootNamespace>Skender.Stock.Indicators</RootNamespace>
     <LangVersion>9.0</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
