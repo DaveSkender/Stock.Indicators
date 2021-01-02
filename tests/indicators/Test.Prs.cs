@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class PriceRelativeTests : TestBase
+    public class Prs : TestBase
     {
 
         [TestMethod()]
@@ -29,20 +29,20 @@ namespace Internal.Tests
             Assert.AreEqual(493, results.Where(x => x.PrsSma != null).Count());
 
             // sample values
-            PrsResult r1 = results[501];
-            Assert.AreEqual(1.356817m, Math.Round((decimal)r1.Prs, 6));
-            Assert.AreEqual(1.343445m, Math.Round((decimal)r1.PrsSma, 6));
-            Assert.AreEqual(0.037082m, Math.Round((decimal)r1.PrsPercent, 6));
+            PrsResult r1 = results[8];
+            Assert.AreEqual(1.108340m, Math.Round((decimal)r1.Prs, 6));
+            Assert.AreEqual(null, r1.PrsSma);
+            Assert.AreEqual(null, r1.PrsPercent);
 
             PrsResult r2 = results[249];
             Assert.AreEqual(1.222373m, Math.Round((decimal)r2.Prs, 6));
             Assert.AreEqual(1.275808m, Math.Round((decimal)r2.PrsSma, 6));
             Assert.AreEqual(-0.023089m, Math.Round((decimal)r2.PrsPercent, 6));
 
-            PrsResult r3 = results[8];
-            Assert.AreEqual(1.108340m, Math.Round((decimal)r3.Prs, 6));
-            Assert.AreEqual(null, r3.PrsSma);
-            Assert.AreEqual(null, r3.PrsPercent);
+            PrsResult r3 = results[501];
+            Assert.AreEqual(1.356817m, Math.Round((decimal)r3.Prs, 6));
+            Assert.AreEqual(1.343445m, Math.Round((decimal)r3.PrsSma, 6));
+            Assert.AreEqual(0.037082m, Math.Round((decimal)r3.PrsPercent, 6));
         }
 
         [TestMethod()]
@@ -52,45 +52,29 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetPrs(history, historyOther, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetPrs(history, historyOther, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
-        public void BadSmaPeriod()
-        {
-            Indicator.GetPrs(history, historyOther, 14, 0);
-        }
+            // bad SMA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetPrs(history, historyOther, 14, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistoryOther(13);
-            Indicator.GetPrs(history, h, 14);
-        }
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetPrs(history, History.GetHistoryOther(13), 14));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Not enought Eval history.")]
-        public void InsufficientEvalHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistoryOther(300);
-            Indicator.GetPrs(history, h, 14);
-        }
+            // insufficient eval history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetPrs(history, History.GetHistoryOther(300), 14));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Mismatch history.")]
-        public void MismatchHistory()
-        {
-            IEnumerable<Quote> historyGap = History.GetHistoryWithMismatchDates();
-            Indicator.GetPrs(historyGap, historyOther, 14);
+            // mismatch history
+            IEnumerable<Quote> historyMismatch = History.GetHistoryWithMismatchDates();
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetPrs(historyMismatch, historyOther, 14));
         }
 
     }

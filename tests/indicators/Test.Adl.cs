@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class AdlTests : TestBase
+    public class Adl : TestBase
     {
 
         [TestMethod()]
@@ -23,16 +23,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, results.Where(x => x.AdlSma == null).Count());
 
             // sample values
-            AdlResult r1 = results[501];
-            Assert.AreEqual(0.8052m, Math.Round(r1.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(r1.MoneyFlowVolume, 2));
-            Assert.AreEqual(3439986548.42m, Math.Round(r1.Adl, 2));
+            AdlResult r1 = results[249];
+            Assert.AreEqual(0.7778m, Math.Round(r1.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(36433792.89m, Math.Round(r1.MoneyFlowVolume, 2));
+            Assert.AreEqual(3266400865.74m, Math.Round(r1.Adl, 2));
             Assert.AreEqual(null, r1.AdlSma);
 
-            AdlResult r2 = results[249];
-            Assert.AreEqual(0.7778m, Math.Round(r2.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(36433792.89m, Math.Round(r2.MoneyFlowVolume, 2));
-            Assert.AreEqual(3266400865.74m, Math.Round(r2.Adl, 2));
+            AdlResult r2 = results[501];
+            Assert.AreEqual(0.8052m, Math.Round(r2.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25m, Math.Round(r2.MoneyFlowVolume, 2));
+            Assert.AreEqual(3439986548.42m, Math.Round(r2.Adl, 2));
             Assert.AreEqual(null, r2.AdlSma);
         }
 
@@ -63,22 +63,16 @@ namespace Internal.Tests
             Assert.AreEqual(3595352721.16m, Math.Round((decimal)r.AdlSma, 2));
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
-        public void BadSmaPeriod()
+        public void Exceptions()
         {
-            Indicator.GetAdl(history, 0);
-        }
+            // bad SMA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAdl(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(1);
-            Indicator.GetAdl(h);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetAdl(History.GetHistory(1)));
         }
 
     }

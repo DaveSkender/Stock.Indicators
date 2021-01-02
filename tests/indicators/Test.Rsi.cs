@@ -7,14 +7,16 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class RsiTests : TestBase
+    public class Rsi : TestBase
     {
 
         [TestMethod()]
         public void Standard()
         {
             int lookbackPeriod = 14;
-            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod).ToList();
+
+            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
@@ -24,24 +26,17 @@ namespace Internal.Tests
             Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
 
             // sample values
-            RsiResult r1 = results[501];
-            Assert.AreEqual(42.0773m, Math.Round((decimal)r1.Rsi, 4));
+            RsiResult r1 = results[13];
+            Assert.AreEqual(null, r1.Rsi);
 
-            RsiResult r2 = results[249];
-            Assert.AreEqual(70.9368m, Math.Round((decimal)r2.Rsi, 4));
+            RsiResult r2 = results[14];
+            Assert.AreEqual(62.0541m, Math.Round((decimal)r2.Rsi, 4));
 
-            RsiResult r3 = results[14];
-            Assert.AreEqual(62.0541m, Math.Round((decimal)r3.Rsi, 4));
+            RsiResult r3 = results[249];
+            Assert.AreEqual(70.9368m, Math.Round((decimal)r3.Rsi, 4));
 
-            RsiResult r4 = results[13];
-            Assert.AreEqual(null, r4.Rsi);
-        }
-
-        [TestMethod()]
-        public void BadData()
-        {
-            IEnumerable<RsiResult> r = Indicator.GetRsi(historyBad, 20);
-            Assert.AreEqual(502, r.Count());
+            RsiResult r4 = results[501];
+            Assert.AreEqual(42.0773m, Math.Round((decimal)r4.Rsi, 4));
         }
 
         [TestMethod()]
@@ -66,6 +61,13 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
+        public void BadData()
+        {
+            IEnumerable<RsiResult> r = Indicator.GetRsi(historyBad, 20);
+            Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod()]
         public void Convergence()
         {
             int lookbackPeriod = 14;
@@ -81,22 +83,16 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetRsi(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetRsi(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(129);
-            Indicator.GetRsi(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetRsi(History.GetHistory(129), 30));
         }
 
     }

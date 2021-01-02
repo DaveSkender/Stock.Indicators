@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ConnorsRsiTests : TestBase
+    public class ConnorsRsi : TestBase
     {
 
         [TestMethod()]
@@ -18,7 +18,9 @@ namespace Internal.Tests
             int rankPeriod = 100;
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
 
-            List<ConnorsRsiResult> results1 = Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod).ToList();
+            List<ConnorsRsiResult> results1 = 
+                Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod)
+                .ToList();
 
             // assertions
 
@@ -41,7 +43,6 @@ namespace Internal.Tests
             Assert.AreEqual(52.7386m, Math.Round((decimal)r2.RsiStreak, 4));
             Assert.AreEqual(90.0000m, Math.Round((decimal)r2.PercentRank, 4));
             Assert.AreEqual(61.6053m, Math.Round((decimal)r2.ConnorsRsi, 4));
-
         }
 
         [TestMethod()]
@@ -65,36 +66,24 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad RSI period.")]
-        public void BadRsiPeriod()
+        public void Exceptions()
         {
-            Indicator.GetConnorsRsi(history, 1, 2, 100);
-        }
+            // bad RSI period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetConnorsRsi(history, 1, 2, 100));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Streak period.")]
-        public void BadStreakPeriod()
-        {
-            Indicator.GetConnorsRsi(history, 3, 1, 100);
-        }
+            // bad Streak period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetConnorsRsi(history, 3, 1, 100));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Rank period.")]
-        public void BadPctRankPeriod()
-        {
-            Indicator.GetConnorsRsi(history, 3, 2, 1);
-        }
+            // bad Rank period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetConnorsRsi(history, 3, 2, 1));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(102);
-            Indicator.GetConnorsRsi(h, 3, 2, 100);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetConnorsRsi(History.GetHistory(102), 3, 2, 100));
         }
 
     }

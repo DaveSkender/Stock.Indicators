@@ -7,22 +7,22 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class CciTests : TestBase
+    public class Cci : TestBase
     {
 
         [TestMethod()]
         public void Standard()
         {
-            int lookbackPeriod = 20;
 
-            List<CciResult> results = Indicator.GetCci(history, lookbackPeriod).ToList();
+            List<CciResult> results = Indicator.GetCci(history, 20)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Cci != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Cci != null).Count());
 
             // sample value
             CciResult r = results[501];
@@ -36,22 +36,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetCci(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetCci(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(30);
-            Indicator.GetCci(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetCci(History.GetHistory(30), 30));
         }
 
     }

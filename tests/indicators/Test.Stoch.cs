@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class StochasticTests : TestBase
+    public class Stoch : TestBase
     {
 
         [TestMethod()]
@@ -36,13 +36,6 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void BadData()
-        {
-            IEnumerable<StochResult> r = Indicator.GetStoch(historyBad, 15);
-            Assert.AreEqual(502, r.Count());
-        }
-
-        [TestMethod()]
         public void NoSignal()
         {
             int lookbackPeriod = 5;
@@ -54,10 +47,10 @@ namespace Internal.Tests
                 .ToList();
 
             // signal equals oscillator
-            StochResult r1 = results[501];
+            StochResult r1 = results[487];
             Assert.AreEqual(r1.Oscillator, r1.Signal);
 
-            StochResult r2 = results[487];
+            StochResult r2 = results[501];
             Assert.AreEqual(r2.Oscillator, r2.Signal);
         }
 
@@ -73,13 +66,13 @@ namespace Internal.Tests
                 .ToList();
 
             // sample values
-            StochResult r1 = results[501];
-            Assert.AreEqual(91.6233m, Math.Round((decimal)r1.Oscillator, 4));
-            Assert.AreEqual(36.0608m, Math.Round((decimal)r1.Signal, 4));
+            StochResult r1 = results[487];
+            Assert.AreEqual(25.0353m, Math.Round((decimal)r1.Oscillator, 4));
+            Assert.AreEqual(60.5706m, Math.Round((decimal)r1.Signal, 4));
 
-            StochResult r2 = results[487];
-            Assert.AreEqual(25.0353m, Math.Round((decimal)r2.Oscillator, 4));
-            Assert.AreEqual(60.5706m, Math.Round((decimal)r2.Signal, 4));
+            StochResult r2 = results[501];
+            Assert.AreEqual(91.6233m, Math.Round((decimal)r2.Oscillator, 4));
+            Assert.AreEqual(36.0608m, Math.Round((decimal)r2.Signal, 4));
         }
 
         [TestMethod()]
@@ -101,36 +94,31 @@ namespace Internal.Tests
             Assert.AreEqual(100m, Math.Round((decimal)r2.Oscillator, 4));
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void BadData()
         {
-            Indicator.GetStoch(history, 0);
+            IEnumerable<StochResult> r = Indicator.GetStoch(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad signal period.")]
-        public void BadSignal()
+        public void Exceptions()
         {
-            Indicator.GetStoch(history, 14, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStoch(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad smoothing period.")]
-        public void BadSmooth()
-        {
-            Indicator.GetStoch(history, 14, 3, 0);
-        }
+            // bad signal period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStoch(history, 14, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(32);
-            Indicator.GetStoch(h, 30, 3, 3);
+            // bad smoothing period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetStoch(history, 14, 3, 0));
+
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetStoch(History.GetHistory(32), 30, 3, 3));
         }
 
     }

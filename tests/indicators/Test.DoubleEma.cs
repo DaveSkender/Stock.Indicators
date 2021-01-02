@@ -7,14 +7,16 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class DoubleEmaTests : TestBase
+    public class DoubleEma : TestBase
     {
 
         [TestMethod()]
         public void Standard()
         {
             int lookbackPeriod = 20;
-            List<EmaResult> results = Indicator.GetDoubleEma(history, lookbackPeriod).ToList();
+
+            List<EmaResult> results = Indicator.GetDoubleEma(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
@@ -24,14 +26,14 @@ namespace Internal.Tests
             Assert.AreEqual(464, results.Where(x => x.Ema != null).Count());
 
             // sample values
-            EmaResult r1 = results[501];
-            Assert.AreEqual(241.1677m, Math.Round((decimal)r1.Ema, 4));
+            EmaResult r1 = results[51];
+            Assert.AreEqual(226.0011m, Math.Round((decimal)r1.Ema, 4));
 
             EmaResult r2 = results[249];
             Assert.AreEqual(258.4452m, Math.Round((decimal)r2.Ema, 4));
 
-            EmaResult r3 = results[51];
-            Assert.AreEqual(226.0011m, Math.Round((decimal)r3.Ema, 4));
+            EmaResult r3 = results[501];
+            Assert.AreEqual(241.1677m, Math.Round((decimal)r3.Ema, 4));
         }
 
         [TestMethod()]
@@ -55,30 +57,20 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetDoubleEma(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetDoubleEma(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2*N+100.")]
-        public void InsufficientHistoryA()
-        {
-            IEnumerable<Quote> h = History.GetHistory(159);
-            Indicator.GetDoubleEma(h, 30);
-        }
+            // insufficient history for 2*N+100
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetDoubleEma(History.GetHistory(159), 30));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 3×N.")]
-        public void InsufficientHistoryB()
-        {
-            IEnumerable<Quote> historyLong = History.GetHistoryLong(749);
-            Indicator.GetDoubleEma(historyLong, 250);
+            // insufficient history for 3×N
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetDoubleEma(History.GetHistoryLong(749), 250));
         }
 
     }

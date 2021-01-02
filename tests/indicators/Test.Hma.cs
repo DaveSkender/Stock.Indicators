@@ -7,14 +7,16 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class HmaTests : TestBase
+    public class Hma : TestBase
     {
 
         [TestMethod()]
         public void Standard()
         {
             int lookbackPeriod = 20;
-            List<HmaResult> results = Indicator.GetHma(history, lookbackPeriod).ToList();
+
+            List<HmaResult> results = Indicator.GetHma(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
@@ -38,22 +40,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetHma(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetHma(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(9);
-            Indicator.GetHma(h, 10);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetHma(History.GetHistory(9), 10));
         }
 
     }

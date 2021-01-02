@@ -7,14 +7,15 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ObvTests : TestBase
+    public class Obv : TestBase
     {
 
         [TestMethod()]
         public void Standard()
         {
 
-            List<ObvResult> results = Indicator.GetObv(history).ToList();
+            List<ObvResult> results = Indicator.GetObv(history)
+                .ToList();
 
             // assertions
 
@@ -57,22 +58,16 @@ namespace Internal.Tests
             Assert.AreEqual(1016208844.40m, r1.ObvSma);
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad SMA period.")]
-        public void BadSmaPeriod()
+        public void Exceptions()
         {
-            Indicator.GetObv(history, 0);
-        }
+            // bad SMA period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetObv(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(1);
-            Indicator.GetObv(h);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetObv(History.GetHistory(1)));
         }
 
     }

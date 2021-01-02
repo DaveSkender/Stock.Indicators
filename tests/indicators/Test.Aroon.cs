@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class AroonTests : TestBase
+    public class Aroon : TestBase
     {
 
         [TestMethod()]
@@ -26,30 +26,30 @@ namespace Internal.Tests
             Assert.AreEqual(477, results.Where(x => x.Oscillator != null).Count());
 
             // sample values
-            AroonResult r1 = results[501];
-            Assert.AreEqual(28m, r1.AroonUp);
-            Assert.AreEqual(88m, r1.AroonDown);
-            Assert.AreEqual(-60m, r1.Oscillator);
+            AroonResult r1 = results[210];
+            Assert.AreEqual(100m, r1.AroonUp);
+            Assert.AreEqual(000m, r1.AroonDown);
+            Assert.AreEqual(100m, r1.Oscillator);
 
-            AroonResult r2 = results[458];
+            AroonResult r2 = results[293];
             Assert.AreEqual(0m, r2.AroonUp);
-            Assert.AreEqual(100m, r2.AroonDown);
-            Assert.AreEqual(-100m, r2.Oscillator);
+            Assert.AreEqual(40m, r2.AroonDown);
+            Assert.AreEqual(-40m, r2.Oscillator);
 
             AroonResult r3 = results[298];
             Assert.AreEqual(0m, r3.AroonUp);
             Assert.AreEqual(20m, r3.AroonDown);
             Assert.AreEqual(-20m, r3.Oscillator);
 
-            AroonResult r4 = results[293];
+            AroonResult r4 = results[458];
             Assert.AreEqual(0m, r4.AroonUp);
-            Assert.AreEqual(40m, r4.AroonDown);
-            Assert.AreEqual(-40m, r4.Oscillator);
+            Assert.AreEqual(100m, r4.AroonDown);
+            Assert.AreEqual(-100m, r4.Oscillator);
 
-            AroonResult r5 = results[210];
-            Assert.AreEqual(100m, r5.AroonUp);
-            Assert.AreEqual(0m, r5.AroonDown);
-            Assert.AreEqual(100m, r5.Oscillator);
+            AroonResult r5 = results[501];
+            Assert.AreEqual(28m, r5.AroonUp);
+            Assert.AreEqual(88m, r5.AroonDown);
+            Assert.AreEqual(-60m, r5.Oscillator);
         }
 
         [TestMethod()]
@@ -59,22 +59,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback period.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetAroon(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetAroon(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(29);
-            Indicator.GetAroon(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetAroon(History.GetHistory(29), 30));
         }
 
     }

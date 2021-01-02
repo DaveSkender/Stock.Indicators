@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class MamaTests : TestBase
+    public class Mama : TestBase
     {
 
         [TestMethod()]
@@ -27,33 +27,33 @@ namespace Internal.Tests
             Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
 
             // sample values
-            MamaResult r1 = results[501];
-            Assert.AreEqual(244.1092m, Math.Round((decimal)r1.Mama, 4));
-            Assert.AreEqual(252.6139m, Math.Round((decimal)r1.Fama, 4));
+            MamaResult r1 = results[4];
+            Assert.AreEqual(null, r1.Mama);
+            Assert.AreEqual(null, r1.Fama);
 
-            MamaResult r2 = results[249];
-            Assert.AreEqual(256.8026m, Math.Round((decimal)r2.Mama, 4));
-            Assert.AreEqual(254.0605m, Math.Round((decimal)r2.Fama, 4));
+            MamaResult r2 = results[5];
+            Assert.AreEqual(213.73m, r2.Mama);
+            Assert.AreEqual(213.73m, r2.Fama);
 
-            MamaResult r3 = results[149];
-            Assert.AreEqual(235.6593m, Math.Round((decimal)r3.Mama, 4));
-            Assert.AreEqual(234.3660m, Math.Round((decimal)r3.Fama, 4));
+            MamaResult r3 = results[6];
+            Assert.AreEqual(213.7850m, Math.Round((decimal)r3.Mama, 4));
+            Assert.AreEqual(213.7438m, Math.Round((decimal)r3.Fama, 4));
 
             MamaResult r4 = results[25];
             Assert.AreEqual(215.9524m, Math.Round((decimal)r4.Mama, 4));
             Assert.AreEqual(215.1407m, Math.Round((decimal)r4.Fama, 4));
 
-            MamaResult r5 = results[6];
-            Assert.AreEqual(213.7850m, Math.Round((decimal)r5.Mama, 4));
-            Assert.AreEqual(213.7438m, Math.Round((decimal)r5.Fama, 4));
+            MamaResult r5 = results[149];
+            Assert.AreEqual(235.6593m, Math.Round((decimal)r5.Mama, 4));
+            Assert.AreEqual(234.3660m, Math.Round((decimal)r5.Fama, 4));
 
-            MamaResult r6 = results[5];
-            Assert.AreEqual(213.73m, r6.Mama);
-            Assert.AreEqual(213.73m, r6.Fama);
+            MamaResult r6 = results[249];
+            Assert.AreEqual(256.8026m, Math.Round((decimal)r6.Mama, 4));
+            Assert.AreEqual(254.0605m, Math.Round((decimal)r6.Fama, 4));
 
-            MamaResult r7 = results[4];
-            Assert.AreEqual(null, r7.Mama);
-            Assert.AreEqual(null, r7.Fama);
+            MamaResult r7 = results[501];
+            Assert.AreEqual(244.1092m, Math.Round((decimal)r7.Mama, 4));
+            Assert.AreEqual(252.6139m, Math.Round((decimal)r7.Fama, 4));
         }
 
         [TestMethod()]
@@ -77,36 +77,24 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Fast limit.")]
-        public void BadFastLimitCompare()
+        public void Exceptions()
         {
-            Indicator.GetMama(history, 0.5m, 0.5m);
-        }
+            // bad fast period (same as slow period)
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMama(history, 0.5m, 0.5m));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Fast limit.")]
-        public void BadFastLimitSize()
-        {
-            Indicator.GetMama(history, 1m, 0.5m);
-        }
+            // bad fast period (cannot be 1 or more)
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMama(history, 1m, 0.5m));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad Slow limit.")]
-        public void BadSlowLimit()
-        {
-            Indicator.GetMama(history, 0.5m, 0m);
-        }
+            // bad slow period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMama(history, 0.5m, 0m));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(49);
-            Indicator.GetMama(h);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetMama(History.GetHistory(49)));
         }
 
     }

@@ -7,21 +7,23 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class UlcerIndexTests : TestBase
+    public class UlcerIndex : TestBase
     {
 
         [TestMethod()]
         public void Standard()
         {
             int lookbackPeriod = 14;
-            List<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod).ToList();
+
+            List<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.UI != null).Count());
+            Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
 
             // sample value
             UlcerIndexResult r = results[501];
@@ -35,22 +37,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetUlcerIndex(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetUlcerIndex(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(29);
-            Indicator.GetUlcerIndex(h, 30);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetUlcerIndex(History.GetHistory(29), 30));
         }
 
     }

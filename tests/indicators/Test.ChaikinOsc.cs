@@ -7,7 +7,7 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ChaikinOscTests : TestBase
+    public class ChaikinOsc : TestBase
     {
 
         [TestMethod()]
@@ -15,7 +15,9 @@ namespace Internal.Tests
         {
             int fastPeriod = 3;
             int slowPeriod = 10;
-            List<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod).ToList();
+
+            List<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod)
+                .ToList();
 
             // assertions
 
@@ -53,37 +55,24 @@ namespace Internal.Tests
             }
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad fast lookback.")]
-        public void BadFastLookback()
+        public void Exceptions()
         {
-            Indicator.GetChaikinOsc(history, 0);
-        }
+            // bad fast lookback
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetChaikinOsc(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad slow lookback.")]
-        public void BadSlowLookback()
-        {
-            Indicator.GetChaikinOsc(history, 10, 5);
-        }
+            // bad slow lookback
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetChaikinOsc(history, 10, 5));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history for S+100.")]
-        public void InsufficientHistory100()
-        {
-            IEnumerable<Quote> h = History.GetHistory(109);
-            Indicator.GetChaikinOsc(h, 3, 10);
-        }
+            // insufficient history S+100
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetChaikinOsc(History.GetHistory(109), 3, 10));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history for 2×S.")]
-        public void InsufficientHistory250()
-        {
-            IEnumerable<Quote> h = History.GetHistory(499);
-            Indicator.GetChaikinOsc(h, 3, 250);
+            // insufficient history 2×S
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetChaikinOsc(History.GetHistory(499), 3, 250));
         }
 
     }

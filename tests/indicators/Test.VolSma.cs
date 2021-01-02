@@ -7,14 +7,16 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class VolSmaTests : TestBase
+    public class VolSma : TestBase
     {
 
         [TestMethod()]
         public void Standard()
         {
             int lookbackPeriod = 20;
-            List<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod).ToList();
+
+            List<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
@@ -43,22 +45,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetVolSma(history, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetVolSma(history, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(9);
-            Indicator.GetVolSma(h, 10);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetVolSma(History.GetHistory(9), 10));
         }
 
     }

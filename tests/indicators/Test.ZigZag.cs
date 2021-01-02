@@ -7,13 +7,14 @@ using System.Linq;
 namespace Internal.Tests
 {
     [TestClass]
-    public class ZigZagTests : TestBase
+    public class ZigZag : TestBase
     {
 
         [TestMethod()]
         public void StandardClose()
         {
             decimal percentChange = 3;
+
             List<ZigZagResult> results =
                 Indicator.GetZigZag(history, ZigZagType.Close, percentChange)
                 .ToList();
@@ -70,6 +71,7 @@ namespace Internal.Tests
         public void StandardHighLow()
         {
             decimal percentChange = 3;
+
             List<ZigZagResult> results =
                 Indicator.GetZigZag(history, ZigZagType.HighLow, percentChange)
                 .ToList();
@@ -129,22 +131,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, r.Count());
         }
 
-
-        /* EXCEPTIONS */
-
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad lookback.")]
-        public void BadLookbackPeriod()
+        public void Exceptions()
         {
-            Indicator.GetZigZag(history, ZigZagType.Close, 0);
-        }
+            // bad lookback period
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetZigZag(history, ZigZagType.Close, 0));
 
-        [TestMethod()]
-        [ExpectedException(typeof(BadHistoryException), "Insufficient history.")]
-        public void InsufficientHistory()
-        {
-            IEnumerable<Quote> h = History.GetHistory(1);
-            Indicator.GetZigZag(h);
+            // insufficient history
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetZigZag(History.GetHistory(1)));
         }
 
     }
