@@ -29,20 +29,20 @@ namespace Internal.Tests
             Assert.AreEqual(493, results.Where(x => x.PrsSma != null).Count());
 
             // sample values
-            PrsResult r1 = results[501];
-            Assert.AreEqual(1.356817m, Math.Round((decimal)r1.Prs, 6));
-            Assert.AreEqual(1.343445m, Math.Round((decimal)r1.PrsSma, 6));
-            Assert.AreEqual(0.037082m, Math.Round((decimal)r1.PrsPercent, 6));
+            PrsResult r1 = results[8];
+            Assert.AreEqual(1.108340m, Math.Round((decimal)r1.Prs, 6));
+            Assert.AreEqual(null, r1.PrsSma);
+            Assert.AreEqual(null, r1.PrsPercent);
 
             PrsResult r2 = results[249];
             Assert.AreEqual(1.222373m, Math.Round((decimal)r2.Prs, 6));
             Assert.AreEqual(1.275808m, Math.Round((decimal)r2.PrsSma, 6));
             Assert.AreEqual(-0.023089m, Math.Round((decimal)r2.PrsPercent, 6));
 
-            PrsResult r3 = results[8];
-            Assert.AreEqual(1.108340m, Math.Round((decimal)r3.Prs, 6));
-            Assert.AreEqual(null, r3.PrsSma);
-            Assert.AreEqual(null, r3.PrsPercent);
+            PrsResult r3 = results[501];
+            Assert.AreEqual(1.356817m, Math.Round((decimal)r3.Prs, 6));
+            Assert.AreEqual(1.343445m, Math.Round((decimal)r3.PrsSma, 6));
+            Assert.AreEqual(0.037082m, Math.Round((decimal)r3.PrsPercent, 6));
         }
 
         [TestMethod()]

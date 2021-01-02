@@ -13,7 +13,9 @@ namespace Internal.Tests
         [TestMethod()]
         public void Standard()
         {
-            List<PmoResult> results = Indicator.GetPmo(history, 35, 20, 10).ToList();
+
+            List<PmoResult> results = Indicator.GetPmo(history, 35, 20, 10)
+                .ToList();
 
             // assertions
 

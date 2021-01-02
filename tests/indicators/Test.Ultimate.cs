@@ -13,7 +13,9 @@ namespace Internal.Tests
         [TestMethod()]
         public void Standard()
         {
-            List<UltimateResult> results = Indicator.GetUltimate(history, 7, 14, 28).ToList();
+
+            List<UltimateResult> results = Indicator.GetUltimate(history, 7, 14, 28)
+                .ToList();
 
             // assertions
 
@@ -23,15 +25,14 @@ namespace Internal.Tests
             Assert.AreEqual(474, results.Where(x => x.Ultimate != null).Count());
 
             // sample values
-            UltimateResult r1 = results[501];
-            Assert.AreEqual(49.5257m, Math.Round((decimal)r1.Ultimate, 4));
+            UltimateResult r1 = results[74];
+            Assert.AreEqual(51.7770m, Math.Round((decimal)r1.Ultimate, 4));
 
             UltimateResult r2 = results[249];
             Assert.AreEqual(45.3121m, Math.Round((decimal)r2.Ultimate, 4));
 
-            UltimateResult r3 = results[74];
-            Assert.AreEqual(51.7770m, Math.Round((decimal)r3.Ultimate, 4));
-
+            UltimateResult r3 = results[501];
+            Assert.AreEqual(49.5257m, Math.Round((decimal)r3.Ultimate, 4));
         }
 
         [TestMethod()]

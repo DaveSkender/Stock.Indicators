@@ -36,13 +36,6 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void BadData()
-        {
-            IEnumerable<StochResult> r = Indicator.GetStoch(historyBad, 15);
-            Assert.AreEqual(502, r.Count());
-        }
-
-        [TestMethod()]
         public void NoSignal()
         {
             int lookbackPeriod = 5;
@@ -54,10 +47,10 @@ namespace Internal.Tests
                 .ToList();
 
             // signal equals oscillator
-            StochResult r1 = results[501];
+            StochResult r1 = results[487];
             Assert.AreEqual(r1.Oscillator, r1.Signal);
 
-            StochResult r2 = results[487];
+            StochResult r2 = results[501];
             Assert.AreEqual(r2.Oscillator, r2.Signal);
         }
 
@@ -73,13 +66,13 @@ namespace Internal.Tests
                 .ToList();
 
             // sample values
-            StochResult r1 = results[501];
-            Assert.AreEqual(91.6233m, Math.Round((decimal)r1.Oscillator, 4));
-            Assert.AreEqual(36.0608m, Math.Round((decimal)r1.Signal, 4));
+            StochResult r1 = results[487];
+            Assert.AreEqual(25.0353m, Math.Round((decimal)r1.Oscillator, 4));
+            Assert.AreEqual(60.5706m, Math.Round((decimal)r1.Signal, 4));
 
-            StochResult r2 = results[487];
-            Assert.AreEqual(25.0353m, Math.Round((decimal)r2.Oscillator, 4));
-            Assert.AreEqual(60.5706m, Math.Round((decimal)r2.Signal, 4));
+            StochResult r2 = results[501];
+            Assert.AreEqual(91.6233m, Math.Round((decimal)r2.Oscillator, 4));
+            Assert.AreEqual(36.0608m, Math.Round((decimal)r2.Signal, 4));
         }
 
         [TestMethod()]
@@ -99,6 +92,13 @@ namespace Internal.Tests
 
             StochResult r2 = results[71];
             Assert.AreEqual(100m, Math.Round((decimal)r2.Oscillator, 4));
+        }
+
+        [TestMethod()]
+        public void BadData()
+        {
+            IEnumerable<StochResult> r = Indicator.GetStoch(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]

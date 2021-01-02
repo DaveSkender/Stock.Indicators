@@ -23,16 +23,16 @@ namespace Internal.Tests
             Assert.AreEqual(502, results.Where(x => x.AdlSma == null).Count());
 
             // sample values
-            AdlResult r1 = results[501];
-            Assert.AreEqual(0.8052m, Math.Round(r1.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(r1.MoneyFlowVolume, 2));
-            Assert.AreEqual(3439986548.42m, Math.Round(r1.Adl, 2));
+            AdlResult r1 = results[249];
+            Assert.AreEqual(0.7778m, Math.Round(r1.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(36433792.89m, Math.Round(r1.MoneyFlowVolume, 2));
+            Assert.AreEqual(3266400865.74m, Math.Round(r1.Adl, 2));
             Assert.AreEqual(null, r1.AdlSma);
 
-            AdlResult r2 = results[249];
-            Assert.AreEqual(0.7778m, Math.Round(r2.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(36433792.89m, Math.Round(r2.MoneyFlowVolume, 2));
-            Assert.AreEqual(3266400865.74m, Math.Round(r2.Adl, 2));
+            AdlResult r2 = results[501];
+            Assert.AreEqual(0.8052m, Math.Round(r2.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25m, Math.Round(r2.MoneyFlowVolume, 2));
+            Assert.AreEqual(3439986548.42m, Math.Round(r2.Adl, 2));
             Assert.AreEqual(null, r2.AdlSma);
         }
 

@@ -13,15 +13,16 @@ namespace Internal.Tests
         [TestMethod()]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<BetaResult> results = Indicator.GetBeta(history, historyOther, lookbackPeriod).ToList();
+
+            List<BetaResult> results = Indicator.GetBeta(history, historyOther, 20)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Beta != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
 
             // sample value
             BetaResult r = results[501];
@@ -39,15 +40,15 @@ namespace Internal.Tests
         public void SameSame()
         {
             // Beta should be 1 if evaluating against self
-            int lookbackPeriod = 20;
-            List<BetaResult> results = Indicator.GetBeta(history, history, lookbackPeriod).ToList();
+            List<BetaResult> results = Indicator.GetBeta(history, history, 20)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Beta != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
 
             // sample value
             BetaResult r = results[501];

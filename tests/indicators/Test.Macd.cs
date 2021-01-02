@@ -31,20 +31,20 @@ namespace Internal.Tests
             Assert.AreEqual(469, results.Where(x => x.Histogram != null).Count());
 
             // sample values
-            MacdResult r1 = results[501];
-            Assert.AreEqual(-6.2198m, Math.Round((decimal)r1.Macd, 4));
-            Assert.AreEqual(-5.8569m, Math.Round((decimal)r1.Signal, 4));
-            Assert.AreEqual(-0.3629m, Math.Round((decimal)r1.Histogram, 4));
+            MacdResult r1 = results[49];
+            Assert.AreEqual(1.7203m, Math.Round((decimal)r1.Macd, 4));
+            Assert.AreEqual(1.9675m, Math.Round((decimal)r1.Signal, 4));
+            Assert.AreEqual(-0.2472m, Math.Round((decimal)r1.Histogram, 4));
 
-            MacdResult r2 = results[49];
-            Assert.AreEqual(1.7203m, Math.Round((decimal)r2.Macd, 4));
-            Assert.AreEqual(1.9675m, Math.Round((decimal)r2.Signal, 4));
-            Assert.AreEqual(-0.2472m, Math.Round((decimal)r2.Histogram, 4));
+            MacdResult r2 = results[249];
+            Assert.AreEqual(2.2353m, Math.Round((decimal)r2.Macd, 4));
+            Assert.AreEqual(2.3141m, Math.Round((decimal)r2.Signal, 4));
+            Assert.AreEqual(-0.0789m, Math.Round((decimal)r2.Histogram, 4));
 
-            MacdResult r3 = results[249];
-            Assert.AreEqual(2.2353m, Math.Round((decimal)r3.Macd, 4));
-            Assert.AreEqual(2.3141m, Math.Round((decimal)r3.Signal, 4));
-            Assert.AreEqual(-0.0789m, Math.Round((decimal)r3.Histogram, 4));
+            MacdResult r3 = results[501];
+            Assert.AreEqual(-6.2198m, Math.Round((decimal)r3.Macd, 4));
+            Assert.AreEqual(-5.8569m, Math.Round((decimal)r3.Signal, 4));
+            Assert.AreEqual(-0.3629m, Math.Round((decimal)r3.Histogram, 4));
         }
 
         [TestMethod()]

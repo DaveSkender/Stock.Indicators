@@ -14,14 +14,16 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-            List<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod).ToList();
+
+            List<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.UI != null).Count());
+            Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
 
             // sample value
             UlcerIndexResult r = results[501];

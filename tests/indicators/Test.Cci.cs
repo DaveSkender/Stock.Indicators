@@ -13,16 +13,16 @@ namespace Internal.Tests
         [TestMethod()]
         public void Standard()
         {
-            int lookbackPeriod = 20;
 
-            List<CciResult> results = Indicator.GetCci(history, lookbackPeriod).ToList();
+            List<CciResult> results = Indicator.GetCci(history, 20)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Cci != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Cci != null).Count());
 
             // sample value
             CciResult r = results[501];

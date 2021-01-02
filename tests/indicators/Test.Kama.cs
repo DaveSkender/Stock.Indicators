@@ -28,26 +28,26 @@ namespace Internal.Tests
             Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
 
             // sample values
-            KamaResult r1 = results[501];
-            Assert.AreEqual(240.1138m, Math.Round((decimal)r1.Kama, 4));
+            KamaResult r1 = results[8];
+            Assert.AreEqual(null, r1.Kama);
 
-            KamaResult r2 = results[249];
-            Assert.AreEqual(256.0898m, Math.Round((decimal)r2.Kama, 4));
+            KamaResult r2 = results[9];
+            Assert.AreEqual(213.75m, r2.Kama);
 
-            KamaResult r3 = results[149];
-            Assert.AreEqual(235.5510m, Math.Round((decimal)r3.Kama, 4));
+            KamaResult r3 = results[10];
+            Assert.AreEqual(213.7713m, Math.Round((decimal)r3.Kama, 4));
 
             KamaResult r4 = results[24];
             Assert.AreEqual(214.7423m, Math.Round((decimal)r4.Kama, 4));
 
-            KamaResult r5 = results[10];
-            Assert.AreEqual(213.7713m, Math.Round((decimal)r5.Kama, 4));
+            KamaResult r5 = results[149];
+            Assert.AreEqual(235.5510m, Math.Round((decimal)r5.Kama, 4));
 
-            KamaResult r6 = results[9];
-            Assert.AreEqual(213.75m, r6.Kama);
+            KamaResult r6 = results[249];
+            Assert.AreEqual(256.0898m, Math.Round((decimal)r6.Kama, 4));
 
-            KamaResult r7 = results[8];
-            Assert.AreEqual(null, r7.Kama);
+            KamaResult r7 = results[501];
+            Assert.AreEqual(240.1138m, Math.Round((decimal)r7.Kama, 4));
         }
 
         [TestMethod()]

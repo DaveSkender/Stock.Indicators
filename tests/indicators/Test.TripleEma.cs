@@ -14,7 +14,9 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-            List<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod).ToList();
+
+            List<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
@@ -24,14 +26,14 @@ namespace Internal.Tests
             Assert.AreEqual(445, results.Where(x => x.Ema != null).Count());
 
             // sample values
-            EmaResult r1 = results[501];
-            Assert.AreEqual(238.7690m, Math.Round((decimal)r1.Ema, 4));
+            EmaResult r1 = results[67];
+            Assert.AreEqual(222.9105m, Math.Round((decimal)r1.Ema, 4));
 
             EmaResult r2 = results[249];
             Assert.AreEqual(258.6208m, Math.Round((decimal)r2.Ema, 4));
 
-            EmaResult r3 = results[67];
-            Assert.AreEqual(222.9105m, Math.Round((decimal)r3.Ema, 4));
+            EmaResult r3 = results[501];
+            Assert.AreEqual(238.7690m, Math.Round((decimal)r3.Ema, 4));
         }
 
         [TestMethod()]

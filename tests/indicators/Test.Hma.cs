@@ -14,7 +14,9 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-            List<HmaResult> results = Indicator.GetHma(history, lookbackPeriod).ToList();
+
+            List<HmaResult> results = Indicator.GetHma(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 

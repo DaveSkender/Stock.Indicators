@@ -14,6 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
+
             List<CorrResult> results =
                 Indicator.GetCorrelation(history, historyOther, lookbackPeriod)
                 .ToList();
@@ -23,7 +24,7 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Correlation != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Correlation != null).Count());
 
             // sample value
             CorrResult r = results[501];

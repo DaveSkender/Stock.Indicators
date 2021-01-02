@@ -14,6 +14,7 @@ namespace Internal.Tests
         public void StandardClose()
         {
             decimal percentChange = 3;
+
             List<ZigZagResult> results =
                 Indicator.GetZigZag(history, ZigZagType.Close, percentChange)
                 .ToList();
@@ -70,6 +71,7 @@ namespace Internal.Tests
         public void StandardHighLow()
         {
             decimal percentChange = 3;
+
             List<ZigZagResult> results =
                 Indicator.GetZigZag(history, ZigZagType.HighLow, percentChange)
                 .ToList();

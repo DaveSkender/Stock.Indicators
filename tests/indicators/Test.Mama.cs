@@ -27,33 +27,33 @@ namespace Internal.Tests
             Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
 
             // sample values
-            MamaResult r1 = results[501];
-            Assert.AreEqual(244.1092m, Math.Round((decimal)r1.Mama, 4));
-            Assert.AreEqual(252.6139m, Math.Round((decimal)r1.Fama, 4));
+            MamaResult r1 = results[4];
+            Assert.AreEqual(null, r1.Mama);
+            Assert.AreEqual(null, r1.Fama);
 
-            MamaResult r2 = results[249];
-            Assert.AreEqual(256.8026m, Math.Round((decimal)r2.Mama, 4));
-            Assert.AreEqual(254.0605m, Math.Round((decimal)r2.Fama, 4));
+            MamaResult r2 = results[5];
+            Assert.AreEqual(213.73m, r2.Mama);
+            Assert.AreEqual(213.73m, r2.Fama);
 
-            MamaResult r3 = results[149];
-            Assert.AreEqual(235.6593m, Math.Round((decimal)r3.Mama, 4));
-            Assert.AreEqual(234.3660m, Math.Round((decimal)r3.Fama, 4));
+            MamaResult r3 = results[6];
+            Assert.AreEqual(213.7850m, Math.Round((decimal)r3.Mama, 4));
+            Assert.AreEqual(213.7438m, Math.Round((decimal)r3.Fama, 4));
 
             MamaResult r4 = results[25];
             Assert.AreEqual(215.9524m, Math.Round((decimal)r4.Mama, 4));
             Assert.AreEqual(215.1407m, Math.Round((decimal)r4.Fama, 4));
 
-            MamaResult r5 = results[6];
-            Assert.AreEqual(213.7850m, Math.Round((decimal)r5.Mama, 4));
-            Assert.AreEqual(213.7438m, Math.Round((decimal)r5.Fama, 4));
+            MamaResult r5 = results[149];
+            Assert.AreEqual(235.6593m, Math.Round((decimal)r5.Mama, 4));
+            Assert.AreEqual(234.3660m, Math.Round((decimal)r5.Fama, 4));
 
-            MamaResult r6 = results[5];
-            Assert.AreEqual(213.73m, r6.Mama);
-            Assert.AreEqual(213.73m, r6.Fama);
+            MamaResult r6 = results[249];
+            Assert.AreEqual(256.8026m, Math.Round((decimal)r6.Mama, 4));
+            Assert.AreEqual(254.0605m, Math.Round((decimal)r6.Fama, 4));
 
-            MamaResult r7 = results[4];
-            Assert.AreEqual(null, r7.Mama);
-            Assert.AreEqual(null, r7.Fama);
+            MamaResult r7 = results[501];
+            Assert.AreEqual(244.1092m, Math.Round((decimal)r7.Mama, 4));
+            Assert.AreEqual(252.6139m, Math.Round((decimal)r7.Fama, 4));
         }
 
         [TestMethod()]

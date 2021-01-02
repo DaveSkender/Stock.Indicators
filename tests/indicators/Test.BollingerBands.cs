@@ -13,11 +13,9 @@ namespace Internal.Tests
         [TestMethod()]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            int standardDeviations = 2;
 
             List<BollingerBandsResult> results =
-                Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviations)
+                Indicator.GetBollingerBands(history, 20, 2)
                 .ToList();
 
             // assertions
@@ -34,21 +32,21 @@ namespace Internal.Tests
 
 
             // sample values
-            BollingerBandsResult r1 = results[501];
-            Assert.AreEqual(251.8600m, Math.Round((decimal)r1.Sma, 4));
-            Assert.AreEqual(273.7004m, Math.Round((decimal)r1.UpperBand, 4));
-            Assert.AreEqual(230.0196m, Math.Round((decimal)r1.LowerBand, 4));
-            Assert.AreEqual(0.349362m, Math.Round((decimal)r1.PercentB, 6));
-            Assert.AreEqual(-0.602552m, Math.Round((decimal)r1.ZScore, 6));
-            Assert.AreEqual(0.173433m, Math.Round((decimal)r1.Width, 6));
+            BollingerBandsResult r1 = results[249];
+            Assert.AreEqual(255.5500m, Math.Round((decimal)r1.Sma, 4));
+            Assert.AreEqual(259.5642m, Math.Round((decimal)r1.UpperBand, 4));
+            Assert.AreEqual(251.5358m, Math.Round((decimal)r1.LowerBand, 4));
+            Assert.AreEqual(0.803923m, Math.Round((decimal)r1.PercentB, 6));
+            Assert.AreEqual(1.215692m, Math.Round((decimal)r1.ZScore, 6));
+            Assert.AreEqual(0.031416m, Math.Round((decimal)r1.Width, 6));
 
-            BollingerBandsResult r2 = results[249];
-            Assert.AreEqual(255.5500m, Math.Round((decimal)r2.Sma, 4));
-            Assert.AreEqual(259.5642m, Math.Round((decimal)r2.UpperBand, 4));
-            Assert.AreEqual(251.5358m, Math.Round((decimal)r2.LowerBand, 4));
-            Assert.AreEqual(0.803923m, Math.Round((decimal)r2.PercentB, 6));
-            Assert.AreEqual(1.215692m, Math.Round((decimal)r2.ZScore, 6));
-            Assert.AreEqual(0.031416m, Math.Round((decimal)r2.Width, 6));
+            BollingerBandsResult r2 = results[501];
+            Assert.AreEqual(251.8600m, Math.Round((decimal)r2.Sma, 4));
+            Assert.AreEqual(273.7004m, Math.Round((decimal)r2.UpperBand, 4));
+            Assert.AreEqual(230.0196m, Math.Round((decimal)r2.LowerBand, 4));
+            Assert.AreEqual(0.349362m, Math.Round((decimal)r2.PercentB, 6));
+            Assert.AreEqual(-0.602552m, Math.Round((decimal)r2.ZScore, 6));
+            Assert.AreEqual(0.173433m, Math.Round((decimal)r2.Width, 6));
         }
 
         [TestMethod()]

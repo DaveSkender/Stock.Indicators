@@ -13,8 +13,8 @@ namespace Internal.Tests
         [TestMethod()]
         public void Standard()
         {
-            decimal acclerationStep = (decimal)0.02;
-            decimal maxAccelerationFactor = (decimal)0.2;
+            decimal acclerationStep = 0.02m;
+            decimal maxAccelerationFactor = 0.2m;
 
             List<ParabolicSarResult> results =
                 Indicator.GetParabolicSar(history, acclerationStep, maxAccelerationFactor)

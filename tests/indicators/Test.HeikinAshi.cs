@@ -14,7 +14,8 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<HeikinAshiResult> results = Indicator.GetHeikinAshi(history).ToList();
+            List<HeikinAshiResult> results = Indicator.GetHeikinAshi(history)
+                .ToList();
 
             // assertions
 

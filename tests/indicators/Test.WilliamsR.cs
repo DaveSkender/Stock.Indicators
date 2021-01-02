@@ -14,21 +14,23 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-            List<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPeriod).ToList();
+
+            List<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.WilliamsR != null).Count());
+            Assert.AreEqual(489, results.Where(x => x.WilliamsR != null).Count());
 
             // sample values
-            WilliamsResult r1 = results[501];
-            Assert.AreEqual(-52.0121m, Math.Round((decimal)r1.WilliamsR, 4));
+            WilliamsResult r1 = results[343];
+            Assert.AreEqual(-19.8211m, Math.Round((decimal)r1.WilliamsR, 4));
 
-            WilliamsResult r2 = results[343];
-            Assert.AreEqual(-19.8211m, Math.Round((decimal)r2.WilliamsR, 4));
+            WilliamsResult r2 = results[501];
+            Assert.AreEqual(-52.0121m, Math.Round((decimal)r2.WilliamsR, 4));
         }
 
         [TestMethod()]

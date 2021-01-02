@@ -14,7 +14,9 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-            List<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod).ToList();
+
+            List<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod)
+                .ToList();
 
             // assertions
 

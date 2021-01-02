@@ -15,7 +15,9 @@ namespace Internal.Tests
         {
             int fastPeriod = 3;
             int slowPeriod = 10;
-            List<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod).ToList();
+
+            List<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod)
+                .ToList();
 
             // assertions
 

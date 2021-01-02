@@ -14,6 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 22;
+
             List<ChandelierResult> longResult =
                 Indicator.GetChandelier(history, lookbackPeriod, 3.0m)
                 .ToList();
@@ -23,7 +24,7 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, longResult.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, longResult.Where(x => x.ChandelierExit != null).Count());
+            Assert.AreEqual(481, longResult.Where(x => x.ChandelierExit != null).Count());
 
             // sample values (long)
             ChandelierResult a = longResult[501];
