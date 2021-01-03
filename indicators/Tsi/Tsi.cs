@@ -25,6 +25,8 @@ namespace Skender.Stock.Indicators
             int size = historyList.Count;
             decimal mult1 = 2m / (lookbackPeriod + 1);
             decimal mult2 = 2m / (smoothPeriod + 1);
+            decimal multS = 2m / (signalPeriod + 1);
+            decimal? sumS = 0m;
 
             List<TsiResult> results = new List<TsiResult>(size);
 
@@ -77,18 +79,25 @@ namespace Skender.Stock.Indicators
 
                         r.Tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : null;
 
-                        // signal line, if not 0
-                        if (signalPeriod > 0 &&
-                            index >= lookbackPeriod + smoothPeriod + signalPeriod - 1)
+                        // signal line
+                        if (signalPeriod > 0)
                         {
-                            decimal? sumTsi = 0m;
-                            for (int p = index - signalPeriod; p < index; p++)
+                            if (index >= lookbackPeriod + smoothPeriod + signalPeriod)
                             {
-                                TsiResult d = results[p];
-                                sumTsi += d.Tsi;
+                                r.Signal = (r.Tsi - results[i - 1].Signal) * multS
+                                         + results[i - 1].Signal;
                             }
 
-                            r.Signal = sumTsi / signalPeriod;
+                            // initialize signal
+                            else
+                            {
+                                sumS += r.Tsi;
+
+                                if (index == lookbackPeriod + smoothPeriod + signalPeriod - 1)
+                                {
+                                    r.Signal = sumS / signalPeriod;
+                                }
+                            }
                         }
                     }
 
@@ -105,6 +114,7 @@ namespace Skender.Stock.Indicators
                             as2[i] = sumA1 / smoothPeriod;
 
                             r.Tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : null;
+                            sumS = r.Tsi;
                         }
                     }
                 }
