@@ -67,6 +67,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetBop()
+        {
+            return Indicator.GetBop(h);
+        }
+
+        [Benchmark]
         public object GetCci()
         {
             return Indicator.GetCci(h);

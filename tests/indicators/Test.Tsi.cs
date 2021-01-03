@@ -18,8 +18,6 @@ namespace Internal.Tests
                 .ToList();
 
             // assertions
-            foreach(var r in results)
-                Console.WriteLine("{0:d},{1:N4},{2:N4}",r.Date,r.Tsi,r.Signal);
 
             // proper quantities
             // should always be the same number of results as there is history

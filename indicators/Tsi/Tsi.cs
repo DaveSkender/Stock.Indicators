@@ -43,7 +43,7 @@ namespace Skender.Stock.Indicators
             decimal sumA1 = 0m;
 
             // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
                 int index = i + 1;
@@ -157,13 +157,13 @@ namespace Skender.Stock.Indicators
 
             if (smoothPeriod <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriod), smoothPeriod,
                     "Smoothing period must be greater than 0 for TSI.");
             }
 
             if (signalPeriod < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
                     "Signal period must be greater than or equal to 0 for TSI.");
             }
 
