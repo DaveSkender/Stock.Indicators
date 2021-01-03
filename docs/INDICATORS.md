@@ -46,6 +46,7 @@
 - [SuperTrend](../indicators/SuperTrend/README.md#content)
 - [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
 - [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
+- [True Strength Index (TSI)](../indicators/Tsi/README.md#content)
 - [Ulcer Index](../indicators/UlcerIndex/README.md#content)
 - [Ultimate Oscillator](../indicators/Ultimate/README.md#content)
 - [Volume Simple Moving Average](../indicators/VolSma/README.md#content)
