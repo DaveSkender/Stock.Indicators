@@ -319,6 +319,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetTsi()
+        {
+            return Indicator.GetTsi(h);
+        }
+
+        [Benchmark]
         public object GetUlcerIndex()
         {
             return Indicator.GetUlcerIndex(h);
