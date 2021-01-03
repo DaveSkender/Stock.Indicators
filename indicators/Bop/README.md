@@ -1,6 +1,6 @@
 ﻿# Balance of Power (BOP)
 
-Created by Igor Levshin, the [Balance of Power](https://en.wikipedia.org/wiki/True_strength_index) (aka Balance of Market Power) is a momentum oscillator that depicts the strength of buying and selling pressure.
+Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/doku.php?id=technical_indicators:balance_of_power) (aka Balance of Market Power) is a momentum oscillator that depicts the strength of buying and selling pressure.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/302 "Community discussion about this indicator")
 
 ![image](chart.png)
