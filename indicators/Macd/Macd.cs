@@ -15,23 +15,24 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // convert history to basic format
+            List<BasicData> bdList = Cleaners.ConvertHistoryToBasic(history, "C");
 
             // check parameter arguments
             ValidateMacd(history, fastPeriod, slowPeriod, signalPeriod);
 
             // initialize
-            List<EmaResult> emaFast = GetEma(history, fastPeriod).ToList();
-            List<EmaResult> emaSlow = GetEma(history, slowPeriod).ToList();
+            List<EmaResult> emaFast = CalcEma(bdList, fastPeriod).ToList();
+            List<EmaResult> emaSlow = CalcEma(bdList, slowPeriod).ToList();
 
+            int size = bdList.Count;
             List<BasicData> emaDiff = new List<BasicData>();
-            List<MacdResult> results = new List<MacdResult>(historyList.Count);
+            List<MacdResult> results = new List<MacdResult>(size);
 
             // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
+                BasicData h = bdList[i];
                 EmaResult df = emaFast[i];
                 EmaResult ds = emaSlow[i];
 
@@ -62,7 +63,7 @@ namespace Skender.Stock.Indicators
             // add signal and histogram to result
             List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriod).ToList();
 
-            for (int d = slowPeriod - 1; d < results.Count; d++)
+            for (int d = slowPeriod - 1; d < size; d++)
             {
                 MacdResult r = results[d];
                 EmaResult ds = emaSignal[d + 1 - slowPeriod];
@@ -98,13 +99,13 @@ namespace Skender.Stock.Indicators
 
             if (slowPeriod <= fastPeriod)
             {
-                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
-                    "Fast period must be smaller than the slow period for MACD.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
+                    "Slow period must be greater than the fast period for MACD.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * slowPeriod + signalPeriod, slowPeriod + signalPeriod + 100);
+            int minHistory = Math.Max(2 * (slowPeriod + signalPeriod), slowPeriod + signalPeriod + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for MACD.  " +
