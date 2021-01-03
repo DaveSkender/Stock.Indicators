@@ -19,7 +19,7 @@
     <LangVersion>9.0</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseFile></PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
