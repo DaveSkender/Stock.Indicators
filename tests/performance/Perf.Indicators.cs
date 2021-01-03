@@ -193,6 +193,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetPvo()
+        {
+            return Indicator.GetPvo(h);
+        }
+
+        [Benchmark]
         public object GetObvWithSma()
         {
             return Indicator.GetObv(h, 14);

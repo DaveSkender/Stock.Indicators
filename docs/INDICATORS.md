@@ -35,6 +35,7 @@
 - [Price Channels](../indicators/Donchian/README.md#content)
 - [Price (Comparative) Relative Strength (PRS)](../indicators/Prs/README.md#content)
 - [Price Momentum Oscillator (PMO)](../indicators/Pmo/README.md#content)
+- [Price Volume Oscillator (PVO)](../indicators/Pvo/README.md#content)
 - [Rate of Change (ROC)](../indicators/Roc/README.md#content)
 - [Relative Strength Index (RSI)](../indicators/Rsi/README.md#content)
 - [R-Squared (Coefficient of Determination)](../indicators/Correlation/README.md#content)
