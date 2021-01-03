@@ -6,8 +6,8 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR
-        public static IEnumerable<MacdResult> GetMacd<TQuote>(
+        // PRICE VOLUME OSCILLATOR (PVO)
+        public static IEnumerable<PvoResult> GetPvo<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 12,
             int slowPeriod = 26,
@@ -16,10 +16,10 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bdList = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bdList = Cleaners.ConvertHistoryToBasic(history, "V");
 
             // check parameter arguments
-            ValidateMacd(history, fastPeriod, slowPeriod, signalPeriod);
+            ValidatePvo(history, fastPeriod, slowPeriod, signalPeriod);
 
             // initialize
             List<EmaResult> emaFast = CalcEma(bdList, fastPeriod).ToList();
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
 
             int size = bdList.Count;
             List<BasicData> emaDiff = new List<BasicData>();
-            List<MacdResult> results = new List<MacdResult>(size);
+            List<PvoResult> results = new List<PvoResult>(size);
 
             // roll through history
             for (int i = 0; i < size; i++)
@@ -36,7 +36,7 @@ namespace Skender.Stock.Indicators
                 EmaResult df = emaFast[i];
                 EmaResult ds = emaSlow[i];
 
-                MacdResult result = new MacdResult
+                PvoResult result = new PvoResult
                 {
                     Date = h.Date
                 };
@@ -44,14 +44,16 @@ namespace Skender.Stock.Indicators
                 if (df?.Ema != null && ds?.Ema != null)
                 {
 
-                    decimal macd = (decimal)df.Ema - (decimal)ds.Ema;
-                    result.Macd = macd;
+                    decimal? pvo = (ds.Ema != 0) ?
+                        100 * (df.Ema - ds.Ema) / ds.Ema : null;
 
-                    // temp data for interim EMA of macd
+                    result.Pvo = pvo;
+
+                    // temp data for interim EMA of PVO
                     BasicData diff = new BasicData
                     {
                         Date = h.Date,
-                        Value = macd
+                        Value = (decimal)pvo
                     };
 
                     emaDiff.Add(diff);
@@ -65,18 +67,18 @@ namespace Skender.Stock.Indicators
 
             for (int d = slowPeriod - 1; d < size; d++)
             {
-                MacdResult r = results[d];
+                PvoResult r = results[d];
                 EmaResult ds = emaSignal[d + 1 - slowPeriod];
 
                 r.Signal = ds.Ema;
-                r.Histogram = r.Macd - r.Signal;
+                r.Histogram = r.Pvo - r.Signal;
             }
 
             return results;
         }
 
 
-        private static void ValidateMacd<TQuote>(
+        private static void ValidatePvo<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod,
             int slowPeriod,
@@ -88,19 +90,19 @@ namespace Skender.Stock.Indicators
             if (fastPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
-                    "Fast period must be greater than 0 for MACD.");
+                    "Fast period must be greater than 0 for PVO.");
             }
 
             if (signalPeriod < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
-                    "Signal period must be greater than or equal to 0 for MACD.");
+                    "Signal period must be greater than or equal to 0 for PVO.");
             }
 
             if (slowPeriod <= fastPeriod)
             {
                 throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
-                    "Slow period must be greater than the fast period for MACD.");
+                    "Slow period must be greater than the fast period for PVO.");
             }
 
             // check history
@@ -108,7 +110,7 @@ namespace Skender.Stock.Indicators
             int minHistory = Math.Max(2 * (slowPeriod + signalPeriod), slowPeriod + signalPeriod + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for MACD.  " +
+                string message = "Insufficient history provided for PVO.  " +
                     string.Format(englishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
@@ -117,6 +119,7 @@ namespace Skender.Stock.Indicators
 
                 throw new BadHistoryException(nameof(history), message);
             }
+
         }
 
     }

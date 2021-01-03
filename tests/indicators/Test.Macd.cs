@@ -83,9 +83,13 @@ namespace Internal.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetMacd(history, 12, 26, -1));
 
-            // insufficient history
+            // insufficient history 2×(S+P)
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetMacd(History.GetHistory(60), 12, 26, 9));
+                Indicator.GetMacd(History.GetHistory(409), 12, 200, 5));
+
+            // insufficient history S+P+100
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetMacd(History.GetHistory(134), 12, 26, 9));
         }
 
     }
