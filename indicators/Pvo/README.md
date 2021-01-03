@@ -1,6 +1,6 @@
-﻿# Price Volume Oscillator (PVO)
+﻿# Percentage Volume Oscillator (PVO)
 
-The [Price Volume Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:percentage_volume_oscillator_pvo) is a simple oscillator view of two converging/diverging exponential moving averages of Volume.
+The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:percentage_volume_oscillator_pvo) is a simple oscillator view of two converging/diverging exponential moving averages of Volume.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/305 "Community discussion about this indicator")
 
 ![image](chart.png)
