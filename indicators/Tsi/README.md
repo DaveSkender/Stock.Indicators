@@ -40,7 +40,7 @@ The first `N+M-1` periods will have `null` values since there's not enough data 
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Tsi` | decimal | True Strength Index
-| `Signal` | decimal | Moving Average of TSI
+| `Signal` | decimal | Signal line (EMA of TSI)
 
 ## Example
 

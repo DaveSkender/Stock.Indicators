@@ -18,6 +18,8 @@ namespace Internal.Tests
                 .ToList();
 
             // assertions
+            foreach(var r in results)
+                Console.WriteLine("{0:d},{1:N4},{2:N4}",r.Date,r.Tsi,r.Signal);
 
             // proper quantities
             // should always be the same number of results as there is history
@@ -30,21 +32,25 @@ namespace Internal.Tests
             Assert.AreEqual(53.1204m, Math.Round((decimal)r2.Tsi, 4));
             Assert.AreEqual(null, r2.Signal);
 
-            TsiResult r3 = results[43];
-            Assert.AreEqual(46.0960m, Math.Round((decimal)r3.Tsi, 4));
-            Assert.AreEqual(51.6916m, Math.Round((decimal)r3.Signal, 4));
+            TsiResult r3a = results[43];
+            Assert.AreEqual(46.0960m, Math.Round((decimal)r3a.Tsi, 4));
+            Assert.AreEqual(51.6916m, Math.Round((decimal)r3a.Signal, 4));
+
+            TsiResult r3b = results[44];
+            Assert.AreEqual(42.5121m, Math.Round((decimal)r3b.Tsi, 4));
+            Assert.AreEqual(49.3967m, Math.Round((decimal)r3b.Signal, 4));
 
             TsiResult r4 = results[149];
             Assert.AreEqual(29.0936m, Math.Round((decimal)r4.Tsi, 4));
-            Assert.AreEqual(28.5157m, Math.Round((decimal)r4.Signal, 4));
+            Assert.AreEqual(28.0134m, Math.Round((decimal)r4.Signal, 4));
 
             TsiResult r5 = results[249];
             Assert.AreEqual(41.9232m, Math.Round((decimal)r5.Tsi, 4));
-            Assert.AreEqual(42.9314m, Math.Round((decimal)r5.Signal, 4));
+            Assert.AreEqual(42.4063m, Math.Round((decimal)r5.Signal, 4));
 
             TsiResult r6 = results[501];
             Assert.AreEqual(-28.3513m, Math.Round((decimal)r6.Tsi, 4));
-            Assert.AreEqual(-31.8788m, Math.Round((decimal)r6.Signal, 4));
+            Assert.AreEqual(-29.3597m, Math.Round((decimal)r6.Signal, 4));
         }
 
         [TestMethod()]
