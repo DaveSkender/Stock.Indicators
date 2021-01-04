@@ -57,18 +57,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // check history
-            int qtyHistory = historyList.Count;
-            int minHistory = 1;
-            if (qtyHistory < minHistory)
-            {
-                string message = "Insufficient history provided for VWAP.  " +
-                    string.Format(englishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
-                    qtyHistory, minHistory);
-
-                throw new BadHistoryException(nameof(historyList), message);
-            }
+            // check history: done under Sort() for 0 length
 
             // check parameter arguments (intentionally after history check)
             if (startDate < historyList[0].Date)
