@@ -34,13 +34,6 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
-        public void BadData()
-        {
-            IEnumerable<ObvResult> r = Indicator.GetObv(historyBad);
-            Assert.AreEqual(502, r.Count());
-        }
-
-        [TestMethod()]
         public void WithSma()
         {
 
@@ -56,6 +49,13 @@ namespace Internal.Tests
             ObvResult r1 = results[501];
             Assert.AreEqual(539843504, r1.Obv);
             Assert.AreEqual(1016208844.40m, r1.ObvSma);
+        }
+
+        [TestMethod()]
+        public void BadData()
+        {
+            IEnumerable<ObvResult> r = Indicator.GetObv(historyBad);
+            Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod()]

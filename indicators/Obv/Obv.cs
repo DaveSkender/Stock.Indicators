@@ -80,7 +80,7 @@ namespace Skender.Stock.Indicators
             if (smaPeriod != null && smaPeriod <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for ADL.");
+                    "SMA period must be greater than 0 for OBV.");
             }
 
             // check history
