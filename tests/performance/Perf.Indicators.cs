@@ -11,6 +11,7 @@ namespace Tests.Performance
     {
         private readonly IEnumerable<Quote> h = History.GetHistory();
         private readonly IEnumerable<Quote> ho = History.GetHistoryOther();
+        private readonly IEnumerable<Quote> hday = History.GetHistoryIntraday(391);
 
         [Benchmark]
         public object GetAdl()
@@ -352,6 +353,12 @@ namespace Tests.Performance
         public object GetVolSma()
         {
             return Indicator.GetVolSma(h, 14);
+        }
+
+        [Benchmark]
+        public object GetVwap()
+        {
+            return Indicator.GetVwap(hday);
         }
 
         [Benchmark]
