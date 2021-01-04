@@ -1,7 +1,7 @@
 ﻿# Volume Weighted Average Price (VWAP)
 
 The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighted_average_price) is a Volume weighted average of Close price, typically used on intraday data.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/246 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/310 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -9,7 +9,7 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 // usage
 IEnumerable<VwapResult> results = Indicator.GetVwap(history);
 
-// usage with optional start date
+// usage with optional anchored start date
 IEnumerable<VwapResult> results = Indicator.GetVwap(history, startDate);  
 ```
 
@@ -30,7 +30,7 @@ You must supply at least one historical quote to calculate; however, more is oft
 IEnumerable<VwapResult>
 ```
 
-The first period or the `startDate` if specified, will have a `Vwap = Close` value since it is the initial starting point.  `Vwap` values before `startDate`, if specified, will be `null`.  We always return the same number of elements as there are in the historical quotes.
+The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.  `Vwap` values before `startDate`, if specified, will be `null`.  We always return the same number of elements as there are in the historical quotes.
 
 ### VwapResult
 
