@@ -14,7 +14,7 @@ IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history, rsiPeriod, 
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `rsiPeriod` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
 | `stochPeriod` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriod`.
 | `signalPeriod` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.

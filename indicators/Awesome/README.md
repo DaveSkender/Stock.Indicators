@@ -15,7 +15,7 @@ IEnumerable<AwesomeResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `fastPeriod` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
 | `slowPeriod` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriod`.  Default is 34.
 

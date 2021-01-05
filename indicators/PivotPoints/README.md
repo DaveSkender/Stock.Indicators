@@ -16,7 +16,7 @@ IEnumerable<PivotPointResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc)
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc)
 | `windowSize` | PeriodSize | Size of the lookback window
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
 

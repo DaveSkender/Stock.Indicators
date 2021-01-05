@@ -15,7 +15,7 @@ IEnumerable<KamaResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `erPeriod` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
 | `fastPeriod` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
 | `slowPeriod` | int | Number of Slow EMA periods.  Must be greater than `fastPeriod`.  Default is 30.

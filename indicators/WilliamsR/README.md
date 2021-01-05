@@ -14,7 +14,7 @@ IEnumerable<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPe
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Minimum history requirements

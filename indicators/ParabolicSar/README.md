@@ -14,7 +14,7 @@ IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, acc
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `accelerationStep` | decimal | Incremental step size.  Must be greater than 0.  Default is 0.02
 | `maxAccelerationFactor` | decimal | Maximimum step limit.  Must be greater than `accelerationStep`.  Default is 0.2
 

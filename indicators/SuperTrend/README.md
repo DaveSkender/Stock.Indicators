@@ -15,7 +15,7 @@ IEnumerable<SuperTrendResult> results = Indicator.GetSuperTrend(history, lookbac
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
 | `multiplier` | decimal | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
 

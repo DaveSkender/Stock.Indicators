@@ -3,7 +3,7 @@
 - [Installation and setup](#installation-and-setup)
 - [Prerequisite data](#prerequisite-data)
 - [Example usage](#example-usage)
-- [About Historical quotes](#quote)
+- [About Historical quotes](#historical-quotes)
 - [Using custom quote classes](#using-custom-quote-classes)
 - [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
@@ -29,7 +29,7 @@ Install-Package Skender.Stock.Indicators
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
 You can get historical quotes from your favorite stock data provider.
-Historical price data is an `IEnumerable` of the `Quote` class ([see below](#quote)); however, it can also be supplied as a generic [custom quote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+Historical price data is an `IEnumerable` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom quote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.

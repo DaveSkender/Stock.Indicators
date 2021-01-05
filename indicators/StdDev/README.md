@@ -17,7 +17,7 @@ IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod,
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
 | `smaPeriod` | int | Optional.  Number of periods in the moving average of STDDEV.  Must be greater than 0, if specified.
 
