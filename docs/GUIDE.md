@@ -85,7 +85,7 @@ Note that some indicators, especially those that are derived from [Exponential M
 
 For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occassionally, even more is required for optimal precision.
 
-## Using custom quote classes
+### Using custom quote classes
 
 If you would like to use your own custom `MyCustomQuote` _quote_ class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
 
@@ -117,7 +117,7 @@ IEnumerable<MyCustomQuote> myHistory = GetHistoryFromFeed("MSFT");
 IEnumerable<SmaResult> results = Indicator.GetSma(myHistory,20);
 ```
 
-### Using custom quote property names
+#### Using custom quote property names
 
 If you have a model that has different properties names, but the same meaning, you only need to map them.
 Suppose your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
@@ -143,7 +143,7 @@ Note the use of explicit interface (property declaration is `IQuote.Date`), this
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 
-## Validating historical quotes
+### Validating historical quotes
 
 Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<TQuote> history` (historical quotes) you can _optionally_ validate it with the `ValidateHistory` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
 
