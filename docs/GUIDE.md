@@ -1,15 +1,30 @@
 ﻿# Guide and Pro tips
 
+- [Installation and setup](#installation-and-setup)
 - [Prerequisite data](#prerequisite-data)
 - [Example usage](#example-usage)
-- [About historical quotes](#quote)
+- [About Historical quotes](#quote)
 - [Using custom quote classes](#using-custom-quote-classes)
 - [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Contributing guidelines](CONTRIBUTING.md)
 
-## Prerequisite data
+## Getting started
+
+### Installation and setup
+
+Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See [more help](https://www.google.com/search?q=install+nuget+package) for installing packages.
+
+```powershell
+# dotnet CLI example
+dotnet add package Skender.Stock.Indicators
+
+# package manager example
+Install-Package Skender.Stock.Indicators
+```
+
+### Prerequisite data
 
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
@@ -19,7 +34,7 @@ Historical price data is an `IEnumerable` of the `Quote` class ([see below](#quo
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.
 
-## Example usage
+### Example usage
 
 All indicator methods will produce all possible results for the provided history -- it is not just a single data point returned.  For example, if you provide 3 years worth of quote history for the SMA method, you'll get 3 years of SMA result values.
 
@@ -45,11 +60,9 @@ SMA on 12/31/2018 was $251.86
 
 See [individual indicator pages](INDICATORS.md) for specific usage guidance.
 
-See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+## Historical quotes
 
-## Quote
-
-Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+Historical price are provided to the library in the standard `IEnumerable<Quote>` format and should have a consistent frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 | name | type | notes
 | -- |-- |--
