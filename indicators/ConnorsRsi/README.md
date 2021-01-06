@@ -14,7 +14,7 @@ IEnumerable<ConnorsRsiResult> results = Indicator.GetConnorsRsi(history, rsiPeri
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `rsiPeriod` | int | Lookback period (`R`) for the close price RSI.  Must be greater than 1.  Default is 3.
 | `streakPeriod` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
 | `rankPeriod` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.

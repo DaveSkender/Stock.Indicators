@@ -15,7 +15,7 @@ IEnumerable<PivotPointResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc)
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc)
 | `windowPeriod` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.
 | `offsetPeriod` | int | Number of periods (`O`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`

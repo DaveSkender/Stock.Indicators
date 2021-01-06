@@ -14,8 +14,8 @@ IEnumerable<CorrResult> results = Indicator.GetCorr(historyA, historyB, lookback
 
 | name | type | notes
 | -- |-- |--
-| `historyA` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical quotes (A).
-| `historyB` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical quotes (B) must have at least the same matching date elements of `historyA`.
+| `historyA` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical quotes (A).
+| `historyB` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical quotes (B) must have at least the same matching date elements of `historyA`.
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
 ### Minimum history requirements

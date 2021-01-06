@@ -14,7 +14,7 @@ IEnumerable<BopResult> results = Indicator.GetBop(history, smoothPeriod);
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#quote)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `smoothPeriod` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
 
 ### Minimum history requirements

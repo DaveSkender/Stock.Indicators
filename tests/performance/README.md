@@ -68,7 +68,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |                   GetWma |   746.80 μs |  9.188 μs |  8.145 μs |   743.65 μs |
 |                GetZigZag |   148.56 μs |  0.734 μs |  0.650 μs |   148.46 μs |
 
-## internal cleaners
+## general functions (internal)
 
 |             Method |     Mean |    Error |   StdDev |   Median |
 |------------------- |---------:|---------:|---------:|---------:|
@@ -76,7 +76,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |    ValidateHistory | 40.28 μs | 0.439 μs | 0.367 μs | 40.15 μs |
 | ConvertToBasicData | 45.66 μs | 0.867 μs | 2.224 μs | 44.82 μs |
 
-## internal math functions
+## math functions (internal)
 
 | Method | Periods |        Mean |     Error |   StdDev |
 |------- |-------- |------------:|----------:|---------:|
