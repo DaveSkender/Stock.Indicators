@@ -46,7 +46,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetUlcerIndex(History.GetHistory(29), 30));
+                Indicator.GetUlcerIndex(HistoryTestData.Get(29), 30));
         }
 
     }

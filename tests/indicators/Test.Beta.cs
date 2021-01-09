@@ -63,13 +63,13 @@ namespace Internal.Tests
                 Indicator.GetBeta(history, historyOther, 0));
 
             // insufficient history
-            IEnumerable<Quote> h1 = History.GetHistory(29);
-            IEnumerable<Quote> h2 = History.GetHistoryOther(29);
+            IEnumerable<Quote> h1 = HistoryTestData.Get(29);
+            IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetBeta(h1, h2, 30));
 
             // bad evaluation history
-            IEnumerable<Quote> eval = History.GetHistoryOther(300);
+            IEnumerable<Quote> eval = HistoryTestData.GetCompare(300);
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetBeta(history, eval, 30));
         }

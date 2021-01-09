@@ -42,7 +42,7 @@ namespace Internal.Tests
         {
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetHeikinAshi(History.GetHistory(1)));
+                Indicator.GetHeikinAshi(HistoryTestData.Get(1)));
         }
 
     }

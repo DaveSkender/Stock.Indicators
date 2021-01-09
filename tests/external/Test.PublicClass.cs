@@ -41,10 +41,19 @@ namespace External.Tests
     {
 
         [TestMethod()]
+        public void ValidateHistoryOld()
+        {
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            history = Cleaners.ValidateHistory(history);
+
+            Indicator.GetSma(history, 5);
+        }
+
+        [TestMethod()]
         public void ValidateHistory()
         {
-            IEnumerable<Quote> history = History.GetHistory();
-            history = Cleaners.ValidateHistory(history);
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            history.Validate();
 
             Indicator.GetSma(history, 5);
         }
@@ -52,8 +61,8 @@ namespace External.Tests
         [TestMethod()]
         public void ReadQuoteClass()
         {
-            IEnumerable<Quote> history = History.GetHistory();
-            List<Quote> h = Cleaners.ValidateHistory(history);
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            List<Quote> h = history.Validate();
 
             Quote f = h.FirstOrDefault();
             Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);
@@ -75,8 +84,8 @@ namespace External.Tests
         [TestMethod()]
         public void DerivedQuoteClassLinq()
         {
-            IEnumerable<Quote> history = History.GetHistory();
-            history = Cleaners.ValidateHistory(history);
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            history = history.Validate();
 
             // can use a derive Quote class using Linq
 
@@ -94,7 +103,7 @@ namespace External.Tests
         [TestMethod()]
         public void CustomQuoteClass()
         {
-            List<MyGenericQuote> myGenericHistory = History.GetHistory()
+            List<MyGenericQuote> myGenericHistory = HistoryTestData.Get()
                 .Select(x => new MyGenericQuote
                 {
                     CloseDate = x.Date,
@@ -145,7 +154,7 @@ namespace External.Tests
         [TestMethod()]
         public void DerivedIndicatorClassLinq()
         {
-            IEnumerable<Quote> history = History.GetHistory();
+            IEnumerable<Quote> history = HistoryTestData.Get();
             IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 14);
 
             // can use a derive Indicator class using Linq

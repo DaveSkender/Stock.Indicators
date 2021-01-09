@@ -74,7 +74,7 @@ namespace Internal.Tests
 
             foreach (int qty in convergeQuantities.Where(q => q > 100 - lookbackPeriod))
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(lookbackPeriod + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(lookbackPeriod + qty);
                 IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriod);
 
                 RsiResult l = r.LastOrDefault();
@@ -92,7 +92,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetRsi(History.GetHistory(129), 30));
+                Indicator.GetRsi(HistoryTestData.Get(129), 30));
         }
 
     }

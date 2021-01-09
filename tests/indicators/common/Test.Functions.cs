@@ -9,7 +9,7 @@ namespace Internal.Tests
     public class FunctionsTests : TestBase
     {
 
-        private readonly double[] closePrice = History.GetHistoryLong()
+        private readonly double[] closePrice = HistoryTestData.GetLong()
             .Select(x => (double)x.Close)
             .ToArray();
 

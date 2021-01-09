@@ -86,7 +86,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetIchimoku(History.GetHistory(51), 9, 26, 52));
+                Indicator.GetIchimoku(HistoryTestData.Get(51), 9, 26, 52));
         }
 
     }

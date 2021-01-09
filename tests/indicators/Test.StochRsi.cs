@@ -96,7 +96,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities.Where(x => x <= 502))
             {
-                IEnumerable<Quote> h = History.GetHistory(110 + qty);
+                IEnumerable<Quote> h = HistoryTestData.Get(110 + qty);
                 IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(h, 14, 14, 3, 1);
 
                 StochRsiResult l = r.LastOrDefault();
@@ -126,7 +126,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetStochRsi(History.GetHistory(129), 30, 30, 5, 5));
+                Indicator.GetStochRsi(HistoryTestData.Get(129), 30, 30, 5, 5));
         }
 
     }

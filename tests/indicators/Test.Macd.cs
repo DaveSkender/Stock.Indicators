@@ -59,7 +59,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(130 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
                 IEnumerable<MacdResult> r = Indicator.GetMacd(h);
 
                 MacdResult l = r.LastOrDefault();
@@ -85,11 +85,11 @@ namespace Internal.Tests
 
             // insufficient history 2×(S+P)
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetMacd(History.GetHistory(409), 12, 200, 5));
+                Indicator.GetMacd(HistoryTestData.Get(409), 12, 200, 5));
 
             // insufficient history S+P+100
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetMacd(History.GetHistory(134), 12, 26, 9));
+                Indicator.GetMacd(HistoryTestData.Get(134), 12, 26, 9));
         }
 
     }

@@ -48,7 +48,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(130 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
                 IEnumerable<EmaResult> r = Indicator.GetDoubleEma(h, 15);
 
                 EmaResult l = r.LastOrDefault();
@@ -66,11 +66,11 @@ namespace Internal.Tests
 
             // insufficient history for 2*N+100
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetDoubleEma(History.GetHistory(159), 30));
+                Indicator.GetDoubleEma(HistoryTestData.Get(159), 30));
 
             // insufficient history for 3×N
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetDoubleEma(History.GetHistoryLong(749), 250));
+                Indicator.GetDoubleEma(HistoryTestData.GetLong(749), 250));
         }
 
     }

@@ -62,7 +62,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(105 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(105 + qty);
                 IEnumerable<KamaResult> r = Indicator.GetKama(h, 10);
 
                 KamaResult l = r.LastOrDefault();
@@ -88,7 +88,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetKama(History.GetHistory(109), 10, 2, 20));
+                Indicator.GetKama(HistoryTestData.Get(109), 10, 2, 20));
         }
 
     }

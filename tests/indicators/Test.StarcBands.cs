@@ -70,7 +70,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(200 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(200 + qty);
                 IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(h, 100);
 
                 StarcBandsResult l = r.LastOrDefault();
@@ -96,11 +96,11 @@ namespace Internal.Tests
 
             // insufficient history 120
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetStarcBands(History.GetHistory(119), 120, 2, 10));
+                Indicator.GetStarcBands(HistoryTestData.Get(119), 120, 2, 10));
 
             // insufficient history 250
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetStarcBands(History.GetHistory(249), 20, 2, 150));
+                Indicator.GetStarcBands(HistoryTestData.Get(249), 20, 2, 150));
         }
 
     }

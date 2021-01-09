@@ -92,7 +92,7 @@ namespace Internal.Tests
             int offsetPeriod = 0;
             PivotPointType pointType = PivotPointType.Camarilla;
 
-            IEnumerable<Quote> h = History.GetHistory(38);
+            IEnumerable<Quote> h = HistoryTestData.Get(38);
             List<PivotPointsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
                 .ToList();
@@ -254,7 +254,7 @@ namespace Internal.Tests
             int offsetPeriod = 15;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
-            IEnumerable<Quote> h = History.GetHistoryIntraday(300);
+            IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
             List<PivotPointsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
                 .ToList();
@@ -331,7 +331,7 @@ namespace Internal.Tests
             int offsetPeriod = 16;
             PivotPointType pointType = PivotPointType.Woodie;
 
-            IEnumerable<Quote> h = History.GetHistoryIntraday(1564);
+            IEnumerable<Quote> h = HistoryTestData.GetIntraday(1564);
             List<PivotPointsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
                 .ToList();
@@ -412,7 +412,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetRollingPivots(History.GetHistory(19), 10, 10));
+                Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
         }
 
     }

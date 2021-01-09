@@ -72,7 +72,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetMfi(History.GetHistory(14), 14));
+                Indicator.GetMfi(HistoryTestData.Get(14), 14));
         }
 
     }

@@ -7,11 +7,11 @@ namespace Internal.Tests
 {
     // INTRADAY HISTORY
 
-    internal partial class History
+    internal partial class HistoryTestData
     {
         // note: declarations in primary History file
 
-        internal static IEnumerable<Quote> GetHistoryIntraday(int days = 1564)
+        internal static IEnumerable<Quote> GetIntraday(int days = 1564)
         {
             // includes intraday data for two days (minute bars)
             List<Quote> h = new List<Quote> {

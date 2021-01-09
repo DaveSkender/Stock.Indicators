@@ -140,7 +140,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetZigZag(History.GetHistory(1)));
+                Indicator.GetZigZag(HistoryTestData.Get(1)));
         }
 
     }

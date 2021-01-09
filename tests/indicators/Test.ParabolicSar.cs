@@ -65,7 +65,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetParabolicSar(History.GetHistory(1), 0.02m, 0.2m));
+                Indicator.GetParabolicSar(HistoryTestData.Get(1), 0.02m, 0.2m));
         }
 
     }

@@ -54,7 +54,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetVolSma(History.GetHistory(9), 10));
+                Indicator.GetVolSma(HistoryTestData.Get(9), 10));
         }
 
     }

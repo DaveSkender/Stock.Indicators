@@ -57,7 +57,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(128 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(128 + qty);
                 IEnumerable<AdxResult> r = Indicator.GetAdx(h);
 
                 AdxResult l = r.LastOrDefault();
@@ -75,7 +75,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetAdx(History.GetHistory(159), 30));
+                Indicator.GetAdx(HistoryTestData.Get(159), 30));
         }
 
     }

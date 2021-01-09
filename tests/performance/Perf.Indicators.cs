@@ -9,9 +9,9 @@ namespace Tests.Performance
     [MarkdownExporterAttribute.GitHub]
     public class MarkIndicators
     {
-        private readonly IEnumerable<Quote> h = History.GetHistory();
-        private readonly IEnumerable<Quote> ho = History.GetHistoryOther();
-        private readonly IEnumerable<Quote> hday = History.GetHistoryIntraday(391);
+        private readonly IEnumerable<Quote> h = HistoryTestData.Get();
+        private readonly IEnumerable<Quote> ho = HistoryTestData.GetCompare();
+        private readonly IEnumerable<Quote> hday = HistoryTestData.GetIntraday(391);
 
         [Benchmark]
         public object GetAdl()

@@ -65,14 +65,14 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetPrs(history, History.GetHistoryOther(13), 14));
+                Indicator.GetPrs(history, HistoryTestData.GetCompare(13), 14));
 
             // insufficient eval history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetPrs(history, History.GetHistoryOther(300), 14));
+                Indicator.GetPrs(history, HistoryTestData.GetCompare(300), 14));
 
             // mismatch history
-            IEnumerable<Quote> historyMismatch = History.GetHistoryWithMismatchDates();
+            IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPrs(historyMismatch, historyOther, 14));
         }

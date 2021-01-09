@@ -46,7 +46,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(110 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(110 + qty);
                 IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(h);
 
                 ChaikinOscResult l = r.LastOrDefault();
@@ -68,11 +68,11 @@ namespace Internal.Tests
 
             // insufficient history S+100
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetChaikinOsc(History.GetHistory(109), 3, 10));
+                Indicator.GetChaikinOsc(HistoryTestData.Get(109), 3, 10));
 
             // insufficient history 2×S
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetChaikinOsc(History.GetHistory(499), 3, 250));
+                Indicator.GetChaikinOsc(HistoryTestData.Get(499), 3, 250));
         }
 
     }

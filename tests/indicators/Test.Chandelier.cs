@@ -62,7 +62,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetChandelier(History.GetHistory(30), 30));
+                Indicator.GetChandelier(HistoryTestData.Get(30), 30));
         }
 
     }

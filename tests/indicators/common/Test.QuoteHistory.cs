@@ -13,10 +13,10 @@ namespace Internal.Tests
         [TestMethod()]
         public void ValidateHistory()
         {
-            IEnumerable<Quote> history = History.GetHistory();
+            IEnumerable<Quote> history = HistoryTestData.Get();
 
             // clean
-            List<Quote> h = Cleaners.ValidateHistory(history);
+            List<Quote> h = history.Validate();
 
             // assertions
 
@@ -36,9 +36,9 @@ namespace Internal.Tests
         [TestMethod()]
         public void ValidateLongHistory()
         {
-            IEnumerable<Quote> historyLong = History.GetHistoryLong();
+            IEnumerable<Quote> historyLong = HistoryTestData.GetLong();
 
-            List<Quote> h = Cleaners.ValidateHistory(historyLong);
+            List<Quote> h = historyLong.Validate();
 
             // assertions
 
@@ -56,8 +56,8 @@ namespace Internal.Tests
         {
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
-            IEnumerable<Quote> history = History.GetHistory(200);
-            List<Quote> h = Cleaners.ValidateHistory(history);
+            IEnumerable<Quote> history = HistoryTestData.Get(200);
+            List<Quote> h = history.Validate();
 
             // assertions
 
@@ -95,7 +95,7 @@ namespace Internal.Tests
         [TestMethod()]
         public void SortHistory()
         {
-            IEnumerable<Quote> history = History.GetHistory();
+            IEnumerable<Quote> history = HistoryTestData.Get();
 
             // clean
             List<Quote> h = history.Sort();
@@ -119,11 +119,11 @@ namespace Internal.Tests
         public void ConvertBasicData()
         {
             // compose basic data
-            List<BasicData> o = Cleaners.ConvertHistoryToBasic(history, "O");
-            List<BasicData> h = Cleaners.ConvertHistoryToBasic(history, "H");
-            List<BasicData> l = Cleaners.ConvertHistoryToBasic(history, "L");
-            List<BasicData> c = Cleaners.ConvertHistoryToBasic(history, "C");
-            List<BasicData> v = Cleaners.ConvertHistoryToBasic(history, "V");
+            List<BasicData> o = history.ConvertToBasic("O");
+            List<BasicData> h = history.ConvertToBasic("H");
+            List<BasicData> l = history.ConvertToBasic("L");
+            List<BasicData> c = history.ConvertToBasic("C");
+            List<BasicData> v = history.ConvertToBasic("V");
 
             // assertions
 
@@ -156,7 +156,7 @@ namespace Internal.Tests
         public void NoHistory()
         {
             List<Quote> badHistory = new List<Quote>();
-            Cleaners.ValidateHistory(badHistory);
+            badHistory.Validate();
         }
 
         [TestMethod()]
@@ -172,7 +172,7 @@ namespace Internal.Tests
             new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open=228.97m, High=231.92m, Low=228.00m, Close=231.28m, Volume = 3979484 }
             };
 
-            Cleaners.ValidateHistory(badHistory);
+            badHistory.Validate();
         }
 
 
@@ -181,7 +181,7 @@ namespace Internal.Tests
         public void NoBasicData()
         {
             List<Quote> h = new List<Quote>();
-            Cleaners.ConvertHistoryToBasic(h);
+            h.ConvertToBasic();
         }
 
         [TestMethod()]
@@ -189,7 +189,7 @@ namespace Internal.Tests
         public void ConvertBasicDataBadParam()
         {
             // compose basic data
-            Cleaners.ConvertHistoryToBasic(history, "E");
+            history.ConvertToBasic("E");
         }
     }
 }

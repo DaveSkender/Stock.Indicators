@@ -11,11 +11,11 @@ namespace Internal.Tests
 {
     // MAIN HISTORY
 
-    internal partial class History
+    internal partial class HistoryTestData
     {
         internal static readonly CultureInfo englishCulture = new CultureInfo("en-US", false);
 
-        internal static IEnumerable<Quote> GetHistory(int days = 502)
+        internal static IEnumerable<Quote> Get(int days = 502)
         {
             // intentionally out of sequence
             List<Quote> h = new List<Quote> {

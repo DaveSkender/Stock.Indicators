@@ -78,7 +78,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetSuperTrend(History.GetHistory(30), 30));
+                Indicator.GetSuperTrend(HistoryTestData.Get(30), 30));
         }
 
     }

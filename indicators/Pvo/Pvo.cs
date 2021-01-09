@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bdList = Cleaners.ConvertHistoryToBasic(history, "V");
+            List<BasicData> bdList = history.ConvertToBasic("V");
 
             // check parameter arguments
             ValidatePvo(history, fastPeriod, slowPeriod, signalPeriod);

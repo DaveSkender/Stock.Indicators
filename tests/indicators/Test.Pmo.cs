@@ -47,7 +47,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(130 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
                 IEnumerable<PmoResult> r = Indicator.GetPmo(h);
 
                 PmoResult l = r.LastOrDefault();
@@ -73,7 +73,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetPmo(History.GetHistory(54), 35, 20, 10));
+                Indicator.GetPmo(HistoryTestData.Get(54), 35, 20, 10));
         }
 
     }

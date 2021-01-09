@@ -118,7 +118,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetStoch(History.GetHistory(32), 30, 3, 3));
+                Indicator.GetStoch(HistoryTestData.Get(32), 30, 3, 3));
         }
 
     }

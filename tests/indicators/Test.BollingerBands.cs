@@ -69,7 +69,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetBollingerBands(History.GetHistory(29), 30, 2));
+                Indicator.GetBollingerBands(HistoryTestData.Get(29), 30, 2));
         }
 
     }
