@@ -33,24 +33,24 @@ namespace Tests.Performance
 
 
     [MarkdownExporterAttribute.GitHub]
-    public class MarkHelpers
+    public class MarkHistoryHelpers
     {
         private static readonly IEnumerable<Quote> h = HistoryTestData.Get();
 
         [Benchmark]
-        public object SortHistory()
+        public object Sort()
         {
             return h.Sort();
         }
 
         [Benchmark]
-        public object ValidateHistory()
+        public object Validate()
         {
             return h.Validate();
         }
 
         [Benchmark]
-        public object ConvertToBasicData()
+        public object ConvertToBasic()
         {
             return h.ConvertToBasic();
         }
