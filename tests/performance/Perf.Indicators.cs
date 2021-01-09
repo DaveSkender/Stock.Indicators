@@ -9,9 +9,9 @@ namespace Tests.Performance
     [MarkdownExporterAttribute.GitHub]
     public class MarkIndicators
     {
-        private readonly IEnumerable<Quote> h = History.GetHistory();
-        private readonly IEnumerable<Quote> ho = History.GetHistoryOther();
-        private readonly IEnumerable<Quote> hday = History.GetHistoryIntraday(391);
+        private readonly IEnumerable<Quote> h = HistoryTestData.Get();
+        private readonly IEnumerable<Quote> ho = HistoryTestData.GetCompare();
+        private readonly IEnumerable<Quote> hday = HistoryTestData.GetIntraday(391);
 
         [Benchmark]
         public object GetAdl()
@@ -170,7 +170,7 @@ namespace Tests.Performance
         }
 
         [Benchmark]
-        public object GetMaEnvelopesSMA()
+        public object GetMaEnvelopes()
         {
             return Indicator.GetMaEnvelopes(h, 20, 2.5, MaType.SMA);
         }
@@ -191,12 +191,6 @@ namespace Tests.Performance
         public object GetObv()
         {
             return Indicator.GetObv(h);
-        }
-
-        [Benchmark]
-        public object GetPvo()
-        {
-            return Indicator.GetPvo(h);
         }
 
         [Benchmark]
@@ -236,9 +230,9 @@ namespace Tests.Performance
         }
 
         [Benchmark]
-        public object GetPrsWithLookBackAndSma()
+        public object GetPvo()
         {
-            return Indicator.GetPrs(h, ho, 30, 5);
+            return Indicator.GetPvo(h);
         }
 
         [Benchmark]

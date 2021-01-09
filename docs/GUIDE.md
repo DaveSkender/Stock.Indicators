@@ -8,6 +8,7 @@
 - [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
+- [Helper functions](#helper-functions)
 - [Contributing guidelines](CONTRIBUTING.md)
 
 ## Getting started
@@ -145,14 +146,14 @@ For more information on explicit interfaces, refer to the [C# Programming Guide]
 
 ### Validating historical quotes
 
-Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<TQuote> history` (historical quotes) you can _optionally_ validate it with the `ValidateHistory` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
+Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<TQuote> history` (historical quotes) you can _optionally_ validate it with the `history.Validate()` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your favorite feed
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // advanced validation
-List<Quote> validatedHistory = Cleaners.ValidateHistory(history);
+List<Quote> validatedHistory = history.Validate();
 ```
 
 ## Using derived results classes
@@ -255,4 +256,22 @@ List<Quote> obvHistory = obvResults
 // calculate RSI of OBV
 int lookbackPeriod = 14;
 IEnumerable<RsiResult> results = Indicator.GetRsi(obvHistory, lookbackPeriod);
+```
+
+## Helper functions
+
+### Find indicator result by date
+
+`results.Find()` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
+
+```csharp
+// fetch historical quotes from your favorite feed
+IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+
+// calculate indicator series
+IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
+
+// find result on a specific date
+DateTime lookupDate = [..] // the date you want to find
+SmaResult result = results.Find(lookupDate);
 ```

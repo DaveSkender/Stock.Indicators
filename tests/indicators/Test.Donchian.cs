@@ -76,7 +76,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetDonchian(History.GetHistory(30), 30));
+                Indicator.GetDonchian(HistoryTestData.Get(30), 30));
         }
 
     }

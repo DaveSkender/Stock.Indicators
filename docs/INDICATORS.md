@@ -18,7 +18,6 @@
 - [Donchian Channels](../indicators/Donchian/README.md#content)
 - [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
 - [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
-- [Fractal](../indicators/Fractal/README.md#content)
 - [Heikin-Ashi](../indicators/HeikinAshi/README.md#content)
 - [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
 - [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
@@ -55,4 +54,5 @@
 - [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
 - [Williams %R](../indicators/WilliamsR/README.md#content)
+- [Williams Fractal](../indicators/Fractal/README.md#content)
 - [Zig Zag](../indicators/ZigZag/README.md#content)

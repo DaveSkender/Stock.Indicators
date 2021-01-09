@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bd = history.ConvertToBasic("C");
 
             // calculate
             return CalcRsi(bd, lookbackPeriod);

@@ -7,11 +7,11 @@ namespace Internal.Tests
 {
     // BAD HISTORY
 
-    internal partial class History
+    internal partial class HistoryTestData
     {
         // note: declarations in primary History file
 
-        internal static IEnumerable<Quote> GetHistoryBad(int days = 502)
+        internal static IEnumerable<Quote> GetBad(int days = 502)
         {
             // includes normal, tiny, huge, flatline, all zeros, nulls, missing dates
             List<Quote> h = new List<Quote> {

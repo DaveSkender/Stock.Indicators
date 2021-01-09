@@ -55,7 +55,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(140 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(140 + qty);
                 IEnumerable<TrixResult> r = Indicator.GetTrix(h, 15);
 
                 TrixResult l = r.LastOrDefault();
@@ -73,11 +73,11 @@ namespace Internal.Tests
 
             // insufficient history for 3*N+100
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetTrix(History.GetHistory(189), 30));
+                Indicator.GetTrix(HistoryTestData.Get(189), 30));
 
             // insufficient history for 4×N
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetTrix(History.GetHistoryLong(999), 250));
+                Indicator.GetTrix(HistoryTestData.GetLong(999), 250));
         }
 
     }

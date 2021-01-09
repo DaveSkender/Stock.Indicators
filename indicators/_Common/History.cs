@@ -6,12 +6,43 @@ using System.Threading;
 
 namespace Skender.Stock.Indicators
 {
+    // HISTORICAL QUOTES
 
-    public static class Cleaners
+    public interface IQuote
+    {
+        public DateTime Date { get; }
+        public decimal Open { get; }
+        public decimal High { get; }
+        public decimal Low { get; }
+        public decimal Close { get; }
+        public decimal Volume { get; }
+    }
+
+    [Serializable]
+    public class Quote : IQuote
+    {
+        public DateTime Date { get; set; }
+        public decimal Open { get; set; }
+        public decimal High { get; set; }
+        public decimal Low { get; set; }
+        public decimal Close { get; set; }
+        public decimal Volume { get; set; }
+    }
+
+    [Serializable]
+    internal class BasicData
+    {
+        internal DateTime Date { get; set; }
+        internal decimal Value { get; set; }
+    }
+
+
+    public static class HistoricalQuotes
     {
         private static readonly CultureInfo nativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-        public static List<TQuote> ValidateHistory<TQuote>(IEnumerable<TQuote> history) where TQuote : IQuote
+        public static List<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history) 
+            where TQuote : IQuote
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
@@ -35,7 +66,8 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history) where TQuote : IQuote
+        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history) 
+            where TQuote : IQuote
         {
             List<TQuote> historyList = history.OrderBy(x => x.Date).ToList();
 
@@ -48,7 +80,9 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-        internal static List<BasicData> ConvertHistoryToBasic<TQuote>(IEnumerable<TQuote> history, string element = "C") where TQuote : IQuote
+        internal static List<BasicData> ConvertToBasic<TQuote>(
+            this IEnumerable<TQuote> history, string element = "C")
+            where TQuote : IQuote
         {
             // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
             // convert to basic data format
@@ -72,5 +106,19 @@ namespace Skender.Stock.Indicators
 
             return bdList;
         }
+
     }
+
+
+    // for backwards compatibility only
+    // TODO: remove in v2
+    public static class Cleaners
+    {
+
+        public static List<TQuote> ValidateHistory<TQuote>(IEnumerable<TQuote> history) where TQuote : IQuote
+        {
+            return history.Validate();
+        }
+    }
+
 }

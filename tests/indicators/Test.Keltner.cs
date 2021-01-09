@@ -59,7 +59,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(200 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(200 + qty);
                 IEnumerable<KeltnerResult> r = Indicator.GetKeltner(h, 100);
 
                 KeltnerResult l = r.LastOrDefault();
@@ -85,11 +85,11 @@ namespace Internal.Tests
 
             // insufficient history for N+100
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetKeltner(History.GetHistory(119), 20, 2, 10));
+                Indicator.GetKeltner(HistoryTestData.Get(119), 20, 2, 10));
 
             // insufficient history for 2×N
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetKeltner(History.GetHistory(499), 20, 2, 250));
+                Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
         }
 
     }

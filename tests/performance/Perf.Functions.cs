@@ -18,7 +18,7 @@ namespace Tests.Performance
         [GlobalSetup]
         public void Setup()
         {
-            values = History.GetHistoryLong(Periods)
+            values = HistoryTestData.GetLong(Periods)
                 .Select(x => (double)x.Close)
                 .ToArray();
         }
@@ -33,26 +33,26 @@ namespace Tests.Performance
 
 
     [MarkdownExporterAttribute.GitHub]
-    public class MarkCleaners
+    public class MarkHistoryHelpers
     {
-        private static readonly IEnumerable<Quote> h = History.GetHistory();
+        private static readonly IEnumerable<Quote> h = HistoryTestData.Get();
 
         [Benchmark]
-        public object SortHistory()
+        public object Sort()
         {
             return h.Sort();
         }
 
         [Benchmark]
-        public object ValidateHistory()
+        public object Validate()
         {
-            return Cleaners.ValidateHistory(h);
+            return h.Validate();
         }
 
         [Benchmark]
-        public object ConvertToBasicData()
+        public object ConvertToBasic()
         {
-            return Cleaners.ConvertHistoryToBasic(h);
+            return h.ConvertToBasic();
         }
 
     }

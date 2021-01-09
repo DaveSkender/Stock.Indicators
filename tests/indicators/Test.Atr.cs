@@ -62,7 +62,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = History.GetHistoryLong(115 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(115 + qty);
                 IEnumerable<AtrResult> r = Indicator.GetAtr(h);
 
                 AtrResult l = r.LastOrDefault();
@@ -80,7 +80,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetAtr(History.GetHistory(129), 30));
+                Indicator.GetAtr(HistoryTestData.Get(129), 30));
         }
 
     }

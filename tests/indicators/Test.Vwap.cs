@@ -9,7 +9,7 @@ namespace Internal.Tests
     [TestClass]
     public class Vwap : TestBase
     {
-        private readonly IEnumerable<Quote> intraday = History.GetHistoryIntraday()
+        private readonly IEnumerable<Quote> intraday = HistoryTestData.GetIntraday()
             .OrderBy(x => x.Date)
             .Take(391);
 
@@ -88,7 +88,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetVwap(History.GetHistory(0)));
+                Indicator.GetVwap(HistoryTestData.Get(0)));
         }
 
     }

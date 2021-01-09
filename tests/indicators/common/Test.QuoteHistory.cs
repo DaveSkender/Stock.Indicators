@@ -11,12 +11,12 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void ValidateHistory()
+        public void Validate()
         {
-            IEnumerable<Quote> history = History.GetHistory();
+            IEnumerable<Quote> history = HistoryTestData.Get();
 
             // clean
-            List<Quote> h = Cleaners.ValidateHistory(history);
+            List<Quote> h = history.Validate();
 
             // assertions
 
@@ -32,13 +32,12 @@ namespace Internal.Tests
             Assert.AreEqual(spotDate, h[20].Date);
         }
 
-
         [TestMethod()]
-        public void ValidateLongHistory()
+        public void ValidateLong()
         {
-            IEnumerable<Quote> historyLong = History.GetHistoryLong();
+            IEnumerable<Quote> historyLong = HistoryTestData.GetLong();
 
-            List<Quote> h = Cleaners.ValidateHistory(historyLong);
+            List<Quote> h = historyLong.Validate();
 
             // assertions
 
@@ -50,14 +49,13 @@ namespace Internal.Tests
             Assert.AreEqual(lastDate, h[5284].Date);
         }
 
-
         [TestMethod()]
-        public void CutHistory()
+        public void ValidateCut()
         {
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
-            IEnumerable<Quote> history = History.GetHistory(200);
-            List<Quote> h = Cleaners.ValidateHistory(history);
+            IEnumerable<Quote> history = HistoryTestData.Get(200);
+            List<Quote> h = history.Validate();
 
             // assertions
 
@@ -91,11 +89,10 @@ namespace Internal.Tests
             }
         }
 
-
         [TestMethod()]
-        public void SortHistory()
+        public void Sort()
         {
-            IEnumerable<Quote> history = History.GetHistory();
+            IEnumerable<Quote> history = HistoryTestData.Get();
 
             // clean
             List<Quote> h = history.Sort();
@@ -114,16 +111,28 @@ namespace Internal.Tests
             Assert.AreEqual(spotDate, h[20].Date);
         }
 
+        [TestMethod()]
+        public void Find()
+        {
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 20);
+
+            // find specific date
+            DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
+
+            EmaResult r = emaResults.Find(findDate);
+            Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
+        }
 
         [TestMethod()]
-        public void ConvertBasicData()
+        public void ConvertToBasic()
         {
             // compose basic data
-            List<BasicData> o = Cleaners.ConvertHistoryToBasic(history, "O");
-            List<BasicData> h = Cleaners.ConvertHistoryToBasic(history, "H");
-            List<BasicData> l = Cleaners.ConvertHistoryToBasic(history, "L");
-            List<BasicData> c = Cleaners.ConvertHistoryToBasic(history, "C");
-            List<BasicData> v = Cleaners.ConvertHistoryToBasic(history, "V");
+            List<BasicData> o = history.ConvertToBasic("O");
+            List<BasicData> h = history.ConvertToBasic("H");
+            List<BasicData> l = history.ConvertToBasic("L");
+            List<BasicData> c = history.ConvertToBasic("C");
+            List<BasicData> v = history.ConvertToBasic("V");
 
             // assertions
 
@@ -156,7 +165,7 @@ namespace Internal.Tests
         public void NoHistory()
         {
             List<Quote> badHistory = new List<Quote>();
-            Cleaners.ValidateHistory(badHistory);
+            badHistory.Validate();
         }
 
         [TestMethod()]
@@ -172,16 +181,15 @@ namespace Internal.Tests
             new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open=228.97m, High=231.92m, Low=228.00m, Close=231.28m, Volume = 3979484 }
             };
 
-            Cleaners.ValidateHistory(badHistory);
+            badHistory.Validate();
         }
-
 
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "No historical basic data.")]
         public void NoBasicData()
         {
             List<Quote> h = new List<Quote>();
-            Cleaners.ConvertHistoryToBasic(h);
+            h.ConvertToBasic();
         }
 
         [TestMethod()]
@@ -189,7 +197,8 @@ namespace Internal.Tests
         public void ConvertBasicDataBadParam()
         {
             // compose basic data
-            Cleaners.ConvertHistoryToBasic(history, "E");
+            history.ConvertToBasic("E");
         }
+
     }
 }

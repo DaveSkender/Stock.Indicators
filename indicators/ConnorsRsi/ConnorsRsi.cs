@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bd = Cleaners.ConvertHistoryToBasic(history, "C").ToList();
+            List<BasicData> bd = history.ConvertToBasic("C");
 
             // check parameter arguments
             ValidateConnorsRsi(bd, rsiPeriod, streakPeriod, rankPeriod);

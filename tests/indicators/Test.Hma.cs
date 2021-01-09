@@ -49,7 +49,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetHma(History.GetHistory(9), 10));
+                Indicator.GetHma(HistoryTestData.Get(9), 10));
         }
 
     }

@@ -100,7 +100,7 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Week;
             PivotPointType pointType = PivotPointType.Camarilla;
 
-            IEnumerable<Quote> h = History.GetHistory(38);
+            IEnumerable<Quote> h = HistoryTestData.Get(38);
             List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
                 .ToList();
 
@@ -263,7 +263,7 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Hour;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
-            IEnumerable<Quote> h = History.GetHistoryIntraday(300);
+            IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
             List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
                 .ToList();
 
@@ -338,7 +338,7 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Day;
             PivotPointType pointType = PivotPointType.Woodie;
 
-            IEnumerable<Quote> h = History.GetHistoryIntraday();
+            IEnumerable<Quote> h = HistoryTestData.GetIntraday();
             List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
                 .ToList();
 
@@ -410,23 +410,23 @@ namespace Internal.Tests
         {
             // insufficient history - month
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetPivotPoints(History.GetHistory(18), PeriodSize.Month));
+                Indicator.GetPivotPoints(HistoryTestData.Get(18), PeriodSize.Month));
 
             // insufficient history - week
-            IEnumerable<Quote> w = History.GetHistory(5)
+            IEnumerable<Quote> w = HistoryTestData.Get(5)
                 .OrderBy(x => x.Date).Take(4);
 
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPivotPoints(w, PeriodSize.Week));
 
             // insufficient history - day
-            IEnumerable<Quote> d = History.GetHistoryIntraday(250);
+            IEnumerable<Quote> d = HistoryTestData.GetIntraday(250);
 
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPivotPoints(d, PeriodSize.Day));
 
             // insufficient history - hour
-            IEnumerable<Quote> h = History.GetHistoryIntraday(30)
+            IEnumerable<Quote> h = HistoryTestData.GetIntraday(30)
                 .OrderBy(x => x.Date).Take(29);
 
             Assert.ThrowsException<BadHistoryException>(() =>

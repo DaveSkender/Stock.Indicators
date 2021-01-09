@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace Internal.Tests
 {
-    // OTHER HISTORY
+    // COMPARISON HISTORY
 
-    internal partial class History
+    internal partial class HistoryTestData
     {
         // note: declarations in primary History file
 
-        internal static IEnumerable<Quote> GetHistoryOther(int days = 502)
+        internal static IEnumerable<Quote> GetCompare(int days = 502)
         {
             // other stock data, for comparative indicators
             List<Quote> h = new List<Quote> {

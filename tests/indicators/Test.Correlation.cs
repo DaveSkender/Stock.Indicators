@@ -47,18 +47,18 @@ namespace Internal.Tests
                 Indicator.GetCorrelation(history, historyOther, 0));
 
             // insufficient history
-            IEnumerable<Quote> h1 = History.GetHistory(29);
-            IEnumerable<Quote> h2 = History.GetHistoryOther(29);
+            IEnumerable<Quote> h1 = HistoryTestData.Get(29);
+            IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetCorrelation(h1, h2, 30));
 
             // bad eval history
-            IEnumerable<Quote> eval = History.GetHistoryOther(300);
+            IEnumerable<Quote> eval = HistoryTestData.GetCompare(300);
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetCorrelation(history, eval, 30));
 
             // mismatched history
-            IEnumerable<Quote> historyMismatch = History.GetHistoryWithMismatchDates();
+            IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetCorrelation(historyMismatch, historyOther, 20));
 

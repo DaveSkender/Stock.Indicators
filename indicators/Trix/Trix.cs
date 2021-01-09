@@ -15,7 +15,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bdList = Cleaners.ConvertHistoryToBasic(history, "C");
+            List<BasicData> bdList = history.ConvertToBasic("C");
 
             // check parameter arguments
             ValidateTrix(bdList, lookbackPeriod);

@@ -62,7 +62,7 @@ namespace Internal.Tests
         {
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetFractal(History.GetHistory(4)));
+                Indicator.GetFractal(HistoryTestData.Get(4)));
         }
 
     }
