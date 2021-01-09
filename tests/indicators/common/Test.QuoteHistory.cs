@@ -11,7 +11,7 @@ namespace Internal.Tests
     {
 
         [TestMethod()]
-        public void ValidateHistory()
+        public void Validate()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
 
@@ -32,9 +32,8 @@ namespace Internal.Tests
             Assert.AreEqual(spotDate, h[20].Date);
         }
 
-
         [TestMethod()]
-        public void ValidateLongHistory()
+        public void ValidateLong()
         {
             IEnumerable<Quote> historyLong = HistoryTestData.GetLong();
 
@@ -50,9 +49,8 @@ namespace Internal.Tests
             Assert.AreEqual(lastDate, h[5284].Date);
         }
 
-
         [TestMethod()]
-        public void CutHistory()
+        public void ValidateCut()
         {
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
@@ -91,9 +89,8 @@ namespace Internal.Tests
             }
         }
 
-
         [TestMethod()]
-        public void SortHistory()
+        public void Sort()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
 
@@ -114,9 +111,21 @@ namespace Internal.Tests
             Assert.AreEqual(spotDate, h[20].Date);
         }
 
+        [TestMethod()]
+        public void Find()
+        {
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 20);
+
+            // find specific date
+            DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
+
+            EmaResult r = emaResults.Find(findDate);
+            Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
+        }
 
         [TestMethod()]
-        public void ConvertBasicData()
+        public void ConvertToBasic()
         {
             // compose basic data
             List<BasicData> o = history.ConvertToBasic("O");
@@ -175,7 +184,6 @@ namespace Internal.Tests
             badHistory.Validate();
         }
 
-
         [TestMethod()]
         [ExpectedException(typeof(BadHistoryException), "No historical basic data.")]
         public void NoBasicData()
@@ -191,5 +199,6 @@ namespace Internal.Tests
             // compose basic data
             history.ConvertToBasic("E");
         }
+
     }
 }

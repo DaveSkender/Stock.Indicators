@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace External.Tests
@@ -15,6 +16,7 @@ namespace External.Tests
 
     public class MyIndicator : EmaResult
     {
+        public int Id { get; set; }
         public bool MyProperty { get; set; }
         public float MyEma { get; set; }
     }
@@ -39,21 +41,22 @@ namespace External.Tests
     [TestClass]
     public class PublicClassTests
     {
-
-        [TestMethod()]
-        public void ValidateHistoryOld()
-        {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            history = Cleaners.ValidateHistory(history);
-
-            Indicator.GetSma(history, 5);
-        }
+        internal static readonly CultureInfo englishCulture = new CultureInfo("en-US", false);
 
         [TestMethod()]
         public void ValidateHistory()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
             history.Validate();
+
+            Indicator.GetSma(history, 5);
+        }
+
+        [TestMethod()]
+        public void ValidateHistoryOld()
+        {
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            history = Cleaners.ValidateHistory(history);
 
             Indicator.GetSma(history, 5);
         }
@@ -169,6 +172,36 @@ namespace External.Tests
                 });
 
             Assert.IsTrue(myIndicatorResults.Any());
+        }
+
+        [TestMethod()]
+        public void DerivedIndicatorFind()
+        {
+            IEnumerable<Quote> history = HistoryTestData.Get();
+            IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 20);
+
+            // can use a derive Indicator class using Linq
+
+            IEnumerable<MyIndicator> myIndicatorResults = emaResults
+                .Where(x => x.Ema != null)
+                .Select(x => new MyIndicator
+                {
+                    Id = 12345,
+                    Date = x.Date,
+                    MyEma = (float)x.Ema,
+                    MyProperty = false
+                });
+
+            Assert.IsTrue(myIndicatorResults.Any());
+
+            // find specific date
+            DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
+
+            MyIndicator i = myIndicatorResults.Find(findDate);
+            Assert.AreEqual(12345, i.Id);
+
+            EmaResult r = emaResults.Find(findDate);
+            Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
         }
 
     }

@@ -8,6 +8,7 @@
 - [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
+- [Helper functions](#helper-functions)
 - [Contributing guidelines](CONTRIBUTING.md)
 
 ## Getting started
@@ -255,4 +256,20 @@ List<Quote> obvHistory = obvResults
 // calculate RSI of OBV
 int lookbackPeriod = 14;
 IEnumerable<RsiResult> results = Indicator.GetRsi(obvHistory, lookbackPeriod);
+```
+
+## Helper functions
+
+### Find indicator result by date
+
+```csharp
+// fetch historical quotes from your favorite feed
+IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+
+// calculate indicator series
+IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
+
+// find result on a specific date
+DateTime lookupDate = [..] // the date you want to find
+SmaResult result = results.Find(lookupDate);
 ```
