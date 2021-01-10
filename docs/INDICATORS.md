@@ -22,6 +22,7 @@
 - [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
 - [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
 - [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/README.md#content)
+- [KDJ Index](../indicators/Stoch/README.md#content)
 - [Keltner Channels](../indicators/Keltner/README.md#content)
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
 - [Money Flow Index (MFI)](../indicators/Mfi/README.md#content)

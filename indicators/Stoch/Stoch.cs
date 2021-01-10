@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
             }
 
 
-            // signal and period direction info
+            // signal (%D) and %J
             int stochIndex = lookbackPeriod + smoothPeriod - 2;
 
             for (int i = stochIndex; i < size; i++)
@@ -101,6 +101,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     r.Signal = sumOsc / signalPeriod;
+                    r.PercentJ = 3 * r.Signal - 2 * r.Oscillator;
                 }
             }
 
