@@ -7,7 +7,8 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 
 ```csharp
 // usage
-IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
+IEnumerable<StochResult> results 
+  = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
 ```
 
 ## Parameters
@@ -16,8 +17,8 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
-| `signalPeriod` | int | Lookback period for the signal (%D).  Must be greater than 0.  Default is 3.
-| `smoothingPeriod` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than or equal to 1.  Default is 3.
+| `signalPeriod` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
+| `smoothingPeriod` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
 
 ### Minimum history requirements
 
