@@ -38,7 +38,7 @@ The first `N+S-1` periods will have `null` Oscillator values since there's not e
 | `Date` | DateTime | Date
 | `Oscillator` | decimal | %K Oscillator over prior `N` lookback periods
 | `Signal` | decimal | %D Simple moving average of Oscillator
-| `PercentJ` | decimal | %J is the weighted divergence of %K and %D: `%J=3×%D-2×%K`
+| `PercentJ` | decimal | %J is the weighted divergence of %K and %D: `%J=3×%K-2×%D`
 
 ## Example
 

@@ -101,7 +101,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     r.Signal = sumOsc / signalPeriod;
-                    r.PercentJ = 3 * r.Signal - 2 * r.Oscillator;
+                    r.PercentJ = 3 * r.Oscillator - 2 * r.Signal;
                 }
             }
 
