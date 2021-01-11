@@ -1,13 +1,14 @@
-﻿# Stochastic Oscillator
+﻿# Stochastic Oscillator (and KDJ Index)
 
-Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator) is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.
+Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator) is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.  %J is also included for the KDJ Index extension.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/237 "Community discussion about this indicator")
 
 ![image](chart.png)
 
 ```csharp
 // usage
-IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
+IEnumerable<StochResult> results 
+  = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
 ```
 
 ## Parameters
@@ -16,8 +17,8 @@ IEnumerable<StochResult> results = Indicator.GetStoch(history, lookbackPeriod, s
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
-| `signalPeriod` | int | Lookback period for the signal (%D).  Must be greater than 0.  Default is 3.
-| `smoothingPeriod` | int | Smoothing period `S` for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  You can specify as needed here.  Must be greater than or equal to 1.  Default is 3.
+| `signalPeriod` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
+| `smoothingPeriod` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
 
 ### Minimum history requirements
 
@@ -38,6 +39,7 @@ The first `N+S-1` periods will have `null` Oscillator values since there's not e
 | `Date` | DateTime | Date
 | `Oscillator` | decimal | %K Oscillator over prior `N` lookback periods
 | `Signal` | decimal | %D Simple moving average of Oscillator
+| `PercentJ` | decimal | %J is the weighted divergence of %K and %D: `%J=3×%K-2×%D`
 
 ## Example
 
