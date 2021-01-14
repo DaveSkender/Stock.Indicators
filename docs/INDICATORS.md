@@ -1,6 +1,6 @@
 # Indicators and overlays
 
-- [Acumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
+- [Accumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
 - [Aroon Oscillator](../indicators/Aroon/README.md#content)
 - [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
 - [Average Directional Index (ADX)](../indicators/Adx/README.md#content)
