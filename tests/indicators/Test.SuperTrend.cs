@@ -59,6 +59,18 @@ namespace Internal.Tests
         }
 
         [TestMethod()]
+        public void Bitcoin()
+        {
+            IEnumerable<Quote> h = HistoryTestData.GetBitcoin();
+            List<SuperTrendResult> results = Indicator.GetSuperTrend(h, 10, 3)
+                .ToList();
+            Assert.AreEqual(1246, results.Count);
+
+            SuperTrendResult r = results[1208];
+            Assert.AreEqual(16242.2704m, Math.Round((decimal)r.LowerBand, 4));
+        }
+
+        [TestMethod()]
         public void BadData()
         {
             IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(historyBad, 7);
@@ -78,7 +90,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetSuperTrend(HistoryTestData.Get(30), 30));
+                Indicator.GetSuperTrend(HistoryTestData.Get(129), 30));
         }
 
     }
