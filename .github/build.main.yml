@@ -48,7 +48,7 @@ steps:
     displayName: build
     inputs:
       projects: "**/*.csproj"
-      arguments: "--disable-parallel --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
+      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
   - task: DotNetCoreCLI@2
     displayName: "test internal"
@@ -67,13 +67,12 @@ steps:
       publishTestResults: false
       testRunTitle: "Library External Tests"
 
-  - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
-    displayName: "format code coverage"
+  - task: reportgenerator@4
     inputs:
-      reports: "**/coverage.cobertura.xml"
-      targetdir: "$(Build.ArtifactStagingDirectory)/TestResults"
-      reporttypes: "HtmlInline_AzurePipelines;Cobertura;Badges"
-      title: "Stock.Indicators Library Tests"
+      reports: '**/coverage.cobertura.xml'
+      targetdir: '$(Build.ArtifactStagingDirectory)/TestResults'
+      reporttypes: 'Cobertura'
+      title: 'Stock.Indicators Library Tests'
 
   - task: PublishCodeCoverageResults@1
     displayName: "publish code coverage"
