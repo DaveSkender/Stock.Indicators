@@ -46,7 +46,7 @@ jobs:
           dotnet-version: "5.0.x"
 
       - name: Build software
-        run: dotnet build indicators/*.csproj --configuration Release --no-restore
+        run: dotnet build indicators/*.csproj --configuration Release
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
