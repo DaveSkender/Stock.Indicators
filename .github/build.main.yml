@@ -38,7 +38,7 @@ steps:
       arguments: "/output buildserver"
 
   - task: DotNetCoreCLI@2
-    displayName: "stamp Assemblies"
+    displayName: "create Assembly Info"
     inputs:
       command: 'custom'
       custom: 'gitversion'
@@ -67,18 +67,11 @@ steps:
       publishTestResults: false
       testRunTitle: "Library External Tests"
 
-  - task: reportgenerator@4
-    inputs:
-      reports: '**/coverage.cobertura.xml'
-      targetdir: '$(Build.ArtifactStagingDirectory)/TestResults'
-      reporttypes: 'Cobertura'
-      title: 'Stock.Indicators Library Tests'
-
   - task: PublishCodeCoverageResults@1
     displayName: "publish code coverage"
     inputs:
       codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Build.ArtifactStagingDirectory)/TestResults/cobertura.xml"
+      summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
       reportDirectory: "$(Build.ArtifactStagingDirectory)/TestResults"
 
   - task: DotNetCoreCLI@2
