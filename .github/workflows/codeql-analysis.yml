@@ -9,13 +9,17 @@ on:
   schedule:
     - cron: "0 10 15 * *"
 
+defaults:
+  run:
+    working-directory: indicators
+
 jobs:
   analyse:
     name: Analyse
     runs-on: windows-latest
 
     steps:
-      - name: configure Pagefile
+      - name: Configure pagefile
         uses: al-cheb/configure-pagefile-action@v1.2
         with:
           minimum-size: 8GB
@@ -29,36 +33,18 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
-      # If this run was triggered by a pull request event, then checkout
-      # the head of the pull request instead of the merge commit.
-      - run: git checkout HEAD^2
-        if: ${{ github.event_name == 'pull_request' }}
-
-      # this is required for GitVersion to analyze version number
-      - name: Fetch all history for GitVersion
-        run: git fetch --prune --unshallow
-
-      # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
           languages: csharp
 
-      - name: Install .Net SDK
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "5.0.x"
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.5
-        with:
-          versionSpec: "5.5.1"
-
-      - name: Restore packages
-        run: dotnet restore
-
       - name: Build software
-        run: dotnet build --disable-parallel --configuration Release --no-restore
+        run: dotnet build --configuration Release
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1

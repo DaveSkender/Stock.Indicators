@@ -21,7 +21,7 @@ IEnumerable<SuperTrendResult> results = Indicator.GetSuperTrend(history, lookbac
 
 ### Minimum history requirements
 
-You must supply at least `N+1` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `2×N` periods prior to the intended usage date for optimal precision.
+You must supply at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 
 ## Response
 
@@ -32,7 +32,7 @@ IEnumerable<SuperTrendResult>
 The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
 We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: the line segment before the first reversal is unreliable due to an initial guess of trend direction.
+:warning: **Warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 
 ### SuperTrendResult
 
