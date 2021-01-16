@@ -13,12 +13,12 @@ variables:
 
 steps:
   - task: UseDotNet@2
-    displayName: "use .Net SDK 3.1.x"
+    displayName: "use .NET SDK 5.0.x"
     inputs:
-      version: 3.1.x
+      version: 5.0.x
 
   - task: NuGetToolInstaller@1
-    displayName: "use Nuget 5.8.x"
+    displayName: "use NuGet 5.8.x"
     inputs:
       versionSpec: 5.8.x
       checkLatest: false
@@ -28,32 +28,34 @@ steps:
     inputs:
       command: custom
       custom: tool
-      arguments: "install -g gitversion.tool --version 5.5.1"
+      arguments: "install -g gitversion.tool --version 5.6.3"
 
   - task: DotNetCoreCLI@2
-    displayName: "run GitVersion"
+    displayName: "get version number"
     inputs:
       command: custom
       custom: gitversion
       arguments: "/output buildserver"
 
-  - task: UseDotNet@2
-    displayName: "use .Net SDK 5.0.x"
+  - task: DotNetCoreCLI@2
+    displayName: "create assembly info"
     inputs:
-      version: 5.0.x
+      command: 'custom'
+      custom: 'gitversion'
+      arguments: '/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo'
 
   - task: DotNetCoreCLI@2
     displayName: build
     inputs:
       projects: "**/*.csproj"
-      arguments: "--disable-parallel --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
+      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
   - task: DotNetCoreCLI@2
     displayName: "test internal"
     inputs:
       command: test
       projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       testRunTitle: "Library Internal Tests"
 
   - task: DotNetCoreCLI@2
@@ -61,24 +63,15 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.External.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
-
-  - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
-    displayName: "format code coverage"
-    inputs:
-      reports: "**/coverage.cobertura.xml"
-      targetdir: "$(Build.ArtifactStagingDirectory)/TestResults"
-      reporttypes: "HtmlInline_AzurePipelines;Cobertura;Badges"
-      title: "Stock.Indicators Library Tests"
 
   - task: PublishCodeCoverageResults@1
     displayName: "publish code coverage"
     inputs:
       codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Build.ArtifactStagingDirectory)/TestResults/cobertura.xml"
-      reportDirectory: "$(Build.ArtifactStagingDirectory)/TestResults"
+      summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
