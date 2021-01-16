@@ -13,18 +13,18 @@ variables:
 
 steps:
   - task: UseDotNet@2
-    displayName: "use .Net SDK 5.0.x"
+    displayName: "use .NET SDK 5.0.x"
     inputs:
       version: 5.0.x
 
   - task: NuGetToolInstaller@1
-    displayName: "use Nuget 5.8.x"
+    displayName: "use NuGet 5.8.x"
     inputs:
       versionSpec: 5.8.x
       checkLatest: false
 
   - task: DotNetCoreCLI@2
-    displayName: "use GitVersion.Tool"
+    displayName: "use GitVersion"
     inputs:
       command: custom
       custom: tool

@@ -34,26 +34,19 @@ jobs:
       - run: git checkout HEAD^2
         if: ${{ github.event_name == 'pull_request' }}
 
-      # this is required for GitVersion to analyze version number
-      - name: Fetch all history for GitVersion
-        run: git fetch --prune --unshallow
-
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
           languages: csharp
 
-      - name: Install .Net SDK
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "5.0.x"
 
-      - name: Restore packages
-        run: dotnet restore
-
       - name: Build software
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build indicators/*.csproj --configuration Release --no-restore
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
