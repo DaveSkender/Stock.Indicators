@@ -9,6 +9,10 @@ on:
   schedule:
     - cron: "0 10 15 * *"
 
+defaults:
+  run:
+    working-directory: indicators
+
 jobs:
   analyse:
     name: Analyse
@@ -41,7 +45,7 @@ jobs:
           dotnet-version: "5.0.x"
 
       - name: Build software
-        run: dotnet build **/Indicators.csproj --configuration Release
+        run: dotnet build --configuration Release
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
