@@ -19,7 +19,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: configure Pagefile
+      - name: Configure pagefile
         uses: al-cheb/configure-pagefile-action@v1.2
         with:
           minimum-size: 8GB
@@ -33,7 +33,6 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
-      # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
