@@ -24,21 +24,21 @@ steps:
       checkLatest: false
 
   - task: DotNetCoreCLI@2
-    displayName: "use GitVersion 5.6.3"
+    displayName: "use GitVersion.Tool"
     inputs:
       command: custom
       custom: tool
       arguments: "install -g gitversion.tool --version 5.6.3"
 
   - task: DotNetCoreCLI@2
-    displayName: "get SemVer number"
+    displayName: "get version number"
     inputs:
       command: custom
       custom: gitversion
       arguments: "/output buildserver"
 
   - task: DotNetCoreCLI@2
-    displayName: "create Assembly Info"
+    displayName: "create assembly info"
     inputs:
       command: 'custom'
       custom: 'gitversion'
@@ -55,7 +55,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       testRunTitle: "Library Internal Tests"
 
   - task: DotNetCoreCLI@2
@@ -63,7 +63,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.External.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:Version=$(GitVersion.NuGetVersion) /p:CollectCoverage=false"
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: false
       testRunTitle: "Library External Tests"
 
@@ -72,7 +72,6 @@ steps:
     inputs:
       codeCoverageTool: Cobertura
       summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
-      reportDirectory: "$(Build.ArtifactStagingDirectory)/TestResults"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
