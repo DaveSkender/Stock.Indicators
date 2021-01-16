@@ -1,6 +1,6 @@
-﻿# Bollinger Bands
+﻿# Bollinger Bands&#174;
 
-Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) indicate volatility and displays standard deviation boundary lines from moving average of Close price.
+Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) indicate volatility and displays standard deviation boundary lines from a moving average of Close price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
 ![image](chart.png)
