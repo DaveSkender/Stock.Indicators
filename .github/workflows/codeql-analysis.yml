@@ -49,16 +49,11 @@ jobs:
         with:
           dotnet-version: "5.0.x"
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.5
-        with:
-          versionSpec: "5.5.1"
-
       - name: Restore packages
         run: dotnet restore
 
       - name: Build software
-        run: dotnet build --disable-parallel --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
