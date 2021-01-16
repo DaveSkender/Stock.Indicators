@@ -24,7 +24,7 @@ steps:
       checkLatest: false
 
   - task: DotNetCoreCLI@2
-    displayName: "use GitVersion"
+    displayName: "use GitVersion 5.6.3"
     inputs:
       command: custom
       custom: tool
@@ -41,7 +41,6 @@ steps:
     displayName: "stamp Assemblies"
     inputs:
       command: 'custom'
-      projects: '/indicators'
       custom: 'gitversion'
       arguments: '/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo'
 
