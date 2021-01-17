@@ -1,0 +1,35 @@
+# More about .editorconfig: https://aka.ms/editorconfigdocs
+# More about Analyzers: https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 150
+
+[*.md]
+trim_trailing_whitespace = true
+
+[*.csproj]
+indent_style = space
+indent_size = 2
+
+[*.{cs,csx,vb,vbx}]
+indent_size = 4
+charset = utf-8-bom
+end_of_line = crlf
+
+# analyzer overrides for code quality
+dotnet_diagnostic.CA1062.severity = warning
+
+# analyzer overrides for code styles
+dotnet_diagnostic.IDE0001.severity = warning
+dotnet_diagnostic.IDE0047.severity = silent
+dotnet_diagnostic.IDE0048.severity = silent
+
+# analyzer defaults
+dotnet_analyzer_diagnostic.category-performance.severity = warning
+#dotnet_analyzer_diagnostic.category-Style.severity = warning
+dotnet_analyzer_diagnostic.severity = suggestion

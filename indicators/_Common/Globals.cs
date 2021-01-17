@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
+[assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Tests.Indicators")]
 [assembly: InternalsVisibleTo("Tests.Performance")]
 namespace Skender.Stock.Indicators
@@ -12,7 +13,10 @@ namespace Skender.Stock.Indicators
         private static readonly Calendar englishCalendar = englishCulture.Calendar;
 
         // Gets the DTFI properties required by GetWeekOfYear.
-        private static readonly CalendarWeekRule englishCalendarWeekRule = englishCulture.DateTimeFormat.CalendarWeekRule;
-        private static readonly DayOfWeek englishFirstDayOfWeek = englishCulture.DateTimeFormat.FirstDayOfWeek;
+        private static readonly CalendarWeekRule englishCalendarWeekRule
+            = englishCulture.DateTimeFormat.CalendarWeekRule;
+
+        private static readonly DayOfWeek englishFirstDayOfWeek
+            = englishCulture.DateTimeFormat.FirstDayOfWeek;
     }
 }

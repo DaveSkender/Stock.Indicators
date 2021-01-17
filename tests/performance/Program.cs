@@ -1,5 +1,7 @@
-﻿using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Running;
+using System;
 
+[assembly: CLSCompliant(false)]
 namespace Performance.Tests
 {
     public class Program

@@ -6,22 +6,23 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
+[assembly: CLSCompliant(true)]
 namespace External.Tests
 {
-    public class MyQuote : Quote
+    internal class MyQuote : Quote
     {
         public bool MyProperty { get; set; }
         public decimal MyClose { get; set; }
     }
 
-    public class MyIndicator : EmaResult
+    internal class MyIndicator : EmaResult
     {
         public int Id { get; set; }
         public bool MyProperty { get; set; }
         public float MyEma { get; set; }
     }
 
-    public class MyGenericQuote : IQuote
+    internal class MyGenericQuote : IQuote
     {
         // required base properties
         DateTime IQuote.Date => CloseDate;
