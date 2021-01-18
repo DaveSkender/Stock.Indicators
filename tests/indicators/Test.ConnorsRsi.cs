@@ -18,7 +18,7 @@ namespace Internal.Tests
             int rankPeriod = 100;
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
 
-            List<ConnorsRsiResult> results1 = 
+            List<ConnorsRsiResult> results1 =
                 Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod)
                 .ToList();
 

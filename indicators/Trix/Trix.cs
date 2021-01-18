@@ -60,7 +60,7 @@ namespace Skender.Stock.Indicators
 
                     result.Ema3 = e3.Ema;
 
-                    if (lastEma != null && lastEma != 0)
+                    if (lastEma is not null and not 0)
                     {
                         result.Trix = 100 * (e3.Ema - lastEma) / lastEma;
                     }

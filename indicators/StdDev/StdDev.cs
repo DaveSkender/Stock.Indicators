@@ -97,7 +97,7 @@ namespace Skender.Stock.Indicators
                     "Lookback period must be greater than 1 for Standard Deviation.");
             }
 
-            if (smaPeriod != null && smaPeriod <= 0)
+            if (smaPeriod is not null and <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
                     "SMA period must be greater than 0 for Standard Deviation.");

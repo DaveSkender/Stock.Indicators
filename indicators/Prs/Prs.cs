@@ -86,13 +86,13 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            if (lookbackPeriod != null && lookbackPeriod <= 0)
+            if (lookbackPeriod is not null and <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
                     "Lookback period must be greater than 0 for Price Relative Strength.");
             }
 
-            if (smaPeriod != null && smaPeriod <= 0)
+            if (smaPeriod is not null and <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
                     "SMA period must be greater than 0 for Price Relative Strength.");

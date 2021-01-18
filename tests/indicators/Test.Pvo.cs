@@ -33,9 +33,9 @@ namespace Internal.Tests
             // sample values
             PvoResult r1 = results[24];
             Assert.AreEqual(null, r1.Pvo);
-            Assert.AreEqual(null, r1.Signal); 
+            Assert.AreEqual(null, r1.Signal);
             Assert.AreEqual(null, r1.Histogram);
-            
+
             PvoResult r2 = results[33];
             Assert.AreEqual(1.5795m, Math.Round((decimal)r2.Pvo, 4));
             Assert.AreEqual(-3.5530m, Math.Round((decimal)r2.Signal, 4));

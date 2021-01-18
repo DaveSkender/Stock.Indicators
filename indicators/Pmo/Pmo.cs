@@ -103,7 +103,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static IEnumerable<PmoResult> CalcPmoSignal(
+        private static void CalcPmoSignal(
             List<PmoResult> results,
             int timePeriod,
             int smoothingPeriod,
@@ -136,9 +136,6 @@ namespace Skender.Stock.Indicators
 
                 lastSignal = pr.Signal;
             }
-
-
-            return results;
         }
 
 

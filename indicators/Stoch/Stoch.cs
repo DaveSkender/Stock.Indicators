@@ -56,14 +56,9 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    if (lowLow != highHigh)
-                    {
-                        result.Oscillator = 100 * ((h.Close - lowLow) / (highHigh - lowLow));
-                    }
-                    else
-                    {
-                        result.Oscillator = 0;
-                    }
+                    result.Oscillator = lowLow != highHigh
+                        ? 100 * ((h.Close - lowLow) / (highHigh - lowLow))
+                        : 0;
                 }
                 results.Add(result);
             }
@@ -101,7 +96,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     r.Signal = sumOsc / signalPeriod;
-                    r.PercentJ = 3 * r.Oscillator - 2 * r.Signal;
+                    r.PercentJ = (3 * r.Oscillator) - (2 * r.Signal);
                 }
             }
 

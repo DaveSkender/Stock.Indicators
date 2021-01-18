@@ -41,7 +41,7 @@ namespace Skender.Stock.Indicators
     {
         private static readonly CultureInfo nativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-        public static List<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history) 
+        public static List<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
@@ -66,18 +66,15 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history) 
+        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
             List<TQuote> historyList = history.OrderBy(x => x.Date).ToList();
 
             // validate
-            if (historyList == null || historyList.Count == 0)
-            {
-                throw new BadHistoryException(nameof(history), "No historical quotes provided.");
-            }
-
-            return historyList;
+            return historyList == null || historyList.Count == 0
+                ? throw new BadHistoryException(nameof(history), "No historical quotes provided.")
+                : historyList;
         }
 
         internal static List<BasicData> ConvertToBasic<TQuote>(
@@ -99,12 +96,9 @@ namespace Skender.Stock.Indicators
             List<BasicData> bdList = basicData.OrderBy(x => x.Date).ToList();
 
             // validate
-            if (bdList == null || bdList.Count == 0)
-            {
-                throw new BadHistoryException(nameof(history), "No historical quotes provided.");
-            }
-
-            return bdList;
+            return bdList == null || bdList.Count == 0
+                ? throw new BadHistoryException(nameof(history), "No historical quotes provided.")
+                : bdList;
         }
 
     }
