@@ -101,6 +101,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPvo(HistoryTestData.Get(134), 12, 26, 9));
         }
-
     }
 }

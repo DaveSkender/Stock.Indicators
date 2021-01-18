@@ -142,6 +142,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetZigZag(HistoryTestData.Get(1)));
         }
-
     }
 }

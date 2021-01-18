@@ -64,6 +64,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetChandelier(HistoryTestData.Get(30), 30));
         }
-
     }
 }

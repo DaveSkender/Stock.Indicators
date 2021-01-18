@@ -16,7 +16,7 @@ namespace Internal.Tests
             IEnumerable<Quote> history = HistoryTestData.Get();
 
             // clean
-            List<Quote> h = history.Validate();
+            IList<Quote> h = history.Validate();
 
             // assertions
 
@@ -37,7 +37,7 @@ namespace Internal.Tests
         {
             IEnumerable<Quote> historyLong = HistoryTestData.GetLong();
 
-            List<Quote> h = historyLong.Validate();
+            IList<Quote> h = historyLong.Validate();
 
             // assertions
 
@@ -55,7 +55,7 @@ namespace Internal.Tests
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
             IEnumerable<Quote> history = HistoryTestData.Get(200);
-            List<Quote> h = history.Validate();
+            IList<Quote> h = history.Validate();
 
             // assertions
 
@@ -95,7 +95,7 @@ namespace Internal.Tests
             IEnumerable<Quote> history = HistoryTestData.Get();
 
             // clean
-            List<Quote> h = history.Sort();
+            IList<Quote> h = history.Sort();
 
             // assertions
 
@@ -199,6 +199,5 @@ namespace Internal.Tests
             // compose basic data
             history.ConvertToBasic("E");
         }
-
     }
 }

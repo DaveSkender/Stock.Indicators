@@ -56,6 +56,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetVolSma(HistoryTestData.Get(9), 10));
         }
-
     }
 }

@@ -85,6 +85,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetConnorsRsi(HistoryTestData.Get(102), 3, 2, 100));
         }
-
     }
 }

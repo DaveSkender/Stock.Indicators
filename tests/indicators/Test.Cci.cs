@@ -47,6 +47,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetCci(HistoryTestData.Get(30), 30));
         }
-
     }
 }

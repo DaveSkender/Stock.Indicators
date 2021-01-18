@@ -21,7 +21,6 @@ namespace Internal.Tests
 
             // assertions
             Assert.AreEqual(633.932098287, Math.Round(sd, 9));
-
         }
     }
 }

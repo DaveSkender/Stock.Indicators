@@ -91,6 +91,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetMacd(HistoryTestData.Get(134), 12, 26, 9));
         }
-
     }
 }

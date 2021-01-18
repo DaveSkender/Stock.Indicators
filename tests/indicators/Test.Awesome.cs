@@ -63,6 +63,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetAwesome(HistoryTestData.Get(33), 5, 34));
         }
-
     }
 }

@@ -92,6 +92,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetSuperTrend(HistoryTestData.Get(129), 30));
         }
-
     }
 }

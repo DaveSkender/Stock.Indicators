@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Skender.Stock.Indicators
 {
 
-    [Serializable()]
+    [Serializable]
     public class BadHistoryException : ArgumentOutOfRangeException
     {
         public BadHistoryException() { }
@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             : base(paramName, actualValue, message) { }
 
         // A constructor is needed for serialization when an
-        // exception propagates from a remoting server to the client. 
+        // exception propagates from a remoting server to the client.
         protected BadHistoryException(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
     }

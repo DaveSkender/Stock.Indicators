@@ -39,14 +39,14 @@ namespace Skender.Stock.Indicators
 
     public static class HistoricalQuotes
     {
-        private static readonly CultureInfo nativeCulture = Thread.CurrentThread.CurrentUICulture;
+        private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-        public static List<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history)
+        public static IList<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check for duplicates
             DateTime lastDate = DateTime.MinValue;
@@ -57,7 +57,7 @@ namespace Skender.Stock.Indicators
                 if (lastDate == h.Date)
                 {
                     throw new BadHistoryException(
-                        string.Format(nativeCulture, "Duplicate date found on {0}.", h.Date));
+                        string.Format(NativeCulture, "Duplicate date found on {0}.", h.Date));
                 }
 
                 lastDate = h.Date;
@@ -66,7 +66,7 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history)
+        internal static IList<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
             List<TQuote> historyList = history.OrderBy(x => x.Date).ToList();
@@ -100,7 +100,6 @@ namespace Skender.Stock.Indicators
                 ? throw new BadHistoryException(nameof(history), "No historical quotes provided.")
                 : bdList;
         }
-
     }
 
 
@@ -109,10 +108,10 @@ namespace Skender.Stock.Indicators
     public static class Cleaners
     {
 
-        public static List<TQuote> ValidateHistory<TQuote>(IEnumerable<TQuote> history) where TQuote : IQuote
+        public static IList<TQuote> ValidateHistory<TQuote>(IEnumerable<TQuote> history)
+            where TQuote : IQuote
         {
             return history.Validate();
         }
     }
-
 }

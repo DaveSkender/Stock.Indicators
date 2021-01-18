@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateRollingPivots(history, windowPeriod, offsetPeriod);
 
             // initialize
-            List<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
+            IList<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -99,13 +99,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Rolling Pivot Points.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

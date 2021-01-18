@@ -71,6 +71,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetBollingerBands(HistoryTestData.Get(29), 30, 2));
         }
-
     }
 }

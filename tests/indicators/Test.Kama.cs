@@ -90,6 +90,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKama(HistoryTestData.Get(109), 10, 2, 20));
         }
-
     }
 }

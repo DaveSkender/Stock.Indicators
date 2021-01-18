@@ -70,6 +70,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetAroon(HistoryTestData.Get(29), 30));
         }
-
     }
 }

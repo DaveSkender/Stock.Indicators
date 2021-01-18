@@ -431,8 +431,6 @@ namespace Internal.Tests
 
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPivotPoints(h, PeriodSize.Hour));
-
         }
-
     }
 }

@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateVwap(historyList, startDate);
@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             // initialize
             int size = historyList.Count;
             startDate = (startDate == null) ? historyList[0].Date : startDate;
-            List<VwapResult> results = new List<VwapResult>(size);
+            IList<VwapResult> results = new List<VwapResult>(size);
 
             decimal cumVolume = 0m;
             decimal cumVolumeTP = 0m;
@@ -52,7 +52,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateVwap<TQuote>(
-            List<TQuote> historyList,
+            IList<TQuote> historyList,
             DateTime? startDate)
             where TQuote : IQuote
         {
@@ -66,6 +66,5 @@ namespace Skender.Stock.Indicators
                     "Start Date must be within the history range for VWAP.");
             }
         }
-
     }
 }

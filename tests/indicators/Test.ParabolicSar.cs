@@ -67,6 +67,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetParabolicSar(HistoryTestData.Get(1), 0.02m, 0.2m));
         }
-
     }
 }

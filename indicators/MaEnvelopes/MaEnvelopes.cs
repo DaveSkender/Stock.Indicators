@@ -90,7 +90,8 @@ namespace Skender.Stock.Indicators
 
                 _ => throw new ArgumentOutOfRangeException(
                          nameof(movingAverageType), movingAverageType,
-                         string.Format(englishCulture,
+                         string.Format(
+                             englishCulture,
                          "Moving Average Envelopes does not support {0}.",
                          Enum.GetName(typeof(MaType), movingAverageType)))
             };
@@ -108,6 +109,5 @@ namespace Skender.Stock.Indicators
                     "Percent Offset must be greater than 0 for Moving Average Envelopes.");
             }
         }
-
     }
 }

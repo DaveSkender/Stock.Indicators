@@ -8,16 +8,14 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Design",
     "CA1051:Do not declare visible instance fields",
-    Justification = "Required syntax for BenchmarkDotNet",
-    Scope = "member",
-    Target = "~F:Tests.Performance.MarkFunctions.Periods")]
-
-[assembly: SuppressMessage(
-    "Performance",
-    "CA1822:Mark members as static",
-    Justification = "These cannot be static for performance tests.")]
+    Justification = "Required for BenchmarkDotNet")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0058:Expression value is never used",
-    Justification = "Not relevant for BenchmarkDotNet")]
+    Justification = "Not worth refactoring for tests.")]
+
+[assembly: SuppressMessage(
+    "StyleCop.CSharp.DocumentationRules",
+    "SA1600:Elements should be documented",
+    Justification = "Not documenting unit test projects.")]

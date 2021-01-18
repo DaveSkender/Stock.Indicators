@@ -14,16 +14,16 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateHma(history, lookbackPeriod);
 
             // initialize
-            List<Quote> synthHistory = new List<Quote>();
+            IList<Quote> synthHistory = new List<Quote>();
 
-            List<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
-            List<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
+            IList<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
+            IList<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
 
             // roll through history, to get interim synthetic history
             for (int i = 0; i < historyList.Count; i++)
@@ -93,13 +93,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for HMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

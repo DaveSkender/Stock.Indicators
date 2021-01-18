@@ -61,6 +61,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetUltimate(HistoryTestData.Get(28), 7, 14, 28));
         }
-
     }
 }

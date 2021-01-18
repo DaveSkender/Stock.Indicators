@@ -48,6 +48,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetUlcerIndex(HistoryTestData.Get(29), 30));
         }
-
     }
 }

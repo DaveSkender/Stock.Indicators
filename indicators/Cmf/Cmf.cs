@@ -14,14 +14,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            List<CmfResult> results = new List<CmfResult>(historyList.Count);
-            List<AdlResult> adlResults = GetAdl(history).ToList();
+            IList<CmfResult> results = new List<CmfResult>(historyList.Count);
+            IList<AdlResult> adlResults = GetAdl(history).ToList();
 
             // roll through history
             for (int i = 0; i < adlResults.Count; i++)
@@ -85,13 +85,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Chaikin Money Flow.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

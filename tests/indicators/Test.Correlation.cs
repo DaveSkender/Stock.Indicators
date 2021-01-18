@@ -61,8 +61,6 @@ namespace Internal.Tests
             IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetCorrelation(historyMismatch, historyOther, 20));
-
         }
-
     }
 }

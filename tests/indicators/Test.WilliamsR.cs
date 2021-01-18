@@ -51,6 +51,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetWilliamsR(HistoryTestData.Get(29), 30));
         }
-
     }
 }

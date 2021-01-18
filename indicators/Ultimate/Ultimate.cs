@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
 
             // initialize
             int size = historyList.Count;
-            List<UltimateResult> results = new List<UltimateResult>(size);
+            IList<UltimateResult> results = new List<UltimateResult>(size);
             decimal[] bp = new decimal[size]; // buying pressure
             decimal[] tr = new decimal[size]; // true range
 
@@ -121,13 +121,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Ultimate.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

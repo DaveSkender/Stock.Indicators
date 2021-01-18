@@ -372,6 +372,5 @@ namespace Tests.Performance
         {
             return Indicator.GetZigZag(h);
         }
-
     }
 }

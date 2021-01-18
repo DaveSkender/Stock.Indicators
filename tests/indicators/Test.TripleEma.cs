@@ -72,6 +72,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetTripleEma(HistoryTestData.GetLong(999), 250));
         }
-
     }
 }

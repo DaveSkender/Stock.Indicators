@@ -78,6 +78,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetDonchian(HistoryTestData.Get(30), 30));
         }
-
     }
 }

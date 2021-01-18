@@ -524,6 +524,5 @@ namespace Internal.Tests
                 .Take(days)
                 .ToList();
         }
-
     }
 }

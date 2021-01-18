@@ -74,6 +74,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetChaikinOsc(HistoryTestData.Get(499), 3, 250));
         }
-
     }
 }

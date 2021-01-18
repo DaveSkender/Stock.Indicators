@@ -88,6 +88,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetIchimoku(HistoryTestData.Get(51), 9, 26, 52));
         }
-
     }
 }

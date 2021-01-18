@@ -79,6 +79,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetTrix(HistoryTestData.GetLong(999), 250));
         }
-
     }
 }

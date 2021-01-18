@@ -15,14 +15,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyListA = historyA.Sort();
-            List<TQuote> historyListB = historyB.Sort();
+            IList<TQuote> historyListA = historyA.Sort();
+            IList<TQuote> historyListB = historyB.Sort();
 
             // check parameter arguments
             ValidateCorrelation(historyA, historyB, lookbackPeriod);
 
             // initialize
-            List<CorrResult> results = new List<CorrResult>(historyListA.Count);
+            IList<CorrResult> results = new List<CorrResult>(historyListA.Count);
 
             // roll through history
             for (int i = 0; i < historyListA.Count; i++)
@@ -107,7 +107,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryA < minHistoryA)
             {
                 string message = "Insufficient history provided for Correlation.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistoryA, minHistoryA);
 
@@ -117,10 +118,10 @@ namespace Skender.Stock.Indicators
             int qtyHistoryB = historyB.Count();
             if (qtyHistoryB != qtyHistoryA)
             {
-                throw new BadHistoryException(nameof(historyB),
+                throw new BadHistoryException(
+                    nameof(historyB),
                     "B history should have at least as many records as A history for Correlation.");
             }
         }
-
     }
 }

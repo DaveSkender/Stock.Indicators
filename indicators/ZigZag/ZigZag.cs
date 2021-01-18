@@ -15,13 +15,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateZigZag(history, percentChange);
 
             // initialize
-            List<ZigZagResult> results = new List<ZigZagResult>(historyList.Count);
+            IList<ZigZagResult> results = new List<ZigZagResult>(historyList.Count);
             decimal changeThreshold = percentChange / 100m;
             TQuote firstQuote = historyList[0];
             ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);
@@ -100,7 +100,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagPoint EvaluateNextPoint<TQuote>(List<TQuote> historyList,
+        private static ZigZagPoint EvaluateNextPoint<TQuote>(
+            IList<TQuote> historyList,
             ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
             // initialize
@@ -168,7 +169,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> historyList,
+        private static void DrawZigZagLine<TQuote>(IList<ZigZagResult> results, IList<TQuote> historyList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
         {
 
@@ -198,7 +199,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawRetraceLine(List<ZigZagResult> results, string lastDirection,
+        private static void DrawRetraceLine(IList<ZigZagResult> results, string lastDirection,
             ZigZagPoint lastLowPoint, ZigZagPoint lastHighPoint, ZigZagPoint nextPoint)
         {
             bool isHighLine = (lastDirection == "L");
@@ -299,13 +300,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ZIGZAG.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

@@ -74,6 +74,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetAdl(HistoryTestData.Get(1)));
         }
-
     }
 }

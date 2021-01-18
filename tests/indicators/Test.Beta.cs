@@ -73,6 +73,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetBeta(history, eval, 30));
         }
-
     }
 }

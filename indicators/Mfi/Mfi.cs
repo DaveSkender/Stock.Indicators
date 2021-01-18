@@ -14,14 +14,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateMfi(history, lookbackPeriod);
 
             // initialize
             int size = historyList.Count;
-            List<MfiResult> results = new List<MfiResult>(size);
+            IList<MfiResult> results = new List<MfiResult>(size);
             decimal[] tp = new decimal[size];  // true price
             decimal[] mf = new decimal[size];  // raw MF value
             int[] direction = new int[size];   // direction
@@ -120,13 +120,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Money Flow Index.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

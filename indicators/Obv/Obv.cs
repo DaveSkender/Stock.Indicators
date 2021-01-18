@@ -14,13 +14,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateObv(history, smaPeriod);
 
             // initialize
-            List<ObvResult> results = new List<ObvResult>(historyList.Count);
+            IList<ObvResult> results = new List<ObvResult>(historyList.Count);
 
             decimal? prevClose = null;
             decimal obv = 0;
@@ -89,13 +89,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for On-balance Volume.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

@@ -262,6 +262,5 @@ namespace Internal.Tests
 
             // note: insufficient history is tested elsewhere
         }
-
     }
 }

@@ -44,6 +44,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetHeikinAshi(HistoryTestData.Get(1)));
         }
-
     }
 }

@@ -414,6 +414,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
         }
-
     }
 }

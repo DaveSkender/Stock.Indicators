@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyBaseList = historyBase.Sort();
-            List<TQuote> historyEvalList = historyEval.Sort();
+            IList<TQuote> historyBaseList = historyBase.Sort();
+            IList<TQuote> historyEvalList = historyEval.Sort();
 
             // check parameter arguments
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
 
             // initialize
-            List<PrsResult> results = new List<PrsResult>(historyEvalList.Count);
+            IList<PrsResult> results = new List<PrsResult>(historyEvalList.Count);
 
             // roll through history
             for (int i = 0; i < historyEvalList.Count; i++)
@@ -70,7 +70,6 @@ namespace Skender.Stock.Indicators
                     }
                     r.PrsSma = sumRs / smaPeriod;
                 }
-
             }
 
             return results;
@@ -106,7 +105,8 @@ namespace Skender.Stock.Indicators
             if (minHistory != null && qtyHistoryEval < minHistory)
             {
                 string message = "Insufficient history provided for Price Relative Strength.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistoryEval, minHistory);
 
@@ -115,10 +115,10 @@ namespace Skender.Stock.Indicators
 
             if (qtyHistoryBase != qtyHistoryEval)
             {
-                throw new BadHistoryException(nameof(historyBase),
+                throw new BadHistoryException(
+                    nameof(historyBase),
                     "Base history should have at least as many records as Eval history for PRS.");
             }
         }
-
     }
 }

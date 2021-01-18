@@ -15,13 +15,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
 
             // initialize
-            List<ParabolicSarResult> results = new List<ParabolicSarResult>(historyList.Count);
+            IList<ParabolicSarResult> results = new List<ParabolicSarResult>(historyList.Count);
             TQuote first = historyList[0];
 
             decimal accelerationFactor = accelerationStep;
@@ -181,7 +181,8 @@ namespace Skender.Stock.Indicators
 
             if (accelerationStep > maxAccelerationFactor)
             {
-                string message = string.Format(englishCulture,
+                string message = string.Format(
+                    englishCulture,
                     "Acceleration Step must be smaller than provided Max Accleration Factor ({0}) for Parabolic SAR.",
                     maxAccelerationFactor);
 
@@ -194,13 +195,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Parabolic SAR.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

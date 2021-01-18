@@ -75,6 +75,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPmo(HistoryTestData.Get(54), 35, 20, 10));
         }
-
     }
 }

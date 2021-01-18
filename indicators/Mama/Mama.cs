@@ -15,14 +15,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateMama(history, fastLimit, slowLimit);
 
             // initialize
             int size = historyList.Count;
-            List<MamaResult> results = new List<MamaResult>(size);
+            IList<MamaResult> results = new List<MamaResult>(size);
 
             double sumPr = 0d;
 
@@ -174,13 +174,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for MAMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

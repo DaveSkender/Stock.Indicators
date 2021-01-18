@@ -8,8 +8,14 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Globalization",
     "CA1303:Do not pass literals as localized parameters",
-    Justification = "Not a problem for a unit test project")]
+    Justification = "Not worth refactoring for tests.")]
 
-[assembly: SuppressMessage("Style",
+[assembly: SuppressMessage(
+    "Style",
     "IDE0058:Expression value is never used",
-    Justification = "Okay for testing project.")]
+    Justification = "Not worth refactoring for tests.")]
+
+[assembly: SuppressMessage(
+    "StyleCop.CSharp.DocumentationRules",
+    "SA1600:Elements should be documented",
+    Justification = "Not documenting unit test projects.")]

@@ -90,6 +90,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetVwap(HistoryTestData.Get(0)));
         }
-
     }
 }

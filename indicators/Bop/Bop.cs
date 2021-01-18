@@ -14,14 +14,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateBop(history, smoothPeriod);
 
             // initialize
             int size = historyList.Count;
-            List<BopResult> results = new List<BopResult>(size);
+            IList<BopResult> results = new List<BopResult>(size);
 
             decimal?[] raw = historyList
                 .Select(x => (x.High != x.Low) ?
@@ -72,13 +72,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for BOP.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

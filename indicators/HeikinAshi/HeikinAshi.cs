@@ -12,13 +12,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateHeikinAshi(history);
 
             // initialize
-            List<HeikinAshiResult> results = new List<HeikinAshiResult>(historyList.Count);
+            IList<HeikinAshiResult> results = new List<HeikinAshiResult>(historyList.Count);
 
             decimal? prevOpen = null;
             decimal? prevClose = null;
@@ -74,13 +74,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Heikin-Ashi.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

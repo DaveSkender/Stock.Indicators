@@ -102,6 +102,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStarcBands(HistoryTestData.Get(249), 20, 2, 150));
         }
-
     }
 }

@@ -68,6 +68,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetSlope(HistoryTestData.Get(29), 30));
         }
-
     }
 }

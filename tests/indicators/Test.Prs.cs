@@ -76,6 +76,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPrs(historyMismatch, historyOther, 14));
         }
-
     }
 }

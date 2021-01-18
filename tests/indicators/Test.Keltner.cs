@@ -91,6 +91,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
         }
-
     }
 }

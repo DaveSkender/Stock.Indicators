@@ -74,6 +74,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetMfi(HistoryTestData.Get(14), 14));
         }
-
     }
 }

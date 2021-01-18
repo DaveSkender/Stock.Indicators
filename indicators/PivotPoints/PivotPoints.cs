@@ -15,13 +15,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidatePivotPoints(history, windowSize);
 
             // initialize
-            List<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
+            IList<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
             PivotPointsResult windowPoint = new PivotPointsResult();
 
             TQuote h0 = historyList[0];
@@ -255,7 +255,8 @@ namespace Skender.Stock.Indicators
             if (qtyWindows < 2)
             {
                 string message = "Insufficient history provided for Pivot Points.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} {1} windows of history when at least 2 are required.  "
                     + "This can be from either not enough history or insufficiently detailed Date values.",
                     qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));
@@ -263,6 +264,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

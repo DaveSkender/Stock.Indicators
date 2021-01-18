@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateKama(history, erPeriod, fastPeriod, slowPeriod);
 
             // initialize
-            List<KamaResult> results = new List<KamaResult>(historyList.Count);
+            IList<KamaResult> results = new List<KamaResult>(historyList.Count);
             decimal scFast = 2m / (fastPeriod + 1);
             decimal scSlow = 2m / (slowPeriod + 1);
 
@@ -113,7 +113,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for KAMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for an ER period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
@@ -123,6 +124,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

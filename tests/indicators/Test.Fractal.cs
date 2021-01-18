@@ -64,6 +64,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetFractal(HistoryTestData.Get(4)));
         }
-
     }
 }

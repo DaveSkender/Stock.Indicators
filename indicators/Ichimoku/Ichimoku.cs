@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
 
             // initialize
-            List<IchimokuResult> results = new List<IchimokuResult>(historyList.Count);
+            IList<IchimokuResult> results = new List<IchimokuResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -68,7 +68,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuTenkanSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int signalPeriod)
+            int index, IList<TQuote> historyList, IchimokuResult result, int signalPeriod)
             where TQuote : IQuote
         {
             if (index >= signalPeriod)
@@ -97,7 +97,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuKijunSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriod)
+            int index, IList<TQuote> historyList, IchimokuResult result, int shortSpanPeriod)
             where TQuote : IQuote
         {
             if (index >= shortSpanPeriod)
@@ -126,7 +126,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuSenkouB<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result,
+            int index, IList<TQuote> historyList, IchimokuResult result,
             int shortSpanPeriod, int longSpanPeriod)
             where TQuote : IQuote
         {
@@ -189,13 +189,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ICHIMOKU.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

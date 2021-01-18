@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyList = history.Sort();
+            IList<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateAlma(history, lookbackPeriod, offset, sigma);
 
             // initialize
-            List<AlmaResult> results = new List<AlmaResult>(historyList.Count);
+            IList<AlmaResult> results = new List<AlmaResult>(historyList.Count);
 
             // determine price weights
             double m = offset * (lookbackPeriod - 1);
@@ -104,13 +104,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ALMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

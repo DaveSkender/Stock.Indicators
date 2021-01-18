@@ -15,14 +15,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            List<TQuote> historyEvalList = historyEval.Sort();
+            IList<TQuote> historyEvalList = historyEval.Sort();
 
             // check parameter arguments
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
 
             // initialize
-            List<BetaResult> results = new List<BetaResult>(historyEvalList.Count);
-            List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod).ToList();
+            IList<BetaResult> results = new List<BetaResult>(historyEvalList.Count);
+            IList<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod).ToList();
 
             // roll through history
             for (int i = 0; i < historyEvalList.Count; i++)
@@ -69,7 +69,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryMarket < minHistoryMarket)
             {
                 string message = "Insufficient history provided for Beta.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        englishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistoryMarket, minHistoryMarket);
 
@@ -79,10 +80,10 @@ namespace Skender.Stock.Indicators
             int qtyHistoryEval = historyEval.Count();
             if (qtyHistoryEval < qtyHistoryMarket)
             {
-                throw new BadHistoryException(nameof(historyEval),
+                throw new BadHistoryException(
+                    nameof(historyEval),
                     "Eval history should have at least as many records as Market history for Beta.");
             }
         }
-
     }
 }
