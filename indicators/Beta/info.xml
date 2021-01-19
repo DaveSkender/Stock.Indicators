@@ -8,7 +8,8 @@
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="history">Historical price quotes.</param>
+  <param name="historyMarket">Historical price quotes for Market.</param>
+  <param name="historyEval">Historical price quotes for Evaluation.</param>
   <param name="lookbackPeriod">Number of periods in the lookback window.</param>
   <returns>Time series of Beta values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
