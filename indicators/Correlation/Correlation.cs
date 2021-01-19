@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CORRELATION COEFFICIENT
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
             IEnumerable<TQuote> historyA,
             IEnumerable<TQuote> historyB,
@@ -108,7 +110,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Correlation.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistoryA, minHistoryA);
 

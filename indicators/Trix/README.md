@@ -1,6 +1,6 @@
-﻿# Triple EMA Oscillator (TRIX)
+# Triple EMA Oscillator (TRIX)
 
-Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the Close price over `N` periods.  TRIX is often confused with [TEMA](../Ema/README.md).
+Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the Close price over a lookback window.  TRIX is often confused with [TEMA](../Ema/README.md).
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/234 "Community discussion about this indicator")
 
 ![image](chart.png)

@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // BALANCE OF POWER
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<BopResult> GetBop<TQuote>(
             IEnumerable<TQuote> history,
             int smoothPeriod = 14)
@@ -73,7 +75,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for BOP.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE of VOLUME
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<VolSmaResult> GetVolSma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)
@@ -65,7 +67,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for VolSma.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

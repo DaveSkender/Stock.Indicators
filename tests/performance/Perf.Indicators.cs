@@ -1,7 +1,7 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Collections.Generic;
+using BenchmarkDotNet.Attributes;
 using Internal.Tests;
 using Skender.Stock.Indicators;
-using System.Collections.Generic;
 
 namespace Tests.Performance
 {

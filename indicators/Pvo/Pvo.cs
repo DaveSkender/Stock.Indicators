@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // PRICE VOLUME OSCILLATOR (PVO)
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<PvoResult> GetPvo<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 12,
@@ -112,7 +114,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for PVO.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "

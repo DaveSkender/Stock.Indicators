@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // PRICE MOMENTUM OSCILLATOR (PMO)
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<PmoResult> GetPmo<TQuote>(
             IEnumerable<TQuote> history,
             int timePeriod = 35,
@@ -173,7 +175,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for PMO.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a several smoothing operations, "
                     + "we recommend you use at least {2} data points prior to the intended "

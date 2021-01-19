@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STOCHASTIC OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<StochResult> GetStoch<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 14,
@@ -169,7 +171,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Stochastic.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

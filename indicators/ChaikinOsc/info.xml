@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Chaikin Oscillator is the difference between fast and slow Exponential Moving Averages (EMA) of the Accumulation/Distribution Line (ADL).
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/ChaikinOsc/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="fastPeriod">Number of periods for the ADL fast EMA.</param>
+  <param name="slowPeriod">Number of periods for the ADL slow EMA.</param>
+  <returns>Time series of Chaikin Oscillator, Money Flow Volume, and ADL values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

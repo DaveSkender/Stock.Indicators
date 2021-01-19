@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<MacdResult> GetMacd<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 12,
@@ -110,7 +112,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for MACD.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "

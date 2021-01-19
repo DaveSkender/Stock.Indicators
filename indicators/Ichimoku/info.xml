@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ichimoku/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="signalPeriod">Number of periods in the Tenkan-sen midpoint evaluation.</param>
+  <param name="shortSpanPeriod">Number of periods in the shorter Kijun-sen midpoint evaluation.</param>
+  <param name="longSpanPeriod">Number of periods in the longer Senkou leading span B midpoint evaluation.</param>
+  <returns>Time series of Ichimoku Cloud values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

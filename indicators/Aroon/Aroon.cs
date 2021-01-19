@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // AROON OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<AroonResult> GetAroon<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 25)
@@ -90,7 +92,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Aroon.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

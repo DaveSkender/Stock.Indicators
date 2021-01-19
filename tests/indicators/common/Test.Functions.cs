@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -14,7 +14,7 @@ namespace Internal.Tests
             .ToArray();
 
 
-        [TestMethod()]
+        [TestMethod]
         public void StdDev()
         {
             double sd = Functions.StdDev(closePrice);

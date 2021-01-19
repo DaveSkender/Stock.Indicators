@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Chandelier Exit is typically used for stop-loss and can be computed for both long or short types.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Chandelier/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <param name="multiplier">Multiplier.</param>
+  <param name="type">Short or Long variant selection.</param>
+  <returns>Time series of Chandelier Exit values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

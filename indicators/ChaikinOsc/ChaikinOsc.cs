@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CHAIKIN OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 3,
@@ -78,7 +80,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Chaikin Oscillator.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for a slow period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "

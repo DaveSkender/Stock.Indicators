@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Price Relative Strength (PRS), also called Comparative Relative Strength, 
+    shows the ratio of two quote histories, based on Close price. It is often used to compare 
+    against a market index or sector ETF. When using the optional lookbackPeriod, 
+    this also return relative percent change over the specified periods.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Prs/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="historyBase">This is usually market index data, but could be any baseline data that you might use for comparison.</param>
+  <param name="historyEval">Historical price quotes for evaluation.</param>
+  <param name="lookbackPeriod">Optional. Number of periods for % difference.</param>
+  <param name="smaPeriod">Optional.  Number of periods for a PRS SMA signal line.</param>
+  <returns>Time series of PRS values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

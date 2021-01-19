@@ -26,6 +26,7 @@ max_line_length = 150
 
 ### CODE ANALYSIS RULES and options ####
 
+dotnet_diagnostic.CA1016.severity = none         # Mark assemblies with assembly version
 
 ### STYLE RULES and options ####
 
@@ -284,15 +285,8 @@ dotnet_analyzer_diagnostic.severity = silent
 
 ### STYLE COP RULES ####
 
-# CS1573: Parameter 'parameter' has no matching param tag in the XML comment
-dotnet_diagnostic.CS1573.severity = suggestion
-
-# CS1591: Missing XML comment for publicly visible type or member
-dotnet_diagnostic.CS1591.severity = suggestion
-
-# CS1712: Type parameter 'type parameter' has no matching typeparam tag in the XML comment
-dotnet_diagnostic.CS1712.severity = suggestion
-
+# SA0001: XML comment analysis is disabled due to project configuration
+dotnet_diagnostic.SA0001.severity = none
 
 # SA1200: Using directives should be placed correctly
 dotnet_diagnostic.SA1200.severity = none

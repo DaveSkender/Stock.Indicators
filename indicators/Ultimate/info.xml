@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Ultimate Oscillator uses several lookback periods to weigh buying power against True Range price to produce on oversold / overbought oscillator.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ultimate/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="shortPeriod">Number of periods in the smallest window.</param>
+  <param name="middlePeriod">Number of periods in the middle-sized window.</param>
+  <param name="longPeriod">Number of periods in the largest window.</param>
+  <returns>Time series of Ultimate Oscillator values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

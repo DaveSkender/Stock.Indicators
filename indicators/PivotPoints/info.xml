@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Pivot Points depict support and resistance levels, based on the prior lookback window. You can specify window size (e.g. month, week, day, etc).
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/PivotPoints/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="windowSize">Calendar size of the lookback window.</param>
+  <param name="pointType">Pivot Point type.</param>
+  <returns>Time series of Pivot Points values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

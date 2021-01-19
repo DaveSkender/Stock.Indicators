@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Stoller Average Range Channel (STARC) Bands, are based on an SMA centerline and ATR band widths.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/StarcBands/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="smaPeriod">Number of periods for the centerline SMA.</param>
+  <param name="multiplier">ATR multiplier sets the width of the channel.</param>
+  <param name="atrPeriod">Number of periods in the ATR evaluation.</param>
+  <returns>Time series of STARC Bands values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

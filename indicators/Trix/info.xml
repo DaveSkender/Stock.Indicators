@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Triple EMA Oscillator (TRIX) is the rate of change for a 3 EMA smoothing of the Close price over a lookback window. TRIX is often confused with TEMA.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Trix/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <param name="signalPeriod">Optional.  Number of periods for a TRIX SMA signal line.</param>
+  <returns>Time series of TRIX values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

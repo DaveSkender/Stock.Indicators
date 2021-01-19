@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STARC BANDS
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
             IEnumerable<TQuote> history,
             int smaPeriod = 20,
@@ -90,7 +92,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for STARC Bands.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "

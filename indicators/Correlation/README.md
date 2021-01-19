@@ -1,6 +1,6 @@
-﻿# Correlation Coefficient
+# Correlation Coefficient
 
-[Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and covariance are also output.
+[Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/259 "Community discussion about this indicator")
 
 ![image](chart.png)

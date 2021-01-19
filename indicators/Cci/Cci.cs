@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // COMMODITY CHANNEL INDEX
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<CciResult> GetCci<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 20)
@@ -84,7 +86,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Commodity Channel Index.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

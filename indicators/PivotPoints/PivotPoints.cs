@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // PIVOT POINTS
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<PivotPointsResult> GetPivotPoints<TQuote>(
             IEnumerable<TQuote> history,
             PeriodSize windowSize,
@@ -210,7 +212,7 @@ namespace Skender.Stock.Indicators
             return windowSize switch
             {
                 PeriodSize.Month => d.Month,
-                PeriodSize.Week => englishCalendar.GetWeekOfYear(d, englishCalendarWeekRule, englishFirstDayOfWeek),
+                PeriodSize.Week => EnglishCalendar.GetWeekOfYear(d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
                 PeriodSize.Day => d.Day,
                 PeriodSize.Hour => d.Hour,
                 _ => 0
@@ -234,8 +236,8 @@ namespace Skender.Stock.Indicators
                     break;
 
                 case PeriodSize.Week:
-                    qtyWindows = history.Select(x => englishCalendar
-                    .GetWeekOfYear(x.Date, englishCalendarWeekRule, englishFirstDayOfWeek))
+                    qtyWindows = history.Select(x => EnglishCalendar
+                    .GetWeekOfYear(x.Date, EnglishCalendarWeekRule, EnglishFirstDayOfWeek))
                     .Distinct().Count();
                     break;
 
@@ -256,7 +258,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Pivot Points.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} {1} windows of history when at least 2 are required.  "
                     + "This can be from either not enough history or insufficiently detailed Date values.",
                     qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));

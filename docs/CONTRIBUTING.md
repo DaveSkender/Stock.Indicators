@@ -8,6 +8,7 @@ We are accepting these sorts of changes and requests:
 
 - Bug reports and fixes
 - Usability improvements
+- Documentation updates
 - New reputable "by the book" indicators and overlays that are in the public domain
 
 We are not accepting things that should be done in your own wrapper code:

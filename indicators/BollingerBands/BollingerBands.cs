@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // BOLLINGER BANDS
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<BollingerBandsResult> GetBollingerBands<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 20,
@@ -96,7 +98,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Bollinger Bands.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

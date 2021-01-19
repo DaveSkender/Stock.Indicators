@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Price Momentum Oscillator (PMO) is double-smoothed ROC based momentum indicator.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Pmo/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="timePeriod">Number of periods for ROC EMA smoothing.</param>
+  <param name="smoothingPeriod">Number of periods for PMO EMA smoothing.</param>
+  <param name="signalPeriod">Number of periods for Signal line EMA.</param>
+  <returns>Time series of PMO values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Volume Weighted Average Price (VWAP) is a Volume weighted average of Close price, typically used on intraday data.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Vwap/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="startDate">Optional anchor date.  If not provided, the first date in history is used.</param>
+  <returns>Time series of VWAP values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

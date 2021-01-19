@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // WILLIAM %R OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<WilliamsResult> GetWilliamsR<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 14)
@@ -47,7 +49,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for William %R.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

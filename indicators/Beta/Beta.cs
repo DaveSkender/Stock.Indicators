@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // BETA COEFFICIENT
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<BetaResult> GetBeta<TQuote>(
             IEnumerable<TQuote> historyMarket,
             IEnumerable<TQuote> historyEval,
@@ -70,7 +72,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Beta.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistoryMarket, minHistoryMarket);
 

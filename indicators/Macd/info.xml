@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Moving Average Convergence/Divergence (MACD) is a simple oscillator view of two converging/diverging exponential moving averages.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Macd/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="fastPeriod">Number of periods in the Fast EMA.</param>
+  <param name="slowPeriod">Number of periods in the Slow EMA.</param>
+  <param name="signalPeriod">Number of periods for the Signal moving average.</param>
+  <returns>Time series of MACD values, including MACD, Signal, and Histogram.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

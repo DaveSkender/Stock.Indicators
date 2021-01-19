@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // AWESOME OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 5,
@@ -90,7 +92,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Awesome Oscillator.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

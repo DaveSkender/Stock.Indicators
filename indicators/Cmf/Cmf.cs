@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CHAIKIN MONEY FLOW
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<CmfResult> GetCmf<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 20)
@@ -86,7 +88,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Chaikin Money Flow.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

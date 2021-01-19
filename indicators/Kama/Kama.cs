@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // KAUFMAN's ADAPTIVE MOVING AVERAGE
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<KamaResult> GetKama<TQuote>(
             IEnumerable<TQuote> history,
             int erPeriod = 10,
@@ -114,7 +116,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for KAMA.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for an ER period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "

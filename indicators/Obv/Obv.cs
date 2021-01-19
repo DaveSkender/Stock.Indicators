@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ON-BALANCE VOLUME
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<ObvResult> GetObv<TQuote>(
             IEnumerable<TQuote> history,
             int? smaPeriod = null)
@@ -90,7 +92,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for On-balance Volume.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

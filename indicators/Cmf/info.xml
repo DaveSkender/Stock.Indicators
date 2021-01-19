@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Chaikin Money Flow (CMF) is the simple moving average of Money Flow Volume (MFV).
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Cmf/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods for the MFV moving average.</param>
+  <returns>Time series of Chaikin Money Flow and MFV values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

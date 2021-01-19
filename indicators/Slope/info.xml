@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Slope of the best fit line is determined by an ordinary least-squares simple linear regression on Close price.
+    It can be used to help identify trend strength and direction.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Slope/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <returns>Time series of Slope values, including Slope, Standard Deviation, R², and a best-fit Line (for the last lookback segment).</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

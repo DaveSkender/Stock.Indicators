@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Moving Average Envelopes is a price band overlay that is offset from the moving average of Close price over a lookback window.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/MaEnvelopes/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <param name="percentOffset">Percent offset for envelope width.</param>
+  <param name="movingAverageType">Moving average type (e.g. EMA, HMA, TEMA, etc.).</param>
+  <returns>Time series of MA Envelopes values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

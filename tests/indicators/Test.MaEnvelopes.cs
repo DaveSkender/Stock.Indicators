@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class MaEnvelopes : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Alma()
         {
 
@@ -42,7 +42,7 @@ namespace Internal.Tests
             Assert.AreEqual(236.1324m, Math.Round((decimal)r3.LowerEnvelope, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Dema()
         {
 
@@ -74,7 +74,7 @@ namespace Internal.Tests
             Assert.AreEqual(235.1385m, Math.Round((decimal)r3.LowerEnvelope, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Ema()
         {
 
@@ -106,7 +106,7 @@ namespace Internal.Tests
             Assert.AreEqual(243.1181m, Math.Round((decimal)r3.LowerEnvelope, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Hma()
         {
 
@@ -133,7 +133,7 @@ namespace Internal.Tests
             Assert.AreEqual(229.8048m, Math.Round((decimal)r3.LowerEnvelope, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Sma()
         {
 
@@ -165,7 +165,7 @@ namespace Internal.Tests
             Assert.AreEqual(245.5635m, Math.Round((decimal)r3.LowerEnvelope, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Tema()
         {
 
@@ -197,7 +197,7 @@ namespace Internal.Tests
             Assert.AreEqual(232.7998m, Math.Round((decimal)r3.LowerEnvelope, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Wma()
         {
 
@@ -224,7 +224,7 @@ namespace Internal.Tests
             Assert.AreEqual(240.3483m, Math.Round((decimal)r2.LowerEnvelope, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<MaEnvelopeResult> a = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.ALMA);
@@ -249,7 +249,7 @@ namespace Internal.Tests
             Assert.AreEqual(502, w.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad offset period

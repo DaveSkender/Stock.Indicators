@@ -1,6 +1,6 @@
-﻿# Chaikin Money Flow (CMF)
+# Chaikin Money Flow (CMF)
 
-Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the Money Flow Volume over `N` lookback periods.
+Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the Money Flow Volume.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/261 "Community discussion about this indicator")
 
 ![image](chart.png)

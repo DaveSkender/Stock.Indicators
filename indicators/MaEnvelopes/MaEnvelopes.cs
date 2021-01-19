@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // MOVING AVERAGE ENVELOPES
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,
@@ -91,7 +93,7 @@ namespace Skender.Stock.Indicators
                 _ => throw new ArgumentOutOfRangeException(
                          nameof(movingAverageType), movingAverageType,
                          string.Format(
-                             englishCulture,
+                             EnglishCulture,
                          "Moving Average Envelopes does not support {0}.",
                          Enum.GetName(typeof(MaType), movingAverageType)))
             };

@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // PIVOT POINTS
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<PivotPointsResult> GetRollingPivots<TQuote>(
             IEnumerable<TQuote> history,
             int windowPeriod,
@@ -100,7 +102,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Rolling Pivot Points.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // PARABOLIC SAR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
             IEnumerable<TQuote> history,
             decimal accelerationStep = (decimal)0.02,
@@ -182,7 +184,7 @@ namespace Skender.Stock.Indicators
             if (accelerationStep > maxAccelerationFactor)
             {
                 string message = string.Format(
-                    englishCulture,
+                    EnglishCulture,
                     "Acceleration Step must be smaller than provided Max Accleration Factor ({0}) for Parabolic SAR.",
                     maxAccelerationFactor);
 
@@ -196,7 +198,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Parabolic SAR.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 

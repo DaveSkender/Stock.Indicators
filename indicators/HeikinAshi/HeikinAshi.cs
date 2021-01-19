@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // HEIKIN-ASHI
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(
             IEnumerable<TQuote> history)
             where TQuote : IQuote
@@ -75,7 +77,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for Heikin-Ashi.  " +
                     string.Format(
-                        englishCulture,
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
