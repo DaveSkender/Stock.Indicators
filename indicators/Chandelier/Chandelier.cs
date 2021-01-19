@@ -18,14 +18,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateChandelier(history, lookbackPeriod, multiplier);
 
             // initialize
-            IList<ChandelierResult> results = new List<ChandelierResult>(historyList.Count);
-            IList<AtrResult> atrResult = GetAtr(history, lookbackPeriod).ToList();  // uses ATR
+            List<ChandelierResult> results = new List<ChandelierResult>(historyList.Count);
+            List<AtrResult> atrResult = GetAtr(history, lookbackPeriod).ToList();  // uses ATR
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

@@ -16,16 +16,16 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateHma(history, lookbackPeriod);
 
             // initialize
-            IList<Quote> synthHistory = new List<Quote>();
+            List<Quote> synthHistory = new List<Quote>();
 
-            IList<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
-            IList<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
+            List<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
+            List<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
 
             // roll through history, to get interim synthetic history
             for (int i = 0; i < historyList.Count; i++)

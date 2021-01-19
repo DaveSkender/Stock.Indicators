@@ -18,15 +18,15 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateKeltner(history, emaPeriod, multiplier, atrPeriod);
 
             // initialize
-            IList<KeltnerResult> results = new List<KeltnerResult>(historyList.Count);
-            IList<EmaResult> emaResults = GetEma(history, emaPeriod).ToList();
-            IList<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
+            List<KeltnerResult> results = new List<KeltnerResult>(historyList.Count);
+            List<EmaResult> emaResults = GetEma(history, emaPeriod).ToList();
+            List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
             int lookbackPeriod = Math.Max(emaPeriod, atrPeriod);
 
             // roll through history

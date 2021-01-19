@@ -18,14 +18,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyBaseList = historyBase.Sort();
-            IList<TQuote> historyEvalList = historyEval.Sort();
+            List<TQuote> historyBaseList = historyBase.Sort();
+            List<TQuote> historyEvalList = historyEval.Sort();
 
             // check parameter arguments
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
 
             // initialize
-            IList<PrsResult> results = new List<PrsResult>(historyEvalList.Count);
+            List<PrsResult> results = new List<PrsResult>(historyEvalList.Count);
 
             // roll through history
             for (int i = 0; i < historyEvalList.Count; i++)

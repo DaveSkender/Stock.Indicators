@@ -17,14 +17,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateMama(history, fastLimit, slowLimit);
 
             // initialize
             int size = historyList.Count;
-            IList<MamaResult> results = new List<MamaResult>(size);
+            List<MamaResult> results = new List<MamaResult>(size);
 
             double sumPr = 0d;
 

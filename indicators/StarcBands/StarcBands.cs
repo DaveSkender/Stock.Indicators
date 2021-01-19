@@ -18,15 +18,15 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateStarcBands(history, smaPeriod, multiplier, atrPeriod);
 
             // initialize
-            IList<StarcBandsResult> results = new List<StarcBandsResult>(historyList.Count);
-            IList<SmaResult> smaResults = GetSma(history, smaPeriod).ToList();
-            IList<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
+            List<StarcBandsResult> results = new List<StarcBandsResult>(historyList.Count);
+            List<SmaResult> smaResults = GetSma(history, smaPeriod).ToList();
+            List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
             int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
 
             // roll through history

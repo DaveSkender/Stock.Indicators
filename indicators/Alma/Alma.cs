@@ -18,13 +18,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateAlma(history, lookbackPeriod, offset, sigma);
 
             // initialize
-            IList<AlmaResult> results = new List<AlmaResult>(historyList.Count);
+            List<AlmaResult> results = new List<AlmaResult>(historyList.Count);
 
             // determine price weights
             double m = offset * (lookbackPeriod - 1);

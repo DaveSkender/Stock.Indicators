@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
-            IList<BollingerBandsResult> results = new List<BollingerBandsResult>(historyList.Count);
+            List<BollingerBandsResult> results = new List<BollingerBandsResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

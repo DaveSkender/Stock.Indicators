@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidatePivotPoints(history, windowSize);
 
             // initialize
-            IList<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
+            List<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
             PivotPointsResult windowPoint = new PivotPointsResult();
 
             TQuote h0 = historyList[0];

@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateWma(history, lookbackPeriod);
 
             // initialize
-            IList<WmaResult> results = new List<WmaResult>(historyList.Count);
+            List<WmaResult> results = new List<WmaResult>(historyList.Count);
             decimal divisor = (lookbackPeriod * (lookbackPeriod + 1)) / 2m;
 
             // roll through history

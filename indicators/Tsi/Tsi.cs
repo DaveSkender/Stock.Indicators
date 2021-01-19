@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateTsi(history, lookbackPeriod, smoothPeriod, signalPeriod);

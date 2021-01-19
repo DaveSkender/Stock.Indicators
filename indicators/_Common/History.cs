@@ -41,12 +41,12 @@ namespace Skender.Stock.Indicators
     {
         private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-        public static IList<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history)
+        public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check for duplicates
             DateTime lastDate = DateTime.MinValue;
@@ -66,7 +66,7 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-        internal static IList<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history)
+        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
             List<TQuote> historyList = history.OrderBy(x => x.Date).ToList();
@@ -108,7 +108,7 @@ namespace Skender.Stock.Indicators
     public static class Cleaners
     {
 
-        public static IList<TQuote> ValidateHistory<TQuote>(IEnumerable<TQuote> history)
+        public static IEnumerable<TQuote> ValidateHistory<TQuote>(IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
             return history.Validate();

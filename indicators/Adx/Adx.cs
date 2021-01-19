@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateAdx(history, lookbackPeriod);
 
             // initialize
-            IList<AdxResult> results = new List<AdxResult>(historyList.Count);
-            IList<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
+            List<AdxResult> results = new List<AdxResult>(historyList.Count);
+            List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
 
             decimal prevHigh = 0;
             decimal prevLow = 0;

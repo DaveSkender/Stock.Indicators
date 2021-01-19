@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateMfi(history, lookbackPeriod);
 
             // initialize
             int size = historyList.Count;
-            IList<MfiResult> results = new List<MfiResult>(size);
+            List<MfiResult> results = new List<MfiResult>(size);
             decimal[] tp = new decimal[size];  // true price
             decimal[] mf = new decimal[size];  // raw MF value
             int[] direction = new int[size];   // direction

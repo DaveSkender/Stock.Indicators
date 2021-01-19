@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateZigZag(history, percentChange);
 
             // initialize
-            IList<ZigZagResult> results = new List<ZigZagResult>(historyList.Count);
+            List<ZigZagResult> results = new List<ZigZagResult>(historyList.Count);
             decimal changeThreshold = percentChange / 100m;
             TQuote firstQuote = historyList[0];
             ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);
@@ -103,7 +103,7 @@ namespace Skender.Stock.Indicators
 
 
         private static ZigZagPoint EvaluateNextPoint<TQuote>(
-            IList<TQuote> historyList,
+            List<TQuote> historyList,
             ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
             // initialize
@@ -171,7 +171,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawZigZagLine<TQuote>(IList<ZigZagResult> results, IList<TQuote> historyList,
+        private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> historyList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
         {
 
@@ -201,7 +201,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawRetraceLine(IList<ZigZagResult> results, string lastDirection,
+        private static void DrawRetraceLine(List<ZigZagResult> results, string lastDirection,
             ZigZagPoint lastLowPoint, ZigZagPoint lastHighPoint, ZigZagPoint nextPoint)
         {
             bool isHighLine = (lastDirection == "L");

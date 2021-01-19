@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateDonchian(history, lookbackPeriod);
 
             // initialize
-            IList<DonchianResult> results = new List<DonchianResult>(historyList.Count);
+            List<DonchianResult> results = new List<DonchianResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

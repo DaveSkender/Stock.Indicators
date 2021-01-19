@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateCci(history, lookbackPeriod);
 
             // initialize
-            IList<CciResult> results = new List<CciResult>(historyList.Count);
+            List<CciResult> results = new List<CciResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

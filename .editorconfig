@@ -28,6 +28,7 @@ max_line_length = 150
 
 dotnet_diagnostic.CA1016.severity = none         # Mark assemblies with assembly version
 
+
 ### STYLE RULES and options ####
 
 dotnet_diagnostic.IDE0001.severity = suggestion  # Simplify name

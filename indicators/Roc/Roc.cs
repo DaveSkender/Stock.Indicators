@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateRoc(history, lookbackPeriod, smaPeriod);
 
             // initialize
-            IList<RocResult> results = new List<RocResult>(historyList.Count);
+            List<RocResult> results = new List<RocResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

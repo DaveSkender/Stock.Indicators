@@ -18,13 +18,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateRollingPivots(history, windowPeriod, offsetPeriod);
 
             // initialize
-            IList<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
+            List<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

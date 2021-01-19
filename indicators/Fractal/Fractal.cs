@@ -14,13 +14,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateFractal(history);
 
             // initialize
-            IList<FractalResult> results = new List<FractalResult>(historyList.Count);
+            List<FractalResult> results = new List<FractalResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

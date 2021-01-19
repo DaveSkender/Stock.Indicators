@@ -14,13 +14,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateHeikinAshi(history);
 
             // initialize
-            IList<HeikinAshiResult> results = new List<HeikinAshiResult>(historyList.Count);
+            List<HeikinAshiResult> results = new List<HeikinAshiResult>(historyList.Count);
 
             decimal? prevOpen = null;
             decimal? prevClose = null;

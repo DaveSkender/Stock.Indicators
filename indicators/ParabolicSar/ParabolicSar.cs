@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
 
             // initialize
-            IList<ParabolicSarResult> results = new List<ParabolicSarResult>(historyList.Count);
+            List<ParabolicSarResult> results = new List<ParabolicSarResult>(historyList.Count);
             TQuote first = historyList[0];
 
             decimal accelerationFactor = accelerationStep;

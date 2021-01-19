@@ -18,13 +18,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateKama(history, erPeriod, fastPeriod, slowPeriod);
 
             // initialize
-            IList<KamaResult> results = new List<KamaResult>(historyList.Count);
+            List<KamaResult> results = new List<KamaResult>(historyList.Count);
             decimal scFast = 2m / (fastPeriod + 1);
             decimal scSlow = 2m / (slowPeriod + 1);
 

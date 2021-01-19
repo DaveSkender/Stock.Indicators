@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateSma(history, lookbackPeriod);
 
             // initialize
-            IList<SmaResult> results = new List<SmaResult>(historyList.Count);
+            List<SmaResult> results = new List<SmaResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

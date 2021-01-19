@@ -18,14 +18,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
 
             // initialize
             int size = historyList.Count;
-            IList<StochResult> results = new List<StochResult>(size);
+            List<StochResult> results = new List<StochResult>(size);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -106,8 +106,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static IList<StochResult> SmoothOscillator(
-            IList<StochResult> results, int size, int lookbackPeriod, int smoothPeriod)
+        private static List<StochResult> SmoothOscillator(
+            List<StochResult> results, int size, int lookbackPeriod, int smoothPeriod)
         {
 
             // temporarily store interim smoothed oscillator

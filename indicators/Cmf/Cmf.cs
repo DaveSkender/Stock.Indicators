@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            IList<CmfResult> results = new List<CmfResult>(historyList.Count);
-            IList<AdlResult> adlResults = GetAdl(history).ToList();
+            List<CmfResult> results = new List<CmfResult>(historyList.Count);
+            List<AdlResult> adlResults = GetAdl(history).ToList();
 
             // roll through history
             for (int i = 0; i < adlResults.Count; i++)

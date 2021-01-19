@@ -17,14 +17,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyListA = historyA.Sort();
-            IList<TQuote> historyListB = historyB.Sort();
+            List<TQuote> historyListA = historyA.Sort();
+            List<TQuote> historyListB = historyB.Sort();
 
             // check parameter arguments
             ValidateCorrelation(historyA, historyB, lookbackPeriod);
 
             // initialize
-            IList<CorrResult> results = new List<CorrResult>(historyListA.Count);
+            List<CorrResult> results = new List<CorrResult>(historyListA.Count);
 
             // roll through history
             for (int i = 0; i < historyListA.Count; i++)

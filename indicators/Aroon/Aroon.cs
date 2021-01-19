@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateAroon(history, lookbackPeriod);
 
             // initialize
-            IList<AroonResult> results = new List<AroonResult>(historyList.Count);
+            List<AroonResult> results = new List<AroonResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)

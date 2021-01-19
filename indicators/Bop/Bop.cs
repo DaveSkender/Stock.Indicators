@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateBop(history, smoothPeriod);
 
             // initialize
             int size = historyList.Count;
-            IList<BopResult> results = new List<BopResult>(size);
+            List<BopResult> results = new List<BopResult>(size);
 
             decimal?[] raw = historyList
                 .Select(x => (x.High != x.Low) ?

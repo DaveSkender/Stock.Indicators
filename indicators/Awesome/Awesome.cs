@@ -17,14 +17,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateAwesome(history, fastPeriod, slowPeriod);
 
             // initialize
             int size = historyList.Count;
-            IList<AwesomeResult> results = new List<AwesomeResult>();
+            List<AwesomeResult> results = new List<AwesomeResult>();
             decimal[] pr = new decimal[size]; // median price
 
             // roll through history

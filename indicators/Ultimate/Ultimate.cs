@@ -18,14 +18,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
 
             // initialize
             int size = historyList.Count;
-            IList<UltimateResult> results = new List<UltimateResult>(size);
+            List<UltimateResult> results = new List<UltimateResult>(size);
             decimal[] bp = new decimal[size]; // buying pressure
             decimal[] tr = new decimal[size]; // true range
 

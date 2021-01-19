@@ -17,14 +17,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateSuperTrend(history, lookbackPeriod, multiplier);
 
             // initialize
-            IList<SuperTrendResult> results = new List<SuperTrendResult>(historyList.Count);
-            IList<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList();
+            List<SuperTrendResult> results = new List<SuperTrendResult>(historyList.Count);
+            List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList();
 
             bool isBullish = true;
             decimal? upperBand = null;

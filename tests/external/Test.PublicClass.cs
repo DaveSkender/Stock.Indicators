@@ -66,7 +66,7 @@ namespace External.Tests
         public void ReadQuoteClass()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
-            IList<Quote> h = history.Validate();
+            IEnumerable<Quote> h = history.Validate();
 
             Quote f = h.FirstOrDefault();
             Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);

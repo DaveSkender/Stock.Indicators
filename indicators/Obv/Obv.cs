@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateObv(history, smaPeriod);
 
             // initialize
-            IList<ObvResult> results = new List<ObvResult>(historyList.Count);
+            List<ObvResult> results = new List<ObvResult>(historyList.Count);
 
             decimal? prevClose = null;
             decimal obv = 0;

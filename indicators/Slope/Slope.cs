@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort history
-            IList<TQuote> historyList = history.Sort();
+            List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateSlope(history, lookbackPeriod);
 
             // initialize
-            IList<SlopeResult> results = new List<SlopeResult>(historyList.Count);
+            List<SlopeResult> results = new List<SlopeResult>(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
