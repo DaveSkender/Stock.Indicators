@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class VolSma : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int lookbackPeriod = 20;
@@ -38,14 +38,14 @@ namespace Internal.Tests
             Assert.AreEqual(163695200m, r3.VolSma);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<VolSmaResult> r = Indicator.GetVolSma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -56,6 +56,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetVolSma(HistoryTestData.Get(9), 10));
         }
-
     }
 }

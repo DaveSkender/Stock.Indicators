@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Beta : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
 
@@ -29,14 +29,14 @@ namespace Internal.Tests
             Assert.AreEqual(1.6759m, Math.Round((decimal)r.Beta, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<BetaResult> r = Indicator.GetBeta(historyBad, historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SameSame()
         {
             // Beta should be 1 if evaluating against self
@@ -55,7 +55,7 @@ namespace Internal.Tests
             Assert.AreEqual(1, Math.Round((decimal)r.Beta, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -73,6 +73,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetBeta(history, eval, 30));
         }
-
     }
 }

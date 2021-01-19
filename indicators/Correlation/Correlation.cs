@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CORRELATION COEFFICIENT
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
             IEnumerable<TQuote> historyA,
             IEnumerable<TQuote> historyB,
@@ -107,7 +109,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryA < minHistoryA)
             {
                 string message = "Insufficient history provided for Correlation.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistoryA, minHistoryA);
 
@@ -117,10 +120,10 @@ namespace Skender.Stock.Indicators
             int qtyHistoryB = historyB.Count();
             if (qtyHistoryB != qtyHistoryA)
             {
-                throw new BadHistoryException(nameof(historyB),
+                throw new BadHistoryException(
+                    nameof(historyB),
                     "B history should have at least as many records as A history for Correlation.");
             }
         }
-
     }
 }

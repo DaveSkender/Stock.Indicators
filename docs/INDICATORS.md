@@ -1,6 +1,6 @@
 # Indicators and overlays
 
-- [Acumulation Distribution Line (ADL)](../indicators/Adl/README.md#content)
+- [Accumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
 - [Aroon Oscillator](../indicators/Aroon/README.md#content)
 - [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
 - [Average Directional Index (ADX)](../indicators/Adx/README.md#content)
@@ -8,7 +8,7 @@
 - [Awesome Oscillator (AO)](../indicators/Awesome/README.md#content)
 - [Balance of Power (BOP)](../indicators/Bop/README.md#content)
 - [Beta Coefficient](../indicators/Beta/README.md#content)
-- [Bollinger Bands](../indicators/BollingerBands/README.md#content)
+- [Bollinger Bands&#174;](../indicators/BollingerBands/README.md#content)
 - [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)
 - [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
 - [Chandelier Exit](../indicators/Chandelier/README.md#content)

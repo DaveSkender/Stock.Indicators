@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class RollingPivots : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int windowPeriod = 11;
@@ -85,7 +85,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r5.S4);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Camarilla()
         {
             int windowPeriod = 10;
@@ -161,7 +161,7 @@ namespace Internal.Tests
             Assert.AreEqual(258.6600m, Math.Round((decimal)r5.R4, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Demark()
         {
             int windowPeriod = 10;
@@ -247,7 +247,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r6.S4);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Fibonacci()
         {
             int windowPeriod = 44;
@@ -324,7 +324,7 @@ namespace Internal.Tests
             Assert.AreEqual(368.9067m, Math.Round((decimal)r6.R3, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Woodie()
         {
             int windowPeriod = 375;
@@ -392,14 +392,14 @@ namespace Internal.Tests
             Assert.AreEqual(376.96m, Math.Round((decimal)r6.R3, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<PivotPointsResult> r = Indicator.GetRollingPivots(historyBad, 5, 5);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad window period
@@ -414,6 +414,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
         }
-
     }
 }

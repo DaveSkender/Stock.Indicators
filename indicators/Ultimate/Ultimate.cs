@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ULTIMATE OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
             IEnumerable<TQuote> history,
             int shortPeriod = 7,
@@ -121,13 +123,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Ultimate.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SLOPE AND LINEAR REGRESSION
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<SlopeResult> GetSlope<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)
@@ -121,13 +123,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Slope/Linear Regression.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

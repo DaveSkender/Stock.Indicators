@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Stoch : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()  // Slow
         {
             int lookbackPeriod = 14;
@@ -56,7 +56,7 @@ namespace Internal.Tests
             Assert.AreEqual(58.2712m, Math.Round((decimal)r5.PercentJ, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void NoSignal()
         {
             int lookbackPeriod = 5;
@@ -75,7 +75,7 @@ namespace Internal.Tests
             Assert.AreEqual(r2.Oscillator, r2.Signal);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Fast()
         {
             int lookbackPeriod = 5;
@@ -96,7 +96,7 @@ namespace Internal.Tests
             Assert.AreEqual(36.0608m, Math.Round((decimal)r2.Signal, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void FastSmall()
         {
             int lookbackPeriod = 1;
@@ -115,14 +115,14 @@ namespace Internal.Tests
             Assert.AreEqual(100m, Math.Round((decimal)r2.Oscillator, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<StochResult> r = Indicator.GetStoch(historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -141,6 +141,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStoch(HistoryTestData.Get(32), 30, 3, 3));
         }
-
     }
 }

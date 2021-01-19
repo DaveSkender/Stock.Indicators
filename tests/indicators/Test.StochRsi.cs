@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class StochRsi : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void FastRsi()
         {
             int rsiPeriod = 14;
@@ -47,7 +47,7 @@ namespace Internal.Tests
             Assert.AreEqual(89.8385m, Math.Round((decimal)r4.Signal, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SlowRsi()
         {
             int rsiPeriod = 14;
@@ -84,14 +84,14 @@ namespace Internal.Tests
             Assert.AreEqual(73.4176m, Math.Round((decimal)r4.Signal, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(historyBad, 15, 20, 3, 2);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities.Where(x => x <= 502))
@@ -105,7 +105,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad RSI period
@@ -128,6 +128,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStochRsi(HistoryTestData.Get(129), 30, 30, 5, 5));
         }
-
     }
 }

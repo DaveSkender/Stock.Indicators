@@ -1,27 +1,28 @@
-using Internal.Tests;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Internal.Tests;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
+[assembly: CLSCompliant(true)]
 namespace External.Tests
 {
-    public class MyQuote : Quote
+    internal class MyQuote : Quote
     {
         public bool MyProperty { get; set; }
         public decimal MyClose { get; set; }
     }
 
-    public class MyIndicator : EmaResult
+    internal class MyIndicator : EmaResult
     {
         public int Id { get; set; }
         public bool MyProperty { get; set; }
         public float MyEma { get; set; }
     }
 
-    public class MyGenericQuote : IQuote
+    internal class MyGenericQuote : IQuote
     {
         // required base properties
         DateTime IQuote.Date => CloseDate;
@@ -43,7 +44,7 @@ namespace External.Tests
     {
         internal static readonly CultureInfo englishCulture = new CultureInfo("en-US", false);
 
-        [TestMethod()]
+        [TestMethod]
         public void ValidateHistory()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -52,7 +53,7 @@ namespace External.Tests
             Indicator.GetSma(history, 5);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ValidateHistoryOld()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -61,17 +62,17 @@ namespace External.Tests
             Indicator.GetSma(history, 5);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ReadQuoteClass()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
-            List<Quote> h = history.Validate();
+            IEnumerable<Quote> h = history.Validate();
 
             Quote f = h.FirstOrDefault();
             Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DerivedQuoteClass()
         {
             // can use a derive Quote class
@@ -84,7 +85,7 @@ namespace External.Tests
             Assert.AreEqual(true, myQuote.MyProperty);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DerivedQuoteClassLinq()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -103,7 +104,7 @@ namespace External.Tests
             Assert.IsTrue(myHistory.Any());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CustomQuoteClass()
         {
             List<MyGenericQuote> myGenericHistory = HistoryTestData.Get()
@@ -140,7 +141,7 @@ namespace External.Tests
             Assert.AreEqual(216.6228m, Math.Round((decimal)r3.Ema, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DerivedIndicatorClass()
         {
             // can use a derive Indicator class
@@ -154,7 +155,7 @@ namespace External.Tests
             Assert.AreEqual(false, myIndicator.MyProperty);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DerivedIndicatorClassLinq()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -174,7 +175,7 @@ namespace External.Tests
             Assert.IsTrue(myIndicatorResults.Any());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DerivedIndicatorFind()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -203,6 +204,5 @@ namespace External.Tests
             EmaResult r = emaResults.Find(findDate);
             Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
         }
-
     }
 }

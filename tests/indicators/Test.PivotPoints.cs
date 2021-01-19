@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class PivotPoints : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             PeriodSize periodSize = PeriodSize.Month;
@@ -94,7 +94,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r6.S4);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Camarilla()
         {
             PeriodSize periodSize = PeriodSize.Week;
@@ -168,7 +168,7 @@ namespace Internal.Tests
             Assert.AreEqual(252.6705m, Math.Round((decimal)r6.R4, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Demark()
         {
             PeriodSize periodSize = PeriodSize.Month;
@@ -257,7 +257,7 @@ namespace Internal.Tests
             Assert.AreEqual(550m / 4, d1.PP);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Fibonacci()
         {
             PeriodSize periodSize = PeriodSize.Hour;
@@ -332,7 +332,7 @@ namespace Internal.Tests
             Assert.AreEqual(372.1100m, Math.Round((decimal)r6.R3, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Woodie()
         {
             PeriodSize periodSize = PeriodSize.Day;
@@ -398,14 +398,14 @@ namespace Internal.Tests
             Assert.AreEqual(373.0850m, Math.Round((decimal)r6.R3, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<PivotPointsResult> r = Indicator.GetPivotPoints(historyBad, PeriodSize.Week);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // insufficient history - month
@@ -431,8 +431,6 @@ namespace Internal.Tests
 
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPivotPoints(h, PeriodSize.Hour));
-
         }
-
     }
 }

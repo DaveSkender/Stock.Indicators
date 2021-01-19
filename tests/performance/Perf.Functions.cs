@@ -1,8 +1,8 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BenchmarkDotNet.Attributes;
 using Internal.Tests;
 using Skender.Stock.Indicators;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Tests.Performance
 {
@@ -33,27 +33,26 @@ namespace Tests.Performance
 
 
     [MarkdownExporterAttribute.GitHub]
-    public class MarkHistoryHelpers
+    public static class MarkHistoryHelpers
     {
         private static readonly IEnumerable<Quote> h = HistoryTestData.Get();
 
         [Benchmark]
-        public object Sort()
+        public static object Sort()
         {
             return h.Sort();
         }
 
         [Benchmark]
-        public object Validate()
+        public static object Validate()
         {
             return h.Validate();
         }
 
         [Benchmark]
-        public object ConvertToBasic()
+        public static object ConvertToBasic()
         {
             return h.ConvertToBasic();
         }
-
     }
 }

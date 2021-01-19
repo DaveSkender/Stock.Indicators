@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // MOTHER of ADAPTIVE MOVING AVERAGES (MAMA)
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<MamaResult> GetMama<TQuote>(
             IEnumerable<TQuote> history,
             decimal fastLimit = 0.5m,
@@ -174,13 +176,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for MAMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

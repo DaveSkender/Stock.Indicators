@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ARNAUD LEGOUX MOVING AVERAGE
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<AlmaResult> GetAlma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 9,
@@ -86,7 +88,7 @@ namespace Skender.Stock.Indicators
                     "Lookback period must be greater than 1 for ALMA.");
             }
 
-            if (offset < 0 || offset > 1)
+            if (offset is < 0 or > 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(offset), offset,
                     "Offset must be between 0 and 1 for ALMA.");
@@ -104,13 +106,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ALMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

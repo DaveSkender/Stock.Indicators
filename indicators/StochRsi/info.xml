@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Stochastic RSI is a Stochastic interpretation of the Relative Strength Index.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/StochRsi/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="rsiPeriod">Number of periods for the RSI.</param>
+  <param name="stochPeriod">Number of periods for the Stochastic.</param>
+  <param name="signalPeriod">Number of periods for the Stochastic RSI SMA signal line.</param>
+  <param name="smoothPeriod">Number of periods for Stochastic Smoothing.  Use 1 for Fast or 3 for Slow.</param>
+  <returns>Time series of Stochastic RSI values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

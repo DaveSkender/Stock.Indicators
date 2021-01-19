@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Pvo : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int fastPeriod = 12;
@@ -33,9 +33,9 @@ namespace Internal.Tests
             // sample values
             PvoResult r1 = results[24];
             Assert.AreEqual(null, r1.Pvo);
-            Assert.AreEqual(null, r1.Signal); 
+            Assert.AreEqual(null, r1.Signal);
             Assert.AreEqual(null, r1.Histogram);
-            
+
             PvoResult r2 = results[33];
             Assert.AreEqual(1.5795m, Math.Round((decimal)r2.Pvo, 4));
             Assert.AreEqual(-3.5530m, Math.Round((decimal)r2.Signal, 4));
@@ -57,14 +57,14 @@ namespace Internal.Tests
             Assert.AreEqual(-1.8286m, Math.Round((decimal)r5.Histogram, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<PvoResult> r = Indicator.GetPvo(historyBad, 10, 20, 5);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
@@ -78,7 +78,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period
@@ -101,6 +101,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPvo(HistoryTestData.Get(134), 12, 26, 9));
         }
-
     }
 }

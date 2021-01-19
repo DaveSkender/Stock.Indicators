@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Adl : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
 
@@ -36,14 +36,14 @@ namespace Internal.Tests
             Assert.AreEqual(null, r2.AdlSma);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<AdlResult> r = Indicator.GetAdl(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void WithSma()
         {
 
@@ -63,7 +63,7 @@ namespace Internal.Tests
             Assert.AreEqual(3595352721.16m, Math.Round((decimal)r.AdlSma, 2));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad SMA period
@@ -74,6 +74,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetAdl(HistoryTestData.Get(1)));
         }
-
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Beta shows how strongly one stock responds to systemic volatility of the entire market.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Beta/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="historyMarket">Historical price quotes for Market.</param>
+  <param name="historyEval">Historical price quotes for Evaluation.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <returns>Time series of Beta values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

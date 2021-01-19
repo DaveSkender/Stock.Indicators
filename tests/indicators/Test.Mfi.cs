@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Mfi : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int lookbackPeriod = 14;
@@ -33,7 +33,7 @@ namespace Internal.Tests
             Assert.AreEqual(39.9494m, Math.Round((decimal)r2.Mfi, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SmallLookback()
         {
             int lookbackPeriod = 4;
@@ -56,14 +56,14 @@ namespace Internal.Tests
             Assert.AreEqual(0m, Math.Round((decimal)r2.Mfi, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<MfiResult> r = Indicator.GetMfi(historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -74,6 +74,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetMfi(HistoryTestData.Get(14), 14));
         }
-
     }
 }

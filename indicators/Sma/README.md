@@ -1,6 +1,6 @@
-﻿# Simple Moving Average (SMA)
+# Simple Moving Average (SMA)
 
-[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average of Close price over `N` lookback periods.
+[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average of Close price over a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/240 "Community discussion about this indicator")
 
 ![image](chart.png)

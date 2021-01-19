@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Parabolic SAR (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/ParabolicSar/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="accelerationStep">Incremental step size.</param>
+  <param name="maxAccelerationFactor">Maximum step threshold.</param>
+  <returns>Time series of Parabolic SAR values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Zig Zag is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/ZigZag/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="type">Determines use of Close or High/Low wicks for extreme points.</param>
+  <param name="percentChange">Percent price change to set threshold for minimum size movements.</param>
+  <returns>Time series of Zig Zag values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

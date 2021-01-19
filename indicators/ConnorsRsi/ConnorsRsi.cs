@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // CONNORS RSI
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<ConnorsRsiResult> GetConnorsRsi<TQuote>(
             IEnumerable<TQuote> history,
             int rsiPeriod = 3,
@@ -174,7 +176,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ConnorsRsi.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least N+150 data points prior to the intended "
@@ -183,6 +186,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

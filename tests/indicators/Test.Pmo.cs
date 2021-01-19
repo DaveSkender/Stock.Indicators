@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Pmo : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
 
@@ -35,14 +35,14 @@ namespace Internal.Tests
             Assert.AreEqual(-2.3117m, Math.Round((decimal)r2.Signal, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<PmoResult> r = Indicator.GetPmo(historyBad, 25, 15, 5);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
@@ -56,7 +56,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad time period
@@ -75,6 +75,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPmo(HistoryTestData.Get(54), 35, 20, 10));
         }
-
     }
 }

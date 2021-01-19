@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Bollinger Bands&#174; depict volatility as standard deviation boundary lines from a moving average of Close price. 
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/BollingerBands/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <param name="standardDeviations">Width of bands. Number of Standard Deviations from the moving average.</param>
+  <returns>Time series of Bollinger Band and %B values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

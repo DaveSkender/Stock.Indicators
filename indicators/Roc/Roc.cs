@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // RATE OF CHANGE (ROC)
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<RocResult> GetRoc<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,
@@ -75,7 +77,7 @@ namespace Skender.Stock.Indicators
                     "Lookback period must be greater than 0 for ROC.");
             }
 
-            if (smaPeriod != null && smaPeriod <= 0)
+            if (smaPeriod is not null and <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
                     "SMA period must be greater than 0 for ROC.");
@@ -87,13 +89,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ROC.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

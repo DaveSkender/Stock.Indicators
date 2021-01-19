@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ICHIMOKU CLOUD
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
             IEnumerable<TQuote> history,
             int signalPeriod = 9,
@@ -189,13 +191,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ICHIMOKU.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

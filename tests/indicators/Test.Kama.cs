@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Kama : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int erPeriod = 10;
@@ -50,14 +50,14 @@ namespace Internal.Tests
             Assert.AreEqual(240.1138m, Math.Round((decimal)r7.Kama, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<KamaResult> r = Indicator.GetKama(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
@@ -71,7 +71,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad ER period
@@ -90,6 +90,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKama(HistoryTestData.Get(109), 10, 2, 20));
         }
-
     }
 }

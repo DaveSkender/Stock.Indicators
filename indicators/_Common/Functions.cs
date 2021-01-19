@@ -33,6 +33,5 @@ namespace Skender.Stock.Indicators
             }
             return sd;
         }
-
     }
 }

@@ -153,7 +153,7 @@ Historical quotes are automatically re-sorted [ascending by date] on every call 
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // advanced validation
-List<Quote> validatedHistory = history.Validate();
+IEnumerable<Quote> validatedHistory = history.Validate();
 ```
 
 ## Using derived results classes

@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Keltner : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int emaPeriod = 20;
@@ -47,14 +47,14 @@ namespace Internal.Tests
             Assert.AreEqual(0.102950m, Math.Round((decimal)r2.Width, 6));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<KeltnerResult> r = Indicator.GetKeltner(historyBad, 10, 3, 15);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
@@ -68,7 +68,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad EMA period
@@ -91,6 +91,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
         }
-
     }
 }

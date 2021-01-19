@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // DONCHIAN CHANNEL
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<KeltnerResult> GetKeltner<TQuote>(
             IEnumerable<TQuote> history,
             int emaPeriod = 20,
@@ -91,7 +93,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Keltner Channel.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
@@ -101,6 +104,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

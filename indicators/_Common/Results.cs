@@ -31,5 +31,4 @@ namespace Skender.Stock.Indicators
                 .FirstOrDefault();
         }
     }
-
 }

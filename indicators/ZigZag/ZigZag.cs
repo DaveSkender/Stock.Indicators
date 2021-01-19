@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ZIG ZAG
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
             IEnumerable<TQuote> history,
             ZigZagType type = ZigZagType.Close,
@@ -100,7 +102,8 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagPoint EvaluateNextPoint<TQuote>(List<TQuote> historyList,
+        private static ZigZagPoint EvaluateNextPoint<TQuote>(
+            List<TQuote> historyList,
             ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
             // initialize
@@ -123,37 +126,31 @@ namespace Skender.Stock.Indicators
                 ZigZagEval eval = GetZigZagEval(type, index, h);
 
                 // reset extreme point
-                switch (trendUp)
+                if (trendUp)
                 {
-                    case true:
-
-                        if (eval.High >= extremePoint.Value)
-                        {
-                            extremePoint.Index = eval.Index;
-                            extremePoint.Value = eval.High;
-                        }
-                        else
-                        {
-                            change = (extremePoint.Value == 0) ? null
-                                : (extremePoint.Value - eval.Low) / extremePoint.Value;
-                        }
-
-                        break;
-
-                    case false:
-
-                        if (eval.Low <= extremePoint.Value)
-                        {
-                            extremePoint.Index = eval.Index;
-                            extremePoint.Value = eval.Low;
-                        }
-                        else
-                        {
-                            change = (extremePoint.Value == 0) ? null
-                                : (eval.High - extremePoint.Value) / extremePoint.Value;
-                        }
-
-                        break;
+                    if (eval.High >= extremePoint.Value)
+                    {
+                        extremePoint.Index = eval.Index;
+                        extremePoint.Value = eval.High;
+                    }
+                    else
+                    {
+                        change = (extremePoint.Value == 0) ? null
+                            : (extremePoint.Value - eval.Low) / extremePoint.Value;
+                    }
+                }
+                else
+                {
+                    if (eval.Low <= extremePoint.Value)
+                    {
+                        extremePoint.Index = eval.Index;
+                        extremePoint.Value = eval.Low;
+                    }
+                    else
+                    {
+                        change = (extremePoint.Value == 0) ? null
+                            : (eval.High - extremePoint.Value) / extremePoint.Value;
+                    }
                 }
 
                 // return extreme point when deviation threshold met
@@ -277,6 +274,9 @@ namespace Skender.Stock.Indicators
                     eval.Low = q.Low;
                     eval.High = q.High;
                     break;
+
+                default:
+                    break;
             }
 
             return eval;
@@ -302,13 +302,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ZIGZAG.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // DOUBLE EXPONENTIAL MOVING AVERAGE
+        /// <include file='./info.xml' path='indicators/type[@name="DEMA"]/*' />
+        /// 
         public static IEnumerable<EmaResult> GetDoubleEma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)
@@ -72,7 +74,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for DEMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
@@ -82,6 +85,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

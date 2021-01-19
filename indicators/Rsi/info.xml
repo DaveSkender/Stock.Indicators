@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Relative Strength Index (RSI) measures strength of the winning/losing streak over N lookback periods
+    on a scale of 0 to 100, to depict overbought and oversold conditions.  See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Rsi/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <returns>Time series of RSI values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

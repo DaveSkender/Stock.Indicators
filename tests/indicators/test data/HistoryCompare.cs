@@ -1,7 +1,7 @@
-﻿using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -524,6 +524,5 @@ namespace Internal.Tests
                 .Take(days)
                 .ToList();
         }
-
     }
 }

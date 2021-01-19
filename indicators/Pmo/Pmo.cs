@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // PRICE MOMENTUM OSCILLATOR (PMO)
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<PmoResult> GetPmo<TQuote>(
             IEnumerable<TQuote> history,
             int timePeriod = 35,
@@ -103,7 +105,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static IEnumerable<PmoResult> CalcPmoSignal(
+        private static void CalcPmoSignal(
             List<PmoResult> results,
             int timePeriod,
             int smoothingPeriod,
@@ -136,9 +138,6 @@ namespace Skender.Stock.Indicators
 
                 lastSignal = pr.Signal;
             }
-
-
-            return results;
         }
 
 
@@ -175,7 +174,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for PMO.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
                     + "Since this uses a several smoothing operations, "
                     + "we recommend you use at least {2} data points prior to the intended "
@@ -185,6 +185,5 @@ namespace Skender.Stock.Indicators
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

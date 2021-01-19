@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Tsi : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
 
@@ -51,14 +51,14 @@ namespace Internal.Tests
             Assert.AreEqual(-29.3597m, Math.Round((decimal)r6.Signal, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<TsiResult> r = Indicator.GetTsi(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
@@ -72,7 +72,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -91,6 +91,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetTsi(HistoryTestData.Get(137), 25, 13, 7));
         }
-
     }
 }

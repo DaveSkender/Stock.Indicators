@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<SmaResult> GetSma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,
@@ -99,13 +101,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for SMA.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

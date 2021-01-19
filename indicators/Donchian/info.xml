@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Donchian Channels, also called Price Channels, are derived from highest High and lowest Low values over a lookback window.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Donchian/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <returns>Time series of Donchian Channel values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -13,7 +13,7 @@ namespace Internal.Tests
             .OrderBy(x => x.Date)
             .Take(391);
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
 
@@ -40,7 +40,7 @@ namespace Internal.Tests
             Assert.AreEqual(368.1804m, Math.Round((decimal)r4.Vwap, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void WithStartDate()
         {
             DateTime startDate =
@@ -69,14 +69,14 @@ namespace Internal.Tests
             Assert.AreEqual(368.2908m, Math.Round((decimal)r4.Vwap, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<VwapResult> r = Indicator.GetVwap(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad SMA period
@@ -90,6 +90,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetVwap(HistoryTestData.Get(0)));
         }
-
     }
 }

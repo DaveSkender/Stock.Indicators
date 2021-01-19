@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Mama : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             decimal fastLimit = 0.5m;
@@ -56,14 +56,14 @@ namespace Internal.Tests
             Assert.AreEqual(252.6139m, Math.Round((decimal)r7.Fama, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<MamaResult> r = Indicator.GetMama(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
@@ -77,7 +77,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period (same as slow period)
@@ -96,6 +96,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetMama(HistoryTestData.Get(49)));
         }
-
     }
 }

@@ -7,6 +7,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STOCHASTIC OSCILLATOR
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<StochResult> GetStoch<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod = 14,
@@ -56,14 +58,9 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    if (lowLow != highHigh)
-                    {
-                        result.Oscillator = 100 * ((h.Close - lowLow) / (highHigh - lowLow));
-                    }
-                    else
-                    {
-                        result.Oscillator = 0;
-                    }
+                    result.Oscillator = lowLow != highHigh
+                        ? 100 * ((h.Close - lowLow) / (highHigh - lowLow))
+                        : 0;
                 }
                 results.Add(result);
             }
@@ -101,7 +98,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     r.Signal = sumOsc / signalPeriod;
-                    r.PercentJ = 3 * r.Oscillator - 2 * r.Signal;
+                    r.PercentJ = (3 * r.Oscillator) - (2 * r.Signal);
                 }
             }
 
@@ -173,13 +170,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Stochastic.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

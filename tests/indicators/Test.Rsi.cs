@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Rsi : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int lookbackPeriod = 14;
@@ -39,7 +39,7 @@ namespace Internal.Tests
             Assert.AreEqual(42.0773m, Math.Round((decimal)r4.Rsi, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SmallLookback()
         {
             int lookbackPeriod = 1;
@@ -60,14 +60,14 @@ namespace Internal.Tests
             Assert.AreEqual(0m, Math.Round((decimal)r2.Rsi, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<RsiResult> r = Indicator.GetRsi(historyBad, 20);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             int lookbackPeriod = 14;
@@ -83,7 +83,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -94,6 +94,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetRsi(HistoryTestData.Get(129), 30));
         }
-
     }
 }

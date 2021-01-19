@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class ZigZag : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void StandardClose()
         {
             decimal percentChange = 3;
@@ -67,7 +67,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r5.PointType);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void StandardHighLow()
         {
             decimal percentChange = 3;
@@ -124,14 +124,14 @@ namespace Internal.Tests
             Assert.AreEqual(null, r5.PointType);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<ZigZagResult> r = Indicator.GetZigZag(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -142,6 +142,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetZigZag(HistoryTestData.Get(1)));
         }
-
     }
 }

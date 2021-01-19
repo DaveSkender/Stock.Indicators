@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Ultimate : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
 
@@ -35,14 +35,14 @@ namespace Internal.Tests
             Assert.AreEqual(49.5257m, Math.Round((decimal)r3.Ultimate, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<UltimateResult> r = Indicator.GetUltimate(historyBad, 1, 2, 3);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad short period
@@ -61,6 +61,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetUltimate(HistoryTestData.Get(28), 7, 14, 28));
         }
-
     }
 }

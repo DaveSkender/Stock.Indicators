@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class Roc : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int lookbackPeriod = 20;
@@ -36,7 +36,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r2.RocSma);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void WithSma()
         {
             int lookbackPeriod = 20;
@@ -63,14 +63,14 @@ namespace Internal.Tests
             Assert.AreEqual(-8.4828m, Math.Round((decimal)r2.RocSma, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<RocResult> r = Indicator.GetRoc(historyBad, 35, 2);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -85,6 +85,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetRoc(HistoryTestData.Get(10), 10));
         }
-
     }
 }

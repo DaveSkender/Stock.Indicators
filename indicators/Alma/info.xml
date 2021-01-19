@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Arnaud Legoux Moving Average (ALMA) is a Gaussian distribution 
+    weighted moving average of Close price over a lookback window. 
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Alma/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <param name="offset">Adjusts smoothness versus responsiveness.</param>
+  <param name="sigma">Defines the width of the Gaussian normal distribution.</param>
+  <returns>Time series of ALMA values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

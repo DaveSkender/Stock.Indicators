@@ -1,6 +1,6 @@
-﻿# Volume Simple Moving Average
+# Volume Simple Moving Average
 
-The Volume Simple Moving Average is the average volume over `N` lookback periods.  This is helpful when you are trying to assess whether volume is above or below normal.
+The Volume Simple Moving Average is the average volume over a lookback window.  This is helpful when you are trying to assess whether volume is above or below normal.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/230 "Community discussion about this indicator")
 
 ![image](chart.png)

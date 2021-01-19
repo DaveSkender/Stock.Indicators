@@ -1,15 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.0;netstandard2.1;net461</TargetFrameworks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators</Product>
+    <Copyright>@2020 Dave Skender</Copyright>
     <Description>Stock indicators.  Send in historical price quotes and get back desired technical indicators (such as Stochastic RSI, Average True Range, Parabolic SAR, etc).  Nothing more.</Description>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://daveskender.github.io/Stock.Indicators</PackageProjectUrl>
+
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+
+    <AssemblyName>Skender.Stock.Indicators</AssemblyName>
+    <RootNamespace>Skender.Stock.Indicators</RootNamespace>
+    <LangVersion>9.0</LangVersion>
+    <NeutralLanguage>en-US</NeutralLanguage>
+
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://daveskender.github.io/Stock.Indicators</PackageProjectUrl>
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageTags>
        Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;
@@ -22,17 +30,18 @@
        Ulcer;Ultimate;Williams;%R;Fractal;WMA;ZigZag;.NET;C#;Library;Package;
     </PackageTags>
     <PackageReleaseNotes>More info: https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>
-    <AssemblyName>Skender.Stock.Indicators</AssemblyName>
-    <Copyright>@2020 Dave Skender</Copyright>
-    <RootNamespace>Skender.Stock.Indicators</RootNamespace>
-    <LangVersion>9.0</LangVersion>
-    <NeutralLanguage>en-US</NeutralLanguage>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageLicenseFile></PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
+
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,6 +53,13 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

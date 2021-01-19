@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class ConnorsRsi : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int rsiPeriod = 3;
@@ -18,7 +18,7 @@ namespace Internal.Tests
             int rankPeriod = 100;
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
 
-            List<ConnorsRsiResult> results1 = 
+            List<ConnorsRsiResult> results1 =
                 Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod)
                 .ToList();
 
@@ -45,14 +45,14 @@ namespace Internal.Tests
             Assert.AreEqual(61.6053m, Math.Round((decimal)r2.ConnorsRsi, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(historyBad, 4, 3, 25);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
@@ -66,7 +66,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad RSI period
@@ -85,6 +85,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetConnorsRsi(HistoryTestData.Get(102), 3, 2, 100));
         }
-
     }
 }

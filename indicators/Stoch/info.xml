@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Stochastic Oscillator is a momentum indicator that looks back N periods to produce a scale of 0 to 100.
+    %J is also included for the KDJ Index extension.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods for the Oscillator.</param>
+  <param name="signalPeriod">Smoothing period for the %D signal line.</param>
+  <param name="smoothPeriod">Smoothing period for the %K Oscillator.  Use 3 for Slow or 1 for Fast.</param>
+  <returns>Time series of Stochastic Oscillator values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

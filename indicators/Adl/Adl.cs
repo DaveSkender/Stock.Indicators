@@ -6,7 +6,9 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // ACCUMULATION / DISTRIBUTION LINE
+        // ACCUMULATION/DISTRIBUTION LINE
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<AdlResult> GetAdl<TQuote>(
             IEnumerable<TQuote> history,
             int? smaPeriod = null)
@@ -68,7 +70,7 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            if (smaPeriod != null && smaPeriod <= 0)
+            if (smaPeriod is not null and <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
                     "SMA period must be greater than 0 for ADL.");
@@ -79,15 +81,13 @@ namespace Skender.Stock.Indicators
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message =
-                    "Insufficient history provided for Accumulation Distribution Line.  " +
-                    string.Format(englishCulture,
+                string message = string.Format(EnglishCulture,
+                    "Insufficient history provided for Accumulation/Distribution Line.  " +
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

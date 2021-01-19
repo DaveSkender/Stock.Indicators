@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class StdDev : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int lookbackPeriod = 10;
@@ -53,7 +53,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r4.StdDevSma);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetStdDevWithSma()
         {
             int lookbackPeriod = 10;
@@ -81,14 +81,14 @@ namespace Internal.Tests
             Assert.AreEqual(7.6886m, Math.Round((decimal)r2.StdDevSma, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<StdDevResult> r = Indicator.GetStdDev(historyBad, 15, 3);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -103,6 +103,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStdDev(HistoryTestData.Get(29), 30));
         }
-
     }
 }

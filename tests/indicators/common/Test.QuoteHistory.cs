@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,13 +10,13 @@ namespace Internal.Tests
     public class QuoteHistory : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Validate()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
 
             // clean
-            List<Quote> h = history.Validate();
+            List<Quote> h = history.Validate().ToList();
 
             // assertions
 
@@ -32,12 +32,12 @@ namespace Internal.Tests
             Assert.AreEqual(spotDate, h[20].Date);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ValidateLong()
         {
             IEnumerable<Quote> historyLong = HistoryTestData.GetLong();
 
-            List<Quote> h = historyLong.Validate();
+            List<Quote> h = historyLong.Validate().ToList();
 
             // assertions
 
@@ -49,13 +49,13 @@ namespace Internal.Tests
             Assert.AreEqual(lastDate, h[5284].Date);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ValidateCut()
         {
             // if history post-cleaning, is cut down in size it should not corrupt the results
 
             IEnumerable<Quote> history = HistoryTestData.Get(200);
-            List<Quote> h = history.Validate();
+            List<Quote> h = history.Validate().ToList();
 
             // assertions
 
@@ -89,7 +89,7 @@ namespace Internal.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Sort()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -111,7 +111,7 @@ namespace Internal.Tests
             Assert.AreEqual(spotDate, h[20].Date);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Find()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -124,7 +124,7 @@ namespace Internal.Tests
             Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ConvertToBasic()
         {
             // compose basic data
@@ -160,7 +160,7 @@ namespace Internal.Tests
 
 
         /* BAD HISTORY EXCEPTIONS */
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(BadHistoryException), "No historical quotes.")]
         public void NoHistory()
         {
@@ -168,7 +168,7 @@ namespace Internal.Tests
             badHistory.Validate();
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(BadHistoryException), "Duplicate date found.")]
         public void DuplicateHistory()
         {
@@ -184,7 +184,7 @@ namespace Internal.Tests
             badHistory.Validate();
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(BadHistoryException), "No historical basic data.")]
         public void NoBasicData()
         {
@@ -192,13 +192,12 @@ namespace Internal.Tests
             h.ConvertToBasic();
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(BadHistoryException), "Bad element.")]
         public void ConvertBasicDataBadParam()
         {
             // compose basic data
             history.ConvertToBasic("E");
         }
-
     }
 }

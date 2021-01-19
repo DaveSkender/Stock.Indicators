@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
 using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -9,25 +9,25 @@ namespace Internal.Tests
     {
 
         // bad history exceptions
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(BadHistoryException), "Bad history without message.")]
         public void BadHistory()
         {
             throw new BadHistoryException();
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(BadHistoryException), "Bad history with message.")]
         public void BadHistoryWithMessage()
         {
             throw new BadHistoryException("This is a history exception.");
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(BadHistoryException), "Bad history with inner Exception.")]
         public void BadHistoryWithInner()
         {
-            throw new BadHistoryException("This has an inner Exception.", new Exception());
+            throw new BadHistoryException("This has an inner Exception.", new ArgumentException());
         }
     }
 }

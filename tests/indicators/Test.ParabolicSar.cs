@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class ParabolicSar : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             decimal acclerationStep = 0.02m;
@@ -41,14 +41,14 @@ namespace Internal.Tests
             Assert.AreEqual(false, r3.IsReversal);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(historyBad);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad acceleration step
@@ -67,6 +67,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetParabolicSar(HistoryTestData.Get(1), 0.02m, 0.2m));
         }
-
     }
 }

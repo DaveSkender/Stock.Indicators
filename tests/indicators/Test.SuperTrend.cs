@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skender.Stock.Indicators;
 
 namespace Internal.Tests
 {
@@ -10,7 +10,7 @@ namespace Internal.Tests
     public class SuperTrend : TestBase
     {
 
-        [TestMethod()]
+        [TestMethod]
         public void Standard()
         {
             int lookbackPeriod = 14;
@@ -58,7 +58,7 @@ namespace Internal.Tests
             Assert.AreEqual(null, r6.LowerBand);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Bitcoin()
         {
             IEnumerable<Quote> h = HistoryTestData.GetBitcoin();
@@ -70,14 +70,14 @@ namespace Internal.Tests
             Assert.AreEqual(16242.2704m, Math.Round((decimal)r.LowerBand, 4));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(historyBad, 7);
             Assert.AreEqual(502, r.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
@@ -92,6 +92,5 @@ namespace Internal.Tests
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetSuperTrend(HistoryTestData.Get(129), 30));
         }
-
     }
 }

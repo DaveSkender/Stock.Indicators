@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // WILLIAMS FRACTAL
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<FractalResult> GetFractal<TQuote>(
             IEnumerable<TQuote> history)
             where TQuote : IQuote
@@ -70,13 +72,13 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Fractal.  " +
-                    string.Format(englishCulture,
+                    string.Format(
+                        EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
         }
-
     }
 }

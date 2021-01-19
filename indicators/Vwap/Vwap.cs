@@ -6,6 +6,8 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // VOLUME WEIGHTED AVERAGE PRICE
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
         public static IEnumerable<VwapResult> GetVwap<TQuote>(
             IEnumerable<TQuote> history,
             DateTime? startDate = null)
@@ -66,6 +68,5 @@ namespace Skender.Stock.Indicators
                     "Start Date must be within the history range for VWAP.");
             }
         }
-
     }
 }
