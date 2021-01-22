@@ -14,7 +14,8 @@ exclude:
     "*.csproj",
     "*.cs",
     "*.xlsx",
-    "*.yml",
+    "*.xml",
+    "*.yml"
   ]
 
 plugins:
