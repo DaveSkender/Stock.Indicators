@@ -1,0 +1,35 @@
+name: "Lock Threads"
+# https://github.com/marketplace/actions/lock-threads
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dessant/lock-threads@v2
+        with:
+          github-token: ${{ github.token }}
+          process-only: ""
+
+          issue-lock-reason: "resolved"
+          issue-lock-inactive-days: "90"
+          issue-lock-comment: >
+            This Issue has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new Issue for related bugs.
+          issue-lock-labels: ""
+          issue-exclude-created-before: ""
+          issue-exclude-labels: ""
+
+          pr-lock-reason: "resolved"
+          pr-lock-inactive-days: "30"
+          pr-lock-comment: >
+            This Pull Request has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new Issue for related bugs.
+          pr-lock-labels: ""
+          pr-exclude-created-before: ""
+          pr-exclude-labels: ""
