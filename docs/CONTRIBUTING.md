@@ -86,7 +86,7 @@ We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It 
 
 ## License
 
-This repository uses a standard Apache 2.0 open-source license.  It enables open-source community development by protecting the project and contributors from certain legal risks while allowing the widest range of uses, including in closed source software.  Please review the [License](http://www.apache.org/licenses/LICENSE-2.0) before using or contributing to the software.
+This repository uses a standard Apache 2.0 open-source license.  It enables open-source community development by protecting the project and contributors from certain legal risks while allowing the widest range of uses, including in closed source software.  Please review the [License](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
 ## Contact info
 
