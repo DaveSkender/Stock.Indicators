@@ -10,6 +10,6 @@
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 3000,
     "search.exclude": {}, // auto includes files.exclude
-    "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
+    "dotnet-test-explorer.testProjectPath": "**/*Tests*.csproj",
     "editor.codeLens": false
 }
