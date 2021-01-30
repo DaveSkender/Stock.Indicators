@@ -46,6 +46,7 @@
 - [Stochastic Oscillator](../indicators/Stoch/README.md#content)
 - [Stochastic RSI](../indicators/StochRsi/README.md#content)
 - [SuperTrend](../indicators/SuperTrend/README.md#content)
+- [Tillson T3 Moving Average](../indicators/T3/README.md#content)
 - [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
 - [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
 - [True Strength Index (TSI)](../indicators/Tsi/README.md#content)

@@ -332,6 +332,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetT3()
+        {
+            return Indicator.GetT3(h);
+        }
+
+        [Benchmark]
         public object GetUlcerIndex()
         {
             return Indicator.GetUlcerIndex(h);
