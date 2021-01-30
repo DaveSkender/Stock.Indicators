@@ -1,0 +1,59 @@
+# Tillson T3 Moving Average
+
+Created by Tim Tillson, the [T3](https://en.wikipedia.org/wiki/True_strength_index) indicator attempts to produce a smooth moving average that reduces both lag and noise overshooting.
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/332 "Community discussion about this indicator")
+
+![image](chart.png)
+
+```csharp
+// usage
+IEnumerable<T3Result> results = 
+  Indicator.GetT3(history, lookbackPeriod, volumeFactor);  
+```
+
+## Parameters
+
+| name | type | notes
+| -- |-- |--
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `lookbackPeriod` | int | Number of periods (`N`) for the EMA smoothing.  Must be greater than 0 and is usually less than 63.  Default is 5.
+| `volumeFactor` | int | Size of the Volume Factor.  Must be greater than 0 and is usually less than 2.  Default is 0.7
+
+### Minimum history requirements
+
+You must supply at least `6×(N-1)+100` periods of `history`.  Since this uses a six EMA smoothing techniques, we recommend you use at least `TBD` data points prior to the intended usage date for better precision.
+
+## Response
+
+```csharp
+IEnumerable<T3Result>
+```
+
+The first `6×(N-1)` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+:warning: **Warning**: The first `TBD` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+
+### T3Result
+
+| name | type | notes
+| -- |-- |--
+| `Date` | DateTime | Date
+| `T3` | decimal | T3 Moving Average
+
+## Example
+
+```csharp
+// fetch historical quotes from your favorite feed, in Quote format
+IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+
+// calculate 5-period T3
+IEnumerable<T3Result> results = Indicator.GetT3(history,5,0.7);
+
+// use results as needed
+T3Result result = results.LastOrDefault();
+Console.WriteLine("T3 on {0} was {1}", result.Date, result.T3);
+```
+
+```bash
+T3 on 12/31/2018 was $238.93
+```
