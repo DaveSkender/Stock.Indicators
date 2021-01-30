@@ -56,8 +56,8 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(135 + qty);
-                IEnumerable<T3Result> r = Indicator.GetT3(h);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(6 * 20 + 100 + qty);
+                IEnumerable<T3Result> r = Indicator.GetT3(h, 20);
 
                 T3Result l = r.LastOrDefault();
                 Console.WriteLine("T3 on {0:d} with {1,4} periods: {2:N8}",

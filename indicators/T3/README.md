@@ -21,7 +21,7 @@ IEnumerable<T3Result> results =
 
 ### Minimum history requirements
 
-You must supply at least `6×(N-1)+100` periods of `history`.  Since this uses a six EMA smoothing techniques, we recommend you use at least `TBD` data points prior to the intended usage date for better precision.
+You must supply at least `6×(N-1)+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `6×(N-1)+250` data points prior to the intended usage date for better precision.
 
 ## Response
 
@@ -31,7 +31,7 @@ IEnumerable<T3Result>
 
 The first `6×(N-1)` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The first `TBD` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:warning: **Warning**: The first `6×(N-1)+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### T3Result
 
