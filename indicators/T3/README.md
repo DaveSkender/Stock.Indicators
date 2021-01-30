@@ -1,6 +1,6 @@
 # Tillson T3 Moving Average
 
-Created by Tim Tillson, the [T3](https://en.wikipedia.org/wiki/True_strength_index) indicator attempts to produce a smooth moving average that reduces both lag and noise overshooting.
+Created by Tim Tillson, the [T3](https://en.wikipedia.org/wiki/True_strength_index) indicator is a smooth moving average that reduces both lag and overshooting.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/332 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -17,7 +17,7 @@ IEnumerable<T3Result> results =
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the EMA smoothing.  Must be greater than 0 and is usually less than 63.  Default is 5.
-| `volumeFactor` | int | Size of the Volume Factor.  Must be greater than 0 and is usually less than 2.  Default is 0.7
+| `volumeFactor` | double | Size of the Volume Factor.  Must be greater than 0 and is usually less than 2.  Default is 0.7
 
 ### Minimum history requirements
 

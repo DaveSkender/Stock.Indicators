@@ -2,7 +2,7 @@
 
 <indicator>
   <summary>
-    Tillson T3 Moving Average attempts to produce a smooth moving average that reduces both lag and noise overshooting.
+    Tillson T3 is a smooth moving average that reduces both lag and overshooting.
     See
     <see href="https://daveskender.github.io/Stock.Indicators/indicators/T3/#content">documentation</see>
     for more information.
