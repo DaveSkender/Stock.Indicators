@@ -1,6 +1,6 @@
 # Tillson T3 Moving Average
 
-Created by Tim Tillson, the [T3](https://en.wikipedia.org/wiki/True_strength_index) indicator is a smooth moving average that reduces both lag and overshooting.
+Created by Tim Tillson, the [T3](https://www.forexfactory.com/attachment.php/845855?attachmentid=845855&d=1322724313) indicator is a smooth moving average that reduces both lag and overshooting.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/332 "Community discussion about this indicator")
 
 ![image](chart.png)

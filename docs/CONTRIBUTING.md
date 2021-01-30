@@ -68,7 +68,7 @@ After a Pull Request is reviewed, accepted, and [squash] merged to master, we ma
 
 ## Code reviews and administration
 
-If you want to contribute administratively or help with code reviews, I'm also currently seeking a few core people to help.  Please [contact us](#contact-info) if interested.
+If you want to contribute administratively or help with code reviews, we're also currently seeking a few core people to help.  Please [contact us](#contact-info) if interested.
 
 ## Standards and design guidelines
 
@@ -86,7 +86,7 @@ We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It 
 
 ## License
 
-This repository uses a standard Apache 2.0 open-source license.  It enables open-source community development by protecting the project and contributors from certain legal risks while allowing the widest range of uses, including in closed source software.  Please review the [License](http://www.apache.org/licenses/LICENSE-2.0) before using or contributing to the software.
+This repository uses a standard Apache 2.0 open-source license.  It enables open-source community development by protecting the project and contributors from certain legal risks while allowing the widest range of uses, including in closed source software.  Please review the [License](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
 ## Contact info
 

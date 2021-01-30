@@ -50,7 +50,9 @@ This NuGet package is an open-source community project.  If you want to report b
 
 ## License
 
-This repository uses the standard Apache 2.0 open-source license.  Please review the [license](http://www.apache.org/licenses/LICENSE-2.0) before using or contributing to the software.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
 ## Contact us
 
