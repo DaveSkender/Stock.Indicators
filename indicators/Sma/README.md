@@ -16,7 +16,6 @@ IEnumerable<SmaResult> results = Indicator.GetSma(history, lookbackPeriod);
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
-| `extended` | bool | A `true` will include values for MAD, MSE, and MAPE.  Default is `false`.
 
 ### Minimum history requirements
 
@@ -35,12 +34,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sma` | decimal | Simple moving average for `N` lookback periods
-| `Mad` | decimal | Mean absolute deviation
-| `Mse` | decimal | Mean square error
-| `Mape` | decimal | Mean absolute percentage error
-
-MAD, MSE, and MAPE values are only included if you set `extended` to `true`
+| `Sma` | decimal | Simple moving average
 
 ## Example
 
@@ -59,3 +53,22 @@ Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 ```bash
 SMA on 12/31/2018 was $251.86
 ```
+
+## Extended analysis
+
+An extended variant of this indicator includes additional analysis.
+
+```csharp
+// usage
+IEnumerable<SmaExtendedResult> results = Indicator.GetSmaExtended(history, lookbackPeriod);  
+```
+
+### SmaExtendedResult
+
+| name | type | notes
+| -- |-- |--
+| `Date` | DateTime | Date
+| `Sma` | decimal | Simple moving average
+| `Mad` | decimal | Mean absolute deviation
+| `Mse` | decimal | Mean square error
+| `Mape` | decimal | Mean absolute percentage error
