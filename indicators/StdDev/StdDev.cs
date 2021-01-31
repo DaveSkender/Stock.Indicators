@@ -16,10 +16,10 @@ namespace Skender.Stock.Indicators
         {
 
             // convert to basic data
-            List<BasicData> bd = history.ConvertToBasic("C");
+            List<BasicData> bdList = history.ConvertToBasic("C");
 
             // calculate
-            return CalcStdDev(bd, lookbackPeriod, smaPeriod);
+            return CalcStdDev(bdList, lookbackPeriod, smaPeriod);
         }
 
 
