@@ -44,7 +44,7 @@ See the [guide](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html) 
 - .NET Standard 2.0, 2.1
 - .NET Framework 4.6.1
 
-The compiled library package is [Common Language Specification (CLS) Compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system)
+The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 
 ## Contributing
 
