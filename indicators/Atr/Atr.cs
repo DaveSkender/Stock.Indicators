@@ -56,19 +56,18 @@ namespace Skender.Stock.Indicators
                     result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
-
-                // ATR initialization period
+                else if (index == lookbackPeriod)
+                {
+                    // initialize ATR
+                    sumTr += tr;
+                    result.Atr = sumTr / lookbackPeriod;
+                    result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
+                    prevAtr = (decimal)result.Atr;
+                }
                 else
                 {
+                    // only used for periods before ATR initialization
                     sumTr += tr;
-
-                    // initialize ATR
-                    if (index == lookbackPeriod)
-                    {
-                        result.Atr = sumTr / lookbackPeriod;
-                        result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
-                        prevAtr = (decimal)result.Atr;
-                    }
                 }
 
                 results.Add(result);
