@@ -126,19 +126,18 @@ namespace Skender.Stock.Indicators
                     prevAdx = adx;
                 }
 
-                // initial ADX
-                else if (index == 2 * lookbackPeriod)
-                {
-                    sumDx += dx;
-                    adx = sumDx / lookbackPeriod;
-                    result.Adx = adx;
-                    prevAdx = adx;
-                }
-
                 // ADX initialization period
                 else
                 {
                     sumDx += dx;
+
+                    // initialize ADX
+                    if (index == 2 * lookbackPeriod)
+                    {
+                        adx = sumDx / lookbackPeriod;
+                        result.Adx = adx;
+                        prevAdx = adx;
+                    }
                 }
 
                 results.Add(result);

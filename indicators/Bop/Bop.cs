@@ -24,6 +24,7 @@ namespace Skender.Stock.Indicators
             // initialize
             int size = historyList.Count;
             List<BopResult> results = new List<BopResult>(size);
+            decimal? sumRaw = 0;
 
             decimal?[] raw = historyList
                 .Select(x => (x.High != x.Low) ?
@@ -38,15 +39,16 @@ namespace Skender.Stock.Indicators
                     Date = historyList[i].Date
                 };
 
+                sumRaw += raw[i];
+
                 if (i >= smoothPeriod - 1)
                 {
-                    decimal? sum = 0m;
-                    for (int p = i - smoothPeriod + 1; p <= i; p++)
+                    if (i >= smoothPeriod)
                     {
-                        sum += raw[p];
+                        sumRaw -= raw[i - smoothPeriod];
                     }
 
-                    r.Bop = sum / smoothPeriod;
+                    r.Bop = sumRaw / smoothPeriod;
                 }
 
                 results.Add(r);

@@ -26,6 +26,8 @@ namespace Skender.Stock.Indicators
             int size = historyList.Count;
             List<AwesomeResult> results = new List<AwesomeResult>();
             decimal[] pr = new decimal[size]; // median price
+            decimal sumSlow = 0m;
+            decimal sumFast = 0m;
 
             // roll through history
             for (int i = 0; i < size; i++)
@@ -39,23 +41,23 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= slowPeriod)
+                sumSlow += pr[i];
+                sumFast += pr[i];
+
+                if (index > fastPeriod)
                 {
-                    decimal sumSlow = 0m;
-                    decimal sumFast = 0m;
+                    sumFast -= pr[i - fastPeriod];
 
-                    for (int p = index - slowPeriod; p < index; p++)
+                    if (index >= slowPeriod)
                     {
-                        sumSlow += pr[p];
-
-                        if (p >= index - fastPeriod)
+                        if (index > slowPeriod)
                         {
-                            sumFast += pr[p];
+                            sumSlow -= pr[i - slowPeriod];
                         }
-                    }
 
-                    r.Oscillator = (sumFast / fastPeriod) - (sumSlow / slowPeriod);
-                    r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : null;
+                        r.Oscillator = (sumFast / fastPeriod) - (sumSlow / slowPeriod);
+                        r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : null;
+                    }
                 }
 
                 results.Add(r);
