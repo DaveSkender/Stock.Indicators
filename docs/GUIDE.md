@@ -9,7 +9,7 @@
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Helper functions](#helper-functions)
-- [Contributing guidelines](CONTRIBUTING.md)
+- [Contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html)
 
 ## Getting started
 
