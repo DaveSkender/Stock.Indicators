@@ -25,18 +25,13 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<CorrResult> results = new List<CorrResult>(historyListA.Count);
-            decimal sumPriceA = 0m;
-            decimal sumPriceB = 0m;
-            decimal sumPriceA2 = 0m;
-            decimal sumPriceB2 = 0m;
-            decimal sumPriceAB = 0m;
 
             // roll through history
             for (int i = 0; i < historyListA.Count; i++)
             {
-                int index = i + 1;
                 TQuote a = historyListA[i];
                 TQuote b = historyListB[i];
+                int index = i + 1;
 
                 if (a.Date != b.Date)
                 {
@@ -49,26 +44,25 @@ namespace Skender.Stock.Indicators
                     Date = a.Date
                 };
 
-                sumPriceA += a.Close;
-                sumPriceB += b.Close;
-                sumPriceA2 += a.Close * a.Close;
-                sumPriceB2 += b.Close * b.Close;
-                sumPriceAB += a.Close * b.Close;
-
                 // compute correlation
                 if (index >= lookbackPeriod)
                 {
+                    decimal sumPriceA = 0m;
+                    decimal sumPriceB = 0m;
+                    decimal sumPriceA2 = 0m;
+                    decimal sumPriceB2 = 0m;
+                    decimal sumPriceAB = 0m;
 
-                    if (index != lookbackPeriod)
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
-                        TQuote qa = historyListA[i - lookbackPeriod];
-                        TQuote qb = historyListB[i - lookbackPeriod];
+                        TQuote qa = historyListA[p];
+                        TQuote qb = historyListB[p];
 
-                        sumPriceA -= qa.Close;
-                        sumPriceB -= qb.Close;
-                        sumPriceA2 -= qa.Close * qa.Close;
-                        sumPriceB2 -= qb.Close * qb.Close;
-                        sumPriceAB -= qa.Close * qb.Close;
+                        sumPriceA += qa.Close;
+                        sumPriceB += qb.Close;
+                        sumPriceA2 += qa.Close * qa.Close;
+                        sumPriceB2 += qb.Close * qb.Close;
+                        sumPriceAB += qa.Close * qb.Close;
                     }
 
                     decimal avgA = sumPriceA / lookbackPeriod;

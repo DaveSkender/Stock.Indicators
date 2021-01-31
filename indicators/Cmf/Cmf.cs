@@ -22,14 +22,11 @@ namespace Skender.Stock.Indicators
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            int size = historyList.Count;
-            List<CmfResult> results = new List<CmfResult>(size);
+            List<CmfResult> results = new List<CmfResult>(historyList.Count);
             List<AdlResult> adlResults = GetAdl(history).ToList();
-            decimal sumMfv = 0;
-            decimal sumVol = 0;
 
             // roll through history
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < adlResults.Count; i++)
             {
                 AdlResult r = adlResults[i];
                 int index = i + 1;
@@ -40,17 +37,19 @@ namespace Skender.Stock.Indicators
                     MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                     MoneyFlowVolume = r.MoneyFlowVolume
                 };
-                results.Add(result);
-
-                sumVol += historyList[i].Volume;
-                sumMfv += r.MoneyFlowVolume;
 
                 if (index >= lookbackPeriod)
                 {
-                    if (index != lookbackPeriod)
+                    decimal sumMfv = 0;
+                    decimal sumVol = 0;
+
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
-                        sumVol -= historyList[i - lookbackPeriod].Volume;
-                        sumMfv -= adlResults[i - lookbackPeriod].MoneyFlowVolume;
+                        TQuote h = historyList[p];
+                        sumVol += h.Volume;
+
+                        AdlResult d = adlResults[p];
+                        sumMfv += d.MoneyFlowVolume;
                     }
 
                     decimal avgMfv = sumMfv / lookbackPeriod;
@@ -61,6 +60,8 @@ namespace Skender.Stock.Indicators
                         result.Cmf = avgMfv / avgVol;
                     }
                 }
+
+                results.Add(result);
             }
 
             return results;
