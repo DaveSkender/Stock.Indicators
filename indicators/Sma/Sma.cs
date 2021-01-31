@@ -23,7 +23,6 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<SmaResult> results = new List<SmaResult>(historyList.Count);
-            decimal sumSma = 0m;
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -36,13 +35,13 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                sumSma += h.Close;
-
                 if (index >= lookbackPeriod)
                 {
-                    if (index > lookbackPeriod)
+                    decimal sumSma = 0m;
+                    for (int p = index - lookbackPeriod; p < index; p++)
                     {
-                        sumSma -= historyList[i - lookbackPeriod].Close;
+                        TQuote d = historyList[p];
+                        sumSma += d.Close;
                     }
 
                     result.Sma = sumSma / lookbackPeriod;
