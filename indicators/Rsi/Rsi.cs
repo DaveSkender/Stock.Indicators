@@ -15,14 +15,15 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bd = history.ConvertToBasic("C");
+            List<BasicData> bdList = history.ConvertToBasic("C");
 
             // calculate
-            return CalcRsi(bd, lookbackPeriod);
+            return CalcRsi(bdList, lookbackPeriod);
         }
 
 
-        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod = 14)
+        private static IEnumerable<RsiResult> CalcRsi(
+            List<BasicData> bdList, int lookbackPeriod)
         {
 
             // check parameter arguments

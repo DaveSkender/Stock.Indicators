@@ -23,6 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<CciResult> results = new List<CciResult>(historyList.Count);
+            decimal sumTp = 0;
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -37,16 +38,17 @@ namespace Skender.Stock.Indicators
                 };
                 results.Add(result);
 
+                sumTp += (decimal)result.Tp;
+
                 if (index >= lookbackPeriod)
                 {
                     // average TP over lookback
-                    decimal avgTp = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    if (index != lookbackPeriod)
                     {
-                        CciResult d = results[p];
-                        avgTp += (decimal)d.Tp;
+                        sumTp -= (decimal)results[i - lookbackPeriod].Tp;
                     }
-                    avgTp /= lookbackPeriod;
+
+                    decimal avgTp = sumTp / lookbackPeriod;
 
                     // average Deviation over lookback
                     decimal avgDv = 0;
@@ -58,7 +60,7 @@ namespace Skender.Stock.Indicators
                     avgDv /= lookbackPeriod;
 
                     result.Cci = (avgDv == 0) ? null
-                        : (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
+                        : (result.Tp - avgTp) / avgDv / 0.015m;
                 }
             }
 
