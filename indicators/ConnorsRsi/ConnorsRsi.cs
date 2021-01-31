@@ -18,13 +18,13 @@ namespace Skender.Stock.Indicators
         {
 
             // convert history to basic format
-            List<BasicData> bd = history.ConvertToBasic("C");
+            List<BasicData> bdList = history.ConvertToBasic("C");
 
             // check parameter arguments
-            ValidateConnorsRsi(bd, rsiPeriod, streakPeriod, rankPeriod);
+            ValidateConnorsRsi(bdList, rsiPeriod, streakPeriod, rankPeriod);
 
             // initialize
-            List<ConnorsRsiResult> results = CalcConnorsRsiBaseline(bd, rsiPeriod, rankPeriod);
+            List<ConnorsRsiResult> results = CalcConnorsRsiBaseline(bdList, rsiPeriod, rankPeriod);
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
 
             // RSI of streak
