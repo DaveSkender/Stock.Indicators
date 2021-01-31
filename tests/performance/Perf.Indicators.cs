@@ -268,7 +268,7 @@ namespace Tests.Performance
         [Benchmark]
         public object GetSmaExtended()
         {
-            return Indicator.GetSma(h, 10, true);
+            return Indicator.GetSmaExtended(h, 10);
         }
 
         [Benchmark]
