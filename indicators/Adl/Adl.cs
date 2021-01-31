@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<AdlResult> results = new List<AdlResult>(historyList.Count);
-            decimal prevAdl = 0;
+            decimal prevAdl = 0, sumAdl = 0;
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -47,15 +47,19 @@ namespace Skender.Stock.Indicators
                 prevAdl = adl;
 
                 // optional SMA
-                if (smaPeriod != null && index >= smaPeriod)
+                if (smaPeriod is not null)
                 {
-                    decimal sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
-                    {
-                        sumSma += results[p].Adl;
-                    }
+                    sumAdl += adl;
 
-                    result.AdlSma = sumSma / smaPeriod;
+                    if (index >= smaPeriod)
+                    {
+                        if (index > smaPeriod)
+                        {
+                            sumAdl -= results[i - (int)smaPeriod].Adl;
+                        }
+
+                        result.AdlSma = sumAdl / smaPeriod;
+                    }
                 }
             }
 

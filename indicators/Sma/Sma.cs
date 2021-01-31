@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE
-        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
+        /// <include file='./info.xml' path='indicators/type[@name="Base"]/*' />
         /// 
         public static IEnumerable<SmaResult> GetSma<TQuote>(
             IEnumerable<TQuote> history,

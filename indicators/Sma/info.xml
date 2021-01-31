@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <indicators>
-  <type name="Main">
+  <type name="Base">
     <summary>
       Simple Moving Average (SMA) is the average of Close price over a lookback window.
       See
