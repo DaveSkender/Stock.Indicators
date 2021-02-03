@@ -8,7 +8,7 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 ```csharp
 // usage
 IEnumerable<PivotPointResult> results = 
-  Indicator.GetRollingPivots(history, lookbackPeriod, pointType);  
+  Indicator.GetRollingPivots(history, lookbackPeriod, offsetPeriod, pointType);  
 ```
 
 ## Parameters
@@ -65,7 +65,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style 14 period Rolling Pivot Points
 IEnumerable<PivotPointResult> results = 
-  Indicator.GetRollingPivots(history,14,PivotPointType.Woodie);
+  Indicator.GetRollingPivots(history,14,0,PivotPointType.Woodie);
 
 // use results as needed
 PivotPointsResult result = results.LastOrDefault();
