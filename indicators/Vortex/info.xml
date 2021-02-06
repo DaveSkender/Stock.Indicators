@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Vortex Indicator (VI) is a measure of price directional movement.
+    It includes positive and negative indicators, and is often used to identify trends and reversals.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Vortex/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <returns>Time series of VI+ and VI- vortex movement indicator values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>

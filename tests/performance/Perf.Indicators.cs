@@ -356,6 +356,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetVortex()
+        {
+            return Indicator.GetVortex(h, 14);
+        }
+
+        [Benchmark]
         public object GetVwap()
         {
             return Indicator.GetVwap(hday);
