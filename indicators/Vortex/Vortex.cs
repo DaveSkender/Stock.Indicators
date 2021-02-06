@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
 
             decimal[] tr = new decimal[size];
             decimal[] pvm = new decimal[size];
-            decimal[] mvm = new decimal[size];
+            decimal[] nvm = new decimal[size];
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -60,7 +60,7 @@ namespace Skender.Stock.Indicators
 
                 tr[i] = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
                 pvm[i] = Math.Abs(h.High - prevLow);
-                mvm[i] = Math.Abs(h.Low - prevHigh);
+                nvm[i] = Math.Abs(h.Low - prevHigh);
 
                 prevHigh = h.High;
                 prevLow = h.Low;
@@ -72,19 +72,19 @@ namespace Skender.Stock.Indicators
 
                     decimal sumTr = 0;
                     decimal sumPvm = 0;
-                    decimal sumMvm = 0;
+                    decimal sumNvm = 0;
 
                     for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         sumTr += tr[p];
                         sumPvm += pvm[p];
-                        sumMvm += mvm[p];
+                        sumNvm += nvm[p];
                     }
 
                     if (sumTr is not 0)
                     {
                         result.Pvi = sumPvm / sumTr;
-                        result.Mvi = sumMvm / sumTr;
+                        result.Nvi = sumNvm / sumTr;
                     }
                 }
 
@@ -115,10 +115,8 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient history provided for VI.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, "
-                    + "we recommend you use at least 2×N+250 data points prior to the intended "
-                    + "usage date for better precision.", qtyHistory, minHistory);
+                    "You provided {0} periods of history when at least {1} is required.",
+                    qtyHistory, minHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }

@@ -27,23 +27,23 @@ namespace Internal.Tests
             // sample values
             VortexResult r1 = results[13];
             Assert.IsNull(r1.Pvi);
-            Assert.IsNull(r1.Mvi);
+            Assert.IsNull(r1.Nvi);
 
             VortexResult r2 = results[14];
             Assert.AreEqual(1.0460m, Math.Round((decimal)r2.Pvi, 4));
-            Assert.AreEqual(0.8119m, Math.Round((decimal)r2.Mvi, 4));
+            Assert.AreEqual(0.8119m, Math.Round((decimal)r2.Nvi, 4));
 
             VortexResult r3 = results[29];
             Assert.AreEqual(1.1300m, Math.Round((decimal)r3.Pvi, 4));
-            Assert.AreEqual(0.7393m, Math.Round((decimal)r3.Mvi, 4));
+            Assert.AreEqual(0.7393m, Math.Round((decimal)r3.Nvi, 4));
 
             VortexResult r4 = results[249];
             Assert.AreEqual(1.1558m, Math.Round((decimal)r4.Pvi, 4));
-            Assert.AreEqual(0.6634m, Math.Round((decimal)r4.Mvi, 4));
+            Assert.AreEqual(0.6634m, Math.Round((decimal)r4.Nvi, 4));
 
             VortexResult r5 = results[501];
             Assert.AreEqual(0.8712m, Math.Round((decimal)r5.Pvi, 4));
-            Assert.AreEqual(1.1163m, Math.Round((decimal)r5.Mvi, 4));
+            Assert.AreEqual(1.1163m, Math.Round((decimal)r5.Nvi, 4));
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace Internal.Tests
                 IEnumerable<VortexResult> r = Indicator.GetVortex(h, 14);
 
                 VortexResult l = r.LastOrDefault();
-                Console.WriteLine("+VI on {0:d} with {1,4} periods: {2:N8}",
+                Console.WriteLine("VI+ on {0:d} with {1,4} periods: {2:N8}",
                     l.Date, h.Count(), l.Pvi);
             }
         }

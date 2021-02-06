@@ -1,6 +1,6 @@
 # Vortex Indicator (VI)
 
-Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.wikipedia.org/wiki/Vortex_indicator) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to identify trends and reversals.
+Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.wikipedia.org/wiki/Vortex_indicator) is a measure of price directional movement.  It includes positive and negative indicators, and is often used to identify trends and reversals.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/339 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -35,8 +35,8 @@ The first `N` periods will have `null` values for VI since there's not enough da
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Pvi` | decimal | Plus Vortex Index (+VI) for `N` lookback periods
-| `Mvi` | decimal | Minus Vortex Index (-VI) for `N` lookback periods
+| `Pvi` | decimal | Positive Vortex Index (VI+)
+| `Nvi` | decimal | Negative Vortex Index (VI-)
 
 ## Example
 
@@ -49,9 +49,9 @@ IEnumerable<VortexResult> results = Indicator.GetVortex(history,14);
 
 // use results as needed
 VortexResult result = results.LastOrDefault();
-Console.WriteLine("VI on {0} was {1}", result.Date, result.Vi);
+Console.WriteLine("VI+ on {0} was {1}", result.Date, result.Pvi);
 ```
 
 ```bash
-VI on 12/31/2018 was 0.871
+VI+ on 12/31/2018 was 0.871
 ```

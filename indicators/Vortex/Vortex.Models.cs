@@ -6,6 +6,6 @@ namespace Skender.Stock.Indicators
     public class VortexResult : ResultBase
     {
         public decimal? Pvi { get; set; }
-        public decimal? Mvi { get; set; }
+        public decimal? Nvi { get; set; }
     }
 }
