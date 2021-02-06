@@ -54,6 +54,7 @@
 - [Ultimate Oscillator](../indicators/Ultimate/README.md#content)
 - [Volume Simple Moving Average](../indicators/VolSma/README.md#content)
 - [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
+- [Vortex Indicator (VI)](../indicators/Vortex/README.md#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
 - [Williams %R](../indicators/WilliamsR/README.md#content)
 - [Williams Fractal](../indicators/Fractal/README.md#content)

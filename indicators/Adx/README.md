@@ -1,4 +1,4 @@
-﻿# Average Directional Index (ADX)
+# Average Directional Index (ADX)
 
 Created by J. Welles Wilder, the [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
@@ -7,7 +7,8 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 
 ```csharp
 // usage
-IEnumerable<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod);  
+IEnumerable<AdxResult> results
+  = Indicator.GetAdx(history, lookbackPeriod);  
 ```
 
 ## Parameters
