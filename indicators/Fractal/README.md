@@ -1,13 +1,13 @@
 ﻿# Williams Fractal
 
-Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a high or low point over ±2 periods.
+Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
 ![image](chart.png)
 
 ```csharp
 // usage
-IEnumerable<FractalResult> results = Indicator.GetFractal(history);  
+IEnumerable<FractalResult> results = Indicator.GetFractal(history,windowSpan);  
 ```
 
 ## Parameters
@@ -15,10 +15,13 @@ IEnumerable<FractalResult> results = Indicator.GetFractal(history);
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `windowSpan` | int | Number of span periods (`S`) in the evaluation window.  Must be at least 2.  Default is 2.
+
+The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.
 
 ### Minimum history requirements
 
-You must supply at least 5 periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
+You must supply at least `2×S+1` periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
 
 ## Response
 
@@ -29,7 +32,7 @@ IEnumerable<FractalResult>
 The first and last two periods in `history` are unable to be calculated since there's not enough prior/following data.
 We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last two periods of `history`.
+:warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `history`.
 
 ### FractalResult
 
@@ -45,8 +48,8 @@ We always return the same number of elements as there are in the historical quot
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
-// calculate Fractal
-IEnumerable<FractalResult> results = Indicator.GetFractal(history);
+// calculate Fractal(5)
+IEnumerable<FractalResult> results = Indicator.GetFractal(history,5);
 
 // use results as needed
 FractalResult r = results.Where(x=>x.FractalBear!=null).LastOrDefault();

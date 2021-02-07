@@ -2,13 +2,14 @@
 
 <indicator>
   <summary>
-    Williams Fractal is a retrospective price pattern that identifies a high or low point over ±2 periods.
+    Williams Fractal is a retrospective price pattern that identifies a central high or low point over a lookback window.
     See
     <see href="https://daveskender.github.io/Stock.Indicators/indicators/Fractal/#content">documentation</see>
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
+  <param name="windowSpan">Number of span periods in the evaluation window.</param>
   <returns>Time series of Williams Fractal Bull/Bear values.</returns>
   <exception cref="BadHistoryException">Insufficient history provided.</exception>
 </indicator>
