@@ -128,6 +128,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetFcb()
+        {
+            return Indicator.GetFcb(h, 14);
+        }
+
+        [Benchmark]
         public object GetFractal()
         {
             return Indicator.GetFractal(h);

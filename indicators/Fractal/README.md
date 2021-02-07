@@ -15,7 +15,7 @@ IEnumerable<FractalResult> results = Indicator.GetFractal(history,windowSpan);
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `windowSpan` | int | Number of span periods (`S`) in the evaluation window.  Must be at least 2.  Default is 2.
+| `windowSpan` | int | Evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.
 
@@ -29,7 +29,7 @@ You must supply at least `2×S+1` periods of `history`; however, more is typical
 IEnumerable<FractalResult>
 ```
 
-The first and last two periods in `history` are unable to be calculated since there's not enough prior/following data.
+The first and last `S` periods in `history` are unable to be calculated since there's not enough prior/following data.
 We always return the same number of elements as there are in the historical quotes.
 
 :warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `history`.

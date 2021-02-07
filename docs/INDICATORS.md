@@ -18,6 +18,7 @@
 - [Donchian Channels](../indicators/Donchian/README.md#content)
 - [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
 - [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
+- [Fractal Chaos Bands (FCB)](../indicators/Fcb/README.md#content)
 - [Heikin-Ashi](../indicators/HeikinAshi/README.md#content)
 - [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
 - [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
