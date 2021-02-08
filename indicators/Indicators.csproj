@@ -27,7 +27,7 @@
        MACD;SMA;EMA;DEMA;TEMA;TRIX;Relative;Strength;Index;RSI;ConnorsRSI;Stochastic;Directional;Movement;ADX;Donchian;
        Keltner;Channel;Heikin-Ashi;Hull;HMA;Ichimoku;Cloud;On-balance;Volume;OBV;Price;PMO;PRS;Parabolic;SAR;Stop;Reverse;
        PSAR;Pivot;Points;Rate;Change;ROC;Linear;Regression;R-Squared;Slope;Standard;Deviation;Beta;Correlation;SuperTrend;
-       Ulcer;Ultimate;Williams;%R;Fractal;WMA;ZigZag;.NET;C#;Library;Package;
+       Ulcer;Ultimate;Vortex;Williams;%R;Fractal;Chaos;Choppiness;WMA;ZigZag;.NET;C#;Library;Package;
     </PackageTags>
     <PackageReleaseNotes>More info: https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
