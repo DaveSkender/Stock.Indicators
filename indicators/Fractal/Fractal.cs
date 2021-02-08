@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -9,7 +10,8 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<FractalResult> GetFractal<TQuote>(
-            IEnumerable<TQuote> history)
+            IEnumerable<TQuote> history,
+            int windowSpan = 2)
             where TQuote : IQuote
         {
 
@@ -17,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateFractal(history);
+            ValidateFractal(history, windowSpan);
 
             // initialize
             List<FractalResult> results = new List<FractalResult>(historyList.Count);
@@ -33,22 +35,41 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index > 2 && index <= historyList.Count - 2)
+                if (index > windowSpan && index <= historyList.Count - windowSpan)
                 {
+                    bool isHigh = true;
+                    bool isLow = true;
+
+                    for (int p = i - windowSpan; p <= i + windowSpan; p++)
+                    {
+                        // skip current period
+                        if (p == i)
+                        {
+                            continue;
+                        }
+
+                        // evaluate "wings"
+                        TQuote d = historyList[p];
+
+                        if (h.High <= d.High)
+                        {
+                            isHigh = false;
+                        }
+
+                        if (h.Low >= d.Low)
+                        {
+                            isLow = false;
+                        }
+                    }
+
                     // bearish signal
-                    if (h.High > historyList[i - 2].High
-                     && h.High > historyList[i - 1].High
-                     && h.High > historyList[i + 1].High
-                     && h.High > historyList[i + 2].High)
+                    if (isHigh)
                     {
                         r.FractalBear = h.High;
                     }
 
                     // bullish signal
-                    if (h.Low < historyList[i - 2].Low
-                     && h.Low < historyList[i - 1].Low
-                     && h.Low < historyList[i + 1].Low
-                     && h.Low < historyList[i + 2].Low)
+                    if (isLow)
                     {
                         r.FractalBull = h.Low;
                     }
@@ -62,13 +83,21 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateFractal<TQuote>(
-            IEnumerable<TQuote> history)
+            IEnumerable<TQuote> history,
+            int windowSpan)
             where TQuote : IQuote
         {
 
+            // check parameter arguments
+            if (windowSpan < 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(windowSpan), windowSpan,
+                    "Window span must be at least 2 for Fractal.");
+            }
+
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 5;
+            int minHistory = 2 * windowSpan + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Fractal.  " +
