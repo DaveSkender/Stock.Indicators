@@ -1,6 +1,6 @@
 # Fractal Chaos Bands (FCB)
 
-Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of [Williams Fractal](../Fractal/README.md).
+Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of [Williams Fractal](../Fractal/README.md#content).
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/347 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -17,7 +17,7 @@ IEnumerable<FcbResult> results = Indicator.GetFcb(history, lookbackPeriod);
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
-See [Williams Fractal](../Fractal/README.md) for more information about Fractals and `windowSpan`.
+See [Williams Fractal](../Fractal/README.md#content) for more information about Fractals and `windowSpan`.
 
 ### Minimum history requirements
 
