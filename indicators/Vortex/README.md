@@ -35,8 +35,8 @@ The first `N` periods will have `null` values for VI since there's not enough da
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Pvi` | decimal | Positive Vortex Index (VI+)
-| `Nvi` | decimal | Negative Vortex Index (VI-)
+| `Pvi` | decimal | Positive Vortex Indicator (VI+)
+| `Nvi` | decimal | Negative Vortex Indicator (VI-)
 
 ## Example
 
