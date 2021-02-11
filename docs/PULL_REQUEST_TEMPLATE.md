@@ -21,4 +21,4 @@ Fixes #(issue number)
 ## Acknowledgements
 
 - [ ] I have read and understand [the Apache 2.0 license](https://opensource.org/licenses/Apache-2.0)
-- [ ] I agree to the [Developer Certificate of Origin (DCO)](https://developercertificate.org)
+- [ ] I agree to the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org)
