@@ -46,7 +46,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the repo documentation.  You can find the latest results [here](../tests/performance/README.md).
 
 ```bash
-# run all performance bencmarks
+# run all performance benchmarks
 dotnet run -c Release
 
 # run individual performance benchmark
