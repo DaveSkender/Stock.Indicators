@@ -12,6 +12,7 @@
 - [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)
 - [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
 - [Chandelier Exit](../indicators/Chandelier/README.md#content)
+- [Choppiness Index](../indicators/Chop/README.md#content)
 - [Commodity Channel Index (CCI)](../indicators/Cci/README.md#content)
 - [ConnorsRSI](../indicators/ConnorsRsi/README.md#content)
 - [Correlation Coefficient](../indicators/Correlation/README.md#content)

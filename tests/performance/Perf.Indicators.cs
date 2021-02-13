@@ -5,7 +5,6 @@ using Skender.Stock.Indicators;
 
 namespace Tests.Performance
 {
-
     [MarkdownExporterAttribute.GitHub]
     public class MarkIndicators
     {
@@ -89,6 +88,12 @@ namespace Tests.Performance
         public object GetChandelier()
         {
             return Indicator.GetChandelier(h);
+        }
+
+        [Benchmark]
+        public object GetChop()
+        {
+            return Indicator.GetChop(h);
         }
 
         [Benchmark]
