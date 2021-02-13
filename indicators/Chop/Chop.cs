@@ -13,18 +13,18 @@ namespace Skender.Stock.Indicators
             int lookbackPeriod = 14)
             where TQuote : IQuote
         {
-            // convert history to basic format
 
+            // sort history
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
             ValidateChop(historyList, lookbackPeriod);
 
             // initialize
-            decimal sum = 0m;
-            decimal high = 0m;
-            decimal low = 0m;
-            decimal range = 0m;
+            decimal sum;
+            decimal high;
+            decimal low;
+            decimal range;
 
             int size = historyList.Count;
             List<ChopResult> results = new List<ChopResult>(size);
@@ -56,7 +56,7 @@ namespace Skender.Stock.Indicators
                         high = trueHigh[i];
                         low = trueLow[i];
 
-                        // iterate i - 1 ... i - lookbackPeriod
+                        // iterate over lookback window
                         for (int j = 1; j < lookbackPeriod; j++)
                         {
                             sum += trueRange[i - j];
@@ -66,9 +66,11 @@ namespace Skender.Stock.Indicators
 
                         range = high - low;
 
-                        // calculate CHOP ... careful for divide-by-zero cases (bad data)
+                        // calculate CHOP
                         if (range != 0)
+                        {
                             r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriod)));
+                        }
                     }
                 }
             }
@@ -82,7 +84,7 @@ namespace Skender.Stock.Indicators
 
         {
             // check parameter arguments
-            if (lookbackPeriod < 2)
+            if (lookbackPeriod <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
                     "Lookback period must be greater than 1 for CHOP.");
@@ -94,8 +96,7 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for CHOP.  " +
-                    string.Format(
-                        EnglishCulture,
+                    string.Format(EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.",
                     qtyHistory, minHistory);
 
