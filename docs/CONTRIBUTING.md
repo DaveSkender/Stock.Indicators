@@ -43,7 +43,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce performance reports in the `bin` folder that we periodically include in the repo documentation.  You can find the latest results [here](../tests/performance/README.md).
+Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the repo documentation.  You can find the latest results [here](../tests/performance/README.md).
 
 ```bash
 # run all performance bencmarks
@@ -87,7 +87,9 @@ We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It 
 
 ## License
 
-This repository uses a standard Apache 2.0 open-source license.  It enables open-source community development by protecting the project and contributors from certain legal risks while allowing the widest range of uses, including in closed source software.  Please review the [License](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+This repository uses a standard Apache 2.0 open-source license.  It enables open-source community development by protecting the project and contributors from certain legal risks while allowing the widest range of uses, including in closed source software.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
 ## Contact info
 

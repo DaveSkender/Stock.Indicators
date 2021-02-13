@@ -1,13 +1,14 @@
 ﻿# Williams Fractal
 
-Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point a lookback window.
+Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point in a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
 ![image](chart.png)
 
 ```csharp
 // usage
-IEnumerable<FractalResult> results = Indicator.GetFractal(history,windowSpan);  
+IEnumerable<FractalResult> results
+  = Indicator.GetFractal(history,windowSpan);  
 ```
 
 ## Parameters
