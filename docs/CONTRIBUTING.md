@@ -69,7 +69,7 @@ After a Pull Request is reviewed, accepted, and [squash] merged to master, we ma
 
 ## Code reviews and administration
 
-If you want to contribute administratively or help with code reviews, we're also currently seeking a few core people to help.  Please [contact us](#contact-info) if interested.
+If you want to contribute administratively, do code reviews, or provide general user support, we're also currently seeking a few core people to help.  Please [contact us](#contact-info) if interested.
 
 ## Standards and design guidelines
 
