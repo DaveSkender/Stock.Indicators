@@ -1,6 +1,15 @@
 # Indicators and overlays
 
-[Moving averages](#moving-averages) | [Price transforms](#price-transforms) | [Price channels](#price-channels) | [Candlestick patterns](#candlestick-patterns) | [Overbought/oversold oscillators](#overbought/oversold-oscillators) | [Price trends](#price-trends) | [Volume-based momentum](#volume-based-momentum) | [Composite indicators](#composite-indicators) | [Stop and reverse](#stop-and-reverse) | [Price characteristics](#price-characteristics)
+- [Moving averages](#moving-averages)
+- [Price transforms](#price-transforms)
+- [Price channels](#price-channels)
+- [Candlestick patterns](#candlestick-patterns)
+- [Overbought/oversold oscillators](#overboughtoversold-oscillators)
+- [Price trends](#price-trends)
+- [Volume-based momentum](#volume-based-momentum)
+- [Composite indicators](#composite-indicators)
+- [Stop and reverse](#stop-and-reverse)
+- [Price characteristics](#price-characteristics)
 
 ## Moving averages
 
