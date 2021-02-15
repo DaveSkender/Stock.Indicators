@@ -67,7 +67,7 @@ namespace Internal.Tests
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(50 + qty);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(100 + qty);
                 IEnumerable<HtlResult> r = Indicator.GetHtTrendline(h);
 
                 HtlResult l = r.LastOrDefault();
