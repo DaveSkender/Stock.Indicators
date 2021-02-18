@@ -32,7 +32,7 @@ namespace Skender.Stock.Indicators
                 int index = i + 1;
 
                 decimal mfm = (h.High == h.Low) ? 0 : ((h.Close - h.Low) - (h.High - h.Close)) / (h.High - h.Low);
-                decimal mfv = mfm * h.Volume;
+                decimal mfv = (h.High == h.Low) ? 0 : ((h.Close - h.Low) - ((h.High - h.Close)* h.Volume)) / (h.High - h.Low);
                 decimal adl = mfv + prevAdl;
 
                 AdlResult result = new AdlResult
