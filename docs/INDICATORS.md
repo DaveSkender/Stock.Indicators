@@ -66,6 +66,7 @@
 
 - [Accumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
 - [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)
+- [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
 - [Money Flow Index (MFI)](../indicators/Mfi/README.md#content)
 - [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
 - [Percentage Volume Oscillator (PVO)](../indicators/Pvo/README.md#content)
@@ -87,7 +88,6 @@
 - [Average True Range (ATR)](../indicators/Atr/README.md#content)
 - [Awesome Oscillator](../indicators/Awesome/README.md#content)
 - [Balance of Power](../indicators/Bop/README.md#content)
-- [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
 - [Choppiness Index](../indicators/Chop/README.md#content)
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
 - [Price (Comparative) Relative Strength](../indicators/Prs/README.md#content)
