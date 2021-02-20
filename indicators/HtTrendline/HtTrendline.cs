@@ -103,20 +103,22 @@ namespace Skender.Stock.Indicators
 
                     // smooth dominant cycle period
                     int dcPeriods = (int)(Math.Truncate(sd[i] + 0.5));
-                    if (dcPeriods > 0)
+                    double sumPr = 0;
+                    for (int d = i - dcPeriods + 1; d <= i; d++)
                     {
-                        double sumPr = 0;
-                        for (int d = i - dcPeriods + 1; d <= i; d++)
+                        if (d >= 0)
                         {
                             sumPr += pr[d];
                         }
 
-                        it[i] = sumPr / dcPeriods;
+                        // handle insufficient lookback history (trim scope)
+                        else
+                        {
+                            dcPeriods--;
+                        }
                     }
-                    else
-                    {
-                        it[i] = 0;
-                    }
+
+                    it[i] = dcPeriods > 0 ? sumPr / dcPeriods : pr[i];
 
                     // final indicators
                     r.Trendline = i >= 11 // 12th bar

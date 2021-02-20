@@ -63,6 +63,14 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void PennyData()
+        {
+            IEnumerable<Quote> penny = HistoryTestData.GetPenny();
+            IEnumerable<HtlResult> r = Indicator.GetHtTrendline(penny);
+            Assert.AreEqual(533, r.Count());
+        }
+
+        [TestMethod]
         public void Convergence()
         {
             foreach (int qty in convergeQuantities)
