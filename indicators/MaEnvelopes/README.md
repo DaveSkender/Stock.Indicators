@@ -32,6 +32,7 @@ These are the supported moving average types:
 |-- |--
 | `MaType.ALMA` | [Arnaud Legoux Moving Average](../Alma/README.md#content)
 | `MaType.DEMA` | [Double Exponential Moving Average](../Ema/README.md#content)
+| `MaType.EPMA` | [Endpoint Moving Average](../Epma/README.md#content)
 | `MaType.EMA` | [Exponential Moving Average](../Ema/README.md#content)
 | `MaType.HMA` | [Hull Moving Average](../Hma/README.md#content)
 | `MaType.SMA` | [Simple Moving Average](../Sma/README.md#content) (default)

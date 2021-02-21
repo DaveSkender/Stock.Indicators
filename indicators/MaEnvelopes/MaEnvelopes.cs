@@ -45,6 +45,15 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Ema - x.Ema * offsetRatio
                     }),
 
+                MaType.EPMA => GetEpma(history, lookbackPeriod)
+                    .Select(x => new MaEnvelopeResult
+                    {
+                        Date = x.Date,
+                        Centerline = x.Epma,
+                        UpperEnvelope = x.Epma + x.Epma * offsetRatio,
+                        LowerEnvelope = x.Epma - x.Epma * offsetRatio
+                    }),
+
                 MaType.EMA => GetEma(history, lookbackPeriod)
                     .Select(x => new MaEnvelopeResult
                     {
