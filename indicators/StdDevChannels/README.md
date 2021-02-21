@@ -16,7 +16,7 @@ IEnumerable<StdDevChannelsResult> results =
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `lookbackPeriod` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `history` evaluation window.  Default is 20.
+| `lookbackPeriod` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `history` evaluation window ([see below](#alternative-depiction-for-full-variant)).  Default is 20.
 | `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
 
 ### Minimum history requirements
@@ -62,3 +62,9 @@ Console.WriteLine("Upper Channel on {0} was ${1}",
 ```bash
 Upper Channel on 12/31/2018 was $213.97
 ```
+
+## Alternative depiction for Full variant
+
+If you specify `null` for the `lookbackPeriod`, you will get a regression line over the entire provided `history`.
+
+![image](chart-full.png)
