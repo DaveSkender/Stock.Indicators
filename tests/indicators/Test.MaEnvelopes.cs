@@ -75,6 +75,38 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Epma()
+        {
+
+            List<MaEnvelopeResult> results =
+                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.EPMA)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is history
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+
+            // sample values
+            MaEnvelopeResult r1 = results[24];
+            Assert.AreEqual(216.2859m, Math.Round((decimal)r1.Centerline, 4));
+            Assert.AreEqual(221.6930m, Math.Round((decimal)r1.UpperEnvelope, 4));
+            Assert.AreEqual(210.8787m, Math.Round((decimal)r1.LowerEnvelope, 4));
+
+            MaEnvelopeResult r2 = results[249];
+            Assert.AreEqual(258.5179m, Math.Round((decimal)r2.Centerline, 4));
+            Assert.AreEqual(264.9808m, Math.Round((decimal)r2.UpperEnvelope, 4));
+            Assert.AreEqual(252.0549m, Math.Round((decimal)r2.LowerEnvelope, 4));
+
+            MaEnvelopeResult r3 = results[501];
+            Assert.AreEqual(235.8131m, Math.Round((decimal)r3.Centerline, 4));
+            Assert.AreEqual(241.7085m, Math.Round((decimal)r3.UpperEnvelope, 4));
+            Assert.AreEqual(229.9178m, Math.Round((decimal)r3.LowerEnvelope, 4));
+        }
+
+        [TestMethod]
         public void Ema()
         {
 
@@ -232,6 +264,9 @@ namespace Internal.Tests
 
             IEnumerable<MaEnvelopeResult> d = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.DEMA);
             Assert.AreEqual(502, d.Count());
+
+            IEnumerable<MaEnvelopeResult> p = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.EPMA);
+            Assert.AreEqual(502, p.Count());
 
             IEnumerable<MaEnvelopeResult> e = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.EMA);
             Assert.AreEqual(502, e.Count());
