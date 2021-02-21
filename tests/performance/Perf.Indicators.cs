@@ -157,6 +157,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetHtTrendline()
+        {
+            return Indicator.GetHtTrendline(h);
+        }
+
+        [Benchmark]
         public object GetIchimoku()
         {
             return Indicator.GetIchimoku(h);
@@ -286,6 +292,12 @@ namespace Tests.Performance
         public object GetStdDev()
         {
             return Indicator.GetStdDev(h, 20);
+        }
+
+        [Benchmark]
+        public object GetStdDevChannels()
+        {
+            return Indicator.GetStdDevChannels(h, 20);
         }
 
         [Benchmark]
