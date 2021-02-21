@@ -289,6 +289,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetStdDevChannels()
+        {
+            return Indicator.GetStdDevChannels(h, 20);
+        }
+
+        [Benchmark]
         public object GetStarcBands()
         {
             return Indicator.GetStarcBands(h);
