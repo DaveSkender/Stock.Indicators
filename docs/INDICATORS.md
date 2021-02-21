@@ -16,6 +16,7 @@
 - [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
 - [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
 - [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
+- [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/README.md#content)
 - [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
 - [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/README.md#content)
 - [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/README.md#content)
