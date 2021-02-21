@@ -1,6 +1,6 @@
-﻿# Choppiness Index (CHOP)
+# Choppiness Index
 
-Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppiness of `N` lookback periods on a scale of 0 to 100, to depict steady trends versus conditions of choppiness.  [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/357 "Community discussion about this indicator")
+Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppiness on a scale of 0 to 100, to depict steady trends versus conditions of choppiness.  [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/357 "Community discussion about this indicator")
 
 ![image](chart.png)
 

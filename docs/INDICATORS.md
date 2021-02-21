@@ -38,7 +38,7 @@
 
 - [Bollinger Bands&#174;](../indicators/BollingerBands/README.md#content)
 - [Donchian Channels](../indicators/Donchian/README.md#content)
-- [Fractal Chaos Bands (FCB)](../indicators/Fcb/README.md#content)
+- [Fractal Chaos Bands](../indicators/Fcb/README.md#content)
 - [Keltner Channels](../indicators/Keltner/README.md#content)
 - [Moving Average Envelopes](../indicators/MaEnvelopes/README.md#content)
 - [Pivot Points](../indicators/PivotPoints/README.md#content) and [Rolling Pivot Points](../indicators/RollingPivots/README.md#content)
@@ -54,7 +54,7 @@
 
 - [Aroon Oscillator](../indicators/Aroon/README.md#content)
 - [ConnorsRSI](../indicators/ConnorsRsi/README.md#content)
-- [Commodity Channel Index (CCI)](../indicators/Cci/README.md#content)
+- [Commodity Channel Index](../indicators/Cci/README.md#content)
 - [Relative Strength Index (RSI)](../indicators/Rsi/README.md#content)
 - [Stochastic Oscillator](../indicators/Stoch/README.md#content) and [KDJ Index](../indicators/Stoch/README.md#content)
 - [Stochastic RSI](../indicators/StochRsi/README.md#content)
@@ -70,6 +70,7 @@
 
 - [Accumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
 - [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)
+- [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
 - [Money Flow Index (MFI)](../indicators/Mfi/README.md#content)
 - [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
 - [Percentage Volume Oscillator (PVO)](../indicators/Pvo/README.md#content)
@@ -89,15 +90,14 @@
 ## Price characteristics
 
 - [Average True Range (ATR)](../indicators/Atr/README.md#content)
-- [Awesome Oscillator (AO)](../indicators/Awesome/README.md#content)
-- [Balance of Power (BOP)](../indicators/Bop/README.md#content)
-- [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
+- [Awesome Oscillator](../indicators/Awesome/README.md#content)
+- [Balance of Power](../indicators/Bop/README.md#content)
 - [Choppiness Index](../indicators/Chop/README.md#content)
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
-- [Price (Comparative) Relative Strength (PRS)](../indicators/Prs/README.md#content)
-- [Price Momentum Oscillator (PMO)](../indicators/Pmo/README.md#content)
-- [Rate of Change (ROC)](../indicators/Roc/README.md#content)
-- [True Strength Index (TSI)](../indicators/Tsi/README.md#content)
+- [Price (Comparative) Relative Strength](../indicators/Prs/README.md#content)
+- [Price Momentum Oscillator](../indicators/Pmo/README.md#content)
+- [Rate of Change](../indicators/Roc/README.md#content)
+- [True Strength Index](../indicators/Tsi/README.md#content)
 - [Ulcer Index](../indicators/UlcerIndex/README.md#content)
 
 ### Numerical analysis
