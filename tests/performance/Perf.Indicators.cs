@@ -157,6 +157,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetHtTrendline()
+        {
+            return Indicator.GetHtTrendline(h);
+        }
+
+        [Benchmark]
         public object GetIchimoku()
         {
             return Indicator.GetIchimoku(h);

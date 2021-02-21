@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Hilbert Transform Instantaneous Trendline (HTL) is a 5-period trendline of high/low price that uses signal processing to reduce noise.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/HtTrendline/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <returns>Time series of HTL values and smoothed price.</returns>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>
