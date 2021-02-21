@@ -41,6 +41,7 @@
 - [Moving Average Envelopes](../indicators/MaEnvelopes/README.md#content)
 - [Pivot Points](../indicators/PivotPoints/README.md#content) and [Rolling Pivot Points](../indicators/RollingPivots/README.md#content)
 - [Price Channels](../indicators/Donchian/README.md#content)
+- [Standard Deviation Channels](../indicators/StdDevChannels/README.md#content)
 - [STARC Bands](../indicators/StarcBands/README.md#content)
 
 ## Candlestick patterns
