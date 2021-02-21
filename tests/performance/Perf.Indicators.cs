@@ -133,6 +133,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetEpma()
+        {
+            return Indicator.GetEpma(h, 14);
+        }
+
+        [Benchmark]
         public object GetFcb()
         {
             return Indicator.GetFcb(h, 14);
@@ -289,27 +295,27 @@ namespace Tests.Performance
         }
 
         [Benchmark]
-        public object GetStdDev()
-        {
-            return Indicator.GetStdDev(h, 20);
-        }
-
-        [Benchmark]
-        public object GetStdDevChannels()
-        {
-            return Indicator.GetStdDevChannels(h, 20);
-        }
-
-        [Benchmark]
         public object GetStarcBands()
         {
             return Indicator.GetStarcBands(h);
         }
 
         [Benchmark]
+        public object GetStdDev()
+        {
+            return Indicator.GetStdDev(h, 20);
+        }
+
+        [Benchmark]
         public object GetStdDevWithSma()
         {
             return Indicator.GetStdDev(h, 20, 14);
+        }
+
+        [Benchmark]
+        public object GetStdDevChannels()
+        {
+            return Indicator.GetStdDevChannels(h);
         }
 
         [Benchmark]

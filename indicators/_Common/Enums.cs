@@ -6,6 +6,7 @@
     {
         ALMA,
         DEMA,
+        EPMA,
         EMA,
         HMA,
         KAMA,
