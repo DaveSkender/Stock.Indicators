@@ -16,9 +16,6 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
-
             // assume whole history when lookback is null
             if (lookbackPeriod is null)
             {

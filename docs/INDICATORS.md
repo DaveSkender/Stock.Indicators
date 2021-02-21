@@ -15,10 +15,12 @@
 
 - [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
 - [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
+- [Endpoint Moving Average (EPMA)](../indicators/Epma/README.md#content)
 - [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
 - [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/README.md#content)
 - [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
 - [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/README.md#content)
+- [Least Squares Moving Average (LSMA)](../indicators/Epma/README.md#content)
 - [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/README.md#content)
 - [Simple Moving Average (SMA)](../indicators/Sma/README.md#content)
 - [Tillson T3 Moving Average](../indicators/T3/README.md#content)
