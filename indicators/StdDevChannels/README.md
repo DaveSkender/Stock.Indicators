@@ -8,7 +8,7 @@ Standard Deviation Channels are based on an linear regression centerline and sta
 ```csharp
 // usage
 IEnumerable<StdDevChannelsResult> results =
-  Indicator.GetStdDevChannels(history, lookbackPeriod, standardDeviation);  
+  Indicator.GetStdDevChannels(history, lookbackPeriod, standardDeviations);  
 ```
 
 ## Parameters
