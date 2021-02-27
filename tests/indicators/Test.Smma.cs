@@ -24,6 +24,10 @@ namespace Internal.Tests
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Smma != null).Count());
 
+            // starting calculations at proper index
+            Assert.IsNull(results[18].Smma.Value);
+            Assert.IsNotNull(results[19].Smma.Value);
+
             // sample value
             Assert.AreEqual(214.52500m, Math.Round(results[19].Smma.Value, 5));
             Assert.AreEqual(214.55125m, Math.Round(results[20].Smma.Value, 5));
@@ -39,9 +43,13 @@ namespace Internal.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetSmma(history, 0));
 
-            // insufficient history
+            // insufficient history for N+100
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetSmma(HistoryTestData.Get(9), 10));
+                Indicator.GetSmma(HistoryTestData.Get(129), 30));
+
+            // insufficient history for 2×N
+            Assert.ThrowsException<BadHistoryException>(() =>
+                Indicator.GetSmma(HistoryTestData.Get(499), 250));
         }
     }
 }

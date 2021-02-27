@@ -5,6 +5,6 @@ namespace Skender.Stock.Indicators
     [Serializable]
     public class SmmaResult : ResultBase
     {
-        public decimal? Smma { get; set; }  // simple moving average
+        public decimal? Smma { get; set; }
     }
 }

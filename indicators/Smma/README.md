@@ -1,9 +1,8 @@
 # Smoothed Moving Average (SMMA)
 
-[Smoothed Moving Average](https://en.wikipedia.org/wiki/Moving_average#Modified_moving_average) is the average of Close price over a lookback window using a smoothing method.
+[Smoothed Moving Average](https://en.wikipedia.org/wiki/Moving_average#Modified_moving_average) is the average of Close price over a lookback window using a smoothing technique.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/375 "Community discussion about this indicator")
 
-![image](chart.png)
 
 ```csharp
 // usage
@@ -19,7 +18,7 @@ IEnumerable<SmmaResult> results = Indicator.GetSmma(history, lookbackPeriod);
 
 ### Minimum history requirements
 
-You must supply at least `N` periods of `history`.
+You must supply at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 ## Response
 
@@ -28,6 +27,8 @@ IEnumerable<SmmaResult>
 ```
 
 The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+
+:warning: **Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### SmmaResult
 

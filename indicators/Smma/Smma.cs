@@ -37,14 +37,14 @@ namespace Skender.Stock.Indicators
                 // first SMMA calculated as simple SMA
                 if (index == lookbackPeriod)
                 {
-                    decimal sumSma = 0m;
+                    decimal sumClose = 0m;
                     for (int p = index - lookbackPeriod; p < index; p++)
                     {
                         TQuote d = historyList[p];
-                        sumSma += d.Close;
+                        sumClose += d.Close;
                     }
 
-                    result.Smma = sumSma / lookbackPeriod;
+                    result.Smma = sumClose / lookbackPeriod;
                 }
                 // second SMMA calculated with distinct formula
                 else if (index == lookbackPeriod + 1)
@@ -56,8 +56,7 @@ namespace Skender.Stock.Indicators
                 else if (index >= lookbackPeriod + 2)
                 {
                     decimal prevValue = results[i - 1].Smma.Value;
-                    decimal prevSum = prevValue * lookbackPeriod;
-                    result.Smma = (prevSum - prevValue + h.Close) / lookbackPeriod;
+                    result.Smma = ((prevValue * lookbackPeriod) - prevValue + h.Close) / lookbackPeriod;
                 }
 
                 results.Add(result);
@@ -80,14 +79,18 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
+
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for SMMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
-                    qtyHistory, minHistory);
+                    "You provided {0} periods of history when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "we recommend you use at least {3} data points prior to the intended "
+                    + "usage date for better precision.",
+                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }
