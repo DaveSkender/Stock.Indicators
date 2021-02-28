@@ -127,6 +127,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetElderRay()
+        {
+            return Indicator.GetElderRay(h);
+        }
+
+        [Benchmark]
         public object GetEma()
         {
             return Indicator.GetEma(h, 14);

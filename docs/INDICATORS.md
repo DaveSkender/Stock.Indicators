@@ -64,6 +64,7 @@
 ## Price trends
 
 - [Average Directional Movement Index (ADX)](../indicators/Adx/README.md#content)
+- [Elder-ray Index](../indicators/ElderRay/README.md#content)
 - [Vortex Indicator (VI)](../indicators/Vortex/README.md#content)
 
 ## Volume-based momentum
@@ -92,6 +93,7 @@
 - [Average True Range (ATR)](../indicators/Atr/README.md#content)
 - [Awesome Oscillator](../indicators/Awesome/README.md#content)
 - [Balance of Power](../indicators/Bop/README.md#content)
+- [Bull and Bear Power](../indicators/ElderRay/README.md#content)
 - [Choppiness Index](../indicators/Chop/README.md#content)
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
 - [Price (Comparative) Relative Strength](../indicators/Prs/README.md#content)
