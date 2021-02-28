@@ -51,6 +51,13 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void BadData()
+        {
+            IEnumerable<SmmaResult> r = Indicator.GetSmma(historyBad, 15);
+            Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

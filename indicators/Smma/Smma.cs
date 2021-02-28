@@ -22,6 +22,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<SmmaResult> results = new List<SmmaResult>(historyList.Count);
+            decimal? prevValue = null;
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -34,8 +35,14 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
+                // calculate SMMA
+                if (index > lookbackPeriod)
+                {
+                    result.Smma = (prevValue * (lookbackPeriod - 1) + h.Close) / lookbackPeriod;
+                }
+
                 // first SMMA calculated as simple SMA
-                if (index == lookbackPeriod)
+                else if (index == lookbackPeriod)
                 {
                     decimal sumClose = 0m;
                     for (int p = index - lookbackPeriod; p < index; p++)
@@ -46,19 +53,8 @@ namespace Skender.Stock.Indicators
 
                     result.Smma = sumClose / lookbackPeriod;
                 }
-                // second SMMA calculated with distinct formula
-                else if (index == lookbackPeriod + 1)
-                {
-                    decimal prevValue = results[i - 1].Smma.Value;
-                    result.Smma = (prevValue * (lookbackPeriod - 1) + h.Close) / lookbackPeriod;
-                }
-                // remaining SMMA's calculated with base formula
-                else if (index >= lookbackPeriod + 2)
-                {
-                    decimal prevValue = results[i - 1].Smma.Value;
-                    result.Smma = ((prevValue * lookbackPeriod) - prevValue + h.Close) / lookbackPeriod;
-                }
 
+                prevValue = result.Smma;
                 results.Add(result);
             }
 

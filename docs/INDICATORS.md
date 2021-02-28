@@ -1,6 +1,5 @@
 # Indicators and overlays
 
-- [Indicators and overlays](#indicators-and-overlays)
 - [Moving averages](#moving-averages)
 - [Price transforms](#price-transforms)
 - [Price channels](#price-channels)
