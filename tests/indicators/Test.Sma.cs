@@ -13,9 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
 
-            List<SmaResult> results = Indicator.GetSma(history, lookbackPeriod)
+            List<SmaResult> results = Indicator.GetSma(history, 20)
                 .ToList();
 
             // assertions
@@ -23,19 +22,22 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Sma != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
 
-            // sample value
-            SmaResult r = results[501];
-            Assert.AreEqual(251.86m, r.Sma);
+            // sample values
+            Assert.IsNull(results[18].Sma);
+            Assert.AreEqual(214.5250m, Math.Round(results[19].Sma.Value, 4));
+            Assert.AreEqual(215.0310m, Math.Round(results[24].Sma.Value, 4));
+            Assert.AreEqual(234.9350m, Math.Round(results[149].Sma.Value, 4));
+            Assert.AreEqual(255.5500m, Math.Round(results[249].Sma.Value, 4));
+            Assert.AreEqual(251.8600m, Math.Round(results[501].Sma.Value, 4));
         }
 
         [TestMethod]
         public void Extended()
         {
-            int lookbackPeriod = 20;
 
-            List<SmaExtendedResult> results = Indicator.GetSmaExtended(history, lookbackPeriod)
+            List<SmaExtendedResult> results = Indicator.GetSmaExtended(history, 20)
                 .ToList();
 
             // assertions
@@ -43,7 +45,7 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Sma != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
 
             // sample value
             SmaExtendedResult r = results[501];
