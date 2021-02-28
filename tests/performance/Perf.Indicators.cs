@@ -151,6 +151,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetForceIndex()
+        {
+            return Indicator.GetForceIndex(h, 13);
+        }
+
+        [Benchmark]
         public object GetFractal()
         {
             return Indicator.GetFractal(h);

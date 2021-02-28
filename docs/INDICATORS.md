@@ -74,6 +74,7 @@
 - [Accumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
 - [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)
 - [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
+- [Force Index](../indicators/ForceIndex/README.md#content)
 - [Money Flow Index (MFI)](../indicators/Mfi/README.md#content)
 - [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
 - [Percentage Volume Oscillator (PVO)](../indicators/Pvo/README.md#content)
