@@ -1,7 +1,7 @@
 # Force Index
 
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/347 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/382 "Community discussion about this indicator")
 
 ```csharp
 // usage
@@ -48,10 +48,10 @@ IEnumerable<ForceIndexResult> results = Indicator.GetForceIndex(history,13);
 
 // use results as needed
 ForceIndexResult result = results.LastOrDefault();
-Console.WriteLine("Force Index EMA on {0} was {1}",
-  result.Date, result.ForceEma);
+Console.WriteLine("Force Index on {0} was {1}M",
+  result.Date, result.ForceIndex/1000000);
 ```
 
 ```bash
-Force Index EMA on 12/31/2018 was 1.25
+Force Index on 12/31/2018 was -16.8M
 ```
