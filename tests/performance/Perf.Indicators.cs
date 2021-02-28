@@ -295,6 +295,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetSmma()
+        {
+            return Indicator.GetSmma(h, 10);
+        }
+
+        [Benchmark]
         public object GetStarcBands()
         {
             return Indicator.GetStarcBands(h);

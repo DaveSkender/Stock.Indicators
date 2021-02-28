@@ -10,6 +10,7 @@
 - [Composite indicators](#composite-indicators)
 - [Stop and reverse](#stop-and-reverse)
 - [Price characteristics](#price-characteristics)
+- [Numerical analysis](#numerical-analysis)
 
 ## Moving averages
 
@@ -23,6 +24,7 @@
 - [Least Squares Moving Average (LSMA)](../indicators/Epma/README.md#content)
 - [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/README.md#content)
 - [Simple Moving Average (SMA)](../indicators/Sma/README.md#content)
+- [Smoothed Moving Average (SMMA)](../indicators/Smma/README.md#content)
 - [Tillson T3 Moving Average](../indicators/T3/README.md#content)
 - [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
 - [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
