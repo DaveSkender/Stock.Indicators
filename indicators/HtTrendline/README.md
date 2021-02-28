@@ -26,7 +26,7 @@ Since this indicator has a warmup period, you must supply at least `100` periods
 IEnumerable<HtlResult>
 ```
 
-The first `6` periods will have `null` values `SmoothPrice` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `6` periods will have `null` values for `SmoothPrice` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 :warning: **Warning**: The first `100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
