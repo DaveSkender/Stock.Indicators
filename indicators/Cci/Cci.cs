@@ -8,13 +8,13 @@ namespace Skender.Stock.Indicators
     {
         // COMMODITY CHANNEL INDEX
         /// <include file='./info.xml' path='indicator/*' />
-        /// 
-        public static IEnumerable<CciResult> GetCci<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod = 20)
-            where TQuote : IQuote
-        {
+        ///
 
+        public static IEnumerable<CciResult> GetCci<TQuote>(
+    IEnumerable<TQuote> history,
+    int lookbackPeriod = 20)
+    where TQuote : IQuote
+        {
             // sort history
             List<TQuote> historyList = history.Sort();
 
@@ -24,11 +24,9 @@ namespace Skender.Stock.Indicators
             // initialize
             List<CciResult> results = new List<CciResult>(historyList.Count);
 
-            // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
-                int index = i + 1;
 
                 CciResult result = new CciResult
                 {
@@ -36,35 +34,35 @@ namespace Skender.Stock.Indicators
                     Tp = (h.High + h.Low + h.Close) / 3
                 };
                 results.Add(result);
+            }
 
-                if (index >= lookbackPeriod)
+            List<SmaResult> smaResults = GetSma(historyList, lookbackPeriod).ToList();
+
+            List<decimal?> meanDeviationList = new List<decimal?>();
+            for (int i = 0; i < historyList.Count; i++)
+            {
+                if (i >= lookbackPeriod - 1)
                 {
-                    // average TP over lookback
-                    decimal avgTp = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    decimal total = 0.0m;
+                    SmaResult smaResult = smaResults[i];
+                    for (int p = i; p >= i - (lookbackPeriod - 1); p--)
                     {
-                        CciResult d = results[p];
-                        avgTp += (decimal)d.Tp;
+                        total += Math.Abs(smaResult.Sma - historyList[p].Close);
                     }
-                    avgTp /= lookbackPeriod;
+                    meanDeviationList.Add(total / lookbackPeriod);
 
-                    // average Deviation over lookback
-                    decimal avgDv = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
-                    {
-                        CciResult d = results[p];
-                        avgDv += Math.Abs(avgTp - (decimal)d.Tp);
-                    }
-                    avgDv /= lookbackPeriod;
-
-                    result.Cci = (avgDv == 0) ? null
-                        : (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
+                    decimal cci = (historyList[i].Close - smaResult.Sma) / (0.015m * meanDeviationList[i].Value);
+                    results[i].Cci = cci;
+                }
+                else
+                {
+                    meanDeviationList.Add(null);
+                    results[i].Cci = null;
                 }
             }
 
             return results;
         }
-
 
         private static void ValidateCci<TQuote>(
             IEnumerable<TQuote> history,
