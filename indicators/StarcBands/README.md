@@ -1,4 +1,4 @@
-﻿# STARC Bands
+# STARC Bands
 
 Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https://en.wikipedia.org/wiki/StarcBands_channel), are based on an SMA centerline and ATR band widths.  See also [Keltner Channels](../Keltner/README.md#content) for an EMA centerline equivalent.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/292 "Community discussion about this indicator")
@@ -7,7 +7,7 @@ Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https:
 
 ```csharp
 // usage
-IEnumerable<StarcBandResult> results = 
+IEnumerable<StarcBandsResult> results = 
   Indicator.GetStarcBands(history, smaPeriod, multiplier, atrPeriod);  
 ```
 
@@ -27,14 +27,14 @@ You must supply at least `S` or `A+100` periods of `history`, whichever is more.
 ## Response
 
 ```csharp
-IEnumerable<StarcBandResult>
+IEnumerable<StarcBandsResult>
 ```
 
 The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` and `A+100`.  We always return the same number of elements as there are in the historical quotes.
 
 :warning: **Warning**: The first `A+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
-### StarcBandResult
+### StarcBandsResult
 
 | name | type | notes
 | -- |-- |--
@@ -50,10 +50,10 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate StarcBands(20)
-IEnumerable<StarcBandResult> results = Indicator.GetStarcBands(history,20,2.0,10);
+IEnumerable<StarcBandsResult> results = Indicator.GetStarcBands(history,20,2.0,10);
 
 // use results as needed
-StarcBandResult result = results.LastOrDefault();
+StarcBandsResult result = results.LastOrDefault();
 Console.WriteLine("Upper STARC Band on {0} was ${1}", result.Date, result.UpperBand);
 ```
 
