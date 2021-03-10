@@ -1,16 +1,18 @@
 # Williams' Alligator
 
-[Williams' Alligator](https://www.investopedia.com/articles/trading/072115/exploring-williams-alligator-indicator.asp) is an indicator that transposes multiple moving averages, showing chart patterns that Bill Williams compared to an alligator's feeding habits when describing market movement. 
+[Williams' Alligator](https://www.investopedia.com/articles/trading/072115/exploring-williams-alligator-indicator.asp) is an indicator that transposes multiple moving averages, showing chart patterns that Bill Williams compared to an alligator's feeding habits when describing market movement. The three smoothed moving averages are known as the Jaw, Teeth, and Lips, which are calculated for specific periods and then offset to the right (future) by a specific period, described as:
+
+| name | SMMA lookback period | offset period (right, to future)
+| -- |-- |--
+| Jaw | 13 | 8
+| Teeth | 8 | 5 
+| Lips | 5 | 3
+
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
 ```csharp
 // usage
-IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history);  // Traditional Alligator; Jaw (13, 8), Teeth (8, 5), and Lips (5, 3)
-
-IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history, 
-    lookbackJaw, smoothingJaw, 
-    lookbackTeeth, smoothingTeeth, 
-    lookbackLips, smoothingLips);  
+IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history);
 ```
 
 ## Parameters
@@ -18,17 +20,10 @@ IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history,
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `lookbackJaw` | int | Number of periods (`N`) in the moving average for the Alligator Jaw.  Must be greater than 0.
-| `smoothingJaw` | int | Number of periods to smooth the moving average for the Alligator Jaw.  Must be less than `lookbackJaw`.
-| `lookbackTeeth` | int | Number of periods (`N`) in the moving average for the Alligator Teeth.  Must be greater than 0.
-| `smoothingTeeth` | int | Number of periods to smooth the moving average for the Alligator Teeth.  Must be less than `lookbackTeeth`.
-| `lookbackLips` | int | Number of periods (`N`) in the moving average for the Alligator Lips.  Must be greater than 0.
-| `smoothingLips` | int | Number of periods to smooth the moving average for the Alligator Lips.  Must be less than `lookbackLips`.
-
 
 ### Minimum history requirements
 
-You must supply at least `2×N` or `N+100` periods of `history` for the largest lookback period (traditionally `lookbackJaw`), whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must supply at least 115 periods of `history`. Since this uses a smoothing technique, we recommend you use at least `265` data points prior to the intended usage date for better precision.
 
 ## Response
 
@@ -66,7 +61,7 @@ Console.WriteLine("Lips on {0} was ${1}", result.Date, result.Lips);
 ```
 
 ```bash
-Jaw on 12/31/2018 was $247.03
-Teeth on 12/31/2018 was $243.99
-Lips on 12/31/2018 was $242.94
+Jaw on 12/31/2018 was $260.61
+Teeth on 12/31/2018 was $252.27
+Lips on 12/31/2018 was $243.89
 ```

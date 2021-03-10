@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <indicators>
-  <type name="Default">
-    <summary>
-      Williams' Alligator is an indicator that transposes multiple moving averages, showing chart patterns that Bill Williams compared to an alligator's feeding habits when describing market movement.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Alligator/#content">documentation</see>
-      for more information.
-    </summary>
-    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-    <param name="history">Historical price quotes.</param>
-    <returns>Time series of Alligator values.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadHistoryException">Insufficient history provided.</exception>
-  </type>
-
   <type name="Main">
     <summary>
       Williams' Alligator is an indicator that transposes multiple moving averages, showing chart patterns that Bill Williams compared to an alligator's feeding habits when describing market movement.
@@ -24,14 +10,7 @@
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="history">Historical price quotes.</param>
-    <param name="lookbackJaw">Number of periods in the lookback window for the Alligator's Jaw.</param>
-    <param name="smoothingJaw">Number of periods to use for smoothing for the Alligator's Jaw.</param>
-    <param name="lookbackTeeth">Number of periods in the lookback window for the Alligator's Teeth.</param>
-    <param name="smoothingTeeth">Number of periods to use for smoothing for the Alligator's Teeth.</param>
-    <param name="lookbackLips">Number of periods in the lookback window for the Alligator's Lips.</param>
-    <param name="smoothingLips">Number of periods to use for smoothing for the Alligator's Lips.</param>
     <returns>Time series of Alligator values.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadHistoryException">Insufficient history provided.</exception>
   </type>
 </indicators>

@@ -6,36 +6,38 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        /// <include file='./info.xml' path='indicators/type[@name="Default"]/*' />
+        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         ///
         public static IEnumerable<AlligatorResult> GetAlligator<TQuote>(
             IEnumerable<TQuote> history
             )
             where TQuote : IQuote
         {
-            return GetAlligator(history, 13, 8, 8, 5, 5, 3);
-        }
+            // settings for alligator parts
+            int jawLookback = 13;
+            int jawOffset = 8;
+            int teethLookback = 8;
+            int teethOffset = 5;
+            int lipsLookback = 5;
+            int lipsOffset = 3;
 
-        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
-        ///
-        public static IEnumerable<AlligatorResult> GetAlligator<TQuote>(
-        IEnumerable<TQuote> history,
-        int lookbackJaw,
-        int smoothingJaw,
-        int lookbackTeeth,
-        int smoothingTeeth,
-        int lookbackLips,
-        int smoothingLips)
-        where TQuote : IQuote
-        {
             // sort history
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateAlligator(history, lookbackJaw, smoothingJaw, lookbackTeeth, smoothingTeeth, lookbackLips, smoothingLips);
+            ValidateAlligator(history);
 
-            // initialize
+            // initialize and populate result list
             List<AlligatorResult> results = new List<AlligatorResult>(historyList.Count);
+
+            for (int i = 0; i < historyList.Count; i++)
+            {
+                results.Add(new AlligatorResult
+                {
+                    Date = historyList[i].Date
+                });
+            }
+
             decimal? prevValue;
 
             // roll through history
@@ -44,160 +46,109 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                AlligatorResult result = new AlligatorResult
+                // only calculate jaw if the array index + offset is still in valid range
+                if (i + jawOffset < historyList.Count)
                 {
-                    Date = h.Date
-                };
+                    AlligatorResult jawResult = results[i + jawOffset];
 
-                // calculate alligator's jaw
-                // first value: calculate SMA
-                if (index == lookbackJaw)
-                {
-                    decimal sumClose = 0m;
-                    for (int p = index - lookbackJaw; p < index; p++)
+                    // calculate alligator's jaw
+                    // first value: calculate SMA
+                    if (index == jawLookback)
                     {
-                        TQuote d = historyList[p];
-                        sumClose += d.Close;
+                        decimal sumClose = 0m;
+                        for (int p = index - jawLookback; p < index; p++)
+                        {
+                            TQuote d = historyList[p];
+                            sumClose += d.Close;
+                        }
+
+                        jawResult.Jaw = sumClose / jawLookback;
                     }
-
-                    result.Jaw = sumClose / lookbackJaw;
-                }
-                // remaining values: modified SMMA
-                else if (index > lookbackJaw)
-                {
-                    prevValue = results[i - 1].Jaw;
-                    result.Jaw = ((prevValue * smoothingJaw) - prevValue + h.Close) / smoothingJaw;
-                }
-
-                // calculate alligator's teeth
-                // first value: calculate SMA
-                if (index == lookbackTeeth)
-                {
-                    decimal sumClose = 0m;
-                    for (int p = index - lookbackTeeth; p < index; p++)
+                    // remaining values: SMMA
+                    else if (index > jawLookback)
                     {
-                        TQuote d = historyList[p];
-                        sumClose += d.Close;
+                        prevValue = results[i + jawOffset - 1].Jaw;
+                        jawResult.Jaw = (prevValue * (jawLookback - 1) + h.Close) / jawLookback;
                     }
-
-                    result.Teeth = sumClose / lookbackTeeth;
-                }
-                // remaining values: modified SMMA
-                else if (index > lookbackTeeth)
-                {
-                    prevValue = results[i - 1].Teeth;
-                    result.Teeth = ((prevValue * smoothingTeeth) - prevValue + h.Close) / smoothingTeeth;
                 }
 
-                // calculate alligator's lips
-                // first value: calculate SMA
-                if (index == lookbackLips)
+                // only calculate teeth if the array index + offset is still in valid range
+                if (i + teethOffset < historyList.Count)
                 {
-                    decimal sumClose = 0m;
-                    for (int p = index - lookbackLips; p < index; p++)
+                    AlligatorResult teethResult = results[i + teethOffset];
+
+                    // calculate alligator's teeth
+                    // first value: calculate SMA
+                    if (index == teethLookback)
                     {
-                        TQuote d = historyList[p];
-                        sumClose += d.Close;
+                        decimal sumClose = 0m;
+                        for (int p = index - teethLookback; p < index; p++)
+                        {
+                            TQuote d = historyList[p];
+                            sumClose += d.Close;
+                        }
+
+                        teethResult.Teeth = sumClose / teethLookback;
                     }
-
-                    result.Lips = sumClose / lookbackLips;
+                    // remaining values: SMMA
+                    else if (index > teethLookback)
+                    {
+                        prevValue = results[i + teethOffset - 1].Teeth;
+                        teethResult.Teeth = (prevValue * (teethLookback - 1) + h.Close) / teethLookback;
+                    }
                 }
-                // remaining values: modified SMMA
-                else if (index > lookbackLips)
+
+                // only calculate lips if the array index + offset is still in valid range
+                if (i + lipsOffset < historyList.Count)
                 {
-                    prevValue = results[i - 1].Lips;
-                    result.Lips = ((prevValue * smoothingLips) - prevValue + h.Close) / smoothingLips;
-                }
+                    AlligatorResult lipsResult = results[i + lipsOffset];
 
-                results.Add(result);
+                    // calculate alligator's lips
+                    // first value: calculate SMA
+                    if (index == lipsLookback)
+                    {
+                        decimal sumClose = 0m;
+                        for (int p = index - lipsLookback; p < index; p++)
+                        {
+                            TQuote d = historyList[p];
+                            sumClose += d.Close;
+                        }
+
+                        lipsResult.Lips = sumClose / lipsLookback;
+                    }
+                    // remaining values: SMMA
+                    else if (index > lipsLookback)
+                    {
+                        prevValue = results[i + lipsOffset - 1].Lips;
+                        lipsResult.Lips = (prevValue * (lipsLookback - 1) + h.Close) / lipsLookback;
+                    }
+                }
             }
 
             return results;
         }
 
         private static void ValidateAlligator<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackJaw,
-            int smoothingJaw,
-            int lookbackTeeth,
-            int smoothingTeeth,
-            int lookbackLips,
-            int smoothingLips)
+            IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
-            // check parameter arguments
-            if (lookbackJaw <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(lookbackJaw), lookbackJaw,
-                    "Lookback period must be greater than 0 for Alligator Jaw.");
-            }
-
-            if (lookbackTeeth <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(lookbackTeeth), lookbackTeeth,
-                    "Lookback period must be greater than 0 for Alligator Teeth.");
-            }
-
-            if (lookbackLips <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(lookbackLips), lookbackLips,
-                    "Lookback period must be greater than 0 for Alligator Lips.");
-            }
-
-            if (smoothingJaw <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(smoothingJaw), smoothingJaw,
-                    "Smoothing period must be greater than 0 for Alligator Jaw.");
-            }
-
-            if (smoothingTeeth <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(smoothingTeeth), smoothingTeeth,
-                    "Smoothing period must be greater than 0 for Alligator Teeth.");
-            }
-
-            if (smoothingLips <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(smoothingLips), smoothingLips,
-                    "Smoothing period must be greater than 0 for Alligator Lips.");
-            }
-
-            if (smoothingJaw > lookbackJaw)
-            {
-                throw new ArgumentOutOfRangeException(nameof(smoothingJaw), smoothingJaw,
-                    "Smoothing period must be less than or equal to lookback period for Alligator Jaw.");
-            }
-
-            if (smoothingTeeth > lookbackTeeth)
-            {
-                throw new ArgumentOutOfRangeException(nameof(smoothingTeeth), smoothingTeeth,
-                    "Smoothing period must be less than or equal to lookback period for Alligator Teeth.");
-            }
-
-            if (smoothingLips > lookbackLips)
-            {
-                throw new ArgumentOutOfRangeException(nameof(smoothingLips), smoothingLips,
-                    "Smoothing period must be less than or equal to lookback period for Alligator Lips.");
-            }
-
             // check history
             int qtyHistory = history.Count();
-            int minHistoryJaw = Math.Max(2 * lookbackJaw, lookbackJaw + 100);
-            int minHistoryTeeth = Math.Max(2 * lookbackTeeth, lookbackTeeth + 100);
-            int minHistoryLips = Math.Max(2 * lookbackLips, lookbackLips + 100);
-            int minHistory = Math.Max(Math.Max(minHistoryJaw, minHistoryTeeth), minHistoryLips);
-            int minLookbackPeriod = Math.Max(Math.Max(lookbackJaw, lookbackTeeth), lookbackLips);
+
+            // static values for traditional Williams' Alligator with max lookback of 13
+            int minHistory = 115;
+            int recHistory = 265;
 
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Alligator.  " +
+                string message = "Insufficient history provided for Williams' Alligator.  " +
                     string.Format(
                         EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
-                    + "we recommend you use at least {3} data points prior to the intended "
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, minLookbackPeriod, minLookbackPeriod + 250);
+                    qtyHistory, minHistory, recHistory);
 
                 throw new BadHistoryException(nameof(history), message);
             }
