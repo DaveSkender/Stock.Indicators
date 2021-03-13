@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
             decimal multS = 2m / (signalPeriod + 1);
             decimal? sumS = 0m;
 
-            List<TsiResult> results = new List<TsiResult>(size);
+            List<TsiResult> results = new(size);
 
             decimal[] c = new decimal[size]; // price change
             decimal[] cs1 = new decimal[size]; // smooth 1
@@ -50,7 +50,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                TsiResult r = new TsiResult
+                TsiResult r = new()
                 {
                     Date = h.Date
                 };

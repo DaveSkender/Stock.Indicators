@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<AwesomeResult> results = new List<AwesomeResult>();
+            List<AwesomeResult> results = new();
             decimal[] pr = new decimal[size]; // median price
 
             // roll through history
@@ -34,7 +34,7 @@ namespace Skender.Stock.Indicators
                 pr[i] = (h.High + h.Low) / 2;
                 int index = i + 1;
 
-                AwesomeResult r = new AwesomeResult
+                AwesomeResult r = new()
                 {
                     Date = h.Date
                 };

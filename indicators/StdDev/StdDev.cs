@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
             ValidateStdDev(bdList, lookbackPeriod, smaPeriod);
 
             // initialize
-            List<StdDevResult> results = new List<StdDevResult>(bdList.Count);
+            List<StdDevResult> results = new(bdList.Count);
 
             // roll through history
             for (int i = 0; i < bdList.Count; i++)
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
                 BasicData bd = bdList[i];
                 int index = i + 1;
 
-                StdDevResult result = new StdDevResult
+                StdDevResult result = new()
                 {
                     Date = bd.Date,
                 };

@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateAdl(history, smaPeriod);
 
             // initialize
-            List<AdlResult> results = new List<AdlResult>(historyList.Count);
+            List<AdlResult> results = new(historyList.Count);
             decimal prevAdl = 0;
 
             // roll through history
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
                 decimal mfv = mfm * h.Volume;
                 decimal adl = mfv + prevAdl;
 
-                AdlResult result = new AdlResult
+                AdlResult result = new()
                 {
                     Date = h.Date,
                     MoneyFlowMultiplier = mfm,

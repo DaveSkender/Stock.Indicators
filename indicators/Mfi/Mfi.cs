@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<MfiResult> results = new List<MfiResult>(size);
+            List<MfiResult> results = new(size);
             decimal[] tp = new decimal[size];  // true price
             decimal[] mf = new decimal[size];  // raw MF value
             int[] direction = new int[size];   // direction
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote h = historyList[i];
 
-                MfiResult result = new MfiResult
+                MfiResult result = new()
                 {
                     Date = h.Date
                 };

@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             ValidateSuperTrend(history, lookbackPeriod, multiplier);
 
             // initialize
-            List<SuperTrendResult> results = new List<SuperTrendResult>(historyList.Count);
+            List<SuperTrendResult> results = new(historyList.Count);
             List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList();
 
             bool isBullish = true;
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote h = historyList[i];
 
-                SuperTrendResult r = new SuperTrendResult()
+                SuperTrendResult r = new()
                 {
                     Date = h.Date
                 };

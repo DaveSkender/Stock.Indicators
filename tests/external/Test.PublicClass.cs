@@ -42,7 +42,7 @@ namespace External.Tests
     [TestClass]
     public class PublicClassTests
     {
-        internal static readonly CultureInfo englishCulture = new CultureInfo("en-US", false);
+        internal static readonly CultureInfo englishCulture = new("en-US", false);
 
         [TestMethod]
         public void ValidateHistory()
@@ -76,7 +76,7 @@ namespace External.Tests
         public void DerivedQuoteClass()
         {
             // can use a derive Quote class
-            MyQuote myQuote = new MyQuote
+            MyQuote myQuote = new()
             {
                 Date = DateTime.Now,
                 MyProperty = true
@@ -145,7 +145,7 @@ namespace External.Tests
         public void DerivedIndicatorClass()
         {
             // can use a derive Indicator class
-            MyIndicator myIndicator = new MyIndicator
+            MyIndicator myIndicator = new()
             {
                 Date = DateTime.Now,
                 MyEma = 123.456f,

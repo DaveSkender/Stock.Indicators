@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             ValidateCorrelation(historyA, historyB, lookbackPeriod);
 
             // initialize
-            List<CorrResult> results = new List<CorrResult>(historyListA.Count);
+            List<CorrResult> results = new(historyListA.Count);
 
             // roll through history
             for (int i = 0; i < historyListA.Count; i++)
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
                         "Date sequence does not match.  Correlation requires matching dates in provided histories.");
                 }
 
-                CorrResult r = new CorrResult
+                CorrResult r = new()
                 {
                     Date = a.Date
                 };

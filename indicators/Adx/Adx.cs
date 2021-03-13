@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateAdx(history, lookbackPeriod);
 
             // initialize
-            List<AdxResult> results = new List<AdxResult>(historyList.Count);
+            List<AdxResult> results = new(historyList.Count);
             List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
 
             decimal prevHigh = 0;
@@ -43,7 +43,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                AdxResult result = new AdxResult
+                AdxResult result = new()
                 {
                     Date = h.Date
                 };

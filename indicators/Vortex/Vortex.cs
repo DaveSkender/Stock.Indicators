@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<VortexResult> results = new List<VortexResult>(size);
+            List<VortexResult> results = new(size);
 
             decimal[] tr = new decimal[size];
             decimal[] pvm = new decimal[size];
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                VortexResult result = new VortexResult
+                VortexResult result = new()
                 {
                     Date = h.Date
                 };

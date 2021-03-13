@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
             ValidateEma(bdList, lookbackPeriod);
 
             // initialize
-            List<EmaResult> results = new List<EmaResult>(bdList.Count);
+            List<EmaResult> results = new(bdList.Count);
 
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
             decimal lastEma = 0;
@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
                 BasicData h = bdList[i];
                 int index = i + 1;
 
-                EmaResult result = new EmaResult
+                EmaResult result = new()
                 {
                     Date = h.Date
                 };

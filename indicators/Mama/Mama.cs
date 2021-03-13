@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<MamaResult> results = new List<MamaResult>(size);
+            List<MamaResult> results = new(size);
 
             double sumPr = 0d;
 
@@ -53,7 +53,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 pr[i] = (double)(h.High + h.Low) / 2;
 
-                MamaResult r = new MamaResult
+                MamaResult r = new()
                 {
                     Date = h.Date,
                 };

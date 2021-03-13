@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateFractal(history, windowSpan);
 
             // initialize
-            List<FractalResult> results = new List<FractalResult>(historyList.Count);
+            List<FractalResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                FractalResult r = new FractalResult()
+                FractalResult r = new()
                 {
                     Date = h.Date
                 };

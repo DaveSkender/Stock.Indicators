@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<T3Result> results = new List<T3Result>(size);
+            List<T3Result> results = new(size);
 
             decimal k = 2 / (decimal)(lookbackPeriod + 1);
             decimal a = (decimal)volumeFactor;
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
-                T3Result r = new T3Result
+                T3Result r = new()
                 {
                     Date = h.Date
                 };

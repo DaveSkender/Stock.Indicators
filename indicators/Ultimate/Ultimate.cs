@@ -25,7 +25,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<UltimateResult> results = new List<UltimateResult>(size);
+            List<UltimateResult> results = new(size);
             decimal[] bp = new decimal[size]; // buying pressure
             decimal[] tr = new decimal[size]; // true range
 
@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                UltimateResult r = new UltimateResult
+                UltimateResult r = new()
                 {
                     Date = h.Date
                 };

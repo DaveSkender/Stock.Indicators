@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateCmf(history, lookbackPeriod);
 
             // initialize
-            List<CmfResult> results = new List<CmfResult>(historyList.Count);
+            List<CmfResult> results = new(historyList.Count);
             List<AdlResult> adlResults = GetAdl(history).ToList();
 
             // roll through history
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
                 AdlResult r = adlResults[i];
                 int index = i + 1;
 
-                CmfResult result = new CmfResult
+                CmfResult result = new()
                 {
                     Date = r.Date,
                     MoneyFlowMultiplier = r.MoneyFlowMultiplier,

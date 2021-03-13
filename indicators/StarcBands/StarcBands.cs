@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             ValidateStarcBands(history, smaPeriod, multiplier, atrPeriod);
 
             // initialize
-            List<StarcBandsResult> results = new List<StarcBandsResult>(historyList.Count);
+            List<StarcBandsResult> results = new(historyList.Count);
             List<SmaResult> smaResults = GetSma(history, smaPeriod).ToList();
             List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
             int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                StarcBandsResult result = new StarcBandsResult
+                StarcBandsResult result = new()
                 {
                     Date = h.Date
                 };
