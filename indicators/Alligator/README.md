@@ -1,13 +1,6 @@
-# Williams' Alligator
+# Williams Alligator
 
-[Williams' Alligator](https://www.investopedia.com/articles/trading/072115/exploring-williams-alligator-indicator.asp) is an indicator that transposes multiple moving averages, showing chart patterns that Bill Williams compared to an alligator's feeding habits when describing market movement. The three smoothed moving averages are known as the Jaw, Teeth, and Lips, which are calculated for specific periods and then offset to the right (future) by a specific period, described as:
-
-| name | SMMA lookback period | offset period (right, to future)
-| -- |-- |--
-| Jaw | 13 | 8
-| Teeth | 8 | 5 
-| Lips | 5 | 3
-
+[Williams Alligator](https://www.investopedia.com/articles/trading/072115/exploring-williams-alligator-indicator.asp) is an indicator that transposes multiple moving averages, showing chart patterns that creator Bill Williams compared to an alligator's feeding habits when describing market movement. The three smoothed moving averages are known as the Jaw, Teeth, and Lips, which are calculated for specific lookback and offset periods.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
 ```csharp
@@ -25,24 +18,34 @@ IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history);
 
 You must supply at least 115 periods of `history`. Since this uses a smoothing technique, we recommend you use at least `265` data points prior to the intended usage date for better precision.
 
+### Internal parameters
+
+This indicator uses pre-determined interal parameters for the three moving averages.  You cannot specify these yourself.
+
+| SMMA | Lookback | Offset
+| -- |-- |--
+| Jaw | 13 | 8
+| Teeth | 8 | 5
+| Lips | 5 | 3
+
 ## Response
 
 ```csharp
 IEnumerable<AlligatorResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first 10-20 periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:warning: **Warning**: The first `150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### AlligatorResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Jaw` | decimal | The smoothed moving average representing the Alligator's Jaw
-| `Teeth` | decimal | The smoothed moving average representing the Alligator's Teeth
-| `Lips` | decimal | The smoothed moving average representing the Alligator's Lips
+| `Jaw` | decimal | Alligator's Jaw
+| `Teeth` | decimal | Alligator's Teeth
+| `Lips` | decimal | Alligator's Lips
 
 ## Example
 
@@ -50,7 +53,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 // fetch historical quotes from your favorite feed, in Quote format
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
-// calculate the Williams' Alligator
+// calculate the Williams Alligator
 IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history);
 
 // use results as needed
