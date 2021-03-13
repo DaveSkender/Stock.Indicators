@@ -1,6 +1,6 @@
 # Williams Alligator
 
-Williams Alligator is an indicator that transposes multiple moving averages of median price, showing chart patterns that creator Bill Williams compared to an alligator's feeding habits when describing market movement. The three smoothed moving averages are known as the Jaw, Teeth, and Lips, which are calculated for specific lookback and offset periods.
+Created by Bill Williams, Alligator is a depiction of three smoothed moving averages of median price, showing chart patterns that compared to an alligator's feeding habits when describing market movement. The moving averages are known as the Jaw, Teeth, and Lips, which are calculated using specific lookback and offset periods.  See also the [Gator Oscillator](../Gator/README.md#content).
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
 ```csharp
@@ -20,7 +20,7 @@ You must supply at least 115 periods of `history`. Since this uses a smoothing t
 
 ### Internal parameters
 
-This indicator uses pre-determined interal parameters for the three moving averages.  You cannot specify these yourself.
+This indicator uses fixed interal parameters for the three moving averages of median price `(H+L)/2`.
 
 | SMMA | Lookback | Offset
 | -- |-- |--

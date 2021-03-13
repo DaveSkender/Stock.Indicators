@@ -67,6 +67,7 @@
 
 - [Average Directional Movement Index (ADX)](../indicators/Adx/README.md#content)
 - [Elder-ray Index](../indicators/ElderRay/README.md#content)
+- [Gator Oscillator](../indicators/Gator/README.md#content)
 - [Vortex Indicator (VI)](../indicators/Vortex/README.md#content)
 - [Williams Alligator](../indicators/Alligator/README.md#content)
 

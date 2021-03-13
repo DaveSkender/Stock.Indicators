@@ -169,6 +169,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetGator()
+        {
+            return Indicator.GetGator(h);
+        }
+
+        [Benchmark]
         public object GetHeikinAshi()
         {
             return Indicator.GetHeikinAshi(h);
