@@ -1,6 +1,6 @@
 # Williams Alligator
 
-[Williams Alligator](https://www.investopedia.com/articles/trading/072115/exploring-williams-alligator-indicator.asp) is an indicator that transposes multiple moving averages, showing chart patterns that creator Bill Williams compared to an alligator's feeding habits when describing market movement. The three smoothed moving averages are known as the Jaw, Teeth, and Lips, which are calculated for specific lookback and offset periods.
+Williams Alligator is an indicator that transposes multiple moving averages of median price, showing chart patterns that creator Bill Williams compared to an alligator's feeding habits when describing market movement. The three smoothed moving averages are known as the Jaw, Teeth, and Lips, which are calculated for specific lookback and offset periods.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
 ```csharp
