@@ -31,6 +31,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetAlligator()
+        {
+            return Indicator.GetAlligator(h);
+        }
+
+        [Benchmark]
         public object GetAlma()
         {
             return Indicator.GetAlma(h);
