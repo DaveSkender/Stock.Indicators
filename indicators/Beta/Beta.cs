@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             ValidateBeta(historyMarket, historyEval, lookbackPeriod);
 
             // initialize
-            List<BetaResult> results = new List<BetaResult>(historyEvalList.Count);
+            List<BetaResult> results = new(historyEvalList.Count);
             List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod).ToList();
 
             // roll through history
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote e = historyEvalList[i];
 
-                BetaResult result = new BetaResult
+                BetaResult result = new()
                 {
                     Date = e.Date
                 };

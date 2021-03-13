@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<ForceIndexResult> results = new List<ForceIndexResult>(size);
+            List<ForceIndexResult> results = new(size);
             decimal? prevClose = null, prevFI = null;
             decimal k = 2m / (lookbackPeriod + 1), sumRawFI = 0m;
 
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                ForceIndexResult r = new ForceIndexResult
+                ForceIndexResult r = new()
                 {
                     Date = h.Date
                 };

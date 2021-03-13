@@ -25,7 +25,7 @@ namespace Skender.Stock.Indicators
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
 
             // initialize
-            List<PrsResult> results = new List<PrsResult>(historyEvalList.Count);
+            List<PrsResult> results = new(historyEvalList.Count);
 
             // roll through history
             for (int i = 0; i < historyEvalList.Count; i++)
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
                         "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
                 }
 
-                PrsResult r = new PrsResult
+                PrsResult r = new()
                 {
                     Date = ei.Date,
                     Prs = (bi.Close == 0) ? null : ei.Close / bi.Close  // relative strength ratio

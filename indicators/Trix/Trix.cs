@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             ValidateTrix(bdList, lookbackPeriod);
 
             // initialize
-            List<TrixResult> results = new List<TrixResult>(bdList.Count);
+            List<TrixResult> results = new(bdList.Count);
             decimal? lastEma = null;
 
             List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriod).ToList();
@@ -48,7 +48,7 @@ namespace Skender.Stock.Indicators
                 EmaResult e1 = emaN1[i];
                 int index = i + 1;
 
-                TrixResult result = new TrixResult
+                TrixResult result = new()
                 {
                     Date = e1.Date
                 };

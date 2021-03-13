@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
 
             // initialize
-            List<ParabolicSarResult> results = new List<ParabolicSarResult>(historyList.Count);
+            List<ParabolicSarResult> results = new(historyList.Count);
             TQuote first = historyList[0];
 
             decimal accelerationFactor = accelerationStep;
@@ -36,7 +36,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote h = historyList[i];
 
-                ParabolicSarResult result = new ParabolicSarResult
+                ParabolicSarResult result = new()
                 {
                     Date = h.Date
                 };

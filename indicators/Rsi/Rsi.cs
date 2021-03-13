@@ -34,7 +34,7 @@ namespace Skender.Stock.Indicators
             decimal avgLoss = 0m;
 
             int size = bdList.Count;
-            List<RsiResult> results = new List<RsiResult>(size);
+            List<RsiResult> results = new(size);
             decimal[] gain = new decimal[size]; // gain
             decimal[] loss = new decimal[size]; // loss
 
@@ -44,7 +44,7 @@ namespace Skender.Stock.Indicators
                 BasicData h = bdList[i];
                 int index = i + 1;
 
-                RsiResult r = new RsiResult
+                RsiResult r = new()
                 {
                     Date = h.Date
                 };

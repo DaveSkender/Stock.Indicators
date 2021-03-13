@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateCci(history, lookbackPeriod);
 
             // initialize
-            List<CciResult> results = new List<CciResult>(historyList.Count);
+            List<CciResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                CciResult result = new CciResult
+                CciResult result = new()
                 {
                     Date = h.Date,
                     Tp = (h.High + h.Low + h.Close) / 3

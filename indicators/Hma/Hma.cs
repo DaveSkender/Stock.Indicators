@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateHma(history, lookbackPeriod);
 
             // initialize
-            List<Quote> synthHistory = new List<Quote>();
+            List<Quote> synthHistory = new();
 
             List<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
             List<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
@@ -32,7 +32,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote h = historyList[i];
 
-                Quote sh = new Quote
+                Quote sh = new()
                 {
                     Date = h.Date
                 };

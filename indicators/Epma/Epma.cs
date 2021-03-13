@@ -23,14 +23,14 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             int size = slopeResults.Count;
-            List<EpmaResult> results = new List<EpmaResult>(size);
+            List<EpmaResult> results = new(size);
 
             // roll through history
             for (int i = 0; i < size; i++)
             {
                 SlopeResult s = slopeResults[i];
 
-                EpmaResult r = new EpmaResult
+                EpmaResult r = new()
                 {
                     Date = s.Date,
                     Epma = s.Slope * (i + 1) + s.Intercept

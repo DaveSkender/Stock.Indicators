@@ -10,7 +10,7 @@ namespace Internal.Tests
     [TestClass]
     public abstract class TestBase
     {
-        internal static readonly CultureInfo englishCulture = new CultureInfo("en-US", false);
+        internal static readonly CultureInfo englishCulture = new("en-US", false);
 
         internal static readonly IEnumerable<Quote> history = HistoryTestData.Get();
         internal static readonly IEnumerable<Quote> historyOther = HistoryTestData.GetCompare();

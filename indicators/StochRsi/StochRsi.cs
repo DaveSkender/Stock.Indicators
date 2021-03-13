@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<RsiResult> rsiResults = GetRsi(history, rsiPeriod).ToList();
-            List<StochRsiResult> results = new List<StochRsiResult>(rsiResults.Count);
+            List<StochRsiResult> results = new(rsiResults.Count);
 
             // convert rsi to quote format
             List<Quote> rsiQuotes = rsiResults
@@ -46,7 +46,7 @@ namespace Skender.Stock.Indicators
                 RsiResult r = rsiResults[i];
                 int index = i + 1;
 
-                StochRsiResult result = new StochRsiResult
+                StochRsiResult result = new()
                 {
                     Date = r.Date
                 };

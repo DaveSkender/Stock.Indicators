@@ -23,8 +23,8 @@ namespace Skender.Stock.Indicators
             ValidatePivotPoints(history, windowSize);
 
             // initialize
-            List<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
-            PivotPointsResult windowPoint = new PivotPointsResult();
+            List<PivotPointsResult> results = new(historyList.Count);
+            PivotPointsResult windowPoint = new();
 
             TQuote h0 = historyList[0];
             int windowId = GetWindowNumber(h0.Date, windowSize);
@@ -41,7 +41,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote h = historyList[i];
 
-                PivotPointsResult r = new PivotPointsResult
+                PivotPointsResult r = new()
                 {
                     Date = h.Date
                 };

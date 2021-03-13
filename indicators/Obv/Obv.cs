@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateObv(history, smaPeriod);
 
             // initialize
-            List<ObvResult> results = new List<ObvResult>(historyList.Count);
+            List<ObvResult> results = new(historyList.Count);
 
             decimal? prevClose = null;
             decimal obv = 0;
@@ -46,7 +46,7 @@ namespace Skender.Stock.Indicators
                     obv -= h.Volume;
                 }
 
-                ObvResult result = new ObvResult
+                ObvResult result = new()
                 {
                     Date = h.Date,
                     Obv = obv

@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             // initialize
             List<FractalResult> fractals = GetFractal(history, windowSpan).ToList();
             int size = fractals.Count;
-            List<FcbResult> results = new List<FcbResult>(size);
+            List<FcbResult> results = new(size);
             decimal? upperLine = null, lowerLine = null;
 
             // roll through history
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                 int index = i + 1;
                 FractalResult f = fractals[i];
 
-                FcbResult r = new FcbResult
+                FcbResult r = new()
                 {
                     Date = f.Date
                 };

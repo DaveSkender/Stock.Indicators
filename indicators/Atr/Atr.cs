@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateAtr(history, lookbackPeriod);
 
             // initialize
-            List<AtrResult> results = new List<AtrResult>(historyList.Count);
+            List<AtrResult> results = new(historyList.Count);
             decimal prevAtr = 0;
             decimal prevClose = 0;
             decimal highMinusPrevClose = 0;
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                AtrResult result = new AtrResult
+                AtrResult result = new()
                 {
                     Date = h.Date
                 };

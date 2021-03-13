@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             // initialize
             int size = historyList.Count;
             startDate = (startDate == null) ? historyList[0].Date : startDate;
-            List<VwapResult> results = new List<VwapResult>(size);
+            List<VwapResult> results = new(size);
 
             decimal cumVolume = 0m;
             decimal cumVolumeTP = 0m;
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote h = historyList[i];
 
-                VwapResult r = new VwapResult
+                VwapResult r = new()
                 {
                     Date = h.Date
                 };

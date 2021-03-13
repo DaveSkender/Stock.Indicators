@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             decimal range;
 
             int size = historyList.Count;
-            List<ChopResult> results = new List<ChopResult>(size);
+            List<ChopResult> results = new(size);
             decimal[] trueHigh = new decimal[size];
             decimal[] trueLow = new decimal[size];
             decimal[] trueRange = new decimal[size];
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
-                ChopResult r = new ChopResult
+                ChopResult r = new()
                 {
                     Date = historyList[i].Date
                 };
