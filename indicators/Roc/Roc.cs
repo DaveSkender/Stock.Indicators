@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             ValidateRoc(history, lookbackPeriod, smaPeriod);
 
             // initialize
-            List<RocResult> results = new List<RocResult>(historyList.Count);
+            List<RocResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                RocResult result = new RocResult
+                RocResult result = new()
                 {
                     Date = h.Date
                 };

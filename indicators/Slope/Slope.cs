@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<SlopeResult> results = new List<SlopeResult>(size);
+            List<SlopeResult> results = new(size);
 
             // roll through history
             for (int i = 0; i < size; i++)
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                SlopeResult r = new SlopeResult
+                SlopeResult r = new()
                 {
                     Date = h.Date
                 };

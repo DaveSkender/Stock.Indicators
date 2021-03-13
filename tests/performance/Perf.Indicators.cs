@@ -31,6 +31,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetAlligator()
+        {
+            return Indicator.GetAlligator(h);
+        }
+
+        [Benchmark]
         public object GetAlma()
         {
             return Indicator.GetAlma(h);
@@ -160,6 +166,12 @@ namespace Tests.Performance
         public object GetFractal()
         {
             return Indicator.GetFractal(h);
+        }
+
+        [Benchmark]
+        public object GetGator()
+        {
+            return Indicator.GetGator(h);
         }
 
         [Benchmark]

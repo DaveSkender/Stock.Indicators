@@ -28,8 +28,8 @@ namespace Skender.Stock.Indicators
             List<EmaResult> emaSlow = CalcEma(bdList, slowPeriod).ToList();
 
             int size = bdList.Count;
-            List<BasicData> emaDiff = new List<BasicData>();
-            List<PvoResult> results = new List<PvoResult>(size);
+            List<BasicData> emaDiff = new();
+            List<PvoResult> results = new(size);
 
             // roll through history
             for (int i = 0; i < size; i++)
@@ -38,7 +38,7 @@ namespace Skender.Stock.Indicators
                 EmaResult df = emaFast[i];
                 EmaResult ds = emaSlow[i];
 
-                PvoResult result = new PvoResult
+                PvoResult result = new()
                 {
                     Date = h.Date
                 };
@@ -52,7 +52,7 @@ namespace Skender.Stock.Indicators
                     result.Pvo = pvo;
 
                     // temp data for interim EMA of PVO
-                    BasicData diff = new BasicData
+                    BasicData diff = new()
                     {
                         Date = h.Date,
                         Value = (decimal)pvo

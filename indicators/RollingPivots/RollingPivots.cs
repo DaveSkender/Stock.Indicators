@@ -24,14 +24,14 @@ namespace Skender.Stock.Indicators
             ValidateRollingPivots(history, windowPeriod, offsetPeriod);
 
             // initialize
-            List<PivotPointsResult> results = new List<PivotPointsResult>(historyList.Count);
+            List<PivotPointsResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
 
-                PivotPointsResult r = new PivotPointsResult
+                PivotPointsResult r = new()
                 {
                     Date = h.Date
                 };

@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<BopResult> results = new List<BopResult>(size);
+            List<BopResult> results = new(size);
 
             decimal?[] raw = historyList
                 .Select(x => (x.High != x.Low) ?
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             // roll through history
             for (int i = 0; i < size; i++)
             {
-                BopResult r = new BopResult
+                BopResult r = new()
                 {
                     Date = historyList[i].Date
                 };

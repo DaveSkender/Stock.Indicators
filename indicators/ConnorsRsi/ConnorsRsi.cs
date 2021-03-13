@@ -60,7 +60,7 @@ namespace Skender.Stock.Indicators
             List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriod).ToList();
 
             int size = bdList.Count;
-            List<ConnorsRsiResult> results = new List<ConnorsRsiResult>(size);
+            List<ConnorsRsiResult> results = new(size);
             decimal?[] gain = new decimal?[size];
 
             decimal? lastClose = null;
@@ -72,7 +72,7 @@ namespace Skender.Stock.Indicators
                 BasicData h = bdList[i];
                 int index = i + 1;
 
-                ConnorsRsiResult result = new ConnorsRsiResult
+                ConnorsRsiResult result = new()
                 {
                     Date = h.Date,
                     RsiClose = rsiResults[i].Rsi

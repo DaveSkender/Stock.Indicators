@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateSma(history, lookbackPeriod);
 
             // initialize
-            List<SmaResult> results = new List<SmaResult>(historyList.Count);
+            List<SmaResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                SmaResult result = new SmaResult
+                SmaResult result = new()
                 {
                     Date = h.Date
                 };

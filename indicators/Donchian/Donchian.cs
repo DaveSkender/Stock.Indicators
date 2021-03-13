@@ -22,14 +22,14 @@ namespace Skender.Stock.Indicators
             ValidateDonchian(history, lookbackPeriod);
 
             // initialize
-            List<DonchianResult> results = new List<DonchianResult>(historyList.Count);
+            List<DonchianResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
 
-                DonchianResult result = new DonchianResult
+                DonchianResult result = new()
                 {
                     Date = h.Date
                 };

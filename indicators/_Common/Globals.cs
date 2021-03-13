@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
     ///  the Guide</see> for more information.</summary>
     public static partial class Indicator
     {
-        private static readonly CultureInfo EnglishCulture = new CultureInfo("en-US", false);
+        private static readonly CultureInfo EnglishCulture = new("en-US", false);
         private static readonly Calendar EnglishCalendar = EnglishCulture.Calendar;
 
         // Gets the DTFI properties required by GetWeekOfYear.

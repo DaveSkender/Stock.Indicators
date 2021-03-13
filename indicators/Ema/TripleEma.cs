@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateTema(bdList, lookbackPeriod);
 
             // initialize
-            List<EmaResult> results = new List<EmaResult>(bdList.Count);
+            List<EmaResult> results = new(bdList.Count);
             List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriod).ToList();
 
             List<BasicData> bd2 = emaN1
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
                 EmaResult e1 = emaN1[i];
                 int index = i + 1;
 
-                EmaResult result = new EmaResult
+                EmaResult result = new()
                 {
                     Date = e1.Date
                 };

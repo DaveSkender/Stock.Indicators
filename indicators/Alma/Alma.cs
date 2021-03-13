@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             ValidateAlma(history, lookbackPeriod, offset, sigma);
 
             // initialize
-            List<AlmaResult> results = new List<AlmaResult>(historyList.Count);
+            List<AlmaResult> results = new(historyList.Count);
 
             // determine price weights
             double m = offset * (lookbackPeriod - 1);
@@ -46,7 +46,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                AlmaResult r = new AlmaResult
+                AlmaResult r = new()
                 {
                     Date = h.Date
                 };

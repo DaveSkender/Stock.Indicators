@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
 
             // initialize
-            List<IchimokuResult> results = new List<IchimokuResult>(historyList.Count);
+            List<IchimokuResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -32,7 +32,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                IchimokuResult result = new IchimokuResult
+                IchimokuResult result = new()
                 {
                     Date = h.Date
                 };

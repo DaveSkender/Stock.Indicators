@@ -67,7 +67,7 @@ namespace Skender.Stock.Indicators
             decimal smoothingMultiplier = 2m / timePeriod;
             decimal? lastRocEma = null;
             List<RocResult> roc = GetRoc(history, 1).ToList();
-            List<PmoResult> results = new List<PmoResult>();
+            List<PmoResult> results = new();
 
             int startIndex = timePeriod + 1;
 
@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
                 RocResult r = roc[i];
                 int index = i + 1;
 
-                PmoResult result = new PmoResult
+                PmoResult result = new()
                 {
                     Date = r.Date
                 };

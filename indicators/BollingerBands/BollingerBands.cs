@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
             ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
 
             // initialize
-            List<BollingerBandsResult> results = new List<BollingerBandsResult>(historyList.Count);
+            List<BollingerBandsResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                BollingerBandsResult r = new BollingerBandsResult
+                BollingerBandsResult r = new()
                 {
                     Date = h.Date
                 };

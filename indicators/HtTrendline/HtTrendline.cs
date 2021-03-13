@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<HtlResult> results = new List<HtlResult>(size);
+            List<HtlResult> results = new(size);
 
             double[] pr = new double[size]; // price
             double[] sp = new double[size]; // smooth price
@@ -50,7 +50,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 pr[i] = (double)(h.High + h.Low) / 2;
 
-                HtlResult r = new HtlResult
+                HtlResult r = new()
                 {
                     Date = h.Date,
                 };

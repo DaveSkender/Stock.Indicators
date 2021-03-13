@@ -23,26 +23,26 @@ namespace Skender.Stock.Indicators
             ValidateZigZag(history, percentChange);
 
             // initialize
-            List<ZigZagResult> results = new List<ZigZagResult>(historyList.Count);
+            List<ZigZagResult> results = new(historyList.Count);
             decimal changeThreshold = percentChange / 100m;
             TQuote firstQuote = historyList[0];
             ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);
 
-            ZigZagPoint lastPoint = new ZigZagPoint
+            ZigZagPoint lastPoint = new()
             {
                 Index = eval.Index,
                 Value = firstQuote.Close,
                 PointType = "U"
             };
 
-            ZigZagPoint lastHighPoint = new ZigZagPoint
+            ZigZagPoint lastHighPoint = new()
             {
                 Index = eval.Index,
                 Value = eval.High,
                 PointType = "H"
             };
 
-            ZigZagPoint lastLowPoint = new ZigZagPoint
+            ZigZagPoint lastLowPoint = new()
             {
                 Index = eval.Index,
                 Value = eval.Low,
@@ -79,7 +79,7 @@ namespace Skender.Stock.Indicators
             }
 
             // add first point to results
-            ZigZagResult firstResult = new ZigZagResult
+            ZigZagResult firstResult = new()
             {
                 Date = firstQuote.Date
             };
@@ -110,7 +110,7 @@ namespace Skender.Stock.Indicators
             bool trendUp = (lastPoint.PointType == "L");
             decimal? change = 0;
 
-            ZigZagPoint extremePoint = new ZigZagPoint
+            ZigZagPoint extremePoint = new()
             {
                 Index = lastPoint.Index,
                 Value = lastPoint.Value,
@@ -183,7 +183,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                ZigZagResult result = new ZigZagResult
+                ZigZagResult result = new()
                 {
                     Date = h.Date,
                     ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
@@ -205,7 +205,7 @@ namespace Skender.Stock.Indicators
             ZigZagPoint lastLowPoint, ZigZagPoint lastHighPoint, ZigZagPoint nextPoint)
         {
             bool isHighLine = (lastDirection == "L");
-            ZigZagPoint priorPoint = new ZigZagPoint();
+            ZigZagPoint priorPoint = new();
 
             // handle type and reset last point
             if (isHighLine)
@@ -255,7 +255,7 @@ namespace Skender.Stock.Indicators
 
         private static ZigZagEval GetZigZagEval<TQuote>(ZigZagType type, int index, TQuote q) where TQuote : IQuote
         {
-            ZigZagEval eval = new ZigZagEval()
+            ZigZagEval eval = new()
             {
                 Index = index
             };

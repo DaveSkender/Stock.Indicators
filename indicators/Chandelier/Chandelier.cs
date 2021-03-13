@@ -24,7 +24,7 @@ namespace Skender.Stock.Indicators
             ValidateChandelier(history, lookbackPeriod, multiplier);
 
             // initialize
-            List<ChandelierResult> results = new List<ChandelierResult>(historyList.Count);
+            List<ChandelierResult> results = new(historyList.Count);
             List<AtrResult> atrResult = GetAtr(history, lookbackPeriod).ToList();  // uses ATR
 
             // roll through history
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                ChandelierResult result = new ChandelierResult
+                ChandelierResult result = new()
                 {
                     Date = h.Date
                 };

@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             ValidateSmma(history, lookbackPeriod);
 
             // initialize
-            List<SmmaResult> results = new List<SmmaResult>(historyList.Count);
+            List<SmmaResult> results = new(historyList.Count);
             decimal? prevValue = null;
 
             // roll through history
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                SmmaResult result = new SmmaResult
+                SmmaResult result = new()
                 {
                     Date = h.Date
                 };

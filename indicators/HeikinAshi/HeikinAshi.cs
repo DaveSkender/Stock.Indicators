@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             ValidateHeikinAshi(history);
 
             // initialize
-            List<HeikinAshiResult> results = new List<HeikinAshiResult>(historyList.Count);
+            List<HeikinAshiResult> results = new(historyList.Count);
 
             decimal? prevOpen = null;
             decimal? prevClose = null;
@@ -46,7 +46,7 @@ namespace Skender.Stock.Indicators
                 decimal low = arrL.Min();
 
 
-                HeikinAshiResult result = new HeikinAshiResult
+                HeikinAshiResult result = new()
                 {
                     Date = h.Date,
                     Open = open,

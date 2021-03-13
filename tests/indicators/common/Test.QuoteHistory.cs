@@ -164,7 +164,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "No historical quotes.")]
         public void NoHistory()
         {
-            List<Quote> badHistory = new List<Quote>();
+            List<Quote> badHistory = new();
             badHistory.Validate();
         }
 
@@ -172,13 +172,13 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "Duplicate date found.")]
         public void DuplicateHistory()
         {
-            List<Quote> badHistory = new List<Quote>
+            List<Quote> badHistory = new()
             {
-            new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open=214.86m, High=220.33m, Low=210.96m, Close=216.99m, Volume = 5923254 },
-            new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open=214.75m, High=228.00m, Low=214.31m, Close=226.99m, Volume = 11213471 },
-            new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open=226.42m, High=227.48m, Low=221.95m, Close=226.75m, Volume = 5911695 },
-            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open=226.93m, High=230.31m, Low=225.45m, Close=229.01m, Volume = 5527893 },
-            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open=228.97m, High=231.92m, Low=228.00m, Close=231.28m, Volume = 3979484 }
+                new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open = 214.86m, High = 220.33m, Low = 210.96m, Close = 216.99m, Volume = 5923254 },
+                new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open = 214.75m, High = 228.00m, Low = 214.31m, Close = 226.99m, Volume = 11213471 },
+                new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open = 226.42m, High = 227.48m, Low = 221.95m, Close = 226.75m, Volume = 5911695 },
+                new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open = 226.93m, High = 230.31m, Low = 225.45m, Close = 229.01m, Volume = 5527893 },
+                new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
             };
 
             badHistory.Validate();
@@ -188,7 +188,7 @@ namespace Internal.Tests
         [ExpectedException(typeof(BadHistoryException), "No historical basic data.")]
         public void NoBasicData()
         {
-            List<Quote> h = new List<Quote>();
+            List<Quote> h = new();
             h.ConvertToBasic();
         }
 
