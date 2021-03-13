@@ -42,6 +42,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote h = historyList[i];
                 int index = i + 1;
+                decimal medianPrice = (h.High + h.Low) / 2;
 
                 // only calculate jaw if the array index + offset is still in valid range
                 if (i + jawOffset < size)
@@ -52,20 +53,20 @@ namespace Skender.Stock.Indicators
                     // first value: calculate SMA
                     if (index == jawLookback)
                     {
-                        decimal sumClose = 0m;
+                        decimal sumMedianPrice = 0m;
                         for (int p = index - jawLookback; p < index; p++)
                         {
                             TQuote d = historyList[p];
-                            sumClose += d.Close;
+                            sumMedianPrice += (d.High + d.Low) / 2;
                         }
 
-                        jawResult.Jaw = sumClose / jawLookback;
+                        jawResult.Jaw = sumMedianPrice / jawLookback;
                     }
                     // remaining values: SMMA
                     else if (index > jawLookback)
                     {
                         decimal? prevValue = results[i + jawOffset - 1].Jaw;
-                        jawResult.Jaw = (prevValue * (jawLookback - 1) + h.Close) / jawLookback;
+                        jawResult.Jaw = (prevValue * (jawLookback - 1) + medianPrice) / jawLookback;
                     }
                 }
 
@@ -78,20 +79,20 @@ namespace Skender.Stock.Indicators
                     // first value: calculate SMA
                     if (index == teethLookback)
                     {
-                        decimal sumClose = 0m;
+                        decimal sumMedianPrice = 0m;
                         for (int p = index - teethLookback; p < index; p++)
                         {
                             TQuote d = historyList[p];
-                            sumClose += d.Close;
+                            sumMedianPrice += (d.High + d.Low) / 2;
                         }
 
-                        teethResult.Teeth = sumClose / teethLookback;
+                        teethResult.Teeth = sumMedianPrice / teethLookback;
                     }
                     // remaining values: SMMA
                     else if (index > teethLookback)
                     {
                         decimal? prevValue = results[i + teethOffset - 1].Teeth;
-                        teethResult.Teeth = (prevValue * (teethLookback - 1) + h.Close) / teethLookback;
+                        teethResult.Teeth = (prevValue * (teethLookback - 1) + medianPrice) / teethLookback;
                     }
                 }
 
@@ -104,20 +105,20 @@ namespace Skender.Stock.Indicators
                     // first value: calculate SMA
                     if (index == lipsLookback)
                     {
-                        decimal sumClose = 0m;
+                        decimal sumMedianPrice = 0m;
                         for (int p = index - lipsLookback; p < index; p++)
                         {
                             TQuote d = historyList[p];
-                            sumClose += d.Close;
+                            sumMedianPrice += (d.High + d.Low) / 2;
                         }
 
-                        lipsResult.Lips = sumClose / lipsLookback;
+                        lipsResult.Lips = sumMedianPrice / lipsLookback;
                     }
                     // remaining values: SMMA
                     else if (index > lipsLookback)
                     {
                         decimal? prevValue = results[i + lipsOffset - 1].Lips;
-                        lipsResult.Lips = (prevValue * (lipsLookback - 1) + h.Close) / lipsLookback;
+                        lipsResult.Lips = (prevValue * (lipsLookback - 1) + medianPrice) / lipsLookback;
                     }
                 }
             }

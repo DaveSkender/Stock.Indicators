@@ -35,20 +35,20 @@ namespace Internal.Tests
             Assert.IsNotNull(results[7].Lips);
 
             // sample values
-            Assert.AreEqual(214.00000m, Math.Round(results[20].Jaw.Value, 5));
-            Assert.AreEqual(213.97385m, Math.Round(results[21].Jaw.Value, 5));
-            Assert.AreEqual(225.74192m, Math.Round(results[99].Jaw.Value, 5));
-            Assert.AreEqual(260.61620m, Math.Round(results[501].Jaw.Value, 5));
+            Assert.AreEqual(213.81269m, Math.Round(results[20].Jaw.Value, 5));
+            Assert.AreEqual(213.79287m, Math.Round(results[21].Jaw.Value, 5));
+            Assert.AreEqual(225.60571m, Math.Round(results[99].Jaw.Value, 5));
+            Assert.AreEqual(260.98953m, Math.Round(results[501].Jaw.Value, 5));
 
-            Assert.AreEqual(213.98500m, Math.Round(results[12].Teeth.Value, 5));
-            Assert.AreEqual(214.05062m, Math.Round(results[13].Teeth.Value, 5));
-            Assert.AreEqual(226.10575m, Math.Round(results[99].Teeth.Value, 5));
-            Assert.AreEqual(252.26597m, Math.Round(results[501].Teeth.Value, 5));
+            Assert.AreEqual(213.69938m, Math.Round(results[12].Teeth.Value, 5));
+            Assert.AreEqual(213.80008m, Math.Round(results[13].Teeth.Value, 5));
+            Assert.AreEqual(226.12157m, Math.Round(results[99].Teeth.Value, 5));
+            Assert.AreEqual(253.53576m, Math.Round(results[501].Teeth.Value, 5));
 
-            Assert.AreEqual(213.87200m, Math.Round(results[7].Lips.Value, 5));
-            Assert.AreEqual(213.88760m, Math.Round(results[8].Lips.Value, 5));
-            Assert.AreEqual(226.36776m, Math.Round(results[99].Lips.Value, 5));
-            Assert.AreEqual(243.89603m, Math.Round(results[501].Lips.Value, 5));
+            Assert.AreEqual(213.63500m, Math.Round(results[7].Lips.Value, 5));
+            Assert.AreEqual(213.74900m, Math.Round(results[8].Lips.Value, 5));
+            Assert.AreEqual(226.35353m, Math.Round(results[99].Lips.Value, 5));
+            Assert.AreEqual(244.29591m, Math.Round(results[501].Lips.Value, 5));
         }
 
         [TestMethod]
