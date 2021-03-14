@@ -1,15 +1,25 @@
 # Indicators and overlays
 
-- [Moving averages](#moving-averages)
-- [Price transforms](#price-transforms)
-- [Price channels](#price-channels)
-- [Candlestick patterns](#candlestick-patterns)
-- [Overbought/oversold oscillators](#overboughtoversold-oscillators)
 - [Price trends](#price-trends)
-- [Volume-based momentum](#volume-based-momentum)
-- [Composite indicators](#composite-indicators)
+- [Moving averages](#moving-averages)
+- [Price channels](#price-channels)
+- [Overbought/oversold oscillators](#overboughtoversold-oscillators)
 - [Stop and reverse](#stop-and-reverse)
+- [Candlestick patterns](#candlestick-patterns)
+- [Volume-based momentum](#volume-based-momentum)
+- [Price transforms](#price-transforms)
 - [Price characteristics](#price-characteristics)
+
+## Price trends
+
+- [Aroon Oscillator](../indicators/Aroon/README.md#content)
+- [Average Directional Movement Index (ADX)](../indicators/Adx/README.md#content)
+- [Elder-ray Index](../indicators/ElderRay/README.md#content)
+- [Gator Oscillator](../indicators/Gator/README.md#content)
+- [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
+- [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/README.md#content)
+- [Vortex Indicator (VI)](../indicators/Vortex/README.md#content)
+- [Williams Alligator](../indicators/Alligator/README.md#content)
 
 ## Moving averages
 
@@ -30,11 +40,6 @@
 - [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
 
-## Price transforms
-
-- [Heikin-Ashi](../indicators/HeikinAshi/README.md#content)
-- [Zig Zag](../indicators/ZigZag/README.md#content)
-
 ## Price channels
 
 - [Bollinger Bands&#174;](../indicators/BollingerBands/README.md#content)
@@ -47,10 +52,6 @@
 - [Standard Deviation Channels](../indicators/StdDevChannels/README.md#content)
 - [STARC Bands](../indicators/StarcBands/README.md#content)
 
-## Candlestick patterns
-
-- [Williams Fractal](../indicators/Fractal/README.md#content)
-
 ## Overbought/oversold oscillators
 
 - [ConnorsRSI](../indicators/ConnorsRsi/README.md#content)
@@ -61,14 +62,15 @@
 - [Ultimate Oscillator](../indicators/Ultimate/README.md#content)
 - [Williams %R](../indicators/WilliamsR/README.md#content)
 
-## Price trends
+## Stop and reverse
 
-- [Aroon Oscillator](../indicators/Aroon/README.md#content)
-- [Average Directional Movement Index (ADX)](../indicators/Adx/README.md#content)
-- [Elder-ray Index](../indicators/ElderRay/README.md#content)
-- [Gator Oscillator](../indicators/Gator/README.md#content)
-- [Vortex Indicator (VI)](../indicators/Vortex/README.md#content)
-- [Williams Alligator](../indicators/Alligator/README.md#content)
+- [Chandelier Exit](../indicators/Chandelier/README.md#content)
+- [Parabolic SAR](../indicators/ParabolicSar/README.md#content)
+- [SuperTrend](../indicators/SuperTrend/README.md#content)
+
+## Candlestick patterns
+
+- [Williams Fractal](../indicators/Fractal/README.md#content)
 
 ## Volume-based momentum
 
@@ -81,16 +83,10 @@
 - [Percentage Volume Oscillator (PVO)](../indicators/Pvo/README.md#content)
 - [Volume Simple Moving Average](../indicators/VolSma/README.md#content)
 
-## Composite indicators
+## Price transforms
 
-- [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
-- [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/README.md#content)
-
-## Stop and reverse
-
-- [Chandelier Exit](../indicators/Chandelier/README.md#content)
-- [Parabolic SAR](../indicators/ParabolicSar/README.md#content)
-- [SuperTrend](../indicators/SuperTrend/README.md#content)
+- [Heikin-Ashi](../indicators/HeikinAshi/README.md#content)
+- [Zig Zag](../indicators/ZigZag/README.md#content)
 
 ## Price characteristics
 
