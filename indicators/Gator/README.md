@@ -3,6 +3,8 @@
 Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator](../Alligator/README.md#content).
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
+![image](chart.png)
+
 ```csharp
 // usage
 IEnumerable<GatorResult> results = Indicator.GetGator(history);

@@ -10,7 +10,6 @@
 - [Composite indicators](#composite-indicators)
 - [Stop and reverse](#stop-and-reverse)
 - [Price characteristics](#price-characteristics)
-- [Numerical analysis](#numerical-analysis)
 
 ## Moving averages
 
@@ -54,7 +53,6 @@
 
 ## Overbought/oversold oscillators
 
-- [Aroon Oscillator](../indicators/Aroon/README.md#content)
 - [ConnorsRSI](../indicators/ConnorsRsi/README.md#content)
 - [Commodity Channel Index](../indicators/Cci/README.md#content)
 - [Relative Strength Index (RSI)](../indicators/Rsi/README.md#content)
@@ -65,6 +63,7 @@
 
 ## Price trends
 
+- [Aroon Oscillator](../indicators/Aroon/README.md#content)
 - [Average Directional Movement Index (ADX)](../indicators/Adx/README.md#content)
 - [Elder-ray Index](../indicators/ElderRay/README.md#content)
 - [Gator Oscillator](../indicators/Gator/README.md#content)

@@ -1,7 +1,9 @@
 # Elder-ray Index
 
-Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/terms/e/elderray.asp) depicts buying and selling pressure, also known as Bull and Bear Power.
+Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/terms/e/elderray.asp), also known as Bull and Bear Power, depicts buying and selling pressure.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/378 "Community discussion about this indicator")
+
+![image](chart.png)
 
 ```csharp
 // usage

@@ -21,13 +21,15 @@
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageTags>
        Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;
-       Financial;Strategy;Chart;Charting;Oscillator;Overlay;Equity;Bitcoin;Crypto;Cryptocurrency;Forex;Quantitative;
-       Historical;Quotes;Accumulation;Distribution;ADL;Aroon;True;Range;ATR;Bollinger;Bands;Commodity;CCI;Chandelier;
-       Exit;Chaikin;Money;Flow;CMF;MFI;Kaufman;Adaptive;Simple;Weighted;Exponential;Moving;Average;Convergence;Divergence;
-       MACD;SMA;EMA;DEMA;TEMA;TRIX;Relative;Strength;Index;RSI;ConnorsRSI;Stochastic;Directional;Movement;ADX;Donchian;
-       Keltner;Channel;Heikin-Ashi;Hull;HMA;Ichimoku;Cloud;On-balance;Volume;OBV;Price;PMO;PRS;Parabolic;SAR;Stop;Reverse;
-       PSAR;Pivot;Points;Rate;Change;ROC;Linear;Regression;R-Squared;Slope;Standard;Deviation;Beta;Correlation;SuperTrend;
-       Ulcer;Ultimate;Vortex;Williams;%R;Fractal;Chaos;Choppiness;WMA;ZigZag;.NET;C#;Library;Package;
+       Financial;Strategy;Chart;Charting;Oscillator;Overlay;Equity;Bitcoin;Crypto;Cryptocurrency;Forex;
+       Quantitative;Historical;Quotes;Accumulation;Distribution;ADL;Aroon;True;Range;ATR;Bollinger;Bands;Commodity;
+       CCI;Chandelier;Exit;Chaikin;Money;Flow;CMF;MFI;Kaufman;Adaptive;Simple;Weighted;Exponential;Moving;Average;
+       Convergence;Divergence;MACD;SMA;EMA;DEMA;TEMA;TRIX;Smoothed;Elder-ray;Bull;Bear;Power;Force;
+       Relative;Strength;Index;RSI;ConnorsRSI;Stochastic;Directional;Movement;ADX;Donchian;Keltner;Channel;
+       Heikin-Ashi;Hilbert;Transform;Instantaneous;Trendline;Hull;HMA;Ichimoku;Cloud;On-balance;Volume;OBV;
+       Price;PMO;PRS;Parabolic;SAR;Stop;Reverse;PSAR;Pivot;Points;Rate;Change;ROC;Linear;Regression;R-Squared;
+       Slope;Standard;Deviation;Beta;Correlation;SuperTrend;Ulcer;Ultimate;Vortex;Williams;%R;Alligator;Gator;
+       Fractal;Chaos;Choppiness;Endpoint;WMA;ZigZag;.NET;C#;Library;Package;
     </PackageTags>
     <PackageReleaseNotes>More info: https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
