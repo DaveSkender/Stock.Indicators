@@ -29,15 +29,15 @@ Install-Package Skender.Stock.Indicators
 
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
-You can get historical quotes from your favorite stock data provider.
-Historical price data is an `IEnumerable` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom quote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+You must get historical quotes from your own stock data provider.
+Historical price data must be provided as an `IEnumerable` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom quote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.
 
 ### Example usage
 
-All indicator methods will produce all possible results for the provided history -- it is not just a single data point returned.  For example, if you provide 3 years worth of quote history for the SMA method, you'll get 3 years of SMA result values.
+All indicator methods will produce all possible results for the provided history as a time series dataset -- it is not just a single data point returned.  For example, if you provide 3 years worth of quote history for the SMA method, you'll get 3 years of SMA result values.
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -63,7 +63,7 @@ See [individual indicator pages](INDICATORS.md) for specific usage guidance.
 
 ## Historical quotes
 
-Historical price quotes are provided to the library in the standard OHLCV `IEnumerable<Quote>` format and should have a consistent frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+You must provide historical price quotes to the library in the standard OHLCV `IEnumerable<Quote>` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 | name | type | notes
 | -- |-- |--
