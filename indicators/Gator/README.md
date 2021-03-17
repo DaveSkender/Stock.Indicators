@@ -36,7 +36,7 @@ The first 10-20 periods will have `null` values since there's not enough data to
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Upper` | decimal | Absolute value of Alligator `Jaw-Teeth`
-| `Lower` | decimal | Absolute value of Alligator `Teeth-Lips`
+| `Lower` | decimal | Absolute value of Alligator `Lips-Teeth`
 | `UpperIsExpanding` | boolean | Upper value is growing
 | `LowerIsExpanding` | boolean | Lower value is growing
 
