@@ -1,12 +1,12 @@
 # Indicators and overlays
 
 - [Price trends](#price-trends)
-- [Moving averages](#moving-averages)
 - [Price channels](#price-channels)
 - [Overbought/oversold oscillators](#overboughtoversold-oscillators)
 - [Stop and reverse](#stop-and-reverse)
 - [Candlestick patterns](#candlestick-patterns)
 - [Volume-based momentum](#volume-based-momentum)
+- [Moving averages](#moving-averages)
 - [Price transforms](#price-transforms)
 - [Price characteristics](#price-characteristics)
 
@@ -18,27 +18,9 @@
 - [Gator Oscillator](../indicators/Gator/README.md#content)
 - [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
 - [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/README.md#content)
+- [SuperTrend](../indicators/SuperTrend/README.md#content)
 - [Vortex Indicator (VI)](../indicators/Vortex/README.md#content)
 - [Williams Alligator](../indicators/Alligator/README.md#content)
-
-## Moving averages
-
-- [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
-- [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
-- [Endpoint Moving Average (EPMA)](../indicators/Epma/README.md#content)
-- [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
-- [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/README.md#content)
-- [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
-- [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/README.md#content)
-- [Least Squares Moving Average (LSMA)](../indicators/Epma/README.md#content)
-- [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/README.md#content)
-- [Simple Moving Average (SMA)](../indicators/Sma/README.md#content)
-- [Smoothed Moving Average (SMMA)](../indicators/Smma/README.md#content)
-- [Tillson T3 Moving Average](../indicators/T3/README.md#content)
-- [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
-- [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
-- [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
-- [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
 
 ## Price channels
 
@@ -82,6 +64,25 @@
 - [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
 - [Percentage Volume Oscillator (PVO)](../indicators/Pvo/README.md#content)
 - [Volume Simple Moving Average](../indicators/VolSma/README.md#content)
+
+## Moving averages
+
+- [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
+- [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
+- [Endpoint Moving Average (EPMA)](../indicators/Epma/README.md#content)
+- [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
+- [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/README.md#content)
+- [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
+- [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/README.md#content)
+- [Least Squares Moving Average (LSMA)](../indicators/Epma/README.md#content)
+- [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/README.md#content)
+- [Simple Moving Average (SMA)](../indicators/Sma/README.md#content)
+- [Smoothed Moving Average (SMMA)](../indicators/Smma/README.md#content)
+- [Tillson T3 Moving Average](../indicators/T3/README.md#content)
+- [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
+- [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
+- [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
+- [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
 
 ## Price transforms
 

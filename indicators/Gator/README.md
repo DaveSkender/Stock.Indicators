@@ -18,7 +18,7 @@ IEnumerable<GatorResult> results = Indicator.GetGator(history);
 
 ### Minimum history requirements
 
-You must supply at least 115 periods of `history`. Since this uses a smoothing technique, we recommend you use at least `265` data points prior to the intended usage date for better precision.
+You must supply at least 115 periods of `history`. Since this uses a smoothing technique, we recommend you use at least 265 data points prior to the intended usage date for better precision.
 
 ## Response
 
@@ -28,7 +28,7 @@ IEnumerable<GatorResult>
 
 The first 10-20 periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The first `150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:warning: **Warning**: The first 150 periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### GatorResult
 
@@ -36,7 +36,7 @@ The first 10-20 periods will have `null` values since there's not enough data to
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Upper` | decimal | Absolute value of Alligator `Jaw-Teeth`
-| `Lower` | decimal | Absolute value of Alligator `Teeth-Lips`
+| `Lower` | decimal | Absolute value of Alligator `Lips-Teeth`
 | `UpperIsExpanding` | boolean | Upper value is growing
 | `LowerIsExpanding` | boolean | Lower value is growing
 
