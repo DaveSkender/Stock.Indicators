@@ -1,5 +1,4 @@
 from System import Decimal as CsDecimal
-from typing import TypeVar
 
 def Decimal(decimal):
     """

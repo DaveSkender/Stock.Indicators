@@ -1,6 +1,6 @@
 import clr
 clr.AddReference(r'dll/Skender.Stock.Indicators')
 
-from .DateTime import (DateTime)
-from .Decimal import (Decimal)
-from .List import (List)
+from .datetime import DateTime
+from .decimal import Decimal
+from .list import List

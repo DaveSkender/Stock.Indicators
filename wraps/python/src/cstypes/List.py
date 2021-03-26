@@ -4,7 +4,7 @@ def List(generic, sequence):
     """
     Converts Python's iterator type into C#'s `System.Collections.Generic.List` class.
    
-    Parameter
+    Parameters
     ----------
     generic : generic type for `System.Collections.Generic.List`.
 
@@ -14,7 +14,7 @@ def List(generic, sequence):
     ---------
     [Iterator Types](https://docs.python.org/3/library/stdtypes.html#iterator-types)
    
-    Example
+    Examples
     --------
     Constructing `System.Collections.Generic.List` from `list` of Python.
    
