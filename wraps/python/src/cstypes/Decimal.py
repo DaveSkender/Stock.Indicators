@@ -21,3 +21,9 @@ def Decimal(decimal):
         raise TypeError("Only int or float are allowed")
 
     return CsDecimal(float(decimal))
+
+def to_pyfloat(cs_decimal):
+    if cs_decimal == None:
+        cs_decimal = "0"
+    
+    return float(str(cs_decimal))
