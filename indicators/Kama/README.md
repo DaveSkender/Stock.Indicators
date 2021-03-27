@@ -42,7 +42,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `ER`   | decimal | Efficiency Ratio is the fractal efficiency of price changes
 | `Kama` | decimal | Kaufman's adaptive moving average
 
-**More about Efficiency Ratio:** ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up 10 consecutive periods or down 10 consecutive periods. ER would be zero if price is unchanged over the 10 periods.
+More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriod` periods. ER would be zero if prices are unchanged over the `erPeriod` periods.
 
 ## Example
 
