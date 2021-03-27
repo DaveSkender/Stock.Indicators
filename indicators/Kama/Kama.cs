@@ -53,8 +53,11 @@ namespace Skender.Stock.Indicators
 
                     if (sumPV != 0)
                     {
-                        // efficiency ratio and smoothing constant
+                        // efficiency ratio
                         decimal er = change / sumPV;
+                        r.ER = er;
+
+                        // smoothing constant
                         decimal sc = er * (scFast - scSlow) + scSlow;  // squared later
 
                         // kama calculation
@@ -65,6 +68,7 @@ namespace Skender.Stock.Indicators
                     // handle flatline case
                     else
                     {
+                        r.ER = 0;
                         r.Kama = h.Close;
                     }
                 }
