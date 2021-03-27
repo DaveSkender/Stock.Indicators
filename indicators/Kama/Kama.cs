@@ -60,12 +60,14 @@ namespace Skender.Stock.Indicators
                         // kama calculation
                         decimal? pk = results[i - 1].Kama;  // prior KAMA
                         r.Kama = pk + sc * sc * (h.Close - pk);
+                        r.ER = er;
                     }
 
                     // handle flatline case
                     else
                     {
                         r.Kama = h.Close;
+                        r.ER = 0;
                     }
                 }
 
@@ -73,6 +75,7 @@ namespace Skender.Stock.Indicators
                 else if (index == erPeriod)
                 {
                     r.Kama = h.Close;
+                    r.ER = 0;
                 }
 
                 results.Add(r);

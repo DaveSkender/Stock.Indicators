@@ -1,4 +1,4 @@
-﻿# Kaufman's Adaptive Moving Average (KAMA)
+# Kaufman's Adaptive Moving Average (KAMA)
 
 Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of Close price over configurable lookback periods.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/210 "Community discussion about this indicator")
@@ -40,6 +40,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Kama` | decimal | Kaufman's adaptive moving average
+| `ER`   | decimal | Efficiency Ratio tells us the fractal efficiency of price changes. ER fluctuates between 1 and 0, but these extremes are the exception, not the norm. ER would be 1 if prices moved up 10 consecutive periods or down 10 consecutive periods. ER would be zero if price is unchanged over the 10 periods.
 
 ## Example
 
