@@ -1,5 +1,5 @@
 from Skender.Stock.Indicators import Indicator
-from cstypes import List, to_pyfloat
+from cstypes import List, to_pydecimal
 from .Qoute import Qoute
 
 def get_sma(history, lookbackPeriod: int):
@@ -17,7 +17,7 @@ def get_sma_extended(history, lookbackPeriod: int):
 class SmaResult:
     def __init__(self,sma_result):
         self.Date = sma_result.Date
-        self.Sma = to_pyfloat(sma_result.Sma)
+        self.Sma = to_pydecimal(sma_result.Sma)
 
     def __str__(self):
         return str(self.Date) + ": " + str(self.Sma)
@@ -25,9 +25,9 @@ class SmaResult:
 class SmaExtendedResult(SmaResult):
     def __init__(self, sma_extended_result):
         super().__init__(sma_extended_result)
-        self.Mad = to_pyfloat(sma_extended_result.Mad)
-        self.Mse = to_pyfloat(sma_extended_result.Mse)
-        self.Mape = to_pyfloat(sma_extended_result.Mape)
+        self.Mad = to_pydecimal(sma_extended_result.Mad)
+        self.Mse = to_pydecimal(sma_extended_result.Mse)
+        self.Mape = to_pydecimal(sma_extended_result.Mape)
 
     def __str__(self):
         return str(self.Date) + ": " + str(self.Sma) + "\t"\

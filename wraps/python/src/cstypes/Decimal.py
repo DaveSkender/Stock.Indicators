@@ -1,4 +1,5 @@
 from System import Decimal as CsDecimal
+from decimal import Decimal as PyDecimal
 
 def Decimal(decimal):
     """
@@ -22,8 +23,6 @@ def Decimal(decimal):
 
     return CsDecimal(float(decimal))
 
-def to_pyfloat(cs_decimal):
-    if cs_decimal == None:
-        cs_decimal = "0"
-    
-    return float(str(cs_decimal))
+def to_pydecimal(cs_decimal):
+    if cs_decimal is not None: 
+        return PyDecimal(str(cs_decimal))
