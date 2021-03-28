@@ -1,5 +1,5 @@
 import clr
-clr.AddReference(r'dll/Skender.Stock.Indicators')
+clr.AddReference(r'../../../indicators/bin/Release/net461/Skender.Stock.Indicators')
 
 from .Quote import (Quote)
 from .SMA import (
