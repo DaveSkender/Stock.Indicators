@@ -1,4 +1,4 @@
-﻿# Zig Zag
+# Zig Zag
 
 [Zig Zag](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag) is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/226 "Community discussion about this indicator")
@@ -36,7 +36,9 @@ You must supply at least two periods of `history` to calculate, but notably more
 IEnumerable<ZigZagResult>
 ```
 
-If you do not supply enough points to cover the percent change, there will be no valid Zig Zag points or lines.  The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.  The last line segment is an approximation as the direction is indeterminant.  Swing high and low points are denoted with `PointType` values of `H` or `L`.  We always return the same number of result elements as there are in the historical quotes.
+:warning: **Warning**:  depending on the specified `type`, the indicator cannot be initialized if the first `Quote` in `history` has a `High`,`Low`, or `Close` value of 0 (zero).
+
+Also, if you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.  The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.  The last line segment is an approximation as the direction is indeterminant.  Swing high and low points are denoted with `PointType` values of `H` or `L`.  We always return the same number of result elements as there are in the historical quotes.
 
 ### ZigZagResult
 

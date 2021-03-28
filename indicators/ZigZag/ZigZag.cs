@@ -58,8 +58,12 @@ namespace Skender.Stock.Indicators
                 int index = i + 1;
 
                 eval = GetZigZagEval(type, index, h);
-                decimal changeUp = (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
-                decimal changeDn = (lastHighPoint.Value - eval.Low) / lastHighPoint.Value;
+
+                decimal? changeUp = (lastLowPoint.Value == 0) ? null
+                    : (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
+
+                decimal? changeDn = (lastHighPoint.Value == 0) ? null
+                    : (lastHighPoint.Value - eval.Low) / lastHighPoint.Value;
 
                 if (changeUp >= changeThreshold && changeUp > changeDn)
                 {
@@ -174,6 +178,11 @@ namespace Skender.Stock.Indicators
         private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> historyList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
         {
+            // handle error case
+            if (nextPoint.Index == lastPoint.Index)
+            {
+                return;
+            }
 
             decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
 
@@ -227,6 +236,12 @@ namespace Skender.Stock.Indicators
 
             // nothing to do if first line
             if (priorPoint.Index == 1)
+            {
+                return;
+            }
+
+            // handle error case
+            if (nextPoint.Index == priorPoint.Index)
             {
                 return;
             }
