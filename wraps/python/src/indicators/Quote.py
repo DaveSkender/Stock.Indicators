@@ -1,7 +1,7 @@
-from Skender.Stock.Indicators import Quote as CsQoute
+from Skender.Stock.Indicators import Quote as CsQuote
 from cstypes import DateTime, Decimal
 
-class Qoute(CsQoute):
+class Quote(CsQuote):
     def __init__(self, date, open = 0, high = 0, low = 0, close = 0, volume = 0):
         self.Date = DateTime(date)
         self.Open = Decimal(open)

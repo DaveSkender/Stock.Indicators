@@ -1,15 +1,15 @@
 from Skender.Stock.Indicators import Indicator
 from cstypes import List, to_pydecimal
-from .Qoute import Qoute
+from .Quote import Quote
 
 def get_sma(history, lookbackPeriod: int):
-    sma_list = Indicator.GetSma[Qoute](List(Qoute, history), lookbackPeriod)
+    sma_list = Indicator.GetSma[Quote](List(Quote, history), lookbackPeriod)
     sma_list = [ SmaResult(r) for r in sma_list ]
 
     return sma_list
 
 def get_sma_extended(history, lookbackPeriod: int):
-    sma_extended_list = Indicator.GetSmaExtended[Qoute](List(Qoute, history), lookbackPeriod)
+    sma_extended_list = Indicator.GetSmaExtended[Quote](List(Quote, history), lookbackPeriod)
     sma_extended_list = [ SmaExtendedResult(r) for r in sma_extended_list ]
 
     return sma_extended_list
