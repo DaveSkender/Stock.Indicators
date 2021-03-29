@@ -178,29 +178,27 @@ namespace Skender.Stock.Indicators
         private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> historyList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
         {
-            // handle error case
-            if (nextPoint.Index == lastPoint.Index)
+
+            if (nextPoint.Index != lastPoint.Index)
             {
-                return;
-            }
+                decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
 
-            decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
-
-            // add new line segment
-            for (int i = lastPoint.Index; i < nextPoint.Index; i++)
-            {
-                TQuote h = historyList[i];
-                int index = i + 1;
-
-                ZigZagResult result = new()
+                // add new line segment
+                for (int i = lastPoint.Index; i < nextPoint.Index; i++)
                 {
-                    Date = h.Date,
-                    ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
-                        lastPoint.Value + increment * (index - lastPoint.Index) : null,
-                    PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
-                };
+                    TQuote h = historyList[i];
+                    int index = i + 1;
 
-                results.Add(result);
+                    ZigZagResult result = new()
+                    {
+                        Date = h.Date,
+                        ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
+                            lastPoint.Value + increment * (index - lastPoint.Index) : null,
+                        PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
+                    };
+
+                    results.Add(result);
+                }
             }
 
             // reset lastpoint
