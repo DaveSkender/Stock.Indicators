@@ -1,13 +1,14 @@
 from System import Decimal as CsDecimal
 from decimal import Decimal as PyDecimal
+import math
 
 def Decimal(decimal):
     """
-    Converts Python's numeric type(except for `complex`) into C#'s `System.Decimal` class.
+    Converts a number into C#'s `System.Decimal` class.
    
     Parameter
     ----------
-    decimal : `int` or `float`.
+    decimal : `int`, `float` or any `object` that can be represented as a number.
    
     Example
     --------
@@ -18,10 +19,7 @@ def Decimal(decimal):
     2.5
     """
     
-    if not isinstance(decimal,(int, float)):
-        raise TypeError("Only int or float are allowed")
-
-    return CsDecimal(float(decimal))
+    return CsDecimal.Parse(str(decimal))
 
 def to_pydecimal(cs_decimal):
     if cs_decimal is not None: 
