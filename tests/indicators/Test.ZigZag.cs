@@ -127,8 +127,25 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ZigZagResult> r = Indicator.GetZigZag(historyBad);
-            Assert.AreEqual(502, r.Count());
+            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(historyBad, ZigZagType.Close);
+            Assert.AreEqual(502, r1.Count());
+
+            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(historyBad, ZigZagType.HighLow);
+            Assert.AreEqual(502, r2.Count());
+        }
+
+        [TestMethod]
+        public void SchrodingerScenario()
+        {
+            IEnumerable<Quote> h = HistoryTestData.GetCustomZigZag();
+
+            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(h, ZigZagType.Close, 0.25m);
+            Assert.AreEqual(342, r1.Count());
+
+            // first period has High/Low that exceeds threhold
+            // where it is both a H and L pivot simultaenously
+            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(h, ZigZagType.HighLow, 3);
+            Assert.AreEqual(342, r2.Count());
         }
 
         [TestMethod]
