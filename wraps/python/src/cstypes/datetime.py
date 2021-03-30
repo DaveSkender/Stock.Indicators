@@ -1,5 +1,6 @@
 from System import DateTime as CsDateTime
-from datetime import datetime as dt
+from System.Globalization import CultureInfo
+from datetime import datetime as PyDateTime
 
 def DateTime(datetime):
     """
@@ -19,7 +20,25 @@ def DateTime(datetime):
     3/26/2021 10:02:22 PM
     """
     
-    if not isinstance(datetime, dt):
+    if not isinstance(datetime, PyDateTime):
         raise TypeError("Only datetime.datetime is allowed")
         
     return CsDateTime.Parse(datetime.isoformat())
+
+def to_pydatetime(cs_datetime):
+    """
+    Converts C#'s `System.DateTime` struct to a native Python datetime object.
+
+    Parameter
+    ----------
+    datetime : `System.DateTime` of C#.
+   
+    """
+
+    if not isinstance(cs_datetime, CsDateTime):
+        raise TypeError("Only System.DateTime is allowed")
+    
+    return PyDateTime.fromisoformat(cs_datetime.ToString("o", CultureInfo.InvariantCulture)[:-1])
+
+    
+     
