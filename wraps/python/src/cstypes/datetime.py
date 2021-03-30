@@ -31,7 +31,7 @@ def to_pydatetime(cs_datetime):
 
     Parameter
     ----------
-    datetime : `System.DateTime` of C#.
+    cs_datetime : `System.DateTime` of C#.
    
     """
 
