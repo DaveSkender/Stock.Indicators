@@ -22,5 +22,14 @@ def Decimal(decimal):
     return CsDecimal.Parse(str(decimal))
 
 def to_pydecimal(cs_decimal):
+    """
+    Converts an object to a native Python decimal object.
+
+    Parameter
+    ----------
+    cs_decimal : `System.Decimal` of C# or any `object` that can be represented as a number.
+
+    """
+
     if cs_decimal is not None: 
         return PyDecimal(str(cs_decimal))
