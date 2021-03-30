@@ -19,9 +19,6 @@ class SmaResult(ResultBase):
         super().__init__(sma_result)
         self.Sma = to_pydecimal(sma_result.Sma)
 
-    def __str__(self):
-        return str(self.Date) + ": " + str(self.Sma)
-
 class SmaExtendedResult(SmaResult):
     def __init__(self, sma_extended_result):
         super().__init__(sma_extended_result)
@@ -29,9 +26,4 @@ class SmaExtendedResult(SmaResult):
         self.Mse = to_pydecimal(sma_extended_result.Mse)
         self.Mape = to_pydecimal(sma_extended_result.Mape)
 
-    def __str__(self):
-        return str(self.Date) + ": " + str(self.Sma) + "\t"\
-             + str(self.Mad) + "\t" + str(self.Mse) + "\t"\
-             + str(self.Mape)
-    
 
