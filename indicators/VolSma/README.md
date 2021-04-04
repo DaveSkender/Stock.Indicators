@@ -7,7 +7,8 @@ The Volume Simple Moving Average is the average volume over a lookback window.  
 
 ```csharp
 // usage
-IEnumerable<VolSmaResult> results = Indicator.GetVolSma(history, lookbackPeriod);  
+IEnumerable<VolSmaResult> results =
+  Indicator.GetVolSma(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -40,7 +41,7 @@ The first `N-1` periods will have `null` values for `VolSma` since there's not e
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA of Volume

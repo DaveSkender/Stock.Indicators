@@ -7,7 +7,8 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 
 ```csharp
 // usage
-IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
+IEnumerable<StochRsiResult> results =
+  Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
 ```
 
 ## Parameters
@@ -47,7 +48,7 @@ The first `R+S-1` periods will have `null` values for `StochRsi` since there's n
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate StochRSI(14)

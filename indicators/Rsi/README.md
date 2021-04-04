@@ -6,7 +6,8 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 
 ```csharp
 // usage
-IEnumerable<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod);  
+IEnumerable<RsiResult> results =
+  Indicator.GetRsi(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -40,7 +41,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate RSI(14)

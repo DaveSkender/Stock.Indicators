@@ -47,7 +47,7 @@ More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes a
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate KAMA(10,2,30)

@@ -7,13 +7,16 @@
 
 ```csharp
 // usage for EMA (standard)
-IEnumerable<EmaResult> results = Indicator.GetEma(history, lookbackPeriod);
+IEnumerable<EmaResult> results =
+  Indicator.GetEma(history, lookbackPeriod);
 
 // usage for Double EMA
-IEnumerable<EmaResult> results = Indicator.GetDoubleEma(history, lookbackPeriod);
+IEnumerable<EmaResult> results =
+  Indicator.GetDoubleEma(history, lookbackPeriod);
 
 // usage for Triple EMA
-IEnumerable<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod);
+IEnumerable<EmaResult> results =
+  Indicator.GetTripleEma(history, lookbackPeriod);
 ```
 
 ## Parameters
@@ -57,7 +60,7 @@ Triple EMA: The first `3×N-2` periods will have `null` values since there's not
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period EMA

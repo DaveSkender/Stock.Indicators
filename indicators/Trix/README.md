@@ -7,10 +7,12 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 
 ```csharp
 // usage for Trix
-IEnumerable<TrixResult> results = Indicator.GetTrix(history, lookbackPeriod);
+IEnumerable<TrixResult> results =
+  Indicator.GetTrix(history, lookbackPeriod);
 
 // usage for Trix with Signal Line (shown above)
-IEnumerable<TrixResult> results = Indicator.GetTrix(history, lookbackPeriod, signalPeriod);
+IEnumerable<TrixResult> results =
+  Indicator.GetTrix(history, lookbackPeriod, signalPeriod);
 ```
 
 ## Parameters
@@ -47,7 +49,7 @@ We always return the same number of elements as there are in the historical quot
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Trix

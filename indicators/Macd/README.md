@@ -46,7 +46,7 @@ The first `S-1` slow periods will have `null` values since there's not enough da
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate MACD(12,26,9)

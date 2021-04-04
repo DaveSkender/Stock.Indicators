@@ -29,8 +29,9 @@ Install-Package Skender.Stock.Indicators
 
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
-You must get historical quotes from your own stock data provider.
-Historical price data must be provided as an `IEnumerable` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom quote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+You must get historical quotes from your own market data provider.  For clarification, the `GetHistoryFromFeed()` method shown in the example below and throughout our documentation **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
+
+Historical price data can be provided as an `IEnumerable` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.
 You can, of course, override these and provide your own values.
@@ -44,7 +45,7 @@ using Skender.Stock.Indicators;
 
 [..]
 
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
@@ -169,7 +170,7 @@ public class MyEma : EmaResult
 
 public void MyClass(){
 
-  // fetch historical quotes from your favorite feed, in Quote format
+  // fetch historical quotes from your feed (your method)
   IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
   // compute indicator
@@ -208,7 +209,7 @@ public class MyEma
 
 public void MyClass(){
 
-  // fetch historical quotes from your favorite feed, in Quote format
+  // fetch historical quotes from your feed (your method)
   IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
   // compute indicator
@@ -237,7 +238,7 @@ public void MyClass(){
 If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one, reformat into a synthetic quote history, and send it through to another indicator.  Example:
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate OBV

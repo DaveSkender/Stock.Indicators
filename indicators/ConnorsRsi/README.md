@@ -7,7 +7,8 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 
 ```csharp
 // usage
-IEnumerable<ConnorsRsiResult> results = Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod);  
+IEnumerable<ConnorsRsiResult> results =
+  Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod);  
 ```
 
 ## Parameters
@@ -46,7 +47,7 @@ The first `R+S+P-1` periods will have `null` values since there's not enough dat
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate ConnorsRsi(3,2.100)

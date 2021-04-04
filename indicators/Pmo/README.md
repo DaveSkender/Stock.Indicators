@@ -7,7 +7,8 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 
 ```csharp
 // usage
-IEnumerable<PmoResult> results = Indicator.GetPmo(history, timePeriod, smoothingPeriod, signalPeriod);
+IEnumerable<PmoResult> results =
+  Indicator.GetPmo(history, timePeriod, smoothingPeriod, signalPeriod);
 ```
 
 ## Parameters
@@ -44,7 +45,7 @@ The first `T+S-1` periods will have `null` values for PMO since there's not enou
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period PMO

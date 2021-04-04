@@ -7,7 +7,8 @@ Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA
 
 ```csharp
 // usage
-IEnumerable<EpmaResult> results = Indicator.GetEpma(history, lookbackPeriod);  
+IEnumerable<EpmaResult> results =
+  Indicator.GetEpma(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -39,7 +40,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period EPMA

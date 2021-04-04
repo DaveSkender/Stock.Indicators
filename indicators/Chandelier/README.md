@@ -49,7 +49,7 @@ The first `N` periods will have `null` Chandelier values since there's not enoug
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Chandelier(22,3,LONG)

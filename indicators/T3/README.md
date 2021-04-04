@@ -43,7 +43,7 @@ The first `6×(N-1)` periods will have `null` values since there's not enough da
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 5-period T3

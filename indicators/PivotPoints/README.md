@@ -69,7 +69,7 @@ The first window will have `null` values since there's not enough data to calcul
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style month-based Pivot Points

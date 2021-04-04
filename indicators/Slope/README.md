@@ -7,7 +7,8 @@
 
 ```csharp
 // usage
-IEnumerable<SlopeResult> results = Indicator.GetSlope(history, lookbackPeriod);  
+IEnumerable<SlopeResult> results =
+  Indicator.GetSlope(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -43,7 +44,7 @@ The first `N-1` periods will have `null` values for `Slope` since there's not en
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 
 // calculate 20-period Slope

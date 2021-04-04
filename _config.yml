@@ -17,9 +17,7 @@ exclude:
     "*.xml",
     "*.yml",
     ".github",
-    ".vscode",
-    "docs/CODE_OF_CONDUCT.md",
-    "docs/PULL_REQUEST_TEMPLATE.md"
+    ".vscode"
   ]
 
 plugins:

@@ -7,7 +7,8 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 
 ```csharp
 // usage
-IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history);
+IEnumerable<AlligatorResult> results =
+  Indicator.GetAlligator(history);
 ```
 
 ## Parameters
@@ -52,7 +53,7 @@ The first 10-20 periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate the Williams Alligator

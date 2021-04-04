@@ -7,10 +7,12 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 
 ```csharp
 // usage
-IEnumerable<AdlResult> results = Indicator.GetAdl(history);  
+IEnumerable<AdlResult> results =
+  Indicator.GetAdl(history);  
 
 // usage with optional overlay SMA of ADL (shown above)
-IEnumerable<AdlResult> results = Indicator.GetAdl(history, smaPeriod);  
+IEnumerable<AdlResult> results =
+  Indicator.GetAdl(history, smaPeriod);  
 ```
 
 ## Parameters
@@ -47,7 +49,7 @@ We always return the same number of elements as there are in the historical quot
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate

@@ -7,7 +7,8 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA](https://github.com/
 
 ```csharp
 // usage
-IEnumerable<AlmaResult> results = Indicator.GetAlma(history, lookbackPeriod, offset, sigma);  
+IEnumerable<AlmaResult> results =
+  Indicator.GetAlma(history, lookbackPeriod, offset, sigma);  
 ```
 
 ## Parameters
@@ -41,7 +42,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate Alma(10,0.5,6)

@@ -7,10 +7,12 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 
 ```csharp
 // usage
-IEnumerable<VwapResult> results = Indicator.GetVwap(history);
+IEnumerable<VwapResult> results =
+  Indicator.GetVwap(history);
 
 // usage with optional anchored start date
-IEnumerable<VwapResult> results = Indicator.GetVwap(history, startDate);  
+IEnumerable<VwapResult> results =
+  Indicator.GetVwap(history, startDate);  
 ```
 
 ## Parameters
@@ -42,7 +44,7 @@ The first period or the `startDate` will have a `Vwap = Close` value since it is
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate

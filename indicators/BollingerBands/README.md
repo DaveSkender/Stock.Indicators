@@ -46,7 +46,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate BollingerBands(12,26,9)

@@ -7,7 +7,8 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 
 ```csharp
 // usage
-IEnumerable<KeltnerResult> results = Indicator.GetKeltner(history, emaPeriod, multiplier, atrPeriod);  
+IEnumerable<KeltnerResult> results =
+  Indicator.GetKeltner(history, emaPeriod, multiplier, atrPeriod);  
 ```
 
 ## Parameters
@@ -46,7 +47,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Keltner(20)

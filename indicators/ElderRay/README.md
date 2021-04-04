@@ -7,8 +7,8 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 
 ```csharp
 // usage
-IEnumerable<ElderRayResult> results
-  = Indicator.GetElderRay(history, lookbackPeriod);  
+IEnumerable<ElderRayResult> results =
+  Indicator.GetElderRay(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -45,7 +45,7 @@ We always return the same number of elements as there are in the historical quot
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate ElderRay(13)

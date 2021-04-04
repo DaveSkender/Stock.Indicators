@@ -7,10 +7,12 @@
 
 ```csharp
 // usage
-IEnumerable<PrsResult> results = Indicator.GetPrs(historyBase, historyEval);  
+IEnumerable<PrsResult> results =
+  Indicator.GetPrs(historyBase, historyEval);  
 
 // usage with optional SMA of PRS (shown above)
-IEnumerable<PrsResult> results = Indicator.GetPrs(historyBase, historyEval, smaPeriod);  
+IEnumerable<PrsResult> results =
+  Indicator.GetPrs(historyBase, historyEval, smaPeriod);  
 ```
 
 ## Parameters
@@ -46,7 +48,7 @@ The `N` periods will have `null` values for `PrsPercent` and the first `S-1` per
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 

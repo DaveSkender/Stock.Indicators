@@ -7,7 +7,8 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 
 ```csharp
 // usage
-IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod);  
+IEnumerable<UlcerIndexResult> results =
+  Indicator.GetUlcerIndex(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -39,7 +40,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate UI(14)

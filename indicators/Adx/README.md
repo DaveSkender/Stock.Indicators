@@ -7,8 +7,8 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 
 ```csharp
 // usage
-IEnumerable<AdxResult> results
-  = Indicator.GetAdx(history, lookbackPeriod);  
+IEnumerable<AdxResult> results =
+  Indicator.GetAdx(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -44,7 +44,7 @@ The first `2×N-1` periods will have `null` values for ADX since there's not eno
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ADX

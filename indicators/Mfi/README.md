@@ -7,7 +7,8 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 
 ```csharp
 // usage
-IEnumerable<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod);
+IEnumerable<MfiResult> results =
+  Indicator.GetMfi(history, lookbackPeriod);
 ```
 
 ## Parameters
@@ -39,7 +40,7 @@ The first `N` periods will have `null` MFI values since they cannot be calculate
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate

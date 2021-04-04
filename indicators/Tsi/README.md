@@ -45,7 +45,7 @@ The first `N+M-1` periods will have `null` values since there's not enough data 
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period TSI

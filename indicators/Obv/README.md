@@ -7,10 +7,12 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 
 ```csharp
 // usage
-IEnumerable<ObvResult> results = Indicator.GetObv(history);
+IEnumerable<ObvResult> results =
+  Indicator.GetObv(history);
 
 // usage with optional overlay SMA of OBV (shown above)
-IEnumerable<ObvResult> results = Indicator.GetObv(history, smaPeriod);  
+IEnumerable<ObvResult> results =
+  Indicator.GetObv(history, smaPeriod);  
 ```
 
 ## Parameters
@@ -45,7 +47,7 @@ The first period OBV will have `0` value since there's not enough data to calcul
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate

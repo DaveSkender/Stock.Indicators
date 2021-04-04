@@ -60,7 +60,7 @@ The first `W+F-1` periods will have `null` values since there's not enough data 
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style 14 period Rolling Pivot Points

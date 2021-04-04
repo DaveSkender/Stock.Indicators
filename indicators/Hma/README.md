@@ -7,7 +7,8 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 
 ```csharp
 // usage
-IEnumerable<HmaResult> results = Indicator.GetHma(history, lookbackPeriod);  
+IEnumerable<HmaResult> results =
+  Indicator.GetHma(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -39,7 +40,7 @@ The first `N-(integer of SQRT(N))-1` periods will have `null` values since there
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period HMA
