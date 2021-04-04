@@ -7,7 +7,8 @@ Created by J. Welles Wilder, [Average True Range](https://en.wikipedia.org/wiki/
 
 ```csharp
 // usage
-IEnumerable<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod);  
+IEnumerable<AtrResult> results =
+  Indicator.GetAtr(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -43,7 +44,7 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ATR

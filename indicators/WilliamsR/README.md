@@ -7,7 +7,8 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 
 ```csharp
 // usage
-IEnumerable<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPeriod);  
+IEnumerable<WilliamsResult> results =
+  Indicator.GetWilliamsR(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -39,7 +40,7 @@ The first `N-1` periods will have `null` Oscillator values since there's not eno
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate WilliamsR(14)

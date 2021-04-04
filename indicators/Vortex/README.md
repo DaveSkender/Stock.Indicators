@@ -7,8 +7,8 @@ Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.
 
 ```csharp
 // usage
-IEnumerable<VortexResult> results
-  = Indicator.GetVortex(history, lookbackPeriod);  
+IEnumerable<VortexResult> results =
+  Indicator.GetVortex(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -41,7 +41,7 @@ The first `N` periods will have `null` values for VI since there's not enough da
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 14-period VI

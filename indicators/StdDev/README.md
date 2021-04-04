@@ -7,10 +7,12 @@ Rolling [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) o
 
 ```csharp
 // usage
-IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod);  
+IEnumerable<StdDevResult> results =
+  Indicator.GetStdDev(history, lookbackPeriod);  
 
 // usage with optional SMA of STDEV (shown above)
-IEnumerable<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod, smaPeriod);  
+IEnumerable<StdDevResult> results =
+  Indicator.GetStdDev(history, lookbackPeriod, smaPeriod);  
 ```
 
 ## Parameters
@@ -46,7 +48,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPX");
 
 // calculate 10-period Standard Deviation

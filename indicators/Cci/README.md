@@ -7,7 +7,8 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 
 ```csharp
 // usage
-IEnumerable<CciResult> results = Indicator.GetCci(history, lookbackPeriod);  
+IEnumerable<CciResult> results =
+  Indicator.GetCci(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -35,7 +36,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CCI

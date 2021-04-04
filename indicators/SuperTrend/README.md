@@ -8,8 +8,8 @@ It can indicate a buy/sell signal or a trailing stop when the trend changes.
 
 ```csharp
 // usage
-IEnumerable<SuperTrendResult> results
-  = Indicator.GetSuperTrend(history, lookbackPeriod, multiplier);  
+IEnumerable<SuperTrendResult> results =
+  Indicator.GetSuperTrend(history, lookbackPeriod, multiplier);  
 ```
 
 ## Parameters
@@ -49,7 +49,7 @@ We always return the same number of elements as there are in the historical quot
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate SuperTrend(14,3)

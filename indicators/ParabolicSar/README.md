@@ -7,7 +7,8 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 
 ```csharp
 // usage
-IEnumerable<ParabolicSarResult> results = Indicator.GetParabolicSar(history, accelerationStep, maxAccelerationFactor);  
+IEnumerable<ParabolicSarResult> results =
+  Indicator.GetParabolicSar(history, accelerationStep, maxAccelerationFactor);  
 ```
 
 ## Parameters
@@ -41,7 +42,7 @@ The first trend will have `null` values since it is not accurate and based on an
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate ParabolicSar(0.02,0.2)

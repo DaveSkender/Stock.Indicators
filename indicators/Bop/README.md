@@ -7,7 +7,8 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 
 ```csharp
 // usage
-IEnumerable<BopResult> results = Indicator.GetBop(history, smoothPeriod);  
+IEnumerable<BopResult> results =
+  Indicator.GetBop(history, smoothPeriod);  
 ```
 
 ## Parameters
@@ -39,7 +40,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 14-period BOP

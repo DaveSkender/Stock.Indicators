@@ -7,7 +7,8 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 
 ```csharp
 // usage
-IEnumerable<UltimateResult> results = Indicator.GetUltimate(history, shortPeriod, middlePeriod, longPeriod);  
+IEnumerable<UltimateResult> results =
+  Indicator.GetUltimate(history, shortPeriod, middlePeriod, longPeriod);  
 ```
 
 ## Parameters
@@ -41,7 +42,7 @@ The first `L-1` periods will have `null` Ultimate values since there's not enoug
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period Ultimate

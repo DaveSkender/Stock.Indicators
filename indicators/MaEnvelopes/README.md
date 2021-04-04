@@ -7,8 +7,8 @@
 
 ```csharp
 // usage
-IEnumerable<MaEnvelopeResult> results = Indicator.GetSmaEnvelopes(
-    history, lookbackPeriod, percentOffset, movingAverageType);  
+IEnumerable<MaEnvelopeResult> results =
+  Indicator.GetSmaEnvelopes(history, lookbackPeriod, percentOffset, movingAverageType);  
 ```
 
 ## Parameters
@@ -65,7 +65,7 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA envelopes with 2.5% offset

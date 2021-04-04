@@ -7,8 +7,8 @@ Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fracta
 
 ```csharp
 // usage
-IEnumerable<FractalResult> results
-  = Indicator.GetFractal(history,windowSpan);  
+IEnumerable<FractalResult> results =
+  Indicator.GetFractal(history,windowSpan);  
 ```
 
 ## Parameters
@@ -46,7 +46,7 @@ We always return the same number of elements as there are in the historical quot
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Fractal(5)

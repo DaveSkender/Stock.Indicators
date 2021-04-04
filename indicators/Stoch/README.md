@@ -7,8 +7,8 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 
 ```csharp
 // usage
-IEnumerable<StochResult> results 
-  = Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
+IEnumerable<StochResult> results =
+  Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
 ```
 
 ## Parameters
@@ -44,7 +44,7 @@ The first `N+S-1` periods will have `null` Oscillator values since there's not e
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate STO %K(14),%D(3) (slow)

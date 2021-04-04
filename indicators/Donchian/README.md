@@ -7,7 +7,8 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 
 ```csharp
 // usage
-IEnumerable<DonchianResult> results = Indicator.GetDonchian(history, lookbackPeriod);  
+IEnumerable<DonchianResult> results =
+  Indicator.GetDonchian(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -42,7 +43,7 @@ The first `N` periods will have `null` values since there's not enough data to c
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Donchian(20)

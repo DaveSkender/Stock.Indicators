@@ -7,7 +7,8 @@ Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlesti
 
 ```csharp
 // usage
-IEnumerable<HeikinAshiResult> results = Indicator.GetHeikinAshi(history);  
+IEnumerable<HeikinAshiResult> results =
+  Indicator.GetHeikinAshi(history);  
 ```
 
 ## Parameters
@@ -41,7 +42,7 @@ The first period will have `null` values since there's not enough data to calcul
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate

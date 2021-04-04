@@ -7,7 +7,8 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 
 ```csharp
 // usage
-IEnumerable<AroonResult> results = Indicator.GetAroon(history, lookbackPeriod);  
+IEnumerable<AroonResult> results =
+  Indicator.GetAroon(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -41,7 +42,7 @@ The first `N-1` periods will have `null` Aroon values since there's not enough d
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Aroon(25)

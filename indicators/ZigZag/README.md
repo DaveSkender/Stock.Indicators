@@ -53,7 +53,7 @@ Also, if you do not supply enough points to cover the percent change, there will
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 3% change ZIGZAG

@@ -6,7 +6,8 @@ Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppine
 
 ```csharp
 // usage
-IEnumerable<ChopResult> results = Indicator.GetChop(history, lookbackPeriod);  
+IEnumerable<ChopResult> results =
+  Indicator.GetChop(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -38,7 +39,7 @@ The first `N` periods will have `null` values since there's not enough data to c
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate CHOP(14)

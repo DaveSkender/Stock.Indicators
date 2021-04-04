@@ -7,7 +7,8 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 
 ```csharp
 // usage
-IEnumerable<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod);  
+IEnumerable<CmfResult> results =
+  Indicator.GetCmf(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -43,7 +44,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CMF

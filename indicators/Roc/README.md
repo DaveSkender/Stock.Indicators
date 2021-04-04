@@ -7,10 +7,12 @@
 
 ```csharp
 // usage
-IEnumerable<RocResult> results = Indicator.GetRoc(history, lookbackPeriod);
+IEnumerable<RocResult> results =
+  Indicator.GetRoc(history, lookbackPeriod);
 
 // usage with optional SMA of ROC (shown above)
-IEnumerable<RocResult> results = Indicator.GetRoc(history, lookbackPeriod, smaPeriod);
+IEnumerable<RocResult> results =
+  Indicator.GetRoc(history, lookbackPeriod, smaPeriod);
 ```
 
 ## Parameters
@@ -44,7 +46,7 @@ The first `N` periods will have `null` values for ROC since there's not enough d
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period ROC

@@ -7,7 +7,8 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 
 ```csharp
 // usage
-IEnumerable<ForceIndexResult> results = Indicator.GetForceIndex(history, lookbackPeriod);  
+IEnumerable<ForceIndexResult> results =
+  Indicator.GetForceIndex(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -42,7 +43,7 @@ We always return the same number of elements as there are in the historical quot
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate ForceIndex(13)

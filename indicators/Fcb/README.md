@@ -7,7 +7,8 @@ Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price
 
 ```csharp
 // usage
-IEnumerable<FcbResult> results = Indicator.GetFcb(history, lookbackPeriod);  
+IEnumerable<FcbResult> results =
+  Indicator.GetFcb(history, lookbackPeriod);  
 ```
 
 ## Parameters
@@ -43,7 +44,7 @@ We always return the same number of elements as there are in the historical quot
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Fcb(14)

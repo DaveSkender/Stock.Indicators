@@ -7,7 +7,8 @@ Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/
 
 ```csharp
 // usage
-IEnumerable<ChaikinOscResult> results = Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod);  
+IEnumerable<ChaikinOscResult> results =
+  Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod);  
 ```
 
 ## Parameters
@@ -47,7 +48,7 @@ The first `S-1` periods will have `null` values for `Oscillator` since there's n
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Chaikin Oscillator

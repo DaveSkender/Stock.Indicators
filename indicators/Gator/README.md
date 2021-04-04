@@ -7,7 +7,8 @@ Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams 
 
 ```csharp
 // usage
-IEnumerable<GatorResult> results = Indicator.GetGator(history);
+IEnumerable<GatorResult> results =
+  Indicator.GetGator(history);
 ```
 
 ## Parameters
@@ -43,7 +44,7 @@ The first 10-20 periods will have `null` values since there's not enough data to
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate the Gator Oscillator

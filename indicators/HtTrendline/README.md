@@ -7,7 +7,8 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 
 ```csharp
 // usage
-IEnumerable<HtlResult> results = Indicator.GetHtTrendline(history);
+IEnumerable<HtlResult> results =
+  Indicator.GetHtTrendline(history);
 ```
 
 ## Parameters
@@ -41,7 +42,7 @@ The first `6` periods will have `null` values for `SmoothPrice` since there's no
 ## Example
 
 ```csharp
-// fetch historical quotes from your favorite feed, in Quote format
+// fetch historical quotes from your feed (your method)
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate HT Trendline
