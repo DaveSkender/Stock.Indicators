@@ -96,6 +96,7 @@
 - [Balance of Power](../indicators/Bop/README.md#content)
 - [Bull and Bear Power](../indicators/ElderRay/README.md#content)
 - [Choppiness Index](../indicators/Chop/README.md#content)
+- [Ehlers Fisher Transform](../indicators/FisherTransform/README.md#content)
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
 - [Price (Comparative) Relative Strength](../indicators/Prs/README.md#content)
 - [Price Momentum Oscillator](../indicators/Pmo/README.md#content)
