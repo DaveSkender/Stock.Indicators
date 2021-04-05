@@ -157,6 +157,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetFisherTransform()
+        {
+            return Indicator.GetFisherTransform(h, 10);
+        }
+
+        [Benchmark]
         public object GetForceIndex()
         {
             return Indicator.GetForceIndex(h, 13);
