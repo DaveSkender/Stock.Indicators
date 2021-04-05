@@ -16,7 +16,7 @@ IEnumerable<FisherTransformResult> results =
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| `lookbackPeriod` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10.
 
 ### Minimum history requirements
 
