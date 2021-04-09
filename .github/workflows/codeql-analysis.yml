@@ -16,7 +16,7 @@ defaults:
 jobs:
   analyse:
     name: Analyse
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Configure pagefile
