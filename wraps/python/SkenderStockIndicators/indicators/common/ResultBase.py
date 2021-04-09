@@ -1,4 +1,4 @@
-from cstypes import to_pydatetime
+from SkenderStockIndicators._cstypes import to_pydatetime
 
 class ResultBase:
     def __init__(self, base_result):
