@@ -28,7 +28,7 @@ steps:
     inputs:
       command: custom
       custom: tool
-      arguments: "install -g gitversion.tool --version 5.6.7"
+      arguments: "install -g gitversion.tool --version 5.6.8"
 
   - task: DotNetCoreCLI@2
     displayName: "get version number"
