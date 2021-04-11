@@ -8,15 +8,6 @@ patch-version-bump-message: '\+semver:\s?(fix|patch)'
 
 no-bump-message: '\+semver:\s?(none|skip)'
 
-branches:
-  feature:
-    tag: preview
-  master:
-    mode: ContinuousDeployment
-    tag: ''
-  pull-request:
-    mode: ContinuousDeployment
-
 ignore:
   sha: []
 
