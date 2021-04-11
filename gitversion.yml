@@ -1,6 +1,4 @@
 mode: mainline
-increment: inherit
-assembly-versioning-scheme: MajorMinorPatch
 
 commit-message-incrementing: Enabled
 major-version-bump-message: '\+semver:\s?(breaking|major)'
