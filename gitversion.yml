@@ -1,16 +1,9 @@
 mode: mainline
+increment: inherit
+assembly-versioning-scheme: MajorMinorPatch
 
 commit-message-incrementing: Enabled
-
 major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
-
 no-bump-message: '\+semver:\s?(none|skip)'
-
-ignore:
-  sha: []
-
-merge-message-formats: {}
-
-assembly-versioning-scheme: MajorMinorPatch
