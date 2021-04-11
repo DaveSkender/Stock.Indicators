@@ -1,8 +1,13 @@
+assembly-versioning-scheme: MajorMinorPatch
 mode: Mainline
 branches:
   feature:
     tag: preview
   master:
+    mode: ContinuousDeployment
     tag: ''
+  pull-request:
+    mode: ContinuousDeployment
 ignore:
   sha: []
+merge-message-formats: {}

@@ -79,11 +79,22 @@ If you want to contribute administratively, do code reviews, or provide general 
 
 ## About versioning
 
-We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).  This only needs to be done on the merge to `master` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
+We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).
+
+Type | Format | Description
+------------ | ------ | -----------
+Major | `x.-.-` | A significant deviation with breaking changes.
+Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding an indicator.  Small breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases).
+Patch | `-.-.x` | A small bug fix, chore, or documentation change.
+Increment | `-.-.-+x` | Intermediate commits between releases.
+
+This only needs to be done on the merge to `master` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
 
 - Adding `+semver: major` as a commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element
 - Adding `+semver: patch` as a commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
+
+A manual Git `tag`, in accordance with the above schema, is introduced when deploying to package managers and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
 
 ## License
 

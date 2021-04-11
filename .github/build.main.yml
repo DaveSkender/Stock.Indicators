@@ -40,9 +40,9 @@ steps:
   - task: DotNetCoreCLI@2
     displayName: "create assembly info"
     inputs:
-      command: 'custom'
-      custom: 'gitversion'
-      arguments: '/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo'
+      command: "custom"
+      custom: "gitversion"
+      arguments: "/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo"
 
   - task: DotNetCoreCLI@2
     displayName: build
@@ -76,11 +76,11 @@ steps:
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
     inputs:
-      command: 'pack'
-      packagesToPack: 'indicators/Indicators.csproj'
+      command: "pack"
+      packagesToPack: "indicators/Indicators.csproj"
       nobuild: true
-      versioningScheme: 'byEnvVar'
-      versionEnvVar: 'GitVersion.NuGetVersion'
+      versioningScheme: "byEnvVar"
+      versionEnvVar: "GitVersion.NuGetVersion"
 
   - task: CopyFiles@2
     displayName: "stage artifacts"
