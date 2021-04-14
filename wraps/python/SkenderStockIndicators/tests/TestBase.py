@@ -2,6 +2,8 @@ from abc import ABC
 from .test_data import HistoryTestData
 
 class TestBase(ABC):
+    """Base class for testing"""
+    
     history = HistoryTestData.get()
     history_other = HistoryTestData.get_compare()
     history_bad = HistoryTestData.get_bad()
