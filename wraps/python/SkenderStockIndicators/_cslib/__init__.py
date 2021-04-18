@@ -10,6 +10,6 @@ import os
 import sys
 import clr
 
-dir = os.path.dirname(sys.modules["_cslib"].__file__)
+dir = os.path.dirname(__file__)
 path = os.path.join(dir, "../../lib/Skender.Stock.Indicators.dll")
 clr.AddReference(path)

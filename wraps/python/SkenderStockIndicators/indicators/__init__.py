@@ -1,9 +1,11 @@
-import _cslib
+from SkenderStockIndicators import _cslib
 
+'''
 from .common import (
     Quote,
     ResultBase
 )
+'''
 
 from .SMA import (
     get_sma,
