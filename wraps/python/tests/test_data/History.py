@@ -6,7 +6,7 @@ from openpyxl import load_workbook
 from SkenderStockIndicators.indicators.common import Quote
 
 dir = os.path.dirname(__file__)
-data_path = os.path.join(dir, "../../../../../tests/indicators/test data/History.xlsx")
+data_path = os.path.join(dir, "../../../../tests/indicators/test data/History.xlsx")
 
 class HistoryTestData:
     wb = load_workbook(data_path, data_only=True)
