@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<AdxResult> results = new(historyList.Count);
-            List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
+            List<AtrResult> atr = GetAtr(history, lookbackPeriod).ToList(); // get True Range info
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -47,17 +47,17 @@ namespace Skender.Stock.Indicators
                 {
                     Date = h.Date
                 };
+                results.Add(result);
 
                 // skip first period
                 if (index == 1)
                 {
-                    results.Add(result);
                     prevHigh = h.High;
                     prevLow = h.Low;
                     continue;
                 }
 
-                decimal tr = (decimal)atrResults[i].Tr;
+                decimal tr = (decimal)atr[i].Tr;
 
                 decimal pdm1 = (h.High - prevHigh) > (prevLow - h.Low) ?
                     Math.Max(h.High - prevHigh, 0) : 0;
@@ -79,7 +79,6 @@ namespace Skender.Stock.Indicators
                 // skip DM initialization period
                 if (index <= lookbackPeriod)
                 {
-                    results.Add(result);
                     continue;
                 }
 
@@ -106,17 +105,25 @@ namespace Skender.Stock.Indicators
                 prevPdm = pdm;
                 prevMdm = mdm;
 
+                if (trs == 0)
+                {
+                    continue;
+                }
 
                 // directional increments
                 decimal pdi = 100 * pdm / trs;
                 decimal mdi = 100 * mdm / trs;
-                decimal dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
 
                 result.Pdi = pdi;
                 result.Mdi = mdi;
 
+                if (pdi + mdi == 0)
+                {
+                    continue;
+                }
 
                 // calculate ADX
+                decimal dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
                 decimal adx;
 
                 if (index > 2 * lookbackPeriod)
@@ -141,7 +148,6 @@ namespace Skender.Stock.Indicators
                     sumDx += dx;
                 }
 
-                results.Add(result);
             }
 
             return results;
