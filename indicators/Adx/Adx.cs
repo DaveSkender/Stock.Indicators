@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<AdxResult> results = new(historyList.Count);
-            List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList(); // uses True Range value
+            List<AtrResult> atr = GetAtr(history, lookbackPeriod).ToList(); // get True Range info
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -57,7 +57,7 @@ namespace Skender.Stock.Indicators
                     continue;
                 }
 
-                decimal tr = (decimal)atrResults[i].Tr;
+                decimal tr = (decimal)atr[i].Tr;
 
                 decimal pdm1 = (h.High - prevHigh) > (prevLow - h.Low) ?
                     Math.Max(h.High - prevHigh, 0) : 0;
