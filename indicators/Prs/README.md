@@ -10,9 +10,9 @@
 IEnumerable<PrsResult> results =
   Indicator.GetPrs(historyBase, historyEval);  
 
-// usage with optional SMA of PRS (shown above)
+// usage with optional lookback period and SMA of PRS (shown above)
 IEnumerable<PrsResult> results =
-  Indicator.GetPrs(historyBase, historyEval, smaPeriod);  
+  Indicator.GetPrs(historyBase, historyEval, lookbackPeriod, smaPeriod);  
 ```
 
 ## Parameters
