@@ -5,7 +5,7 @@
 ## Testing
 `pytest` is required for testing.
 ```python
-pip install pytest
+pip install pytest openpyxl
 ```
 
 You can run tests with the command:
