@@ -53,7 +53,7 @@ IEnumerable<FisherTransformResult> results =
 // use results as needed
 FisherTransformResult result = results.LastOrDefault();
 Console.WriteLine("Fisher Transform on {0} was {1}",
-                  result.Date, result.FisherTransform);
+                  result.Date, result.Fisher);
 ```
 
 ```bash

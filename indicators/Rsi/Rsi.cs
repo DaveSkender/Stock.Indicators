@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod = 14)
+        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod)
         {
 
             // check parameter arguments
