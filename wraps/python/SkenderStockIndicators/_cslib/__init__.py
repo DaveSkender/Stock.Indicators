@@ -13,3 +13,4 @@ import clr
 dir = os.path.dirname(__file__)
 path = os.path.join(dir, "../../lib/Skender.Stock.Indicators.dll")
 clr.AddReference(path)
+clr.AddReference('System.Collections')
