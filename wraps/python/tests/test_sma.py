@@ -2,9 +2,8 @@ import sys
 import unittest
 from .TestBase import TestBase
 from SkenderStockIndicators import indicators
-from .test_data import HistoryTestData
 
-class TestSma(unittest.TestCase, TestBase):
+class TestSma(TestBase):
 
     def test_standard(self):
         results = indicators.get_sma(self.history, 20)
@@ -47,9 +46,4 @@ class TestSma(unittest.TestCase, TestBase):
         self.assertRaises(ArgumentOutOfRangeException, indicators.get_sma, self.history, 0)
 
         from Skender.Stock.Indicators import BadHistoryException
-        self.assertRaises(BadHistoryException, indicators.get_sma, HistoryTestData.get(9), 10)
-
-
-if __name__ == '__main__':
-    unittest.main(failfast=True)
-
+        self.assertRaises(BadHistoryException, indicators.get_sma, self.data_reader.get(9), 10)
