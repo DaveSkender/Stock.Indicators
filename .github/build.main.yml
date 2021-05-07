@@ -58,7 +58,7 @@ jobs:
           command: test
           projects: "**/Tests.Indicators.csproj"
           arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
-          testRunTitle: "Library Internal Tests"
+          testRunTitle: ".NET Tests(Internal)"
 
       - task: DotNetCoreCLI@2
         displayName: "test external"
@@ -67,7 +67,7 @@ jobs:
           projects: "**/Tests.External.csproj"
           arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
           publishTestResults: false
-          testRunTitle: "Library External Tests"
+          testRunTitle: ".NET Tests(External)"
 
       - task: PublishCodeCoverageResults@1
         displayName: "publish code coverage"
@@ -134,7 +134,7 @@ jobs:
       condition: succeededOrFailed()
       inputs:
         testResultsFiles: '$(PythonWrapperBaseDirectory)/tests/test-results.xml'
-        testRunTitle: 'Publish test results for Python $(python.version)'
+        testRunTitle: 'Python $(python.version) Tests'
 
     - task: PublishCodeCoverageResults@1
       inputs:
