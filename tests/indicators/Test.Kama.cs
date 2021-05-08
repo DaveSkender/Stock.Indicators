@@ -66,20 +66,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(105 + qty);
-                IEnumerable<KamaResult> r = Indicator.GetKama(h, 10);
-
-                KamaResult l = r.LastOrDefault();
-                Console.WriteLine("KAMA on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Kama);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad ER period

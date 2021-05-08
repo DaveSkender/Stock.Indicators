@@ -54,20 +54,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(15 + qty);
-                IEnumerable<VortexResult> r = Indicator.GetVortex(h, 14);
-
-                VortexResult l = r.LastOrDefault();
-                Console.WriteLine("VI+ on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Pvi);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

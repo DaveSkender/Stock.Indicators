@@ -53,20 +53,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(103 + qty);
-                IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(h, 3, 2, 10);
-
-                ConnorsRsiResult l = r.LastOrDefault();
-                Console.WriteLine("CRSI on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.ConnorsRsi);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad RSI period
