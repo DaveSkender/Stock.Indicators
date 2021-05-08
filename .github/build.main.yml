@@ -59,13 +59,13 @@ steps:
       testRunTitle: "Library Internal Tests"
 
   - task: DotNetCoreCLI@2
-    displayName: "test external"
+    displayName: "test external/other"
     inputs:
       command: test
-      projects: "**/Tests.External.csproj"
+      projects: "**/Tests.Other.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: false
-      testRunTitle: "Library External Tests"
+      testRunTitle: ".NET External/Other Tests"
 
   - task: PublishCodeCoverageResults@1
     displayName: "publish code coverage"
