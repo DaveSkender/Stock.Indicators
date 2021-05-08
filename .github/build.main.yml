@@ -57,7 +57,7 @@ steps:
       projects: "**/Tests.Indicators.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
       publishTestResults: true
-      testRunTitle: "Library Internal Tests"
+      testRunTitle: ".NET Indicator Tests"
 
   - task: DotNetCoreCLI@2
     displayName: "test external/other"
