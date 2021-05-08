@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 [assembly: CLSCompliant(true)]
-namespace External.Tests
+namespace External.Other
 {
     internal class MyQuote : Quote
     {
