@@ -96,6 +96,14 @@ stages:
             CleanTargetFolder: true
             OverWrite: true
             flattenFolders: true
+        
+        - task: CopyFiles@2
+          displayName: "stage DLLs"
+          inputs:
+            SourceFolder: "indicators/bin/Release"
+            Contents: "**"
+            TargetFolder: "$(Build.ArtifactStagingDirectory)/DLLs"
+            OverWrite: true
 
         - task: PublishBuildArtifacts@1
           displayName: "save artifacts"
@@ -112,6 +120,7 @@ stages:
 
       variables:
         PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
+        DotNetVersion: "netstandard2.0"
 
       strategy:
         matrix:
@@ -129,6 +138,22 @@ stages:
           python -m pip install --upgrade pip setuptools wheel
           pip install pythonnet
         displayName: 'Install dependencies'
+
+      - task: DownloadPipelineArtifact@2
+        displayName: "Fetch DLL from artifacts"
+        inputs:
+          artifact: packages
+          patterns: 'packages/DLLs/$(DotNetVersion)/*.dll'
+
+      - task: CopyFiles@2
+        displayName: "Replace DLL"
+        inputs:
+          SourceFolder: "$(Pipeline.Workspace)/DLLs/$(DotNetVersion)"
+          Contents: "*.dll"
+          TargetFolder: "$(PythonWrapperBaseDirectory)/lib"
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
 
       - script: |
           pip install pytest pytest-cov openpyxl
