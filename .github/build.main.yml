@@ -113,21 +113,28 @@ stages:
   - stage: Python
     jobs:
     - job: PythonTest
-    
-      pool:
-        name: Azure Pipelines
-        vmImage: "ubuntu-latest"
-
       variables:
         PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
         DotNetVersion: "netstandard2.0"
 
       strategy:
         matrix:
-          Python38:
+          Windows-Python38:
+            imageName: windows-2019
             python.version: '3.8'
-          Python39:
+          Windows-Python39:
+            imageName: windows-2019
             python.version: '3.9'
+          Linux-Python38:
+            imageName: ubuntu-latest
+            python.version: '3.8'
+          Linux-Python39:
+            imageName: ubuntu-latest
+            python.version: '3.9'
+
+      pool:
+        name: Azure Pipelines
+        vmImage: '$(imageName)'
 
       steps:
       - task: UsePythonVersion@0
