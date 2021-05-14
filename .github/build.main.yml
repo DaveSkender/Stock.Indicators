@@ -173,10 +173,30 @@ stages:
           testResultsFiles: '$(PythonWrapperBaseDirectory)/tests/test-results.xml'
           testRunTitle: 'Python $(python.version) Tests'
 
-# Duplicated publishing process
-#      - task: PublishCodeCoverageResults@1
-#        inputs:
-#          codeCoverageTool: Cobertura
-#          summaryFileLocation: '$(PythonWrapperBaseDirectory)/tests/coverage.xml'
+  - stage: PythonBuild
+    jobs:
+    - job: Build
+      variables:
+        PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
+        ImageName: "ubuntu-latest"
+        PythonVersion: "3.8"
 
-          
+      pool:
+        name: Azure Pipelines
+        vmImage: '$(imageName)'
+      
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(PythonVersion)'
+
+      - script: |
+          python -m pip install --upgrade pip setuptools wheel build
+        displayName: 'Install dependencies'
+
+      - task: PythonScript@0
+        displayName: "Build"
+        inputs:
+          scriptSource: 'inline'
+          script: 'python -m build'
+          workingDirectory: $(PythonWrapperBaseDirectory)
