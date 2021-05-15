@@ -38,6 +38,10 @@ namespace Skender.Stock.Indicators
             }
             lastEma /= emaPeriod;
 
+            double?[] rocSq = results
+                .Select(x => (double?)(x.Roc * x.Roc))
+                .ToArray();
+
             // roll through history
             for (int i = lookbackPeriod; i < results.Count; i++)
             {
@@ -55,13 +59,13 @@ namespace Skender.Stock.Indicators
                     r.RocEma = lastEma;
                 }
 
-                // standard deviation
+                // ROC deviation
                 if (index >= lookbackPeriod + stdDevPeriod)
                 {
-                    decimal? sumSq = 0;
+                    double? sumSq = 0;
                     for (int p = i - stdDevPeriod + 1; p <= i; p++)
                     {
-                        sumSq += results[p].Roc * results[p].Roc;
+                        sumSq += rocSq[p];
                     }
 
                     if (sumSq is not null)
