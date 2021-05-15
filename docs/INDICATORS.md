@@ -39,6 +39,7 @@
 - [ConnorsRSI](../indicators/ConnorsRsi/README.md#content)
 - [Commodity Channel Index](../indicators/Cci/README.md#content)
 - [Relative Strength Index (RSI)](../indicators/Rsi/README.md#content)
+- [ROC with Bands](../indicators/Roc/README.md#roc-with-bands)
 - [Stochastic Oscillator](../indicators/Stoch/README.md#content) and [KDJ Index](../indicators/Stoch/README.md#content)
 - [Stochastic RSI](../indicators/StochRsi/README.md#content)
 - [Ultimate Oscillator](../indicators/Ultimate/README.md#content)
@@ -100,7 +101,7 @@
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
 - [Price (Comparative) Relative Strength](../indicators/Prs/README.md#content)
 - [Price Momentum Oscillator](../indicators/Pmo/README.md#content)
-- [Rate of Change](../indicators/Roc/README.md#content)
+- [Rate of Change](../indicators/Roc/README.md#content) and [ROC with Bands](../indicators/Roc/README.md#roc-with-bands)
 - [True Strength Index](../indicators/Tsi/README.md#content)
 - [Ulcer Index](../indicators/UlcerIndex/README.md#content)
 
