@@ -4,28 +4,27 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Here-is-package-name", # Replace with your own username
+    name="skender-stock-indicators",
     version="0.0.1",
-    author="Here is Author",
-    author_email="Here-is-author@example.com",
-    maintainer="Here is maintainer",
-    maintainer_email="here-is-maintainer@python.org",
-    description="Here is description",
+    maintainer="Dave Skender",
+    description="Stock indicators.  Send in historical price quotes and get back desired technical indicators such as Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/Here-is-package-name",
+    url="https://daveskender.github.io/Stock.Indicators/wraps/python",
     project_urls={
-        "Bug Tracker": "https://github.com/",
-        "Documentation": "https://github.com/",
-        "Source Code": "https://github.com/",
+        "Bug Tracker": "https://github.com/DaveSkender/Stock.Indicators/issues",
+        "Documentation": "https://daveskender.github.io/Stock.Indicators/wraps/python",
+        "Source Code": "https://github.com/DaveSkender/Stock.Indicators/tree/master/wraps/python",
     },
-    license='BSD', # BSD,MIT....
+    license="Apache 2.0",
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    platforms=["Windows", "Linux"], # "Solaris", "Mac OS-X", "Unix"
+    platforms=["Windows", "Linux"],
     package_dir={"": "SkenderStockIndicators"},
     packages=setuptools.find_packages(where="SkenderStockIndicators"),
     python_requires=">=3.8",
