@@ -199,3 +199,19 @@ stages:
         inputs:
           script: 'python -m build'
           workingDirectory: $(PythonWrapperBaseDirectory)
+      
+      - task: CopyFiles@2
+        displayName: "Stage artifacts"
+        inputs:
+          SourceFolder: "$(PythonWrapperBaseDirectory)/dist"
+          Contents: "**"
+          TargetFolder: "$(Build.ArtifactStagingDirectory)/wraps/python"
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: "Save artifacts"
+        inputs:
+          PathToPublish: "$(Build.ArtifactStagingDirectory)/wraps/python"
+          ArtifactName: packages
