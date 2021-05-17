@@ -27,5 +27,8 @@ setuptools.setup(
     platforms=["Windows", "Linux"],
     package_dir={"": "SkenderStockIndicators"},
     packages=setuptools.find_packages(where="SkenderStockIndicators"),
+    package_data={
+        "_cslib": ["lib/*.dll"],
+    },
     python_requires=">=3.8",
 )

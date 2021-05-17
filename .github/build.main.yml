@@ -179,6 +179,7 @@ stages:
       variables:
         PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
         ImageName: "ubuntu-latest"
+        DotNetVersion: "netstandard2.0"
         PythonVersion: "3.8"
 
       pool:
@@ -193,6 +194,22 @@ stages:
       - script: |
           python -m pip install --upgrade pip setuptools wheel build
         displayName: 'Install dependencies'
+
+      - task: DownloadPipelineArtifact@2
+        displayName: "Fetch DLL from artifacts"
+        inputs:
+          artifact: packages
+          patterns: 'packages/DLLs/$(DotNetVersion)/*.dll'
+
+      - task: CopyFiles@2
+        displayName: "Replace DLL"
+        inputs:
+          SourceFolder: "$(Pipeline.Workspace)/DLLs/$(DotNetVersion)"
+          Contents: "*.dll"
+          TargetFolder: "$(PythonWrapperBaseDirectory)/SkenderStockIndicators/_cslib/lib"
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
 
       - task: CmdLine@2
         displayName: "Build"
