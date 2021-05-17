@@ -157,7 +157,7 @@ stages:
         inputs:
           SourceFolder: "$(Pipeline.Workspace)/DLLs/$(DotNetVersion)"
           Contents: "*.dll"
-          TargetFolder: "$(PythonWrapperBaseDirectory)/lib"
+          TargetFolder: "$(PythonWrapperBaseDirectory)/SkenderStockIndicators/_cslib/lib"
           CleanTargetFolder: true
           OverWrite: true
           flattenFolders: true
