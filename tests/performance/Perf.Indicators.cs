@@ -295,6 +295,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetRocWb()
+        {
+            return Indicator.GetRocWb(h, 12, 3, 12);
+        }
+
+        [Benchmark]
         public object GetRocWithSma()
         {
             return Indicator.GetRoc(h, 20, 14);
