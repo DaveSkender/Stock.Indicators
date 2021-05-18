@@ -56,6 +56,14 @@ This NuGet package is an open-source community project.  If you want to report b
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
+## Patronage
+
+[:heart: Sponsor this project](https://github.com/sponsors/DaveSkender)
+
+If you or your organization use any of my projects or like what I’m doing, please consider being a patron so I can continue maintaining and evolving all of my projects, and to encourage new ones.
+
+If you don't want to buy me a beer or be a sponsoring patron, I'll happily accept a :star: on the [GitHub Repo](https://github.com/DaveSkender/Stock.Indicators) as a token of appreciation too.  Thank you!
+
 ## Contact us
 
 [Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
