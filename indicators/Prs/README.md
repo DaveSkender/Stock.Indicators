@@ -52,14 +52,14 @@ The `N` periods will have `null` values for `PrsPercent` and the first `S-1` per
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 
-// calculate 20-period Prs
+// calculate 14-period PRS
 IEnumerable<PrResult> results = Indicator.GetPrs(historySPX,historyTSLA,14);
 
 // use results as needed
 PrResult result = results.LastOrDefault();
-Console.WriteLine("PR(SPX,TSLA,14) on {0} was {1}", result.Date, result.PriceRatio);
+Console.WriteLine("PRS(SPX,TSLA,14) on {0} was {1}", result.Date, result.PriceRatio);
 ```
 
 ```bash
-PR(SPX,TSLA,14) on 12/31/2018 was 1.36
+PRS(SPX,TSLA,14) on 12/31/2018 was 1.36
 ```
