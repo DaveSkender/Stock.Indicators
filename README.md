@@ -58,11 +58,9 @@ This repository uses the standard Apache 2.0 open-source license.  Please review
 
 ## Patronage
 
-If you or your organization use any of my projects or like what I’m doing, please add a :star: on the [GitHub Repo](https://github.com/DaveSkender/Stock.Indicators) as a token of appreciation. 
+If you or your organization use any of my projects or like what I’m doing, please add a :star: on the [GitHub Repo](https://github.com/DaveSkender/Stock.Indicators) as a token of appreciation. If you want to buy me a beer or are interest in ongoing support as a patron: [:heart: sponsor this project](https://github.com/sponsors/DaveSkender).
 
-If you want to buy me a beer or are interest in ongoing support as a patron: [:heart: sponsor this project](https://github.com/sponsors/DaveSkender).
-
-Your encouragement helps to motivate continued maintainenance and evolution of all of my open-source projects, and to inspire new ones.
+Your encouragement helps to motivate continued maintenance and evolution of all of my open-source projects, and to inspire new ones.
 Thank you for your support!
 
 ## Contact us
