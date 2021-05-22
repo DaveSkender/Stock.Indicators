@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators
         // KLINGER VOLUME OSCILLATOR
         /// <include file='./info.xml' path='indicator/*' />
         /// 
-        public static IEnumerable<KlingerResult> GetKlinger<TQuote>(
+        public static IEnumerable<KvoResult> GetKvo<TQuote>(
             IEnumerable<TQuote> history,
             int fastPeriod = 34,
             int slowPeriod = 55,
@@ -25,7 +25,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = historyList.Count;
-            List<KlingerResult> results = new(size);
+            List<KvoResult> results = new(size);
 
             decimal[] hlc = new decimal[size];          // trend basis
             decimal[] t = new decimal[size];            // trend direction
@@ -46,7 +46,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                KlingerResult r = new()
+                KvoResult r = new()
                 {
                     Date = h.Date
                 };

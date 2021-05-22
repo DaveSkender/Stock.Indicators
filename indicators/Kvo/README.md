@@ -7,8 +7,8 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 
 ```csharp
 // usage
-IEnumerable<KlingerResult> results = 
-  Indicator.GetKlinger(history, shortPeriod, longPeriod, signalPeriod);  
+IEnumerable<KvoResult> results = 
+  Indicator.GetKvo(history, shortPeriod, longPeriod, signalPeriod);  
 ```
 
 ## Parameters
@@ -27,14 +27,14 @@ You must supply at least `L+100` periods of `history`.  Since this uses a smooth
 ## Response
 
 ```csharp
-IEnumerable<KlingerResult>
+IEnumerable<KvoResult>
 ```
 
 The first `L+1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 :warning: **Warning**: The first `L+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
-### KlingerResult
+### KvoResult
 
 | name | type | notes
 | -- |-- |--
@@ -49,10 +49,10 @@ The first `L+1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Klinger(34,55,13)
-IEnumerable<KlingerResult> results = Indicator.GetKlinger(history,34,55,13);
+IEnumerable<KvoResult> results = Indicator.GetKvo(history,34,55,13);
 
 // use results as needed
-KlingerResult result = results.LastOrDefault();
+KvoResult result = results.LastOrDefault();
 Console.WriteLine("Klinger Oscillator on {0} was {1:N0}", result.Date, result.Oscillator);
 ```
 

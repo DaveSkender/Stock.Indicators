@@ -213,7 +213,7 @@ namespace Tests.Performance
         [Benchmark]
         public object GetKlinger()
         {
-            return Indicator.GetKlinger(h);
+            return Indicator.GetKvo(h);
         }
 
         [Benchmark]
