@@ -5,7 +5,7 @@
 - [Overbought/oversold oscillators](#overboughtoversold-oscillators)
 - [Stop and reverse](#stop-and-reverse)
 - [Candlestick patterns](#candlestick-patterns)
-- [Volume-based momentum](#volume-based-momentum)
+- [Volume-based](#volume-based)
 - [Moving averages](#moving-averages)
 - [Price transforms](#price-transforms)
 - [Price characteristics](#price-characteristics)
@@ -55,7 +55,7 @@
 
 - [Williams Fractal](../indicators/Fractal/README.md#content)
 
-## Volume-based momentum
+## Volume-based
 
 - [Accumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
 - [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)

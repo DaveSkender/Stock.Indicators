@@ -80,7 +80,7 @@ namespace Internal.Tests
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetKlinger(HistoryTestData.Get(155), 33, 55));
+                Indicator.GetKlinger(HistoryTestData.Get(154), 33, 55));
         }
     }
 }
