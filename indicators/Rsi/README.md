@@ -1,6 +1,7 @@
 ﻿# Relative Strength Index (RSI)
 
-Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.  [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/224 "Community discussion about this indicator")
+Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.  An extended version also includes [RSI Divergence](#extended-analysis).
+[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/224 "Community discussion about this indicator")
 
 ![image](chart.png)
 
@@ -55,3 +56,27 @@ Console.WriteLine("RSI on {0} was {1}", result.Date, result.Rsi);
 ```bash
 RSI on 12/31/2018 was 42.08
 ```
+
+## Extended analysis
+
+![image](chart-extended.png)
+
+```csharp
+// usage
+IEnumerable<RsiExtendedResult> results =
+  Indicator.GetRsiExtended(history, lookbackPeriod);  
+```
+
+### Parameters for extended variant
+
+| name | type | notes
+| -- |-- |--
+| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period for RSI.  Must be greater than 0.  Default is 14.
+
+### RsiExtendedResult
+
+| name | type | notes
+| -- |-- |--
+| `Date` | DateTime | Date
+| `Rsi` | decimal | RSI over prior `N` lookback periods
