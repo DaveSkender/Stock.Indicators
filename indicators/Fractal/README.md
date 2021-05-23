@@ -1,6 +1,6 @@
-﻿# Williams Fractal
+# Williams Fractal
 
-Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point in a lookback window.
+Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -17,12 +17,20 @@ IEnumerable<FractalResult> results =
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `windowSpan` | int | Evaluation window span width (`S`).  Must be at least 2.  Default is 2.
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.
 
 ### Minimum history requirements
 
 You must supply at least `2×S+1` periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
+
+### EndType options
+
+| type | description
+|-- |--
+| `EndType.Close` | Chevron point identified from `Close` price
+| `EndType.HighLow` | Chevron point identified from `High` and `Low` price (default)
 
 ## Response
 

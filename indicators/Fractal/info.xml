@@ -10,6 +10,7 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
   <param name="windowSpan">Number of span periods in the evaluation window.</param>
+  <param name="endType">Determines use of Close or High/Low wicks for points.</param>
   <returns>Time series of Williams Fractal Bull/Bear values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadHistoryException">Insufficient history provided.</exception>
