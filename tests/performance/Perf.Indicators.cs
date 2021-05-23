@@ -370,6 +370,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetRsiExtended()
+        {
+            return Indicator.GetRsiExtended(h);
+        }
+
+        [Benchmark]
         public object GetSlope()
         {
             return h.GetSlope(20);
