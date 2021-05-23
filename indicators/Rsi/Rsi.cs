@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // RELATIVE STRENGTH INDEX
-        /// <include file='./info.xml' path='indicator/*' />
+        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<RsiResult> GetRsi<TQuote>(
             IEnumerable<TQuote> history,
@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             return CalcRsi(bdList, lookbackPeriod);
         }
 
-
+        // GENERIC RSI
         private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod)
         {
 
@@ -92,7 +92,7 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
-
+        // validation
         private static void ValidateRsi(
             List<BasicData> history,
             int lookbackPeriod)

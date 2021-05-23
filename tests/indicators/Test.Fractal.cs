@@ -11,10 +11,10 @@ namespace Internal.Tests
     {
 
         [TestMethod]
-        public void Standard2()
+        public void StandardSpan2()
         {
 
-            List<FractalResult> results = Indicator.GetFractal(history, 2)
+            List<FractalResult> results = Indicator.GetFractal(history, 2, EndType.HighLow)
                 .ToList();
 
             // assertions
@@ -52,10 +52,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Standard4()
+        public void StandardSpan4()
         {
 
-            List<FractalResult> results = Indicator.GetFractal(history, 4)
+            List<FractalResult> results = Indicator.GetFractal(history, 4, EndType.HighLow)
                 .ToList();
 
             // assertions
@@ -102,7 +102,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Exceptions()
         {
-            // bad lookback period
+            // bad window span
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetFractal(history, 1));
 
