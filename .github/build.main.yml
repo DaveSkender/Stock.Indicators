@@ -173,9 +173,9 @@ stages:
           testResultsFiles: '$(PythonWrapperBaseDirectory)/tests/test-results.xml'
           testRunTitle: 'Python $(python.version) Tests'
 
-  - stage: PythonBuild
-    jobs:
-    - job: Build
+    - job: PythonBuild
+      dependsOn: PythonTest
+
       variables:
         PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
         ImageName: "ubuntu-latest"
