@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
             IEnumerable<TQuote> history,
-            ZigZagType type = ZigZagType.Close,
+            EndType endType = EndType.Close,
             decimal percentChange = 5)
             where TQuote : IQuote
         {
@@ -26,7 +26,7 @@ namespace Skender.Stock.Indicators
             List<ZigZagResult> results = new(historyList.Count);
             decimal changeThreshold = percentChange / 100m;
             TQuote firstQuote = historyList[0];
-            ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);
+            ZigZagEval eval = GetZigZagEval(endType, 1, firstQuote);
 
             ZigZagPoint lastPoint = new()
             {
@@ -57,7 +57,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                eval = GetZigZagEval(type, index, h);
+                eval = GetZigZagEval(endType, index, h);
 
                 decimal? changeUp = (lastLowPoint.Value == 0) ? null
                     : (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
@@ -92,7 +92,7 @@ namespace Skender.Stock.Indicators
             // find and draw lines
             while (lastPoint.Index < finalPointIndex)
             {
-                ZigZagPoint nextPoint = EvaluateNextPoint(historyList, type, changeThreshold, lastPoint);
+                ZigZagPoint nextPoint = EvaluateNextPoint(historyList, endType, changeThreshold, lastPoint);
                 string lastDirection = lastPoint.PointType;
 
                 // draw line (and reset last point)
@@ -108,7 +108,7 @@ namespace Skender.Stock.Indicators
 
         private static ZigZagPoint EvaluateNextPoint<TQuote>(
             List<TQuote> historyList,
-            ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
+            EndType endType, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
             // initialize
             bool trendUp = (lastPoint.PointType == "L");
@@ -127,7 +127,7 @@ namespace Skender.Stock.Indicators
                 TQuote h = historyList[i];
                 int index = i + 1;
 
-                ZigZagEval eval = GetZigZagEval(type, index, h);
+                ZigZagEval eval = GetZigZagEval(endType, index, h);
 
                 // reset extreme point
                 if (trendUp)
@@ -266,7 +266,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagEval GetZigZagEval<TQuote>(ZigZagType type, int index, TQuote q) where TQuote : IQuote
+        private static ZigZagEval GetZigZagEval<TQuote>(EndType endType, int index, TQuote q) where TQuote : IQuote
         {
             ZigZagEval eval = new()
             {
@@ -274,15 +274,15 @@ namespace Skender.Stock.Indicators
             };
 
             // consider `type`
-            switch (type)
+            switch (endType)
             {
-                case ZigZagType.Close:
+                case EndType.Close:
 
                     eval.Low = q.Close;
                     eval.High = q.Close;
                     break;
 
-                case ZigZagType.HighLow:
+                case EndType.HighLow:
 
                     eval.Low = q.Low;
                     eval.High = q.High;

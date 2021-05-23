@@ -23,4 +23,18 @@
         Day,
         Hour
     }
+
+    public enum EndType
+    {
+        Close = 0,
+        HighLow = 1
+    }
+
+    public enum DivergenceType
+    {
+        RegularBull,
+        RegularBear,
+        HiddenBull,
+        HiddenBear
+    }
 }

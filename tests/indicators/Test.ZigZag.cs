@@ -16,7 +16,7 @@ namespace Internal.Tests
             decimal percentChange = 3;
 
             List<ZigZagResult> results =
-                Indicator.GetZigZag(history, ZigZagType.Close, percentChange)
+                Indicator.GetZigZag(history, EndType.Close, percentChange)
                 .ToList();
 
             // assertions
@@ -73,7 +73,7 @@ namespace Internal.Tests
             decimal percentChange = 3;
 
             List<ZigZagResult> results =
-                Indicator.GetZigZag(history, ZigZagType.HighLow, percentChange)
+                Indicator.GetZigZag(history, EndType.HighLow, percentChange)
                 .ToList();
 
             // assertions
@@ -127,10 +127,10 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(historyBad, ZigZagType.Close);
+            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(historyBad, EndType.Close);
             Assert.AreEqual(502, r1.Count());
 
-            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(historyBad, ZigZagType.HighLow);
+            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(historyBad, EndType.HighLow);
             Assert.AreEqual(502, r2.Count());
         }
 
@@ -139,12 +139,12 @@ namespace Internal.Tests
         {
             IEnumerable<Quote> h = HistoryTestData.GetCustomZigZag();
 
-            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(h, ZigZagType.Close, 0.25m);
+            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(h, EndType.Close, 0.25m);
             Assert.AreEqual(342, r1.Count());
 
             // first period has High/Low that exceeds threhold
             // where it is both a H and L pivot simultaenously
-            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(h, ZigZagType.HighLow, 3);
+            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(h, EndType.HighLow, 3);
             Assert.AreEqual(342, r2.Count());
         }
 
@@ -153,7 +153,7 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetZigZag(history, ZigZagType.Close, 0));
+                Indicator.GetZigZag(history, EndType.Close, 0));
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>

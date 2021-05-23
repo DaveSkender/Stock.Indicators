@@ -8,7 +8,7 @@
 ```csharp
 // usage
 IEnumerable<ZigZagResult> results =
-  Indicator.GetZigZag(history, type, percentChange);  
+  Indicator.GetZigZag(history, endType, percentChange);  
 ```
 
 ## Parameters
@@ -16,19 +16,19 @@ IEnumerable<ZigZagResult> results =
 | name | type | notes
 | -- |-- |--
 | `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `type` | ZigZagType | Determines whether `Close` or `High/Low` are used to measure percent change.  See [ZigZagType options](#zigzagtype-options) below.  Default is `ZigZagType.Close`.
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used to measure percent change.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
 | `percentChange` | decimal | Percent change required to establish a line endpoint.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 3 to 10.  Default is 5.
 
 ### Minimum history requirements
 
 You must supply at least two periods of `history` to calculate, but notably more is needed to be useful.
 
-### ZigZagType options
+### EndType options
 
 | type | description
 |-- |--
-| `ZigZagType.Close` | Percent change measured from `Close` price (default)
-| `ZigZagType.HighLow` | Percent change measured from `High` and `Low` price
+| `EndType.Close` | Percent change measured from `Close` price (default)
+| `EndType.HighLow` | Percent change measured from `High` and `Low` price
 
 ## Response
 
@@ -36,7 +36,7 @@ You must supply at least two periods of `history` to calculate, but notably more
 IEnumerable<ZigZagResult>
 ```
 
-:warning: **Warning**:  depending on the specified `type`, the indicator cannot be initialized if the first `Quote` in `history` has a `High`,`Low`, or `Close` value of 0 (zero).
+:warning: **Warning**:  depending on the specified `endType`, the indicator cannot be initialized if the first `Quote` in `history` has a `High`,`Low`, or `Close` value of 0 (zero).
 
 Also, if you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.  The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.  The last line segment is an approximation as the direction is indeterminant.  Swing high and low points are denoted with `PointType` values of `H` or `L`.  We always return the same number of result elements as there are in the historical quotes.
 
@@ -58,7 +58,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 3% change ZIGZAG
 IEnumerable<ZigZagResult> results =
-  Indicator.GetZigZag(history,ZigZagType.Close,3);
+  Indicator.GetZigZag(history, EndType.Close, 3);
 
 // use results as needed
 ZigZagResult result = results.LastOrDefault();

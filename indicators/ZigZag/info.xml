@@ -9,7 +9,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="type">Determines use of Close or High/Low wicks for extreme points.</param>
+  <param name="endType">Determines use of Close or High/Low wicks for extreme points.</param>
   <param name="percentChange">Percent price change to set threshold for minimum size movements.</param>
   <returns>Time series of Zig Zag values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
