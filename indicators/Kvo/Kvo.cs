@@ -77,14 +77,14 @@ namespace Skender.Stock.Indicators
                         (cm[i - 1] + dm[i]) : (dm[i - 1] + dm[i]);
 
                 // volume force (VF)
-                vf[i] = cm[i] != 0 ?
-                    h.Volume * Math.Abs(2 * (dm[i] / cm[i] - 1)) * t[i] * 100m
-                    : null;
+                vf[i] = (dm[i] == cm[i] || h.Volume == 0) ? 0
+                    : (dm[i] == 0) ? h.Volume * 2 * t[i] * 100m
+                    : (cm[i] != 0) ? h.Volume * Math.Abs(2 * (dm[i] / cm[i] - 1)) * t[i] * 100m
+                    : vf[i - 1];
 
                 // fast-period EMA of VF
                 if (index > fastPeriod + 2)
                 {
-                    // lastEma + k * (h.Value - lastEma);
                     vfFastEma[i] = vf[i] * kFast + vfFastEma[i - 1] * (1 - kFast);
                 }
                 else if (index == fastPeriod + 2)
