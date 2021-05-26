@@ -140,6 +140,7 @@ stages:
           patterns: 'packages/*.nupkg'
 
       - task: ExtractFiles@1
+        displayName: "Extract DLL from NuGet"
         inputs:
           archiveFilePatterns: '$(Pipeline.Workspace)/*.nupkg'
           destinationFolder: '$(Build.SourcesDirectory)/unpacked'
@@ -197,6 +198,7 @@ stages:
           patterns: 'packages/*.nupkg'
 
       - task: ExtractFiles@1
+        displayName: "Extract DLL from NuGet"
         inputs:
           archiveFilePatterns: '$(Pipeline.Workspace)/*.nupkg'
           destinationFolder: '$(Build.SourcesDirectory)/unpacked'
