@@ -96,14 +96,6 @@ stages:
             CleanTargetFolder: true
             OverWrite: true
             flattenFolders: true
-        
-        - task: CopyFiles@2
-          displayName: "stage DLLs"
-          inputs:
-            SourceFolder: "indicators/bin/Release"
-            Contents: "**"
-            TargetFolder: "$(Build.ArtifactStagingDirectory)/DLLs"
-            OverWrite: true
 
         - task: PublishBuildArtifacts@1
           displayName: "save artifacts"
@@ -140,27 +132,34 @@ stages:
       - task: UsePythonVersion@0
         inputs:
           versionSpec: '$(python.version)'
-          
-      - script: |
-          python -m pip install --upgrade pip setuptools wheel
-          pip install pythonnet
-        displayName: 'Install dependencies'
 
       - task: DownloadPipelineArtifact@2
-        displayName: "Fetch DLL from artifacts"
+        displayName: "Fetch NuGet from artifacts"
         inputs:
           artifact: packages
-          patterns: 'packages/DLLs/$(DotNetVersion)/*.dll'
+          patterns: 'packages/*.nupkg'
+
+      - task: ExtractFiles@1
+        inputs:
+          archiveFilePatterns: '$(Pipeline.Workspace)/*.nupkg'
+          destinationFolder: '$(Build.SourcesDirectory)/unpacked'
+          cleanDestinationFolder: true 
+          overwriteExistingFiles: true
 
       - task: CopyFiles@2
         displayName: "Replace DLL"
         inputs:
-          SourceFolder: "$(Pipeline.Workspace)/DLLs/$(DotNetVersion)"
+          SourceFolder: "$(Build.SourcesDirectory)/unpacked/lib/$(DotNetVersion)"
           Contents: "*.dll"
           TargetFolder: "$(PythonWrapperBaseDirectory)/SkenderStockIndicators/_cslib/lib"
           CleanTargetFolder: true
           OverWrite: true
           flattenFolders: true
+
+      - script: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install pythonnet
+        displayName: 'Install dependencies'
 
       - script: |
           pip install pytest pytest-cov openpyxl
@@ -191,25 +190,32 @@ stages:
         inputs:
           versionSpec: '$(PythonVersion)'
 
-      - script: |
-          python -m pip install --upgrade pip setuptools wheel build
-        displayName: 'Install dependencies'
-
       - task: DownloadPipelineArtifact@2
-        displayName: "Fetch DLL from artifacts"
+        displayName: "Fetch NuGet from artifacts"
         inputs:
           artifact: packages
-          patterns: 'packages/DLLs/$(DotNetVersion)/*.dll'
+          patterns: 'packages/*.nupkg'
+
+      - task: ExtractFiles@1
+        inputs:
+          archiveFilePatterns: '$(Pipeline.Workspace)/*.nupkg'
+          destinationFolder: '$(Build.SourcesDirectory)/unpacked'
+          cleanDestinationFolder: true 
+          overwriteExistingFiles: true
 
       - task: CopyFiles@2
         displayName: "Replace DLL"
         inputs:
-          SourceFolder: "$(Pipeline.Workspace)/DLLs/$(DotNetVersion)"
+          SourceFolder: "$(Build.SourcesDirectory)/unpacked/lib/$(DotNetVersion)"
           Contents: "*.dll"
           TargetFolder: "$(PythonWrapperBaseDirectory)/SkenderStockIndicators/_cslib/lib"
           CleanTargetFolder: true
           OverWrite: true
           flattenFolders: true
+
+      - script: |
+          python -m pip install --upgrade pip setuptools wheel build
+        displayName: 'Install dependencies'
 
       - task: CmdLine@2
         displayName: "Build"
