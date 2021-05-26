@@ -28,7 +28,7 @@ setuptools.setup(
     package_dir={"": "."},
     packages=setuptools.find_packages(exclude=('tests', 'tests.*')),
     package_data={
-        "_cslib": ["lib/*.dll"],
+        "SkenderStockIndicators._cslib": ["lib/*.dll"],
     },
     python_requires=">=3.8",
 )
