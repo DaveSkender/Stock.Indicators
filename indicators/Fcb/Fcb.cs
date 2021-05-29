@@ -39,8 +39,8 @@ namespace Skender.Stock.Indicators
                 {
                     FractalResult fp = fractals[i - windowSpan];
 
-                    upperLine = (fp.FractalBear != null) ? (decimal)fp.FractalBear : upperLine;
-                    lowerLine = (fp.FractalBull != null) ? (decimal)fp.FractalBull : lowerLine;
+                    upperLine = (fp.FractalBear != null) ? fp.FractalBear : upperLine;
+                    lowerLine = (fp.FractalBull != null) ? fp.FractalBull : lowerLine;
 
                     r.UpperBand = upperLine;
                     r.LowerBand = lowerLine;

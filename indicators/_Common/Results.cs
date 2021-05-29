@@ -26,9 +26,7 @@ namespace Skender.Stock.Indicators
             DateTime lookupDate)
             where TResult : IResultBase
         {
-            return results
-                .Where(x => x.Date == lookupDate)
-                .FirstOrDefault();
+            return results.FirstOrDefault(x => x.Date == lookupDate);
         }
     }
 }
