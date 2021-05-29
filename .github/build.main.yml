@@ -8,7 +8,7 @@ stages:
 
   - stage: DotNet
     jobs:
-    - job: Build and Test
+    - job: BuildAndTest
       pool:
         name: Azure Pipelines
         vmImage: "ubuntu-latest"
