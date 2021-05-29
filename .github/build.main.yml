@@ -8,7 +8,7 @@ stages:
 
   - stage: DotNet
     jobs:
-    - job: DotNetTest
+    - job: Build and Test
       pool:
         name: Azure Pipelines
         vmImage: "ubuntu-latest"
@@ -103,8 +103,9 @@ stages:
             ArtifactName: packages
 
   - stage: Python
+    condition: succeeded()
     jobs:
-    - job: PythonTest
+    - job: Test
       variables:
         PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
         DotNetVersion: "netstandard2.0"
@@ -112,10 +113,10 @@ stages:
       strategy:
         matrix:
           Windows-Python38:
-            imageName: windows-2019
+            imageName: windows-latest
             python.version: '3.8'
           Windows-Python39:
-            imageName: windows-2019
+            imageName: windows-latest
             python.version: '3.9'
           Linux-Python38:
             imageName: ubuntu-latest
@@ -173,9 +174,7 @@ stages:
           testResultsFiles: '$(PythonWrapperBaseDirectory)/tests/test-results.xml'
           testRunTitle: 'Python $(python.version) Tests'
 
-    - job: PythonBuild
-      dependsOn: PythonTest
-
+    - job: Build
       variables:
         PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
         ImageName: "ubuntu-latest"
