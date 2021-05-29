@@ -1,3 +1,5 @@
+# local dev: bundle exec jekyll serve
+
 title: "Stock Indicators"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
 
@@ -27,5 +29,6 @@ include:
 
 plugins:
   - jemoji
+  - jekyll-sitemap
 
 google_analytics: G-7602GXEZ0R

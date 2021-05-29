@@ -211,6 +211,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetKlinger()
+        {
+            return Indicator.GetKvo(h);
+        }
+
+        [Benchmark]
         public object GetKeltner()
         {
             return Indicator.GetKeltner(h);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Klinger Oscillator depicts volume-based divergence between short and long-term money flow.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Klinger/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="history">Historical price quotes.</param>
+  <param name="fastPeriod">Number of periods for the short EMA.</param>
+  <param name="slowPeriod">Number of periods for the long EMA.</param>
+  <param name="signalPeriod">Number of periods Signal line.</param>
+  <returns>Time series of Klinger Oscillator values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+</indicator>
