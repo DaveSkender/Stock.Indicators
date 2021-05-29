@@ -6,7 +6,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="skender-stock-indicators",
     version="0.0.1",
-    maintainer="Dave Skender",
+    author="Dave Skender",
+    maintainer="DongGeon Lee",
     description="Stock indicators.  Send in historical price quotes and get back desired technical indicators such as Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.",
     long_description=long_description,
     long_description_content_type="text/markdown",
