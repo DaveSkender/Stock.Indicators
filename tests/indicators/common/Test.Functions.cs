@@ -49,7 +49,7 @@ namespace Internal.Tests
             Assert.AreEqual(PeriodSize.FourHours.ToTimeSpan(), TimeSpan.FromHours(4));
             Assert.AreEqual(PeriodSize.Day.ToTimeSpan(), TimeSpan.FromHours(24));
             Assert.AreEqual(PeriodSize.Week.ToTimeSpan(), TimeSpan.FromDays(7));
-            Assert.AreEqual(PeriodSize.Month, TimeSpan.Zero);
+            Assert.AreEqual(PeriodSize.Month.ToTimeSpan(), TimeSpan.Zero);
         }
     }
 }
