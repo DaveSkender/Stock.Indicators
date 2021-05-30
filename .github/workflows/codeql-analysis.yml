@@ -26,6 +26,14 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: csharp, python
+          # Override the default behavior so that this action doesn't attempt
+          # to auto-install Python dependencies
+          setup-python-dependencies: false
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -45,14 +53,6 @@ jobs:
 
       - name: Build .NET libraries
         run: dotnet build --configuration Release
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: csharp, python
-          # Override the default behavior so that the action doesn't attempt
-          # to auto-install Python dependencies
-          setup-python-dependencies: false
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
