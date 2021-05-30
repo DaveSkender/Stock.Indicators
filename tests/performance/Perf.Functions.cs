@@ -33,24 +33,31 @@ namespace Tests.Performance
 
 
     [MarkdownExporterAttribute.GitHub]
-    public static class MarkHistoryHelpers
+    public class MarkHistoryHelpers
     {
         private static readonly IEnumerable<Quote> h = HistoryTestData.Get();
+        private static readonly IEnumerable<Quote> i = HistoryTestData.GetIntraday();
 
         [Benchmark]
-        public static object Sort()
+        public object Sort()
         {
             return h.Sort();
         }
 
         [Benchmark]
-        public static object Validate()
+        public object Validate()
         {
             return h.Validate();
         }
 
         [Benchmark]
-        public static object ConvertToBasic()
+        public object Aggregate()
+        {
+            return i.Aggregate(PeriodSize.FifteenMinutes);
+        }
+
+        [Benchmark]
+        public object ConvertToBasic()
         {
             return h.ConvertToBasic();
         }
