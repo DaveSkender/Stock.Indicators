@@ -39,9 +39,17 @@ namespace Internal.Tests
         [TestMethod]
         public void ToTimeSpan()
         {
-            Assert.AreEqual(
-                PeriodSize.OneHour.ToTimeSpan(),
-                TimeSpan.FromHours(1));
+            Assert.AreEqual(PeriodSize.OneMinute.ToTimeSpan(), TimeSpan.FromMinutes(1));
+            Assert.AreEqual(PeriodSize.TwoMinutes.ToTimeSpan(), TimeSpan.FromMinutes(2));
+            Assert.AreEqual(PeriodSize.ThreeMinutes.ToTimeSpan(), TimeSpan.FromMinutes(3));
+            Assert.AreEqual(PeriodSize.FiveMinutes.ToTimeSpan(), TimeSpan.FromMinutes(5));
+            Assert.AreEqual(PeriodSize.FifteenMinutes.ToTimeSpan(), TimeSpan.FromHours(0.25));
+            Assert.AreEqual(PeriodSize.OneHour.ToTimeSpan(), TimeSpan.FromMinutes(60));
+            Assert.AreEqual(PeriodSize.TwoHours.ToTimeSpan(), TimeSpan.FromHours(2));
+            Assert.AreEqual(PeriodSize.FourHours.ToTimeSpan(), TimeSpan.FromHours(4));
+            Assert.AreEqual(PeriodSize.Day.ToTimeSpan(), TimeSpan.FromHours(24));
+            Assert.AreEqual(PeriodSize.Week.ToTimeSpan(), TimeSpan.FromDays(7));
+            Assert.AreEqual(PeriodSize.Month, TimeSpan.Zero);
         }
     }
 }
