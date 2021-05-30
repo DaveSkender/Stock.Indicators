@@ -100,9 +100,9 @@ namespace Skender.Stock.Indicators
 
 
         internal static PivotPointsResult GetPivotPoint(
-            PivotPointType type, decimal open, decimal high, decimal low, decimal close)
+            PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
         {
-            return type switch
+            return pointType switch
             {
                 PivotPointType.Standard => GetPivotPointStandard(high, low, close),
                 PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
