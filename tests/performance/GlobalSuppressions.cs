@@ -19,3 +19,8 @@ using System.Diagnostics.CodeAnalysis;
     "StyleCop.CSharp.DocumentationRules",
     "SA1600:Elements should be documented",
     Justification = "Not documenting unit test projects.")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1822:Mark members as static",
+    Justification = "Tests are excluded when static, for some reason")]

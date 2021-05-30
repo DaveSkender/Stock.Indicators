@@ -54,15 +54,6 @@ namespace External.Other
         }
 
         [TestMethod]
-        public void ValidateHistoryOld()
-        {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            history = Cleaners.ValidateHistory(history);
-
-            Indicator.GetSma(history, 5);
-        }
-
-        [TestMethod]
         public void ReadQuoteClass()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
@@ -142,6 +133,38 @@ namespace External.Other
         }
 
         [TestMethod]
+        public void CustomQuoteAggregate()
+        {
+            List<MyGenericQuote> myGenericHistory = HistoryTestData.GetIntraday()
+                .Select(x => new MyGenericQuote
+                {
+                    CloseDate = x.Date,
+                    Open = x.Open,
+                    High = x.High,
+                    Low = x.Low,
+                    CloseValue = x.Close,
+                    Volume = x.Volume,
+                    MyOtherProperty = 123456
+                })
+                .ToList();
+
+            List<Quote> historyList = myGenericHistory
+                .Aggregate(PeriodSize.TwoHours)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is history
+            Assert.AreEqual(20, historyList.Count);
+
+            // sample values
+            Quote r19 = historyList[19];
+            Assert.AreEqual(369.04m, r19.Low);
+        }
+
+
+        [TestMethod]
         public void DerivedIndicatorClass()
         {
             // can use a derive Indicator class
@@ -204,5 +227,8 @@ namespace External.Other
             EmaResult r = emaResults.Find(findDate);
             Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
         }
+
+
+
     }
 }
