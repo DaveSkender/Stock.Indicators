@@ -232,14 +232,8 @@ namespace Skender.Stock.Indicators
                 lastLowPoint.Value = nextPoint.Value;
             }
 
-            // nothing to do if first line
-            if (priorPoint.Index == 1)
-            {
-                return;
-            }
-
-            // handle error case
-            if (nextPoint.Index == priorPoint.Index)
+            // nothing to do if first line or no-span case
+            if (priorPoint.Index == 1 || nextPoint.Index == priorPoint.Index)
             {
                 return;
             }

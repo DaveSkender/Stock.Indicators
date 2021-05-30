@@ -112,6 +112,46 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Aggregate()
+        {
+            IEnumerable<Quote> history = HistoryTestData.GetIntraday();
+
+            // aggregate
+            List<Quote> results = history.Aggregate(PeriodSize.FifteenMinutes)
+                .ToList();
+
+            // assertions
+
+            // should always be the same number of results as there is history
+            Assert.AreEqual(108, results.Count);
+
+            // sample values
+            Quote r0 = results[0];
+            Assert.AreEqual(DateTime.Parse("2020-12-15 09:30", englishCulture), r0.Date);
+            Assert.AreEqual(367.40m, r0.Open);
+            Assert.AreEqual(367.775m, r0.High);
+            Assert.AreEqual(367.02m, r0.Low);
+            Assert.AreEqual(367.24m, r0.Close);
+            Assert.AreEqual(2401786m, r0.Volume);
+
+            Quote r1 = results[1];
+            Assert.AreEqual(DateTime.Parse("2020-12-15 09:45", englishCulture), r1.Date);
+            Assert.AreEqual(367.25m, r1.Open);
+            Assert.AreEqual(367.44m, r1.High);
+            Assert.AreEqual(366.69m, r1.Low);
+            Assert.AreEqual(366.86m, r1.Close);
+            Assert.AreEqual(1669983m, r1.Volume);
+
+            Quote r2 = results[2];
+            Assert.AreEqual(DateTime.Parse("2020-12-15 10:00", englishCulture), r2.Date);
+            Assert.AreEqual(366.85m, r2.Open);
+            Assert.AreEqual(367.17m, r2.High);
+            Assert.AreEqual(366.57m, r2.Low);
+            Assert.AreEqual(366.97m, r2.Close);
+            Assert.AreEqual(1396993m, r2.Volume);
+        }
+
+        [TestMethod]
         public void Find()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();

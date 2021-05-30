@@ -6,41 +6,13 @@ using System.Threading;
 
 namespace Skender.Stock.Indicators
 {
-    // HISTORICAL QUOTES
-
-    public interface IQuote
-    {
-        public DateTime Date { get; }
-        public decimal Open { get; }
-        public decimal High { get; }
-        public decimal Low { get; }
-        public decimal Close { get; }
-        public decimal Volume { get; }
-    }
-
-    [Serializable]
-    public class Quote : IQuote
-    {
-        public DateTime Date { get; set; }
-        public decimal Open { get; set; }
-        public decimal High { get; set; }
-        public decimal Low { get; set; }
-        public decimal Close { get; set; }
-        public decimal Volume { get; set; }
-    }
-
-    [Serializable]
-    internal class BasicData
-    {
-        internal DateTime Date { get; set; }
-        internal decimal Value { get; set; }
-    }
-
+    // HISTORICAL QUOTES FUNCTIONS (GENERAL)
 
     public static class HistoricalQuotes
     {
         private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
+        // validation
         public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
@@ -66,6 +38,42 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
+        // quantization
+        public static IEnumerable<Quote> Aggregate<TQuote>(
+            this IEnumerable<TQuote> history,
+            PeriodSize newSize)
+            where TQuote : IQuote
+        {
+            TimeSpan newPeriod = newSize.ToTimeSpan();
+
+            return
+
+                // handle no history scenario
+                history == null || !history.Any() ? new List<Quote>()
+
+                // validate parameters
+                : newPeriod == TimeSpan.Zero ?
+
+                throw new ArgumentOutOfRangeException(nameof(newSize), newSize,
+                    "History Aggregation must use a New Size value of at least " +
+                    "one minute and not more than one week.")
+
+                // return aggregation
+                : history
+                    .OrderBy(x => x.Date)
+                    .GroupBy(x => x.Date.RoundDown(newPeriod))
+                    .Select(x => new Quote
+                    {
+                        Date = x.Key,
+                        Open = x.First().Open,
+                        High = x.Max(t => t.High),
+                        Low = x.Min(t => t.Low),
+                        Close = x.Last().Close,
+                        Volume = x.Sum(t => t.Volume)
+                    });
+        }
+
+        // sort
         internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
@@ -77,6 +85,7 @@ namespace Skender.Stock.Indicators
                 : historyList;
         }
 
+        // convert to basic
         internal static List<BasicData> ConvertToBasic<TQuote>(
             this IEnumerable<TQuote> history, string element = "C")
             where TQuote : IQuote
@@ -100,18 +109,6 @@ namespace Skender.Stock.Indicators
                 ? throw new BadHistoryException(nameof(history), "No historical quotes provided.")
                 : bdList;
         }
-    }
 
-
-    // for backwards compatibility only
-    // TODO: remove in v2
-    public static class Cleaners
-    {
-
-        public static IEnumerable<TQuote> ValidateHistory<TQuote>(IEnumerable<TQuote> history)
-            where TQuote : IQuote
-        {
-            return history.Validate();
-        }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
-    // RESULTS
+    // RESULT MODELS
 
     public interface IResultBase
     {
@@ -17,6 +17,8 @@ namespace Skender.Stock.Indicators
         public DateTime Date { get; set; }
     }
 
+
+    // HELPER FUNCTIONS
 
     public static class IndicatorResults
     {

@@ -18,10 +18,3 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Making an exception",
     Scope = "member",
     Target = "~P:Skender.Stock.Indicators.IResultBase.Date")]
-
-[assembly: SuppressMessage(
-    "StyleCop.CSharp.MaintainabilityRules",
-    "SA1402:File may only contain a single type",
-    Justification = "This will be removed.",
-    Scope = "type",
-    Target = "~T:Skender.Stock.Indicators.Cleaners")]

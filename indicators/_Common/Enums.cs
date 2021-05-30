@@ -21,7 +21,15 @@
         Month,
         Week,
         Day,
-        Hour
+        FourHours,
+        TwoHours,
+        OneHour,
+        ThirtyMinutes,
+        FifteenMinutes,
+        FiveMinutes,
+        ThreeMinutes,
+        TwoMinutes,
+        OneMinute
     }
 
     public enum EndType
