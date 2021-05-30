@@ -7,7 +7,7 @@ setuptools.setup(
     name="skender-stock-indicators",
     version="0.0.1",
     author="Dave Skender",
-    maintainer="DongGeon Lee",
+    maintainer="Dong-Geon Lee",
     description="Stock indicators.  Send in historical price quotes and get back desired technical indicators such as Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.",
     long_description=long_description,
     long_description_content_type="text/markdown",
