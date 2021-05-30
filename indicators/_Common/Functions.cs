@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
         }
 
         // DATE ROUNDING
-        internal static DateTime RoundDownDate(this DateTime dateTime, TimeSpan interval)
+        internal static DateTime RoundDown(this DateTime dateTime, TimeSpan interval)
         {
             return interval == TimeSpan.Zero ?
 

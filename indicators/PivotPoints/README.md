@@ -30,8 +30,8 @@ You must supply at least `2` windows of `history`.  For example, if you specify 
 |-- |--
 | `PeriodSize.Month` | Use the prior month's data to calculate current month's Pivot Points
 | `PeriodSize.Week` | [..] weekly
-| `PeriodSize.OneDay` | [..] daily.  Commonly used for intraday data.
-| `PeriodSize.Hour` | [..] hourly
+| `PeriodSize.Day` | [..] daily.  Commonly used for intraday data.
+| `PeriodSize.OneHour` | [..] hourly
 
 ### PivotPointType options
 

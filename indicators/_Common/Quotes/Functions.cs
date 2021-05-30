@@ -61,7 +61,7 @@ namespace Skender.Stock.Indicators
                 // return aggregation
                 : history
                     .OrderBy(x => x.Date)
-                    .GroupBy(x => x.Date.RoundDownDate(newPeriod))
+                    .GroupBy(x => x.Date.RoundDown(newPeriod))
                     .Select(x => new Quote
                     {
                         Date = x.Key,
