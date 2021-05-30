@@ -214,7 +214,7 @@ namespace Skender.Stock.Indicators
                 PeriodSize.Month => d.Month,
                 PeriodSize.Week => EnglishCalendar.GetWeekOfYear(d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
                 PeriodSize.Day => d.Day,
-                PeriodSize.Hour => d.Hour,
+                PeriodSize.OneHour => d.Hour,
                 _ => 0
             };
         }
@@ -227,30 +227,23 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            int qtyWindows = 0;
-
-            switch (windowSize)
+            int qtyWindows = windowSize switch
             {
-                case PeriodSize.Month:
-                    qtyWindows = history.Select(x => x.Date.Month).Distinct().Count();
-                    break;
+                PeriodSize.Month => history
+                    .Select(x => x.Date.Month).Distinct().Count(),
 
-                case PeriodSize.Week:
-                    qtyWindows = history.Select(x => EnglishCalendar
+                PeriodSize.Week => history
+                    .Select(x => EnglishCalendar
                     .GetWeekOfYear(x.Date, EnglishCalendarWeekRule, EnglishFirstDayOfWeek))
-                    .Distinct().Count();
-                    break;
+                    .Distinct().Count(),
 
-                case PeriodSize.Day:
-                    qtyWindows = history.Select(x => x.Date.Day).Distinct().Count();
-                    break;
+                PeriodSize.Day => history
+                    .Select(x => x.Date.Day).Distinct().Count(),
 
-                case PeriodSize.Hour:
-                    qtyWindows = history.Select(x => x.Date.Hour).Distinct().Count();
-                    break;
+                PeriodSize.OneHour => history
+                .Select(x => x.Date.Hour).Distinct().Count(),
 
-                default:
-                    break;
+                _ => 0
             };
 
             // check history

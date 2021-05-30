@@ -1,4 +1,4 @@
-﻿# Pivot Points
+# Pivot Points
 
 [Pivot Points](https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)) depict support and resistance levels, based on the prior lookback window.  You can specify window size (e.g. month, week, day, etc).
 See also the alternative [Rolling Pivot Points](../RollingPivots/README.md#content) variant for a modern update that uses a rolling window.
@@ -30,7 +30,7 @@ You must supply at least `2` windows of `history`.  For example, if you specify 
 |-- |--
 | `PeriodSize.Month` | Use the prior month's data to calculate current month's Pivot Points
 | `PeriodSize.Week` | [..] weekly
-| `PeriodSize.Day` | [..] daily.  Commonly used for intraday data.
+| `PeriodSize.OneDay` | [..] daily.  Commonly used for intraday data.
 | `PeriodSize.Hour` | [..] hourly
 
 ### PivotPointType options

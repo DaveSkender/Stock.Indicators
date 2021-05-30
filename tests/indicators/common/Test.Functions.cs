@@ -22,5 +22,26 @@ namespace Internal.Tests
             // assertions
             Assert.AreEqual(633.932098287, Math.Round(sd, 9));
         }
+
+        [TestMethod]
+        public void RoundDownDate()
+        {
+            TimeSpan interval = PeriodSize.OneHour.ToTimeSpan();
+            DateTime evDate = DateTime.Parse("2020-12-15 09:35:45", englishCulture);
+
+            DateTime rnDate = evDate.RoundDownDate(interval);
+            DateTime exDate = DateTime.Parse("2020-12-15 09:00:00", englishCulture);
+
+            // assertions
+            Assert.AreEqual(exDate, rnDate);
+        }
+
+        [TestMethod]
+        public void ToTimeSpan()
+        {
+            Assert.AreEqual(
+                PeriodSize.OneHour.ToTimeSpan(),
+                TimeSpan.FromHours(1));
+        }
     }
 }

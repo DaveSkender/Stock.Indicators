@@ -260,7 +260,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Fibonacci()
         {
-            PeriodSize periodSize = PeriodSize.Hour;
+            PeriodSize periodSize = PeriodSize.OneHour;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
             IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
@@ -430,7 +430,7 @@ namespace Internal.Tests
                 .OrderBy(x => x.Date).Take(29);
 
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetPivotPoints(h, PeriodSize.Hour));
+                Indicator.GetPivotPoints(h, PeriodSize.OneHour));
         }
     }
 }
