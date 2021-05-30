@@ -111,5 +111,4 @@ namespace Skender.Stock.Indicators
         }
 
     }
-
 }
