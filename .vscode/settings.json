@@ -1,4 +1,5 @@
 {
+    // file settings
     "files.exclude": {
         "**/.vs/**": true,
         "**/bin/**": true,
@@ -9,9 +10,16 @@
     },
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 3000,
+
     "search.exclude": {}, // auto includes files.exclude
-    "dotnet-test-explorer.testProjectPath": "**/*Tests*.csproj",
+
+    // editor settings
     "editor.codeLens": false,
+    "editor.formatOnPaste": true,
+
+    // language settings
+    "dotnet-test-explorer.testProjectPath": "**/*Tests*.csproj",
     "python.enableFormatting.black": true,
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "scss.validate": false  // false-positives with Jekyll front matter
 }
