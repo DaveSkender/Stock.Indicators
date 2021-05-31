@@ -55,23 +55,23 @@ stages:
             projects: "**/*.csproj"
             arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
-  - task: DotNetCoreCLI@2
-    displayName: "test internal"
-    inputs:
-      command: test
-      projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
-      publishTestResults: true
-      testRunTitle: ".NET Indicator Tests"
+        - task: DotNetCoreCLI@2
+          displayName: "test internal"
+          inputs:
+            command: test
+            projects: "**/Tests.Indicators.csproj"
+            arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+            publishTestResults: true
+            testRunTitle: ".NET Indicator Tests"
 
-  - task: DotNetCoreCLI@2
-    displayName: "test external/other"
-    inputs:
-      command: test
-      projects: "**/Tests.Other.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
-      publishTestResults: true
-      testRunTitle: ".NET External/Other Tests"
+        - task: DotNetCoreCLI@2
+          displayName: "test external/other"
+          inputs:
+            command: test
+            projects: "**/Tests.Other.csproj"
+            arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
+            publishTestResults: true
+            testRunTitle: ".NET External/Other Tests"
 
         - task: PublishCodeCoverageResults@1
           displayName: "publish code coverage"
