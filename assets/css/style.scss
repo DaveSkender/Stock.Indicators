@@ -1,6 +1,8 @@
 ---
 ---
 
+// JEKYLL THEME STYLE OVERRIDES
+
 @import "{{ site.theme }}";
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Google+Sans:100,300,400,500,700,900,100i,300i,400i,500i,700i,900i");
@@ -13,6 +15,42 @@ body {
     font-family: "Google Sans", "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.project-name {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
 .project-tagline {
     font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    margin-bottom:12px;
+    margin-top:0;
+}
+
+h1 {
+    font-size: 2rem;
+}
+h2 {
+    font-size: 1.5rem;
+}
+h3 {
+    font-size: 1.2rem;
+}
+h4 {
+    font-size: 1.1rem;
+}
+h5 {
+    font-size: 1.1rem;
+}
+
+.main-content {
+
+    td,th {
+        font-size: 0.85em;
+    }
+
+    td {
+        vertical-align: top;
+    }
 }
