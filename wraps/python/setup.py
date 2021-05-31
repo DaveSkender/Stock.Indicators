@@ -32,4 +32,7 @@ setuptools.setup(
         "SkenderStockIndicators._cslib": ["lib/*.dll"],
     },
     python_requires=">=3.8",
+    install_requires=[
+    'pythonnet',
+    ],
 )
