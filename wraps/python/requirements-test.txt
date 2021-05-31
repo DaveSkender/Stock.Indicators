@@ -1,0 +1,4 @@
+# These packages are needed for testing.
+pytest
+pytest-cov
+openpyxl

@@ -160,12 +160,14 @@ stages:
 
       - script: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install pythonnet
+          pip install -r requirements.txt
+        workingDirectory: $(PythonWrapperBaseDirectory)
         displayName: 'Install dependencies'
 
       - script: |
-          pip install pytest pytest-cov openpyxl
+          pip install -r requirements-test.txt
           pytest -vr A --junitxml=$(PythonWrapperBaseDirectory)/tests/test-results.xml --cov=$(PythonWrapperBaseDirectory)/SkenderStockIndicators --cov-report xml:$(PythonWrapperBaseDirectory)/tests/coverage.xml
+        workingDirectory: $(PythonWrapperBaseDirectory)
         displayName: 'Run all tests'
 
       - task: PublishTestResults@2
