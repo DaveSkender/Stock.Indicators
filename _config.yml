@@ -4,27 +4,31 @@ title: "Stock Indicators"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
 
 theme: jekyll-theme-cayman
+# https://github.com/pages-themes/cayman
 
 exclude:
   [
-    "wraps",
+    ".github",
+    ".vscode",
+    "wraps/python/**/",
+    "tests/**/BenchmarkDotNet**",
     "tests/indicators",
     "tests/external",
-    "*.sln",
-    "*.csproj",
     "*.cs",
+    "*.csproj",
+    "*.json",
+    "*.py",
+    "*.sln",
+    "*.txt",
     "*.xlsx",
     "*.xml",
-    "*.yml",
-    ".github",
-    ".vscode"
+    "*.yml"
   ]
 
 include:
   [
   "docs", 
-  "LICENSE",
-  "wraps/**/*.md"
+  "LICENSE"
   ]
 
 plugins:
