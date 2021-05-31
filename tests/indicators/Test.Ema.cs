@@ -44,20 +44,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(115 + qty);
-                IEnumerable<EmaResult> r = Indicator.GetEma(h, 15);
-
-                EmaResult l = r.LastOrDefault();
-                Console.WriteLine("EMA on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Ema);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

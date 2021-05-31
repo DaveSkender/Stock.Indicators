@@ -66,20 +66,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(200 + qty);
-                IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(h, 100);
-
-                StarcBandsResult l = r.LastOrDefault();
-                Console.WriteLine("STARC UPPER on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.UpperBand);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad EMA period

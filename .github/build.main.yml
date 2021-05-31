@@ -61,16 +61,17 @@ stages:
             command: test
             projects: "**/Tests.Indicators.csproj"
             arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
-            testRunTitle: ".NET Tests(Internal)"
+            publishTestResults: true
+            testRunTitle: ".NET Indicator Tests"
 
         - task: DotNetCoreCLI@2
-          displayName: "test external"
+          displayName: "test external/other"
           inputs:
             command: test
-            projects: "**/Tests.External.csproj"
+            projects: "**/Tests.Other.csproj"
             arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
-            publishTestResults: false
-            testRunTitle: ".NET Tests(External)"
+            publishTestResults: true
+            testRunTitle: ".NET External/Other Tests"
 
         - task: PublishCodeCoverageResults@1
           displayName: "publish code coverage"

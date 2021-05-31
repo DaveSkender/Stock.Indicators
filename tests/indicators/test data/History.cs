@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Skender.Stock.Indicators;
 
-[assembly: InternalsVisibleTo("Tests.External")]
+[assembly: InternalsVisibleTo("Tests.Other")]
 [assembly: InternalsVisibleTo("Tests.Performance")]
 namespace Internal.Tests
 {
