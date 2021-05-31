@@ -53,20 +53,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(128 + qty);
-                IEnumerable<AdxResult> r = Indicator.GetAdx(h);
-
-                AdxResult l = r.LastOrDefault();
-                Console.WriteLine("ADX on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Adx);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

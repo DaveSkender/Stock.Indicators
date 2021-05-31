@@ -1,5 +1,4 @@
 import os
-import sys
 from datetime import datetime
 from decimal import Decimal as PyDecimal
 from openpyxl import load_workbook

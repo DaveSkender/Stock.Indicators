@@ -64,20 +64,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(50 + qty);
-                IEnumerable<MamaResult> r = Indicator.GetMama(h);
-
-                MamaResult l = r.LastOrDefault();
-                Console.WriteLine("MAMA on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Mama);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad fast period (same as slow period)

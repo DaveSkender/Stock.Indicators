@@ -58,20 +58,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(115 + qty);
-                IEnumerable<AtrResult> r = Indicator.GetAtr(h);
-
-                AtrResult l = r.LastOrDefault();
-                Console.WriteLine("ATR on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Atr);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
