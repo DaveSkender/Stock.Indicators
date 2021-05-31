@@ -4,51 +4,56 @@ trigger:
 pr:
   - master
 
-pool:
-  name: Azure Pipelines
-  vmImage: "ubuntu-latest"
+stages:
 
-variables:
-  BuildConfiguration: "Release"
+  - stage: DotNet
+    jobs:
+    - job: BuildAndTest
+      pool:
+        name: Azure Pipelines
+        vmImage: "ubuntu-latest"
 
-steps:
-  - task: UseDotNet@2
-    displayName: "use .NET SDK 5.0.x"
-    inputs:
-      version: 5.0.x
+      variables:
+        BuildConfiguration: "Release"
 
-  - task: NuGetToolInstaller@1
-    displayName: "use NuGet 5.8.x"
-    inputs:
-      versionSpec: 5.8.x
-      checkLatest: false
+      steps:
+        - task: UseDotNet@2
+          displayName: "use .NET SDK 5.0.x"
+          inputs:
+            version: 5.0.x
 
-  - task: DotNetCoreCLI@2
-    displayName: "use GitVersion"
-    inputs:
-      command: custom
-      custom: tool
-      arguments: "install -g gitversion.tool --version 5.6.8"
+        - task: NuGetToolInstaller@1
+          displayName: "use NuGet 5.8.x"
+          inputs:
+            versionSpec: 5.8.x
+            checkLatest: false
 
-  - task: DotNetCoreCLI@2
-    displayName: "get version number"
-    inputs:
-      command: custom
-      custom: gitversion
-      arguments: "/output buildserver"
+        - task: DotNetCoreCLI@2
+          displayName: "use GitVersion"
+          inputs:
+            command: custom
+            custom: tool
+            arguments: "install -g gitversion.tool --version 5.6.8"
 
-  - task: DotNetCoreCLI@2
-    displayName: "create assembly info"
-    inputs:
-      command: "custom"
-      custom: "gitversion"
-      arguments: "/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo"
+        - task: DotNetCoreCLI@2
+          displayName: "get version number"
+          inputs:
+            command: custom
+            custom: gitversion
+            arguments: "/output buildserver"
 
-  - task: DotNetCoreCLI@2
-    displayName: build
-    inputs:
-      projects: "**/*.csproj"
-      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
+        - task: DotNetCoreCLI@2
+          displayName: "create assembly info"
+          inputs:
+            command: "custom"
+            custom: "gitversion"
+            arguments: "/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo"
+
+        - task: DotNetCoreCLI@2
+          displayName: build
+          inputs:
+            projects: "**/*.csproj"
+            arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
   - task: DotNetCoreCLI@2
     displayName: "test internal"
@@ -68,32 +73,172 @@ steps:
       publishTestResults: true
       testRunTitle: ".NET External/Other Tests"
 
-  - task: PublishCodeCoverageResults@1
-    displayName: "publish code coverage"
-    inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
+        - task: PublishCodeCoverageResults@1
+          displayName: "publish code coverage"
+          inputs:
+            codeCoverageTool: Cobertura
+            summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
 
-  - task: DotNetCoreCLI@2
-    displayName: "pack for NuGet"
-    inputs:
-      command: "pack"
-      packagesToPack: "indicators/Indicators.csproj"
-      nobuild: true
-      versioningScheme: "byEnvVar"
-      versionEnvVar: "GitVersion.NuGetVersion"
+        - task: DotNetCoreCLI@2
+          displayName: "pack for NuGet"
+          inputs:
+            command: "pack"
+            packagesToPack: "indicators/Indicators.csproj"
+            nobuild: true
+            versioningScheme: "byEnvVar"
+            versionEnvVar: "GitVersion.NuGetVersion"
 
-  - task: CopyFiles@2
-    displayName: "stage artifacts"
-    inputs:
-      SourceFolder: "indicators"
-      Contents: "**/*.nupkg"
-      TargetFolder: "$(Build.ArtifactStagingDirectory)"
-      CleanTargetFolder: true
-      OverWrite: true
-      flattenFolders: true
+        - task: CopyFiles@2
+          displayName: "stage artifacts"
+          inputs:
+            SourceFolder: "indicators"
+            Contents: "**/*.nupkg"
+            TargetFolder: "$(Build.ArtifactStagingDirectory)"
+            CleanTargetFolder: true
+            OverWrite: true
+            flattenFolders: true
 
-  - task: PublishBuildArtifacts@1
-    displayName: "save artifacts"
-    inputs:
-      ArtifactName: packages
+        - task: PublishBuildArtifacts@1
+          displayName: "save artifacts"
+          inputs:
+            ArtifactName: packages
+
+  - stage: Python
+    condition: succeeded()
+    jobs:
+    - job: Test
+      variables:
+        PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
+        DotNetVersion: "netstandard2.0"
+
+      strategy:
+        matrix:
+          Windows-Python38:
+            imageName: windows-latest
+            python.version: '3.8'
+          Windows-Python39:
+            imageName: windows-latest
+            python.version: '3.9'
+          Linux-Python38:
+            imageName: ubuntu-latest
+            python.version: '3.8'
+          Linux-Python39:
+            imageName: ubuntu-latest
+            python.version: '3.9'
+
+      pool:
+        name: Azure Pipelines
+        vmImage: '$(imageName)'
+
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+
+      - task: DownloadPipelineArtifact@2
+        displayName: "Fetch NuGet from artifacts"
+        inputs:
+          artifact: packages
+          patterns: 'packages/*.nupkg'
+
+      - task: ExtractFiles@1
+        displayName: "Extract DLL from NuGet"
+        inputs:
+          archiveFilePatterns: '$(Pipeline.Workspace)/*.nupkg'
+          destinationFolder: '$(Build.SourcesDirectory)/unpacked'
+          cleanDestinationFolder: true 
+          overwriteExistingFiles: true
+
+      - task: CopyFiles@2
+        displayName: "Replace DLL"
+        inputs:
+          SourceFolder: "$(Build.SourcesDirectory)/unpacked/lib/$(DotNetVersion)"
+          Contents: "*.dll"
+          TargetFolder: "$(PythonWrapperBaseDirectory)/SkenderStockIndicators/_cslib/lib"
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
+
+      - script: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+        workingDirectory: $(PythonWrapperBaseDirectory)
+        displayName: 'Install dependencies'
+
+      - script: |
+          pip install -r requirements-test.txt
+          pytest -vr A --junitxml=$(PythonWrapperBaseDirectory)/tests/test-results.xml --cov=$(PythonWrapperBaseDirectory)/SkenderStockIndicators --cov-report xml:$(PythonWrapperBaseDirectory)/tests/coverage.xml
+        workingDirectory: $(PythonWrapperBaseDirectory)
+        displayName: 'Run all tests'
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFiles: '$(PythonWrapperBaseDirectory)/tests/test-results.xml'
+          testRunTitle: 'Python $(python.version) Tests'
+
+    - job: Build
+      variables:
+        PythonWrapperBaseDirectory: "$(Build.SourcesDirectory)/wraps/python"
+        ImageName: "ubuntu-latest"
+        DotNetVersion: "netstandard2.0"
+        PythonVersion: "3.8"
+
+      pool:
+        name: Azure Pipelines
+        vmImage: '$(imageName)'
+      
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(PythonVersion)'
+
+      - task: DownloadPipelineArtifact@2
+        displayName: "Fetch NuGet from artifacts"
+        inputs:
+          artifact: packages
+          patterns: 'packages/*.nupkg'
+
+      - task: ExtractFiles@1
+        displayName: "Extract DLL from NuGet"
+        inputs:
+          archiveFilePatterns: '$(Pipeline.Workspace)/*.nupkg'
+          destinationFolder: '$(Build.SourcesDirectory)/unpacked'
+          cleanDestinationFolder: true 
+          overwriteExistingFiles: true
+
+      - task: CopyFiles@2
+        displayName: "Replace DLL"
+        inputs:
+          SourceFolder: "$(Build.SourcesDirectory)/unpacked/lib/$(DotNetVersion)"
+          Contents: "*.dll"
+          TargetFolder: "$(PythonWrapperBaseDirectory)/SkenderStockIndicators/_cslib/lib"
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
+
+      - script: |
+          python -m pip install --upgrade pip setuptools wheel build
+        displayName: 'Install dependencies'
+
+      - task: CmdLine@2
+        displayName: "Build"
+        inputs:
+          script: 'python -m build'
+          workingDirectory: $(PythonWrapperBaseDirectory)
+      
+      - task: CopyFiles@2
+        displayName: "Stage artifacts"
+        inputs:
+          SourceFolder: "$(PythonWrapperBaseDirectory)/dist"
+          Contents: "**"
+          TargetFolder: "$(Build.ArtifactStagingDirectory)/wraps/python"
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: "Save artifacts"
+        inputs:
+          PathToPublish: "$(Build.ArtifactStagingDirectory)/wraps/python"
+          ArtifactName: packages
