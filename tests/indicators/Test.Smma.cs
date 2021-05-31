@@ -37,20 +37,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(110 + qty);
-                IEnumerable<SmmaResult> r = Indicator.GetSmma(h, 15);
-
-                SmmaResult l = r.LastOrDefault();
-                Console.WriteLine("SMMA(15) on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Smma);
-            }
-        }
-
-        [TestMethod]
         public void BadData()
         {
             IEnumerable<SmmaResult> r = Indicator.GetSmma(historyBad, 15);

@@ -92,20 +92,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities.Where(x => x <= 502))
-            {
-                IEnumerable<Quote> h = HistoryTestData.Get(110 + qty);
-                IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(h, 14, 14, 3, 1);
-
-                StochRsiResult l = r.LastOrDefault();
-                Console.WriteLine("SRSI on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.StochRsi);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad RSI period

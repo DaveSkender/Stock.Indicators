@@ -55,20 +55,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
-                IEnumerable<MacdResult> r = Indicator.GetMacd(h);
-
-                MacdResult l = r.LastOrDefault();
-                Console.WriteLine("MACD on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Macd);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad fast period

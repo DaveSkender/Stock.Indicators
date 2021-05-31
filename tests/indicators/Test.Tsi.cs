@@ -59,20 +59,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            foreach (int qty in convergeQuantities)
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(135 + qty);
-                IEnumerable<TsiResult> r = Indicator.GetTsi(h);
-
-                TsiResult l = r.LastOrDefault();
-                Console.WriteLine("TSI on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Tsi);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

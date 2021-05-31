@@ -5,9 +5,6 @@ tagline: "Send in historical price quotes and get back desired technical indicat
 
 theme: jekyll-theme-cayman
 
-include:
-  ["docs", "LICENSE"]
-
 exclude:
   [
     "wraps",
@@ -21,6 +18,13 @@ exclude:
     "*.yml",
     ".github",
     ".vscode"
+  ]
+
+include:
+  [
+  "docs", 
+  "LICENSE",
+  "wraps/**/*.md"
   ]
 
 plugins:

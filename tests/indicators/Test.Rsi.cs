@@ -68,22 +68,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Convergence()
-        {
-            int lookbackPeriod = 14;
-
-            foreach (int qty in convergeQuantities.Where(q => q > 100 - lookbackPeriod))
-            {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(lookbackPeriod + qty);
-                IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriod);
-
-                RsiResult l = r.LastOrDefault();
-                Console.WriteLine("RSI({0}) on {1:d} with {2,4} periods: {3:N8}",
-                    lookbackPeriod, l.Date, h.Count(), l.Rsi);
-            }
-        }
-
-        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

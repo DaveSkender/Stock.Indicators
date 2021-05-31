@@ -1,5 +1,3 @@
-import sys
-import unittest
 from .TestBase import TestBase
 from SkenderStockIndicators import indicators
 
