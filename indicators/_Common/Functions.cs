@@ -55,6 +55,7 @@ namespace Skender.Stock.Indicators
                 PeriodSize.ThreeMinutes => TimeSpan.FromMinutes(3),
                 PeriodSize.FiveMinutes => TimeSpan.FromMinutes(5),
                 PeriodSize.FifteenMinutes => TimeSpan.FromMinutes(15),
+                PeriodSize.ThirtyMinutes => TimeSpan.FromMinutes(30),
                 PeriodSize.OneHour => TimeSpan.FromHours(1),
                 PeriodSize.TwoHours => TimeSpan.FromHours(2),
                 PeriodSize.FourHours => TimeSpan.FromHours(4),
