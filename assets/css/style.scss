@@ -5,9 +5,11 @@
 
 @import "{{ site.theme }}";
 
+// https://material.io/resources/color
 $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
+$color-primary-hover: #bdbdbd;
 
 .page-header {
     padding: 10px;
@@ -20,6 +22,15 @@ $color-primary-light: #e0e0e0;
     font-size: 2rem;
     letter-spacing: 0.05em;
     margin: 0;
+
+    a {
+        text-decoration: none;
+        color: unset;
+
+        &:hover {
+            color: $color-primary-hover;
+        }
+    }
 }
 
 .project-tagline {
