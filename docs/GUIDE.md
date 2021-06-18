@@ -286,7 +286,8 @@ SmaResult result = results.Find(lookupDate);
 IEnumerable<TQuote> minuteBarHistory = GetHistoryFromFeed("MSFT");
 
 // aggregate into larger bars
-IEnumerable<Quote> dayBarHistory = minuteBarHistory.Aggregate(PeriodSize.Day);
+IEnumerable<Quote> dayBarHistory = 
+  minuteBarHistory.Aggregate(PeriodSize.Day);
 ```
 
 :warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `history` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
