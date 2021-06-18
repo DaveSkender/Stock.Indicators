@@ -294,7 +294,6 @@ IEnumerable<Quote> dayBarHistory =
 
 #### PeriodSize options (for newSize)
 
-- `PeriodSize.Month`
 - `PeriodSize.Week`
 - `PeriodSize.Day`
 - `PeriodSize.FourHours`
