@@ -5,7 +5,7 @@
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators</Product>
     <Copyright>@2020 Dave Skender</Copyright>
-    <Description>Stock indicators.  Send in historical price quotes and get back desired technical indicators such as Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.</Description>
+    <Description>Stock.Indicators for .NET.  Send in historical price quotes and get back desired technical indicators such as Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.</Description>
 
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
