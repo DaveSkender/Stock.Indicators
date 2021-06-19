@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.0;netstandard2.1;net461</TargetFrameworks>
     <Authors>Dave Skender</Authors>
-    <Product>Stock Indicators</Product>
+    <Product>Stock.Indicators for .NET</Product>
     <Copyright>@2020 Dave Skender</Copyright>
-    <Description>Stock indicators.  Send in historical price quotes and get back desired technical indicators such as Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.</Description>
+    <Description>Stock.Indicators for .NET.  Send in historical price quotes and get back desired technical indicators such as Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.</Description>
 
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
