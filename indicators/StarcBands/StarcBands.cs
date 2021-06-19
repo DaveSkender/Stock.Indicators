@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int smaPeriod = 20,
             decimal multiplier = 2,
             int atrPeriod = 10)

@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<PivotPointsResult> GetRollingPivots<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int windowPeriod,
             int offsetPeriod,
             PivotPointType pointType = PivotPointType.Standard)

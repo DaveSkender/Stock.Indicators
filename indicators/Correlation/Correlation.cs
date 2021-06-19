@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
-            IEnumerable<TQuote> historyA,
+            this IEnumerable<TQuote> historyA,
             IEnumerable<TQuote> historyB,
             int lookbackPeriod)
             where TQuote : IQuote

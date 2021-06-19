@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<MamaResult> GetMama<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             decimal fastLimit = 0.5m,
             decimal slowLimit = 0.05m)
             where TQuote : IQuote

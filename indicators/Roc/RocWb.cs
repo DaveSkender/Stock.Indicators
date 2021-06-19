@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="WithBands"]/*' />
         /// 
         public static IEnumerable<RocWbResult> GetRocWb<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod,
             int emaPeriod,
             int stdDevPeriod)
