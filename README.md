@@ -63,6 +63,6 @@ If you want to buy me a beer or are interest in ongoing support as a patron, [be
 Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 Thank you for your support!
 
-## :telephone_receiver: Contact us
+## :phone: Contact us
 
 [Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
