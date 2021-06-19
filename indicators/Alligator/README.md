@@ -8,18 +8,14 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 ```csharp
 // usage
 IEnumerable<AlligatorResult> results =
-  Indicator.GetAlligator(history);
+  history.GetAlligator();
 ```
 
-## Parameters
+## Historical quotes requirements
 
-| name | type | notes
-| -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+You must have at least 115 periods of `history`. Since this uses a smoothing technique, we recommend you use at least 265 data points prior to the intended usage date for better precision.
 
-### Minimum history requirements
-
-You must supply at least 115 periods of `history`. Since this uses a smoothing technique, we recommend you use at least 265 data points prior to the intended usage date for better precision.
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ### Internal parameters
 
@@ -57,7 +53,7 @@ The first 10-20 periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate the Williams Alligator
-IEnumerable<AlligatorResult> results = Indicator.GetAlligator(history);
+IEnumerable<AlligatorResult> results = history.GetAlligator();
 
 // use results as needed
 AlligatorResult result = results.LastOrDefault();

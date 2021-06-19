@@ -17,7 +17,7 @@ namespace Internal.Tests
             decimal standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
-                Indicator.GetStdDevChannels(history, lookbackPeriod, standardDeviations)
+                history.GetStdDevChannels(lookbackPeriod, standardDeviations)
                 .ToList();
 
             // assertions
@@ -79,7 +79,7 @@ namespace Internal.Tests
             // null provided for lookback period
 
             List<StdDevChannelsResult> results =
-                Indicator.GetStdDevChannels(history, null, 2)
+                history.GetStdDevChannels(null, 2)
                 .ToList();
 
             // assertions

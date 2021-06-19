@@ -8,19 +8,20 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 ```csharp
 // usage
 IEnumerable<HmaResult> results =
-  Indicator.GetHma(history, lookbackPeriod);  
+  history.GetHma(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`.
+You must have at least `N` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -44,7 +45,7 @@ The first `N-(integer of SQRT(N))-1` periods will have `null` values since there
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period HMA
-IEnumerable<HmaResult> results = Indicator.GetHma(history,20);
+IEnumerable<HmaResult> results = history.GetHma(20);
 
 // use results as needed
 HmaResult result = results.LastOrDefault();

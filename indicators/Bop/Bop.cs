@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<BopResult> GetBop<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int smoothPeriod = 14)
             where TQuote : IQuote
         {

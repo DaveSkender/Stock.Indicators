@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<TrixResult> results = Indicator.GetTrix(history, 20, 5)
-                .ToList();
+            List<TrixResult> results = history.GetTrix(20, 5).ToList();
 
             // assertions
 

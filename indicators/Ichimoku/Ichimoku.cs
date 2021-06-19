@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int signalPeriod = 9,
             int shortSpanPeriod = 26,
             int longSpanPeriod = 52)

@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod,
             int? smaPeriod = null)
             where TQuote : IQuote

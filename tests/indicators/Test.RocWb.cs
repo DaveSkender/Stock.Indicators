@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<RocWbResult> results = Indicator.GetRocWb(history, 20, 3, 20)
-                .ToList();
+            List<RocWbResult> results = history.GetRocWb(20, 3, 20).ToList();
 
             // assertions
 

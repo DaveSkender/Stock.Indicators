@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<VolSmaResult> GetVolSma<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod)
             where TQuote : IQuote
         {

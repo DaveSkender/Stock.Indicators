@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<T3Result> GetT3<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod = 5,
             double volumeFactor = 0.7)
             where TQuote : IQuote

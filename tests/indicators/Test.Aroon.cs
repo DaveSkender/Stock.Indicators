@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 25;
-            List<AroonResult> results = Indicator.GetAroon(history, lookbackPeriod).ToList();
+            List<AroonResult> results = history.GetAroon(lookbackPeriod).ToList();
 
             // assertions
 

@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<ForceIndexResult> r =
-                Indicator.GetForceIndex(history, 13)
-                .ToList();
+            List<ForceIndexResult> r = history.GetForceIndex(13).ToList();
 
             // assertions
 

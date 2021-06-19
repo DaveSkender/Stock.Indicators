@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<RocResult> GetRoc<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod,
             int? smaPeriod = null)
             where TQuote : IQuote

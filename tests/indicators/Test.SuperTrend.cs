@@ -16,7 +16,7 @@ namespace Internal.Tests
             int lookbackPeriod = 14;
             decimal multiplier = 3;
 
-            List<SuperTrendResult> results = Indicator.GetSuperTrend(history, lookbackPeriod, multiplier)
+            List<SuperTrendResult> results = history.GetSuperTrend(lookbackPeriod, multiplier)
                 .ToList();
 
             // assertions

@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<FcbResult> results =
-                Indicator.GetFcb(history, 2)
-                .ToList();
+            List<FcbResult> results = history.GetFcb(2).ToList();
 
             // assertions
 

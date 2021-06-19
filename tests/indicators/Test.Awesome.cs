@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<AwesomeResult> results = Indicator.GetAwesome(history, 5, 34)
+            List<AwesomeResult> results = history.GetAwesome(5, 34)
                 .ToList();
 
             // assertions

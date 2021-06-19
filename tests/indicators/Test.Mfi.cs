@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-
-            List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod)
-                .ToList();
+            List<MfiResult> results = history.GetMfi(lookbackPeriod).ToList();
 
             // assertions
 

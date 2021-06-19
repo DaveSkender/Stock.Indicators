@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<FisherTransformResult> results = Indicator.GetFisherTransform(history, 10)
+            List<FisherTransformResult> results = history.GetFisherTransform(10)
                 .ToList();
 
             // assertions

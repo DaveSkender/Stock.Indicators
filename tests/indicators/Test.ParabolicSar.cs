@@ -17,7 +17,7 @@ namespace Internal.Tests
             decimal maxAccelerationFactor = 0.2m;
 
             List<ParabolicSarResult> results =
-                Indicator.GetParabolicSar(history, acclerationStep, maxAccelerationFactor)
+                history.GetParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
             // assertions

@@ -17,7 +17,7 @@ namespace Internal.Tests
             int smaPeriod = 10;
 
             List<PrsResult> results =
-                Indicator.GetPrs(history, historyOther, lookbackPeriod, smaPeriod)
+                history.GetPrs(historyOther, lookbackPeriod, smaPeriod)
                 .ToList();
 
             // assertions

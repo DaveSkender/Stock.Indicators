@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-            List<VortexResult> results
-                = Indicator.GetVortex(history, lookbackPeriod).ToList();
+            List<VortexResult> results = history.GetVortex(lookbackPeriod).ToList();
 
             // assertions
 

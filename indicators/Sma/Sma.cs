@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<SmaResult> GetSma<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod)
             where TQuote : IQuote
         {
@@ -57,7 +57,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Extended"]/*' />
         /// 
         public static IEnumerable<SmaExtendedResult> GetSmaExtended<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod)
             where TQuote : IQuote
         {

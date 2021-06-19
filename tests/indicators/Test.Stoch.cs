@@ -18,7 +18,7 @@ namespace Internal.Tests
             int smoothPeriod = 3;
 
             List<StochResult> results =
-                Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothPeriod)
+                history.GetStoch(lookbackPeriod, signalPeriod, smoothPeriod)
                 .ToList();
 
             // assertions

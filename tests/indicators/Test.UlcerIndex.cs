@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-
-            List<UlcerIndexResult> results = Indicator.GetUlcerIndex(history, lookbackPeriod)
+            List<UlcerIndexResult> results = history.GetUlcerIndex(lookbackPeriod)
                 .ToList();
 
             // assertions

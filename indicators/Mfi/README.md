@@ -8,19 +8,20 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<MfiResult> results =
-  Indicator.GetMfi(history, lookbackPeriod);
+  history.GetMfi(lookbackPeriod);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+1` historical quotes.
+You must have at least `N+1` historical quotes.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -44,7 +45,7 @@ The first `N` periods will have `null` MFI values since they cannot be calculate
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<MfiResult> results = Indicator.GetMfi(history,14);
+IEnumerable<MfiResult> results = history.GetMfi(14);
 
 // use results as needed
 MfiResult result = results.LastOrDefault();

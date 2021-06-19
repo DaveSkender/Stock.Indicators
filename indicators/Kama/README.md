@@ -8,21 +8,22 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ```csharp
 // usage
 IEnumerable<KamaResult> results =
-  Indicator.GetKama(history, erPeriod, fastPeriod, slowPeriod);  
+  history.GetKama(erPeriod, fastPeriod, slowPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `erPeriod` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
 | `fastPeriod` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
 | `slowPeriod` | int | Number of Slow EMA periods.  Must be greater than `fastPeriod`.  Default is 30.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `6×E` or `E+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
+You must have at least `6×E` or `E+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -51,7 +52,7 @@ More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes a
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate KAMA(10,2,30)
-IEnumerable<KamaResult> results = Indicator.GetKama(history,10,2,30);
+IEnumerable<KamaResult> results = history.GetKama(10,2,30);
 
 // use results as needed
 KamaResult result = results.LastOrDefault();

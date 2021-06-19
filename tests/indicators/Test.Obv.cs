@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<ObvResult> results = Indicator.GetObv(history)
-                .ToList();
+            List<ObvResult> results = history.GetObv().ToList();
 
             // assertions
 

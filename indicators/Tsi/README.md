@@ -8,21 +8,22 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 ```csharp
 // usage
 IEnumerable<TsiResult> results = 
-  Indicator.GetTsi(history, lookbackPeriod, smoothPeriod, signalPeriod);  
+  history.GetTsi(lookbackPeriod, smoothPeriod, signalPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
 | `smoothPeriod` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
 | `signalPeriod` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+M+100` periods of `history`.  Since this uses a two EMA smoothing techniques, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
+You must have at least `N+M+100` periods of `history`.  Since this uses a two EMA smoothing techniques, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -49,7 +50,7 @@ The first `N+M-1` periods will have `null` values since there's not enough data 
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period TSI
-IEnumerable<TsiResult> results = Indicator.GetTsi(history,25,13,7);
+IEnumerable<TsiResult> results = history.GetTsi(25,13,7);
 
 // use results as needed
 TsiResult result = results.LastOrDefault();

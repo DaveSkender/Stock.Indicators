@@ -13,8 +13,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-
-            List<ChopResult> results = Indicator.GetChop(history, lookbackPeriod)
+            List<ChopResult> results = history.GetChop(lookbackPeriod)
                 .ToList();
 
             // assertions

@@ -8,21 +8,22 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ```csharp
 // usage
 IEnumerable<StochResult> results =
-  Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothingPeriod);  
+  history.GetStoch(lookbackPeriod, signalPeriod, smoothingPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
 | `signalPeriod` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
 | `smoothingPeriod` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+S` periods of `history`.
+You must have at least `N+S` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ The first `N+S-1` periods will have `null` Oscillator values since there's not e
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate STO %K(14),%D(3) (slow)
-IEnumerable<StochResult> results = Indicator.GetStoch(history,14,3,3);
+IEnumerable<StochResult> results = history.GetStoch(14,3,3);
 
 // use results as needed
 StochResult result = results.LastOrDefault();

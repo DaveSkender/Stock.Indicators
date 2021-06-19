@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<TsiResult> results = Indicator.GetTsi(history, 25, 13, 7)
-                .ToList();
+            List<TsiResult> results = history.GetTsi(25, 13, 7).ToList();
 
             // assertions
 

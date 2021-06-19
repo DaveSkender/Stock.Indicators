@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<WmaResult> results = Indicator.GetWma(history, lookbackPeriod)
-                .ToList();
+            List<WmaResult> results = history.GetWma(lookbackPeriod).ToList();
 
             // assertions
 

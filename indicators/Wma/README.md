@@ -8,19 +8,20 @@
 ```csharp
 // usage
 IEnumerable<WmaResult> results =
-  Indicator.GetWma(history, lookbackPeriod);  
+  history.GetWma(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`.
+You must have at least `N` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -44,7 +45,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period WMA
-IEnumerable<WmaResult> results = Indicator.GetWma(history,20);
+IEnumerable<WmaResult> results = history.GetWma(20);
 
 // use results as needed
 WmaResult result = results.LastOrDefault();

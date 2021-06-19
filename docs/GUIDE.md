@@ -49,7 +49,7 @@ using Skender.Stock.Indicators;
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
+IEnumerable<SmaResult> results = history.GetSma(history,20);
 
 // use results as needed
 SmaResult result = results.LastOrDefault();
@@ -58,6 +58,13 @@ Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 
 ```bash
 SMA on 12/31/2018 was $251.86
+```
+
+If you do not prefer using the history extension syntax, a full method syntax can also be used.
+
+```csharp
+// alternate full syntax example
+IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
 ```
 
 See [individual indicator pages](INDICATORS.md) for specific usage guidance.
@@ -116,7 +123,7 @@ public class MyCustomQuote : IQuote
 IEnumerable<MyCustomQuote> myHistory = GetHistoryFromFeed("MSFT");
 
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = Indicator.GetSma(myHistory,20);
+IEnumerable<SmaResult> results = myHistory.GetSma(20);
 ```
 
 #### Using custom quote property names
@@ -174,7 +181,7 @@ public void MyClass(){
   IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
   // compute indicator
-  INumerable<EmaResult> emaResults = Indicator.GetEma(history,14);
+  INumerable<EmaResult> emaResults = history.GetEma(14);
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
@@ -213,7 +220,7 @@ public void MyClass(){
   IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
   // compute indicator
-  INumerable<EmaResult> emaResults = Indicator.GetEma(history,14);
+  INumerable<EmaResult> emaResults = history.GetEma(14);
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
@@ -242,7 +249,7 @@ If you want to compute an indicator of indicators, such as an SMA of an ADX or a
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate OBV
-IEnumerable<ObvResult> obvResults = Indicator.GetObv(history);
+IEnumerable<ObvResult> obvResults = history.GetObv();
 
 // convert to synthetic history [using LINQ]
 List<Quote> obvHistory = obvResults
@@ -256,7 +263,7 @@ List<Quote> obvHistory = obvResults
 
 // calculate RSI of OBV
 int lookbackPeriod = 14;
-IEnumerable<RsiResult> results = Indicator.GetRsi(obvHistory, lookbackPeriod);
+IEnumerable<RsiResult> results = obvHistory.GetRsi(lookbackPeriod);
 ```
 
 ## Helper functions
@@ -270,7 +277,7 @@ IEnumerable<RsiResult> results = Indicator.GetRsi(obvHistory, lookbackPeriod);
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate indicator series
-IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
+IEnumerable<SmaResult> results = history.GetSma(20);
 
 // find result on a specific date
 DateTime lookupDate = [..] // the date you want to find

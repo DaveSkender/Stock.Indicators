@@ -8,21 +8,22 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ```csharp
 // usage
 IEnumerable<ChandelierResult> results =
-  Indicator.GetChandelier(history, lookbackPeriod, multiplier, type);  
+  history.GetChandelier(lookbackPeriod, multiplier, type);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22.
 | `multiplier` | decimal | Multiplier number must be a positive value.  Default is 3.
 | `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ### ChandelierType options
 
@@ -54,7 +55,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Chandelier(22,3,LONG)
 IEnumerable<ChandelierResult> results =
-  Indicator.GetChandelier(history,22,3,ChandelierType.Long);
+  history.GetChandelier(22,3,ChandelierType.Long);
 
 // use results as needed
 ChandelierResult result = results.LastOrDefault();

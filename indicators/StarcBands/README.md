@@ -8,21 +8,22 @@ Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https:
 ```csharp
 // usage
 IEnumerable<StarcBandsResult> results = 
-  Indicator.GetStarcBands(history, smaPeriod, multiplier, atrPeriod);  
+  history.GetStarcBands(smaPeriod, multiplier, atrPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `smaPeriod` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
 | `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
 | `atrPeriod` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriod`.  Default is 10.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `S` or `A+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
+You must have at least `S` or `A+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,7 +51,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate StarcBands(20)
-IEnumerable<StarcBandsResult> results = Indicator.GetStarcBands(history,20,2.0,10);
+IEnumerable<StarcBandsResult> results = history.GetStarcBands(20,2.0,10);
 
 // use results as needed
 StarcBandsResult result = results.LastOrDefault();

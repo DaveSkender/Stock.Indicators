@@ -8,23 +8,24 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 ```csharp
 // usage
 IEnumerable<AdlResult> results =
-  Indicator.GetAdl(history);  
+  history.GetAdl();  
 
 // usage with optional overlay SMA of ADL (shown above)
 IEnumerable<AdlResult> results =
-  Indicator.GetAdl(history, smaPeriod);  
+  history.GetAdl(smaPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `smaPeriod` | int | Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least two historical quotes; however, since this is a trendline, more is recommended.
+You must have at least two historical quotes; however, since this is a trendline, more is recommended.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -53,7 +54,7 @@ We always return the same number of elements as there are in the historical quot
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<AdlResult> results = Indicator.GetAdl(history);
+IEnumerable<AdlResult> results = history.GetAdl();
 
 // use results as needed
 AdlResult result = results.LastOrDefault();

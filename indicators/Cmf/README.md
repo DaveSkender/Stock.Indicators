@@ -8,19 +8,20 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 ```csharp
 // usage
 IEnumerable<CmfResult> results =
-  Indicator.GetCmf(history, lookbackPeriod);  
+  history.GetCmf(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CMF
-IEnumerable<CmfResult> results = Indicator.GetCmf(history,20);
+IEnumerable<CmfResult> results = history.GetCmf(20);
 
 // use results as needed
 CmfResult result = results.LastOrDefault();

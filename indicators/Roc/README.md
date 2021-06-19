@@ -8,24 +8,25 @@
 ```csharp
 // usage
 IEnumerable<RocResult> results =
-  Indicator.GetRoc(history, lookbackPeriod);
+  history.GetRoc(lookbackPeriod);
 
 // usage with optional SMA of ROC (shown above)
 IEnumerable<RocResult> results =
-  Indicator.GetRoc(history, lookbackPeriod, smaPeriod);
+  history.GetRoc(lookbackPeriod, smaPeriod);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.
 | `smaPeriod` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,7 +51,7 @@ The first `N` periods will have `null` values for ROC since there's not enough d
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period ROC
-IEnumerable<RocResult> results = Indicator.GetRoc(history,20);
+IEnumerable<RocResult> results = history.GetRoc(20);
 
 // use results as needed
 RocResult result = results.LastOrDefault();
@@ -68,14 +69,14 @@ ROC on 12/31/2018 was -8.25%
 ```csharp
 // usage
 IEnumerable<RocWbResult> results =
-  Indicator.GetRocWb(history, lookbackPeriod, emaPeriod, stdDevPeriod);
+  history.GetRocWb(lookbackPeriod, emaPeriod, stdDevPeriod);
 ```
 
 ### Parameters with Bands
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+
 | `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
 | `emaPeriod` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
 | `stdDevPeriod` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriod`.  Standard is to use same value as `lookbackPeriod`.

@@ -8,19 +8,20 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 ```csharp
 // usage
 IEnumerable<ElderRayResult> results =
-  Indicator.GetElderRay(history, lookbackPeriod);  
+  history.GetElderRay(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,7 +51,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate ElderRay(13)
 IEnumerable<ElderRayResult> results
-  = Indicator.GetElderRay(history,13);
+  = history.GetElderRay(13);
 
 // use results as needed
 ElderRayResult r = results.LastOrDefault();

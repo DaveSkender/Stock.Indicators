@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="TEMA"]/*' />
         /// 
         public static IEnumerable<EmaResult> GetTripleEma<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod)
             where TQuote : IQuote
         {

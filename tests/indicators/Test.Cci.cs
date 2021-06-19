@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<CciResult> results = Indicator.GetCci(history, 20)
-                .ToList();
+            List<CciResult> results = history.GetCci(20).ToList();
 
             // assertions
 

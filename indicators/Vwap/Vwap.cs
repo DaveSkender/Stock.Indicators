@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<VwapResult> GetVwap<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             DateTime? startDate = null)
             where TQuote : IQuote
         {

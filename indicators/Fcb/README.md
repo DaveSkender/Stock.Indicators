@@ -8,21 +8,22 @@ Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price
 ```csharp
 // usage
 IEnumerable<FcbResult> results =
-  Indicator.GetFcb(history, lookbackPeriod);  
+  history.GetFcb(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.  See [Williams Fractal](../Fractal/README.md#content) for more information about Fractals and `windowSpan`.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `2×S+1` periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least `2×S+1` periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ We always return the same number of elements as there are in the historical quot
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Fcb(14)
-IEnumerable<FcbResult> results = Indicator.GetFcb(history,14);
+IEnumerable<FcbResult> results = history.GetFcb(14);
 
 // use results as needed
 FcbResult result = results.LastOrDefault();

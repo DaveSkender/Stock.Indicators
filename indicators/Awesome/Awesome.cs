@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int fastPeriod = 5,
             int slowPeriod = 34)
             where TQuote : IQuote

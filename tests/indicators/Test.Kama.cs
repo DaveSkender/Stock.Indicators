@@ -17,7 +17,7 @@ namespace Internal.Tests
             int fastPeriod = 2;
             int slowPeriod = 30;
 
-            List<KamaResult> results = Indicator.GetKama(history, erPeriod, fastPeriod, slowPeriod)
+            List<KamaResult> results = history.GetKama(erPeriod, fastPeriod, slowPeriod)
                 .ToList();
 
             // assertions

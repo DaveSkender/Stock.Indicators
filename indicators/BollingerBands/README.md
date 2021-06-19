@@ -8,20 +8,21 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 ```csharp
 // usage
 IEnumerable<BollingerBandsResult> results =
-  Indicator.GetBollingerBands(history, lookbackPeriod, standardDeviation);  
+  history.GetBollingerBands(lookbackPeriod, standardDeviation);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
 | `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`.
+You must have at least `N` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -51,7 +52,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate BollingerBands(12,26,9)
 IEnumerable<BollingerBandsResult> results =
-  Indicator.GetBollingerBands(history,20,2);
+  history.GetBollingerBands(20,2);
 
 // use results as needed
 BollingerBandsResult result = results.LastOrDefault();

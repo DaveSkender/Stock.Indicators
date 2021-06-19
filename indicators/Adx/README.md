@@ -8,19 +8,20 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 ```csharp
 // usage
 IEnumerable<AdxResult> results =
-  Indicator.GetAdx(history, lookbackPeriod);  
+  history.GetAdx(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ The first `2×N-1` periods will have `null` values for ADX since there's not eno
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ADX
-IEnumerable<AdxResult> results = Indicator.GetAdx(history,14);
+IEnumerable<AdxResult> results = history.GetAdx(14);
 
 // use results as needed
 AdxResult result = results.LastOrDefault();

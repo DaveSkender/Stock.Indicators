@@ -8,20 +8,21 @@ Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/
 ```csharp
 // usage
 IEnumerable<ChaikinOscResult> results =
-  Indicator.GetChaikinOsc(history, fastPeriod, slowPeriod);  
+  history.GetChaikinOsc(fastPeriod, slowPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `fastPeriod` | int | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3.
 | `slowPeriod` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `2×S` or `S+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S+250` data points prior to the intended usage date for better precision.
+You must have at least `2×S` or `S+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -52,7 +53,7 @@ The first `S-1` periods will have `null` values for `Oscillator` since there's n
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Chaikin Oscillator
-IEnumerable<ChaikinOscResult> results = Indicator.GetChaikinOsc(history,20);
+IEnumerable<ChaikinOscResult> results = history.GetChaikinOsc(20);
 
 // use results as needed
 ChaikinOscResult result = results.LastOrDefault();

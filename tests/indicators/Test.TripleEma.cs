@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<EmaResult> results = Indicator.GetTripleEma(history, lookbackPeriod)
-                .ToList();
+            List<EmaResult> results = history.GetTripleEma(lookbackPeriod).ToList();
 
             // assertions
 

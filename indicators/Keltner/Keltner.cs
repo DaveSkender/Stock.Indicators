@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<KeltnerResult> GetKeltner<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int emaPeriod = 20,
             decimal multiplier = 2,
             int atrPeriod = 10)
