@@ -15,7 +15,7 @@ namespace Internal.Tests
         {
 
             List<KvoResult> results =
-                Indicator.GetKvo(history, 34, 55, 13)
+                history.GetKvo(34, 55, 13)
                 .ToList();
 
             // assertions

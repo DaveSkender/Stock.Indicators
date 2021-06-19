@@ -17,7 +17,7 @@ namespace Internal.Tests
             double offset = 0.85;
             double sigma = 6;
 
-            List<AlmaResult> results = Indicator.GetAlma(history, lookbackPeriod, offset, sigma)
+            List<AlmaResult> results = history.GetAlma(lookbackPeriod, offset, sigma)
                 .ToList();
 
             // assertions

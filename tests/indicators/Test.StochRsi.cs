@@ -19,7 +19,7 @@ namespace Internal.Tests
             int smoothPeriod = 1;
 
             List<StochRsiResult> results =
-                Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                history.GetStochRsi(rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
                 .ToList();
 
             // assertions

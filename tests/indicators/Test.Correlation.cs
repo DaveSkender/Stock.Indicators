@@ -14,9 +14,8 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
             List<CorrResult> results =
-                Indicator.GetCorrelation(history, historyOther, lookbackPeriod)
+                history.GetCorrelation(historyOther, lookbackPeriod)
                 .ToList();
 
             // assertions

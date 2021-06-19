@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<EpmaResult> results = Indicator.GetEpma(history, lookbackPeriod)
-                .ToList();
+            List<EpmaResult> results = history.GetEpma(lookbackPeriod).ToList();
 
             // assertions
 

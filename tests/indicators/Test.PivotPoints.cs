@@ -16,7 +16,7 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Month;
             PivotPointType pointType = PivotPointType.Standard;
 
-            List<PivotPointsResult> results = Indicator.GetPivotPoints(history, periodSize, pointType)
+            List<PivotPointsResult> results = history.GetPivotPoints(periodSize, pointType)
                 .ToList();
 
             // assertions

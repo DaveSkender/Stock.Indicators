@@ -16,7 +16,7 @@ namespace Internal.Tests
             int lookbackPeriod = 22;
 
             List<ChandelierResult> longResult =
-                Indicator.GetChandelier(history, lookbackPeriod, 3.0m)
+                history.GetChandelier(lookbackPeriod, 3.0m)
                 .ToList();
 
             // assertions

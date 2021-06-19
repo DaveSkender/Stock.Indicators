@@ -15,7 +15,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 10, 2.5, MaType.ALMA)
+                history.GetMaEnvelopes(10, 2.5, MaType.ALMA)
                 .ToList();
 
             // assertions
@@ -47,7 +47,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.DEMA)
+                history.GetMaEnvelopes(20, 2.5, MaType.DEMA)
                 .ToList();
 
             // assertions
@@ -79,7 +79,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.EPMA)
+                history.GetMaEnvelopes(20, 2.5, MaType.EPMA)
                 .ToList();
 
             // assertions
@@ -111,7 +111,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.EMA)
+                history.GetMaEnvelopes(20, 2.5, MaType.EMA)
                 .ToList();
 
             // assertions
@@ -143,7 +143,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.HMA)
+                history.GetMaEnvelopes(20, 2.5, MaType.HMA)
                 .ToList();
 
             // assertions
@@ -170,7 +170,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.SMA)
+                history.GetMaEnvelopes(20, 2.5, MaType.SMA)
                 .ToList();
 
             // assertions
@@ -202,7 +202,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.TEMA)
+                history.GetMaEnvelopes(20, 2.5, MaType.TEMA)
                 .ToList();
 
             // assertions
@@ -234,7 +234,7 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                Indicator.GetMaEnvelopes(history, 20, 2.5, MaType.WMA)
+                history.GetMaEnvelopes(20, 2.5, MaType.WMA)
                 .ToList();
 
             // assertions

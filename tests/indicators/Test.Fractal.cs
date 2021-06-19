@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard2()
         {
 
-            List<FractalResult> results = Indicator.GetFractal(history, 2)
-                .ToList();
+            List<FractalResult> results = history.GetFractal(2).ToList();
 
             // assertions
 
@@ -55,8 +54,7 @@ namespace Internal.Tests
         public void Standard4()
         {
 
-            List<FractalResult> results = Indicator.GetFractal(history, 4)
-                .ToList();
+            List<FractalResult> results = history.GetFractal(4).ToList();
 
             // assertions
 

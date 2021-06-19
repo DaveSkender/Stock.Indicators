@@ -13,9 +13,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<SmmaResult> results = Indicator.GetSmma(history, lookbackPeriod)
-                .ToList();
+            List<SmmaResult> results = history.GetSmma(lookbackPeriod).ToList();
 
             // assertions
 

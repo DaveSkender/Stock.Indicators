@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<SmaResult> results = Indicator.GetSma(history, 20)
-                .ToList();
+            List<SmaResult> results = history.GetSma(20).ToList();
 
             // assertions
 
@@ -37,8 +36,7 @@ namespace Internal.Tests
         public void Extended()
         {
 
-            List<SmaExtendedResult> results = Indicator.GetSmaExtended(history, 20)
-                .ToList();
+            List<SmaExtendedResult> results = history.GetSmaExtended(20).ToList();
 
             // assertions
 

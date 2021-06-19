@@ -50,6 +50,7 @@ namespace External.Other
             IEnumerable<Quote> history = HistoryTestData.Get();
             history.Validate();
 
+            history.GetSma(6);
             Indicator.GetSma(history, 5);
         }
 
@@ -111,7 +112,7 @@ namespace External.Other
                 })
                 .ToList();
 
-            List<EmaResult> results = Indicator.GetEma(myGenericHistory, 20)
+            List<EmaResult> results = myGenericHistory.GetEma(20)
                 .ToList();
 
             // assertions
@@ -182,7 +183,7 @@ namespace External.Other
         public void DerivedIndicatorClassLinq()
         {
             IEnumerable<Quote> history = HistoryTestData.Get();
-            IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 14);
+            IEnumerable<EmaResult> emaResults = history.GetEma(14);
 
             // can use a derive Indicator class using Linq
 

@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-
-            List<WilliamsResult> results = Indicator.GetWilliamsR(history, lookbackPeriod)
+            List<WilliamsResult> results = history.GetWilliamsR(lookbackPeriod)
                 .ToList();
 
             // assertions

@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-            List<AdxResult> results = Indicator.GetAdx(history, lookbackPeriod).ToList();
+            List<AdxResult> results = history.GetAdx(lookbackPeriod).ToList();
 
             // assertions
 

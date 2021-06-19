@@ -16,7 +16,7 @@ namespace Internal.Tests
             decimal fastLimit = 0.5m;
             decimal slowLimit = 0.05m;
 
-            List<MamaResult> results = Indicator.GetMama(history, fastLimit, slowLimit)
+            List<MamaResult> results = history.GetMama(fastLimit, slowLimit)
                 .ToList();
 
             // assertions

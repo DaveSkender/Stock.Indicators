@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<SlopeResult> results = Indicator.GetSlope(history, lookbackPeriod)
-                .ToList();
+            List<SlopeResult> results = history.GetSlope(lookbackPeriod).ToList();
 
             // assertions
 

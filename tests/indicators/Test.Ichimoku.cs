@@ -17,8 +17,8 @@ namespace Internal.Tests
             int shortSpanPeriod = 26;
             int longSpanPeriod = 52;
 
-            List<IchimokuResult> results = Indicator.GetIchimoku(
-                history, signalPeriod, shortSpanPeriod, longSpanPeriod)
+            List<IchimokuResult> results = history.GetIchimoku(
+                signalPeriod, shortSpanPeriod, longSpanPeriod)
                 .ToList();
 
             // assertions

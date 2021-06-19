@@ -18,7 +18,7 @@ namespace Internal.Tests
             int signalPeriod = 9;
 
             List<PvoResult> results =
-                Indicator.GetPvo(history, fastPeriod, slowPeriod, signalPeriod)
+                history.GetPvo(fastPeriod, slowPeriod, signalPeriod)
                 .ToList();
 
             // assertions

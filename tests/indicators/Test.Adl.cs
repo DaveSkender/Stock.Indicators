@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<AdlResult> results = Indicator.GetAdl(history).ToList();
+            List<AdlResult> results = history.GetAdl().ToList();
 
             // assertions
 

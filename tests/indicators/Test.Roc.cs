@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<RocResult> results = Indicator.GetRoc(history, lookbackPeriod)
-                .ToList();
+            List<RocResult> results = history.GetRoc(lookbackPeriod).ToList();
 
             // assertions
 

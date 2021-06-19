@@ -12,8 +12,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<AlligatorResult> results = Indicator.GetAlligator(history)
-                .ToList();
+            List<AlligatorResult> results = history.GetAlligator().ToList();
 
             // assertions
 

@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<CmfResult> results = Indicator.GetCmf(history, lookbackPeriod)
-                .ToList();
+            List<CmfResult> results = history.GetCmf(lookbackPeriod).ToList();
 
             // assertions
 

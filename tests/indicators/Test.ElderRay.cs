@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<ElderRayResult> results = Indicator.GetElderRay(history, 13)
-                .ToList();
+            List<ElderRayResult> results = history.GetElderRay(13).ToList();
 
             // assertions
 

@@ -19,7 +19,7 @@ namespace External.Other
             foreach (int qty in convergeQuantities)
             {
                 IEnumerable<Quote> h = HistoryTestData.GetLong(128 + qty);
-                IEnumerable<AdxResult> r = Indicator.GetAdx(h);
+                IEnumerable<AdxResult> r = h.GetAdx();
 
                 AdxResult l = r.LastOrDefault();
                 Console.WriteLine("ADX on {0:d} with {1,4} periods: {2:N8}",
