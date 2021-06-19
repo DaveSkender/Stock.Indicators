@@ -8,20 +8,21 @@ Created by John Ehlers, the [MAMA](http://mesasoftware.com/papers/MAMA.pdf) indi
 ```csharp
 // usage
 IEnumerable<MamaResult> results =
-  Indicator.GetMama(history, fastLimit, slowLimit);  
+  history.GetMama(fastLimit, slowLimit);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `fastLimit` | decimal | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
 | `slowLimit` | decimal | Slow limit threshold.  Must be greater than 0.  Default is 0.05.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-Since this indicator has a warmup period, you must supply at least `50` periods of `history`.
+Since this indicator has a warmup period, you must have at least `50` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ The first `5` periods will have `null` values for MAMA since there's not enough 
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate Mama(0.5,0.05)
-IEnumerable<MamaResult> results = Indicator.GetMama(history,0.5,0.05);
+IEnumerable<MamaResult> results = history.GetMama(0.5,0.05);
 
 // use results as needed
 MamaResult result = results.LastOrDefault();

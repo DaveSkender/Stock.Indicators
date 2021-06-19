@@ -8,20 +8,21 @@ Created by Tim Tillson, the [T3](https://www.forexfactory.com/attachment.php/845
 ```csharp
 // usage
 IEnumerable<T3Result> results = 
-  Indicator.GetT3(history, lookbackPeriod, volumeFactor);  
+  history.GetT3(lookbackPeriod, volumeFactor);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for the EMA smoothing.  Must be greater than 0 and is usually less than 63.  Default is 5.
 | `volumeFactor` | double | Size of the Volume Factor.  Must be greater than 0 and is usually less than 2.  Default is 0.7
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `6×(N-1)+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `6×(N-1)+250` data points prior to the intended usage date for better precision.
+You must have at least `6×(N-1)+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `6×(N-1)+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -47,7 +48,7 @@ The first `6×(N-1)` periods will have `null` values since there's not enough da
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 5-period T3
-IEnumerable<T3Result> results = Indicator.GetT3(history,5,0.7);
+IEnumerable<T3Result> results = history.GetT3(5,0.7);
 
 // use results as needed
 T3Result result = results.LastOrDefault();

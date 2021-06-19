@@ -8,21 +8,22 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 ```csharp
 // usage
 IEnumerable<ConnorsRsiResult> results =
-  Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod);  
+  history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `rsiPeriod` | int | Lookback period (`R`) for the close price RSI.  Must be greater than 1.  Default is 3.
 | `streakPeriod` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
 | `rankPeriod` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-`N` is the greater of `R+100` and `S`, and `P+2`.  You must supply at least `N` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
+`N` is the greater of `R+100` and `S`, and `P+2`.  You must have at least `N` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -51,7 +52,7 @@ The first `R+S+P-1` periods will have `null` values since there's not enough dat
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate ConnorsRsi(3,2.100)
-IEnumerable<ConnorsRsiResult> results = Indicator.GetConnorsRsi(history,3,2,100);
+IEnumerable<ConnorsRsiResult> results = history.GetConnorsRsi(3,2,100);
 
 // use results as needed
 ConnorsRsiResult result = results.LastOrDefault();

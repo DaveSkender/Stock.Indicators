@@ -8,19 +8,20 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 ```csharp
 // usage
 IEnumerable<UlcerIndexResult> results =
-  Indicator.GetUlcerIndex(history, lookbackPeriod);  
+  history.GetUlcerIndex(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`.
+You must have at least `N` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -44,7 +45,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate UI(14)
-IEnumerable<UlcerIndexResult> results = Indicator.GetUlcerIndex(history,14);
+IEnumerable<UlcerIndexResult> results = history.GetUlcerIndex(14);
 
 // use results as needed
 UlcerIndexResult result = results.LastOrDefault();

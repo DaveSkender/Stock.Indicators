@@ -8,31 +8,32 @@
 ```csharp
 // usage for EMA (standard)
 IEnumerable<EmaResult> results =
-  Indicator.GetEma(history, lookbackPeriod);
+  history.GetEma(lookbackPeriod);
 
 // usage for Double EMA
 IEnumerable<EmaResult> results =
-  Indicator.GetDoubleEma(history, lookbackPeriod);
+  history.GetDoubleEma(lookbackPeriod);
 
 // usage for Triple EMA
 IEnumerable<EmaResult> results =
-  Indicator.GetTripleEma(history, lookbackPeriod);
+  history.GetTripleEma(lookbackPeriod);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-**EMA** (standard): You must supply at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+**EMA** (standard): You must have at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-**Double EMA**: You must supply at least `3×N` or `2×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+**Double EMA**: You must have at least `3×N` or `2×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
-**Triple EMA**: You must supply at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+**Triple EMA**: You must have at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -64,7 +65,7 @@ Triple EMA: The first `3×N-2` periods will have `null` values since there's not
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period EMA
-IEnumerable<EmaResult> results = Indicator.GetEma(history,20);
+IEnumerable<EmaResult> results = history.GetEma(20);
 
 // use results as needed
 EmaResult result = results.LastOrDefault();

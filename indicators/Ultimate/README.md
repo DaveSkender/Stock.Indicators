@@ -8,21 +8,22 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<UltimateResult> results =
-  Indicator.GetUltimate(history, shortPeriod, middlePeriod, longPeriod);  
+  history.GetUltimate(shortPeriod, middlePeriod, longPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `shortPeriod` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
 | `middlePeriod` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
 | `longPeriod` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `L+1` periods of `history`.
+You must have at least `L+1` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -46,7 +47,7 @@ The first `L-1` periods will have `null` Ultimate values since there's not enoug
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period Ultimate
-IEnumerable<UltimateResult> results = Indicator.GetUltimate(history,7,14,28);
+IEnumerable<UltimateResult> results = history.GetUltimate(7,14,28);
 
 // use results as needed
 UltimateResult result = results.LastOrDefault();

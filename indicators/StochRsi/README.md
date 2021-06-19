@@ -8,14 +8,13 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 ```csharp
 // usage
 IEnumerable<StochRsiResult> results =
-  Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
+  history.GetStochRsi(rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `rsiPeriod` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
 | `stochPeriod` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriod`.
 | `signalPeriod` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
@@ -23,9 +22,11 @@ IEnumerable<StochRsiResult> results =
 
 The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriod=1`).  For a standard period of 14, the original formula would be `GetStochRSI(history,14,14,3,1)`; though, the "3" here is just for the Signal, which is not present in the original formula, but useful for additional smoothing of the Stochastic RSI.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`, where `N` is the greater of `R+S` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
+You must have at least `N` periods of `history`, where `N` is the greater of `R+S` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -52,7 +53,7 @@ The first `R+S-1` periods will have `null` values for `StochRsi` since there's n
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate StochRSI(14)
-IEnumerable<StochRsiResult> results = Indicator.GetStochRsi(history,14,14,1,1);
+IEnumerable<StochRsiResult> results = history.GetStochRsi(14,14,1,1);
 
 // use results as needed
 StochRsiResult result = results.LastOrDefault();

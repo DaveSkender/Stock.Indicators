@@ -32,7 +32,7 @@ using Skender.Stock.Indicators;
 [..]  // prerequisite: get quote history from your own source
 
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
+IEnumerable<SmaResult> results = history.GetSma(20);
 ```
 
 See the [guide](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html) and the [full list of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html) for more information.

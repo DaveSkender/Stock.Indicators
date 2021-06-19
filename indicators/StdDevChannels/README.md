@@ -8,20 +8,21 @@ Standard Deviation Channels are based on an linear regression centerline and sta
 ```csharp
 // usage
 IEnumerable<StdDevChannelsResult> results =
-  Indicator.GetStdDevChannels(history, lookbackPeriod, standardDeviations);  
+  history.GetStdDevChannels(lookbackPeriod, standardDeviations);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `history` evaluation window ([see below](#alternative-depiction-for-full-history-variant)).  Default is 20.
 | `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`.
+You must have at least `N` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -51,7 +52,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate StdDevChannels(20,2)
 IEnumerable<StdDevChannelsResult> results =
-  Indicator.GetStdDevChannels(history,20,2);
+  history.GetStdDevChannels(20,2);
 
 // use results as needed
 StdDevChannelsResult result = results.LastOrDefault();
