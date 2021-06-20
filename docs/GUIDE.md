@@ -49,7 +49,7 @@ using Skender.Stock.Indicators;
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = history.GetSma(history,20);
+IEnumerable<SmaResult> results = history.GetSma(20);
 
 // use results as needed
 SmaResult result = results.LastOrDefault();
