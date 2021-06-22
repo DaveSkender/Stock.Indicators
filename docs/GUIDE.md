@@ -172,6 +172,7 @@ The indicator result (e.g. `EmaResult`) classes can be extended in your code.  H
 // your custom derived class
 public class MyEma : EmaResult
 {
+  // my added properties
   public int MyId { get; set; }
 }
 
