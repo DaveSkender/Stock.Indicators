@@ -1,6 +1,6 @@
 # Standard Deviation (volatility)
 
-Rolling [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of Close price over a lookback window.
+Rolling [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of Close price over a lookback window.  Also known as Historical Volatility (HV).
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
 
 ![image](chart.png)
