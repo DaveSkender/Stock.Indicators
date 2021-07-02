@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<HtlResult> results = Indicator.GetHtTrendline(history)
-                .ToList();
+            List<HtlResult> results = history.GetHtTrendline().ToList();
 
             // assertions
 

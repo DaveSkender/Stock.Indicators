@@ -19,7 +19,7 @@ namespace Internal.Tests
             int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
 
             List<StarcBandsResult> results =
-                Indicator.GetStarcBands(history, smaPeriod, multiplier, atrPeriod)
+                history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
                 .ToList();
 
             // assertions

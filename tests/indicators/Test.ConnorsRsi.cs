@@ -19,7 +19,7 @@ namespace Internal.Tests
             int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
 
             List<ConnorsRsiResult> results1 =
-                Indicator.GetConnorsRsi(history, rsiPeriod, streakPeriod, rankPeriod)
+                history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod)
                 .ToList();
 
             // assertions
@@ -37,7 +37,7 @@ namespace Internal.Tests
             Assert.AreEqual(74.7662m, Math.Round((decimal)r1.ConnorsRsi, 4));
 
             // different parameters
-            List<ConnorsRsiResult> results2 = Indicator.GetConnorsRsi(history, 14, 20, 10).ToList();
+            List<ConnorsRsiResult> results2 = history.GetConnorsRsi(14, 20, 10).ToList();
             ConnorsRsiResult r2 = results2[501];
             Assert.AreEqual(42.0773m, Math.Round((decimal)r2.RsiClose, 4));
             Assert.AreEqual(52.7386m, Math.Round((decimal)r2.RsiStreak, 4));

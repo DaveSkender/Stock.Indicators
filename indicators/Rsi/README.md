@@ -8,19 +8,20 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 ```csharp
 // usage
 IEnumerable<RsiResult> results =
-  Indicator.GetRsi(history, lookbackPeriod);  
+  history.GetRsi(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `10×N` data points prior to the intended usage date for better precision.
+You must have at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `10×N` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -46,7 +47,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate RSI(14)
-IEnumerable<RsiResult> results = Indicator.GetRsi(history,14);
+IEnumerable<RsiResult> results = history.GetRsi(14);
 
 // use results as needed
 RsiResult result = results.LastOrDefault();

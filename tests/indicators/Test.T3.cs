@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<T3Result> results = Indicator.GetT3(history, 5, 0.7)
-                .ToList();
+            List<T3Result> results = history.GetT3(5, 0.7).ToList();
 
             // assertions
 

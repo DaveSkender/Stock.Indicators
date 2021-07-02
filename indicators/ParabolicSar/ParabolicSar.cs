@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             decimal accelerationStep = (decimal)0.02,
             decimal maxAccelerationFactor = (decimal)0.2)
             where TQuote : IQuote

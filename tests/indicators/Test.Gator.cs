@@ -12,8 +12,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<GatorResult> results = Indicator.GetGator(history)
-                .ToList();
+            List<GatorResult> results = history.GetGator().ToList();
 
             // assertions
 

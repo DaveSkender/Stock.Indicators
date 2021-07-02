@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<RsiResult> GetRsi<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod = 14)
             where TQuote : IQuote
         {

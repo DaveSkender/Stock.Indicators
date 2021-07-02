@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<BopResult> results = Indicator.GetBop(history, 14)
-                .ToList();
+            List<BopResult> results = history.GetBop(14).ToList();
 
             // assertions
 

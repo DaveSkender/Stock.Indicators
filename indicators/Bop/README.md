@@ -8,19 +8,20 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 ```csharp
 // usage
 IEnumerable<BopResult> results =
-  Indicator.GetBop(history, smoothPeriod);  
+  history.GetBop(smoothPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `smoothPeriod` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`.
+You must have at least `N` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -44,7 +45,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 14-period BOP
-IEnumerable<BopResult> results = Indicator.GetBop(history,14);
+IEnumerable<BopResult> results = history.GetBop(14);
 
 // use results as needed
 BopResult result = results.LastOrDefault();

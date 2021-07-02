@@ -18,7 +18,7 @@ namespace Internal.Tests
             int atrPeriod = 10;
 
             List<KeltnerResult> results =
-                Indicator.GetKeltner(history, emaPeriod, multiplier, atrPeriod)
+                history.GetKeltner(emaPeriod, multiplier, atrPeriod)
                 .ToList();
 
             // assertions

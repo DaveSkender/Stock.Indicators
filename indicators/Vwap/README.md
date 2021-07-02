@@ -8,23 +8,24 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 ```csharp
 // usage
 IEnumerable<VwapResult> results =
-  Indicator.GetVwap(history);
+  history.GetVwap();
 
 // usage with optional anchored start date
 IEnumerable<VwapResult> results =
-  Indicator.GetVwap(history, startDate);  
+  history.GetVwap(startDate);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `history` is used when not provided.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least one historical quote to calculate; however, more is often needed to be useful.  History is typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `history`, unless it is specified in the optional `startDate` parameter.
+You must have at least one historical quote to calculate; however, more is often needed to be useful.  History is typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `history`, unless it is specified in the optional `startDate` parameter.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ The first period or the `startDate` will have a `Vwap = Close` value since it is
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<VwapResult> results = Indicator.GetVwap(history);
+IEnumerable<VwapResult> results = history.GetVwap();
 
 // use results as needed
 VwapResult result = results.LastOrDefault();

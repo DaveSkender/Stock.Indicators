@@ -4,28 +4,38 @@
 // JEKYLL THEME STYLE OVERRIDES
 
 @import "{{ site.theme }}";
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Google+Sans:100,300,400,500,700,900,100i,300i,400i,500i,700i,900i");
 
-body {
-    font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
+// https://material.io/resources/color
+$color-primary: #424242;
+$color-primary-dark: #212121;
+$color-primary-light: #e0e0e0;
+$color-primary-hover: #bdbdbd;
 
-.project-name,h1,h2,h3,h4,h5 {
-    font-family: "Google Sans", "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+.page-header {
+    padding: 10px;
+    background-color: $color-primary;
+    background-image: linear-gradient(120deg, $color-primary, $color-primary-dark);
 }
 
 .project-name {
+    color: $color-primary-light;
     font-size: 2rem;
-    letter-spacing: 0.05em;
     margin: 0;
+
+    a {
+        text-decoration: none;
+        color: unset;
+
+        &:hover {
+            color: $color-primary-hover;
+        }
+    }
 }
 
 .project-tagline {
-    font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1rem;
-    margin-bottom:12px;
-    margin-top:0;
+    margin-bottom: 12px;
+    margin-top: 0;
 }
 
 h1 {
@@ -45,8 +55,16 @@ h5 {
 }
 
 .main-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        color: $color-primary;
+    }
 
-    td,th {
+    td,
+    th {
         font-size: 0.85em;
     }
 

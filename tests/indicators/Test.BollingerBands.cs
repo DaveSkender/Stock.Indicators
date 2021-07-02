@@ -15,7 +15,7 @@ namespace Internal.Tests
         {
 
             List<BollingerBandsResult> results =
-                Indicator.GetBollingerBands(history, 20, 2)
+                history.GetBollingerBands(20, 2)
                 .ToList();
 
             // assertions

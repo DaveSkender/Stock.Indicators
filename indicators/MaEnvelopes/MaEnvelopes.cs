@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int lookbackPeriod,
             double percentOffset = 2.5,
             MaType movingAverageType = MaType.SMA)

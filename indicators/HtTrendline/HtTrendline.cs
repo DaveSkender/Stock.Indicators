@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<HtlResult> GetHtTrendline<TQuote>(
-            IEnumerable<TQuote> history)
+            this IEnumerable<TQuote> history)
             where TQuote : IQuote
         {
 

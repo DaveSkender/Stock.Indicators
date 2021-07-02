@@ -8,24 +8,25 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 ```csharp
 // usage for Trix
 IEnumerable<TrixResult> results =
-  Indicator.GetTrix(history, lookbackPeriod);
+  history.GetTrix(lookbackPeriod);
 
 // usage for Trix with Signal Line (shown above)
 IEnumerable<TrixResult> results =
-  Indicator.GetTrix(history, lookbackPeriod, signalPeriod);
+  history.GetTrix(lookbackPeriod, signalPeriod);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
 | `signalPeriod` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+You must have at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -53,7 +54,7 @@ We always return the same number of elements as there are in the historical quot
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Trix
-IEnumerable<TrixResult> results = Indicator.GetTrix(history,14);
+IEnumerable<TrixResult> results = history.GetTrix(14);
 
 // use results as needed
 TrixResult result = results.LastOrDefault();

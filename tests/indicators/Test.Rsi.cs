@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-
-            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod)
-                .ToList();
+            List<RsiResult> results = history.GetRsi(lookbackPeriod).ToList();
 
             // assertions
 

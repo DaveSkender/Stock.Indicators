@@ -8,19 +8,20 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 ```csharp
 // usage
 IEnumerable<FisherTransformResult> results =
-  Indicator.GetFisherTransform(history, lookbackPeriod);  
+  history.GetFisherTransform(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N` periods of `history`.
+You must have at least `N` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
 
 // calculate 10-period FisherTransform
 IEnumerable<FisherTransformResult> results =
-  Indicator.GetFisherTransform(history,10);
+  history.GetFisherTransform(10);
 
 // use results as needed
 FisherTransformResult result = results.LastOrDefault();

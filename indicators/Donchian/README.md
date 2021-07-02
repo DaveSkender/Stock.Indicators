@@ -8,19 +8,20 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 ```csharp
 // usage
 IEnumerable<DonchianResult> results =
-  Indicator.GetDonchian(history, lookbackPeriod);  
+  history.GetDonchian(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `history`.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -47,7 +48,7 @@ The first `N` periods will have `null` values since there's not enough data to c
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Donchian(20)
-IEnumerable<DonchianResult> results = Indicator.GetDonchian(history,20);
+IEnumerable<DonchianResult> results = history.GetDonchian(20);
 
 // use results as needed
 DonchianResult result = results.LastOrDefault();

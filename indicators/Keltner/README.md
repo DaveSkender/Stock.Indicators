@@ -8,21 +8,22 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 ```csharp
 // usage
 IEnumerable<KeltnerResult> results =
-  Indicator.GetKeltner(history, emaPeriod, multiplier, atrPeriod);  
+  history.GetKeltner(emaPeriod, multiplier, atrPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `emaPeriod` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
 | `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
 | `atrPeriod` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `2×N` or `N+100` periods of `history`, whichever is more, where `N` is the greater of `E` or `A` periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N` or `N+100` periods of `history`, whichever is more, where `N` is the greater of `E` or `A` periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -51,7 +52,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Keltner(20)
-IEnumerable<KeltnerResult> results = Indicator.GetKeltner(history,20,2.0,10);
+IEnumerable<KeltnerResult> results = history.GetKeltner(20,2.0,10);
 
 // use results as needed
 KeltnerResult result = results.LastOrDefault();

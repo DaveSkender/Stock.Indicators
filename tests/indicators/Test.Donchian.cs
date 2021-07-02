@@ -14,8 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 20;
-
-            List<DonchianResult> results = Indicator.GetDonchian(history, lookbackPeriod)
+            List<DonchianResult> results = history.GetDonchian(lookbackPeriod)
                 .ToList();
 
             // assertions

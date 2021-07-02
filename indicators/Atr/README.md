@@ -8,19 +8,20 @@ Created by J. Welles Wilder, [Average True Range](https://en.wikipedia.org/wiki/
 ```csharp
 // usage
 IEnumerable<AtrResult> results =
-  Indicator.GetAtr(history, lookbackPeriod);  
+  history.GetAtr(lookbackPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -48,7 +49,7 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ATR
-IEnumerable<AtrResult> results = Indicator.GetAtr(history,14);
+IEnumerable<AtrResult> results = history.GetAtr(14);
 
 // use results as needed
 AtrResult result = results.LastOrDefault();

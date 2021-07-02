@@ -8,21 +8,22 @@ The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=te
 ```csharp
 // usage
 IEnumerable<PvoResult> results =
-  Indicator.GetPvo(history, fastPeriod, slowPeriod, signalPeriod);  
+  history.GetPvo(fastPeriod, slowPeriod, signalPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 | `fastPeriod` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
 | `slowPeriod` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriod`.  Default is 26.
 | `signalPeriod` | int | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9.
 
-### Minimum history requirements
+### Historical quotes requirements
 
-You must supply at least `2×(S+P)` or `S+P+100` worth of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
+You must have at least `2×(S+P)` or `S+P+100` worth of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
+
+`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,7 +51,7 @@ The first `S-1` slow periods will have `null` values since there's not enough da
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Pvo(12,26,9)
-IEnumerable<PvoResult> results = Indicator.GetPvo(history,12,26,9);
+IEnumerable<PvoResult> results = history.GetPvo(12,26,9);
 
 // use results as needed
 PvoResult result = results.LastOrDefault();

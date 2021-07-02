@@ -18,7 +18,7 @@ namespace Internal.Tests
             int signalPeriod = 9;
 
             List<MacdResult> results =
-                Indicator.GetMacd(history, fastPeriod, slowPeriod, signalPeriod)
+                history.GetMacd(fastPeriod, slowPeriod, signalPeriod)
                 .ToList();
 
             // assertions

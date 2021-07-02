@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ConnorsRsiResult> GetConnorsRsi<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             int rsiPeriod = 3,
             int streakPeriod = 2,
             int rankPeriod = 100)

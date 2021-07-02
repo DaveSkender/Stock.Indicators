@@ -18,7 +18,7 @@ namespace Internal.Tests
             PivotPointType pointType = PivotPointType.Standard;
 
             List<PivotPointsResult> results =
-                Indicator.GetRollingPivots(history, windowPeriod, offsetPeriod, pointType)
+                history.GetRollingPivots(windowPeriod, offsetPeriod, pointType)
                 .ToList();
 
             // assertions

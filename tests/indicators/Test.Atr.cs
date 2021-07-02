@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 14;
-            List<AtrResult> results = Indicator.GetAtr(history, lookbackPeriod).ToList();
+            List<AtrResult> results = history.GetAtr(lookbackPeriod).ToList();
 
             // assertions
 

@@ -13,10 +13,9 @@ namespace Internal.Tests
         [TestMethod]
         public void StandardClose()
         {
-            decimal percentChange = 3;
 
             List<ZigZagResult> results =
-                Indicator.GetZigZag(history, EndType.Close, percentChange)
+                history.GetZigZag(EndType.Close, 3)
                 .ToList();
 
             // assertions
@@ -70,10 +69,9 @@ namespace Internal.Tests
         [TestMethod]
         public void StandardHighLow()
         {
-            decimal percentChange = 3;
 
             List<ZigZagResult> results =
-                Indicator.GetZigZag(history, EndType.HighLow, percentChange)
+                history.GetZigZag(EndType.HighLow, 3)
                 .ToList();
 
             // assertions

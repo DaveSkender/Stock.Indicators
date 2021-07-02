@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
-            IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> history,
             EndType endType = EndType.Close,
             decimal percentChange = 5)
             where TQuote : IQuote

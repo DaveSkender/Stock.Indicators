@@ -14,9 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriod = 10;
-
-            List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod)
-                .ToList();
+            List<StdDevResult> results = history.GetStdDev(lookbackPeriod).ToList();
 
             // assertions
 

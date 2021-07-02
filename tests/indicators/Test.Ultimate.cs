@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<UltimateResult> results = Indicator.GetUltimate(history, 7, 14, 28)
+            List<UltimateResult> results = history.GetUltimate(7, 14, 28)
                 .ToList();
 
             // assertions
