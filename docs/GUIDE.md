@@ -3,7 +3,7 @@
 - [Installation and setup](#installation-and-setup)
 - [Prerequisite data](#prerequisite-data)
 - [Example usage](#example-usage)
-- [About historical quotes](#historical-quotes)
+- [Historical quotes](#historical-quotes)
 - [Using custom quote classes](#using-custom-quote-classes)
 - [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
@@ -172,6 +172,7 @@ The indicator result (e.g. `EmaResult`) classes can be extended in your code.  H
 // your custom derived class
 public class MyEma : EmaResult
 {
+  // my added properties
   public int MyId { get; set; }
 }
 
