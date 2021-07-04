@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{E5744FA9-7
 		LICENSE = LICENSE
 		README.md = README.md
 		docs\SECURITY.md = docs\SECURITY.md
+		docs\UTILITIES.md = docs\UTILITIES.md
 	EndProjectSection
 EndProject
 Global
