@@ -154,7 +154,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // validate parameters
+        // parameter validation
         private static void ValidatePmo<TQuote>(
             IEnumerable<TQuote> history,
             int timePeriod,

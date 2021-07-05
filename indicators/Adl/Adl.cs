@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // validate parameters
+        // parameter validation
         private static void ValidateAdl<TQuote>(
             IEnumerable<TQuote> history,
             int? smaPeriod)
