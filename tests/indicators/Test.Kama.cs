@@ -66,6 +66,25 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int erPeriod = 10;
+            int fastPeriod = 2;
+            int slowPeriod = 30;
+
+            List<KamaResult> results = history.GetKama(erPeriod, fastPeriod, slowPeriod)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - Math.Max(erPeriod + 100, erPeriod * 10), results.Count);
+
+            KamaResult last = results.LastOrDefault();
+            Assert.AreEqual(0.2214m, Math.Round((decimal)last.ER, 4));
+            Assert.AreEqual(240.1138m, Math.Round((decimal)last.Kama, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad ER period

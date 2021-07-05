@@ -62,6 +62,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int lookbackPeriod = 14;
+            List<MfiResult> results = history.GetMfi(lookbackPeriod)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 14, results.Count);
+
+            MfiResult last = results.LastOrDefault();
+            Assert.AreEqual(39.9494m, Math.Round((decimal)last.Mfi, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

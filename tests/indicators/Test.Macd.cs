@@ -55,6 +55,27 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int fastPeriod = 12;
+            int slowPeriod = 26;
+            int signalPeriod = 9;
+
+            List<MacdResult> results =
+                history.GetMacd(fastPeriod, slowPeriod, signalPeriod)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (slowPeriod + signalPeriod + 250), results.Count);
+
+            MacdResult last = results.LastOrDefault();
+            Assert.AreEqual(-6.2198m, Math.Round((decimal)last.Macd, 4));
+            Assert.AreEqual(-5.8569m, Math.Round((decimal)last.Signal, 4));
+            Assert.AreEqual(-0.3629m, Math.Round((decimal)last.Histogram, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period

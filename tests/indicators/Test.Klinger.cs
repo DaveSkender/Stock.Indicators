@@ -64,6 +64,22 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<KvoResult> results =
+                history.GetKvo(34, 55, 13)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (55 + 150), results.Count);
+
+            KvoResult last = results.LastOrDefault();
+            Assert.AreEqual(-539224047m, Math.Round(last.Oscillator.Value, 0));
+            Assert.AreEqual(-1548306127m, Math.Round(last.Signal.Value, 0));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period

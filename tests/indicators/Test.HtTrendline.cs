@@ -62,6 +62,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<HtlResult> results = history.GetHtTrendline()
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 100, results.Count);
+
+            HtlResult last = results.LastOrDefault();
+            Assert.AreEqual(252.2172m, Math.Round((decimal)last.Trendline, 4));
+            Assert.AreEqual(242.3435m, Math.Round((decimal)last.SmoothPrice, 4));
+        }
+
+        [TestMethod]
         public void PennyData()
         {
             IEnumerable<Quote> penny = HistoryTestData.GetPenny();

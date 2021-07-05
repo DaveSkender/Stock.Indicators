@@ -150,6 +150,15 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<MamaResult> PruneWarmupPeriods(
+            this IEnumerable<MamaResult> results)
+        {
+            return results.Prune(50);
+        }
+
+
+        // parameter validation
         private static void ValidateMama<TQuote>(
             IEnumerable<TQuote> history,
             decimal fastLimit,

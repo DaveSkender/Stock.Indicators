@@ -86,6 +86,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<KamaResult> PruneWarmupPeriods(
+            this IEnumerable<KamaResult> results)
+        {
+            int erPeriod = results
+                .ToList()
+                .FindIndex(x => x.ER != null);
+
+            return results.Prune(Math.Max(erPeriod + 100, 10 * erPeriod));
+        }
+
+
+        // parameter validation
         private static void ValidateKama<TQuote>(
             IEnumerable<TQuote> history,
             int erPeriod,

@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // DONCHIAN CHANNEL
+        // KELTNER CHANNELS
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<KeltnerResult> GetKeltner<TQuote>(
@@ -59,6 +59,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<KeltnerResult> PruneWarmupPeriods(
+            this IEnumerable<KeltnerResult> results)
+        {
+            int n = results
+                .ToList()
+                .FindIndex(x => x.Width != null) + 1;
+
+            return results.Prune(Math.Max(2 * n, n + 100));
+        }
+
+
+        // parameter validation
         private static void ValidateKeltner<TQuote>(
             IEnumerable<TQuote> history,
             int emaPeriod,

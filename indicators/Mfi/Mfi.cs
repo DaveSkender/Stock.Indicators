@@ -103,6 +103,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<MfiResult> PruneWarmupPeriods(
+            this IEnumerable<MfiResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Mfi != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateMfi<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

@@ -45,6 +45,16 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        // prune recommended periods extensions
+        public static IEnumerable<GatorResult> PruneWarmupPeriods(
+            this IEnumerable<GatorResult> results)
+        {
+            return results.Prune(150);
+        }
+
+
+        // parameter validation
         private static void ValidateGator<TQuote>(
             IEnumerable<TQuote> history)
             where TQuote : IQuote
