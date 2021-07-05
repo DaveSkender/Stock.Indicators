@@ -266,3 +266,7 @@ List<Quote> obvHistory = obvResults
 int lookbackPeriod = 14;
 IEnumerable<RsiResult> results = obvHistory.GetRsi(lookbackPeriod);
 ```
+
+## Utilities
+
+See [Utilities and Helper functions](https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html) for additional tools.
