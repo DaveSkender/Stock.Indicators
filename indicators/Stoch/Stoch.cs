@@ -106,6 +106,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<StochResult> PruneWarmupPeriods(
+            this IEnumerable<StochResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Oscillator != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // internals
         private static List<StochResult> SmoothOscillator(
             List<StochResult> results, int size, int lookbackPeriod, int smoothPeriod)
         {
@@ -137,6 +150,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateStoch<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,

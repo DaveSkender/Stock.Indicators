@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<VortexResult> results = history.GetVortex(lookbackPeriod).ToList();
+            List<VortexResult> results = history.GetVortex(14).ToList();
 
             // assertions
 
@@ -50,6 +49,21 @@ namespace Internal.Tests
         {
             IEnumerable<VortexResult> r = Indicator.GetVortex(historyBad, 20);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<VortexResult> results = history.GetVortex(14)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 14, results.Count);
+
+            VortexResult last = results.LastOrDefault();
+            Assert.AreEqual(0.8712m, Math.Round((decimal)last.Pvi, 4));
+            Assert.AreEqual(1.1163m, Math.Round((decimal)last.Nvi, 4));
         }
 
         [TestMethod]

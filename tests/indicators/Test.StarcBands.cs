@@ -66,6 +66,28 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int smaPeriod = 20;
+            int multiplier = 2;
+            int atrPeriod = 14;
+            int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
+
+            List<StarcBandsResult> results =
+                history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (lookbackPeriod + 150), results.Count);
+
+            StarcBandsResult last = results.LastOrDefault();
+            Assert.AreEqual(251.8600m, Math.Round((decimal)last.Centerline, 4));
+            Assert.AreEqual(264.1595m, Math.Round((decimal)last.UpperBand, 4));
+            Assert.AreEqual(239.5605m, Math.Round((decimal)last.LowerBand, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad EMA period

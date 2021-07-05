@@ -12,8 +12,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<SmmaResult> results = history.GetSmma(lookbackPeriod).ToList();
+
+            List<SmmaResult> results = history.GetSmma(20).ToList();
 
             // assertions
 
@@ -39,6 +39,18 @@ namespace Internal.Tests
         {
             IEnumerable<SmmaResult> r = Indicator.GetSmma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<SmmaResult> results = history.GetSmma(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (20 + 100), results.Count);
+            Assert.AreEqual(255.67462m, Math.Round(results.LastOrDefault().Smma.Value, 5));
         }
 
         [TestMethod]

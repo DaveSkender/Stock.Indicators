@@ -78,6 +78,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<TrixResult> PruneWarmupPeriods(
+            this IEnumerable<TrixResult> results)
+        {
+            int n3 = results
+                .ToList()
+                .FindIndex(x => x.Trix != null) + 2;
+
+            return results.Prune(n3 + 250);
+        }
+
+
+        // internals
         private static void GetTrixSignal(
             int? signalPeriod, int index, int lookbackPeriod, List<TrixResult> results)
         {
@@ -94,6 +107,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateTrix(
             IEnumerable<BasicData> history,
             int lookbackPeriod)

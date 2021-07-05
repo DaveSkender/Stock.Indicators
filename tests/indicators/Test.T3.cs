@@ -51,6 +51,20 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<T3Result> results = history.GetT3(5, 0.7)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (6 * (5 - 1) + 250), results.Count);
+
+            T3Result last = results.LastOrDefault();
+            Assert.AreEqual(238.9308m, Math.Round((decimal)last.T3, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

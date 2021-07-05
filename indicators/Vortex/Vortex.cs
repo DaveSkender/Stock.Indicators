@@ -95,6 +95,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<VortexResult> PruneWarmupPeriods(
+            this IEnumerable<VortexResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Pvi != null || x.Nvi != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateVortex<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

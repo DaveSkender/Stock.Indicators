@@ -70,6 +70,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<UlcerIndexResult> PruneWarmupPeriods(
+            this IEnumerable<UlcerIndexResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.UI != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateUlcer<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

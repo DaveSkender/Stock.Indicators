@@ -7,50 +7,47 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests
 {
     [TestClass]
-    public class WilliamsR : TestBase
+    public class SmaExtended : TestBase
     {
 
         [TestMethod]
-        public void Standard()
+        public void Extended()
         {
 
-            List<WilliamsResult> results = history.GetWilliamsR(14)
-                .ToList();
+            List<SmaExtendedResult> results = history.GetSmaExtended(20).ToList();
 
             // assertions
 
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(489, results.Where(x => x.WilliamsR != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
 
-            // sample values
-            WilliamsResult r1 = results[343];
-            Assert.AreEqual(-19.8211m, Math.Round((decimal)r1.WilliamsR, 4));
-
-            WilliamsResult r2 = results[501];
-            Assert.AreEqual(-52.0121m, Math.Round((decimal)r2.WilliamsR, 4));
+            // sample value
+            SmaExtendedResult r = results[501];
+            Assert.AreEqual(251.86m, r.Sma);
+            Assert.AreEqual(9.45m, r.Mad);
+            Assert.AreEqual(119.2510m, Math.Round((decimal)r.Mse, 4));
+            Assert.AreEqual(0.037637m, Math.Round((decimal)r.Mape, 6));
         }
 
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(historyBad, 20);
+            IEnumerable<SmaResult> r = Indicator.GetSmaExtended(historyBad, 15);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod]
         public void Pruned()
         {
-            List<WilliamsResult> results = history.GetWilliamsR(14)
+            List<SmaExtendedResult> results = history.GetSmaExtended(20)
                 .PruneWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - 13, results.Count);
-
-            WilliamsResult last = results.LastOrDefault();
-            Assert.AreEqual(-52.0121m, Math.Round((decimal)last.WilliamsR, 4));
+            Assert.AreEqual(502 - 19, results.Count);
+            Assert.AreEqual(251.8600m, Math.Round(results.LastOrDefault().Sma.Value, 4));
         }
 
         [TestMethod]
@@ -58,11 +55,11 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetWilliamsR(history, 0));
+                Indicator.GetSmaExtended(history, 0));
 
             // insufficient history
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetWilliamsR(HistoryTestData.Get(29), 30));
+                Indicator.GetSmaExtended(HistoryTestData.Get(9), 10));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -23,6 +24,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<StdDevResult> PruneWarmupPeriods(
+            this IEnumerable<StdDevResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.StdDev != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // internals
         private static IEnumerable<StdDevResult> CalcStdDev(
             List<BasicData> bdList, int lookbackPeriod, int? smaPeriod = null)
         {
@@ -86,6 +100,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateStdDev(
             List<BasicData> history,
             int lookbackPeriod,

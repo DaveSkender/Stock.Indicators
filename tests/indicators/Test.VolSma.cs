@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<VolSmaResult> results = history.GetVolSma(lookbackPeriod)
+            List<VolSmaResult> results = history.GetVolSma(20)
                 .ToList();
 
             // assertions
@@ -42,6 +41,21 @@ namespace Internal.Tests
         {
             IEnumerable<VolSmaResult> r = Indicator.GetVolSma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<VolSmaResult> results = history.GetVolSma(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            VolSmaResult last = results.LastOrDefault();
+            Assert.AreEqual(147031456m, last.Volume);
+            Assert.AreEqual(163695200m, last.VolSma);
         }
 
         [TestMethod]

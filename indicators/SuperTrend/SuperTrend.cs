@@ -94,6 +94,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<SuperTrendResult> PruneWarmupPeriods(
+            this IEnumerable<SuperTrendResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.SuperTrend != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateSuperTrend<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,

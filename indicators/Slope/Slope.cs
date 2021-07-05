@@ -103,6 +103,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<SlopeResult> PruneWarmupPeriods(
+            this IEnumerable<SlopeResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Slope != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateSlope<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

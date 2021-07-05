@@ -123,6 +123,27 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int lookbackPeriod = 14;
+            int signalPeriod = 3;
+            int smoothPeriod = 3;
+
+            List<StochResult> results =
+                history.GetStoch(lookbackPeriod, signalPeriod, smoothPeriod)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (lookbackPeriod + smoothPeriod - 2), results.Count);
+
+            StochResult last = results.LastOrDefault();
+            Assert.AreEqual(43.1353m, Math.Round((decimal)last.Oscillator, 4));
+            Assert.AreEqual(35.5674m, Math.Round((decimal)last.Signal, 4));
+            Assert.AreEqual(58.2712m, Math.Round((decimal)last.PercentJ, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

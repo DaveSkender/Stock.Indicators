@@ -38,7 +38,7 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-        // quantization
+        // aggregation (quantization)
         public static IEnumerable<Quote> Aggregate<TQuote>(
             this IEnumerable<TQuote> history,
             PeriodSize newSize)

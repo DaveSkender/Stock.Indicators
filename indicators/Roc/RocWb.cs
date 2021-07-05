@@ -88,7 +88,7 @@ namespace Skender.Stock.Indicators
         {
             int n = results
                 .ToList()
-                .FindIndex(x => x.RocEma != null);
+                .FindIndex(x => x.RocEma != null) + 1;
 
             return results.Prune(n + 100);
         }

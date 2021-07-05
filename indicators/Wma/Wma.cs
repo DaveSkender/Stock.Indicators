@@ -55,6 +55,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<WmaResult> PruneWarmupPeriods(
+            this IEnumerable<WmaResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Wma != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateWma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -53,6 +54,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<VwapResult> PruneWarmupPeriods(
+            this IEnumerable<VwapResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Vwap != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateVwap<TQuote>(
             List<TQuote> historyList,
             DateTime? startDate)

@@ -47,6 +47,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<VolSmaResult> PruneWarmupPeriods(
+            this IEnumerable<VolSmaResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.VolSma != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateVolSma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

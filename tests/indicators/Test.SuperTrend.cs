@@ -78,6 +78,26 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int lookbackPeriod = 14;
+            decimal multiplier = 3;
+
+            List<SuperTrendResult> results =
+                history.GetSuperTrend(lookbackPeriod, multiplier)
+                 .PruneWarmupPeriods()
+                 .ToList();
+
+            // assertions
+            Assert.AreEqual(489, results.Count);
+
+            SuperTrendResult last = results.LastOrDefault();
+            Assert.AreEqual(250.7954m, Math.Round((decimal)last.SuperTrend, 4));
+            Assert.AreEqual(last.SuperTrend, last.UpperBand);
+            Assert.AreEqual(null, last.LowerBand);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
