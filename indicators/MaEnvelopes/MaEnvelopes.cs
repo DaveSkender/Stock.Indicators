@@ -40,9 +40,9 @@ namespace Skender.Stock.Indicators
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
-                        Centerline = x.Ema,
-                        UpperEnvelope = x.Ema + x.Ema * offsetRatio,
-                        LowerEnvelope = x.Ema - x.Ema * offsetRatio
+                        Centerline = x.Dema,
+                        UpperEnvelope = x.Dema + x.Dema * offsetRatio,
+                        LowerEnvelope = x.Dema - x.Dema * offsetRatio
                     }),
 
                 MaType.EPMA => GetEpma(history, lookbackPeriod)
@@ -85,9 +85,9 @@ namespace Skender.Stock.Indicators
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
-                        Centerline = x.Ema,
-                        UpperEnvelope = x.Ema + x.Ema * offsetRatio,
-                        LowerEnvelope = x.Ema - x.Ema * offsetRatio
+                        Centerline = x.Tema,
+                        UpperEnvelope = x.Tema + x.Tema * offsetRatio,
+                        LowerEnvelope = x.Tema - x.Tema * offsetRatio
                     }),
 
                 MaType.WMA => GetWma(history, lookbackPeriod)
@@ -109,6 +109,10 @@ namespace Skender.Stock.Indicators
         }
 
 
+
+
+
+        // parameter validation
         private static void ValidateMaEnvelopes(
             double percentOffset)
         {
