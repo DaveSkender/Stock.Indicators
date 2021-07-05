@@ -8,8 +8,8 @@
 - [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
-- [Utilities and Helper functions](https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html)
-- [Contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html)
+- [Utilities and Helper functions](UTILITIES.md#content)
+- [Contributing guidelines](CONTRIBUTING.md#content)
 
 ## Getting started
 
@@ -269,4 +269,4 @@ IEnumerable<RsiResult> results = obvHistory.GetRsi(lookbackPeriod);
 
 ## Utilities
 
-See [Utilities and Helper functions](https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html) for additional tools.
+See [Utilities and Helper functions](UTILITIES.md#content) for additional tools.
