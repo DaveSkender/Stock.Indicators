@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<CmfResult> results = history.GetCmf(lookbackPeriod).ToList();
+            List<CmfResult> results = history.GetCmf(20).ToList();
 
             // assertions
 
@@ -44,6 +43,22 @@ namespace Internal.Tests
         {
             IEnumerable<CmfResult> r = Indicator.GetCmf(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<CmfResult> results = history.GetCmf(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            CmfResult last = results.LastOrDefault();
+            Assert.AreEqual(0.8052m, Math.Round(last.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25m, Math.Round(last.MoneyFlowVolume, 2));
+            Assert.AreEqual(-0.123754m, Math.Round((decimal)last.Cmf, 6));
         }
 
         [TestMethod]

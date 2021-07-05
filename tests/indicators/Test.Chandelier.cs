@@ -50,6 +50,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<ChandelierResult> longResult =
+                history.GetChandelier(22, 3.0m)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 21, longResult.Count);
+
+            ChandelierResult last = longResult.LastOrDefault();
+            Assert.AreEqual(256.5860m, Math.Round((decimal)last.ChandelierExit, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

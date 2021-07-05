@@ -75,6 +75,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateForceIndex<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

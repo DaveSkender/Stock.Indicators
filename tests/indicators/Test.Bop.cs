@@ -48,6 +48,20 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<BopResult> results = history.GetBop(14)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 13, results.Count);
+
+            BopResult last = results.LastOrDefault();
+            Assert.AreEqual(-0.292788m, Math.Round((decimal)last.Bop, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad smoothing period

@@ -82,6 +82,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<FractalResult> PruneWarmupPeriods(
+            this IEnumerable<FractalResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.FractalBull != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateFractal<TQuote>(
             IEnumerable<TQuote> history,
             int windowSpan)

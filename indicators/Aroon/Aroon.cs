@@ -72,6 +72,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<AroonResult> PruneWarmupPeriods(
+            this IEnumerable<AroonResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Oscillator != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateAroon<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

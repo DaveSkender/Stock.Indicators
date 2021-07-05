@@ -55,6 +55,20 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<BopResult> PruneWarmupPeriods(
+            this IEnumerable<BopResult> results)
+        {
+
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Bop != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateBop<TQuote>(
             IEnumerable<TQuote> history,
             int smoothPeriod)

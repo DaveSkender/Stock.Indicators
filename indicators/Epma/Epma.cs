@@ -42,6 +42,20 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        // prune recommended periods extensions
+        public static IEnumerable<EpmaResult> PruneWarmupPeriods(
+            this IEnumerable<EpmaResult> results)
+        {
+            int prunePeriods = results
+              .ToList()
+              .FindIndex(x => x.Epma != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateEpma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

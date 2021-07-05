@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<DonchianResult> results = history.GetDonchian(lookbackPeriod)
+            List<DonchianResult> results = history.GetDonchian(20)
                 .ToList();
 
             // assertions
@@ -64,6 +63,23 @@ namespace Internal.Tests
         {
             IEnumerable<DonchianResult> r = Indicator.GetDonchian(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<DonchianResult> results = history.GetDonchian(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 20, results.Count);
+
+            DonchianResult last = results.LastOrDefault();
+            Assert.AreEqual(251.5050m, Math.Round((decimal)last.Centerline, 4));
+            Assert.AreEqual(273.5900m, Math.Round((decimal)last.UpperBand, 4));
+            Assert.AreEqual(229.4200m, Math.Round((decimal)last.LowerBand, 4));
+            Assert.AreEqual(0.175623m, Math.Round((decimal)last.Width, 6));
         }
 
         [TestMethod]

@@ -1,4 +1,4 @@
-﻿# Exponential Moving Average (EMA), Double EMA (DEMA), and Triple EMA (TEMA)
+# Exponential Moving Average (EMA), Double EMA (DEMA), and Triple EMA (TEMA)
 
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over a lookback window.  Double and Triple variants are also available.  Note: [TEMA](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is often confused with the alternative [TRIX](../Trix/README.md) oscillator.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
@@ -11,11 +11,11 @@ IEnumerable<EmaResult> results =
   history.GetEma(lookbackPeriod);
 
 // usage for Double EMA
-IEnumerable<EmaResult> results =
+IEnumerable<DemaResult> results =
   history.GetDoubleEma(lookbackPeriod);
 
 // usage for Triple EMA
-IEnumerable<EmaResult> results =
+IEnumerable<TemaResult> results =
   history.GetTripleEma(lookbackPeriod);
 ```
 
@@ -35,10 +35,12 @@ IEnumerable<EmaResult> results =
 
 `history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
-## Response
+## Response (respectively)
 
 ```csharp
 IEnumerable<EmaResult>
+IEnumerable<DemaResult>
+IEnumerable<TemaResult>
 ```
 
 We always return the same number of elements as there are in the historical quotes.
@@ -51,12 +53,12 @@ Triple EMA: The first `3×N-2` periods will have `null` values since there's not
 
 :warning: **Warning**: The first respective `N+100`, `2×N+100`, and `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
-### EmaResult
+### EmaResult / DemaResult / TemaResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | decimal | Exponential moving average for `N` lookback period
+| `Ema`/`Dema`/`Tema` | decimal | Exponential moving average for `N` lookback period
 
 ## Example
 
@@ -75,3 +77,11 @@ Console.WriteLine("EMA on {0} was ${1}", result.Date, result.Ema);
 ```bash
 EMA on 12/31/2018 was $249.35
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

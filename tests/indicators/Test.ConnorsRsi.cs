@@ -53,6 +53,31 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int rsiPeriod = 3;
+            int streakPeriod = 2;
+            int rankPeriod = 100;
+
+            // TODO: I don't think this is right, inconsistent
+            int prunePeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
+
+            List<ConnorsRsiResult> results =
+                history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - prunePeriod + 1, results.Count);
+
+            ConnorsRsiResult last = results.LastOrDefault();
+            Assert.AreEqual(68.8087m, Math.Round((decimal)last.RsiClose, 4));
+            Assert.AreEqual(67.4899m, Math.Round((decimal)last.RsiStreak, 4));
+            Assert.AreEqual(88.0000m, Math.Round((decimal)last.PercentRank, 4));
+            Assert.AreEqual(74.7662m, Math.Round((decimal)last.ConnorsRsi, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad RSI period

@@ -75,11 +75,11 @@ namespace External.Other
             foreach (int qty in convergeQuantities)
             {
                 IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
-                IEnumerable<EmaResult> r = Indicator.GetDoubleEma(h, 15);
+                IEnumerable<DemaResult> r = Indicator.GetDoubleEma(h, 15);
 
-                EmaResult l = r.LastOrDefault();
+                DemaResult l = r.LastOrDefault();
                 Console.WriteLine("DEMA on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Ema);
+                    l.Date, h.Count(), l.Dema);
             }
         }
 
@@ -287,11 +287,11 @@ namespace External.Other
             foreach (int qty in convergeQuantities)
             {
                 IEnumerable<Quote> h = HistoryTestData.GetLong(145 + qty);
-                IEnumerable<EmaResult> r = Indicator.GetTripleEma(h, 15);
+                IEnumerable<TemaResult> r = Indicator.GetTripleEma(h, 15);
 
-                EmaResult l = r.LastOrDefault();
+                TemaResult l = r.LastOrDefault();
                 Console.WriteLine("TEMA on {0:d} with {1,4} periods: {2:N8}",
-                    l.Date, h.Count(), l.Ema);
+                    l.Date, h.Count(), l.Tema);
             }
         }
 

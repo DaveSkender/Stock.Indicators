@@ -68,6 +68,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<CmfResult> PruneWarmupPeriods(
+            this IEnumerable<CmfResult> results)
+        {
+            int prunePeriods = results
+              .ToList()
+              .FindIndex(x => x.Cmf != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateCmf<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

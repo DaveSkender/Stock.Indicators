@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -22,6 +23,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<EmaResult> PruneWarmupPeriods(
+            this IEnumerable<EmaResult> results)
+        {
+            int n = results
+              .ToList()
+              .FindIndex(x => x.Ema != null) + 1;
+
+            return results.Prune(n + 100);
+        }
+
+
+        // standard calculation
         private static IEnumerable<EmaResult> CalcEma(
             List<BasicData> bdList, int lookbackPeriod)
         {
@@ -69,6 +83,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateEma(
             List<BasicData> history,
             int lookbackPeriod)

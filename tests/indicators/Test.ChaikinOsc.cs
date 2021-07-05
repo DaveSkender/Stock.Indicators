@@ -42,6 +42,26 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int fastPeriod = 3;
+            int slowPeriod = 10;
+
+            List<ChaikinOscResult> results = history.GetChaikinOsc(fastPeriod, slowPeriod)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (slowPeriod + 100), results.Count);
+
+            ChaikinOscResult last = results.LastOrDefault();
+            Assert.AreEqual(3439986548.42m, Math.Round(last.Adl, 2));
+            Assert.AreEqual(0.8052m, Math.Round(last.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25m, Math.Round(last.MoneyFlowVolume, 2));
+            Assert.AreEqual(-19135200.72m, Math.Round((decimal)last.Oscillator, 2));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast lookback

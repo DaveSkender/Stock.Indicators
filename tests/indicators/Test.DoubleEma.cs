@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<EmaResult> results = history.GetDoubleEma(lookbackPeriod)
+            List<DemaResult> results = history.GetDoubleEma(20)
                 .ToList();
 
             // assertions
@@ -22,24 +21,38 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(464, results.Where(x => x.Ema != null).Count());
+            Assert.AreEqual(464, results.Where(x => x.Dema != null).Count());
 
             // sample values
-            EmaResult r1 = results[51];
-            Assert.AreEqual(226.0011m, Math.Round((decimal)r1.Ema, 4));
+            DemaResult r1 = results[51];
+            Assert.AreEqual(226.0011m, Math.Round((decimal)r1.Dema, 4));
 
-            EmaResult r2 = results[249];
-            Assert.AreEqual(258.4452m, Math.Round((decimal)r2.Ema, 4));
+            DemaResult r2 = results[249];
+            Assert.AreEqual(258.4452m, Math.Round((decimal)r2.Dema, 4));
 
-            EmaResult r3 = results[501];
-            Assert.AreEqual(241.1677m, Math.Round((decimal)r3.Ema, 4));
+            DemaResult r3 = results[501];
+            Assert.AreEqual(241.1677m, Math.Round((decimal)r3.Dema, 4));
         }
 
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<EmaResult> r = Indicator.GetDoubleEma(historyBad, 15);
+            IEnumerable<DemaResult> r = Indicator.GetDoubleEma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<DemaResult> results = history.GetDoubleEma(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (2 * 20 + 100), results.Count);
+
+            DemaResult last = results.LastOrDefault();
+            Assert.AreEqual(241.1677m, Math.Round((decimal)last.Dema, 4));
         }
 
         [TestMethod]

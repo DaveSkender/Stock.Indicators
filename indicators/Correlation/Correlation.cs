@@ -89,6 +89,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<CorrResult> PruneWarmupPeriods(
+            this IEnumerable<CorrResult> results)
+        {
+            int prunePeriods = results
+              .ToList()
+              .FindIndex(x => x.Correlation != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateCorrelation<TQuote>(
             IEnumerable<TQuote> historyA,
             IEnumerable<TQuote> historyB,

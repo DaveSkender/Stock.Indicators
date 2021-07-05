@@ -55,8 +55,11 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            IEnumerable<AdxResult> r = history.GetAdx(14).PruneWarmupPeriods();
-            Assert.AreEqual(374, r.Count());
+            IEnumerable<AdxResult> r = history.GetAdx(14)
+                .PruneWarmupPeriods();
+
+            // assertions
+            Assert.AreEqual(502 - (2 * 14 + 100), r.Count());
 
             AdxResult last = r.LastOrDefault();
             Assert.AreEqual(17.7565m, Math.Round((decimal)last.Pdi, 4));

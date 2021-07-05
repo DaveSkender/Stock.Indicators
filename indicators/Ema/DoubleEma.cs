@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators
         // DOUBLE EXPONENTIAL MOVING AVERAGE
         /// <include file='./info.xml' path='indicators/type[@name="DEMA"]/*' />
         /// 
-        public static IEnumerable<EmaResult> GetDoubleEma<TQuote>(
+        public static IEnumerable<DemaResult> GetDoubleEma<TQuote>(
             this IEnumerable<TQuote> history,
             int lookbackPeriod)
             where TQuote : IQuote
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateDema(bdList, lookbackPeriod);
 
             // initialize
-            List<EmaResult> results = new(bdList.Count);
+            List<DemaResult> results = new(bdList.Count);
             List<EmaResult> emaN = CalcEma(bdList, lookbackPeriod).ToList();
 
             List<BasicData> bd2 = emaN
@@ -38,7 +38,7 @@ namespace Skender.Stock.Indicators
                 EmaResult e1 = emaN[i];
                 int index = i + 1;
 
-                EmaResult result = new()
+                DemaResult result = new()
                 {
                     Date = e1.Date
                 };
@@ -46,7 +46,7 @@ namespace Skender.Stock.Indicators
                 if (index >= 2 * lookbackPeriod - 1)
                 {
                     EmaResult e2 = emaN2[index - lookbackPeriod];
-                    result.Ema = 2 * e1.Ema - e2.Ema;
+                    result.Dema = 2 * e1.Ema - e2.Ema;
                 }
 
                 results.Add(result);
@@ -56,6 +56,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<DemaResult> PruneWarmupPeriods(
+            this IEnumerable<DemaResult> results)
+        {
+            int n2 = results
+              .ToList()
+              .FindIndex(x => x.Dema != null) + 2;
+
+            return results.Prune(n2 + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateDema(
             IEnumerable<BasicData> history,
             int lookbackPeriod)

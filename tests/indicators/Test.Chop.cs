@@ -12,8 +12,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<ChopResult> results = history.GetChop(lookbackPeriod)
+            List<ChopResult> results = history.GetChop(14)
                 .ToList();
 
             // assertions
@@ -56,6 +55,20 @@ namespace Internal.Tests
         {
             IEnumerable<ChopResult> r = Indicator.GetChop(historyBad, 20);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<ChopResult> results = history.GetChop(14)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 14, results.Count);
+
+            ChopResult last = results.LastOrDefault();
+            Assert.AreEqual(38.6526m, Math.Round((decimal)last.Chop, 4));
         }
 
         [TestMethod]

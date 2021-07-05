@@ -55,7 +55,9 @@ IEnumerable<AdxResult> results =
 
 See [individual indicator pages](INDICATORS.md) for information on recommended pruning quantities.
 
-:warning: IMPORTANT! `.PruneWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.PruneWarmupPeriods(prunePeriods)`.
+:warning: Note: `.PruneWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.PruneWarmupPeriods(prunePeriods)`.
+
+:warning: WARNING! `.PruneWarmupPeriods()` will reverse-engineer some parameters in determing the recommended amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase the amount of pruning.
 
 ### Find indicator result by date
 

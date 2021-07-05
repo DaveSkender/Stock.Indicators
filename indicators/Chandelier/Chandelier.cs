@@ -88,6 +88,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<ChandelierResult> PruneWarmupPeriods(
+            this IEnumerable<ChandelierResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.ChandelierExit != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateChandelier<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,

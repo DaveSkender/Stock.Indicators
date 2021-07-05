@@ -39,44 +39,36 @@ namespace Skender.Stock.Indicators
             int prunePeriods)
             where TResult : IResult
         {
-            ValidatePrunePeriods(prunePeriods);
-            return results.Prune(prunePeriods);
+            return prunePeriods < 0
+                ? throw new ArgumentOutOfRangeException(nameof(prunePeriods), prunePeriods,
+                    "If specified, the Prune Periods value must be greater than or equal to 0.")
+                : results.Prune(prunePeriods);
         }
 
-        // VALIDATE PRUNE PERIODS
-        internal static void ValidatePrunePeriods(int prunePeriods)
-        {
-            if (prunePeriods < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(prunePeriods), prunePeriods,
-                    "If specified, the Prune Periods value must be greater than or equal to 0.");
-            }
-        }
 
         // PRUNE RESULTS
         internal static IEnumerable<TResult> Prune<TResult>(
-            this IEnumerable<TResult> ogResults,
+            this IEnumerable<TResult> results,
             int prunePeriods)
             where TResult : IResult
         {
-            List<TResult> ogResultsList = ogResults.ToList();
-            int ogSize = ogResultsList.Count;
+            List<TResult> resultsList = results.ToList();
 
-            List<TResult> prunedResults = new();
-
-            if (ogSize <= prunePeriods)
+            if (resultsList.Count <= prunePeriods)
             {
-                return prunedResults;
+                return new List<TResult>();
             }
             else
             {
-                // note: TakeLast() is not .NET Framework compatible
-                for (int i = prunePeriods; i < ogSize; i++)
+                if (prunePeriods > 0)
                 {
-                    prunedResults.Add(ogResultsList[i]);
+                    for (int i = 0; i < prunePeriods; i++)
+                    {
+                        resultsList.RemoveAt(0);
+                    }
                 }
 
-                return prunedResults;
+                return resultsList;
             }
         }
     }

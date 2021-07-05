@@ -57,6 +57,26 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<BollingerBandsResult> results =
+                history.GetBollingerBands(20, 2)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            BollingerBandsResult last = results.LastOrDefault();
+            Assert.AreEqual(251.8600m, Math.Round((decimal)last.Sma, 4));
+            Assert.AreEqual(273.7004m, Math.Round((decimal)last.UpperBand, 4));
+            Assert.AreEqual(230.0196m, Math.Round((decimal)last.LowerBand, 4));
+            Assert.AreEqual(0.349362m, Math.Round((decimal)last.PercentB, 6));
+            Assert.AreEqual(-0.602552m, Math.Round((decimal)last.ZScore, 6));
+            Assert.AreEqual(0.173433m, Math.Round((decimal)last.Width, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

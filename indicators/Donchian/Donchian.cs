@@ -69,6 +69,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<DonchianResult> PruneWarmupPeriods(
+            this IEnumerable<DonchianResult> results)
+        {
+            int prunePeriods = results
+              .ToList()
+              .FindIndex(x => x.Width != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateDonchian<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

@@ -64,6 +64,22 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<ElderRayResult> results = history.GetElderRay(13)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (100 + 13), results.Count);
+
+            ElderRayResult last = results.LastOrDefault();
+            Assert.AreEqual(246.0129m, Math.Round((decimal)last.Ema, 4));
+            Assert.AreEqual(-0.4729m, Math.Round((decimal)last.BullPower, 4));
+            Assert.AreEqual(-3.1429m, Math.Round((decimal)last.BearPower, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

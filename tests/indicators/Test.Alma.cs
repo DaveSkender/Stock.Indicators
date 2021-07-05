@@ -55,6 +55,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+
+            List<AlmaResult> results = history.GetAlma(10, 0.85, 6)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 9, results.Count);
+
+            AlmaResult last = results.LastOrDefault();
+            Assert.AreEqual(242.1871m, Math.Round((decimal)last.Alma, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

@@ -7,4 +7,17 @@ namespace Skender.Stock.Indicators
     {
         public decimal? Ema { get; set; }
     }
+
+    [Serializable]
+    public class DemaResult : ResultBase
+    {
+        public decimal? Dema { get; set; }
+    }
+
+    [Serializable]
+    public class TemaResult : ResultBase
+    {
+        public decimal? Tema { get; set; }
+    }
+
 }

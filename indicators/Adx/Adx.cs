@@ -158,9 +158,11 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<AdxResult> PruneWarmupPeriods(
             this IEnumerable<AdxResult> results)
         {
-            int n = results.Count(x => x.Pdi == null);
-            int prunePeriods = 2 * n + 100;
-            return results.Prune(prunePeriods);
+            int n = results
+                .ToList()
+                .FindIndex(x => x.Pdi != null);
+
+            return results.Prune(2 * n + 100);
         }
 
 

@@ -75,6 +75,8 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        // validate parameters
         private static void ValidateFisherTransform<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

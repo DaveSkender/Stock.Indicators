@@ -36,6 +36,20 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<CciResult> results = history.GetCci(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            CciResult last = results.LastOrDefault();
+            Assert.AreEqual(-52.9946m, Math.Round((decimal)last.Cci, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

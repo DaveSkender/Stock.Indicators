@@ -73,6 +73,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<AlmaResult> PruneWarmupPeriods(
+            this IEnumerable<AlmaResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Alma != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateAlma<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,
