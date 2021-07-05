@@ -78,6 +78,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidatePriceRelative<TQuote>(
             IEnumerable<TQuote> historyBase,
             IEnumerable<TQuote> historyEval,

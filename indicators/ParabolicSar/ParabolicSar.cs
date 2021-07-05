@@ -161,6 +161,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<ParabolicSarResult> PruneWarmupPeriods(
+            this IEnumerable<ParabolicSarResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Sar != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateParabolicSar<TQuote>(
             IEnumerable<TQuote> history,
             decimal accelerationStep,

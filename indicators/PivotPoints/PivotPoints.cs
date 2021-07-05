@@ -98,22 +98,6 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
-
-        internal static PivotPointsResult GetPivotPoint(
-            PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
-        {
-            return pointType switch
-            {
-                PivotPointType.Standard => GetPivotPointStandard(high, low, close),
-                PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
-                PivotPointType.Demark => GetPivotPointDemark(open, high, low, close),
-                PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
-                PivotPointType.Woodie => GetPivotPointWoodie(open, high, low),
-                _ => null
-            };
-        }
-
-
         public static PivotPointsResult GetPivotPointStandard(
             decimal high, decimal low, decimal close)
         {
@@ -207,6 +191,34 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<PivotPointsResult> PruneWarmupPeriods(
+            this IEnumerable<PivotPointsResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.PP != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // pivot type lookup
+        internal static PivotPointsResult GetPivotPoint(
+            PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
+        {
+            return pointType switch
+            {
+                PivotPointType.Standard => GetPivotPointStandard(high, low, close),
+                PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
+                PivotPointType.Demark => GetPivotPointDemark(open, high, low, close),
+                PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
+                PivotPointType.Woodie => GetPivotPointWoodie(open, high, low),
+                _ => null
+            };
+        }
+
+        // window size lookup
         private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
         {
             return windowSize switch
@@ -219,7 +231,7 @@ namespace Skender.Stock.Indicators
             };
         }
 
-
+        // parameter validation
         private static void ValidatePivotPoints<TQuote>(
             IEnumerable<TQuote> history,
             PeriodSize windowSize)

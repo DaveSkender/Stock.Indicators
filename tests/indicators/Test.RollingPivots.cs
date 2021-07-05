@@ -400,6 +400,33 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int windowPeriod = 11;
+            int offsetPeriod = 9;
+            PivotPointType pointType = PivotPointType.Standard;
+
+            List<PivotPointsResult> results =
+                history.GetRollingPivots(windowPeriod, offsetPeriod, pointType)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (windowPeriod + offsetPeriod), results.Count);
+
+            PivotPointsResult last = results.LastOrDefault();
+            Assert.AreEqual(null, last.R4);
+            Assert.AreEqual(null, last.R3);
+            Assert.AreEqual(260.0267m, Math.Round((decimal)last.PP, 4));
+            Assert.AreEqual(246.4633m, Math.Round((decimal)last.S1, 4));
+            Assert.AreEqual(238.7767m, Math.Round((decimal)last.S2, 4));
+            Assert.AreEqual(267.7133m, Math.Round((decimal)last.R1, 4));
+            Assert.AreEqual(281.2767m, Math.Round((decimal)last.R2, 4));
+            Assert.AreEqual(null, last.S3);
+            Assert.AreEqual(null, last.S4);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad window period

@@ -72,6 +72,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // validate parameters
         private static void ValidateObv<TQuote>(
             IEnumerable<TQuote> history,
             int? smaPeriod)

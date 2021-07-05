@@ -64,3 +64,10 @@ Console.WriteLine("PRS(SPX,TSLA,14) on {0} was {1}", result.Date, result.PriceRa
 ```bash
 PRS(SPX,TSLA,14) on 12/31/2018 was 1.36
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

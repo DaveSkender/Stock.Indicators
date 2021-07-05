@@ -49,6 +49,25 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            decimal acclerationStep = 0.02m;
+            decimal maxAccelerationFactor = 0.2m;
+
+            List<ParabolicSarResult> results =
+                history.GetParabolicSar(acclerationStep, maxAccelerationFactor)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(488, results.Count);
+
+            ParabolicSarResult last = results.LastOrDefault();
+            Assert.AreEqual(229.7662m, Math.Round((decimal)last.Sar, 4));
+            Assert.AreEqual(false, last.IsReversal);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad acceleration step

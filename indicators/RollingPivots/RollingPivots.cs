@@ -75,6 +75,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<RollingPivotsResult> PruneWarmupPeriods(
+            this IEnumerable<RollingPivotsResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.PP != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateRollingPivots<TQuote>(
             IEnumerable<TQuote> history,
             int windowPeriod,
