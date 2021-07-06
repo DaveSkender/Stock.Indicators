@@ -253,7 +253,7 @@ namespace Internal.Tests
 
 
             // special Demark case: test close = open
-            PivotPointsResult d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
+            PivotPointsResult d1 = Indicator.GetPivotPointDemark<PivotPointsResult>(125, 200, 100, 125);
             Assert.AreEqual(550m / 4, d1.PP);
         }
 
