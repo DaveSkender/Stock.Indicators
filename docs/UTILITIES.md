@@ -57,7 +57,7 @@ See [individual indicator pages](INDICATORS.md) for information on recommended p
 
 :warning: Note: `.PruneWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.PruneWarmupPeriods(prunePeriods)`.
 
-:warning: WARNING! `.PruneWarmupPeriods()` will reverse-engineer some parameters in determing the recommended amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase the amount of pruning.  If you want more certainty about the pruning amount, use the `.PruneWarmupPeriods(prunePeriods)` with a specific number of `prunePeriods`.
+:warning: WARNING! `.PruneWarmupPeriods()` will reverse-engineer some parameters in determing the recommended pruning amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use the `.PruneWarmupPeriods(prunePeriods)` with a specific number of `prunePeriods`.
 
 ### Find indicator result by date
 
