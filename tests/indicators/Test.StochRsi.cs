@@ -92,6 +92,28 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int rsiPeriod = 14;
+            int stochPeriod = 14;
+            int signalPeriod = 3;
+            int smoothPeriod = 3;
+
+            List<StochRsiResult> results =
+                Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            int pruneQty = rsiPeriod + stochPeriod + smoothPeriod + 100;
+            Assert.AreEqual(502 - pruneQty, results.Count);
+
+            StochRsiResult last = results.LastOrDefault();
+            Assert.AreEqual(89.8385m, Math.Round((decimal)last.StochRsi, 4));
+            Assert.AreEqual(73.4176m, Math.Round((decimal)last.Signal, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad RSI period

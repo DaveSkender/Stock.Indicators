@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -22,6 +23,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<RsiResult> PruneWarmupPeriods(
+            this IEnumerable<RsiResult> results)
+        {
+            int n = results
+                .ToList()
+                .FindIndex(x => x.Rsi != null);
+
+            return results.Prune(10 * n);
+        }
+
+
+        // internals
         private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod)
         {
 
@@ -93,6 +107,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateRsi(
             List<BasicData> history,
             int lookbackPeriod)

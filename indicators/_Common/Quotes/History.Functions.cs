@@ -38,7 +38,7 @@ namespace Skender.Stock.Indicators
             return historyList;
         }
 
-        // quantization
+        // aggregation (quantization)
         public static IEnumerable<Quote> Aggregate<TQuote>(
             this IEnumerable<TQuote> history,
             PeriodSize newSize)
@@ -51,7 +51,7 @@ namespace Skender.Stock.Indicators
                 // handle no history scenario
                 history == null || !history.Any() ? new List<Quote>()
 
-                // validate parameters
+                // parameter validation
                 : newPeriod == TimeSpan.Zero ?
 
                 throw new ArgumentOutOfRangeException(nameof(newSize), newSize,

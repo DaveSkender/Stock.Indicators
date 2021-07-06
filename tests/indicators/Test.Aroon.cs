@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 25;
-            List<AroonResult> results = history.GetAroon(lookbackPeriod).ToList();
+            List<AroonResult> results = history.GetAroon(25).ToList();
 
             // assertions
 
@@ -57,6 +56,22 @@ namespace Internal.Tests
         {
             IEnumerable<AroonResult> r = Indicator.GetAroon(historyBad, 20);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<AroonResult> results = history.GetAroon(25)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 25, results.Count);
+
+            AroonResult last = results.LastOrDefault();
+            Assert.AreEqual(28m, last.AroonUp);
+            Assert.AreEqual(88m, last.AroonDown);
+            Assert.AreEqual(-60m, last.Oscillator);
         }
 
         [TestMethod]

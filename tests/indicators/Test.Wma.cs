@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<WmaResult> results = history.GetWma(lookbackPeriod).ToList();
+            List<WmaResult> results = history.GetWma(20).ToList();
 
             // assertions
 
@@ -36,6 +35,20 @@ namespace Internal.Tests
         {
             IEnumerable<WmaResult> r = Indicator.GetWma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<WmaResult> results = history.GetWma(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            WmaResult last = results.LastOrDefault();
+            Assert.AreEqual(246.5110m, Math.Round((decimal)last.Wma, 4));
         }
 
         [TestMethod]

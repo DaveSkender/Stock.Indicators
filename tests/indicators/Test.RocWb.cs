@@ -83,6 +83,23 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<RocWbResult> results = history.GetRocWb(20, 3, 20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (20 + 3 + 100), results.Count);
+
+            RocWbResult last = results.LastOrDefault();
+            Assert.AreEqual(-8.2482m, Math.Round(last.Roc.Value, 4));
+            Assert.AreEqual(-8.3390m, Math.Round(last.RocEma.Value, 4));
+            Assert.AreEqual(6.1294m, Math.Round(last.UpperBand.Value, 4));
+            Assert.AreEqual(-6.1294m, Math.Round(last.LowerBand.Value, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

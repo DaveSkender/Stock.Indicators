@@ -156,6 +156,15 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<HtlResult> PruneWarmupPeriods(
+            this IEnumerable<HtlResult> results)
+        {
+            return results.Prune(100);
+        }
+
+
+        // parameter validation
         private static void ValidateHtTrendline<TQuote>(
             IEnumerable<TQuote> history)
             where TQuote : IQuote

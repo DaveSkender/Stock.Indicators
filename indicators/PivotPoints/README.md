@@ -8,7 +8,7 @@ See also the alternative [Rolling Pivot Points](../RollingPivots/README.md#conte
 
 ```csharp
 // usage
-IEnumerable<PivotPointResult> results =
+IEnumerable<PivotPointsResult> results =
   history.GetPivotPoints(windowSize, pointType);  
 ```
 
@@ -54,7 +54,7 @@ The first window will have `null` values since there's not enough data to calcul
 
 :warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `history`.
 
-### PivotPointResult
+### PivotPointsResult
 
 | name | type | notes
 | -- |-- |--
@@ -74,7 +74,7 @@ The first window will have `null` values since there's not enough data to calcul
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style month-based Pivot Points
-IEnumerable<PivotPointResult> results =
+IEnumerable<PivotPointsResult> results =
   history.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
 
 // use results as needed
@@ -85,3 +85,11 @@ Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
 ```bash
 PP on 12/31/2018 was $251.86
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

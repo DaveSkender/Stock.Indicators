@@ -16,12 +16,6 @@ namespace Internal.Tests
 
             // assertions
 
-            foreach (GatorResult r in results)
-            {
-                Console.WriteLine("{0:d},{1:N4},{2:N4},{3},{4}",
-                    r.Date, r.Upper, r.Lower, r.UpperIsExpanding, r.LowerIsExpanding);
-            }
-
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
@@ -91,6 +85,23 @@ namespace Internal.Tests
         {
             IEnumerable<GatorResult> r = Indicator.GetGator(historyBad);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<GatorResult> results = history.GetGator()
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 150, results.Count);
+
+            GatorResult last = results.LastOrDefault();
+            Assert.AreEqual(7.4538m, Math.Round(last.Upper.Value, 4));
+            Assert.AreEqual(-9.2399m, Math.Round(last.Lower.Value, 4));
+            Assert.IsTrue(last.UpperIsExpanding);
+            Assert.IsTrue(last.LowerIsExpanding);
         }
 
         [TestMethod]

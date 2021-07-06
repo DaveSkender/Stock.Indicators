@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators
         // TRIPLE EXPONENTIAL MOVING AVERAGE
         /// <include file='./info.xml' path='indicators/type[@name="TEMA"]/*' />
         /// 
-        public static IEnumerable<EmaResult> GetTripleEma<TQuote>(
+        public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
             this IEnumerable<TQuote> history,
             int lookbackPeriod)
             where TQuote : IQuote
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             ValidateTema(bdList, lookbackPeriod);
 
             // initialize
-            List<EmaResult> results = new(bdList.Count);
+            List<TemaResult> results = new(bdList.Count);
             List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriod).ToList();
 
             List<BasicData> bd2 = emaN1
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
                 EmaResult e1 = emaN1[i];
                 int index = i + 1;
 
-                EmaResult result = new()
+                TemaResult result = new()
                 {
                     Date = e1.Date
                 };
@@ -55,7 +55,7 @@ namespace Skender.Stock.Indicators
                     EmaResult e2 = emaN2[index - lookbackPeriod];
                     EmaResult e3 = emaN3[index - 2 * lookbackPeriod + 1];
 
-                    result.Ema = 3 * e1.Ema - 3 * e2.Ema + e3.Ema;
+                    result.Tema = 3 * e1.Ema - 3 * e2.Ema + e3.Ema;
                 }
 
                 results.Add(result);
@@ -65,6 +65,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<TemaResult> PruneWarmupPeriods(
+            this IEnumerable<TemaResult> results)
+        {
+            int n3 = results
+              .ToList()
+              .FindIndex(x => x.Tema != null) + 3;
+
+            return results.Prune(n3 + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateTema(
             IEnumerable<BasicData> history,
             int lookbackPeriod)

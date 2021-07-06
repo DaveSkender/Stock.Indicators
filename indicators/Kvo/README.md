@@ -33,7 +33,7 @@ IEnumerable<KvoResult>
 
 The first `L+1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The first `L+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:warning: **Warning**: The first `L+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### KvoResult
 
@@ -60,3 +60,11 @@ Console.WriteLine("Klinger Oscillator on {0} was {1:N0}", result.Date, result.Os
 ```bash
 Klinger Oscillator on 12/31/2018 was -539,224,047
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

@@ -253,7 +253,7 @@ namespace Internal.Tests
 
 
             // special Demark case: test close = open
-            PivotPointsResult d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
+            PivotPointsResult d1 = Indicator.GetPivotPointDemark<PivotPointsResult>(125, 200, 100, 125);
             Assert.AreEqual(550m / 4, d1.PP);
         }
 
@@ -403,6 +403,31 @@ namespace Internal.Tests
         {
             IEnumerable<PivotPointsResult> r = Indicator.GetPivotPoints(historyBad, PeriodSize.Week);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            PeriodSize periodSize = PeriodSize.Month;
+            PivotPointType pointType = PivotPointType.Standard;
+
+            List<PivotPointsResult> results = history.GetPivotPoints(periodSize, pointType)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(482, results.Count);
+
+            PivotPointsResult last = results.LastOrDefault();
+            Assert.AreEqual(null, last.R4);
+            Assert.AreEqual(null, last.R3);
+            Assert.AreEqual(266.6767m, Math.Round((decimal)last.PP, 4));
+            Assert.AreEqual(258.9633m, Math.Round((decimal)last.S1, 4));
+            Assert.AreEqual(248.9667m, Math.Round((decimal)last.S2, 4));
+            Assert.AreEqual(276.6733m, Math.Round((decimal)last.R1, 4));
+            Assert.AreEqual(284.3867m, Math.Round((decimal)last.R2, 4));
+            Assert.AreEqual(null, last.S3);
+            Assert.AreEqual(null, last.S4);
         }
 
         [TestMethod]

@@ -1,4 +1,4 @@
-﻿# Williams Fractal
+# Williams Fractal
 
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point in a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
@@ -61,3 +61,10 @@ Console.WriteLine("FractalBear on {0} was ${1}", r.Date, r.FractalBear);
 ```bash
 FractalBear on 12/12/2018 was $262.47
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

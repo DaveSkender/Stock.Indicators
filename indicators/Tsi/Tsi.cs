@@ -142,6 +142,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<TsiResult> PruneWarmupPeriods(
+            this IEnumerable<TsiResult> results)
+        {
+            int nm = results
+                .ToList()
+                .FindIndex(x => x.Tsi != null) + 1;
+
+            return results.Prune(nm + 250);
+        }
+
+
+        // parameter validation
         private static void ValidateTsi<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,

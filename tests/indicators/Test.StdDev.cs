@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 10;
-            List<StdDevResult> results = history.GetStdDev(lookbackPeriod).ToList();
+            List<StdDevResult> results = history.GetStdDev(10).ToList();
 
             // assertions
 
@@ -84,6 +83,23 @@ namespace Internal.Tests
         {
             IEnumerable<StdDevResult> r = Indicator.GetStdDev(historyBad, 15, 3);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<StdDevResult> results = history.GetStdDev(10)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 9, results.Count);
+
+            StdDevResult last = results.LastOrDefault();
+            Assert.AreEqual(5.4738m, Math.Round((decimal)last.StdDev, 4));
+            Assert.AreEqual(242.4100m, Math.Round((decimal)last.Mean, 4));
+            Assert.AreEqual(0.524312m, Math.Round((decimal)last.ZScore, 6));
+            Assert.AreEqual(null, last.StdDevSma);
         }
 
         [TestMethod]

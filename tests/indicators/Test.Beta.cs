@@ -37,6 +37,20 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<BetaResult> results = Indicator.GetBeta(history, historyOther, 20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            BetaResult last = results.LastOrDefault();
+            Assert.AreEqual(1.6759m, Math.Round((decimal)last.Beta, 4));
+        }
+
+        [TestMethod]
         public void SameSame()
         {
             // Beta should be 1 if evaluating against self

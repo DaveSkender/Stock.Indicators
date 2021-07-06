@@ -58,6 +58,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<TsiResult> results = history.GetTsi(25, 13, 7)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (25 + 13 + 250), results.Count);
+
+            TsiResult last = results.LastOrDefault();
+            Assert.AreEqual(-28.3513m, Math.Round((decimal)last.Tsi, 4));
+            Assert.AreEqual(-29.3597m, Math.Round((decimal)last.Signal, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

@@ -58,6 +58,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<PmoResult> PruneWarmupPeriods(
+            this IEnumerable<PmoResult> results)
+        {
+            int ts = results
+                .ToList()
+                .FindIndex(x => x.Pmo != null) + 1;
+
+            return results.Prune(ts + 250);
+        }
+
+
+        // internals
         private static List<PmoResult> CalcPmoRocEma<TQuote>(
             IEnumerable<TQuote> history,
             int timePeriod)
@@ -141,6 +154,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidatePmo<TQuote>(
             IEnumerable<TQuote> history,
             int timePeriod,

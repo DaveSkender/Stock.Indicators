@@ -154,6 +154,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<AdxResult> PruneWarmupPeriods(
+            this IEnumerable<AdxResult> results)
+        {
+            int n = results
+                .ToList()
+                .FindIndex(x => x.Pdi != null);
+
+            return results.Prune(2 * n + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateAdx<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

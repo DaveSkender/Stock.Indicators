@@ -53,6 +53,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<ConnorsRsiResult> PruneWarmupPeriods(
+            this IEnumerable<ConnorsRsiResult> results)
+        {
+            int n = results
+              .ToList()
+              .FindIndex(x => x.ConnorsRsi != null);
+
+            return results.Prune(n);
+        }
+
+
+        // parameter validation
         private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
             List<BasicData> bdList, int rsiPeriod, int rankPeriod)
         {

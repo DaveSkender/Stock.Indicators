@@ -55,6 +55,29 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int emaPeriod = 20;
+            int multiplier = 2;
+            int atrPeriod = 10;
+            int n = Math.Max(emaPeriod, atrPeriod);
+
+            List<KeltnerResult> results =
+                history.GetKeltner(emaPeriod, multiplier, atrPeriod)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - Math.Max(2 * n, n + 100), results.Count);
+
+            KeltnerResult last = results.LastOrDefault();
+            Assert.AreEqual(262.1873m, Math.Round((decimal)last.UpperBand, 4));
+            Assert.AreEqual(249.3519m, Math.Round((decimal)last.Centerline, 4));
+            Assert.AreEqual(236.5165m, Math.Round((decimal)last.LowerBand, 4));
+            Assert.AreEqual(0.102950m, Math.Round((decimal)last.Width, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad EMA period

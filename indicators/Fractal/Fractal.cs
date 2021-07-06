@@ -82,6 +82,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateFractal<TQuote>(
             IEnumerable<TQuote> history,
             int windowSpan)

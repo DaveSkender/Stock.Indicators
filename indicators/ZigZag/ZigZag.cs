@@ -106,6 +106,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // internals
         private static ZigZagPoint EvaluateNextPoint<TQuote>(
             List<TQuote> historyList,
             ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
@@ -290,6 +291,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateZigZag<TQuote>(
             IEnumerable<TQuote> history,
             decimal percentChange)

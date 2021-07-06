@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<RocResult> results = history.GetRoc(lookbackPeriod).ToList();
+            List<RocResult> results = history.GetRoc(20).ToList();
 
             // assertions
 
@@ -66,6 +65,21 @@ namespace Internal.Tests
         {
             IEnumerable<RocResult> r = Indicator.GetRoc(historyBad, 35, 2);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<RocResult> results = history.GetRoc(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 20, results.Count);
+
+            RocResult last = results.LastOrDefault();
+            Assert.AreEqual(-8.2482m, Math.Round((decimal)last.Roc, 4));
+            Assert.AreEqual(null, last.RocSma);
         }
 
         [TestMethod]

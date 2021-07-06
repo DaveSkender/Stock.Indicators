@@ -118,6 +118,26 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int lookbackPeriod = 20;
+            decimal standardDeviations = 2;
+
+            List<StdDevChannelsResult> results =
+                history.GetStdDevChannels(lookbackPeriod, standardDeviations)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(500, results.Count);
+            StdDevChannelsResult last = results.LastOrDefault();
+            Assert.AreEqual(235.8131m, Math.Round((decimal)last.Centerline, 4));
+            Assert.AreEqual(257.6536m, Math.Round((decimal)last.UpperChannel, 4));
+            Assert.AreEqual(213.9727m, Math.Round((decimal)last.LowerChannel, 4));
+            Assert.IsFalse(last.BreakPoint);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

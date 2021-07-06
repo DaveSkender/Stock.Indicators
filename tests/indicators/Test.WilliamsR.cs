@@ -13,8 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<WilliamsResult> results = history.GetWilliamsR(lookbackPeriod)
+
+            List<WilliamsResult> results = history.GetWilliamsR(14)
                 .ToList();
 
             // assertions
@@ -37,6 +37,20 @@ namespace Internal.Tests
         {
             IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(historyBad, 20);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<WilliamsResult> results = history.GetWilliamsR(14)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 13, results.Count);
+
+            WilliamsResult last = results.LastOrDefault();
+            Assert.AreEqual(-52.0121m, Math.Round((decimal)last.WilliamsR, 4));
         }
 
         [TestMethod]

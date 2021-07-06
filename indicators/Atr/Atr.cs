@@ -78,6 +78,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<AtrResult> PruneWarmupPeriods(
+            this IEnumerable<AtrResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Atr != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateAtr<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

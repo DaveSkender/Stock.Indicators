@@ -50,6 +50,22 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<TrixResult> results = history.GetTrix(20, 5)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (3 * 20 + 250), results.Count);
+
+            TrixResult last = results.LastOrDefault();
+            Assert.AreEqual(263.3216m, Math.Round((decimal)last.Ema3, 4));
+            Assert.AreEqual(-0.230742m, Math.Round((decimal)last.Trix, 6));
+            Assert.AreEqual(-0.204536m, Math.Round((decimal)last.Signal, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

@@ -66,6 +66,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<StochRsiResult> PruneWarmupPeriods(
+            this IEnumerable<StochRsiResult> results)
+        {
+            int n = results
+                .ToList()
+                .FindIndex(x => x.StochRsi != null) + 2;
+
+            return results.Prune(n + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateStochRsi<TQuote>(
             IEnumerable<TQuote> history,
             int rsiPeriod,
@@ -102,7 +115,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(rsiPeriod + stochPeriod, rsiPeriod + 100);
+            int minHistory = Math.Max(rsiPeriod + stochPeriod + smoothPeriod, rsiPeriod + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Stochastic RSI.  " +

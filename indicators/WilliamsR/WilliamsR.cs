@@ -29,6 +29,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<WilliamsResult> PruneWarmupPeriods(
+            this IEnumerable<WilliamsResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.WilliamsR != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateWilliam<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

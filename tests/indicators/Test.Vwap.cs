@@ -77,6 +77,35 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            // no start date
+            List<VwapResult> results = intraday.GetVwap()
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(391, results.Count);
+
+            VwapResult last = results.LastOrDefault();
+            Assert.AreEqual(368.1804m, Math.Round((decimal)last.Vwap, 4));
+
+            // with start date
+            DateTime startDate =
+            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
+
+            List<VwapResult> sdResults = Indicator.GetVwap(intraday, startDate)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(361, sdResults.Count);
+
+            VwapResult sdLast = sdResults.LastOrDefault();
+            Assert.AreEqual(368.2908m, Math.Round((decimal)sdLast.Vwap, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad SMA period

@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<RsiResult> results = history.GetRsi(lookbackPeriod).ToList();
+            List<RsiResult> results = history.GetRsi(14).ToList();
 
             // assertions
 
@@ -63,6 +62,20 @@ namespace Internal.Tests
         {
             IEnumerable<RsiResult> r = Indicator.GetRsi(historyBad, 20);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<RsiResult> results = history.GetRsi(14)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (10 * 14), results.Count);
+
+            RsiResult last = results.LastOrDefault();
+            Assert.AreEqual(42.0773m, Math.Round((decimal)last.Rsi, 4));
         }
 
         [TestMethod]

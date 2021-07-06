@@ -7,7 +7,7 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 
 ```csharp
 // usage
-IEnumerable<PivotPointResult> results = 
+IEnumerable<RollingPivotsResult> results = 
   history.GetRollingPivots(lookbackPeriod, offsetPeriod, pointType);  
 ```
 
@@ -40,12 +40,12 @@ You must have at least `W+F` periods of `history`.
 ## Response
 
 ```csharp
-IEnumerable<PivotPointsResult>
+IEnumerable<RollingPivotsResult>
 ```
 
 The first `W+F-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-### PivotPointResult
+### RollingPivotsResult
 
 | name | type | notes
 | -- |-- |--
@@ -65,14 +65,22 @@ The first `W+F-1` periods will have `null` values since there's not enough data 
 IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style 14 period Rolling Pivot Points
-IEnumerable<PivotPointResult> results = 
+IEnumerable<RollingPivotsResult> results = 
   history.GetRollingPivots(14,0,PivotPointType.Woodie);
 
 // use results as needed
-PivotPointsResult result = results.LastOrDefault();
+RollingPivotsResult result = results.LastOrDefault();
 Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
 ```
 
 ```bash
 PP on 12/31/2018 was $251.86
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

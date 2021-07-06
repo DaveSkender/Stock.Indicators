@@ -59,6 +59,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<StdDevChannelsResult> PruneWarmupPeriods(
+            this IEnumerable<StdDevChannelsResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateStdDevChannels<TQuote>(
             IEnumerable<TQuote> history,
             int? lookbackPeriod,

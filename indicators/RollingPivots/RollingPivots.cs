@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators
         // PIVOT POINTS
         /// <include file='./info.xml' path='indicator/*' />
         /// 
-        public static IEnumerable<PivotPointsResult> GetRollingPivots<TQuote>(
+        public static IEnumerable<RollingPivotsResult> GetRollingPivots<TQuote>(
             this IEnumerable<TQuote> history,
             int windowPeriod,
             int offsetPeriod,
@@ -24,14 +24,14 @@ namespace Skender.Stock.Indicators
             ValidateRollingPivots(history, windowPeriod, offsetPeriod);
 
             // initialize
-            List<PivotPointsResult> results = new(historyList.Count);
+            List<RollingPivotsResult> results = new(historyList.Count);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
 
-                PivotPointsResult r = new()
+                RollingPivotsResult r = new()
                 {
                     Date = h.Date
                 };
@@ -55,8 +55,8 @@ namespace Skender.Stock.Indicators
                     }
 
                     // pivot points
-                    PivotPointsResult wp =
-                        GetPivotPoint(pointType, h.Open, windowHigh, windowLow, windowClose);
+                    RollingPivotsResult wp = GetPivotPoint<RollingPivotsResult>(
+                            pointType, h.Open, windowHigh, windowLow, windowClose);
 
                     r.PP = wp.PP;
                     r.S1 = wp.S1;
@@ -75,6 +75,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<RollingPivotsResult> PruneWarmupPeriods(
+            this IEnumerable<RollingPivotsResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.PP != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateRollingPivots<TQuote>(
             IEnumerable<TQuote> history,
             int windowPeriod,

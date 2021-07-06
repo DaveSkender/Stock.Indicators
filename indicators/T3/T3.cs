@@ -160,6 +160,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<T3Result> PruneWarmupPeriods(
+            this IEnumerable<T3Result> results)
+        {
+            int n6 = results
+                .ToList()
+                .FindIndex(x => x.T3 != null);
+
+            return results.Prune(n6 + 250);
+        }
+
+
+        // parameter validation
         private static void ValidateT3<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,

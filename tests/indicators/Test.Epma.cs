@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<EpmaResult> results = history.GetEpma(lookbackPeriod).ToList();
+            List<EpmaResult> results = history.GetEpma(20).ToList();
 
             // assertions
 
@@ -45,6 +44,20 @@ namespace Internal.Tests
         {
             IEnumerable<EpmaResult> r = Indicator.GetEpma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<EpmaResult> results = history.GetEpma(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            EpmaResult last = results.LastOrDefault();
+            Assert.AreEqual(235.8131m, Math.Round((decimal)last.Epma, 4));
         }
 
         [TestMethod]

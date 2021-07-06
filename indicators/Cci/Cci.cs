@@ -66,6 +66,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<CciResult> PruneWarmupPeriods(
+            this IEnumerable<CciResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Cci != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateCci<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<UlcerIndexResult> results = history.GetUlcerIndex(lookbackPeriod)
+            List<UlcerIndexResult> results = history.GetUlcerIndex(14)
                 .ToList();
 
             // assertions
@@ -34,6 +33,21 @@ namespace Internal.Tests
         {
             IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<UlcerIndexResult> results = history.GetUlcerIndex(14)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 13, results.Count);
+
+            UlcerIndexResult last = results.LastOrDefault();
+            Assert.AreEqual(5.7255m, Math.Round((decimal)last.UI, 4));
+
         }
 
         [TestMethod]

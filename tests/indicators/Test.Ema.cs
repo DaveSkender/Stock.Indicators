@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<EmaResult> results = history.GetEma(lookbackPeriod).ToList();
+            List<EmaResult> results = history.GetEma(20).ToList();
 
             // assertions
 
@@ -39,6 +38,20 @@ namespace Internal.Tests
         {
             IEnumerable<EmaResult> r = Indicator.GetEma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<EmaResult> results = history.GetEma(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (20 + 100), results.Count);
+
+            EmaResult last = results.LastOrDefault();
+            Assert.AreEqual(249.3519m, Math.Round((decimal)last.Ema, 4));
         }
 
         [TestMethod]

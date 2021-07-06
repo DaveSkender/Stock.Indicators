@@ -13,8 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<SlopeResult> results = history.GetSlope(lookbackPeriod).ToList();
+            List<SlopeResult> results = history.GetSlope(20).ToList();
 
             // assertions
 
@@ -23,7 +22,7 @@ namespace Internal.Tests
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
             Assert.AreEqual(483, results.Where(x => x.StdDev != null).Count());
-            Assert.AreEqual(lookbackPeriod, results.Where(x => x.Line != null).Count());
+            Assert.AreEqual(20, results.Where(x => x.Line != null).Count());
 
             // sample values
             SlopeResult r1 = results[249];
@@ -53,6 +52,24 @@ namespace Internal.Tests
         {
             IEnumerable<SlopeResult> r = Indicator.GetSlope(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<SlopeResult> results = history.GetSlope(20)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            SlopeResult last = results.LastOrDefault();
+            Assert.AreEqual(-1.689143m, Math.Round((decimal)last.Slope, 6));
+            Assert.AreEqual(1083.7629m, Math.Round((decimal)last.Intercept, 4));
+            Assert.AreEqual(0.7955m, Math.Round((decimal)last.RSquared, 4));
+            Assert.AreEqual(10.9202m, Math.Round((decimal)last.StdDev, 4));
+            Assert.AreEqual(235.8131m, Math.Round((decimal)last.Line, 4));
         }
 
         [TestMethod]

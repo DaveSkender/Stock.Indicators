@@ -69,3 +69,10 @@ Console.WriteLine("ZIGZAG on {0} was ${1}", result.Date, result.ZigZag);
 ```bash
 ZIGZAG on 02/18/2018 was $248.13
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

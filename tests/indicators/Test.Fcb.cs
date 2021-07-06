@@ -58,6 +58,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<FcbResult> results = history.GetFcb(2)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 5, results.Count);
+
+            FcbResult last = results.LastOrDefault();
+            Assert.AreEqual(262.47m, last.UpperBand);
+            Assert.AreEqual(229.42m, last.LowerBand);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period

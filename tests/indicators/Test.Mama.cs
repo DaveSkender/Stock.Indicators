@@ -64,6 +64,24 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            decimal fastLimit = 0.5m;
+            decimal slowLimit = 0.05m;
+
+            List<MamaResult> results = history.GetMama(fastLimit, slowLimit)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 50, results.Count);
+
+            MamaResult last = results.LastOrDefault();
+            Assert.AreEqual(244.1092m, Math.Round((decimal)last.Mama, 4));
+            Assert.AreEqual(252.6139m, Math.Round((decimal)last.Fama, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period (same as slow period)

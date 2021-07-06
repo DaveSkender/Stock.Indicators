@@ -42,6 +42,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<PmoResult> results = history.GetPmo(35, 20, 10)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (35 + 20 + 250), results.Count);
+
+            PmoResult last = results.LastOrDefault();
+            Assert.AreEqual(-2.7016m, Math.Round((decimal)last.Pmo, 4));
+            Assert.AreEqual(-2.3117m, Math.Round((decimal)last.Signal, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad time period

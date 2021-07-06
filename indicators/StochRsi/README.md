@@ -1,4 +1,4 @@
-﻿# Stochastic RSI
+# Stochastic RSI
 
 Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator](../Stochastic/README.md).
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/236 "Community discussion about this indicator")
@@ -24,7 +24,7 @@ The original Stochasic RSI formula uses a the Fast variant of the Stochastic cal
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`, where `N` is the greater of `R+S` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
+You must have at least `N` periods of `history`, where `N` is the greater of `R+S+M` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 
 `history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
@@ -34,9 +34,10 @@ You must have at least `N` periods of `history`, where `N` is the greater of `R+
 IEnumerable<StochRsiResult>
 ```
 
-The first `R+S-1` periods will have `null` values for `StochRsi` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 :warning: **Warning**: The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+We recommend pruning at least `R+S+M+100` initial values.
 
 ### StochRsiResult
 
@@ -63,3 +64,11 @@ Console.WriteLine("StochRSI on {0} was {1}", result.Date, result.StochRsi);
 ```bash
 StochRSI on 12/31/2018 was 0.975
 ```
+
+## Utilities for results
+
+| name | description
+| -- |--
+| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
+| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
+| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

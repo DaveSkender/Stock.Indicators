@@ -13,7 +13,6 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-
             List<ForceIndexResult> r = history.GetForceIndex(13).ToList();
 
             // assertions
@@ -38,6 +37,20 @@ namespace Internal.Tests
         {
             IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(historyBad, 2);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<ForceIndexResult> results = history.GetForceIndex(13)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (13 + 100), results.Count);
+
+            ForceIndexResult last = results.LastOrDefault();
+            Assert.AreEqual(-16824018.428m, Math.Round(last.ForceIndex.Value, 3));
         }
 
         [TestMethod]

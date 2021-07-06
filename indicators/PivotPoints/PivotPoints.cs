@@ -60,7 +60,8 @@ namespace Skender.Stock.Indicators
                         windowOpen = h.Open;
                     }
 
-                    windowPoint = GetPivotPoint(pointType, windowOpen, windowHigh, windowLow, windowClose);
+                    windowPoint = GetPivotPoint<PivotPointsResult>(
+                        pointType, windowOpen, windowHigh, windowLow, windowClose);
 
                     // reset window min/max thresholds
                     windowOpen = h.Open;
@@ -99,27 +100,26 @@ namespace Skender.Stock.Indicators
         }
 
 
-        internal static PivotPointsResult GetPivotPoint(
-            PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
+        // prune recommended periods extensions
+        public static IEnumerable<PivotPointsResult> PruneWarmupPeriods(
+            this IEnumerable<PivotPointsResult> results)
         {
-            return pointType switch
-            {
-                PivotPointType.Standard => GetPivotPointStandard(high, low, close),
-                PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
-                PivotPointType.Demark => GetPivotPointDemark(open, high, low, close),
-                PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
-                PivotPointType.Woodie => GetPivotPointWoodie(open, high, low),
-                _ => null
-            };
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.PP != null);
+
+            return results.Prune(prunePeriods);
         }
 
 
-        public static PivotPointsResult GetPivotPointStandard(
+        // internals
+        internal static TPivotPoint GetPivotPointStandard<TPivotPoint>(
             decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal pp = (high + low + close) / 3;
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = pp,
                 S1 = pp * 2 - high,
@@ -129,10 +129,11 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointCamarilla(
+        internal static TPivotPoint GetPivotPointCamarilla<TPivotPoint>(
             decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = close,
                 S1 = close - (1.1m / 12) * (high - low),
@@ -146,8 +147,9 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointDemark(
+        internal static TPivotPoint GetPivotPointDemark<TPivotPoint>(
             decimal open, decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal? x = null;
 
@@ -164,7 +166,7 @@ namespace Skender.Stock.Indicators
                 x = high + low + 2 * close;
             }
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = x / 4,
                 S1 = x / 2 - high,
@@ -172,12 +174,13 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointFibonacci(
+        internal static TPivotPoint GetPivotPointFibonacci<TPivotPoint>(
             decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal pp = (high + low + close) / 3;
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = pp,
                 S1 = pp - 0.382m * (high - low),
@@ -189,12 +192,13 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointWoodie(
+        internal static TPivotPoint GetPivotPointWoodie<TPivotPoint>(
             decimal currentOpen, decimal high, decimal low)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal pp = (high + low + 2 * currentOpen) / 4;
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = pp,
                 S1 = pp * 2 - high,
@@ -207,6 +211,23 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // pivot type lookup
+        internal static TPivotPoint GetPivotPoint<TPivotPoint>(
+            PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
+        {
+            return pointType switch
+            {
+                PivotPointType.Standard => GetPivotPointStandard<TPivotPoint>(high, low, close),
+                PivotPointType.Camarilla => GetPivotPointCamarilla<TPivotPoint>(high, low, close),
+                PivotPointType.Demark => GetPivotPointDemark<TPivotPoint>(open, high, low, close),
+                PivotPointType.Fibonacci => GetPivotPointFibonacci<TPivotPoint>(high, low, close),
+                PivotPointType.Woodie => GetPivotPointWoodie<TPivotPoint>(open, high, low),
+                _ => default
+            };
+        }
+
+        // window size lookup
         private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
         {
             return windowSize switch
@@ -219,7 +240,7 @@ namespace Skender.Stock.Indicators
             };
         }
 
-
+        // parameter validation
         private static void ValidatePivotPoints<TQuote>(
             IEnumerable<TQuote> history,
             PeriodSize windowSize)

@@ -13,9 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
             List<CorrResult> results =
-                history.GetCorrelation(historyOther, lookbackPeriod)
+                history.GetCorrelation(historyOther, 20)
                 .ToList();
 
             // assertions
@@ -36,6 +35,22 @@ namespace Internal.Tests
         {
             IEnumerable<CorrResult> r = Indicator.GetCorrelation(historyBad, historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Pruned()
+        {
+            List<CorrResult> results =
+                history.GetCorrelation(historyOther, 20)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            CorrResult last = results.LastOrDefault();
+            Assert.AreEqual(0.8460m, Math.Round((decimal)last.Correlation, 4));
+            Assert.AreEqual(0.7157m, Math.Round((decimal)last.RSquared, 4));
         }
 
         [TestMethod]

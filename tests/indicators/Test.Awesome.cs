@@ -49,6 +49,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<AwesomeResult> results = history.GetAwesome(5, 34)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 33, results.Count);
+
+            AwesomeResult last = results.LastOrDefault();
+            Assert.AreEqual(-17.7692m, Math.Round((decimal)last.Oscillator, 4));
+            Assert.AreEqual(-7.2763m, Math.Round((decimal)last.Normalized, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period

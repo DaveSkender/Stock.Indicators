@@ -63,6 +63,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<RocResult> PruneWarmupPeriods(
+            this IEnumerable<RocResult> results)
+        {
+            int prunePeriods = results
+                .ToList()
+                .FindIndex(x => x.Roc != null);
+
+            return results.Prune(prunePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateRoc<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod,

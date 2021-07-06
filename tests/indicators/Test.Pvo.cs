@@ -65,6 +65,27 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            int fastPeriod = 12;
+            int slowPeriod = 26;
+            int signalPeriod = 9;
+
+            List<PvoResult> results =
+                history.GetPvo(fastPeriod, slowPeriod, signalPeriod)
+                    .PruneWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (slowPeriod + signalPeriod + 250), results.Count);
+
+            PvoResult last = results.LastOrDefault();
+            Assert.AreEqual(10.4395m, Math.Round((decimal)last.Pvo, 4));
+            Assert.AreEqual(12.2681m, Math.Round((decimal)last.Signal, 4));
+            Assert.AreEqual(-1.8286m, Math.Round((decimal)last.Histogram, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period

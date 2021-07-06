@@ -75,6 +75,19 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // prune recommended periods extensions
+        public static IEnumerable<ForceIndexResult> PruneWarmupPeriods(
+            this IEnumerable<ForceIndexResult> results)
+        {
+            int n = results
+                .ToList()
+                .FindIndex(x => x.ForceIndex != null);
+
+            return results.Prune(n + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateForceIndex<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriod)

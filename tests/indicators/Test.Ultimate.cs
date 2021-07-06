@@ -43,6 +43,20 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            List<UltimateResult> results = history.GetUltimate(7, 14, 28)
+                .PruneWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 28, results.Count);
+
+            UltimateResult last = results.LastOrDefault();
+            Assert.AreEqual(49.5257m, Math.Round((decimal)last.Ultimate, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad short period

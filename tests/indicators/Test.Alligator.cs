@@ -58,6 +58,20 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Pruned()
+        {
+            IEnumerable<AlligatorResult> r = history.GetAlligator()
+                .PruneWarmupPeriods();
+
+            Assert.AreEqual(237, r.Count());
+
+            AlligatorResult last = r.LastOrDefault();
+            Assert.AreEqual(260.98953m, Math.Round((decimal)last.Jaw, 5));
+            Assert.AreEqual(253.53576m, Math.Round((decimal)last.Teeth, 5));
+            Assert.AreEqual(244.29591m, Math.Round((decimal)last.Lips, 5));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // insufficient history
