@@ -22,7 +22,7 @@ Explore more information:
 
 ## Samples
 
-![image](docs/examples.png)
+![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/master/docs/examples.png)
 
 ### Example usage
 
