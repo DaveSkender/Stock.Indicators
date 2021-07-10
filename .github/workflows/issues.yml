@@ -17,4 +17,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_PROJECT_URL: https://github.com/DaveSkender/Stock.Indicators/projects/1
-        GITHUB_PROJECT_COLUMN_NAME: In progress
+        GITHUB_PROJECT_COLUMN_NAME: In Progress
