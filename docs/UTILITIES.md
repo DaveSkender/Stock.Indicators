@@ -36,6 +36,39 @@ IEnumerable<Quote> dayBarQuotes =
 
 ## Utilities for indicator results
 
+### Convert to quotes
+
+`results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators](GUIDE.md#generating-indicator-of-indicators).
+
+```csharp
+// example: an RSI of Renko bricks
+IEnumerable<RsiResult> results 
+  = quotes.GetRenko(..)
+    .ConvertToQuotes()
+    .GetRsi(14);
+```
+
+Currently, `.ConvertToQuotes` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues).
+
+:warning: WARNING! In many cases, `.ConvertToQuotes` will remove any `null` results -- this will produce fewer historical `quotes` than were originally provided.
+
+
+### Find indicator result by date
+
+`results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
+
+```csharp
+// fetch historical quotes from your favorite feed
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
+
+// calculate indicator series
+IEnumerable<SmaResult> results = quotes.GetSma(20);
+
+// find result on a specific date
+DateTime lookupDate = [..] // the date you want to find
+SmaResult result = results.Find(lookupDate);
+```
+
 ### Remove warmup periods
 
 `results.RemoveWarmupPeriods()` will remove the recommended initial warmup periods from indicator results.
@@ -58,19 +91,3 @@ See [individual indicator pages](INDICATORS.md) for information on recommended p
 :warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 
 :warning: WARNING! `.RemoveWarmupPeriods()` will reverse-engineer some parameters in determing the recommended pruning amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use the `.RemoveWarmupPeriods(removePeriods)` with a specific number of `removePeriods`.
-
-### Find indicator result by date
-
-`results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
-
-```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate indicator series
-IEnumerable<SmaResult> results = quotes.GetSma(20);
-
-// find result on a specific date
-DateTime lookupDate = [..] // the date you want to find
-SmaResult result = results.Find(lookupDate);
-```
