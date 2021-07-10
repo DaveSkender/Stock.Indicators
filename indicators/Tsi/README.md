@@ -8,7 +8,7 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 ```csharp
 // usage
 IEnumerable<TsiResult> results = 
-  history.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);  
+  quotes.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<TsiResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+M+100` periods of `history`.  Since this uses a two EMA smoothing techniques, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
+You must have at least `N+M+100` periods of `quotes`.  Since this uses a two EMA smoothing techniques, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -55,10 +55,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period TSI
-IEnumerable<TsiResult> results = history.GetTsi(25,13,7);
+IEnumerable<TsiResult> results = quotes.GetTsi(25,13,7);
 
 // use results as needed
 TsiResult result = results.LastOrDefault();

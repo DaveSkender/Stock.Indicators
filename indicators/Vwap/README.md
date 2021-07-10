@@ -8,24 +8,24 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 ```csharp
 // usage
 IEnumerable<VwapResult> results =
-  history.GetVwap();
+  quotes.GetVwap();
 
 // usage with optional anchored start date
 IEnumerable<VwapResult> results =
-  history.GetVwap(startDate);  
+  quotes.GetVwap(startDate);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `history` is used when not provided.
+| `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `quotes` is used when not provided.
 
 ### Historical quotes requirements
 
-You must have at least one historical quote to calculate; however, more is often needed to be useful.  History is typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `history`, unless it is specified in the optional `startDate` parameter.
+You must have at least one historical quote to calculate; however, more is often needed to be useful.  Historical quotes are typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `quotes`, unless it is specified in the optional `startDate` parameter.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -54,10 +54,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<VwapResult> results = history.GetVwap();
+IEnumerable<VwapResult> results = quotes.GetVwap();
 
 // use results as needed
 VwapResult result = results.LastOrDefault();

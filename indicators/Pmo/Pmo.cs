@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<PmoResult> GetPmo<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int timePeriods = 35,
             int smoothingPeriod = 20,
             int signalPeriods = 10)
@@ -18,10 +18,10 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            ValidatePmo(history, timePeriods, smoothingPeriod, signalPeriods);
+            ValidatePmo(quotes, timePeriods, smoothingPeriod, signalPeriods);
 
             // initialize
-            List<PmoResult> results = CalcPmoRocEma(history, timePeriods);
+            List<PmoResult> results = CalcPmoRocEma(quotes, timePeriods);
             decimal smoothingConstant = 2m / smoothingPeriod;
             decimal? lastPmo = null;
 
@@ -72,14 +72,14 @@ namespace Skender.Stock.Indicators
 
         // internals
         private static List<PmoResult> CalcPmoRocEma<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int timePeriods)
             where TQuote : IQuote
         {
             // initialize
             decimal smoothingMultiplier = 2m / timePeriods;
             decimal? lastRocEma = null;
-            List<RocResult> roc = GetRoc(history, 1).ToList();
+            List<RocResult> roc = GetRoc(quotes, 1).ToList();
             List<PmoResult> results = new();
 
             int startIndex = timePeriods + 1;
@@ -156,7 +156,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidatePmo<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int timePeriods,
             int smoothingPeriod,
             int signalPeriods)
@@ -182,21 +182,21 @@ namespace Skender.Stock.Indicators
                     "Signal periods must be greater than 0 for PMO.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(timePeriods + smoothingPeriod, Math.Max(2 * timePeriods, timePeriods + 100));
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for PMO.  " +
+                string message = "Insufficient quotes provided for PMO.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a several smoothing operations, "
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, minHistory + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

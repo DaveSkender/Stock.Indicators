@@ -13,7 +13,7 @@ namespace Internal.Tests
 
         internal static IEnumerable<Quote> GetLong(int days = 5285)
         {
-            // includes over 5,000 periods of history
+            // includes over 5,000 periods of quotes
             List<Quote> h = new()
             {
                 new Quote { Date = DateTime.ParseExact("1999-09-07", "yyyy-MM-dd", englishCulture), Open = 1357.24m, High = 1361.39m, Low = 1349.59m, Close = 1350.45m, Volume = 715300000 },

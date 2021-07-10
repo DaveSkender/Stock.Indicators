@@ -22,7 +22,7 @@ namespace Internal.Tests
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(391, results.Count);
             Assert.AreEqual(391, results.Where(x => x.Vwap != null).Count());
 
@@ -51,7 +51,7 @@ namespace Internal.Tests
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(391, results.Count);
             Assert.AreEqual(361, results.Where(x => x.Vwap != null).Count());
 
@@ -113,9 +113,9 @@ namespace Internal.Tests
                 DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", englishCulture);
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetVwap(history, startDate));
+                Indicator.GetVwap(quotes, startDate));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetVwap(HistoryTestData.Get(0)));
         }

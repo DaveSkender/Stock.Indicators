@@ -17,13 +17,13 @@ namespace Internal.Tests
             int smaPeriods = 10;
 
             List<PrsResult> results =
-                history.GetPrs(historyOther, lookbackPeriods, smaPeriods)
+                quotes.GetPrs(historyOther, lookbackPeriods, smaPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Count(x => x.Prs != null));
             Assert.AreEqual(493, results.Where(x => x.PrsSma != null).Count());
@@ -57,21 +57,21 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPrs(history, historyOther, 0));
+                Indicator.GetPrs(quotes, historyOther, 0));
 
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPrs(history, historyOther, 14, 0));
+                Indicator.GetPrs(quotes, historyOther, 14, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetPrs(history, HistoryTestData.GetCompare(13), 14));
+                Indicator.GetPrs(quotes, HistoryTestData.GetCompare(13), 14));
 
-            // insufficient eval history
+            // insufficient eval quotes
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetPrs(history, HistoryTestData.GetCompare(300), 14));
+                Indicator.GetPrs(quotes, HistoryTestData.GetCompare(300), 14));
 
-            // mismatch history
+            // mismatch quotes
             IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPrs(historyMismatch, historyOther, 14));

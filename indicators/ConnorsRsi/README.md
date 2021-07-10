@@ -8,7 +8,7 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 ```csharp
 // usage
 IEnumerable<ConnorsRsiResult> results =
-  history.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);  
+  quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<ConnorsRsiResult> results =
 
 ### Historical quotes requirements
 
-`N` is the greater of `R+100`, `S`, and `P+2`.  You must have at least `N` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
+`N` is the greater of `R+100`, `S`, and `P+2`.  You must have at least `N` periods of `quotes`.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -57,10 +57,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ConnorsRsi(3,2.100)
-IEnumerable<ConnorsRsiResult> results = history.GetConnorsRsi(3,2,100);
+IEnumerable<ConnorsRsiResult> results = quotes.GetConnorsRsi(3,2,100);
 
 // use results as needed
 ConnorsRsiResult result = results.LastOrDefault();

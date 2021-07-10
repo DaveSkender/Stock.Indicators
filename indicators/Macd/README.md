@@ -8,7 +8,7 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 ```csharp
 // usage
 IEnumerable<MacdResult> results =
-  history.GetMacd(fastPeriods, slowPeriods, signalPeriods);  
+  quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<MacdResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `2×(S+P)` or `S+P+100` worth of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
+You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -56,10 +56,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate MACD(12,26,9)
-IEnumerable<MacdResult> results = history.GetMacd(12,26,9);
+IEnumerable<MacdResult> results = quotes.GetMacd(12,26,9);
 
 // use results as needed
 MacdResult result = results.LastOrDefault();

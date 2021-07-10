@@ -10,17 +10,17 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<PivotPointsResult> GetPivotPoints<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             PeriodSize windowSize,
             PivotPointType pointType = PivotPointType.Standard)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidatePivotPoints(history, windowSize);
+            ValidatePivotPoints(quotes, windowSize);
 
             // initialize
             List<PivotPointsResult> results = new(historyList.Count);
@@ -36,7 +36,7 @@ namespace Skender.Stock.Indicators
             decimal windowOpen = h0.Open;
             decimal windowClose = h0.Close;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -242,7 +242,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidatePivotPoints<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             PeriodSize windowSize)
             where TQuote : IQuote
         {
@@ -250,34 +250,34 @@ namespace Skender.Stock.Indicators
             // check parameter arguments
             int qtyWindows = windowSize switch
             {
-                PeriodSize.Month => history
+                PeriodSize.Month => quotes
                     .Select(x => x.Date.Month).Distinct().Count(),
 
-                PeriodSize.Week => history
+                PeriodSize.Week => quotes
                     .Select(x => EnglishCalendar
                     .GetWeekOfYear(x.Date, EnglishCalendarWeekRule, EnglishFirstDayOfWeek))
                     .Distinct().Count(),
 
-                PeriodSize.Day => history
+                PeriodSize.Day => quotes
                     .Select(x => x.Date.Day).Distinct().Count(),
 
-                PeriodSize.OneHour => history
+                PeriodSize.OneHour => quotes
                 .Select(x => x.Date.Hour).Distinct().Count(),
 
                 _ => 0
             };
 
-            // check history
+            // check quotes
             if (qtyWindows < 2)
             {
-                string message = "Insufficient history provided for Pivot Points.  " +
+                string message = "Insufficient quotes provided for Pivot Points.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} {1} windows of history when at least 2 are required.  "
-                    + "This can be from either not enough history or insufficiently detailed Date values.",
+                    "You provided {0} {1} windows of quotes when at least 2 are required.  "
+                    + "This can be from either not enough quotes or insufficiently detailed Date values.",
                     qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

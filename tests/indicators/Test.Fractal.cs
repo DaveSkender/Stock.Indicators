@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard2()
         {
 
-            List<FractalResult> results = history.GetFractal(2).ToList();
+            List<FractalResult> results = quotes.GetFractal(2).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(63, results.Where(x => x.FractalBear != null).Count());
             Assert.AreEqual(71, results.Where(x => x.FractalBull != null).Count());
@@ -54,12 +54,12 @@ namespace Internal.Tests
         public void Standard4()
         {
 
-            List<FractalResult> results = history.GetFractal(4).ToList();
+            List<FractalResult> results = quotes.GetFractal(4).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(35, results.Where(x => x.FractalBear != null).Count());
             Assert.AreEqual(34, results.Where(x => x.FractalBull != null).Count());
@@ -102,9 +102,9 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetFractal(history, 1));
+                Indicator.GetFractal(quotes, 1));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetFractal(HistoryTestData.Get(10), 5));
         }

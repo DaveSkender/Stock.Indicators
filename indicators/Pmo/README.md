@@ -8,7 +8,7 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 ```csharp
 // usage
 IEnumerable<PmoResult> results =
-  history.GetPmo(timePeriods, smoothingPeriod, signalPeriods);
+  quotes.GetPmo(timePeriods, smoothingPeriod, signalPeriods);
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<PmoResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`, where `N` is the greater of `T+S`,`2×T`, or `T+100`.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S`,`2×T`, or `T+100`.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -55,10 +55,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period PMO
-IEnumerable<PmoResult> results = history.GetPmo(35,20,10);
+IEnumerable<PmoResult> results = quotes.GetPmo(35,20,10);
 
 // use results as needed
 PmoResult result = results.LastOrDefault();

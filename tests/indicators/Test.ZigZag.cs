@@ -15,13 +15,13 @@ namespace Internal.Tests
         {
 
             List<ZigZagResult> results =
-                history.GetZigZag(ZigZagType.Close, 3)
+                quotes.GetZigZag(ZigZagType.Close, 3)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(234, results.Where(x => x.ZigZag != null).Count());
             Assert.AreEqual(234, results.Where(x => x.RetraceHigh != null).Count());
@@ -71,13 +71,13 @@ namespace Internal.Tests
         {
 
             List<ZigZagResult> results =
-                history.GetZigZag(ZigZagType.HighLow, 3)
+                quotes.GetZigZag(ZigZagType.HighLow, 3)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(463, results.Where(x => x.ZigZag != null).Count());
             Assert.AreEqual(462, results.Where(x => x.RetraceHigh != null).Count());
@@ -151,9 +151,9 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetZigZag(history, ZigZagType.Close, 0));
+                Indicator.GetZigZag(quotes, ZigZagType.Close, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetZigZag(HistoryTestData.Get(1)));
         }

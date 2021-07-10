@@ -8,7 +8,7 @@ Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA
 ```csharp
 // usage
 IEnumerable<EpmaResult> results =
-  history.GetEpma(lookbackPeriods);  
+  quotes.GetEpma(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<EpmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,10 +50,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period EPMA
-IEnumerable<EpmaResult> results = history.GetEpma(20);
+IEnumerable<EpmaResult> results = quotes.GetEpma(20);
 
 // use results as needed
 EpmaResult result = results.LastOrDefault();

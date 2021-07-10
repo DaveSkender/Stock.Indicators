@@ -9,15 +9,15 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(
-            this IEnumerable<TQuote> history)
+            this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateHeikinAshi(history);
+            ValidateHeikinAshi(quotes);
 
             // initialize
             List<HeikinAshiResult> results = new(historyList.Count);
@@ -25,7 +25,7 @@ namespace Skender.Stock.Indicators
             decimal? prevOpen = null;
             decimal? prevClose = null;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -66,22 +66,22 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateHeikinAshi<TQuote>(
-            IEnumerable<TQuote> history)
+            IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Heikin-Ashi.  " +
+                string message = "Insufficient quotes provided for Heikin-Ashi.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

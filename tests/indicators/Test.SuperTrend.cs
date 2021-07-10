@@ -16,13 +16,13 @@ namespace Internal.Tests
             int lookbackPeriods = 14;
             decimal multiplier = 3;
 
-            List<SuperTrendResult> results = history.GetSuperTrend(lookbackPeriods, multiplier)
+            List<SuperTrendResult> results = quotes.GetSuperTrend(lookbackPeriods, multiplier)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(489, results.Where(x => x.SuperTrend != null).Count());
 
@@ -84,7 +84,7 @@ namespace Internal.Tests
             decimal multiplier = 3;
 
             List<SuperTrendResult> results =
-                history.GetSuperTrend(lookbackPeriods, multiplier)
+                quotes.GetSuperTrend(lookbackPeriods, multiplier)
                  .PruneWarmupPeriods()
                  .ToList();
 
@@ -102,13 +102,13 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSuperTrend(history, 1));
+                Indicator.GetSuperTrend(quotes, 1));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSuperTrend(history, 7, 0));
+                Indicator.GetSuperTrend(quotes, 7, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetSuperTrend(HistoryTestData.Get(129), 30));
         }

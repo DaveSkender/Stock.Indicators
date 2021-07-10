@@ -14,13 +14,13 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<WilliamsResult> results = history.GetWilliamsR(14)
+            List<WilliamsResult> results = quotes.GetWilliamsR(14)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(489, results.Where(x => x.WilliamsR != null).Count());
 
@@ -42,7 +42,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<WilliamsResult> results = history.GetWilliamsR(14)
+            List<WilliamsResult> results = quotes.GetWilliamsR(14)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -58,9 +58,9 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetWilliamsR(history, 0));
+                Indicator.GetWilliamsR(quotes, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetWilliamsR(HistoryTestData.Get(29), 30));
         }

@@ -10,13 +10,13 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<VwapResult> GetVwap<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             DateTime? startDate = null)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
             ValidateVwap(historyList, startDate);
@@ -29,7 +29,7 @@ namespace Skender.Stock.Indicators
             decimal cumVolume = 0m;
             decimal cumVolumeTP = 0m;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
@@ -73,13 +73,13 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // check history: done under Sort() for 0 length
+            // check quotes: done under Sort() for 0 length
 
-            // check parameter arguments (intentionally after history check)
+            // check parameter arguments (intentionally after quotes check)
             if (startDate < historyList[0].Date)
             {
                 throw new ArgumentOutOfRangeException(nameof(startDate), startDate,
-                    "Start Date must be within the history range for VWAP.");
+                    "Start Date must be within the quotes range for VWAP.");
             }
         }
     }

@@ -9,7 +9,7 @@ See also the alternative [Rolling Pivot Points](../RollingPivots/README.md#conte
 ```csharp
 // usage
 IEnumerable<PivotPointsResult> results =
-  history.GetPivotPoints(windowSize, pointType);  
+  quotes.GetPivotPoints(windowSize, pointType);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<PivotPointsResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `2` windows of `history`.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `history`.
+You must have at least `2` windows of `quotes`.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ### PeriodSize options (for windowSize)
 
@@ -52,7 +52,7 @@ IEnumerable<PivotPointsResult>
 
 The first window will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `history`.
+:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 
 ### PivotPointsResult
 
@@ -79,11 +79,11 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style month-based Pivot Points
 IEnumerable<PivotPointsResult> results =
-  history.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
+  quotes.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
 
 // use results as needed
 PivotPointsResult result = results.LastOrDefault();

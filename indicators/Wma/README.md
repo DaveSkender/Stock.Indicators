@@ -8,7 +8,7 @@
 ```csharp
 // usage
 IEnumerable<WmaResult> results =
-  history.GetWma(lookbackPeriods);  
+  quotes.GetWma(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<WmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,10 +50,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period WMA
-IEnumerable<WmaResult> results = history.GetWma(20);
+IEnumerable<WmaResult> results = quotes.GetWma(20);
 
 // use results as needed
 WmaResult result = results.LastOrDefault();

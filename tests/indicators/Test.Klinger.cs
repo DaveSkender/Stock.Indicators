@@ -15,13 +15,13 @@ namespace Internal.Tests
         {
 
             List<KvoResult> results =
-                history.GetKvo(34, 55, 13)
+                quotes.GetKvo(34, 55, 13)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(446, results.Where(x => x.Oscillator != null).Count());
             Assert.AreEqual(434, results.Where(x => x.Signal != null).Count());
@@ -67,7 +67,7 @@ namespace Internal.Tests
         public void Pruned()
         {
             List<KvoResult> results =
-                history.GetKvo(34, 55, 13)
+                quotes.GetKvo(34, 55, 13)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -84,17 +84,17 @@ namespace Internal.Tests
         {
             // bad fast period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKvo(history, 2));
+                Indicator.GetKvo(quotes, 2));
 
             // bad slow period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKvo(history, 20, 20));
+                Indicator.GetKvo(quotes, 20, 20));
 
             // bad signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKvo(history, 34, 55, 0));
+                Indicator.GetKvo(quotes, 34, 55, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKvo(HistoryTestData.Get(154), 33, 55));
         }

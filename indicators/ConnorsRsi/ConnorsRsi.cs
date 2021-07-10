@@ -10,15 +10,15 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ConnorsRsiResult> GetConnorsRsi<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int rsiPeriods = 3,
             int streakPeriods = 2,
             int rankPeriods = 100)
             where TQuote : IQuote
         {
 
-            // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // check parameter arguments
             ValidateConnorsRsi(bdList, rsiPeriods, streakPeriods, rankPeriods);
@@ -158,7 +158,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateConnorsRsi(
-            IEnumerable<BasicData> history,
+            IEnumerable<BasicData> quotes,
             int rsiPeriods,
             int streakPeriods,
             int rankPeriods)
@@ -183,20 +183,20 @@ namespace Skender.Stock.Indicators
                     "Percent Rank periods must be greater than 1 for ConnorsRsi.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(rsiPeriods + 100, Math.Max(streakPeriods, rankPeriods + 2));
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ConnorsRsi.  " +
+                string message = "Insufficient quotes provided for ConnorsRsi.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least N+150 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

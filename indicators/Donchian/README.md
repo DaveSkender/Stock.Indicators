@@ -8,7 +8,7 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 ```csharp
 // usage
 IEnumerable<DonchianResult> results =
-  history.GetDonchian(lookbackPeriods);  
+  quotes.GetDonchian(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<DonchianResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -53,10 +53,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Donchian(20)
-IEnumerable<DonchianResult> results = history.GetDonchian(20);
+IEnumerable<DonchianResult> results = quotes.GetDonchian(20);
 
 // use results as needed
 DonchianResult result = results.LastOrDefault();

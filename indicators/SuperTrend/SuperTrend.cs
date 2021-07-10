@@ -10,27 +10,27 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<SuperTrendResult> GetSuperTrend<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 10,
             decimal multiplier = 3)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateSuperTrend(history, lookbackPeriods, multiplier);
+            ValidateSuperTrend(quotes, lookbackPeriods, multiplier);
 
             // initialize
             List<SuperTrendResult> results = new(historyList.Count);
-            List<AtrResult> atrResults = GetAtr(history, lookbackPeriods).ToList();
+            List<AtrResult> atrResults = GetAtr(quotes, lookbackPeriods).ToList();
 
             bool isBullish = true;
             decimal? upperBand = null;
             decimal? lowerBand = null;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -108,7 +108,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateSuperTrend<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             decimal multiplier)
             where TQuote : IQuote
@@ -127,20 +127,20 @@ namespace Skender.Stock.Indicators
                     "Multiplier must be greater than 0 for SuperTrend.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for SuperTrend.  " +
+                string message = "Insufficient quotes provided for SuperTrend.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least N+250 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

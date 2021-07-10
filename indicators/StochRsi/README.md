@@ -8,7 +8,7 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 ```csharp
 // usage
 IEnumerable<StochRsiResult> results =
-  history.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+  quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```
 
 ## Parameters
@@ -20,13 +20,13 @@ IEnumerable<StochRsiResult> results =
 | `signalPeriods` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
 | `smoothPeriods` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
 
-The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `GetStochRSI(history,14,14,3,1)`; though, the "3" here is just for the Signal, which is not present in the original formula, but useful for additional smoothing of the Stochastic RSI.
+The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `GetStochRSI(quotes,14,14,3,1)`; though, the "3" here is just for the Signal, which is not present in the original formula, but useful for additional smoothing of the Stochastic RSI.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`, where `N` is the greater of `R+S+M` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
+You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S+M` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -59,10 +59,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StochRSI(14)
-IEnumerable<StochRsiResult> results = history.GetStochRsi(14,14,1,1);
+IEnumerable<StochRsiResult> results = quotes.GetStochRsi(14,14,1,1);
 
 // use results as needed
 StochRsiResult result = results.LastOrDefault();

@@ -10,13 +10,13 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="DEMA"]/*' />
         /// 
         public static IEnumerable<DemaResult> GetDoubleEma<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // check parameter arguments
             ValidateDema(bdList, lookbackPeriods);
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateDema(
-            IEnumerable<BasicData> history,
+            IEnumerable<BasicData> quotes,
             int lookbackPeriods)
         {
 
@@ -81,21 +81,21 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 0 for DEMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(3 * lookbackPeriods, 2 * lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for DEMA.  " +
+                string message = "Insufficient quotes provided for DEMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, 2 * lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

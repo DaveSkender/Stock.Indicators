@@ -17,7 +17,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort history
+            // sort quotes
             List<TQuote> historyBaseList = historyBase.Sort();
             List<TQuote> historyEvalList = historyEval.Sort();
 
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             // initialize
             List<PrsResult> results = new(historyEvalList.Count);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyEvalList.Count; i++)
             {
                 TQuote bi = historyBaseList[i];
@@ -100,17 +100,17 @@ namespace Skender.Stock.Indicators
                     "SMA periods must be greater than 0 for Price Relative Strength.");
             }
 
-            // check history
+            // check quotes
             int qtyHistoryEval = historyEval.Count();
             int qtyHistoryBase = historyBase.Count();
 
             int? minHistory = lookbackPeriods;
             if (minHistory != null && qtyHistoryEval < minHistory)
             {
-                string message = "Insufficient history provided for Price Relative Strength.  " +
+                string message = "Insufficient quotes provided for Price Relative Strength.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistoryEval, minHistory);
 
                 throw new BadHistoryException(nameof(historyEval), message);
@@ -120,7 +120,7 @@ namespace Skender.Stock.Indicators
             {
                 throw new BadHistoryException(
                     nameof(historyBase),
-                    "Base history should have at least as many records as Eval history for PRS.");
+                    "Base quotes should have at least as many records as Eval quotes for PRS.");
             }
         }
     }

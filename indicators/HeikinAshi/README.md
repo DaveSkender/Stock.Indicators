@@ -8,14 +8,14 @@ Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlesti
 ```csharp
 // usage
 IEnumerable<HeikinAshiResult> results =
-  history.GetHeikinAshi();  
+  quotes.GetHeikinAshi();  
 ```
 
 ## Historical quotes requirements
 
-You must have at least two periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least two periods of `quotes`; however, more is typically provided since this is a chartable candlestick pattern.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -46,10 +46,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate
-IEnumerable<HeikinAshiResult> results = history.GetHeikinAshi();
+IEnumerable<HeikinAshiResult> results = quotes.GetHeikinAshi();
 
 // use results as needed
 HeikinAshiResult result = results.LastOrDefault();

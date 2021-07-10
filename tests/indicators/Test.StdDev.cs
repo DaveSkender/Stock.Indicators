@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<StdDevResult> results = history.GetStdDev(10).ToList();
+            List<StdDevResult> results = quotes.GetStdDev(10).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
             Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
@@ -55,12 +55,12 @@ namespace Internal.Tests
         {
             int lookbackPeriods = 10;
             int smaPeriods = 5;
-            List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriods, smaPeriods).ToList();
+            List<StdDevResult> results = Indicator.GetStdDev(quotes, lookbackPeriods, smaPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
             Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
@@ -88,7 +88,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<StdDevResult> results = history.GetStdDev(10)
+            List<StdDevResult> results = quotes.GetStdDev(10)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -107,13 +107,13 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDev(history, 1));
+                Indicator.GetStdDev(quotes, 1));
 
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDev(history, 14, 0));
+                Indicator.GetStdDev(quotes, 14, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStdDev(HistoryTestData.Get(29), 30));
         }

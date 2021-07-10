@@ -10,17 +10,17 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int fastPeriods = 3,
             int slowPeriods = 10)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateChaikinOsc(history, fastPeriods, slowPeriods);
+            ValidateChaikinOsc(quotes, fastPeriods, slowPeriods);
 
             // money flow
-            List<ChaikinOscResult> results = GetAdl(history)
+            List<ChaikinOscResult> results = GetAdl(quotes)
                 .Select(r => new ChaikinOscResult
                 {
                     Date = r.Date,
@@ -67,7 +67,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateChaikinOsc<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int fastPeriods,
             int slowPeriods)
             where TQuote : IQuote
@@ -86,21 +86,21 @@ namespace Skender.Stock.Indicators
                     "Slow lookback periods must be greater than Fast lookback period for Chaikin Oscillator.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(2 * slowPeriods, slowPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Chaikin Oscillator.  " +
+                string message = "Insufficient quotes provided for Chaikin Oscillator.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for a slow period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, slowPeriods, slowPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

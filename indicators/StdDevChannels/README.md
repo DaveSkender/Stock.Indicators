@@ -8,21 +8,21 @@ Standard Deviation Channels are based on an linear regression centerline and sta
 ```csharp
 // usage
 IEnumerable<StdDevChannelsResult> results =
-  history.GetStdDevChannels(lookbackPeriods, standardDeviations);  
+  quotes.GetStdDevChannels(lookbackPeriods, standardDeviations);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `history` evaluation window ([see below](#alternative-depiction-for-full-history-variant)).  Default is 20.
+| `lookbackPeriods` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `quotes` evaluation window ([see below](#alternative-depiction-for-full-quotes-variant)).  Default is 20.
 | `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -56,11 +56,11 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StdDevChannels(20,2)
 IEnumerable<StdDevChannelsResult> results =
-  history.GetStdDevChannels(20,2);
+  quotes.GetStdDevChannels(20,2);
 
 // use results as needed
 StdDevChannelsResult result = results.LastOrDefault();
@@ -72,8 +72,8 @@ Console.WriteLine("Upper Channel on {0} was ${1}",
 Upper Channel on 12/31/2018 was $213.97
 ```
 
-## Alternative depiction for full history variant
+## Alternative depiction for full quotes variant
 
-If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `history`.
+If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `quotes`.
 
 ![image](chart-full.png)

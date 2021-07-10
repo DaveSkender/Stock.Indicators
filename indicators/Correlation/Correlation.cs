@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort history
+            // sort quotes
             List<TQuote> historyListA = historyA.Sort();
             List<TQuote> historyListB = historyB.Sort();
 
@@ -26,7 +26,7 @@ namespace Skender.Stock.Indicators
             // initialize
             List<CorrResult> results = new(historyListA.Count);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyListA.Count; i++)
             {
                 TQuote a = historyListA[i];
@@ -116,15 +116,15 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 0 for Correlation.");
             }
 
-            // check history
+            // check quotes
             int qtyHistoryA = historyA.Count();
             int minHistoryA = lookbackPeriods;
             if (qtyHistoryA < minHistoryA)
             {
-                string message = "Insufficient history provided for Correlation.  " +
+                string message = "Insufficient quotes provided for Correlation.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistoryA, minHistoryA);
 
                 throw new BadHistoryException(nameof(historyA), message);
@@ -135,7 +135,7 @@ namespace Skender.Stock.Indicators
             {
                 throw new BadHistoryException(
                     nameof(historyB),
-                    "B history should have at least as many records as A history for Correlation.");
+                    "B quotes should have at least as many records as A quotes for Correlation.");
             }
         }
     }

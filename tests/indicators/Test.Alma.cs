@@ -17,13 +17,13 @@ namespace Internal.Tests
             double offset = 0.85;
             double sigma = 6;
 
-            List<AlmaResult> results = history.GetAlma(lookbackPeriods, offset, sigma)
+            List<AlmaResult> results = quotes.GetAlma(lookbackPeriods, offset, sigma)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
 
@@ -58,7 +58,7 @@ namespace Internal.Tests
         public void Pruned()
         {
 
-            List<AlmaResult> results = history.GetAlma(10, 0.85, 6)
+            List<AlmaResult> results = quotes.GetAlma(10, 0.85, 6)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -74,17 +74,17 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAlma(history, 0, 1, 5));
+                Indicator.GetAlma(quotes, 0, 1, 5));
 
             // bad offset
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAlma(history, 15, 1.1, 3));
+                Indicator.GetAlma(quotes, 15, 1.1, 3));
 
             // bad sigma
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAlma(history, 10, 0.5, 0));
+                Indicator.GetAlma(quotes, 10, 0.5, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetAlma(HistoryTestData.Get(10), 11, 0.5));
         }

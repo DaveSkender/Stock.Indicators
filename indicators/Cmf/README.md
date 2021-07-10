@@ -8,7 +8,7 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 ```csharp
 // usage
 IEnumerable<CmfResult> results =
-  history.GetCmf(lookbackPeriods);  
+  quotes.GetCmf(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<CmfResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -54,10 +54,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CMF
-IEnumerable<CmfResult> results = history.GetCmf(20);
+IEnumerable<CmfResult> results = quotes.GetCmf(20);
 
 // use results as needed
 CmfResult result = results.LastOrDefault();

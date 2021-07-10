@@ -8,7 +8,7 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<MfiResult> results =
-  history.GetMfi(lookbackPeriods);
+  quotes.GetMfi(lookbackPeriods);
 ```
 
 ## Parameters
@@ -21,7 +21,7 @@ IEnumerable<MfiResult> results =
 
 You must have at least `N+1` historical quotes.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,10 +50,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<MfiResult> results = history.GetMfi(14);
+IEnumerable<MfiResult> results = quotes.GetMfi(14);
 
 // use results as needed
 MfiResult result = results.LastOrDefault();

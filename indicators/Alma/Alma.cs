@@ -10,18 +10,18 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AlmaResult> GetAlma<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 9,
             double offset = 0.85,
             double sigma = 6)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateAlma(history, lookbackPeriods, offset, sigma);
+            ValidateAlma(quotes, lookbackPeriods, offset, sigma);
 
             // initialize
             List<AlmaResult> results = new(historyList.Count);
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
                 norm += wt;
             }
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -87,7 +87,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateAlma<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             double offset,
             double sigma)
@@ -113,18 +113,18 @@ namespace Skender.Stock.Indicators
                     "Sigma must be greater than 0 for ALMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ALMA.  " +
+                string message = "Insufficient quotes provided for ALMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

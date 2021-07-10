@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<DemaResult> results = history.GetDoubleEma(20)
+            List<DemaResult> results = quotes.GetDoubleEma(20)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(464, results.Where(x => x.Dema != null).Count());
 
@@ -44,7 +44,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<DemaResult> results = history.GetDoubleEma(20)
+            List<DemaResult> results = quotes.GetDoubleEma(20)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -60,13 +60,13 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetDoubleEma(history, 0));
+                Indicator.GetDoubleEma(quotes, 0));
 
-            // insufficient history for 2*N+100
+            // insufficient quotes for 2*N+100
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetDoubleEma(HistoryTestData.Get(159), 30));
 
-            // insufficient history for 3×N
+            // insufficient quotes for 3×N
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetDoubleEma(HistoryTestData.GetLong(749), 250));
         }

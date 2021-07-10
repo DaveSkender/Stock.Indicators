@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<PmoResult> results = history.GetPmo(35, 20, 10).ToList();
+            List<PmoResult> results = quotes.GetPmo(35, 20, 10).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(448, results.Where(x => x.Pmo != null).Count());
             Assert.AreEqual(439, results.Where(x => x.Signal != null).Count());
@@ -44,7 +44,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<PmoResult> results = history.GetPmo(35, 20, 10)
+            List<PmoResult> results = quotes.GetPmo(35, 20, 10)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -61,17 +61,17 @@ namespace Internal.Tests
         {
             // bad time period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPmo(history, 1));
+                Indicator.GetPmo(quotes, 1));
 
             // bad smoothing period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPmo(history, 5, 0));
+                Indicator.GetPmo(quotes, 5, 0));
 
             // bad signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPmo(history, 5, 5, 0));
+                Indicator.GetPmo(quotes, 5, 5, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPmo(HistoryTestData.Get(54), 35, 20, 10));
         }

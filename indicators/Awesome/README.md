@@ -8,7 +8,7 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 ```csharp
 // usage
 IEnumerable<AwesomeResult> results =
-  history.GetAwesome(fastPeriods, slowPeriods);  
+  quotes.GetAwesome(fastPeriods, slowPeriods);  
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ IEnumerable<AwesomeResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `S` periods of `history`.
+You must have at least `S` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -52,10 +52,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate
-IEnumerable<AwesomeResult> results = history.GetAwesome(5,34);
+IEnumerable<AwesomeResult> results = quotes.GetAwesome(5,34);
 
 // use results as needed
 AwesomeResult r = results.LastOrDefault();

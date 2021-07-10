@@ -10,18 +10,18 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<TsiResult> GetTsi<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 25,
             int smoothPeriods = 13,
             int signalPeriods = 7)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateTsi(history, lookbackPeriods, smoothPeriods, signalPeriods);
+            ValidateTsi(quotes, lookbackPeriods, smoothPeriods, signalPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -44,7 +44,7 @@ namespace Skender.Stock.Indicators
             decimal sumA = 0m;
             decimal sumA1 = 0m;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
@@ -156,7 +156,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateTsi<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             int smoothPeriods,
             int signalPeriods)
@@ -182,22 +182,22 @@ namespace Skender.Stock.Indicators
                     "Signal periods must be greater than or equal to 0 for TSI.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods + smoothPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for TSI.  " +
+                string message = "Insufficient quotes provided for TSI.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a double smoothing technique, for an N+M period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods + smoothPeriods,
                     lookbackPeriods + smoothPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

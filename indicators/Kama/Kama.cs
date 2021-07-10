@@ -10,25 +10,25 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<KamaResult> GetKama<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int erPeriods = 10,
             int fastPeriods = 2,
             int slowPeriods = 30)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateKama(history, erPeriods, fastPeriods, slowPeriods);
+            ValidateKama(quotes, erPeriods, fastPeriods, slowPeriods);
 
             // initialize
             List<KamaResult> results = new(historyList.Count);
             decimal scFast = 2m / (fastPeriods + 1);
             decimal scSlow = 2m / (slowPeriods + 1);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -100,7 +100,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateKama<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int erPeriods,
             int fastPeriods,
             int slowPeriods)
@@ -126,21 +126,21 @@ namespace Skender.Stock.Indicators
                     "Slow EMA periods must be greater than Fast EMA period for KAMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(6 * erPeriods, erPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for KAMA.  " +
+                string message = "Insufficient quotes provided for KAMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for an ER period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, erPeriods, 10 * erPeriods);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriods = 14;
-            List<MfiResult> results = history.GetMfi(lookbackPeriods).ToList();
+            List<MfiResult> results = quotes.GetMfi(lookbackPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Mfi != null).Count());
 
@@ -36,13 +36,13 @@ namespace Internal.Tests
         {
             int lookbackPeriods = 4;
 
-            List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriods)
+            List<MfiResult> results = Indicator.GetMfi(quotes, lookbackPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(498, results.Where(x => x.Mfi != null).Count());
 
@@ -65,7 +65,7 @@ namespace Internal.Tests
         public void Pruned()
         {
             int lookbackPeriods = 14;
-            List<MfiResult> results = history.GetMfi(lookbackPeriods)
+            List<MfiResult> results = quotes.GetMfi(lookbackPeriods)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -81,9 +81,9 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMfi(history, 1));
+                Indicator.GetMfi(quotes, 1));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetMfi(HistoryTestData.Get(14), 14));
         }

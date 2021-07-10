@@ -10,20 +10,20 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AdxResult> GetAdx<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateAdx(history, lookbackPeriods);
+            ValidateAdx(quotes, lookbackPeriods);
 
             // initialize
             List<AdxResult> results = new(historyList.Count);
-            List<AtrResult> atr = GetAtr(history, lookbackPeriods).ToList(); // get True Range info
+            List<AtrResult> atr = GetAtr(quotes, lookbackPeriods).ToList(); // get True Range info
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
             decimal sumMdm = 0;
             decimal sumDx = 0;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -168,7 +168,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateAdx<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
@@ -180,19 +180,19 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 1 for ADX.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2 * lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ADX.  " +
+                string message = "Insufficient quotes provided for ADX.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least 2×N+250 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

@@ -29,10 +29,10 @@ Explore more information:
 ```csharp
 using Skender.Stock.Indicators;
 
-[..]  // prerequisite: get quote history from your own source
+[..]  // prerequisite: get historical quotes from your own source
 
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = history.GetSma(20);
+IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
 See the [guide](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html) and the [full list of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html) for more information.

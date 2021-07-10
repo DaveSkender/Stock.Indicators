@@ -8,7 +8,7 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 ```csharp
 // usage
 IEnumerable<FisherTransformResult> results =
-  history.GetFisherTransform(lookbackPeriods);  
+  quotes.GetFisherTransform(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<FisherTransformResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -49,7 +49,7 @@ We always return the same number of elements as there are in the historical quot
 For pruning of warmup periods, we recommend using the following guidelines:
 
 ```csharp
-history.GetFisherTransform(lookbackPeriods)
+quotes.GetFisherTransform(lookbackPeriods)
   .PruneWarmupPeriods(lookbackPeriods+15);
 ```
 
@@ -59,11 +59,11 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 10-period FisherTransform
 IEnumerable<FisherTransformResult> results =
-  history.GetFisherTransform(10);
+  quotes.GetFisherTransform(10);
 
 // use results as needed
 FisherTransformResult result = results.LastOrDefault();

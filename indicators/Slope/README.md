@@ -8,7 +8,7 @@
 ```csharp
 // usage
 IEnumerable<SlopeResult> results =
-  history.GetSlope(lookbackPeriods);  
+  quotes.GetSlope(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<SlopeResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -57,7 +57,7 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 
 // calculate 20-period Slope
-IEnumerable<SlopeResult> results = history.GetSlope(20);
+IEnumerable<SlopeResult> results = quotes.GetSlope(20);
 
 // use results as needed
 SlopeResult result = results.LastOrDefault();

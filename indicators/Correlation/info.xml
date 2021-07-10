@@ -16,5 +16,5 @@
     R², Variance, and Covariance are also included.
   </returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
 </indicator>

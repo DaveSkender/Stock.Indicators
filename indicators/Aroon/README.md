@@ -8,7 +8,7 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 ```csharp
 // usage
 IEnumerable<AroonResult> results =
-  history.GetAroon(lookbackPeriods);  
+  quotes.GetAroon(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<AroonResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -52,10 +52,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Aroon(25)
-IEnumerable<AroonResult> results = history.GetAroon(25);
+IEnumerable<AroonResult> results = quotes.GetAroon(25);
 
 // use results as needed
 AroonResult result = results.LastOrDefault();

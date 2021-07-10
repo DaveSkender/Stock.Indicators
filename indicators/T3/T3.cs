@@ -10,17 +10,17 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<T3Result> GetT3<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 5,
             double volumeFactor = 0.7)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateT3(history, lookbackPeriods, volumeFactor);
+            ValidateT3(quotes, lookbackPeriods, volumeFactor);
 
             // initialize
             int size = historyList.Count;
@@ -36,7 +36,7 @@ namespace Skender.Stock.Indicators
             decimal e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0;
             decimal sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0, sum6 = 0;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
@@ -174,7 +174,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateT3<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             double volumeFactor)
             where TQuote : IQuote
@@ -193,21 +193,21 @@ namespace Skender.Stock.Indicators
                     "Volume Factor must be greater than 0 for T3.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 6 * (lookbackPeriods - 1) + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for T3.  " +
+                string message = "Insufficient quotes provided for T3.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, 6 * (lookbackPeriods - 1) + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

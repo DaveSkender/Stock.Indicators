@@ -19,7 +19,7 @@ namespace Internal.Tests
             int smoothPeriods = 1;
 
             List<StochRsiResult> results =
-                history.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
+                quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // assertions
@@ -56,7 +56,7 @@ namespace Internal.Tests
             int smoothPeriods = 3;
 
             List<StochRsiResult> results =
-                Indicator.GetStochRsi(history, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
+                Indicator.GetStochRsi(quotes, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // assertions
@@ -100,7 +100,7 @@ namespace Internal.Tests
             int smoothPeriods = 3;
 
             List<StochRsiResult> results =
-                Indicator.GetStochRsi(history, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
+                Indicator.GetStochRsi(quotes, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -118,21 +118,21 @@ namespace Internal.Tests
         {
             // bad RSI period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 0, 14, 3, 1));
+                Indicator.GetStochRsi(quotes, 0, 14, 3, 1));
 
             // bad STO period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 14, 0, 3, 3));
+                Indicator.GetStochRsi(quotes, 14, 0, 3, 3));
 
             // bad STO signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 14, 14, 0));
+                Indicator.GetStochRsi(quotes, 14, 14, 0));
 
             // bad STO smoothing period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 14, 14, 3, 0));
+                Indicator.GetStochRsi(quotes, 14, 14, 3, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStochRsi(HistoryTestData.Get(129), 30, 30, 5, 5));
         }

@@ -8,7 +8,7 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ```csharp
 // usage
 IEnumerable<StochResult> results =
-  history.GetStoch(lookbackPeriods, signalPeriods, smoothingPeriod);  
+  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothingPeriod);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<StochResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+S` periods of `history`.
+You must have at least `N+S` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -54,10 +54,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate STO %K(14),%D(3) (slow)
-IEnumerable<StochResult> results = history.GetStoch(14,3,3);
+IEnumerable<StochResult> results = quotes.GetStoch(14,3,3);
 
 // use results as needed
 StochResult result = results.LastOrDefault();

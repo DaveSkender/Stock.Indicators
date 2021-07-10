@@ -8,7 +8,7 @@ Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fracta
 ```csharp
 // usage
 IEnumerable<FractalResult> results =
-  history.GetFractal(windowSpan);  
+  quotes.GetFractal(windowSpan);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ The total evaluation window size is `2×S+1`, representing `±S` from the evalut
 
 ### Historical quotes requirements
 
-You must have at least `2×S+1` periods of `history`; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least `2×S+1` periods of `quotes`; however, more is typically provided since this is a chartable candlestick pattern.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -31,10 +31,10 @@ You must have at least `2×S+1` periods of `history`; however, more is typically
 IEnumerable<FractalResult>
 ```
 
-The first and last `S` periods in `history` are unable to be calculated since there's not enough prior/following data.
+The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `history`.
+:warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `quotes`.
 
 ### FractalResult
 
@@ -55,10 +55,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Fractal(5)
-IEnumerable<FractalResult> results = history.GetFractal(5);
+IEnumerable<FractalResult> results = quotes.GetFractal(5);
 
 // use results as needed
 FractalResult r = results.Where(x=>x.FractalBear!=null).LastOrDefault();

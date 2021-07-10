@@ -18,13 +18,13 @@ namespace Internal.Tests
             int signalPeriods = 9;
 
             List<PvoResult> results =
-                history.GetPvo(fastPeriods, slowPeriods, signalPeriods)
+                quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(477, results.Where(x => x.Pvo != null).Count());
             Assert.AreEqual(469, results.Where(x => x.Signal != null).Count());
@@ -72,7 +72,7 @@ namespace Internal.Tests
             int signalPeriods = 9;
 
             List<PvoResult> results =
-                history.GetPvo(fastPeriods, slowPeriods, signalPeriods)
+                quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -90,21 +90,21 @@ namespace Internal.Tests
         {
             // bad fast period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPvo(history, 0, 26, 9));
+                Indicator.GetPvo(quotes, 0, 26, 9));
 
             // bad slow periods must be larger than faster period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPvo(history, 12, 12, 9));
+                Indicator.GetPvo(quotes, 12, 12, 9));
 
             // bad signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPvo(history, 12, 26, -1));
+                Indicator.GetPvo(quotes, 12, 26, -1));
 
-            // insufficient history 2×(S+P)
+            // insufficient quotes 2×(S+P)
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPvo(HistoryTestData.Get(409), 12, 200, 5));
 
-            // insufficient history S+P+100
+            // insufficient quotes S+P+100
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetPvo(HistoryTestData.Get(134), 12, 26, 9));
         }

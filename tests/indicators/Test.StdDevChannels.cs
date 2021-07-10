@@ -17,13 +17,13 @@ namespace Internal.Tests
             decimal standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
-                history.GetStdDevChannels(lookbackPeriods, standardDeviations)
+                quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(500, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(500, results.Where(x => x.UpperChannel != null).Count());
@@ -79,13 +79,13 @@ namespace Internal.Tests
             // null provided for lookback period
 
             List<StdDevChannelsResult> results =
-                history.GetStdDevChannels(null, 2)
+                quotes.GetStdDevChannels(null, 2)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(502, results.Where(x => x.UpperChannel != null).Count());
@@ -124,7 +124,7 @@ namespace Internal.Tests
             decimal standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
-                history.GetStdDevChannels(lookbackPeriods, standardDeviations)
+                quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -142,13 +142,13 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDevChannels(history, 0));
+                Indicator.GetStdDevChannels(quotes, 0));
 
             // bad standard deviations
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDevChannels(history, 20, 0));
+                Indicator.GetStdDevChannels(quotes, 20, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStdDevChannels(HistoryTestData.Get(19), 20, 2));
         }

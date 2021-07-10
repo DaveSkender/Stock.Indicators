@@ -10,13 +10,13 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         ///
         public static IEnumerable<ChopResult> GetChop<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
             ValidateChop(historyList, lookbackPeriods);
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             decimal[] trueLow = new decimal[size];
             decimal[] trueRange = new decimal[size];
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 ChopResult r = new()
@@ -93,7 +93,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateChop<TQuote>(
-            List<TQuote> history,
+            List<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
 
@@ -105,17 +105,17 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 1 for CHOP.");
             }
 
-            // check history
-            int qtyHistory = history.Count;
+            // check quotes
+            int qtyHistory = quotes.Count;
             int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for CHOP.  " +
+                string message = "Insufficient quotes provided for CHOP.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

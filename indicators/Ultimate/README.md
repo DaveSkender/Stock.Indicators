@@ -8,7 +8,7 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<UltimateResult> results =
-  history.GetUltimate(shortPeriods, middlePeriods, longPeriods);  
+  quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<UltimateResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `L+1` periods of `history`.
+You must have at least `L+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -52,10 +52,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period Ultimate
-IEnumerable<UltimateResult> results = history.GetUltimate(7,14,28);
+IEnumerable<UltimateResult> results = quotes.GetUltimate(7,14,28);
 
 // use results as needed
 UltimateResult result = results.LastOrDefault();

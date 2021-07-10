@@ -14,13 +14,13 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<BetaResult> results = Indicator.GetBeta(history, historyOther, 20)
+            List<BetaResult> results = Indicator.GetBeta(quotes, historyOther, 20)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
 
@@ -39,7 +39,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<BetaResult> results = Indicator.GetBeta(history, historyOther, 20)
+            List<BetaResult> results = Indicator.GetBeta(quotes, historyOther, 20)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -54,13 +54,13 @@ namespace Internal.Tests
         public void SameSame()
         {
             // Beta should be 1 if evaluating against self
-            List<BetaResult> results = Indicator.GetBeta(history, history, 20)
+            List<BetaResult> results = Indicator.GetBeta(quotes, quotes, 20)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
 
@@ -74,18 +74,18 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetBeta(history, historyOther, 0));
+                Indicator.GetBeta(quotes, historyOther, 0));
 
-            // insufficient history
+            // insufficient quotes
             IEnumerable<Quote> h1 = HistoryTestData.Get(29);
             IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetBeta(h1, h2, 30));
 
-            // bad evaluation history
+            // bad evaluation quotes
             IEnumerable<Quote> eval = HistoryTestData.GetCompare(300);
             Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetBeta(history, eval, 30));
+                Indicator.GetBeta(quotes, eval, 30));
         }
     }
 }

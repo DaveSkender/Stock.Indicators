@@ -8,11 +8,11 @@
 ```csharp
 // usage
 IEnumerable<StdDevResult> results =
-  history.GetStdDev(lookbackPeriods);  
+  quotes.GetStdDev(lookbackPeriods);  
 
 // usage with optional SMA of STDEV (shown above)
 IEnumerable<StdDevResult> results =
-  history.GetStdDev(lookbackPeriods, smaPeriods);  
+  quotes.GetStdDev(lookbackPeriods, smaPeriods);  
 ```
 
 ## Parameters
@@ -24,9 +24,9 @@ IEnumerable<StdDevResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -58,10 +58,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPX");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPX");
 
 // calculate 10-period Standard Deviation
-IEnumerable<StdDevResult> results = history.GetStdDev(10);
+IEnumerable<StdDevResult> results = quotes.GetStdDev(10);
 
 // use results as needed
 StdDevResult result = results.LastOrDefault();

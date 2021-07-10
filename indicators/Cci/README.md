@@ -8,7 +8,7 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 ```csharp
 // usage
 IEnumerable<CciResult> results =
-  history.GetCci(lookbackPeriods);  
+  quotes.GetCci(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<CciResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,10 +50,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CCI
-IEnumerable<CciResult> results = history.GetCci(20);
+IEnumerable<CciResult> results = quotes.GetCci(20);
 
 // use results as needed
 CciResult result = results.LastOrDefault();

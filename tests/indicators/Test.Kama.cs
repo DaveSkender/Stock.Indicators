@@ -17,13 +17,13 @@ namespace Internal.Tests
             int fastPeriods = 2;
             int slowPeriods = 30;
 
-            List<KamaResult> results = history.GetKama(erPeriods, fastPeriods, slowPeriods)
+            List<KamaResult> results = quotes.GetKama(erPeriods, fastPeriods, slowPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(492, results.Where(x => x.ER != null).Count());
             Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
@@ -72,7 +72,7 @@ namespace Internal.Tests
             int fastPeriods = 2;
             int slowPeriods = 30;
 
-            List<KamaResult> results = history.GetKama(erPeriods, fastPeriods, slowPeriods)
+            List<KamaResult> results = quotes.GetKama(erPeriods, fastPeriods, slowPeriods)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -89,17 +89,17 @@ namespace Internal.Tests
         {
             // bad ER period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKama(history, 0, 2, 30));
+                Indicator.GetKama(quotes, 0, 2, 30));
 
             // bad fast period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKama(history, 10, 0, 30));
+                Indicator.GetKama(quotes, 10, 0, 30));
 
             // bad slow period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKama(history, 10, 5, 5));
+                Indicator.GetKama(quotes, 10, 5, 5));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKama(HistoryTestData.Get(109), 10, 2, 20));
         }

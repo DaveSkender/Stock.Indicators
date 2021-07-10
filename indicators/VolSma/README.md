@@ -8,7 +8,7 @@ The Volume Simple Moving Average is the average volume over a lookback window.  
 ```csharp
 // usage
 IEnumerable<VolSmaResult> results =
-  history.GetVolSma(lookbackPeriods);  
+  quotes.GetVolSma(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<VolSmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -51,10 +51,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA of Volume
-IEnumerable<VolSmaResult> results = history.GetVolSma(20);
+IEnumerable<VolSmaResult> results = quotes.GetVolSma(20);
 
 // use results as needed
 VolSmaResult result = results.LastOrDefault();

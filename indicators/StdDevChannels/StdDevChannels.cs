@@ -10,30 +10,30 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int? lookbackPeriods = 20,
             decimal standardDeviations = 2)
             where TQuote : IQuote
         {
 
-            // assume whole history when lookback is null
+            // assume whole quotes when lookback is null
             if (lookbackPeriods is null)
             {
-                lookbackPeriods = history.Count();
+                lookbackPeriods = quotes.Count();
             }
 
             // check parameter arguments
-            ValidateStdDevChannels(history, lookbackPeriods, standardDeviations);
+            ValidateStdDevChannels(quotes, lookbackPeriods, standardDeviations);
 
             // initialize
-            List<SlopeResult> slopeResults = GetSlope(history, (int)lookbackPeriods).ToList();
+            List<SlopeResult> slopeResults = GetSlope(quotes, (int)lookbackPeriods).ToList();
 
             int size = slopeResults.Count;
             List<StdDevChannelsResult> results = slopeResults
                 .Select(x => new StdDevChannelsResult { Date = x.Date })
                 .ToList();
 
-            // roll through history in reverse
+            // roll through quotes in reverse
             for (int w = size - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)
             {
                 SlopeResult s = slopeResults[w];
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateStdDevChannels<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int? lookbackPeriods,
             decimal standardDeviations)
             where TQuote : IQuote
@@ -92,17 +92,17 @@ namespace Skender.Stock.Indicators
                     "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = (int)lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Standard Deviation Channels.  " +
+                string message = "Insufficient quotes provided for Standard Deviation Channels.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

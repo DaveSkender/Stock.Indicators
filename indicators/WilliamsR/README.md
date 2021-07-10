@@ -8,7 +8,7 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 ```csharp
 // usage
 IEnumerable<WilliamsResult> results =
-  history.GetWilliamsR(lookbackPeriods);  
+  quotes.GetWilliamsR(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<WilliamsResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,10 +50,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate WilliamsR(14)
-IEnumerable<WilliamsResult> results = history.GetWilliamsR(14);
+IEnumerable<WilliamsResult> results = quotes.GetWilliamsR(14);
 
 // use results as needed
 WilliamsResult result = results.LastOrDefault();

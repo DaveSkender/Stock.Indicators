@@ -17,5 +17,5 @@
   <param name="smaPeriods">Optional.  Number of periods for a PRS SMA signal line.</param>
   <returns>Time series of PRS values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
 </indicator>

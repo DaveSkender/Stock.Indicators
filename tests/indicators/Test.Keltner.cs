@@ -18,13 +18,13 @@ namespace Internal.Tests
             int atrPeriods = 10;
 
             List<KeltnerResult> results =
-                history.GetKeltner(emaPeriods, multiplier, atrPeriods)
+                quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
 
             int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
@@ -63,7 +63,7 @@ namespace Internal.Tests
             int n = Math.Max(emaPeriods, atrPeriods);
 
             List<KeltnerResult> results =
-                history.GetKeltner(emaPeriods, multiplier, atrPeriods)
+                quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -82,21 +82,21 @@ namespace Internal.Tests
         {
             // bad EMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 1, 2, 10));
+                Indicator.GetKeltner(quotes, 1, 2, 10));
 
             // bad ATR period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 20, 2, 1));
+                Indicator.GetKeltner(quotes, 20, 2, 1));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 20, 0, 10));
+                Indicator.GetKeltner(quotes, 20, 0, 10));
 
-            // insufficient history for N+100
+            // insufficient quotes for N+100
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(119), 20, 2, 10));
 
-            // insufficient history for 2×N
+            // insufficient quotes for 2×N
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
         }

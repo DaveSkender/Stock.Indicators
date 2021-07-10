@@ -8,7 +8,7 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ```csharp
 // usage
 IEnumerable<KamaResult> results =
-  history.GetKama(erPeriods, fastPeriods, slowPeriods);  
+  quotes.GetKama(erPeriods, fastPeriods, slowPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<KamaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `6×E` or `E+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
+You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -57,10 +57,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate KAMA(10,2,30)
-IEnumerable<KamaResult> results = history.GetKama(10,2,30);
+IEnumerable<KamaResult> results = quotes.GetKama(10,2,30);
 
 // use results as needed
 KamaResult result = results.LastOrDefault();

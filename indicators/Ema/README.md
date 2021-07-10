@@ -8,15 +8,15 @@
 ```csharp
 // usage for EMA (standard)
 IEnumerable<EmaResult> results =
-  history.GetEma(lookbackPeriods);
+  quotes.GetEma(lookbackPeriods);
 
 // usage for Double EMA
 IEnumerable<DemaResult> results =
-  history.GetDoubleEma(lookbackPeriods);
+  quotes.GetDoubleEma(lookbackPeriods);
 
 // usage for Triple EMA
 IEnumerable<TemaResult> results =
-  history.GetTripleEma(lookbackPeriods);
+  quotes.GetTripleEma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -27,13 +27,13 @@ IEnumerable<TemaResult> results =
 
 ### Historical quotes requirements
 
-**EMA** (standard): You must have at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+**EMA** (standard): You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-**Double EMA**: You must have at least `3×N` or `2×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+**Double EMA**: You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
-**Triple EMA**: You must have at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+**Triple EMA**: You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response (respectively)
 
@@ -72,10 +72,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period EMA
-IEnumerable<EmaResult> results = history.GetEma(20);
+IEnumerable<EmaResult> results = quotes.GetEma(20);
 
 // use results as needed
 EmaResult result = results.LastOrDefault();

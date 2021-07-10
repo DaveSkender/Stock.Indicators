@@ -12,12 +12,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<AlligatorResult> results = history.GetAlligator().ToList();
+            List<AlligatorResult> results = quotes.GetAlligator().ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
             Assert.AreEqual(490, results.Where(x => x.Teeth != null).Count());
@@ -60,7 +60,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            IEnumerable<AlligatorResult> r = history.GetAlligator()
+            IEnumerable<AlligatorResult> r = quotes.GetAlligator()
                 .PruneWarmupPeriods();
 
             Assert.AreEqual(237, r.Count());
@@ -74,7 +74,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Exceptions()
         {
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetAlligator(HistoryTestData.Get(114)));
         }

@@ -8,7 +8,7 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 ```csharp
 // usage
 IEnumerable<ForceIndexResult> results =
-  history.GetForceIndex(lookbackPeriods);  
+  quotes.GetForceIndex(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<ForceIndexResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+100` for `2×N` periods of `history`, whichever is more.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -53,10 +53,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ForceIndex(13)
-IEnumerable<ForceIndexResult> results = history.GetForceIndex(13);
+IEnumerable<ForceIndexResult> results = quotes.GetForceIndex(13);
 
 // use results as needed
 ForceIndexResult result = results.LastOrDefault();

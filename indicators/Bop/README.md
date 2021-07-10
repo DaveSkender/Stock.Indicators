@@ -8,7 +8,7 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 ```csharp
 // usage
 IEnumerable<BopResult> results =
-  history.GetBop(smoothPeriods);  
+  quotes.GetBop(smoothPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<BopResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,10 +50,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 14-period BOP
-IEnumerable<BopResult> results = history.GetBop(14);
+IEnumerable<BopResult> results = quotes.GetBop(14);
 
 // use results as needed
 BopResult result = results.LastOrDefault();

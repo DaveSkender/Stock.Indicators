@@ -10,16 +10,16 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<BopResult> GetBop<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int smoothPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateBop(history, smoothPeriods);
+            ValidateBop(quotes, smoothPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                     (x.Close - x.Open) / (x.High - x.Low) : (decimal?)null)
                 .ToArray();
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 BopResult r = new()
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateBop<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int smoothPeriods)
             where TQuote : IQuote
         {
@@ -82,18 +82,18 @@ namespace Skender.Stock.Indicators
                     "Smoothing periods must be greater than 0 for BOP.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = smoothPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for BOP.  " +
+                string message = "Insufficient quotes provided for BOP.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

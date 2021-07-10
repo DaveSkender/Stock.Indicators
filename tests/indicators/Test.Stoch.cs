@@ -18,13 +18,13 @@ namespace Internal.Tests
             int smoothPeriods = 3;
 
             List<StochResult> results =
-                history.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
+                quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(487, results.Where(x => x.Oscillator != null).Count());
             Assert.AreEqual(485, results.Where(x => x.Signal != null).Count());
@@ -64,7 +64,7 @@ namespace Internal.Tests
             int smoothPeriods = 3;
 
             List<StochResult> results =
-                Indicator.GetStoch(history, lookbackPeriods, signalPeriods, smoothPeriods)
+                Indicator.GetStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // signal equals oscillator
@@ -83,7 +83,7 @@ namespace Internal.Tests
             int smoothPeriods = 1;
 
             List<StochResult> results =
-                Indicator.GetStoch(history, lookbackPeriods, signalPeriods, smoothPeriods)
+                Indicator.GetStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // sample values
@@ -104,7 +104,7 @@ namespace Internal.Tests
             int smoothPeriods = 1;
 
             List<StochResult> results =
-                Indicator.GetStoch(history, lookbackPeriods, signalPeriods, smoothPeriods)
+                Indicator.GetStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // sample values
@@ -130,7 +130,7 @@ namespace Internal.Tests
             int smoothPeriods = 3;
 
             List<StochResult> results =
-                history.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
+                quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -148,17 +148,17 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStoch(history, 0));
+                Indicator.GetStoch(quotes, 0));
 
             // bad signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStoch(history, 14, 0));
+                Indicator.GetStoch(quotes, 14, 0));
 
             // bad smoothing period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStoch(history, 14, 3, 0));
+                Indicator.GetStoch(quotes, 14, 3, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStoch(HistoryTestData.Get(32), 30, 3, 3));
         }

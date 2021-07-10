@@ -10,22 +10,22 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<CmfResult> GetCmf<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 20)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateCmf(history, lookbackPeriods);
+            ValidateCmf(quotes, lookbackPeriods);
 
             // initialize
             List<CmfResult> results = new(historyList.Count);
-            List<AdlResult> adlResults = GetAdl(history).ToList();
+            List<AdlResult> adlResults = GetAdl(quotes).ToList();
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < adlResults.Count; i++)
             {
                 AdlResult r = adlResults[i];
@@ -82,7 +82,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateCmf<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
@@ -94,18 +94,18 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 0 for Chaikin Money Flow.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Chaikin Money Flow.  " +
+                string message = "Insufficient quotes provided for Chaikin Money Flow.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

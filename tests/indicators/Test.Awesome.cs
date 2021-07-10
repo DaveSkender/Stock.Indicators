@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<AwesomeResult> results = history.GetAwesome(5, 34)
+            List<AwesomeResult> results = quotes.GetAwesome(5, 34)
                 .ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(469, results.Where(x => x.Oscillator != null).Count());
 
@@ -51,7 +51,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<AwesomeResult> results = history.GetAwesome(5, 34)
+            List<AwesomeResult> results = quotes.GetAwesome(5, 34)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -68,13 +68,13 @@ namespace Internal.Tests
         {
             // bad fast period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAwesome(history, 0, 34));
+                Indicator.GetAwesome(quotes, 0, 34));
 
             // bad slow period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAwesome(history, 25, 25));
+                Indicator.GetAwesome(quotes, 25, 25));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetAwesome(HistoryTestData.Get(33), 5, 34));
         }

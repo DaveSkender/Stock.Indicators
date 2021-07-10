@@ -18,13 +18,13 @@ namespace Internal.Tests
             PivotPointType pointType = PivotPointType.Standard;
 
             List<RollingPivotsResult> results =
-                history.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
+                quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
 
@@ -100,7 +100,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(38, results.Count);
             Assert.AreEqual(28, results.Where(x => x.PP != null).Count());
 
@@ -169,13 +169,13 @@ namespace Internal.Tests
             PivotPointType pointType = PivotPointType.Demark;
 
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(history, windowPeriods, offsetPeriods, pointType)
+                Indicator.GetRollingPivots(quotes, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
 
@@ -262,7 +262,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(300, results.Count);
             Assert.AreEqual(241, results.Where(x => x.PP != null).Count());
 
@@ -339,7 +339,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(1564, results.Count);
             Assert.AreEqual(1173, results.Where(x => x.PP != null).Count());
 
@@ -407,7 +407,7 @@ namespace Internal.Tests
             PivotPointType pointType = PivotPointType.Standard;
 
             List<RollingPivotsResult> results =
-                history.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
+                quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -431,13 +431,13 @@ namespace Internal.Tests
         {
             // bad window period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRollingPivots(history, 0, 10));
+                Indicator.GetRollingPivots(quotes, 0, 10));
 
             // bad offset period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRollingPivots(history, 10, -1));
+                Indicator.GetRollingPivots(quotes, 10, -1));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
         }

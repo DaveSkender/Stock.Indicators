@@ -7,18 +7,18 @@
 
 ### Resize quote history
 
-`history.Aggregate(newSize)` is a tool to convert history to larger bar sizes.  For example if you have minute bar sizes in `history`, but want to convert it to hourly or daily.
+`quotes.Aggregate(newSize)` is a tool to convert quotes to larger bar sizes.  For example if you have minute bar sizes in `quotes`, but want to convert it to hourly or daily.
 
 ```csharp
 // fetch historical quotes from your favorite feed
-IEnumerable<TQuote> minuteBarHistory = GetHistoryFromFeed("MSFT");
+IEnumerable<TQuote> minuteBarQuotes = GetHistoryFromFeed("MSFT");
 
 // aggregate into larger bars
-IEnumerable<Quote> dayBarHistory = 
-  minuteBarHistory.Aggregate(PeriodSize.Day);
+IEnumerable<Quote> dayBarQuotes = 
+  minuteBarQuotes.Aggregate(PeriodSize.Day);
 ```
 
-:warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `history` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
+:warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 
 #### PeriodSize options (for newSize)
 
@@ -44,12 +44,12 @@ An alternative `.PruneWarmupPeriods(prunePeriods)` is also provided if you want 
 ```csharp
 // auto prune recommended periods
 IEnumerable<AdxResult> results = 
-  history.GetAdx(14)
+  quotes.GetAdx(14)
     .PruneWarmupPeriods();
 
 // prune user-specific quantity of periods
 IEnumerable<AdxResult> results = 
-  history.GetAdx(14)
+  quotes.GetAdx(14)
     .PruneWarmupPeriods(50);
 ```
 
@@ -65,10 +65,10 @@ See [individual indicator pages](INDICATORS.md) for information on recommended p
 
 ```csharp
 // fetch historical quotes from your favorite feed
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate indicator series
-IEnumerable<SmaResult> results = history.GetSma(20);
+IEnumerable<SmaResult> results = quotes.GetSma(20);
 
 // find result on a specific date
 DateTime lookupDate = [..] // the date you want to find

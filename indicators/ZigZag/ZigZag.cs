@@ -10,17 +10,17 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             ZigZagType type = ZigZagType.Close,
             decimal percentChange = 5)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateZigZag(history, percentChange);
+            ValidateZigZag(quotes, percentChange);
 
             // initialize
             List<ZigZagResult> results = new(historyList.Count);
@@ -51,7 +51,7 @@ namespace Skender.Stock.Indicators
 
             int finalPointIndex = historyList.Count;
 
-            // roll through history, to find initial trend
+            // roll through quotes, to find initial trend
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -293,7 +293,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateZigZag<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             decimal percentChange)
             where TQuote : IQuote
         {
@@ -305,18 +305,18 @@ namespace Skender.Stock.Indicators
                     "Percent change must be greater than 0 for ZIGZAG.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ZIGZAG.  " +
+                string message = "Insufficient quotes provided for ZIGZAG.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

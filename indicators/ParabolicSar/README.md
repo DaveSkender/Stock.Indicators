@@ -8,7 +8,7 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 ```csharp
 // usage
 IEnumerable<ParabolicSarResult> results =
-  history.GetParabolicSar(accelerationStep, maxAccelerationFactor);  
+  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);  
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ IEnumerable<ParabolicSarResult> results =
 
 ### Historical quotes requirements
 
-At least two history records are required to calculate; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient history to capture prior trend reversals, before your intended usage period.
+At least two quotes records are required to calculate; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals, before your intended usage period.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -52,10 +52,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ParabolicSar(0.02,0.2)
-IEnumerable<ParabolicSarResult> results = history.GetParabolicSar(0.02,0.2);
+IEnumerable<ParabolicSarResult> results = quotes.GetParabolicSar(0.02,0.2);
 
 // use results as needed
 ParabolicSarResult result = results.LastOrDefault();

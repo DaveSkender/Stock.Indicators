@@ -12,7 +12,7 @@ namespace Internal.Tests
     {
         internal static readonly CultureInfo englishCulture = new("en-US", false);
 
-        internal static readonly IEnumerable<Quote> history = HistoryTestData.Get();
+        internal static readonly IEnumerable<Quote> quotes = HistoryTestData.Get();
         internal static readonly IEnumerable<Quote> historyOther = HistoryTestData.GetCompare();
         internal static readonly IEnumerable<Quote> historyBad = HistoryTestData.GetBad();
     }

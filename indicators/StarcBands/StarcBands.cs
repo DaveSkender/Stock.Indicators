@@ -10,26 +10,26 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int smaPeriods = 20,
             decimal multiplier = 2,
             int atrPeriods = 10)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateStarcBands(history, smaPeriods, multiplier, atrPeriods);
+            ValidateStarcBands(quotes, smaPeriods, multiplier, atrPeriods);
 
             // initialize
             List<StarcBandsResult> results = new(historyList.Count);
-            List<SmaResult> smaResults = GetSma(history, smaPeriods).ToList();
-            List<AtrResult> atrResults = GetAtr(history, atrPeriods).ToList();
+            List<SmaResult> smaResults = GetSma(quotes, smaPeriods).ToList();
+            List<AtrResult> atrResults = GetAtr(quotes, atrPeriods).ToList();
             int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -71,7 +71,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateStarcBands<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int smaPeriods,
             decimal multiplier,
             int atrPeriods)
@@ -97,22 +97,22 @@ namespace Skender.Stock.Indicators
                     "Multiplier must be greater than 0 for STARC Bands.");
             }
 
-            // check history
+            // check quotes
             int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
-            int qtyHistory = history.Count();
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(lookbackPeriods, atrPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for STARC Bands.  " +
+                string message = "Insufficient quotes provided for STARC Bands.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, atrPeriods + 150);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

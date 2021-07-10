@@ -10,21 +10,21 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         ///
         public static IEnumerable<SmmaResult> GetSmma<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateSmma(history, lookbackPeriods);
+            ValidateSmma(quotes, lookbackPeriods);
 
             // initialize
             List<SmmaResult> results = new(historyList.Count);
             decimal? prevValue = null;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateSmma<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
@@ -87,22 +87,22 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 0 for SMMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
 
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for SMMA.  " +
+                string message = "Insufficient quotes provided for SMMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

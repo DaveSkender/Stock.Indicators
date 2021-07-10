@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="WithBands"]/*' />
         /// 
         public static IEnumerable<RocWbResult> GetRocWb<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             int emaPeriods,
             int stdDevPeriods)
@@ -18,10 +18,10 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            ValidateRocWb(history, lookbackPeriods, emaPeriods, stdDevPeriods);
+            ValidateRocWb(quotes, lookbackPeriods, emaPeriods, stdDevPeriods);
 
             // initialize
-            List<RocWbResult> results = GetRoc(history, lookbackPeriods)
+            List<RocWbResult> results = GetRoc(quotes, lookbackPeriods)
                 .Select(x => new RocWbResult
                 {
                     Date = x.Date,
@@ -42,7 +42,7 @@ namespace Skender.Stock.Indicators
                 .Select(x => (double?)(x.Roc * x.Roc))
                 .ToArray();
 
-            // roll through history
+            // roll through quotes
             for (int i = lookbackPeriods; i < results.Count; i++)
             {
                 RocWbResult r = results[i];
@@ -96,7 +96,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateRocWb<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             int emaPeriods,
             int stdDevPeriods)
@@ -122,18 +122,18 @@ namespace Skender.Stock.Indicators
                     "Standard Deviation periods must be greater than 0 and not more than lookback period for ROC with Bands.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ROC with Bands.  " +
+                string message = "Insufficient quotes provided for ROC with Bands.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

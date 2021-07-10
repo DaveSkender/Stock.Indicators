@@ -12,12 +12,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<GatorResult> results = history.GetGator().ToList();
+            List<GatorResult> results = quotes.GetGator().ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Upper != null).Count());
             Assert.AreEqual(490, results.Where(x => x.Lower != null).Count());
@@ -90,7 +90,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<GatorResult> results = history.GetGator()
+            List<GatorResult> results = quotes.GetGator()
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -107,7 +107,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Exceptions()
         {
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetGator(HistoryTestData.Get(114)));
         }

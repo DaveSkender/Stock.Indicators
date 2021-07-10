@@ -8,7 +8,7 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 ```csharp
 // usage
 IEnumerable<IchimokuResult> results =
-  history.GetIchimoku(signalPeriods, shortSpanPeriods, longSpanPeriods);  
+  quotes.GetIchimoku(signalPeriods, shortSpanPeriods, longSpanPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<IchimokuResult> results =
 
 ### Historical quotes requirements
 
-You must have at least the greater of `N`,`S`, or `L` periods of `history`; though, given the leading and lagging nature, we recommend notably more.
+You must have at least the greater of `N`,`S`, or `L` periods of `quotes`; though, given the leading and lagging nature, we recommend notably more.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -55,11 +55,11 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate ICHIMOKU(9,26,52)
 IEnumerable<IchimokuResult> results =
-  history.GetIchimoku(9,26,52);
+  quotes.GetIchimoku(9,26,52);
 
 // use results as needed
 IchimokuResult result = results.LastOrDefault();

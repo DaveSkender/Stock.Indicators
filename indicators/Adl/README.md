@@ -8,11 +8,11 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 ```csharp
 // usage
 IEnumerable<AdlResult> results =
-  history.GetAdl();  
+  quotes.GetAdl();  
 
 // usage with optional overlay SMA of ADL (shown above)
 IEnumerable<AdlResult> results =
-  history.GetAdl(smaPeriods);  
+  quotes.GetAdl(smaPeriods);  
 ```
 
 ## Parameters
@@ -25,7 +25,7 @@ IEnumerable<AdlResult> results =
 
 You must have at least two historical quotes; however, since this is a trendline, more is recommended.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -58,10 +58,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<AdlResult> results = history.GetAdl();
+IEnumerable<AdlResult> results = quotes.GetAdl();
 
 // use results as needed
 AdlResult result = results.LastOrDefault();

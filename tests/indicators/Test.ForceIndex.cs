@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<ForceIndexResult> r = history.GetForceIndex(13).ToList();
+            List<ForceIndexResult> r = quotes.GetForceIndex(13).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, r.Count);
             Assert.AreEqual(489, r.Where(x => x.ForceIndex != null).Count());
 
@@ -42,7 +42,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<ForceIndexResult> results = history.GetForceIndex(13)
+            List<ForceIndexResult> results = quotes.GetForceIndex(13)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -58,13 +58,13 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetForceIndex(history, 0));
+                Indicator.GetForceIndex(quotes, 0));
 
-            // insufficient history for N+100
+            // insufficient quotes for N+100
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetForceIndex(HistoryTestData.Get(129), 30));
 
-            // insufficient history for 2×N
+            // insufficient quotes for 2×N
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetForceIndex(HistoryTestData.Get(499), 250));
         }

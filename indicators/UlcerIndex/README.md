@@ -8,7 +8,7 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 ```csharp
 // usage
 IEnumerable<UlcerIndexResult> results =
-  history.GetUlcerIndex(lookbackPeriods);  
+  quotes.GetUlcerIndex(lookbackPeriods);  
 ```
 
 ## Parameters
@@ -19,9 +19,9 @@ IEnumerable<UlcerIndexResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -50,10 +50,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate UI(14)
-IEnumerable<UlcerIndexResult> results = history.GetUlcerIndex(14);
+IEnumerable<UlcerIndexResult> results = quotes.GetUlcerIndex(14);
 
 // use results as needed
 UlcerIndexResult result = results.LastOrDefault();

@@ -10,20 +10,20 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Extended"]/*' />
         /// 
         public static IEnumerable<SmaExtendedResult> GetSmaExtended<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // initialize
-            List<SmaExtendedResult> results = GetSma(history, lookbackPeriods)
+            List<SmaExtendedResult> results = GetSma(quotes, lookbackPeriods)
                 .Select(x => new SmaExtendedResult { Date = x.Date, Sma = x.Sma })
                 .ToList();
 
-            // roll through history
+            // roll through quotes
             for (int i = lookbackPeriods - 1; i < results.Count; i++)
             {
                 SmaExtendedResult r = results[i];

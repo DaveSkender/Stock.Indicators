@@ -10,23 +10,23 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int signalPeriods = 9,
             int shortSpanPeriods = 26,
             int longSpanPeriods = 52)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateIchimoku(history, signalPeriods, shortSpanPeriods, longSpanPeriods);
+            ValidateIchimoku(quotes, signalPeriods, shortSpanPeriods, longSpanPeriods);
 
             // initialize
             List<IchimokuResult> results = new(historyList.Count);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -159,7 +159,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateIchimoku<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int signalPeriods,
             int shortSpanPeriods,
             int longSpanPeriods)
@@ -185,18 +185,18 @@ namespace Skender.Stock.Indicators
                     "Long span periods must be greater than small span period for ICHIMOKU.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(signalPeriods, Math.Max(shortSpanPeriods, longSpanPeriods));
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ICHIMOKU.  " +
+                string message = "Insufficient quotes provided for ICHIMOKU.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

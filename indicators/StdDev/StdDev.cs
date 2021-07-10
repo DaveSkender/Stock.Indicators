@@ -10,14 +10,14 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             int? smaPeriods = null)
             where TQuote : IQuote
         {
 
             // convert to basic data
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // calculate
             return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
             // initialize
             List<StdDevResult> results = new(bdList.Count);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData bd = bdList[i];
@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateStdDev(
-            List<BasicData> history,
+            List<BasicData> quotes,
             int lookbackPeriods,
             int? smaPeriods)
         {
@@ -120,18 +120,18 @@ namespace Skender.Stock.Indicators
                     "SMA periods must be greater than 0 for Standard Deviation.");
             }
 
-            // check history
-            int qtyHistory = history.Count;
+            // check quotes
+            int qtyHistory = quotes.Count;
             int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Standard Deviation.  " +
+                string message = "Insufficient quotes provided for Standard Deviation.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StochRsiResult> GetStochRsi<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int rsiPeriods,
             int stochPeriods,
             int signalPeriods,
@@ -19,10 +19,10 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            ValidateStochRsi(history, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+            ValidateStochRsi(quotes, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
             // initialize
-            List<RsiResult> rsiResults = GetRsi(history, rsiPeriods).ToList();
+            List<RsiResult> rsiResults = GetRsi(quotes, rsiPeriods).ToList();
             List<StochRsiResult> results = new(rsiResults.Count);
 
             // convert rsi to quote format
@@ -80,7 +80,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateStochRsi<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int rsiPeriods,
             int stochPeriods,
             int signalPeriods,
@@ -113,21 +113,21 @@ namespace Skender.Stock.Indicators
                     "Smooth periods must be greater than 0 for Stochastic RSI.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(rsiPeriods + stochPeriods + smoothPeriods, rsiPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Stochastic RSI.  " +
+                string message = "Insufficient quotes provided for Stochastic RSI.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, Math.Max(10 * rsiPeriods, minHistory));
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

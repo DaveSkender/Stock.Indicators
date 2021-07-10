@@ -8,10 +8,10 @@
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="history">Historical price quotes.</param>
+  <param name="quotes">Historical price quotes.</param>
   <param name="windowSize">Calendar size of the lookback window.</param>
   <param name="pointType">Pivot Point type.</param>
   <returns>Time series of Pivot Points values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
 </indicator>

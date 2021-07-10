@@ -8,7 +8,7 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA](https://github.com/
 ```csharp
 // usage
 IEnumerable<AlmaResult> results =
-  history.GetAlma(lookbackPeriods, offset, sigma);  
+  quotes.GetAlma(lookbackPeriods, offset, sigma);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<AlmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -52,10 +52,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate Alma(10,0.5,6)
-IEnumerable<AlmaResult> results = history.GetAlma(10,0.5,6);
+IEnumerable<AlmaResult> results = quotes.GetAlma(10,0.5,6);
 
 // use results as needed
 AlmaResult result = results.LastOrDefault();

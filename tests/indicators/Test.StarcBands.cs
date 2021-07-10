@@ -19,13 +19,13 @@ namespace Internal.Tests
             int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             List<StarcBandsResult> results =
-                history.GetStarcBands(smaPeriods, multiplier, atrPeriods)
+                quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
@@ -74,7 +74,7 @@ namespace Internal.Tests
             int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             List<StarcBandsResult> results =
-                history.GetStarcBands(smaPeriods, multiplier, atrPeriods)
+                quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -92,21 +92,21 @@ namespace Internal.Tests
         {
             // bad EMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStarcBands(history, 1, 2, 10));
+                Indicator.GetStarcBands(quotes, 1, 2, 10));
 
             // bad ATR period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStarcBands(history, 20, 2, 1));
+                Indicator.GetStarcBands(quotes, 20, 2, 1));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStarcBands(history, 20, 0, 10));
+                Indicator.GetStarcBands(quotes, 20, 0, 10));
 
-            // insufficient history 120
+            // insufficient quotes 120
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStarcBands(HistoryTestData.Get(119), 120, 2, 10));
 
-            // insufficient history 250
+            // insufficient quotes 250
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetStarcBands(HistoryTestData.Get(249), 20, 2, 150));
         }

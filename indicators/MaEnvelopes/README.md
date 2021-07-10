@@ -8,7 +8,7 @@
 ```csharp
 // usage
 IEnumerable<MaEnvelopeResult> results =
-  history.GetSmaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);  
+  quotes.GetSmaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<MaEnvelopeResult> results =
 
 ### Historical quotes requirements
 
-See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `history` and `lookbackPeriods`.
+See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `quotes` and `lookbackPeriods`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ### MaType options
 
@@ -74,11 +74,11 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA envelopes with 2.5% offset
 IEnumerable<MaEnvelopeResult> results = 
-    history.GetMaEnvelopes(20,2.5,MaType.SMA);
+    quotes.GetMaEnvelopes(20,2.5,MaType.SMA);
 
 // use results as needed
 MaEnvelopeResult result = results.LastOrDefault();

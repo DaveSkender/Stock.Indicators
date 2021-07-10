@@ -8,7 +8,7 @@ Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https:
 ```csharp
 // usage
 IEnumerable<StarcBandsResult> results = 
-  history.GetStarcBands(smaPeriods, multiplier, atrPeriods);  
+  quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<StarcBandsResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `S` or `A+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
+You must have at least `S` or `A+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -56,10 +56,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StarcBands(20)
-IEnumerable<StarcBandsResult> results = history.GetStarcBands(20,2.0,10);
+IEnumerable<StarcBandsResult> results = quotes.GetStarcBands(20,2.0,10);
 
 // use results as needed
 StarcBandsResult result = results.LastOrDefault();

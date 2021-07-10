@@ -15,13 +15,13 @@ IEnumerable<BetaResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `historyMarket` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  This `market` history will be used to establish the baseline.
+| `historyMarket` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
 | `historyEval` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of history.  You must have at least the same matching date elements of `historyMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+You must have at least `N` periods of quotes.  You must have at least the same matching date elements of `historyMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
 ## Response
 

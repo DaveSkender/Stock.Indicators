@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<DonchianResult> results = history.GetDonchian(20)
+            List<DonchianResult> results = quotes.GetDonchian(20)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(482, results.Where(x => x.UpperBand != null).Count());
@@ -68,7 +68,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<DonchianResult> results = history.GetDonchian(20)
+            List<DonchianResult> results = quotes.GetDonchian(20)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -87,9 +87,9 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetDonchian(history, 0));
+                Indicator.GetDonchian(quotes, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetDonchian(HistoryTestData.Get(30), 30));
         }

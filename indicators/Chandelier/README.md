@@ -8,7 +8,7 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ```csharp
 // usage
 IEnumerable<ChandelierResult> results =
-  history.GetChandelier(lookbackPeriods, multiplier, type);  
+  quotes.GetChandelier(lookbackPeriods, multiplier, type);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<ChandelierResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ### ChandelierType options
 
@@ -59,11 +59,11 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Chandelier(22,3,LONG)
 IEnumerable<ChandelierResult> results =
-  history.GetChandelier(22,3,ChandelierType.Long);
+  quotes.GetChandelier(22,3,ChandelierType.Long);
 
 // use results as needed
 ChandelierResult result = results.LastOrDefault();

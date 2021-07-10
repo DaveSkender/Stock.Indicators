@@ -16,13 +16,13 @@ namespace Internal.Tests
             int lookbackPeriods = 22;
 
             List<ChandelierResult> longResult =
-                history.GetChandelier(lookbackPeriods, 3.0m)
+                quotes.GetChandelier(lookbackPeriods, 3.0m)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, longResult.Count);
             Assert.AreEqual(481, longResult.Where(x => x.ChandelierExit != null).Count());
 
@@ -35,7 +35,7 @@ namespace Internal.Tests
 
             // short
             List<ChandelierResult> shortResult =
-                Indicator.GetChandelier(history, lookbackPeriods, 3.0m, ChandelierType.Short)
+                Indicator.GetChandelier(quotes, lookbackPeriods, 3.0m, ChandelierType.Short)
                 .ToList();
 
             ChandelierResult c = shortResult[501];
@@ -53,7 +53,7 @@ namespace Internal.Tests
         public void Pruned()
         {
             List<ChandelierResult> longResult =
-                history.GetChandelier(22, 3.0m)
+                quotes.GetChandelier(22, 3.0m)
                     .PruneWarmupPeriods()
                     .ToList();
 
@@ -69,13 +69,13 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetChandelier(history, 0));
+                Indicator.GetChandelier(quotes, 0));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetChandelier(history, 25, 0));
+                Indicator.GetChandelier(quotes, 25, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetChandelier(HistoryTestData.Get(30), 30));
         }

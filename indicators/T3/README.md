@@ -8,7 +8,7 @@ Created by Tim Tillson, the [T3](https://www.forexfactory.com/attachment.php/845
 ```csharp
 // usage
 IEnumerable<T3Result> results = 
-  history.GetT3(lookbackPeriods, volumeFactor);  
+  quotes.GetT3(lookbackPeriods, volumeFactor);  
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ IEnumerable<T3Result> results =
 
 ### Historical quotes requirements
 
-You must have at least `6×(N-1)+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `6×(N-1)+250` data points prior to the intended usage date for better precision.
+You must have at least `6×(N-1)+100` periods of `quotes`.  Since this uses a smoothing technique, we recommend you use at least `6×(N-1)+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -53,10 +53,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 5-period T3
-IEnumerable<T3Result> results = history.GetT3(5,0.7);
+IEnumerable<T3Result> results = quotes.GetT3(5,0.7);
 
 // use results as needed
 T3Result result = results.LastOrDefault();

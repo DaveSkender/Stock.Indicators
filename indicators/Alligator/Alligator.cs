@@ -9,15 +9,15 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AlligatorResult> GetAlligator<TQuote>(
-            this IEnumerable<TQuote> history)
+            this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateAlligator(history);
+            ValidateAlligator(quotes);
 
             // initialize
             int size = historyList.Count;
@@ -38,7 +38,7 @@ namespace Skender.Stock.Indicators
                 })
                 .ToList();
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
@@ -135,11 +135,11 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateAlligator<TQuote>(
-            IEnumerable<TQuote> history)
+            IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
 
             // static values for traditional Williams Alligator with max lookback of 13
             int minHistory = 115;
@@ -147,16 +147,16 @@ namespace Skender.Stock.Indicators
 
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Williams Alligator.  " +
+                string message = "Insufficient quotes provided for Williams Alligator.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, recHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

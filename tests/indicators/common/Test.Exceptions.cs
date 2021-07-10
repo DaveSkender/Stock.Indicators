@@ -8,23 +8,23 @@ namespace Internal.Tests
     public class ExceptionTests : TestBase
     {
 
-        // bad history exceptions
+        // bad quotes exceptions
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad history without message.")]
+        [ExpectedException(typeof(BadHistoryException), "Bad quotes without message.")]
         public void BadHistory()
         {
             throw new BadHistoryException();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad history with message.")]
+        [ExpectedException(typeof(BadHistoryException), "Bad quotes with message.")]
         public void BadHistoryWithMessage()
         {
-            throw new BadHistoryException("This is a history exception.");
+            throw new BadHistoryException("This is a quotes exception.");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad history with inner Exception.")]
+        [ExpectedException(typeof(BadHistoryException), "Bad quotes with inner Exception.")]
         public void BadHistoryWithInner()
         {
             throw new BadHistoryException("This has an inner Exception.", new ArgumentException());

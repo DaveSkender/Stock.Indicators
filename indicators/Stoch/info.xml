@@ -9,11 +9,11 @@
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="history">Historical price quotes.</param>
+  <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods for the Oscillator.</param>
   <param name="signalPeriods">Smoothing period for the %D signal line.</param>
   <param name="smoothPeriods">Smoothing period for the %K Oscillator.  Use 3 for Slow or 1 for Fast.</param>
   <returns>Time series of Stochastic Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
 </indicator>

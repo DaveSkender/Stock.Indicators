@@ -8,11 +8,11 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<ObvResult> results =
-  history.GetObv();
+  quotes.GetObv();
 
 // usage with optional overlay SMA of OBV (shown above)
 IEnumerable<ObvResult> results =
-  history.GetObv(smaPeriods);  
+  quotes.GetObv(smaPeriods);  
 ```
 
 ## Parameters
@@ -25,7 +25,7 @@ IEnumerable<ObvResult> results =
 
 You must have at least two historical quotes; however, since this is a trendline, more is recommended.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -56,10 +56,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<ObvResult> results = history.GetObv();
+IEnumerable<ObvResult> results = quotes.GetObv();
 
 // use results as needed
 ObvResult result = results.LastOrDefault();

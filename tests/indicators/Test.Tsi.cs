@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<TsiResult> results = history.GetTsi(25, 13, 7).ToList();
+            List<TsiResult> results = quotes.GetTsi(25, 13, 7).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(465, results.Where(x => x.Tsi != null).Count());
             Assert.AreEqual(459, results.Where(x => x.Signal != null).Count());
@@ -60,7 +60,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<TsiResult> results = history.GetTsi(25, 13, 7)
+            List<TsiResult> results = quotes.GetTsi(25, 13, 7)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -77,17 +77,17 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetTsi(history, 0));
+                Indicator.GetTsi(quotes, 0));
 
             // bad smoothing period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetTsi(history, 25, 0));
+                Indicator.GetTsi(quotes, 25, 0));
 
             // bad signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetTsi(history, 25, 13, -1));
+                Indicator.GetTsi(quotes, 25, 13, -1));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetTsi(HistoryTestData.Get(137), 25, 13, 7));
         }

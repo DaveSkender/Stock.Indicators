@@ -8,7 +8,7 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 ```csharp
 // usage
 IEnumerable<KvoResult> results = 
-  history.GetKvo(shortPeriods, longPeriods, signalPeriods);  
+  quotes.GetKvo(shortPeriods, longPeriods, signalPeriods);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<KvoResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `L+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `L+150` data points prior to the intended usage date for better precision.
+You must have at least `L+100` periods of `quotes`.  Since this uses a smoothing technique, we recommend you use at least `L+150` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -55,10 +55,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Klinger(34,55,13)
-IEnumerable<KvoResult> results = history.GetKvo(34,55,13);
+IEnumerable<KvoResult> results = quotes.GetKvo(34,55,13);
 
 // use results as needed
 KvoResult result = results.LastOrDefault();

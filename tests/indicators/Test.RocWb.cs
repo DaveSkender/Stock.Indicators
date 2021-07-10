@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<RocWbResult> results = history.GetRocWb(20, 3, 20).ToList();
+            List<RocWbResult> results = quotes.GetRocWb(20, 3, 20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
             Assert.AreEqual(480, results.Where(x => x.RocEma != null).Count());
@@ -85,7 +85,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<RocWbResult> results = history.GetRocWb(20, 3, 20)
+            List<RocWbResult> results = quotes.GetRocWb(20, 3, 20)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -104,17 +104,17 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRocWb(history, 0, 3, 12));
+                Indicator.GetRocWb(quotes, 0, 3, 12));
 
             // bad EMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRocWb(history, 14, 0, 14));
+                Indicator.GetRocWb(quotes, 14, 0, 14));
 
             // bad STDDEV period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRocWb(history, 15, 3, 16));
+                Indicator.GetRocWb(quotes, 15, 3, 16));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetRocWb(HistoryTestData.Get(10), 10, 2, 10));
         }

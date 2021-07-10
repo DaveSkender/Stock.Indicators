@@ -8,7 +8,7 @@ Created by John Ehlers, the [MAMA](http://mesasoftware.com/papers/MAMA.pdf) indi
 ```csharp
 // usage
 IEnumerable<MamaResult> results =
-  history.GetMama(fastLimit, slowLimit);  
+  quotes.GetMama(fastLimit, slowLimit);  
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ IEnumerable<MamaResult> results =
 
 ### Historical quotes requirements
 
-Since this indicator has a warmup period, you must have at least `50` periods of `history`.
+Since this indicator has a warmup period, you must have at least `50` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -54,10 +54,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate Mama(0.5,0.05)
-IEnumerable<MamaResult> results = history.GetMama(0.5,0.05);
+IEnumerable<MamaResult> results = quotes.GetMama(0.5,0.05);
 
 // use results as needed
 MamaResult result = results.LastOrDefault();

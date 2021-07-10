@@ -9,7 +9,7 @@ It can indicate a buy/sell signal or a trailing stop when the trend changes.
 ```csharp
 // usage
 IEnumerable<SuperTrendResult> results =
-  history.GetSuperTrend(lookbackPeriods, multiplier);  
+  quotes.GetSuperTrend(lookbackPeriods, multiplier);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<SuperTrendResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
+You must have at least `N+100` periods of `quotes`.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -59,11 +59,11 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate SuperTrend(14,3)
 IEnumerable<SuperTrendResult> results
-  = history.GetSuperTrend(14,3);
+  = quotes.GetSuperTrend(14,3);
 
 // use results as needed
 SuperTrendResult r = results.LastOrDefault();

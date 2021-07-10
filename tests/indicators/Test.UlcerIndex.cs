@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<UlcerIndexResult> results = history.GetUlcerIndex(14)
+            List<UlcerIndexResult> results = quotes.GetUlcerIndex(14)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
 
@@ -38,7 +38,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<UlcerIndexResult> results = history.GetUlcerIndex(14)
+            List<UlcerIndexResult> results = quotes.GetUlcerIndex(14)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -55,9 +55,9 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetUlcerIndex(history, 0));
+                Indicator.GetUlcerIndex(quotes, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetUlcerIndex(HistoryTestData.Get(29), 30));
         }

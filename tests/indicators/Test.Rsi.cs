@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<RsiResult> results = history.GetRsi(14).ToList();
+            List<RsiResult> results = quotes.GetRsi(14).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
 
@@ -40,12 +40,12 @@ namespace Internal.Tests
         public void SmallLookback()
         {
             int lookbackPeriods = 1;
-            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriods).ToList();
+            List<RsiResult> results = Indicator.GetRsi(quotes, lookbackPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(501, results.Where(x => x.Rsi != null).Count());
 
@@ -67,7 +67,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<RsiResult> results = history.GetRsi(14)
+            List<RsiResult> results = quotes.GetRsi(14)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -83,9 +83,9 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRsi(history, 0));
+                Indicator.GetRsi(quotes, 0));
 
-            // insufficient history
+            // insufficient quotes
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetRsi(HistoryTestData.Get(129), 30));
         }

@@ -8,11 +8,11 @@
 ```csharp
 // usage
 IEnumerable<RocResult> results =
-  history.GetRoc(lookbackPeriods);
+  quotes.GetRoc(lookbackPeriods);
 
 // usage with optional SMA of ROC (shown above)
 IEnumerable<RocResult> results =
-  history.GetRoc(lookbackPeriods, smaPeriods);
+  quotes.GetRoc(lookbackPeriods, smaPeriods);
 ```
 
 ## Parameters
@@ -24,9 +24,9 @@ IEnumerable<RocResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 
 ## Response
 
@@ -56,10 +56,10 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period ROC
-IEnumerable<RocResult> results = history.GetRoc(20);
+IEnumerable<RocResult> results = quotes.GetRoc(20);
 
 // use results as needed
 RocResult result = results.LastOrDefault();
@@ -77,7 +77,7 @@ ROC on 12/31/2018 was -8.25%
 ```csharp
 // usage
 IEnumerable<RocWbResult> results =
-  history.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
+  quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```
 
 ### Parameters with Bands

@@ -10,24 +10,24 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ChandelierResult> GetChandelier<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 22,
             decimal multiplier = 3.0m,
             ChandelierType type = ChandelierType.Long)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateChandelier(history, lookbackPeriods, multiplier);
+            ValidateChandelier(quotes, lookbackPeriods, multiplier);
 
             // initialize
             List<ChandelierResult> results = new(historyList.Count);
-            List<AtrResult> atrResult = GetAtr(history, lookbackPeriods).ToList();  // uses ATR
+            List<AtrResult> atrResult = GetAtr(quotes, lookbackPeriods).ToList();  // uses ATR
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateChandelier<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             decimal multiplier)
             where TQuote : IQuote
@@ -121,18 +121,18 @@ namespace Skender.Stock.Indicators
                     "Multiplier must be greater than 0 for Chandelier Exit.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Chandelier Exit.  " +
+                string message = "Insufficient quotes provided for Chandelier Exit.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

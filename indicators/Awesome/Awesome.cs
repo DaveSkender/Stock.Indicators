@@ -10,24 +10,24 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int fastPeriods = 5,
             int slowPeriods = 34)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateAwesome(history, fastPeriods, slowPeriods);
+            ValidateAwesome(quotes, fastPeriods, slowPeriods);
 
             // initialize
             int size = historyList.Count;
             List<AwesomeResult> results = new();
             decimal[] pr = new decimal[size]; // median price
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
@@ -79,7 +79,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateAwesome<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int fastPeriods,
             int slowPeriods)
             where TQuote : IQuote
@@ -98,18 +98,18 @@ namespace Skender.Stock.Indicators
                     "Slow periods must be larger than Fast Periods for Awesome Oscillator.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = slowPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Awesome Oscillator.  " +
+                string message = "Insufficient quotes provided for Awesome Oscillator.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

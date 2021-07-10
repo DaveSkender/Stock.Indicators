@@ -10,18 +10,18 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<MacdResult> GetMacd<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int fastPeriods = 12,
             int slowPeriods = 26,
             int signalPeriods = 9)
             where TQuote : IQuote
         {
 
-            // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // check parameter arguments
-            ValidateMacd(history, fastPeriods, slowPeriods, signalPeriods);
+            ValidateMacd(quotes, fastPeriods, slowPeriods, signalPeriods);
 
             // initialize
             List<EmaResult> emaFast = CalcEma(bdList, fastPeriods).ToList();
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
             List<BasicData> emaDiff = new();
             List<MacdResult> results = new(size);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 BasicData h = bdList[i];
@@ -92,7 +92,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateMacd<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int fastPeriods,
             int slowPeriods,
             int signalPeriods)
@@ -118,20 +118,20 @@ namespace Skender.Stock.Indicators
                     "Slow periods must be greater than the fast period for MACD.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(2 * (slowPeriods + signalPeriods), slowPeriods + signalPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for MACD.  " +
+                string message = "Insufficient quotes provided for MACD.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory, slowPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

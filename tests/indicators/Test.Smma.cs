@@ -13,12 +13,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<SmmaResult> results = history.GetSmma(20).ToList();
+            List<SmmaResult> results = quotes.GetSmma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
 
@@ -44,7 +44,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            List<SmmaResult> results = history.GetSmma(20)
+            List<SmmaResult> results = quotes.GetSmma(20)
                 .PruneWarmupPeriods()
                 .ToList();
 
@@ -58,13 +58,13 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSmma(history, 0));
+                Indicator.GetSmma(quotes, 0));
 
-            // insufficient history for N+100
+            // insufficient quotes for N+100
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetSmma(HistoryTestData.Get(129), 30));
 
-            // insufficient history for 2×N
+            // insufficient quotes for 2×N
             Assert.ThrowsException<BadHistoryException>(() =>
                 Indicator.GetSmma(HistoryTestData.Get(499), 250));
         }

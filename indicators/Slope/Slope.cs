@@ -10,22 +10,22 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<SlopeResult> GetSlope<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateSlope(history, lookbackPeriods);
+            ValidateSlope(quotes, lookbackPeriods);
 
             // initialize
             int size = historyList.Count;
             List<SlopeResult> results = new(size);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote h = historyList[i];
@@ -117,7 +117,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateSlope<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int lookbackPeriods)
             where TQuote : IQuote
         {
@@ -129,18 +129,18 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 0 for Slope/Linear Regression.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Slope/Linear Regression.  " +
+                string message = "Insufficient quotes provided for Slope/Linear Regression.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }

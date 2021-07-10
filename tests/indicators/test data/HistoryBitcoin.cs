@@ -13,7 +13,7 @@ namespace Internal.Tests
 
         internal static IEnumerable<Quote> GetBitcoin(int days = 1246)
         {
-            // includes Bitcoin history
+            // includes Bitcoin quotes
             List<Quote> h = new()
             {
                 new Quote { Date = DateTime.ParseExact("2017-08-16", "yyyy-MM-dd", englishCulture), Open = 4261.48m, High = 4485.39m, Low = 4200.74m, Close = 4285.08m, Volume = 795.150377m },

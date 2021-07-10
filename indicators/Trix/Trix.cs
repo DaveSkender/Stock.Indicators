@@ -10,14 +10,14 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<TrixResult> GetTrix<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             int? signalPeriods = null)
             where TQuote : IQuote
         {
 
-            // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // check parameter arguments
             ValidateTrix(bdList, lookbackPeriods);
@@ -109,7 +109,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateTrix(
-            IEnumerable<BasicData> history,
+            IEnumerable<BasicData> quotes,
             int lookbackPeriods)
         {
 
@@ -120,21 +120,21 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 0 for TRIX.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = Math.Max(4 * lookbackPeriods, 3 * lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for TRIX.  " +
+                string message = "Insufficient quotes provided for TRIX.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, 3 * lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadHistoryException(nameof(quotes), message);
             }
         }
     }
