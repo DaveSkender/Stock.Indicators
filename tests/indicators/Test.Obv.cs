@@ -60,11 +60,11 @@ namespace Internal.Tests
             // assertions
             Assert.AreEqual(502, newQuotes.Count);
 
-            Quote r1 = newQuotes[249];
-            Assert.AreEqual(1780918888m, r1.Close);
+            Quote q1 = newQuotes[249];
+            Assert.AreEqual(1780918888m, q1.Close);
 
-            Quote r2 = newQuotes[501];
-            Assert.AreEqual(539843504m, r2.Close);
+            Quote q2 = newQuotes[501];
+            Assert.AreEqual(539843504m, q2.Close);
         }
 
         [TestMethod]
