@@ -51,6 +51,23 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void ConvertToQuotes()
+        {
+            List<Quote> newQuotes = quotes.GetObv()
+                .ConvertToQuotes()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502, newQuotes.Count);
+
+            Quote r1 = newQuotes[249];
+            Assert.AreEqual(1780918888m, r1.Close);
+
+            Quote r2 = newQuotes[501];
+            Assert.AreEqual(539843504m, r2.Close);
+        }
+
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<ObvResult> r = Indicator.GetObv(historyBad);

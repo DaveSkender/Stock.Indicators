@@ -63,6 +63,24 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // convert to quotes
+        public static IEnumerable<Quote> ConvertToQuotes(
+            this IEnumerable<AdlResult> results)
+        {
+            return results
+              .Select(x => new Quote
+              {
+                  Date = x.Date,
+                  Open = x.Adl,
+                  High = x.Adl,
+                  Low = x.Adl,
+                  Close = x.Adl,
+                  Volume = x.Adl
+              })
+              .ToList();
+        }
+
+
         // parameter validation
         private static void ValidateAdl<TQuote>(
             IEnumerable<TQuote> quotes,

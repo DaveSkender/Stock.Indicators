@@ -37,6 +37,22 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void ConvertToQuotes()
+        {
+            List<Quote> newQuotes = quotes.GetAdl()
+                .ConvertToQuotes()
+                .ToList();
+
+            Assert.AreEqual(502, newQuotes.Count);
+
+            Quote q1 = newQuotes[249];
+            Assert.AreEqual(3266400865.74m, Math.Round(q1.Close, 2));
+
+            Quote q2 = newQuotes[501];
+            Assert.AreEqual(3439986548.42m, Math.Round(q2.Close, 2));
+        }
+
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<AdlResult> r = Indicator.GetAdl(historyBad);
