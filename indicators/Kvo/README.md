@@ -8,16 +8,16 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 ```csharp
 // usage
 IEnumerable<KvoResult> results = 
-  history.GetKvo(shortPeriod, longPeriod, signalPeriod);  
+  history.GetKvo(shortPeriods, longPeriods, signalPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `fastPeriod` | int | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34.
-| `slowPeriod` | int | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55.
-| `signalPeriod` | int | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13.
+| `fastPeriods` | int | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34.
+| `slowPeriods` | int | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55.
+| `signalPeriods` | int | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13.
 
 ### Historical quotes requirements
 

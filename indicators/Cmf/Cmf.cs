@@ -91,7 +91,7 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for Chaikin Money Flow.");
+                    "Lookback periods must be greater than 0 for Chaikin Money Flow.");
             }
 
             // check history

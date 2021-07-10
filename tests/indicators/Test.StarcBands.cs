@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int smaPeriod = 20;
+            int smaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 14;
-            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
+            int atrPeriods = 14;
+            int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             List<StarcBandsResult> results =
-                history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
+                history.GetStarcBands(smaPeriods, multiplier, atrPeriods)
                 .ToList();
 
             // assertions
@@ -68,13 +68,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int smaPeriod = 20;
+            int smaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 14;
-            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
+            int atrPeriods = 14;
+            int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             List<StarcBandsResult> results =
-                history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
+                history.GetStarcBands(smaPeriods, multiplier, atrPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 

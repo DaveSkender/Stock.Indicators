@@ -9,9 +9,9 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="emaPeriod">Number of periods for the centerline EMA.</param>
+  <param name="emaPeriods">Number of periods for the centerline EMA.</param>
   <param name="multiplier">ATR multiplier sets the width of the channel.</param>
-  <param name="atrPeriod">Number of periods in the ATR evaluation.</param>
+  <param name="atrPeriods">Number of periods in the ATR evaluation.</param>
   <returns>Time series of Keltner Channel values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadHistoryException">Insufficient history provided.</exception>

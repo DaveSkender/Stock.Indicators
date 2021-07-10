@@ -8,16 +8,16 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 ```csharp
 // usage
 IEnumerable<KeltnerResult> results =
-  history.GetKeltner(emaPeriod, multiplier, atrPeriod);  
+  history.GetKeltner(emaPeriods, multiplier, atrPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `emaPeriod` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
+| `emaPeriods` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
 | `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
-| `atrPeriod` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
+| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
 
 ### Historical quotes requirements
 

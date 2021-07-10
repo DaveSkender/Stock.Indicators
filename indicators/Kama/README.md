@@ -8,16 +8,16 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ```csharp
 // usage
 IEnumerable<KamaResult> results =
-  history.GetKama(erPeriod, fastPeriod, slowPeriod);  
+  history.GetKama(erPeriods, fastPeriods, slowPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `erPeriod` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
-| `fastPeriod` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
-| `slowPeriod` | int | Number of Slow EMA periods.  Must be greater than `fastPeriod`.  Default is 30.
+| `erPeriods` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
+| `fastPeriods` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
+| `slowPeriods` | int | Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30.
 
 ### Historical quotes requirements
 
@@ -43,7 +43,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `ER`   | decimal | Efficiency Ratio is the fractal efficiency of price changes
 | `Kama` | decimal | Kaufman's adaptive moving average
 
-More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriod` periods. ER would be zero if prices are unchanged over the `erPeriod` periods.
+More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` periods. ER would be zero if prices are unchanged over the `erPeriods` periods.
 
 ### Utilities
 

@@ -37,9 +37,9 @@ namespace Internal.Tests
         public void WithSma()
         {
             int lookbackPeriods = 20;
-            int smaPeriod = 5;
+            int smaPeriods = 5;
 
-            List<RocResult> results = Indicator.GetRoc(history, lookbackPeriods, smaPeriod)
+            List<RocResult> results = Indicator.GetRoc(history, lookbackPeriods, smaPeriods)
                 .ToList();
 
             // assertions

@@ -8,14 +8,14 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 ```csharp
 // usage
 IEnumerable<BopResult> results =
-  history.GetBop(smoothPeriod);  
+  history.GetBop(smoothPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `smoothPeriod` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
+| `smoothPeriods` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 

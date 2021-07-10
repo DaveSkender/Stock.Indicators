@@ -13,11 +13,11 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int erPeriod = 10;
-            int fastPeriod = 2;
-            int slowPeriod = 30;
+            int erPeriods = 10;
+            int fastPeriods = 2;
+            int slowPeriods = 30;
 
-            List<KamaResult> results = history.GetKama(erPeriod, fastPeriod, slowPeriod)
+            List<KamaResult> results = history.GetKama(erPeriods, fastPeriods, slowPeriods)
                 .ToList();
 
             // assertions
@@ -68,16 +68,16 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int erPeriod = 10;
-            int fastPeriod = 2;
-            int slowPeriod = 30;
+            int erPeriods = 10;
+            int fastPeriods = 2;
+            int slowPeriods = 30;
 
-            List<KamaResult> results = history.GetKama(erPeriod, fastPeriod, slowPeriod)
+            List<KamaResult> results = history.GetKama(erPeriods, fastPeriods, slowPeriods)
                 .PruneWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - Math.Max(erPeriod + 100, erPeriod * 10), results.Count);
+            Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
 
             KamaResult last = results.LastOrDefault();
             Assert.AreEqual(0.2214m, Math.Round((decimal)last.ER, 4));

@@ -8,19 +8,19 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 ```csharp
 // usage
 IEnumerable<StochRsiResult> results =
-  history.GetStochRsi(rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
+  history.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `rsiPeriod` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
-| `stochPeriod` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriod`.
-| `signalPeriod` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
-| `smoothPeriod` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
+| `rsiPeriods` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
+| `stochPeriods` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`.
+| `signalPeriods` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
+| `smoothPeriods` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
 
-The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriod=1`).  For a standard period of 14, the original formula would be `GetStochRSI(history,14,14,3,1)`; though, the "3" here is just for the Signal, which is not present in the original formula, but useful for additional smoothing of the Stochastic RSI.
+The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `GetStochRSI(history,14,14,3,1)`; though, the "3" here is just for the Signal, which is not present in the original formula, but useful for additional smoothing of the Stochastic RSI.
 
 ### Historical quotes requirements
 

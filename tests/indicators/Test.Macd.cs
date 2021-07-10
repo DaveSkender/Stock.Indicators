@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int fastPeriod = 12;
-            int slowPeriod = 26;
-            int signalPeriod = 9;
+            int fastPeriods = 12;
+            int slowPeriods = 26;
+            int signalPeriods = 9;
 
             List<MacdResult> results =
-                history.GetMacd(fastPeriod, slowPeriod, signalPeriod)
+                history.GetMacd(fastPeriods, slowPeriods, signalPeriods)
                 .ToList();
 
             // assertions
@@ -57,17 +57,17 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int fastPeriod = 12;
-            int slowPeriod = 26;
-            int signalPeriod = 9;
+            int fastPeriods = 12;
+            int slowPeriods = 26;
+            int signalPeriods = 9;
 
             List<MacdResult> results =
-                history.GetMacd(fastPeriod, slowPeriod, signalPeriod)
+                history.GetMacd(fastPeriods, slowPeriods, signalPeriods)
                 .PruneWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (slowPeriod + signalPeriod + 250), results.Count);
+            Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
 
             MacdResult last = results.LastOrDefault();
             Assert.AreEqual(-6.2198m, Math.Round((decimal)last.Macd, 4));
@@ -82,7 +82,7 @@ namespace Internal.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetMacd(history, 0, 26, 9));
 
-            // bad slow period must be larger than faster period
+            // bad slow periods must be larger than faster period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetMacd(history, 12, 12, 9));
 

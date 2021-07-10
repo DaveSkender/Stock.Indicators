@@ -12,7 +12,7 @@ IEnumerable<TrixResult> results =
 
 // usage for Trix with Signal Line (shown above)
 IEnumerable<TrixResult> results =
-  history.GetTrix(lookbackPeriods, signalPeriod);
+  history.GetTrix(lookbackPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -20,7 +20,7 @@ IEnumerable<TrixResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
-| `signalPeriod` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
+| `signalPeriods` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -45,7 +45,7 @@ We always return the same number of elements as there are in the historical quot
 | `Date` | DateTime | Date
 | `Ema3` | decimal | 3 EMAs of the Close price
 | `Trix` | decimal | Rate of Change of 3 EMAs
-| `Signal` | decimal | SMA of `Trix` based on `signalPeriod` periods, if specified
+| `Signal` | decimal | SMA of `Trix` based on `signalPeriods` periods, if specified
 
 ### Utilities
 

@@ -12,14 +12,14 @@ IEnumerable<ObvResult> results =
 
 // usage with optional overlay SMA of OBV (shown above)
 IEnumerable<ObvResult> results =
-  history.GetObv(smaPeriod);  
+  history.GetObv(smaPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `smaPeriod` | int | Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
+| `smaPeriods` | int | Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -41,7 +41,7 @@ The first period OBV will have `0` value since there's not enough data to calcul
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Obv` | decimal | On-balance Volume
-| `ObvSma` | decimal | Moving average (SMA) of OBV based on `smaPeriod` periods, if specified
+| `ObvSma` | decimal | Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
 
 :warning: **Warning**: absolute values in OBV are somewhat meaningless, so use with caution.
 

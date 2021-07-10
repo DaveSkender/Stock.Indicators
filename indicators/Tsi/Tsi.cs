@@ -12,8 +12,8 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<TsiResult> GetTsi<TQuote>(
             this IEnumerable<TQuote> history,
             int lookbackPeriods = 25,
-            int smoothPeriod = 13,
-            int signalPeriod = 7)
+            int smoothPeriods = 13,
+            int signalPeriods = 7)
             where TQuote : IQuote
         {
 
@@ -21,13 +21,13 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateTsi(history, lookbackPeriods, smoothPeriod, signalPeriod);
+            ValidateTsi(history, lookbackPeriods, smoothPeriods, signalPeriods);
 
             // initialize
             int size = historyList.Count;
             decimal mult1 = 2m / (lookbackPeriods + 1);
-            decimal mult2 = 2m / (smoothPeriod + 1);
-            decimal multS = 2m / (signalPeriod + 1);
+            decimal mult2 = 2m / (smoothPeriods + 1);
+            decimal multS = 2m / (signalPeriods + 1);
             decimal? sumS = 0m;
 
             List<TsiResult> results = new(size);
@@ -74,7 +74,7 @@ namespace Skender.Stock.Indicators
                     as1[i] = (a[i] - as1[i - 1]) * mult1 + as1[i - 1];
 
                     // second smoothing
-                    if (index > lookbackPeriods + smoothPeriod)
+                    if (index > lookbackPeriods + smoothPeriods)
                     {
                         cs2[i] = (cs1[i] - cs2[i - 1]) * mult2 + cs2[i - 1];
                         as2[i] = (as1[i] - as2[i - 1]) * mult2 + as2[i - 1];
@@ -82,9 +82,9 @@ namespace Skender.Stock.Indicators
                         r.Tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : null;
 
                         // signal line
-                        if (signalPeriod > 0)
+                        if (signalPeriods > 0)
                         {
-                            if (index >= lookbackPeriods + smoothPeriod + signalPeriod)
+                            if (index >= lookbackPeriods + smoothPeriods + signalPeriods)
                             {
                                 r.Signal = (r.Tsi - results[i - 1].Signal) * multS
                                          + results[i - 1].Signal;
@@ -95,9 +95,9 @@ namespace Skender.Stock.Indicators
                             {
                                 sumS += r.Tsi;
 
-                                if (index == lookbackPeriods + smoothPeriod + signalPeriod - 1)
+                                if (index == lookbackPeriods + smoothPeriods + signalPeriods - 1)
                                 {
-                                    r.Signal = sumS / signalPeriod;
+                                    r.Signal = sumS / signalPeriods;
                                 }
                             }
                         }
@@ -110,10 +110,10 @@ namespace Skender.Stock.Indicators
                         sumA1 += as1[i];
 
                         // inialize second smoothing
-                        if (index == lookbackPeriods + smoothPeriod)
+                        if (index == lookbackPeriods + smoothPeriods)
                         {
-                            cs2[i] = sumC1 / smoothPeriod;
-                            as2[i] = sumA1 / smoothPeriod;
+                            cs2[i] = sumC1 / smoothPeriods;
+                            as2[i] = sumA1 / smoothPeriods;
 
                             r.Tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : null;
                             sumS = r.Tsi;
@@ -158,8 +158,8 @@ namespace Skender.Stock.Indicators
         private static void ValidateTsi<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriods,
-            int smoothPeriod,
-            int signalPeriod)
+            int smoothPeriods,
+            int signalPeriods)
             where TQuote : IQuote
         {
 
@@ -167,24 +167,24 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for TSI.");
+                    "Lookback periods must be greater than 0 for TSI.");
             }
 
-            if (smoothPeriod <= 0)
+            if (smoothPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smoothPeriod), smoothPeriod,
-                    "Smoothing period must be greater than 0 for TSI.");
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                    "Smoothing periods must be greater than 0 for TSI.");
             }
 
-            if (signalPeriod < 0)
+            if (signalPeriods < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
-                    "Signal period must be greater than or equal to 0 for TSI.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                    "Signal periods must be greater than or equal to 0 for TSI.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriods + smoothPeriod + 100;
+            int minHistory = lookbackPeriods + smoothPeriods + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for TSI.  " +
@@ -194,8 +194,8 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a double smoothing technique, for an N+M period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods + smoothPeriod,
-                    lookbackPeriods + smoothPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods + smoothPeriods,
+                    lookbackPeriods + smoothPeriods + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }

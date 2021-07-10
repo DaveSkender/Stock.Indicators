@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void FastRsi()
         {
-            int rsiPeriod = 14;
-            int stochPeriod = 14;
-            int signalPeriod = 3;
-            int smoothPeriod = 1;
+            int rsiPeriods = 14;
+            int stochPeriods = 14;
+            int signalPeriods = 3;
+            int smoothPeriods = 1;
 
             List<StochRsiResult> results =
-                history.GetStochRsi(rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                history.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // assertions
@@ -50,13 +50,13 @@ namespace Internal.Tests
         [TestMethod]
         public void SlowRsi()
         {
-            int rsiPeriod = 14;
-            int stochPeriod = 14;
-            int signalPeriod = 3;
-            int smoothPeriod = 3;
+            int rsiPeriods = 14;
+            int stochPeriods = 14;
+            int signalPeriods = 3;
+            int smoothPeriods = 3;
 
             List<StochRsiResult> results =
-                Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                Indicator.GetStochRsi(history, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // assertions
@@ -94,18 +94,18 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int rsiPeriod = 14;
-            int stochPeriod = 14;
-            int signalPeriod = 3;
-            int smoothPeriod = 3;
+            int rsiPeriods = 14;
+            int stochPeriods = 14;
+            int signalPeriods = 3;
+            int smoothPeriods = 3;
 
             List<StochRsiResult> results =
-                Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                Indicator.GetStochRsi(history, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 
             // assertions
-            int pruneQty = rsiPeriod + stochPeriod + smoothPeriod + 100;
+            int pruneQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
             Assert.AreEqual(502 - pruneQty, results.Count);
 
             StochRsiResult last = results.LastOrDefault();

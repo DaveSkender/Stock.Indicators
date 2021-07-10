@@ -89,7 +89,7 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for Commodity Channel Index.");
+                    "Lookback periods must be greater than 0 for Commodity Channel Index.");
             }
 
             // check history

@@ -67,7 +67,7 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for Elder-ray Index.");
+                    "Lookback periods must be greater than 0 for Elder-ray Index.");
             }
 
             // check history
@@ -79,7 +79,7 @@ namespace Skender.Stock.Indicators
                     string.Format(
                         EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);

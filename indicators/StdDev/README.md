@@ -12,7 +12,7 @@ IEnumerable<StdDevResult> results =
 
 // usage with optional SMA of STDEV (shown above)
 IEnumerable<StdDevResult> results =
-  history.GetStdDev(lookbackPeriods, smaPeriod);  
+  history.GetStdDev(lookbackPeriods, smaPeriods);  
 ```
 
 ## Parameters
@@ -20,7 +20,7 @@ IEnumerable<StdDevResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
-| `smaPeriod` | int | Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
+| `smaPeriods` | int | Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -44,7 +44,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `StdDev` | decimal | Standard Deviation of Close price over `N` lookback periods
 | `Mean` | decimal | Mean value of Close price over `N` lookback periods
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
-| `StdDevSma` | decimal | Moving average (SMA) of STDDEV based on `smaPeriod` periods, if specified
+| `StdDevSma` | decimal | Moving average (SMA) of STDDEV based on `smaPeriods` periods, if specified
 
 ### Utilities
 

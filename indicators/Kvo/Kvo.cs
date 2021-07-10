@@ -11,9 +11,9 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<KvoResult> GetKvo<TQuote>(
             this IEnumerable<TQuote> history,
-            int fastPeriod = 34,
-            int slowPeriod = 55,
-            int signalPeriod = 13)
+            int fastPeriods = 34,
+            int slowPeriods = 55,
+            int signalPeriods = 13)
             where TQuote : IQuote
         {
 
@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateKlinger(history, fastPeriod, slowPeriod, signalPeriod);
+            ValidateKlinger(history, fastPeriods, slowPeriods, signalPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -36,9 +36,9 @@ namespace Skender.Stock.Indicators
             decimal?[] vfSlowEma = new decimal?[size];  // EMA of VP (long-term)
 
             // EMA multipliers
-            decimal kFast = 2m / (fastPeriod + 1);
-            decimal kSlow = 2m / (slowPeriod + 1);
-            decimal kSignal = 2m / (signalPeriod + 1);
+            decimal kFast = 2m / (fastPeriods + 1);
+            decimal kSlow = 2m / (slowPeriods + 1);
+            decimal kSignal = 2m / (signalPeriods + 1);
 
             // roll through history
             for (int i = 0; i < size; i++)
@@ -83,54 +83,54 @@ namespace Skender.Stock.Indicators
                     : vf[i - 1];
 
                 // fast-period EMA of VF
-                if (index > fastPeriod + 2)
+                if (index > fastPeriods + 2)
                 {
                     vfFastEma[i] = vf[i] * kFast + vfFastEma[i - 1] * (1 - kFast);
                 }
-                else if (index == fastPeriod + 2)
+                else if (index == fastPeriods + 2)
                 {
                     decimal? sum = 0m;
                     for (int p = 2; p <= i; p++)
                     {
                         sum += vf[p];
                     }
-                    vfFastEma[i] = sum / fastPeriod;
+                    vfFastEma[i] = sum / fastPeriods;
                 }
 
                 // slow-period EMA of VF
-                if (index > slowPeriod + 2)
+                if (index > slowPeriods + 2)
                 {
                     vfSlowEma[i] = vf[i] * kSlow + vfSlowEma[i - 1] * (1 - kSlow);
                 }
-                else if (index == slowPeriod + 2)
+                else if (index == slowPeriods + 2)
                 {
                     decimal? sum = 0m;
                     for (int p = 2; p <= i; p++)
                     {
                         sum += vf[p];
                     }
-                    vfSlowEma[i] = sum / slowPeriod;
+                    vfSlowEma[i] = sum / slowPeriods;
                 }
 
                 // Klinger Oscillator
-                if (index >= slowPeriod + 2)
+                if (index >= slowPeriods + 2)
                 {
                     r.Oscillator = vfFastEma[i] - vfSlowEma[i];
 
                     // Signal
-                    if (index > slowPeriod + signalPeriod + 1)
+                    if (index > slowPeriods + signalPeriods + 1)
                     {
                         r.Signal = r.Oscillator * kSignal
                             + results[i - 1].Signal * (1 - kSignal);
                     }
-                    else if (index == slowPeriod + signalPeriod + 1)
+                    else if (index == slowPeriods + signalPeriods + 1)
                     {
                         decimal? sum = 0m;
-                        for (int p = slowPeriod + 1; p <= i; p++)
+                        for (int p = slowPeriods + 1; p <= i; p++)
                         {
                             sum += results[p].Oscillator;
                         }
-                        r.Signal = sum / signalPeriod;
+                        r.Signal = sum / signalPeriods;
                     }
                 }
             }
@@ -154,43 +154,43 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateKlinger<TQuote>(
             IEnumerable<TQuote> history,
-            int fastPeriod,
-            int slowPeriod,
-            int signalPeriod)
+            int fastPeriods,
+            int slowPeriods,
+            int signalPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (fastPeriod <= 2)
+            if (fastPeriods <= 2)
             {
-                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
-                    "Fast (short) period must be greater than 2 for Klinger Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
+                    "Fast (short) Periods must be greater than 2 for Klinger Oscillator.");
             }
 
-            if (slowPeriod <= fastPeriod)
+            if (slowPeriods <= fastPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
-                    "Slow (long) period must be greater than Fast Period for Klinger Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                    "Slow (long) Periods must be greater than Fast Periods for Klinger Oscillator.");
             }
 
-            if (signalPeriod <= 0)
+            if (signalPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
-                    "Signal period must be greater than 0 for Klinger Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                    "Signal Periods must be greater than 0 for Klinger Oscillator.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = slowPeriod + 100;
+            int minHistory = slowPeriods + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Klinger Oscillator.  " +
                     string.Format(EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, slowPeriod, slowPeriod + 150);
+                    qtyHistory, minHistory, slowPeriods, slowPeriods + 150);
 
                 throw new BadHistoryException(nameof(history), message);
             }

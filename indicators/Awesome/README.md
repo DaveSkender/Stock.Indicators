@@ -8,15 +8,15 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 ```csharp
 // usage
 IEnumerable<AwesomeResult> results =
-  history.GetAwesome(fastPeriod, slowPeriod);  
+  history.GetAwesome(fastPeriods, slowPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `fastPeriod` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
-| `slowPeriod` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriod`.  Default is 34.
+| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
+| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34.
 
 ### Historical quotes requirements
 

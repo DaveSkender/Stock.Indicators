@@ -77,7 +77,7 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for SMA.");
+                    "Lookback periods must be greater than 0 for SMA.");
             }
 
             // check history

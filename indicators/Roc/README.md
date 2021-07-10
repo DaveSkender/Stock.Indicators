@@ -12,7 +12,7 @@ IEnumerable<RocResult> results =
 
 // usage with optional SMA of ROC (shown above)
 IEnumerable<RocResult> results =
-  history.GetRoc(lookbackPeriods, smaPeriod);
+  history.GetRoc(lookbackPeriods, smaPeriods);
 ```
 
 ## Parameters
@@ -20,7 +20,7 @@ IEnumerable<RocResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.
-| `smaPeriod` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
+| `smaPeriods` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -42,7 +42,7 @@ The first `N` periods will have `null` values for ROC since there's not enough d
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Roc` | decimal | Rate of Change over `N` lookback periods (%, not decimal)
-| `RocSma` | decimal | Moving average (SMA) of ROC based on `smaPeriod` periods, if specified
+| `RocSma` | decimal | Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
 
 ### Utilities
 
@@ -77,7 +77,7 @@ ROC on 12/31/2018 was -8.25%
 ```csharp
 // usage
 IEnumerable<RocWbResult> results =
-  history.GetRocWb(lookbackPeriods, emaPeriod, stdDevPeriod);
+  history.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```
 
 ### Parameters with Bands
@@ -85,8 +85,8 @@ IEnumerable<RocWbResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
-| `emaPeriod` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
-| `stdDevPeriod` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`.
+| `emaPeriods` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
+| `stdDevPeriods` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`.
 
 ### RocWbResult
 

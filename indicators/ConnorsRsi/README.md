@@ -8,16 +8,16 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 ```csharp
 // usage
 IEnumerable<ConnorsRsiResult> results =
-  history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod);  
+  history.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `rsiPeriod` | int | Lookback period (`R`) for the close price RSI.  Must be greater than 1.  Default is 3.
-| `streakPeriod` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
-| `rankPeriod` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.
+| `rsiPeriods` | int | Lookback period (`R`) for the close price RSI.  Must be greater than 1.  Default is 3.
+| `streakPeriods` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
+| `rankPeriods` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.
 
 ### Historical quotes requirements
 

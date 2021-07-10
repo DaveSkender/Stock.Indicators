@@ -12,13 +12,13 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<RocWbResult> GetRocWb<TQuote>(
             this IEnumerable<TQuote> history,
             int lookbackPeriods,
-            int emaPeriod,
-            int stdDevPeriod)
+            int emaPeriods,
+            int stdDevPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateRocWb(history, lookbackPeriods, emaPeriod, stdDevPeriod);
+            ValidateRocWb(history, lookbackPeriods, emaPeriods, stdDevPeriods);
 
             // initialize
             List<RocWbResult> results = GetRoc(history, lookbackPeriods)
@@ -29,14 +29,14 @@ namespace Skender.Stock.Indicators
                 })
                 .ToList();
 
-            decimal k = 2m / (emaPeriod + 1);
+            decimal k = 2m / (emaPeriods + 1);
             decimal? lastEma = 0;
 
-            for (int i = lookbackPeriods; i < lookbackPeriods + emaPeriod; i++)
+            for (int i = lookbackPeriods; i < lookbackPeriods + emaPeriods; i++)
             {
                 lastEma += results[i].Roc;
             }
-            lastEma /= emaPeriod;
+            lastEma /= emaPeriods;
 
             double?[] rocSq = results
                 .Select(x => (double?)(x.Roc * x.Roc))
@@ -49,28 +49,28 @@ namespace Skender.Stock.Indicators
                 int index = i + 1;
 
                 // exponential moving average
-                if (index > lookbackPeriods + emaPeriod)
+                if (index > lookbackPeriods + emaPeriods)
                 {
                     r.RocEma = lastEma + k * (r.Roc - lastEma);
                     lastEma = r.RocEma;
                 }
-                else if (index == lookbackPeriods + emaPeriod)
+                else if (index == lookbackPeriods + emaPeriods)
                 {
                     r.RocEma = lastEma;
                 }
 
                 // ROC deviation
-                if (index >= lookbackPeriods + stdDevPeriod)
+                if (index >= lookbackPeriods + stdDevPeriods)
                 {
                     double? sumSq = 0;
-                    for (int p = i - stdDevPeriod + 1; p <= i; p++)
+                    for (int p = i - stdDevPeriods + 1; p <= i; p++)
                     {
                         sumSq += rocSq[p];
                     }
 
                     if (sumSq is not null)
                     {
-                        decimal? rocDev = (decimal?)Math.Sqrt((double)sumSq / stdDevPeriod);
+                        decimal? rocDev = (decimal?)Math.Sqrt((double)sumSq / stdDevPeriods);
 
                         r.UpperBand = rocDev;
                         r.LowerBand = -rocDev;
@@ -98,8 +98,8 @@ namespace Skender.Stock.Indicators
         private static void ValidateRocWb<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriods,
-            int emaPeriod,
-            int stdDevPeriod)
+            int emaPeriods,
+            int stdDevPeriods)
             where TQuote : IQuote
         {
 
@@ -107,19 +107,19 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for ROC with Bands.");
+                    "Lookback periods must be greater than 0 for ROC with Bands.");
             }
 
-            if (emaPeriod <= 0)
+            if (emaPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(emaPeriod), emaPeriod,
-                    "EMA period must be greater than 0 for ROC.");
+                throw new ArgumentOutOfRangeException(nameof(emaPeriods), emaPeriods,
+                    "EMA periods must be greater than 0 for ROC.");
             }
 
-            if (stdDevPeriod <= 0 || stdDevPeriod > lookbackPeriods)
+            if (stdDevPeriods <= 0 || stdDevPeriods > lookbackPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(stdDevPeriod), stdDevPeriod,
-                    "Standard Deviation period must be greater than 0 and not more than lookback period for ROC with Bands.");
+                throw new ArgumentOutOfRangeException(nameof(stdDevPeriods), stdDevPeriods,
+                    "Standard Deviation periods must be greater than 0 and not more than lookback period for ROC with Bands.");
             }
 
             // check history

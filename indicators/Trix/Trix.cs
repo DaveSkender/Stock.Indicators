@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<TrixResult> GetTrix<TQuote>(
             this IEnumerable<TQuote> history,
             int lookbackPeriods,
-            int? signalPeriod = null)
+            int? signalPeriods = null)
             where TQuote : IQuote
         {
 
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
                     lastEma = e3.Ema;
 
                     // optional SMA signal
-                    GetTrixSignal(signalPeriod, index, lookbackPeriods, results);
+                    GetTrixSignal(signalPeriods, index, lookbackPeriods, results);
                 }
             }
 
@@ -92,17 +92,17 @@ namespace Skender.Stock.Indicators
 
         // internals
         private static void GetTrixSignal(
-            int? signalPeriod, int index, int lookbackPeriods, List<TrixResult> results)
+            int? signalPeriods, int index, int lookbackPeriods, List<TrixResult> results)
         {
-            if (signalPeriod != null && index >= 3 * lookbackPeriods - 2 + signalPeriod)
+            if (signalPeriods != null && index >= 3 * lookbackPeriods - 2 + signalPeriods)
             {
                 decimal sumSma = 0m;
-                for (int p = index - (int)signalPeriod; p < index; p++)
+                for (int p = index - (int)signalPeriods; p < index; p++)
                 {
                     sumSma += (decimal)results[p].Trix;
                 }
 
-                results[index - 1].Signal = sumSma / signalPeriod;
+                results[index - 1].Signal = sumSma / signalPeriods;
             }
         }
 
@@ -117,7 +117,7 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for TRIX.");
+                    "Lookback periods must be greater than 0 for TRIX.");
             }
 
             // check history
@@ -129,7 +129,7 @@ namespace Skender.Stock.Indicators
                     string.Format(
                         EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, 3 * lookbackPeriods + 250);

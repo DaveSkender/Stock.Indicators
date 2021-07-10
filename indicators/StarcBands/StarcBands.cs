@@ -11,9 +11,9 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
             this IEnumerable<TQuote> history,
-            int smaPeriod = 20,
+            int smaPeriods = 20,
             decimal multiplier = 2,
-            int atrPeriod = 10)
+            int atrPeriods = 10)
             where TQuote : IQuote
         {
 
@@ -21,13 +21,13 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateStarcBands(history, smaPeriod, multiplier, atrPeriod);
+            ValidateStarcBands(history, smaPeriods, multiplier, atrPeriods);
 
             // initialize
             List<StarcBandsResult> results = new(historyList.Count);
-            List<SmaResult> smaResults = GetSma(history, smaPeriod).ToList();
-            List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
-            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
+            List<SmaResult> smaResults = GetSma(history, smaPeriods).ToList();
+            List<AtrResult> atrResults = GetAtr(history, atrPeriods).ToList();
+            int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -72,23 +72,23 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateStarcBands<TQuote>(
             IEnumerable<TQuote> history,
-            int smaPeriod,
+            int smaPeriods,
             decimal multiplier,
-            int atrPeriod)
+            int atrPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (smaPeriod <= 1)
+            if (smaPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "EMA period must be greater than 1 for STARC Bands.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "EMA periods must be greater than 1 for STARC Bands.");
             }
 
-            if (atrPeriod <= 1)
+            if (atrPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(atrPeriod), atrPeriod,
-                    "ATR period must be greater than 1 for STARC Bands.");
+                throw new ArgumentOutOfRangeException(nameof(atrPeriods), atrPeriods,
+                    "ATR periods must be greater than 1 for STARC Bands.");
             }
 
             if (multiplier <= 0)
@@ -98,19 +98,19 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
+            int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(lookbackPeriods, atrPeriod + 100);
+            int minHistory = Math.Max(lookbackPeriods, atrPeriods + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for STARC Bands.  " +
                     string.Format(
                         EnglishCulture,
                     "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, atrPeriod + 150);
+                    qtyHistory, minHistory, lookbackPeriods, atrPeriods + 150);
 
                 throw new BadHistoryException(nameof(history), message);
             }

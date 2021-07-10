@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int rsiPeriod = 3;
-            int streakPeriod = 2;
-            int rankPeriod = 100;
-            int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
+            int rsiPeriods = 3;
+            int streakPeriods = 2;
+            int rankPeriods = 100;
+            int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             List<ConnorsRsiResult> results1 =
-                history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod)
+                history.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
                 .ToList();
 
             // assertions
@@ -55,15 +55,15 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int rsiPeriod = 3;
-            int streakPeriod = 2;
-            int rankPeriod = 100;
+            int rsiPeriods = 3;
+            int streakPeriods = 2;
+            int rankPeriods = 100;
 
             // TODO: I don't think this is right, inconsistent
-            int prunePeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
+            int prunePeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             List<ConnorsRsiResult> results =
-                history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod)
+                history.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
                 .PruneWarmupPeriods()
                 .ToList();
 

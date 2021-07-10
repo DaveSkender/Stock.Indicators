@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<ObvResult> GetObv<TQuote>(
             this IEnumerable<TQuote> history,
-            int? smaPeriod = null)
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateObv(history, smaPeriod);
+            ValidateObv(history, smaPeriods);
 
             // initialize
             List<ObvResult> results = new(historyList.Count);
@@ -56,15 +56,15 @@ namespace Skender.Stock.Indicators
                 prevClose = h.Close;
 
                 // optional SMA
-                if (smaPeriod != null && index > smaPeriod)
+                if (smaPeriods != null && index > smaPeriods)
                 {
                     decimal sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Obv;
                     }
 
-                    result.ObvSma = sumSma / smaPeriod;
+                    result.ObvSma = sumSma / smaPeriods;
                 }
             }
 
@@ -75,15 +75,15 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateObv<TQuote>(
             IEnumerable<TQuote> history,
-            int? smaPeriod)
+            int? smaPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for OBV.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for OBV.");
             }
 
             // check history

@@ -54,8 +54,8 @@ namespace Internal.Tests
         public void GetStdDevWithSma()
         {
             int lookbackPeriods = 10;
-            int smaPeriod = 5;
-            List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriods, smaPeriod).ToList();
+            int smaPeriods = 5;
+            List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriods, smaPeriods).ToList();
 
             // assertions
 

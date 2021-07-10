@@ -83,7 +83,7 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 1 for Standard Deviation Channels.");
+                    "Lookback periods must be greater than 1 for Standard Deviation Channels.");
             }
 
             if (standardDeviations <= 0)

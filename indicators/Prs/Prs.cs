@@ -13,7 +13,7 @@ namespace Skender.Stock.Indicators
             this IEnumerable<TQuote> historyBase,
             IEnumerable<TQuote> historyEval,
             int? lookbackPeriods = null,
-            int? smaPeriod = null)
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyEvalList = historyEval.Sort();
 
             // check parameter arguments
-            ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriod);
+            ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriods);
 
             // initialize
             List<PrsResult> results = new(historyEvalList.Count);
@@ -62,15 +62,15 @@ namespace Skender.Stock.Indicators
                 }
 
                 // optional moving average of PRS
-                if (smaPeriod != null && index >= smaPeriod)
+                if (smaPeriods != null && index >= smaPeriods)
                 {
                     decimal? sumRs = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         PrsResult d = results[p];
                         sumRs += d.Prs;
                     }
-                    r.PrsSma = sumRs / smaPeriod;
+                    r.PrsSma = sumRs / smaPeriods;
                 }
             }
 
@@ -83,7 +83,7 @@ namespace Skender.Stock.Indicators
             IEnumerable<TQuote> historyBase,
             IEnumerable<TQuote> historyEval,
             int? lookbackPeriods,
-            int? smaPeriod)
+            int? smaPeriods)
             where TQuote : IQuote
         {
 
@@ -91,13 +91,13 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods is not null and <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for Price Relative Strength.");
+                    "Lookback periods must be greater than 0 for Price Relative Strength.");
             }
 
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for Price Relative Strength.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for Price Relative Strength.");
             }
 
             // check history

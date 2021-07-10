@@ -112,7 +112,7 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for Chandelier Exit.");
+                    "Lookback periods must be greater than 0 for Chandelier Exit.");
             }
 
             if (multiplier <= 0)

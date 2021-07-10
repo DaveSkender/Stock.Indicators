@@ -8,7 +8,7 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 ```csharp
 // usage
 IEnumerable<TsiResult> results = 
-  history.GetTsi(lookbackPeriods, smoothPeriod, signalPeriod);  
+  history.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);  
 ```
 
 ## Parameters
@@ -16,8 +16,8 @@ IEnumerable<TsiResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
-| `smoothPeriod` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
-| `signalPeriod` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
+| `smoothPeriods` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
+| `signalPeriods` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
 
 ### Historical quotes requirements
 
@@ -31,7 +31,7 @@ You must have at least `N+M+100` periods of `history`.  Since this uses a two EM
 IEnumerable<TsiResult>
 ```
 
-The first `N+M-1` periods will have `null` values since there's not enough data to calculate.  `Signal` will be `null` for all periods if `signalPeriod=0`.  We always return the same number of elements as there are in the historical quotes.
+The first `N+M-1` periods will have `null` values since there's not enough data to calculate.  `Signal` will be `null` for all periods if `signalPeriods=0`.  We always return the same number of elements as there are in the historical quotes.
 
 :warning: **Warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 

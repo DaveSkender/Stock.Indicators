@@ -11,9 +11,9 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<ConnorsRsiResult> GetConnorsRsi<TQuote>(
             this IEnumerable<TQuote> history,
-            int rsiPeriod = 3,
-            int streakPeriod = 2,
-            int rankPeriod = 100)
+            int rsiPeriods = 3,
+            int streakPeriods = 2,
+            int rankPeriods = 100)
             where TQuote : IQuote
         {
 
@@ -21,11 +21,11 @@ namespace Skender.Stock.Indicators
             List<BasicData> bdList = history.ConvertToBasic("C");
 
             // check parameter arguments
-            ValidateConnorsRsi(bdList, rsiPeriod, streakPeriod, rankPeriod);
+            ValidateConnorsRsi(bdList, rsiPeriods, streakPeriods, rankPeriods);
 
             // initialize
-            List<ConnorsRsiResult> results = CalcConnorsRsiBaseline(bdList, rsiPeriod, rankPeriod);
-            int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
+            List<ConnorsRsiResult> results = CalcConnorsRsiBaseline(bdList, rsiPeriods, rankPeriods);
+            int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             // RSI of streak
             List<BasicData> bdStreak = results
@@ -33,10 +33,10 @@ namespace Skender.Stock.Indicators
                 .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Streak })
                 .ToList();
 
-            List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriod).ToList();
+            List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods).ToList();
 
             // compose final results
-            for (int p = streakPeriod + 2; p < results.Count; p++)
+            for (int p = streakPeriods + 2; p < results.Count; p++)
             {
                 ConnorsRsiResult r = results[p];
                 RsiResult k = rsiStreakResults[p - 1];
@@ -67,10 +67,10 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
-            List<BasicData> bdList, int rsiPeriod, int rankPeriod)
+            List<BasicData> bdList, int rsiPeriods, int rankPeriods)
         {
             // initialize
-            List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriod).ToList();
+            List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods).ToList();
 
             int size = bdList.Count;
             List<ConnorsRsiResult> results = new(size);
@@ -135,10 +135,10 @@ namespace Skender.Stock.Indicators
 
                 results.Add(result);
 
-                if (index > rankPeriod)
+                if (index > rankPeriods)
                 {
                     int qty = 0;
-                    for (int p = index - rankPeriod - 1; p < index; p++)
+                    for (int p = index - rankPeriods - 1; p < index; p++)
                     {
                         if (gain[p] < gain[i])
                         {
@@ -146,7 +146,7 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    result.PercentRank = 100m * qty / rankPeriod;
+                    result.PercentRank = 100m * qty / rankPeriods;
                 }
 
 
@@ -159,33 +159,33 @@ namespace Skender.Stock.Indicators
 
         private static void ValidateConnorsRsi(
             IEnumerable<BasicData> history,
-            int rsiPeriod,
-            int streakPeriod,
-            int rankPeriod)
+            int rsiPeriods,
+            int streakPeriods,
+            int rankPeriods)
         {
 
             // check parameter arguments
-            if (rsiPeriod <= 1)
+            if (rsiPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(rsiPeriod), rsiPeriod,
+                throw new ArgumentOutOfRangeException(nameof(rsiPeriods), rsiPeriods,
                     "RSI period for Close price must be greater than 1 for ConnorsRsi.");
             }
 
-            if (streakPeriod <= 1)
+            if (streakPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(streakPeriod), streakPeriod,
+                throw new ArgumentOutOfRangeException(nameof(streakPeriods), streakPeriods,
                     "RSI period for Streak must be greater than 1 for ConnorsRsi.");
             }
 
-            if (rankPeriod <= 1)
+            if (rankPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(rankPeriod), rankPeriod,
-                    "Percent Rank period must be greater than 1 for ConnorsRsi.");
+                throw new ArgumentOutOfRangeException(nameof(rankPeriods), rankPeriods,
+                    "Percent Rank periods must be greater than 1 for ConnorsRsi.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(rsiPeriod + 100, Math.Max(streakPeriod, rankPeriod + 2));
+            int minHistory = Math.Max(rsiPeriods + 100, Math.Max(streakPeriods, rankPeriods + 2));
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ConnorsRsi.  " +

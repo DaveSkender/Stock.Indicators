@@ -11,8 +11,8 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
             this IEnumerable<TQuote> history,
-            int fastPeriod = 5,
-            int slowPeriod = 34)
+            int fastPeriods = 5,
+            int slowPeriods = 34)
             where TQuote : IQuote
         {
 
@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateAwesome(history, fastPeriod, slowPeriod);
+            ValidateAwesome(history, fastPeriods, slowPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -39,22 +39,22 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= slowPeriod)
+                if (index >= slowPeriods)
                 {
                     decimal sumSlow = 0m;
                     decimal sumFast = 0m;
 
-                    for (int p = index - slowPeriod; p < index; p++)
+                    for (int p = index - slowPeriods; p < index; p++)
                     {
                         sumSlow += pr[p];
 
-                        if (p >= index - fastPeriod)
+                        if (p >= index - fastPeriods)
                         {
                             sumFast += pr[p];
                         }
                     }
 
-                    r.Oscillator = (sumFast / fastPeriod) - (sumSlow / slowPeriod);
+                    r.Oscillator = (sumFast / fastPeriods) - (sumSlow / slowPeriods);
                     r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : null;
                 }
 
@@ -80,27 +80,27 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateAwesome<TQuote>(
             IEnumerable<TQuote> history,
-            int fastPeriod,
-            int slowPeriod)
+            int fastPeriods,
+            int slowPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (fastPeriod <= 0)
+            if (fastPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
-                    "Fast period must be greater than 0 for Awesome Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                    "Fast periods must be greater than 0 for Awesome Oscillator.");
             }
 
-            if (slowPeriod <= fastPeriod)
+            if (slowPeriods <= fastPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
-                    "Slow period must be larger than Fast Period for Awesome Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                    "Slow periods must be larger than Fast Periods for Awesome Oscillator.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = slowPeriod;
+            int minHistory = slowPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Awesome Oscillator.  " +

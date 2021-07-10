@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<AdlResult> GetAdl<TQuote>(
             this IEnumerable<TQuote> history,
-            int? smaPeriod = null)
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateAdl(history, smaPeriod);
+            ValidateAdl(history, smaPeriods);
 
             // initialize
             List<AdlResult> results = new(historyList.Count);
@@ -47,15 +47,15 @@ namespace Skender.Stock.Indicators
                 prevAdl = adl;
 
                 // optional SMA
-                if (smaPeriod != null && index >= smaPeriod)
+                if (smaPeriods != null && index >= smaPeriods)
                 {
                     decimal sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Adl;
                     }
 
-                    result.AdlSma = sumSma / smaPeriod;
+                    result.AdlSma = sumSma / smaPeriods;
                 }
             }
 
@@ -66,15 +66,15 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateAdl<TQuote>(
             IEnumerable<TQuote> history,
-            int? smaPeriod)
+            int? smaPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for ADL.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for ADL.");
             }
 
             // check history

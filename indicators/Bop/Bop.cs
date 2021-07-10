@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<BopResult> GetBop<TQuote>(
             this IEnumerable<TQuote> history,
-            int smoothPeriod = 14)
+            int smoothPeriods = 14)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateBop(history, smoothPeriod);
+            ValidateBop(history, smoothPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -38,15 +38,15 @@ namespace Skender.Stock.Indicators
                     Date = historyList[i].Date
                 };
 
-                if (i >= smoothPeriod - 1)
+                if (i >= smoothPeriods - 1)
                 {
                     decimal? sum = 0m;
-                    for (int p = i - smoothPeriod + 1; p <= i; p++)
+                    for (int p = i - smoothPeriods + 1; p <= i; p++)
                     {
                         sum += raw[p];
                     }
 
-                    r.Bop = sum / smoothPeriod;
+                    r.Bop = sum / smoothPeriods;
                 }
 
                 results.Add(r);
@@ -71,20 +71,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateBop<TQuote>(
             IEnumerable<TQuote> history,
-            int smoothPeriod)
+            int smoothPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (smoothPeriod <= 0)
+            if (smoothPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smoothPeriod), smoothPeriod,
-                    "Smoothing period must be greater than 0 for BOP.");
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                    "Smoothing periods must be greater than 0 for BOP.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = smoothPeriod;
+            int minHistory = smoothPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for BOP.  " +

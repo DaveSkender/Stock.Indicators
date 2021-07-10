@@ -11,9 +11,9 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
             this IEnumerable<TQuote> history,
-            int signalPeriod = 9,
-            int shortSpanPeriod = 26,
-            int longSpanPeriod = 52)
+            int signalPeriods = 9,
+            int shortSpanPeriods = 26,
+            int longSpanPeriods = 52)
             where TQuote : IQuote
         {
 
@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateIchimoku(history, signalPeriod, shortSpanPeriod, longSpanPeriod);
+            ValidateIchimoku(history, signalPeriods, shortSpanPeriods, longSpanPeriods);
 
             // initialize
             List<IchimokuResult> results = new(historyList.Count);
@@ -38,15 +38,15 @@ namespace Skender.Stock.Indicators
                 };
 
                 // tenkan-sen conversion line
-                CalcIchimokuTenkanSen(index, historyList, result, signalPeriod);
+                CalcIchimokuTenkanSen(index, historyList, result, signalPeriods);
 
                 // kijun-sen base line
-                CalcIchimokuKijunSen(index, historyList, result, shortSpanPeriod);
+                CalcIchimokuKijunSen(index, historyList, result, shortSpanPeriods);
 
                 // senkou span A
-                if (index >= 2 * shortSpanPeriod)
+                if (index >= 2 * shortSpanPeriods)
                 {
-                    IchimokuResult skq = results[index - shortSpanPeriod - 1];
+                    IchimokuResult skq = results[index - shortSpanPeriods - 1];
 
                     if (skq != null && skq.TenkanSen != null && skq.KijunSen != null)
                     {
@@ -55,12 +55,12 @@ namespace Skender.Stock.Indicators
                 }
 
                 // senkou span B
-                CalcIchimokuSenkouB(index, historyList, result, shortSpanPeriod, longSpanPeriod);
+                CalcIchimokuSenkouB(index, historyList, result, shortSpanPeriods, longSpanPeriods);
 
                 // chikou line
-                if (index + shortSpanPeriod <= historyList.Count)
+                if (index + shortSpanPeriods <= historyList.Count)
                 {
-                    result.ChikouSpan = historyList[index + shortSpanPeriod - 1].Close;
+                    result.ChikouSpan = historyList[index + shortSpanPeriods - 1].Close;
                 }
                 results.Add(result);
             }
@@ -70,15 +70,15 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuTenkanSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int signalPeriod)
+            int index, List<TQuote> historyList, IchimokuResult result, int signalPeriods)
             where TQuote : IQuote
         {
-            if (index >= signalPeriod)
+            if (index >= signalPeriods)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = index - signalPeriod; p < index; p++)
+                for (int p = index - signalPeriods; p < index; p++)
                 {
                     TQuote d = historyList[p];
 
@@ -99,15 +99,15 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuKijunSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriod)
+            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriods)
             where TQuote : IQuote
         {
-            if (index >= shortSpanPeriod)
+            if (index >= shortSpanPeriods)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = index - shortSpanPeriod; p < index; p++)
+                for (int p = index - shortSpanPeriods; p < index; p++)
                 {
                     TQuote d = historyList[p];
 
@@ -129,16 +129,16 @@ namespace Skender.Stock.Indicators
 
         private static void CalcIchimokuSenkouB<TQuote>(
             int index, List<TQuote> historyList, IchimokuResult result,
-            int shortSpanPeriod, int longSpanPeriod)
+            int shortSpanPeriods, int longSpanPeriods)
             where TQuote : IQuote
         {
-            if (index >= shortSpanPeriod + longSpanPeriod)
+            if (index >= shortSpanPeriods + longSpanPeriods)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = index - shortSpanPeriod - longSpanPeriod;
-                    p < index - shortSpanPeriod; p++)
+                for (int p = index - shortSpanPeriods - longSpanPeriods;
+                    p < index - shortSpanPeriods; p++)
                 {
                     TQuote d = historyList[p];
 
@@ -160,34 +160,34 @@ namespace Skender.Stock.Indicators
 
         private static void ValidateIchimoku<TQuote>(
             IEnumerable<TQuote> history,
-            int signalPeriod,
-            int shortSpanPeriod,
-            int longSpanPeriod)
+            int signalPeriods,
+            int shortSpanPeriods,
+            int longSpanPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (signalPeriod <= 0)
+            if (signalPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
-                    "Signal period must be greater than 0 for ICHIMOKU.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                    "Signal periods must be greater than 0 for ICHIMOKU.");
             }
 
-            if (shortSpanPeriod <= 0)
+            if (shortSpanPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(shortSpanPeriod), shortSpanPeriod,
-                    "Short span period must be greater than 0 for ICHIMOKU.");
+                throw new ArgumentOutOfRangeException(nameof(shortSpanPeriods), shortSpanPeriods,
+                    "Short span periods must be greater than 0 for ICHIMOKU.");
             }
 
-            if (longSpanPeriod <= shortSpanPeriod)
+            if (longSpanPeriods <= shortSpanPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(longSpanPeriod), longSpanPeriod,
-                    "Long span period must be greater than small span period for ICHIMOKU.");
+                throw new ArgumentOutOfRangeException(nameof(longSpanPeriods), longSpanPeriods,
+                    "Long span periods must be greater than small span period for ICHIMOKU.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(signalPeriod, Math.Max(shortSpanPeriod, longSpanPeriod));
+            int minHistory = Math.Max(signalPeriods, Math.Max(shortSpanPeriods, longSpanPeriods));
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ICHIMOKU.  " +

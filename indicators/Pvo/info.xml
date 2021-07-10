@@ -9,9 +9,9 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="fastPeriod">Number of periods in the Fast moving average.</param>
-  <param name="slowPeriod">Number of periods in the Slow moving average.</param>
-  <param name="signalPeriod">Number of periods for the PVO SMA signal line.</param>
+  <param name="fastPeriods">Number of periods in the Fast moving average.</param>
+  <param name="slowPeriods">Number of periods in the Slow moving average.</param>
+  <param name="signalPeriods">Number of periods for the PVO SMA signal line.</param>
   <returns>Time series of PVO values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadHistoryException">Insufficient history provided.</exception>

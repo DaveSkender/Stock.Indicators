@@ -8,16 +8,16 @@ Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https:
 ```csharp
 // usage
 IEnumerable<StarcBandsResult> results = 
-  history.GetStarcBands(smaPeriod, multiplier, atrPeriod);  
+  history.GetStarcBands(smaPeriods, multiplier, atrPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `smaPeriod` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
+| `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
 | `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
-| `atrPeriod` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriod`.  Default is 10.
+| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10.
 
 ### Historical quotes requirements
 

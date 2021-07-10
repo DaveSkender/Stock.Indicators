@@ -11,8 +11,8 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<RollingPivotsResult> GetRollingPivots<TQuote>(
             this IEnumerable<TQuote> history,
-            int windowPeriod,
-            int offsetPeriod,
+            int windowPeriods,
+            int offsetPeriods,
             PivotPointType pointType = PivotPointType.Standard)
             where TQuote : IQuote
         {
@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateRollingPivots(history, windowPeriod, offsetPeriod);
+            ValidateRollingPivots(history, windowPeriods, offsetPeriods);
 
             // initialize
             List<RollingPivotsResult> results = new(historyList.Count);
@@ -36,18 +36,18 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (i >= windowPeriod + offsetPeriod)
+                if (i >= windowPeriods + offsetPeriods)
                 {
 
                     // window values
-                    int s = i - windowPeriod - offsetPeriod;
+                    int s = i - windowPeriods - offsetPeriods;
                     TQuote hi = historyList[s];
 
                     decimal windowHigh = hi.High;
                     decimal windowLow = hi.Low;
-                    decimal windowClose = historyList[i - offsetPeriod - 1].Close;
+                    decimal windowClose = historyList[i - offsetPeriods - 1].Close;
 
-                    for (int p = s; p <= i - offsetPeriod - 1; p++)
+                    for (int p = s; p <= i - offsetPeriods - 1; p++)
                     {
                         TQuote d = historyList[p];
                         windowHigh = (d.High > windowHigh) ? d.High : windowHigh;
@@ -90,27 +90,27 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateRollingPivots<TQuote>(
             IEnumerable<TQuote> history,
-            int windowPeriod,
-            int offsetPeriod)
+            int windowPeriods,
+            int offsetPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (windowPeriod <= 0)
+            if (windowPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(windowPeriod), windowPeriod,
-                    "Window period must be greater than 0 for Rolling Pivot Points.");
+                throw new ArgumentOutOfRangeException(nameof(windowPeriods), windowPeriods,
+                    "Window periods must be greater than 0 for Rolling Pivot Points.");
             }
 
-            if (offsetPeriod < 0)
+            if (offsetPeriods < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(offsetPeriod), offsetPeriod,
-                    "Offset period must be greater than or equal to 0 for Rolling Pivot Points.");
+                throw new ArgumentOutOfRangeException(nameof(offsetPeriods), offsetPeriods,
+                    "Offset periods must be greater than or equal to 0 for Rolling Pivot Points.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = windowPeriod + offsetPeriod;
+            int minHistory = windowPeriods + offsetPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Rolling Pivot Points.  " +

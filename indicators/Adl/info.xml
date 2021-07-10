@@ -9,7 +9,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="smaPeriod">Optional.  Number of periods in the moving average of ADL.</param>
+  <param name="smaPeriods">Optional.  Number of periods in the moving average of ADL.</param>
   <returns>Time series of ADL values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadHistoryException">Insufficient history provided.</exception>

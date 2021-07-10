@@ -11,9 +11,9 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<KamaResult> GetKama<TQuote>(
             this IEnumerable<TQuote> history,
-            int erPeriod = 10,
-            int fastPeriod = 2,
-            int slowPeriod = 30)
+            int erPeriods = 10,
+            int fastPeriods = 2,
+            int slowPeriods = 30)
             where TQuote : IQuote
         {
 
@@ -21,12 +21,12 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateKama(history, erPeriod, fastPeriod, slowPeriod);
+            ValidateKama(history, erPeriods, fastPeriods, slowPeriods);
 
             // initialize
             List<KamaResult> results = new(historyList.Count);
-            decimal scFast = 2m / (fastPeriod + 1);
-            decimal scSlow = 2m / (slowPeriod + 1);
+            decimal scFast = 2m / (fastPeriods + 1);
+            decimal scSlow = 2m / (slowPeriods + 1);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -39,14 +39,14 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index > erPeriod)
+                if (index > erPeriods)
                 {
                     // ER period change
-                    decimal change = Math.Abs(h.Close - historyList[i - erPeriod].Close);
+                    decimal change = Math.Abs(h.Close - historyList[i - erPeriods].Close);
 
                     // volatility
                     decimal sumPV = 0m;
-                    for (int p = i - erPeriod + 1; p <= i; p++)
+                    for (int p = i - erPeriods + 1; p <= i; p++)
                     {
                         sumPV += Math.Abs(historyList[p].Close - historyList[p - 1].Close);
                     }
@@ -74,7 +74,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // initial value
-                else if (index == erPeriod)
+                else if (index == erPeriods)
                 {
                     r.Kama = h.Close;
                 }
@@ -90,45 +90,45 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<KamaResult> PruneWarmupPeriods(
             this IEnumerable<KamaResult> results)
         {
-            int erPeriod = results
+            int erPeriods = results
                 .ToList()
                 .FindIndex(x => x.ER != null);
 
-            return results.Prune(Math.Max(erPeriod + 100, 10 * erPeriod));
+            return results.Prune(Math.Max(erPeriods + 100, 10 * erPeriods));
         }
 
 
         // parameter validation
         private static void ValidateKama<TQuote>(
             IEnumerable<TQuote> history,
-            int erPeriod,
-            int fastPeriod,
-            int slowPeriod)
+            int erPeriods,
+            int fastPeriods,
+            int slowPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (erPeriod <= 0)
+            if (erPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(erPeriod), erPeriod,
-                    "Efficiency Ratio period must be greater than 0 for KAMA.");
+                throw new ArgumentOutOfRangeException(nameof(erPeriods), erPeriods,
+                    "Efficiency Ratio periods must be greater than 0 for KAMA.");
             }
 
-            if (fastPeriod <= 0)
+            if (fastPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
-                    "Fast EMA period must be greater than 0 for KAMA.");
+                throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
+                    "Fast EMA periods must be greater than 0 for KAMA.");
             }
 
-            if (slowPeriod <= fastPeriod)
+            if (slowPeriods <= fastPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
-                    "Slow EMA period must be greater than Fast EMA period for KAMA.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                    "Slow EMA periods must be greater than Fast EMA period for KAMA.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(6 * erPeriod, erPeriod + 100);
+            int minHistory = Math.Max(6 * erPeriods, erPeriods + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for KAMA.  " +
@@ -138,7 +138,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for an ER period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, erPeriod, 10 * erPeriod);
+                    qtyHistory, minHistory, erPeriods, 10 * erPeriods);
 
                 throw new BadHistoryException(nameof(history), message);
             }

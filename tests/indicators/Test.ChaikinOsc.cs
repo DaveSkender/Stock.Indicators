@@ -13,10 +13,10 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int fastPeriod = 3;
-            int slowPeriod = 10;
+            int fastPeriods = 3;
+            int slowPeriods = 10;
 
-            List<ChaikinOscResult> results = history.GetChaikinOsc(fastPeriod, slowPeriod)
+            List<ChaikinOscResult> results = history.GetChaikinOsc(fastPeriods, slowPeriods)
                 .ToList();
 
             // assertions
@@ -24,7 +24,7 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - slowPeriod + 1, results.Where(x => x.Oscillator != null).Count());
+            Assert.AreEqual(502 - slowPeriods + 1, results.Where(x => x.Oscillator != null).Count());
 
             // sample value
             ChaikinOscResult r = results[501];
@@ -44,15 +44,15 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int fastPeriod = 3;
-            int slowPeriod = 10;
+            int fastPeriods = 3;
+            int slowPeriods = 10;
 
-            List<ChaikinOscResult> results = history.GetChaikinOsc(fastPeriod, slowPeriod)
+            List<ChaikinOscResult> results = history.GetChaikinOsc(fastPeriods, slowPeriods)
                 .PruneWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (slowPeriod + 100), results.Count);
+            Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
 
             ChaikinOscResult last = results.LastOrDefault();
             Assert.AreEqual(3439986548.42m, Math.Round(last.Adl, 2));

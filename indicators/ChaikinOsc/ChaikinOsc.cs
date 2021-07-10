@@ -11,13 +11,13 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
             this IEnumerable<TQuote> history,
-            int fastPeriod = 3,
-            int slowPeriod = 10)
+            int fastPeriods = 3,
+            int slowPeriods = 10)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateChaikinOsc(history, fastPeriod, slowPeriod);
+            ValidateChaikinOsc(history, fastPeriods, slowPeriods);
 
             // money flow
             List<ChaikinOscResult> results = GetAdl(history)
@@ -35,11 +35,11 @@ namespace Skender.Stock.Indicators
                 .Select(x => new BasicData { Date = x.Date, Value = x.Adl })
                 .ToList();
 
-            List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod).ToList();
-            List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod).ToList();
+            List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriods).ToList();
+            List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriods).ToList();
 
             // add Oscillator
-            for (int i = slowPeriod - 1; i < results.Count; i++)
+            for (int i = slowPeriods - 1; i < results.Count; i++)
             {
                 ChaikinOscResult r = results[i];
 
@@ -68,27 +68,27 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateChaikinOsc<TQuote>(
             IEnumerable<TQuote> history,
-            int fastPeriod,
-            int slowPeriod)
+            int fastPeriods,
+            int slowPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (fastPeriod <= 0)
+            if (fastPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
-                    "Fast lookback period must be greater than 0 for Chaikin Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
+                    "Fast lookback periods must be greater than 0 for Chaikin Oscillator.");
             }
 
-            if (slowPeriod <= fastPeriod)
+            if (slowPeriods <= fastPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
-                    "Slow lookback period must be greater than Fast lookback period for Chaikin Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                    "Slow lookback periods must be greater than Fast lookback period for Chaikin Oscillator.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * slowPeriod, slowPeriod + 100);
+            int minHistory = Math.Max(2 * slowPeriods, slowPeriods + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Chaikin Oscillator.  " +
@@ -98,7 +98,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for a slow period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, slowPeriod, slowPeriod + 250);
+                    qtyHistory, minHistory, slowPeriods, slowPeriods + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }

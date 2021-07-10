@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int signalPeriod = 9;
-            int shortSpanPeriod = 26;
-            int longSpanPeriod = 52;
+            int signalPeriods = 9;
+            int shortSpanPeriods = 26;
+            int longSpanPeriods = 52;
 
             List<IchimokuResult> results = history.GetIchimoku(
-                signalPeriod, shortSpanPeriod, longSpanPeriod)
+                signalPeriods, shortSpanPeriods, longSpanPeriods)
                 .ToList();
 
             // assertions

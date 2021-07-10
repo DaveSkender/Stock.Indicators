@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<RocResult> GetRoc<TQuote>(
             this IEnumerable<TQuote> history,
             int lookbackPeriods,
-            int? smaPeriod = null)
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateRoc(history, lookbackPeriods, smaPeriod);
+            ValidateRoc(history, lookbackPeriods, smaPeriods);
 
             // initialize
             List<RocResult> results = new(historyList.Count);
@@ -47,15 +47,15 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
 
                 // optional SMA
-                if (smaPeriod != null && index >= lookbackPeriods + smaPeriod)
+                if (smaPeriods != null && index >= lookbackPeriods + smaPeriods)
                 {
                     decimal? sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Roc;
                     }
 
-                    result.RocSma = sumSma / smaPeriod;
+                    result.RocSma = sumSma / smaPeriods;
                 }
             }
 
@@ -79,7 +79,7 @@ namespace Skender.Stock.Indicators
         private static void ValidateRoc<TQuote>(
             IEnumerable<TQuote> history,
             int lookbackPeriods,
-            int? smaPeriod)
+            int? smaPeriods)
             where TQuote : IQuote
         {
 
@@ -87,13 +87,13 @@ namespace Skender.Stock.Indicators
             if (lookbackPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 0 for ROC.");
+                    "Lookback periods must be greater than 0 for ROC.");
             }
 
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for ROC.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for ROC.");
             }
 
             // check history

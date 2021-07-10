@@ -12,14 +12,14 @@ IEnumerable<AdlResult> results =
 
 // usage with optional overlay SMA of ADL (shown above)
 IEnumerable<AdlResult> results =
-  history.GetAdl(smaPeriod);  
+  history.GetAdl(smaPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `smaPeriod` | int | Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
+| `smaPeriods` | int | Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -43,7 +43,7 @@ We always return the same number of elements as there are in the historical quot
 | `MoneyFlowMultiplier` | decimal | Money Flow Multiplier
 | `MoneyFlowVolume` | decimal | Money Flow Volume
 | `Adl` | decimal | Accumulation Distribution Line (ADL)
-| `AdlSma` | decimal | Moving average (SMA) of ADL based on `smaPeriod` periods, if specified
+| `AdlSma` | decimal | Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
 
 :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
 

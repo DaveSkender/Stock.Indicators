@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int emaPeriod = 20;
+            int emaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 10;
+            int atrPeriods = 10;
 
             List<KeltnerResult> results =
-                history.GetKeltner(emaPeriod, multiplier, atrPeriod)
+                history.GetKeltner(emaPeriods, multiplier, atrPeriods)
                 .ToList();
 
             // assertions
@@ -27,7 +27,7 @@ namespace Internal.Tests
             // should always be the same number of results as there is history
             Assert.AreEqual(502, results.Count);
 
-            int warmupPeriod = 502 - Math.Max(emaPeriod, atrPeriod) + 1;
+            int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
             Assert.AreEqual(warmupPeriod, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(warmupPeriod, results.Where(x => x.UpperBand != null).Count());
             Assert.AreEqual(warmupPeriod, results.Where(x => x.LowerBand != null).Count());
@@ -57,13 +57,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int emaPeriod = 20;
+            int emaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 10;
-            int n = Math.Max(emaPeriod, atrPeriod);
+            int atrPeriods = 10;
+            int n = Math.Max(emaPeriods, atrPeriods);
 
             List<KeltnerResult> results =
-                history.GetKeltner(emaPeriod, multiplier, atrPeriod)
+                history.GetKeltner(emaPeriods, multiplier, atrPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 

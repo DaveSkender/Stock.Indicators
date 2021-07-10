@@ -14,10 +14,10 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriods = 30;
-            int smaPeriod = 10;
+            int smaPeriods = 10;
 
             List<PrsResult> results =
-                history.GetPrs(historyOther, lookbackPeriods, smaPeriod)
+                history.GetPrs(historyOther, lookbackPeriods, smaPeriods)
                 .ToList();
 
             // assertions

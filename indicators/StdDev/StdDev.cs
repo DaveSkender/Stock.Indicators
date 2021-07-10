@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
             this IEnumerable<TQuote> history,
             int lookbackPeriods,
-            int? smaPeriod = null)
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
             List<BasicData> bdList = history.ConvertToBasic("C");
 
             // calculate
-            return CalcStdDev(bdList, lookbackPeriods, smaPeriod);
+            return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
         }
 
 
@@ -38,11 +38,11 @@ namespace Skender.Stock.Indicators
 
         // internals
         private static IEnumerable<StdDevResult> CalcStdDev(
-            List<BasicData> bdList, int lookbackPeriods, int? smaPeriod = null)
+            List<BasicData> bdList, int lookbackPeriods, int? smaPeriods = null)
         {
 
             // check parameter arguments
-            ValidateStdDev(bdList, lookbackPeriods, smaPeriod);
+            ValidateStdDev(bdList, lookbackPeriods, smaPeriods);
 
             // initialize
             List<StdDevResult> results = new(bdList.Count);
@@ -84,15 +84,15 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
 
                 // optional SMA
-                if (smaPeriod != null && index >= lookbackPeriods + smaPeriod - 1)
+                if (smaPeriods != null && index >= lookbackPeriods + smaPeriods - 1)
                 {
                     decimal sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += (decimal)results[p].StdDev;
                     }
 
-                    result.StdDevSma = sumSma / smaPeriod;
+                    result.StdDevSma = sumSma / smaPeriods;
                 }
             }
 
@@ -104,20 +104,20 @@ namespace Skender.Stock.Indicators
         private static void ValidateStdDev(
             List<BasicData> history,
             int lookbackPeriods,
-            int? smaPeriod)
+            int? smaPeriods)
         {
 
             // check parameter arguments
             if (lookbackPeriods <= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback period must be greater than 1 for Standard Deviation.");
+                    "Lookback periods must be greater than 1 for Standard Deviation.");
             }
 
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for Standard Deviation.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for Standard Deviation.");
             }
 
             // check history

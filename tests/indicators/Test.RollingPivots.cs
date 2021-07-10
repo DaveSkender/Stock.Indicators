@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int windowPeriod = 11;
-            int offsetPeriod = 9;
+            int windowPeriods = 11;
+            int offsetPeriods = 9;
             PivotPointType pointType = PivotPointType.Standard;
 
             List<RollingPivotsResult> results =
-                history.GetRollingPivots(windowPeriod, offsetPeriod, pointType)
+                history.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
@@ -88,13 +88,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Camarilla()
         {
-            int windowPeriod = 10;
-            int offsetPeriod = 0;
+            int windowPeriods = 10;
+            int offsetPeriods = 0;
             PivotPointType pointType = PivotPointType.Camarilla;
 
             IEnumerable<Quote> h = HistoryTestData.Get(38);
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
@@ -164,12 +164,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Demark()
         {
-            int windowPeriod = 10;
-            int offsetPeriod = 10;
+            int windowPeriods = 10;
+            int offsetPeriods = 10;
             PivotPointType pointType = PivotPointType.Demark;
 
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(history, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(history, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
@@ -250,13 +250,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Fibonacci()
         {
-            int windowPeriod = 44;
-            int offsetPeriod = 15;
+            int windowPeriods = 44;
+            int offsetPeriods = 15;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
             IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
@@ -327,13 +327,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Woodie()
         {
-            int windowPeriod = 375;
-            int offsetPeriod = 16;
+            int windowPeriods = 375;
+            int offsetPeriods = 16;
             PivotPointType pointType = PivotPointType.Woodie;
 
             IEnumerable<Quote> h = HistoryTestData.GetIntraday(1564);
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
@@ -402,17 +402,17 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int windowPeriod = 11;
-            int offsetPeriod = 9;
+            int windowPeriods = 11;
+            int offsetPeriods = 9;
             PivotPointType pointType = PivotPointType.Standard;
 
             List<RollingPivotsResult> results =
-                history.GetRollingPivots(windowPeriod, offsetPeriod, pointType)
+                history.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
                     .PruneWarmupPeriods()
                     .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (windowPeriod + offsetPeriod), results.Count);
+            Assert.AreEqual(502 - (windowPeriods + offsetPeriods), results.Count);
 
             RollingPivotsResult last = results.LastOrDefault();
             Assert.AreEqual(null, last.R4);

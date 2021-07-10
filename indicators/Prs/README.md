@@ -12,7 +12,7 @@ IEnumerable<PrsResult> results =
 
 // usage with optional lookback period and SMA of PRS (shown above)
 IEnumerable<PrsResult> results =
-  historyBase.GetPrs(historyEval, lookbackPeriods, smaPeriod);  
+  historyBase.GetPrs(historyEval, lookbackPeriods, smaPeriods);  
 ```
 
 ## Parameters
@@ -21,7 +21,7 @@ IEnumerable<PrsResult> results =
 | -- |-- |--
 | `historyEval` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical quotes for evaluation.  You must have the same number of periods as `historyBase`.
 | `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
-| `smaPeriod` | int | Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
+| `smaPeriods` | int | Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
 
 ### Historical quotes requirements
 

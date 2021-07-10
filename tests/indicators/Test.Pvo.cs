@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int fastPeriod = 12;
-            int slowPeriod = 26;
-            int signalPeriod = 9;
+            int fastPeriods = 12;
+            int slowPeriods = 26;
+            int signalPeriods = 9;
 
             List<PvoResult> results =
-                history.GetPvo(fastPeriod, slowPeriod, signalPeriod)
+                history.GetPvo(fastPeriods, slowPeriods, signalPeriods)
                 .ToList();
 
             // assertions
@@ -67,17 +67,17 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int fastPeriod = 12;
-            int slowPeriod = 26;
-            int signalPeriod = 9;
+            int fastPeriods = 12;
+            int slowPeriods = 26;
+            int signalPeriods = 9;
 
             List<PvoResult> results =
-                history.GetPvo(fastPeriod, slowPeriod, signalPeriod)
+                history.GetPvo(fastPeriods, slowPeriods, signalPeriods)
                     .PruneWarmupPeriods()
                     .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (slowPeriod + signalPeriod + 250), results.Count);
+            Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
 
             PvoResult last = results.LastOrDefault();
             Assert.AreEqual(10.4395m, Math.Round((decimal)last.Pvo, 4));
@@ -92,7 +92,7 @@ namespace Internal.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetPvo(history, 0, 26, 9));
 
-            // bad slow period must be larger than faster period
+            // bad slow periods must be larger than faster period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetPvo(history, 12, 12, 9));
 
