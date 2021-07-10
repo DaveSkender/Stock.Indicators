@@ -47,6 +47,13 @@ We always return the same number of elements as there are in the historical quot
 
 :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -64,10 +71,3 @@ Console.WriteLine("ADL on {0} was {1}", result.Date, result.Adl);
 ```bash
 ADL on 12/31/2018 was 3439986548
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

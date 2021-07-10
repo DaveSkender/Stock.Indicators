@@ -51,6 +51,13 @@ Also, if you do not supply enough points to cover the percent change, there will
 | `RetraceHigh` | decimal | Retrace line for high points
 | `RetraceLow` | decimal | Retrace line for low points
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -69,10 +76,3 @@ Console.WriteLine("ZIGZAG on {0} was ${1}", result.Date, result.ZigZag);
 ```bash
 ZIGZAG on 02/18/2018 was $248.13
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

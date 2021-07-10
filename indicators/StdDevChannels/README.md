@@ -44,6 +44,14 @@ Up to `N-1` periods will have `null` values since there's not enough data to cal
 | `LowerChannel` | decimal | Lower line is `D` standard deviations below the center line
 | `BreakPoint` | bool | Helper information.  Indicates first point in new window.
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods()](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -69,11 +77,3 @@ Upper Channel on 12/31/2018 was $213.97
 If you specify `null` for the `lookbackPeriod`, you will get a regression line over the entire provided `history`.
 
 ![image](chart-full.png)
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

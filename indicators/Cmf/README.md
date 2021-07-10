@@ -42,6 +42,14 @@ The first `N-1` periods will have `null` values since there's not enough data to
 
 :warning: **Warning**: absolute values in MFV and CMF are somewhat meaningless, so use with caution.
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods()](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -59,11 +67,3 @@ Console.WriteLine("CMF on {0} was {1}", result.Date, result.Cmf);
 ```bash
 CMF on 12/31/2018 was -20257894
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

@@ -42,6 +42,14 @@ The first period or the `startDate` will have a `Vwap = Close` value since it is
 | `Date` | DateTime | Date
 | `Vwap` | decimal | Volume Weighted Average Price
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods()](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -59,11 +67,3 @@ Console.WriteLine("VWAP on {0} was ${1}", result.Date, result.Vwap);
 ```bash
 VWAP on 12/15/2020 16:00:00 was $368.18
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

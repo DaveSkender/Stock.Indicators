@@ -35,6 +35,13 @@ The first period will have `null` values since there's not enough data to calcul
 | `Low` | decimal | Modified low price
 | `Close` | decimal | Modified close price
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -52,10 +59,3 @@ Console.WriteLine("Heikin-Ashi open price on {0} was ${1}", result.Date, result.
 ```bash
 Heikin-Ashi open price on 12/31/2018 was $241.3
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

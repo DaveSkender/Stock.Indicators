@@ -42,6 +42,14 @@ The first `N+S-2` periods will have `null` Oscillator values since there's not e
 | `Signal` | decimal | %D Simple moving average of Oscillator
 | `PercentJ` | decimal | %J is the weighted divergence of %K and %D: `%J=3×%K-2×%D`
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods()](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -59,11 +67,3 @@ Console.WriteLine("STO on {0} was {1}", result.Date, result.Oscillator);
 ```bash
 STOCH on 12/31/2018 was 43.1
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

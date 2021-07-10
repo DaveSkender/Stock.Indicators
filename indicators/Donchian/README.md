@@ -41,6 +41,14 @@ The first `N` periods will have `null` values since there's not enough data to c
 | `LowerBand` | decimal | Lower line is the lowest Low over `N` periods
 | `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods()](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -58,11 +66,3 @@ Console.WriteLine("Upper Donchian Channel on {0} was ${1}", result.Date, result.
 ```bash
 Upper Donchian Channel on 12/31/2018 was $273.59
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

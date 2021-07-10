@@ -44,6 +44,13 @@ We always return the same number of elements as there are in the historical quot
 | `FractalBear` | decimal | Value indicates a **high** point; otherwise `null` is returned.
 | `FractalBull` | decimal | Value indicates a **low** point; otherwise `null` is returned.
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -61,10 +68,3 @@ Console.WriteLine("FractalBear on {0} was ${1}", r.Date, r.FractalBear);
 ```bash
 FractalBear on 12/12/2018 was $262.47
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

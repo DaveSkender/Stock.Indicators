@@ -44,6 +44,13 @@ The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since 
 | `SenkouSpanB` | decimal | Leading span B
 | `ChikouSpan` | decimal | Lagging span
 
+### Utilities
+
+- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -62,10 +69,3 @@ Console.WriteLine("Tenkan-sen on {0} was ${1}", result.Date, result.TenkanSen);
 ```bash
 Tenkan-sen on 12/31/2018 was $241.26
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
