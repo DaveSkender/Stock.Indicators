@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<RsiResult> results = history.GetRsi(14).ToList();
+            List<RsiResult> results = quotes.GetRsi(14).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
 
@@ -39,13 +39,13 @@ namespace Internal.Tests
         [TestMethod]
         public void SmallLookback()
         {
-            int lookbackPeriod = 1;
-            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod).ToList();
+            int lookbackPeriods = 1;
+            List<RsiResult> results = Indicator.GetRsi(quotes, lookbackPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(501, results.Where(x => x.Rsi != null).Count());
 
@@ -65,10 +65,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<RsiResult> results = history.GetRsi(14)
-                .PruneWarmupPeriods()
+            List<RsiResult> results = quotes.GetRsi(14)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -83,10 +83,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRsi(history, 0));
+                Indicator.GetRsi(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetRsi(HistoryTestData.Get(129), 30));
         }
     }

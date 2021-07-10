@@ -8,20 +8,20 @@ Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA
 ```csharp
 // usage
 IEnumerable<EpmaResult> results =
-  history.GetEpma(lookbackPeriod);  
+  quotes.GetEpma(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -38,14 +38,22 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Date` | DateTime | Date
 | `Epma` | decimal | Endpoint moving average
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period EPMA
-IEnumerable<EpmaResult> results = history.GetEpma(20);
+IEnumerable<EpmaResult> results = quotes.GetEpma(20);
 
 // use results as needed
 EpmaResult result = results.LastOrDefault();
@@ -55,11 +63,3 @@ Console.WriteLine("EPMA on {0} was ${1}", result.Date, result.Epma);
 ```bash
 EPMA on 12/31/2018 was $251.86
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

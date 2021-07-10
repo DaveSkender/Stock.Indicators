@@ -10,21 +10,21 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<CciResult> GetCci<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 20)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 20)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateCci(history, lookbackPeriod);
+            ValidateCci(quotes, lookbackPeriods);
 
             // initialize
             List<CciResult> results = new(historyList.Count);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -37,25 +37,25 @@ namespace Skender.Stock.Indicators
                 };
                 results.Add(result);
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     // average TP over lookback
                     decimal avgTp = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
                         avgTp += (decimal)d.Tp;
                     }
-                    avgTp /= lookbackPeriod;
+                    avgTp /= lookbackPeriods;
 
                     // average Deviation over lookback
                     decimal avgDv = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
                         avgDv += Math.Abs(avgTp - (decimal)d.Tp);
                     }
-                    avgDv /= lookbackPeriod;
+                    avgDv /= lookbackPeriods;
 
                     result.Cci = (avgDv == 0) ? null
                         : (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
@@ -66,44 +66,44 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<CciResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<CciResult> RemoveWarmupPeriods(
             this IEnumerable<CciResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Cci != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateCci<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Commodity Channel Index.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Commodity Channel Index.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Commodity Channel Index.  " +
+                string message = "Insufficient quotes provided for Commodity Channel Index.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

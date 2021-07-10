@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<TemaResult> results = history.GetTripleEma(20).ToList();
+            List<TemaResult> results = quotes.GetTripleEma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(445, results.Where(x => x.Tema != null).Count());
 
@@ -41,10 +41,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<TemaResult> results = history.GetTripleEma(20)
-                .PruneWarmupPeriods()
+            List<TemaResult> results = quotes.GetTripleEma(20)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -59,14 +59,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetTripleEma(history, 0));
+                Indicator.GetTripleEma(quotes, 0));
 
-            // insufficient history for 3*N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 3*N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTripleEma(HistoryTestData.Get(189), 30));
 
-            // insufficient history for 4×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 4×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTripleEma(HistoryTestData.GetLong(999), 250));
         }
     }

@@ -13,21 +13,21 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int emaPeriod = 20;
+            int emaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 10;
+            int atrPeriods = 10;
 
             List<KeltnerResult> results =
-                history.GetKeltner(emaPeriod, multiplier, atrPeriod)
+                quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
 
-            int warmupPeriod = 502 - Math.Max(emaPeriod, atrPeriod) + 1;
+            int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
             Assert.AreEqual(warmupPeriod, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(warmupPeriod, results.Where(x => x.UpperBand != null).Count());
             Assert.AreEqual(warmupPeriod, results.Where(x => x.LowerBand != null).Count());
@@ -55,16 +55,16 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            int emaPeriod = 20;
+            int emaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 10;
-            int n = Math.Max(emaPeriod, atrPeriod);
+            int atrPeriods = 10;
+            int n = Math.Max(emaPeriods, atrPeriods);
 
             List<KeltnerResult> results =
-                history.GetKeltner(emaPeriod, multiplier, atrPeriod)
-                    .PruneWarmupPeriods()
+                quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions
@@ -82,22 +82,22 @@ namespace Internal.Tests
         {
             // bad EMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 1, 2, 10));
+                Indicator.GetKeltner(quotes, 1, 2, 10));
 
             // bad ATR period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 20, 2, 1));
+                Indicator.GetKeltner(quotes, 20, 2, 1));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 20, 0, 10));
+                Indicator.GetKeltner(quotes, 20, 0, 10));
 
-            // insufficient history for N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(119), 20, 2, 10));
 
-            // insufficient history for 2×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 2×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
         }
     }

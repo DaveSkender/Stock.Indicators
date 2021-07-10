@@ -14,11 +14,11 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<AdlResult> results = history.GetAdl().ToList();
+            List<AdlResult> results = quotes.GetAdl().ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Where(x => x.AdlSma == null).Count());
 
@@ -47,11 +47,11 @@ namespace Internal.Tests
         public void WithSma()
         {
 
-            List<AdlResult> results = Indicator.GetAdl(history, 20).ToList();
+            List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.AdlSma != null).Count());
 
@@ -68,10 +68,10 @@ namespace Internal.Tests
         {
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAdl(history, 0));
+                Indicator.GetAdl(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAdl(HistoryTestData.Get(1)));
         }
     }

@@ -8,22 +8,22 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 ```csharp
 // usage
 IEnumerable<IchimokuResult> results =
-  history.GetIchimoku(signalPeriod, shortSpanPeriod, longSpanPeriod);  
+  quotes.GetIchimoku(signalPeriods, shortSpanPeriods, longSpanPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `signalPeriod` | int | Number of periods (`N`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9.
-| `shortSpanPeriod` | int | Number of periods (`S`) in the shorter Kijun-sen midpoint evaluation.  It also sets the Chikou span lag/shift.  Must be greater than 0.  Default is 26.
-| `longSpanPeriod` | int | Number of periods (`L`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `S`.  Default is 52.
+| `signalPeriods` | int | Number of periods (`N`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9.
+| `shortSpanPeriods` | int | Number of periods (`S`) in the shorter Kijun-sen midpoint evaluation.  It also sets the Chikou span lag/shift.  Must be greater than 0.  Default is 26.
+| `longSpanPeriods` | int | Number of periods (`L`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `S`.  Default is 52.
 
 ### Historical quotes requirements
 
-You must have at least the greater of `N`,`S`, or `L` periods of `history`; though, given the leading and lagging nature, we recommend notably more.
+You must have at least the greater of `N`,`S`, or `L` periods of `quotes`; though, given the leading and lagging nature, we recommend notably more.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -44,15 +44,22 @@ The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since 
 | `SenkouSpanB` | decimal | Leading span B
 | `ChikouSpan` | decimal | Lagging span
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate ICHIMOKU(9,26,52)
 IEnumerable<IchimokuResult> results =
-  history.GetIchimoku(9,26,52);
+  quotes.GetIchimoku(9,26,52);
 
 // use results as needed
 IchimokuResult result = results.LastOrDefault();
@@ -62,10 +69,3 @@ Console.WriteLine("Tenkan-sen on {0} was ${1}", result.Date, result.TenkanSen);
 ```bash
 Tenkan-sen on 12/31/2018 was $241.26
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

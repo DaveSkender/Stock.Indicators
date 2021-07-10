@@ -8,20 +8,20 @@
 ```csharp
 // usage
 IEnumerable<SmaResult> results =
-  history.GetSma(lookbackPeriod);  
+  quotes.GetSma(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -38,14 +38,22 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = history.GetSma(20);
+IEnumerable<SmaResult> results = quotes.GetSma(20);
 
 // use results as needed
 SmaResult result = results.LastOrDefault();
@@ -63,7 +71,7 @@ An extended variant of this indicator includes additional analysis.
 ```csharp
 // usage
 IEnumerable<SmaExtendedResult> results =
-  history.GetSmaExtended(lookbackPeriod);  
+  quotes.GetSmaExtended(lookbackPeriods);  
 ```
 
 ### SmaExtendedResult
@@ -75,11 +83,3 @@ IEnumerable<SmaExtendedResult> results =
 | `Mad` | decimal | Mean absolute deviation
 | `Mse` | decimal | Mean square error
 | `Mape` | decimal | Mean absolute percentage error
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

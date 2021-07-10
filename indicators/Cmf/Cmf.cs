@@ -10,22 +10,22 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<CmfResult> GetCmf<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 20)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 20)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateCmf(history, lookbackPeriod);
+            ValidateCmf(quotes, lookbackPeriods);
 
             // initialize
             List<CmfResult> results = new(historyList.Count);
-            List<AdlResult> adlResults = GetAdl(history).ToList();
+            List<AdlResult> adlResults = GetAdl(quotes).ToList();
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < adlResults.Count; i++)
             {
                 AdlResult r = adlResults[i];
@@ -38,12 +38,12 @@ namespace Skender.Stock.Indicators
                     MoneyFlowVolume = r.MoneyFlowVolume
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal sumMfv = 0;
                     decimal sumVol = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote h = historyList[p];
                         sumVol += h.Volume;
@@ -52,8 +52,8 @@ namespace Skender.Stock.Indicators
                         sumMfv += d.MoneyFlowVolume;
                     }
 
-                    decimal avgMfv = sumMfv / lookbackPeriod;
-                    decimal avgVol = sumVol / lookbackPeriod;
+                    decimal avgMfv = sumMfv / lookbackPeriods;
+                    decimal avgVol = sumVol / lookbackPeriods;
 
                     if (avgVol != 0)
                     {
@@ -68,44 +68,44 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<CmfResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<CmfResult> RemoveWarmupPeriods(
             this IEnumerable<CmfResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
               .ToList()
               .FindIndex(x => x.Cmf != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateCmf<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Chaikin Money Flow.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Chaikin Money Flow.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Chaikin Money Flow.  " +
+                string message = "Insufficient quotes provided for Chaikin Money Flow.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

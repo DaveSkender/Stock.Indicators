@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<VolSmaResult> results = history.GetVolSma(20)
+            List<VolSmaResult> results = quotes.GetVolSma(20)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.VolSma != null).Count());
 
@@ -44,10 +44,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<VolSmaResult> results = history.GetVolSma(20)
-                .PruneWarmupPeriods()
+            List<VolSmaResult> results = quotes.GetVolSma(20)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -63,10 +63,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetVolSma(history, 0));
+                Indicator.GetVolSma(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetVolSma(HistoryTestData.Get(9), 10));
         }
     }

@@ -10,16 +10,16 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<FisherTransformResult> GetFisherTransform<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 10)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 10)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateFisherTransform(history, lookbackPeriod);
+            ValidateFisherTransform(quotes, lookbackPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -28,7 +28,7 @@ namespace Skender.Stock.Indicators
             List<FisherTransformResult> results = new(size);
 
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
                 decimal minPrice = pr[i];
                 decimal maxPrice = pr[i];
 
-                for (int p = Math.Max(i - lookbackPeriod + 1, 0); p <= i; p++)
+                for (int p = Math.Max(i - lookbackPeriods + 1, 0); p <= i; p++)
                 {
                     minPrice = Math.Min(pr[p], minPrice);
                     maxPrice = Math.Max(pr[p], maxPrice);
@@ -78,33 +78,33 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateFisherTransform<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Fisher Transform.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Fisher Transform.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Fisher Transform.  " +
+                string message = "Insufficient quotes provided for Fisher Transform.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 15);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 15);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

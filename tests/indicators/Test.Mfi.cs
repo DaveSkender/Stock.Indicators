@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<MfiResult> results = history.GetMfi(lookbackPeriod).ToList();
+            int lookbackPeriods = 14;
+            List<MfiResult> results = quotes.GetMfi(lookbackPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Mfi != null).Count());
 
@@ -34,15 +34,15 @@ namespace Internal.Tests
         [TestMethod]
         public void SmallLookback()
         {
-            int lookbackPeriod = 4;
+            int lookbackPeriods = 4;
 
-            List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod)
+            List<MfiResult> results = Indicator.GetMfi(quotes, lookbackPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(498, results.Where(x => x.Mfi != null).Count());
 
@@ -62,11 +62,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            int lookbackPeriod = 14;
-            List<MfiResult> results = history.GetMfi(lookbackPeriod)
-                .PruneWarmupPeriods()
+            int lookbackPeriods = 14;
+            List<MfiResult> results = quotes.GetMfi(lookbackPeriods)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -81,10 +81,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMfi(history, 1));
+                Indicator.GetMfi(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetMfi(HistoryTestData.Get(14), 14));
         }
     }

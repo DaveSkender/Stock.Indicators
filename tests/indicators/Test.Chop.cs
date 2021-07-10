@@ -12,13 +12,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<ChopResult> results = history.GetChop(14)
+            List<ChopResult> results = quotes.GetChop(14)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Chop != null).Count());
 
@@ -39,13 +39,13 @@ namespace Internal.Tests
         [TestMethod]
         public void SmallLookback()
         {
-            int lookbackPeriod = 2;
-            List<ChopResult> results = Indicator.GetChop(history, lookbackPeriod).ToList();
+            int lookbackPeriods = 2;
+            List<ChopResult> results = Indicator.GetChop(quotes, lookbackPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(500, results.Where(x => x.Chop != null).Count());
         }
@@ -58,10 +58,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<ChopResult> results = history.GetChop(14)
-                .PruneWarmupPeriods()
+            List<ChopResult> results = quotes.GetChop(14)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -76,10 +76,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetChop(history, 1));
+                Indicator.GetChop(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetChop(HistoryTestData.Get(30), 30));
         }
     }

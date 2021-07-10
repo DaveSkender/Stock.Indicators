@@ -8,7 +8,7 @@ Created by John Ehlers, the [MAMA](http://mesasoftware.com/papers/MAMA.pdf) indi
 ```csharp
 // usage
 IEnumerable<MamaResult> results =
-  history.GetMama(fastLimit, slowLimit);  
+  quotes.GetMama(fastLimit, slowLimit);  
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ IEnumerable<MamaResult> results =
 
 ### Historical quotes requirements
 
-Since this indicator has a warmup period, you must have at least `50` periods of `history`.
+Since this indicator has a warmup period, you must have at least `50` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -42,14 +42,22 @@ The first `5` periods will have `null` values for MAMA since there's not enough 
 | `Mama` | decimal | MESA adaptive moving average (MAMA)
 | `Fama` | decimal | Following adaptive moving average (FAMA)
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate Mama(0.5,0.05)
-IEnumerable<MamaResult> results = history.GetMama(0.5,0.05);
+IEnumerable<MamaResult> results = quotes.GetMama(0.5,0.05);
 
 // use results as needed
 MamaResult result = results.LastOrDefault();
@@ -59,11 +67,3 @@ Console.WriteLine("MAMA on {0} was ${1}", result.Date, result.Mama);
 ```bash
 MAMA on 12/31/2018 was $251.86
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

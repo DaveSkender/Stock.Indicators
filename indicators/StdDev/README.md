@@ -8,25 +8,25 @@
 ```csharp
 // usage
 IEnumerable<StdDevResult> results =
-  history.GetStdDev(lookbackPeriod);  
+  quotes.GetStdDev(lookbackPeriods);  
 
 // usage with optional SMA of STDEV (shown above)
 IEnumerable<StdDevResult> results =
-  history.GetStdDev(lookbackPeriod, smaPeriod);  
+  quotes.GetStdDev(lookbackPeriods, smaPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
-| `smaPeriod` | int | Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
+| `smaPeriods` | int | Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -44,16 +44,24 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `StdDev` | decimal | Standard Deviation of Close price over `N` lookback periods
 | `Mean` | decimal | Mean value of Close price over `N` lookback periods
 | `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
-| `StdDevSma` | decimal | Moving average (SMA) of STDDEV based on `smaPeriod` periods, if specified
+| `StdDevSma` | decimal | Moving average (SMA) of STDDEV based on `smaPeriods` periods, if specified
+
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
 
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPX");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPX");
 
 // calculate 10-period Standard Deviation
-IEnumerable<StdDevResult> results = history.GetStdDev(10);
+IEnumerable<StdDevResult> results = quotes.GetStdDev(10);
 
 // use results as needed
 StdDevResult result = results.LastOrDefault();
@@ -63,11 +71,3 @@ Console.WriteLine("StdDev(SPX,10) on {0} was ${1}", result.Date, result.StdDev);
 ```bash
 StdDev(SPX,10) on 12/31/2018 was $5.47
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

@@ -8,32 +8,32 @@
 ```csharp
 // usage for EMA (standard)
 IEnumerable<EmaResult> results =
-  history.GetEma(lookbackPeriod);
+  quotes.GetEma(lookbackPeriods);
 
 // usage for Double EMA
 IEnumerable<DemaResult> results =
-  history.GetDoubleEma(lookbackPeriod);
+  quotes.GetDoubleEma(lookbackPeriods);
 
 // usage for Triple EMA
 IEnumerable<TemaResult> results =
-  history.GetTripleEma(lookbackPeriod);
+  quotes.GetTripleEma(lookbackPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
-**EMA** (standard): You must have at least `2×N` or `N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+**EMA** (standard): You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-**Double EMA**: You must have at least `3×N` or `2×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+**Double EMA**: You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
-**Triple EMA**: You must have at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+**Triple EMA**: You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response (respectively)
 
@@ -60,14 +60,22 @@ Triple EMA: The first `3×N-2` periods will have `null` values since there's not
 | `Date` | DateTime | Date
 | `Ema`/`Dema`/`Tema` | decimal | Exponential moving average for `N` lookback period
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period EMA
-IEnumerable<EmaResult> results = history.GetEma(20);
+IEnumerable<EmaResult> results = quotes.GetEma(20);
 
 // use results as needed
 EmaResult result = results.LastOrDefault();
@@ -77,11 +85,3 @@ Console.WriteLine("EMA on {0} was ${1}", result.Date, result.Ema);
 ```bash
 EMA on 12/31/2018 was $249.35
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

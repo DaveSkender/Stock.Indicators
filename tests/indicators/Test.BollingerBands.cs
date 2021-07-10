@@ -15,13 +15,13 @@ namespace Internal.Tests
         {
 
             List<BollingerBandsResult> results =
-                history.GetBollingerBands(20, 2)
+                quotes.GetBollingerBands(20, 2)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
             Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
@@ -57,11 +57,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<BollingerBandsResult> results =
-                history.GetBollingerBands(20, 2)
-                    .PruneWarmupPeriods()
+                quotes.GetBollingerBands(20, 2)
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions
@@ -81,14 +81,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetBollingerBands(history, 1));
+                Indicator.GetBollingerBands(quotes, 1));
 
             // bad standard deviation
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetBollingerBands(history, 2, 0));
+                Indicator.GetBollingerBands(quotes, 2, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetBollingerBands(HistoryTestData.Get(29), 30, 2));
         }
     }

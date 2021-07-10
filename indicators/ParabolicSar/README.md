@@ -8,7 +8,7 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 ```csharp
 // usage
 IEnumerable<ParabolicSarResult> results =
-  history.GetParabolicSar(accelerationStep, maxAccelerationFactor);  
+  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);  
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ IEnumerable<ParabolicSarResult> results =
 
 ### Historical quotes requirements
 
-At least two history records are required to calculate; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient history to capture prior trend reversals, before your intended usage period.
+At least two quotes records are required to calculate; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals, before your intended usage period.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -40,14 +40,22 @@ The first trend will have `null` values since it is not accurate and based on an
 | `Sar` | decimal | Stop and Reverse value
 | `IsReversal` | bool | Indicates a trend reversal
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ParabolicSar(0.02,0.2)
-IEnumerable<ParabolicSarResult> results = history.GetParabolicSar(0.02,0.2);
+IEnumerable<ParabolicSarResult> results = quotes.GetParabolicSar(0.02,0.2);
 
 // use results as needed
 ParabolicSarResult result = results.LastOrDefault();
@@ -57,11 +65,3 @@ Console.WriteLine("SAR on {0} was ${1}", result.Date, result.Sar);
 ```bash
 SAR on 12/31/2018 was $229.76
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

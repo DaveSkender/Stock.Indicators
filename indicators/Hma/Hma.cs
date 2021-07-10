@@ -10,24 +10,24 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<HmaResult> GetHma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateHma(history, lookbackPeriod);
+            ValidateHma(quotes, lookbackPeriods);
 
             // initialize
             List<Quote> synthHistory = new();
 
-            List<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
-            List<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
+            List<WmaResult> wmaN1 = GetWma(quotes, lookbackPeriods).ToList();
+            List<WmaResult> wmaN2 = GetWma(quotes, lookbackPeriods / 2).ToList();
 
-            // roll through history, to get interim synthetic history
+            // roll through quotes, to get interim synthetic quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -48,8 +48,8 @@ namespace Skender.Stock.Indicators
             }
 
             // add back truncated null results
-            int sqN = (int)Math.Sqrt(lookbackPeriod);
-            int shiftQty = lookbackPeriod - 1;
+            int sqN = (int)Math.Sqrt(lookbackPeriods);
+            int shiftQty = lookbackPeriods - 1;
 
             List<HmaResult> results = historyList
                 .Take(shiftQty)
@@ -76,44 +76,44 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<HmaResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<HmaResult> RemoveWarmupPeriods(
             this IEnumerable<HmaResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Hma != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateHma<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for HMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for HMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for HMA.  " +
+                string message = "Insufficient quotes provided for HMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

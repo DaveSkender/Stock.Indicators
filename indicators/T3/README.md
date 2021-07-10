@@ -8,21 +8,21 @@ Created by Tim Tillson, the [T3](https://www.forexfactory.com/attachment.php/845
 ```csharp
 // usage
 IEnumerable<T3Result> results = 
-  history.GetT3(lookbackPeriod, volumeFactor);  
+  quotes.GetT3(lookbackPeriods, volumeFactor);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the EMA smoothing.  Must be greater than 0 and is usually less than 63.  Default is 5.
+| `lookbackPeriods` | int | Number of periods (`N`) for the EMA smoothing.  Must be greater than 0 and is usually less than 63.  Default is 5.
 | `volumeFactor` | double | Size of the Volume Factor.  Must be greater than 0 and is usually less than 2.  Default is 0.7
 
 ### Historical quotes requirements
 
-You must have at least `6×(N-1)+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `6×(N-1)+250` data points prior to the intended usage date for better precision.
+You must have at least `6×(N-1)+100` periods of `quotes`.  Since this uses a smoothing technique, we recommend you use at least `6×(N-1)+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -41,14 +41,22 @@ The first `6×(N-1)` periods will have `null` values since there's not enough da
 | `Date` | DateTime | Date
 | `T3` | decimal | T3 Moving Average
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 5-period T3
-IEnumerable<T3Result> results = history.GetT3(5,0.7);
+IEnumerable<T3Result> results = quotes.GetT3(5,0.7);
 
 // use results as needed
 T3Result result = results.LastOrDefault();
@@ -58,11 +66,3 @@ Console.WriteLine("T3 on {0} was {1}", result.Date, result.T3);
 ```bash
 T3 on 12/31/2018 was $238.93
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

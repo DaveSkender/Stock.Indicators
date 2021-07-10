@@ -7,7 +7,7 @@ class TestBase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.data_reader = HistoryTestData()
-        cls.history = cls.data_reader.get()
+        cls.quotes = cls.data_reader.get()
         cls.history_other = cls.data_reader.get_compare()
         cls.history_bad = cls.data_reader.get_bad()
 
@@ -16,6 +16,6 @@ class TestBase(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.data_reader = None
-        cls.history = None
+        cls.quotes = None
         cls.history_other = None
         cls.history_bad = None

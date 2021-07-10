@@ -14,13 +14,13 @@ namespace Internal.Tests
         public void Standard()
         {
             List<CorrResult> results =
-                history.GetCorrelation(historyOther, 20)
+                quotes.GetCorrelation(historyOther, 20)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Correlation != null).Count());
 
@@ -38,11 +38,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<CorrResult> results =
-                history.GetCorrelation(historyOther, 20)
-                    .PruneWarmupPeriods()
+                quotes.GetCorrelation(historyOther, 20)
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions
@@ -58,22 +58,22 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetCorrelation(history, historyOther, 0));
+                Indicator.GetCorrelation(quotes, historyOther, 0));
 
-            // insufficient history
+            // insufficient quotes
             IEnumerable<Quote> h1 = HistoryTestData.Get(29);
             IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCorrelation(h1, h2, 30));
 
-            // bad eval history
+            // bad eval quotes
             IEnumerable<Quote> eval = HistoryTestData.GetCompare(300);
-            Assert.ThrowsException<BadHistoryException>(() =>
-                Indicator.GetCorrelation(history, eval, 30));
+            Assert.ThrowsException<BadQuotesException>(() =>
+                Indicator.GetCorrelation(quotes, eval, 30));
 
-            // mismatched history
+            // mismatched quotes
             IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCorrelation(historyMismatch, historyOther, 20));
         }
     }

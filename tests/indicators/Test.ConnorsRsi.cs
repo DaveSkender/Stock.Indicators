@@ -13,19 +13,19 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int rsiPeriod = 3;
-            int streakPeriod = 2;
-            int rankPeriod = 100;
-            int startPeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
+            int rsiPeriods = 3;
+            int streakPeriods = 2;
+            int rankPeriods = 100;
+            int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             List<ConnorsRsiResult> results1 =
-                history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod)
+                quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results1.Count);
             Assert.AreEqual(502 - startPeriod + 1, results1.Where(x => x.ConnorsRsi != null).Count());
 
@@ -37,7 +37,7 @@ namespace Internal.Tests
             Assert.AreEqual(74.7662m, Math.Round((decimal)r1.ConnorsRsi, 4));
 
             // different parameters
-            List<ConnorsRsiResult> results2 = history.GetConnorsRsi(14, 20, 10).ToList();
+            List<ConnorsRsiResult> results2 = quotes.GetConnorsRsi(14, 20, 10).ToList();
             ConnorsRsiResult r2 = results2[501];
             Assert.AreEqual(42.0773m, Math.Round((decimal)r2.RsiClose, 4));
             Assert.AreEqual(52.7386m, Math.Round((decimal)r2.RsiStreak, 4));
@@ -53,22 +53,22 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            int rsiPeriod = 3;
-            int streakPeriod = 2;
-            int rankPeriod = 100;
+            int rsiPeriods = 3;
+            int streakPeriods = 2;
+            int rankPeriods = 100;
 
             // TODO: I don't think this is right, inconsistent
-            int prunePeriod = Math.Max(rsiPeriod, Math.Max(streakPeriod, rankPeriod)) + 2;
+            int removePeriods = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             List<ConnorsRsiResult> results =
-                history.GetConnorsRsi(rsiPeriod, streakPeriod, rankPeriod)
-                .PruneWarmupPeriods()
+                quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - prunePeriod + 1, results.Count);
+            Assert.AreEqual(502 - removePeriods + 1, results.Count);
 
             ConnorsRsiResult last = results.LastOrDefault();
             Assert.AreEqual(68.8087m, Math.Round((decimal)last.RsiClose, 4));
@@ -82,18 +82,18 @@ namespace Internal.Tests
         {
             // bad RSI period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetConnorsRsi(history, 1, 2, 100));
+                Indicator.GetConnorsRsi(quotes, 1, 2, 100));
 
             // bad Streak period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetConnorsRsi(history, 3, 1, 100));
+                Indicator.GetConnorsRsi(quotes, 3, 1, 100));
 
             // bad Rank period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetConnorsRsi(history, 3, 2, 1));
+                Indicator.GetConnorsRsi(quotes, 3, 2, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetConnorsRsi(HistoryTestData.Get(102), 3, 2, 100));
         }
     }

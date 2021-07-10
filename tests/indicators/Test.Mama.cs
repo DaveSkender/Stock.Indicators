@@ -16,13 +16,13 @@ namespace Internal.Tests
             decimal fastLimit = 0.5m;
             decimal slowLimit = 0.05m;
 
-            List<MamaResult> results = history.GetMama(fastLimit, slowLimit)
+            List<MamaResult> results = quotes.GetMama(fastLimit, slowLimit)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
 
@@ -64,13 +64,13 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             decimal fastLimit = 0.5m;
             decimal slowLimit = 0.05m;
 
-            List<MamaResult> results = history.GetMama(fastLimit, slowLimit)
-                .PruneWarmupPeriods()
+            List<MamaResult> results = quotes.GetMama(fastLimit, slowLimit)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -86,18 +86,18 @@ namespace Internal.Tests
         {
             // bad fast period (same as slow period)
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMama(history, 0.5m, 0.5m));
+                Indicator.GetMama(quotes, 0.5m, 0.5m));
 
             // bad fast period (cannot be 1 or more)
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMama(history, 1m, 0.5m));
+                Indicator.GetMama(quotes, 1m, 0.5m));
 
             // bad slow period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMama(history, 0.5m, 0m));
+                Indicator.GetMama(quotes, 0.5m, 0m));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetMama(HistoryTestData.Get(49)));
         }
     }

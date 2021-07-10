@@ -10,13 +10,13 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<VolSmaResult> GetVolSma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history and initialize results
-            List<VolSmaResult> results = history.Sort()
+            // sort quotes and initialize results
+            List<VolSmaResult> results = quotes.Sort()
                 .Select(x => new VolSmaResult
                 {
                     Date = x.Date,
@@ -25,66 +25,66 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // check parameter arguments
-            ValidateVolSma(history, lookbackPeriod);
+            ValidateVolSma(quotes, lookbackPeriods);
 
-            // roll through history
-            for (int i = lookbackPeriod - 1; i < results.Count; i++)
+            // roll through quotes
+            for (int i = lookbackPeriods - 1; i < results.Count; i++)
             {
                 VolSmaResult h = results[i];
                 int index = i + 1;
 
                 decimal sumVolSma = 0m;
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     VolSmaResult q = results[p];
                     sumVolSma += q.Volume;
                 }
 
-                h.VolSma = sumVolSma / lookbackPeriod;
+                h.VolSma = sumVolSma / lookbackPeriods;
             }
 
             return results;
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<VolSmaResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<VolSmaResult> RemoveWarmupPeriods(
             this IEnumerable<VolSmaResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.VolSma != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateVolSma<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for VolSma.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for VolSma.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for VolSma.  " +
+                string message = "Insufficient quotes provided for VolSma.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

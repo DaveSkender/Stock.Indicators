@@ -10,21 +10,21 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<FcbResult> GetFcb<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int windowSpan = 2)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateFcb(history, windowSpan);
+            ValidateFcb(quotes, windowSpan);
 
             // initialize
-            List<FractalResult> fractals = GetFractal(history, windowSpan).ToList();
+            List<FractalResult> fractals = GetFractal(quotes, windowSpan).ToList();
             int size = fractals.Count;
             List<FcbResult> results = new(size);
             decimal? upperLine = null, lowerLine = null;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 int index = i + 1;
@@ -53,21 +53,21 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<FcbResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<FcbResult> RemoveWarmupPeriods(
             this IEnumerable<FcbResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.UpperBand != null || x.LowerBand != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateFcb<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int windowSpan)
             where TQuote : IQuote
         {
@@ -79,18 +79,18 @@ namespace Skender.Stock.Indicators
                     "Window span must be at least 2 for FCB.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2 * windowSpan + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for FCB.  " +
+                string message = "Insufficient quotes provided for FCB.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

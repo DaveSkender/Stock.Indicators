@@ -10,21 +10,21 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Extended"]/*' />
         /// 
         public static IEnumerable<SmaExtendedResult> GetSmaExtended<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // initialize
-            List<SmaExtendedResult> results = GetSma(history, lookbackPeriod)
+            List<SmaExtendedResult> results = GetSma(quotes, lookbackPeriods)
                 .Select(x => new SmaExtendedResult { Date = x.Date, Sma = x.Sma })
                 .ToList();
 
-            // roll through history
-            for (int i = lookbackPeriod - 1; i < results.Count; i++)
+            // roll through quotes
+            for (int i = lookbackPeriods - 1; i < results.Count; i++)
             {
                 SmaExtendedResult r = results[i];
                 int index = i + 1;
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
                 decimal sumMse = 0m;
                 decimal? sumMape = 0m;
 
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     TQuote d = historyList[p];
                     sumMad += Math.Abs(d.Close - (decimal)r.Sma);
@@ -44,28 +44,28 @@ namespace Skender.Stock.Indicators
                 }
 
                 // mean absolute deviation
-                r.Mad = sumMad / lookbackPeriod;
+                r.Mad = sumMad / lookbackPeriods;
 
                 // mean squared error
-                r.Mse = sumMse / lookbackPeriod;
+                r.Mse = sumMse / lookbackPeriods;
 
                 // mean absolute percent error
-                r.Mape = sumMape / lookbackPeriod;
+                r.Mape = sumMape / lookbackPeriods;
             }
 
             return results;
         }
 
 
-        // prune recommended periods extensions (extended)
-        public static IEnumerable<SmaExtendedResult> PruneWarmupPeriods(
+        // remove recommended periods extensions (extended)
+        public static IEnumerable<SmaExtendedResult> RemoveWarmupPeriods(
             this IEnumerable<SmaExtendedResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Sma != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
     }
 }

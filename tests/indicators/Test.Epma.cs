@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<EpmaResult> results = history.GetEpma(20).ToList();
+            List<EpmaResult> results = quotes.GetEpma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Epma != null).Count());
 
@@ -47,10 +47,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<EpmaResult> results = history.GetEpma(20)
-                .PruneWarmupPeriods()
+            List<EpmaResult> results = quotes.GetEpma(20)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -65,10 +65,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetEpma(history, 0));
+                Indicator.GetEpma(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetEpma(HistoryTestData.Get(9), 10));
         }
     }

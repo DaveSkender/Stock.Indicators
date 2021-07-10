@@ -10,36 +10,36 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
-            this IEnumerable<TQuote> history,
-            int? lookbackPeriod = 20,
+            this IEnumerable<TQuote> quotes,
+            int? lookbackPeriods = 20,
             decimal standardDeviations = 2)
             where TQuote : IQuote
         {
 
-            // assume whole history when lookback is null
-            if (lookbackPeriod is null)
+            // assume whole quotes when lookback is null
+            if (lookbackPeriods is null)
             {
-                lookbackPeriod = history.Count();
+                lookbackPeriods = quotes.Count();
             }
 
             // check parameter arguments
-            ValidateStdDevChannels(history, lookbackPeriod, standardDeviations);
+            ValidateStdDevChannels(quotes, lookbackPeriods, standardDeviations);
 
             // initialize
-            List<SlopeResult> slopeResults = GetSlope(history, (int)lookbackPeriod).ToList();
+            List<SlopeResult> slopeResults = GetSlope(quotes, (int)lookbackPeriods).ToList();
 
             int size = slopeResults.Count;
             List<StdDevChannelsResult> results = slopeResults
                 .Select(x => new StdDevChannelsResult { Date = x.Date })
                 .ToList();
 
-            // roll through history in reverse
-            for (int w = size - 1; w >= lookbackPeriod - 1; w -= (int)lookbackPeriod)
+            // roll through quotes in reverse
+            for (int w = size - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)
             {
                 SlopeResult s = slopeResults[w];
 
                 // add regression line (y = mx + b) and channels
-                for (int p = w - (int)lookbackPeriod + 1; p <= w; p++)
+                for (int p = w - (int)lookbackPeriods + 1; p <= w; p++)
                 {
                     if (p >= 0)
                     {
@@ -50,7 +50,7 @@ namespace Skender.Stock.Indicators
                         d.UpperChannel = d.Centerline + width;
                         d.LowerChannel = d.Centerline - width;
 
-                        d.BreakPoint = (p == w - lookbackPeriod + 1);
+                        d.BreakPoint = (p == w - lookbackPeriods + 1);
                     }
                 }
             }
@@ -59,31 +59,31 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<StdDevChannelsResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<StdDevChannelsResult> RemoveWarmupPeriods(
             this IEnumerable<StdDevChannelsResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateStdDevChannels<TQuote>(
-            IEnumerable<TQuote> history,
-            int? lookbackPeriod,
+            IEnumerable<TQuote> quotes,
+            int? lookbackPeriods,
             decimal standardDeviations)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for Standard Deviation Channels.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for Standard Deviation Channels.");
             }
 
             if (standardDeviations <= 0)
@@ -92,17 +92,17 @@ namespace Skender.Stock.Indicators
                     "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = (int)lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = (int)lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Standard Deviation Channels.  " +
+                string message = "Insufficient quotes provided for Standard Deviation Channels.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

@@ -10,21 +10,21 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<DonchianResult> GetDonchian<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 20)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 20)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateDonchian(history, lookbackPeriod);
+            ValidateDonchian(quotes, lookbackPeriods);
 
             // initialize
             List<DonchianResult> results = new(historyList.Count);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -34,13 +34,13 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (i >= lookbackPeriod)
+                if (i >= lookbackPeriods)
                 {
                     decimal highHigh = 0;
                     decimal lowLow = decimal.MaxValue;
 
                     // high/low over prior periods
-                    for (int p = i - lookbackPeriod; p < i; p++)
+                    for (int p = i - lookbackPeriods; p < i; p++)
                     {
                         TQuote d = historyList[p];
 
@@ -69,44 +69,44 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<DonchianResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<DonchianResult> RemoveWarmupPeriods(
             this IEnumerable<DonchianResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
               .ToList()
               .FindIndex(x => x.Width != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateDonchian<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Donchian Channel.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Donchian Channel.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Donchian Channel.  " +
+                string message = "Insufficient quotes provided for Donchian Channel.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

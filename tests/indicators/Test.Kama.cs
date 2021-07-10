@@ -13,17 +13,17 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int erPeriod = 10;
-            int fastPeriod = 2;
-            int slowPeriod = 30;
+            int erPeriods = 10;
+            int fastPeriods = 2;
+            int slowPeriods = 30;
 
-            List<KamaResult> results = history.GetKama(erPeriod, fastPeriod, slowPeriod)
+            List<KamaResult> results = quotes.GetKama(erPeriods, fastPeriods, slowPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(492, results.Where(x => x.ER != null).Count());
             Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
@@ -66,18 +66,18 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            int erPeriod = 10;
-            int fastPeriod = 2;
-            int slowPeriod = 30;
+            int erPeriods = 10;
+            int fastPeriods = 2;
+            int slowPeriods = 30;
 
-            List<KamaResult> results = history.GetKama(erPeriod, fastPeriod, slowPeriod)
-                .PruneWarmupPeriods()
+            List<KamaResult> results = quotes.GetKama(erPeriods, fastPeriods, slowPeriods)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - Math.Max(erPeriod + 100, erPeriod * 10), results.Count);
+            Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
 
             KamaResult last = results.LastOrDefault();
             Assert.AreEqual(0.2214m, Math.Round((decimal)last.ER, 4));
@@ -89,18 +89,18 @@ namespace Internal.Tests
         {
             // bad ER period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKama(history, 0, 2, 30));
+                Indicator.GetKama(quotes, 0, 2, 30));
 
             // bad fast period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKama(history, 10, 0, 30));
+                Indicator.GetKama(quotes, 10, 0, 30));
 
             // bad slow period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKama(history, 10, 5, 5));
+                Indicator.GetKama(quotes, 10, 5, 5));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKama(HistoryTestData.Get(109), 10, 2, 20));
         }
     }

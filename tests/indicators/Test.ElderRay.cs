@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<ElderRayResult> results = history.GetElderRay(13).ToList();
+            List<ElderRayResult> results = quotes.GetElderRay(13).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(490, results.Where(x => x.BullPower != null).Count());
             Assert.AreEqual(490, results.Where(x => x.BearPower != null).Count());
@@ -64,10 +64,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<ElderRayResult> results = history.GetElderRay(13)
-                .PruneWarmupPeriods()
+            List<ElderRayResult> results = quotes.GetElderRay(13)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -84,14 +84,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetElderRay(history, 0));
+                Indicator.GetElderRay(quotes, 0));
 
-            // insufficient history for N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetElderRay(HistoryTestData.Get(129), 30));
 
-            // insufficient history for 2×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 2×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetElderRay(HistoryTestData.Get(499), 250));
         }
     }

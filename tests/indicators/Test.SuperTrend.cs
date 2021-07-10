@@ -13,16 +13,16 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
+            int lookbackPeriods = 14;
             decimal multiplier = 3;
 
-            List<SuperTrendResult> results = history.GetSuperTrend(lookbackPeriod, multiplier)
+            List<SuperTrendResult> results = quotes.GetSuperTrend(lookbackPeriods, multiplier)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(489, results.Where(x => x.SuperTrend != null).Count());
 
@@ -78,14 +78,14 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            int lookbackPeriod = 14;
+            int lookbackPeriods = 14;
             decimal multiplier = 3;
 
             List<SuperTrendResult> results =
-                history.GetSuperTrend(lookbackPeriod, multiplier)
-                 .PruneWarmupPeriods()
+                quotes.GetSuperTrend(lookbackPeriods, multiplier)
+                 .RemoveWarmupPeriods()
                  .ToList();
 
             // assertions
@@ -102,14 +102,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSuperTrend(history, 1));
+                Indicator.GetSuperTrend(quotes, 1));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSuperTrend(history, 7, 0));
+                Indicator.GetSuperTrend(quotes, 7, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetSuperTrend(HistoryTestData.Get(129), 30));
         }
     }

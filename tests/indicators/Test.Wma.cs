@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<WmaResult> results = history.GetWma(20).ToList();
+            List<WmaResult> results = quotes.GetWma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
 
@@ -38,10 +38,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<WmaResult> results = history.GetWma(20)
-                .PruneWarmupPeriods()
+            List<WmaResult> results = quotes.GetWma(20)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -56,10 +56,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetWma(history, 0));
+                Indicator.GetWma(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetWma(HistoryTestData.Get(9), 10));
         }
     }

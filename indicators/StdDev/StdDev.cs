@@ -10,44 +10,44 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod,
-            int? smaPeriod = null)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
             // convert to basic data
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // calculate
-            return CalcStdDev(bdList, lookbackPeriod, smaPeriod);
+            return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<StdDevResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<StdDevResult> RemoveWarmupPeriods(
             this IEnumerable<StdDevResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.StdDev != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // internals
         private static IEnumerable<StdDevResult> CalcStdDev(
-            List<BasicData> bdList, int lookbackPeriod, int? smaPeriod = null)
+            List<BasicData> bdList, int lookbackPeriods, int? smaPeriods = null)
         {
 
             // check parameter arguments
-            ValidateStdDev(bdList, lookbackPeriod, smaPeriod);
+            ValidateStdDev(bdList, lookbackPeriods, smaPeriods);
 
             // initialize
             List<StdDevResult> results = new(bdList.Count);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData bd = bdList[i];
@@ -58,13 +58,13 @@ namespace Skender.Stock.Indicators
                     Date = bd.Date,
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
-                    double[] periodValues = new double[lookbackPeriod];
+                    double[] periodValues = new double[lookbackPeriods];
                     decimal sum = 0m;
                     int n = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         BasicData d = bdList[p];
                         periodValues[n] = (double)d.Value;
@@ -72,7 +72,7 @@ namespace Skender.Stock.Indicators
                         n++;
                     }
 
-                    decimal periodAvg = sum / lookbackPeriod;
+                    decimal periodAvg = sum / lookbackPeriods;
 
                     result.StdDev = (decimal)Functions.StdDev(periodValues);
                     result.Mean = periodAvg;
@@ -84,15 +84,15 @@ namespace Skender.Stock.Indicators
                 results.Add(result);
 
                 // optional SMA
-                if (smaPeriod != null && index >= lookbackPeriod + smaPeriod - 1)
+                if (smaPeriods != null && index >= lookbackPeriods + smaPeriods - 1)
                 {
                     decimal sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += (decimal)results[p].StdDev;
                     }
 
-                    result.StdDevSma = sumSma / smaPeriod;
+                    result.StdDevSma = sumSma / smaPeriods;
                 }
             }
 
@@ -102,36 +102,36 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateStdDev(
-            List<BasicData> history,
-            int lookbackPeriod,
-            int? smaPeriod)
+            List<BasicData> quotes,
+            int lookbackPeriods,
+            int? smaPeriods)
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for Standard Deviation.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for Standard Deviation.");
             }
 
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for Standard Deviation.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for Standard Deviation.");
             }
 
-            // check history
-            int qtyHistory = history.Count;
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Standard Deviation.  " +
+                string message = "Insufficient quotes provided for Standard Deviation.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

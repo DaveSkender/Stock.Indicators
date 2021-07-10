@@ -22,17 +22,17 @@ Explore more information:
 
 ## Samples
 
-![image](docs/examples.png)
+![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/master/docs/examples.png)
 
 ### Example usage
 
 ```csharp
 using Skender.Stock.Indicators;
 
-[..]  // prerequisite: get quote history from your own source
+[..]  // prerequisite: get historical quotes from your own source
 
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = history.GetSma(20);
+IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
 See the [guide](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html) and the [full list of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html) for more information.
@@ -48,7 +48,7 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 ## Contributing
 
-This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](docs/CONTRIBUTING.md#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
 
 ## License
 

@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<HtlResult> results = history.GetHtTrendline().ToList();
+            List<HtlResult> results = quotes.GetHtTrendline().ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Where(x => x.Trendline != null).Count());
             Assert.AreEqual(496, results.Where(x => x.SmoothPrice != null).Count());
@@ -62,10 +62,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<HtlResult> results = history.GetHtTrendline()
-                .PruneWarmupPeriods()
+            List<HtlResult> results = quotes.GetHtTrendline()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -87,8 +87,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Exceptions()
         {
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetHtTrendline(HistoryTestData.Get(99)));
         }
     }

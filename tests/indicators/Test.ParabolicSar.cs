@@ -17,13 +17,13 @@ namespace Internal.Tests
             decimal maxAccelerationFactor = 0.2m;
 
             List<ParabolicSarResult> results =
-                history.GetParabolicSar(acclerationStep, maxAccelerationFactor)
+                quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Sar != null).Count());
 
@@ -49,14 +49,14 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             decimal acclerationStep = 0.02m;
             decimal maxAccelerationFactor = 0.2m;
 
             List<ParabolicSarResult> results =
-                history.GetParabolicSar(acclerationStep, maxAccelerationFactor)
-                    .PruneWarmupPeriods()
+                quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions
@@ -72,18 +72,18 @@ namespace Internal.Tests
         {
             // bad acceleration step
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetParabolicSar(history, 0, 1));
+                Indicator.GetParabolicSar(quotes, 0, 1));
 
             // insufficient acceleration step
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetParabolicSar(history, 0.02m, 0));
+                Indicator.GetParabolicSar(quotes, 0.02m, 0));
 
             // step larger than factor
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetParabolicSar(history, 6, 2));
+                Indicator.GetParabolicSar(quotes, 6, 2));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetParabolicSar(HistoryTestData.Get(1), 0.02m, 0.2m));
         }
     }

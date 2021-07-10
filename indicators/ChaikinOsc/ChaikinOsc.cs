@@ -10,17 +10,17 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
-            this IEnumerable<TQuote> history,
-            int fastPeriod = 3,
-            int slowPeriod = 10)
+            this IEnumerable<TQuote> quotes,
+            int fastPeriods = 3,
+            int slowPeriods = 10)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateChaikinOsc(history, fastPeriod, slowPeriod);
+            ValidateChaikinOsc(quotes, fastPeriods, slowPeriods);
 
             // money flow
-            List<ChaikinOscResult> results = GetAdl(history)
+            List<ChaikinOscResult> results = GetAdl(quotes)
                 .Select(r => new ChaikinOscResult
                 {
                     Date = r.Date,
@@ -35,11 +35,11 @@ namespace Skender.Stock.Indicators
                 .Select(x => new BasicData { Date = x.Date, Value = x.Adl })
                 .ToList();
 
-            List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriod).ToList();
-            List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriod).ToList();
+            List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriods).ToList();
+            List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriods).ToList();
 
             // add Oscillator
-            for (int i = slowPeriod - 1; i < results.Count; i++)
+            for (int i = slowPeriods - 1; i < results.Count; i++)
             {
                 ChaikinOscResult r = results[i];
 
@@ -53,54 +53,54 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<ChaikinOscResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<ChaikinOscResult> RemoveWarmupPeriods(
             this IEnumerable<ChaikinOscResult> results)
         {
             int s = results
                 .ToList()
                 .FindIndex(x => x.Oscillator != null) + 1;
 
-            return results.Prune(s + 100);
+            return results.Remove(s + 100);
         }
 
 
         // parameter validation
         private static void ValidateChaikinOsc<TQuote>(
-            IEnumerable<TQuote> history,
-            int fastPeriod,
-            int slowPeriod)
+            IEnumerable<TQuote> quotes,
+            int fastPeriods,
+            int slowPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (fastPeriod <= 0)
+            if (fastPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(fastPeriod), fastPeriod,
-                    "Fast lookback period must be greater than 0 for Chaikin Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
+                    "Fast lookback periods must be greater than 0 for Chaikin Oscillator.");
             }
 
-            if (slowPeriod <= fastPeriod)
+            if (slowPeriods <= fastPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(slowPeriod), slowPeriod,
-                    "Slow lookback period must be greater than Fast lookback period for Chaikin Oscillator.");
+                throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                    "Slow lookback periods must be greater than Fast lookback period for Chaikin Oscillator.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * slowPeriod, slowPeriod + 100);
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = Math.Max(2 * slowPeriods, slowPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Chaikin Oscillator.  " +
+                string message = "Insufficient quotes provided for Chaikin Oscillator.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, for a slow period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, slowPeriod, slowPeriod + 250);
+                    qtyHistory, minHistory, slowPeriods, slowPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

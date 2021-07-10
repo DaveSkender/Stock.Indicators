@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<StdDevResult> results = history.GetStdDev(10).ToList();
+            List<StdDevResult> results = quotes.GetStdDev(10).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
             Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
@@ -53,14 +53,14 @@ namespace Internal.Tests
         [TestMethod]
         public void GetStdDevWithSma()
         {
-            int lookbackPeriod = 10;
-            int smaPeriod = 5;
-            List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod, smaPeriod).ToList();
+            int lookbackPeriods = 10;
+            int smaPeriods = 5;
+            List<StdDevResult> results = Indicator.GetStdDev(quotes, lookbackPeriods, smaPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
             Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
@@ -86,10 +86,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<StdDevResult> results = history.GetStdDev(10)
-                .PruneWarmupPeriods()
+            List<StdDevResult> results = quotes.GetStdDev(10)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -107,14 +107,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDev(history, 1));
+                Indicator.GetStdDev(quotes, 1));
 
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDev(history, 14, 0));
+                Indicator.GetStdDev(quotes, 14, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStdDev(HistoryTestData.Get(29), 30));
         }
     }

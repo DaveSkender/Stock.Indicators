@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<RocResult> results = history.GetRoc(20).ToList();
+            List<RocResult> results = quotes.GetRoc(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
             Assert.AreEqual(false, results.Any(x => x.RocSma != null));
@@ -36,16 +36,16 @@ namespace Internal.Tests
         [TestMethod]
         public void WithSma()
         {
-            int lookbackPeriod = 20;
-            int smaPeriod = 5;
+            int lookbackPeriods = 20;
+            int smaPeriods = 5;
 
-            List<RocResult> results = Indicator.GetRoc(history, lookbackPeriod, smaPeriod)
+            List<RocResult> results = Indicator.GetRoc(quotes, lookbackPeriods, smaPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
             Assert.AreEqual(478, results.Where(x => x.RocSma != null).Count());
@@ -68,10 +68,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<RocResult> results = history.GetRoc(20)
-                .PruneWarmupPeriods()
+            List<RocResult> results = quotes.GetRoc(20)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -87,14 +87,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRoc(history, 0));
+                Indicator.GetRoc(quotes, 0));
 
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRoc(history, 14, 0));
+                Indicator.GetRoc(quotes, 14, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetRoc(HistoryTestData.Get(10), 10));
         }
     }

@@ -10,22 +10,22 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<EpmaResult> GetEpma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateEpma(history, lookbackPeriod);
+            ValidateEpma(quotes, lookbackPeriods);
 
             // initialize
-            List<SlopeResult> slopeResults = GetSlope(history, lookbackPeriod)
+            List<SlopeResult> slopeResults = GetSlope(quotes, lookbackPeriods)
                 .ToList();
 
             int size = slopeResults.Count;
             List<EpmaResult> results = new(size);
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 SlopeResult s = slopeResults[i];
@@ -43,44 +43,44 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<EpmaResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<EpmaResult> RemoveWarmupPeriods(
             this IEnumerable<EpmaResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
               .ToList()
               .FindIndex(x => x.Epma != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateEpma<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Epma.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Epma.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Epma.  " +
+                string message = "Insufficient quotes provided for Epma.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

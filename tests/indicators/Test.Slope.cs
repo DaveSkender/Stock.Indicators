@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<SlopeResult> results = history.GetSlope(20).ToList();
+            List<SlopeResult> results = quotes.GetSlope(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
             Assert.AreEqual(483, results.Where(x => x.StdDev != null).Count());
@@ -55,10 +55,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<SlopeResult> results = history.GetSlope(20)
-                .PruneWarmupPeriods()
+            List<SlopeResult> results = quotes.GetSlope(20)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -77,10 +77,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSlope(history, 0));
+                Indicator.GetSlope(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetSlope(HistoryTestData.Get(29), 30));
         }
     }

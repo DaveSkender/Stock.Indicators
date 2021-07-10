@@ -33,36 +33,36 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // PRUNE SPECIFIC PERIODS extension
-        public static IEnumerable<TResult> PruneWarmupPeriods<TResult>(
+        // REMOVE SPECIFIC PERIODS extension
+        public static IEnumerable<TResult> RemoveWarmupPeriods<TResult>(
             this IEnumerable<TResult> results,
-            int prunePeriods)
+            int removePeriods)
             where TResult : IResult
         {
-            return prunePeriods < 0
-                ? throw new ArgumentOutOfRangeException(nameof(prunePeriods), prunePeriods,
-                    "If specified, the Prune Periods value must be greater than or equal to 0.")
-                : results.Prune(prunePeriods);
+            return removePeriods < 0
+                ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
+                    "If specified, the Remove Periods value must be greater than or equal to 0.")
+                : results.Remove(removePeriods);
         }
 
 
-        // PRUNE RESULTS
-        internal static IEnumerable<TResult> Prune<TResult>(
+        // REMOVE RESULTS
+        internal static IEnumerable<TResult> Remove<TResult>(
             this IEnumerable<TResult> results,
-            int prunePeriods)
+            int removePeriods)
             where TResult : IResult
         {
             List<TResult> resultsList = results.ToList();
 
-            if (resultsList.Count <= prunePeriods)
+            if (resultsList.Count <= removePeriods)
             {
                 return new List<TResult>();
             }
             else
             {
-                if (prunePeriods > 0)
+                if (removePeriods > 0)
                 {
-                    for (int i = 0; i < prunePeriods; i++)
+                    for (int i = 0; i < removePeriods; i++)
                     {
                         resultsList.RemoveAt(0);
                     }

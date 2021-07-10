@@ -10,17 +10,17 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             decimal accelerationStep = (decimal)0.02,
             decimal maxAccelerationFactor = (decimal)0.2)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
+            ValidateParabolicSar(quotes, accelerationStep, maxAccelerationFactor);
 
             // initialize
             List<ParabolicSarResult> results = new(historyList.Count);
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
             decimal priorSar = first.Low;
             bool isRising = true;  // initial guess
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -161,21 +161,21 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<ParabolicSarResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<ParabolicSarResult> RemoveWarmupPeriods(
             this IEnumerable<ParabolicSarResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Sar != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateParabolicSar<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             decimal accelerationStep,
             decimal maxAccelerationFactor)
             where TQuote : IQuote
@@ -204,18 +204,18 @@ namespace Skender.Stock.Indicators
                 throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep, message);
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Parabolic SAR.  " +
+                string message = "Insufficient quotes provided for Parabolic SAR.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

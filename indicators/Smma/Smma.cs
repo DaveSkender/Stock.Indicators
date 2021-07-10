@@ -10,21 +10,21 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         ///
         public static IEnumerable<SmmaResult> GetSmma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateSmma(history, lookbackPeriod);
+            ValidateSmma(quotes, lookbackPeriods);
 
             // initialize
             List<SmmaResult> results = new(historyList.Count);
             decimal? prevValue = null;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -36,22 +36,22 @@ namespace Skender.Stock.Indicators
                 };
 
                 // calculate SMMA
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
-                    result.Smma = (prevValue * (lookbackPeriod - 1) + h.Close) / lookbackPeriod;
+                    result.Smma = (prevValue * (lookbackPeriods - 1) + h.Close) / lookbackPeriods;
                 }
 
                 // first SMMA calculated as simple SMA
-                else if (index == lookbackPeriod)
+                else if (index == lookbackPeriods)
                 {
                     decimal sumClose = 0m;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = historyList[p];
                         sumClose += d.Close;
                     }
 
-                    result.Smma = sumClose / lookbackPeriod;
+                    result.Smma = sumClose / lookbackPeriods;
                 }
 
                 prevValue = result.Smma;
@@ -62,47 +62,47 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<SmmaResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<SmmaResult> RemoveWarmupPeriods(
             this IEnumerable<SmmaResult> results)
         {
             int n = results
                 .ToList()
                 .FindIndex(x => x.Smma != null) + 1;
 
-            return results.Prune(n + 100);
+            return results.Remove(n + 100);
         }
 
 
         // parameter validation
         private static void ValidateSmma<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for SMMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for SMMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
 
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for SMMA.  " +
+                string message = "Insufficient quotes provided for SMMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

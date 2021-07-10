@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<AroonResult> results = history.GetAroon(25).ToList();
+            List<AroonResult> results = quotes.GetAroon(25).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(477, results.Where(x => x.AroonUp != null).Count());
             Assert.AreEqual(477, results.Where(x => x.AroonDown != null).Count());
@@ -59,10 +59,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<AroonResult> results = history.GetAroon(25)
-                .PruneWarmupPeriods()
+            List<AroonResult> results = quotes.GetAroon(25)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -79,10 +79,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAroon(history, 0));
+                Indicator.GetAroon(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAroon(HistoryTestData.Get(29), 30));
         }
     }

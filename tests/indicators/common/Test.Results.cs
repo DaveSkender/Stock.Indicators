@@ -12,8 +12,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Find()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 20);
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
 
             // find specific date
             DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
@@ -23,11 +23,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void PruneException()
+        public void RemoveException()
         {
-            // bad prune period
+            // bad remove period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                history.GetAdx(14).PruneWarmupPeriods(-1)); ;
+                quotes.GetAdx(14).RemoveWarmupPeriods(-1)); ;
         }
 
     }

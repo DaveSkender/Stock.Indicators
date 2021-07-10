@@ -10,16 +10,16 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AtrResult> GetAtr<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateAtr(history, lookbackPeriod);
+            ValidateAtr(quotes, lookbackPeriods);
 
             // initialize
             List<AtrResult> results = new(historyList.Count);
@@ -29,7 +29,7 @@ namespace Skender.Stock.Indicators
             decimal lowMinusPrevClose = 0;
             decimal sumTr = 0;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -49,18 +49,18 @@ namespace Skender.Stock.Indicators
                 decimal tr = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
                 result.Tr = tr;
 
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
                     // calculate ATR
-                    result.Atr = (prevAtr * (lookbackPeriod - 1) + tr) / lookbackPeriod;
+                    result.Atr = (prevAtr * (lookbackPeriods - 1) + tr) / lookbackPeriods;
                     result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
-                else if (index == lookbackPeriod)
+                else if (index == lookbackPeriods)
                 {
                     // initialize ATR
                     sumTr += tr;
-                    result.Atr = sumTr / lookbackPeriod;
+                    result.Atr = sumTr / lookbackPeriods;
                     result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
@@ -78,46 +78,46 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<AtrResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<AtrResult> RemoveWarmupPeriods(
             this IEnumerable<AtrResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Atr != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateAtr<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for Average True Range.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for Average True Range.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 100;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ATR.  " +
+                string message = "Insufficient quotes provided for ATR.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least N+250 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

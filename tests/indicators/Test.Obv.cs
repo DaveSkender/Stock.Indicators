@@ -14,11 +14,11 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<ObvResult> results = history.GetObv().ToList();
+            List<ObvResult> results = quotes.GetObv().ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Where(x => x.ObvSma == null).Count());
 
@@ -36,11 +36,11 @@ namespace Internal.Tests
         public void WithSma()
         {
 
-            List<ObvResult> results = Indicator.GetObv(history, 20).ToList();
+            List<ObvResult> results = Indicator.GetObv(quotes, 20).ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.ObvSma != null).Count());
 
@@ -62,10 +62,10 @@ namespace Internal.Tests
         {
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetObv(history, 0));
+                Indicator.GetObv(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetObv(HistoryTestData.Get(1)));
         }
     }

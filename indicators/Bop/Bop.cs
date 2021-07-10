@@ -10,16 +10,16 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<BopResult> GetBop<TQuote>(
-            this IEnumerable<TQuote> history,
-            int smoothPeriod = 14)
+            this IEnumerable<TQuote> quotes,
+            int smoothPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateBop(history, smoothPeriod);
+            ValidateBop(quotes, smoothPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                     (x.Close - x.Open) / (x.High - x.Low) : (decimal?)null)
                 .ToArray();
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 BopResult r = new()
@@ -38,15 +38,15 @@ namespace Skender.Stock.Indicators
                     Date = historyList[i].Date
                 };
 
-                if (i >= smoothPeriod - 1)
+                if (i >= smoothPeriods - 1)
                 {
                     decimal? sum = 0m;
-                    for (int p = i - smoothPeriod + 1; p <= i; p++)
+                    for (int p = i - smoothPeriods + 1; p <= i; p++)
                     {
                         sum += raw[p];
                     }
 
-                    r.Bop = sum / smoothPeriod;
+                    r.Bop = sum / smoothPeriods;
                 }
 
                 results.Add(r);
@@ -55,45 +55,45 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<BopResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<BopResult> RemoveWarmupPeriods(
             this IEnumerable<BopResult> results)
         {
 
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Bop != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateBop<TQuote>(
-            IEnumerable<TQuote> history,
-            int smoothPeriod)
+            IEnumerable<TQuote> quotes,
+            int smoothPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (smoothPeriod <= 0)
+            if (smoothPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smoothPeriod), smoothPeriod,
-                    "Smoothing period must be greater than 0 for BOP.");
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                    "Smoothing periods must be greater than 0 for BOP.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = smoothPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = smoothPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for BOP.  " +
+                string message = "Insufficient quotes provided for BOP.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

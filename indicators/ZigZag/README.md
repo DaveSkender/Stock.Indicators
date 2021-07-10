@@ -8,7 +8,7 @@
 ```csharp
 // usage
 IEnumerable<ZigZagResult> results =
-  history.GetZigZag(type, percentChange);  
+  quotes.GetZigZag(type, percentChange);  
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ IEnumerable<ZigZagResult> results =
 
 ### Historical quotes requirements
 
-You must have at least two periods of `history` to calculate, but notably more is needed to be useful.
+You must have at least two periods of `quotes` to calculate, but notably more is needed to be useful.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ### ZigZagType options
 
@@ -37,7 +37,7 @@ You must have at least two periods of `history` to calculate, but notably more i
 IEnumerable<ZigZagResult>
 ```
 
-:warning: **Warning**:  depending on the specified `type`, the indicator cannot be initialized if the first `Quote` in `history` has a `High`,`Low`, or `Close` value of 0 (zero).
+:warning: **Warning**:  depending on the specified `type`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
 
 Also, if you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.  The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.  The last line segment is an approximation as the direction is indeterminant.  Swing high and low points are denoted with `PointType` values of `H` or `L`.  We always return the same number of result elements as there are in the historical quotes.
 
@@ -51,15 +51,22 @@ Also, if you do not supply enough points to cover the percent change, there will
 | `RetraceHigh` | decimal | Retrace line for high points
 | `RetraceLow` | decimal | Retrace line for low points
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 3% change ZIGZAG
 IEnumerable<ZigZagResult> results =
-  history.GetZigZag(ZigZagType.Close,3);
+  quotes.GetZigZag(ZigZagType.Close,3);
 
 // use results as needed
 ZigZagResult result = results.LastOrDefault();
@@ -69,10 +76,3 @@ Console.WriteLine("ZIGZAG on {0} was ${1}", result.Date, result.ZigZag);
 ```bash
 ZIGZAG on 02/18/2018 was $248.13
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

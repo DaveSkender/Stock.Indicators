@@ -10,20 +10,20 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AdxResult> GetAdx<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateAdx(history, lookbackPeriod);
+            ValidateAdx(quotes, lookbackPeriods);
 
             // initialize
             List<AdxResult> results = new(historyList.Count);
-            List<AtrResult> atr = GetAtr(history, lookbackPeriod).ToList(); // get True Range info
+            List<AtrResult> atr = GetAtr(quotes, lookbackPeriods).ToList(); // get True Range info
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
             decimal sumMdm = 0;
             decimal sumDx = 0;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -69,7 +69,7 @@ namespace Skender.Stock.Indicators
                 prevLow = h.Low;
 
                 // initialization period
-                if (index <= lookbackPeriod + 1)
+                if (index <= lookbackPeriods + 1)
                 {
                     sumTr += tr;
                     sumPdm += pdm1;
@@ -77,7 +77,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // skip DM initialization period
-                if (index <= lookbackPeriod)
+                if (index <= lookbackPeriods)
                 {
                     continue;
                 }
@@ -88,7 +88,7 @@ namespace Skender.Stock.Indicators
                 decimal pdm;
                 decimal mdm;
 
-                if (index == lookbackPeriod + 1)
+                if (index == lookbackPeriods + 1)
                 {
                     trs = sumTr;
                     pdm = sumPdm;
@@ -96,9 +96,9 @@ namespace Skender.Stock.Indicators
                 }
                 else
                 {
-                    trs = prevTrs - (prevTrs / lookbackPeriod) + tr;
-                    pdm = prevPdm - (prevPdm / lookbackPeriod) + pdm1;
-                    mdm = prevMdm - (prevMdm / lookbackPeriod) + mdm1;
+                    trs = prevTrs - (prevTrs / lookbackPeriods) + tr;
+                    pdm = prevPdm - (prevPdm / lookbackPeriods) + pdm1;
+                    mdm = prevMdm - (prevMdm / lookbackPeriods) + mdm1;
                 }
 
                 prevTrs = trs;
@@ -126,18 +126,18 @@ namespace Skender.Stock.Indicators
                 decimal dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
                 decimal adx;
 
-                if (index > 2 * lookbackPeriod)
+                if (index > 2 * lookbackPeriods)
                 {
-                    adx = (prevAdx * (lookbackPeriod - 1) + dx) / lookbackPeriod;
+                    adx = (prevAdx * (lookbackPeriods - 1) + dx) / lookbackPeriods;
                     result.Adx = adx;
                     prevAdx = adx;
                 }
 
                 // initial ADX
-                else if (index == 2 * lookbackPeriod)
+                else if (index == 2 * lookbackPeriods)
                 {
                     sumDx += dx;
-                    adx = sumDx / lookbackPeriod;
+                    adx = sumDx / lookbackPeriods;
                     result.Adx = adx;
                     prevAdx = adx;
                 }
@@ -154,45 +154,45 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<AdxResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<AdxResult> RemoveWarmupPeriods(
             this IEnumerable<AdxResult> results)
         {
             int n = results
                 .ToList()
                 .FindIndex(x => x.Pdi != null);
 
-            return results.Prune(2 * n + 100);
+            return results.Remove(2 * n + 100);
         }
 
 
         // parameter validation
         private static void ValidateAdx<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for ADX.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for ADX.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod + 100;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = 2 * lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ADX.  " +
+                string message = "Insufficient quotes provided for ADX.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least 2×N+250 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

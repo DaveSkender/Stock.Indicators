@@ -8,22 +8,22 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ```csharp
 // usage
 IEnumerable<KamaResult> results =
-  history.GetKama(erPeriod, fastPeriod, slowPeriod);  
+  quotes.GetKama(erPeriods, fastPeriods, slowPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `erPeriod` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
-| `fastPeriod` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
-| `slowPeriod` | int | Number of Slow EMA periods.  Must be greater than `fastPeriod`.  Default is 30.
+| `erPeriods` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
+| `fastPeriods` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
+| `slowPeriods` | int | Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30.
 
 ### Historical quotes requirements
 
-You must have at least `6×E` or `E+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
+You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -43,16 +43,24 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `ER`   | decimal | Efficiency Ratio is the fractal efficiency of price changes
 | `Kama` | decimal | Kaufman's adaptive moving average
 
-More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriod` periods. ER would be zero if prices are unchanged over the `erPeriod` periods.
+More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` periods. ER would be zero if prices are unchanged over the `erPeriods` periods.
+
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
 
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate KAMA(10,2,30)
-IEnumerable<KamaResult> results = history.GetKama(10,2,30);
+IEnumerable<KamaResult> results = quotes.GetKama(10,2,30);
 
 // use results as needed
 KamaResult result = results.LastOrDefault();
@@ -62,11 +70,3 @@ Console.WriteLine("KAMA on {0} was ${1}", result.Date, result.Kama);
 ```bash
 KAMA on 12/31/2018 was $251.86
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

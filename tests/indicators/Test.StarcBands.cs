@@ -13,19 +13,19 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int smaPeriod = 20;
+            int smaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 14;
-            int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
+            int atrPeriods = 14;
+            int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             List<StarcBandsResult> results =
-                history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
+                quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
@@ -66,20 +66,20 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            int smaPeriod = 20;
+            int smaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 14;
-            int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
+            int atrPeriods = 14;
+            int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             List<StarcBandsResult> results =
-                history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
-                    .PruneWarmupPeriods()
+                quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (lookbackPeriod + 150), results.Count);
+            Assert.AreEqual(502 - (lookbackPeriods + 150), results.Count);
 
             StarcBandsResult last = results.LastOrDefault();
             Assert.AreEqual(251.8600m, Math.Round((decimal)last.Centerline, 4));
@@ -92,22 +92,22 @@ namespace Internal.Tests
         {
             // bad EMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStarcBands(history, 1, 2, 10));
+                Indicator.GetStarcBands(quotes, 1, 2, 10));
 
             // bad ATR period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStarcBands(history, 20, 2, 1));
+                Indicator.GetStarcBands(quotes, 20, 2, 1));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStarcBands(history, 20, 0, 10));
+                Indicator.GetStarcBands(quotes, 20, 0, 10));
 
-            // insufficient history 120
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes 120
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStarcBands(HistoryTestData.Get(119), 120, 2, 10));
 
-            // insufficient history 250
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes 250
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStarcBands(HistoryTestData.Get(249), 20, 2, 150));
         }
     }

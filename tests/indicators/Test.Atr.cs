@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<AtrResult> results = history.GetAtr(14).ToList();
+            List<AtrResult> results = quotes.GetAtr(14).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502 - 13, results.Where(x => x.Atr != null).Count());
 
@@ -57,10 +57,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<AtrResult> results = history.GetAtr(14)
-                .PruneWarmupPeriods()
+            List<AtrResult> results = quotes.GetAtr(14)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -77,10 +77,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAtr(history, 1));
+                Indicator.GetAtr(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAtr(HistoryTestData.Get(129), 30));
         }
     }

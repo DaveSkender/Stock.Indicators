@@ -8,20 +8,20 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 ```csharp
 // usage
 IEnumerable<AdxResult> results =
-  history.GetAdx(lookbackPeriod);  
+  quotes.GetAdx(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
 
 ### Historical quotes requirements
 
-You must have at least `2×N+100` periods of `history` to allow for smoothing convergence.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N+100` periods of `quotes` to allow for smoothing convergence.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -42,14 +42,22 @@ The first `2×N-1` periods will have `null` values for ADX since there's not eno
 | `Mdi` | decimal | Minus Directional Index (-DI) for `N` lookback periods
 | `Adx` | decimal | Average Directional Index (ADX) for `N` lookback periods
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ADX
-IEnumerable<AdxResult> results = history.GetAdx(14);
+IEnumerable<AdxResult> results = quotes.GetAdx(14);
 
 // use results as needed
 AdxResult result = results.LastOrDefault();
@@ -59,11 +67,3 @@ Console.WriteLine("ADX on {0} was {1}", result.Date, result.Adx);
 ```bash
 ADX on 12/31/2018 was 34.30
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

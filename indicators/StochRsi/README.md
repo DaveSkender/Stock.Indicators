@@ -8,25 +8,25 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 ```csharp
 // usage
 IEnumerable<StochRsiResult> results =
-  history.GetStochRsi(rsiPeriod, stochPeriod, signalPeriod, smoothPeriod);
+  quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `rsiPeriod` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
-| `stochPeriod` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriod`.
-| `signalPeriod` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
-| `smoothPeriod` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
+| `rsiPeriods` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
+| `stochPeriods` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`.
+| `signalPeriods` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
+| `smoothPeriods` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
 
-The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriod=1`).  For a standard period of 14, the original formula would be `GetStochRSI(history,14,14,3,1)`; though, the "3" here is just for the Signal, which is not present in the original formula, but useful for additional smoothing of the Stochastic RSI.
+The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `GetStochRSI(quotes,14,14,3,1)`; though, the "3" here is just for the Signal, which is not present in the original formula, but useful for additional smoothing of the Stochastic RSI.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`, where `N` is the greater of `R+S+M` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
+You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S+M` and `R+100`.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -47,14 +47,22 @@ We recommend pruning at least `R+S+M+100` initial values.
 | `StochRsi` | decimal | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of Close price
 | `Signal` | decimal | %D Signal Line = Simple moving average of %K based on `G` periods
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StochRSI(14)
-IEnumerable<StochRsiResult> results = history.GetStochRsi(14,14,1,1);
+IEnumerable<StochRsiResult> results = quotes.GetStochRsi(14,14,1,1);
 
 // use results as needed
 StochRsiResult result = results.LastOrDefault();
@@ -64,11 +72,3 @@ Console.WriteLine("StochRSI on {0} was {1}", result.Date, result.StochRsi);
 ```bash
 StochRSI on 12/31/2018 was 0.975
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

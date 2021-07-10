@@ -8,14 +8,14 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 ```csharp
 // usage
 IEnumerable<AlligatorResult> results =
-  history.GetAlligator();
+  quotes.GetAlligator();
 ```
 
 ## Historical quotes requirements
 
-You must have at least 115 periods of `history`. Since this uses a smoothing technique, we recommend you use at least 265 data points prior to the intended usage date for better precision.
+You must have at least 115 periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least 265 data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ### Internal parameters
 
@@ -46,14 +46,22 @@ The first 10-20 periods will have `null` values since there's not enough data to
 | `Teeth` | decimal | Alligator's Teeth
 | `Lips` | decimal | Alligator's Lips
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate the Williams Alligator
-IEnumerable<AlligatorResult> results = history.GetAlligator();
+IEnumerable<AlligatorResult> results = quotes.GetAlligator();
 
 // use results as needed
 AlligatorResult result = results.LastOrDefault();
@@ -67,11 +75,3 @@ Jaw on 12/31/2018 was $260.61
 Teeth on 12/31/2018 was $252.27
 Lips on 12/31/2018 was $243.89
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

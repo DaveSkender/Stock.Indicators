@@ -14,11 +14,11 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<HeikinAshiResult> results = history.GetHeikinAshi().ToList();
+            List<HeikinAshiResult> results = quotes.GetHeikinAshi().ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
 
             // sample value
@@ -39,8 +39,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Exceptions()
         {
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetHeikinAshi(HistoryTestData.Get(1)));
         }
     }

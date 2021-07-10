@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<T3Result> results = history.GetT3(5, 0.7).ToList();
+            List<T3Result> results = quotes.GetT3(5, 0.7).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(478, results.Where(x => x.T3 != null).Count());
 
@@ -51,10 +51,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<T3Result> results = history.GetT3(5, 0.7)
-                .PruneWarmupPeriods()
+            List<T3Result> results = quotes.GetT3(5, 0.7)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -69,14 +69,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetT3(history, 0));
+                Indicator.GetT3(quotes, 0));
 
             // bad volume factor
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetT3(history, 25, 0));
+                Indicator.GetT3(quotes, 25, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetT3(HistoryTestData.Get(6 * (5 - 1) + 99), 5));
         }
     }

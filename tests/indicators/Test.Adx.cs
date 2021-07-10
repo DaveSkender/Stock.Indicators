@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<AdxResult> results = history.GetAdx(lookbackPeriod).ToList();
+            int lookbackPeriods = 14;
+            List<AdxResult> results = quotes.GetAdx(lookbackPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(475, results.Where(x => x.Adx != null).Count());
 
@@ -53,10 +53,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            IEnumerable<AdxResult> r = history.GetAdx(14)
-                .PruneWarmupPeriods();
+            IEnumerable<AdxResult> r = quotes.GetAdx(14)
+                .RemoveWarmupPeriods();
 
             // assertions
             Assert.AreEqual(502 - (2 * 14 + 100), r.Count());
@@ -72,10 +72,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAdx(history, 1));
+                Indicator.GetAdx(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAdx(HistoryTestData.Get(159), 30));
         }
     }

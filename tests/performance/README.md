@@ -90,7 +90,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |             GetWma |   749.35 μs | 13.237 μs | 16.741 μs |
 |          GetZigZag |   146.51 μs |  0.453 μs |  0.378 μs |
 
-## history functions (mostly internal)
+## quotes functions (mostly internal)
 
 |         Method |     Mean |    Error |   StdDev |
 |--------------- |---------:|---------:|---------:|

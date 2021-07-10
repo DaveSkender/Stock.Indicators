@@ -10,16 +10,16 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         ///
         public static IEnumerable<ChopResult> GetChop<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateChop(historyList, lookbackPeriod);
+            ValidateChop(historyList, lookbackPeriods);
 
             // initialize
             decimal sum;
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             decimal[] trueLow = new decimal[size];
             decimal[] trueRange = new decimal[size];
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 ChopResult r = new()
@@ -50,7 +50,7 @@ namespace Skender.Stock.Indicators
 
                     // calculate CHOP
 
-                    if (i >= lookbackPeriod)
+                    if (i >= lookbackPeriods)
                     {
                         // reset measurements
                         sum = trueRange[i];
@@ -58,7 +58,7 @@ namespace Skender.Stock.Indicators
                         low = trueLow[i];
 
                         // iterate over lookback window
-                        for (int j = 1; j < lookbackPeriod; j++)
+                        for (int j = 1; j < lookbackPeriods; j++)
                         {
                             sum += trueRange[i - j];
                             high = Math.Max(high, trueHigh[i - j]);
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
                         // calculate CHOP
                         if (range != 0)
                         {
-                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriod)));
+                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriods)));
                         }
                     }
                 }
@@ -79,43 +79,43 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<ChopResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<ChopResult> RemoveWarmupPeriods(
             this IEnumerable<ChopResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                .ToList()
                .FindIndex(x => x.Chop != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateChop<TQuote>(
-            List<TQuote> history,
-            int lookbackPeriod)
+            List<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
 
         {
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for CHOP.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for CHOP.");
             }
 
-            // check history
-            int qtyHistory = history.Count;
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for CHOP.  " +
+                string message = "Insufficient quotes provided for CHOP.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

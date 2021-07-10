@@ -8,7 +8,7 @@
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="history">Historical price quotes.</param>
+  <param name="quotes">Historical price quotes.</param>
   <returns>Time series of Heikin-Ashi candlestick values.</returns>
-  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

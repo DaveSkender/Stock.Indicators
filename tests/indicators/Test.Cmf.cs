@@ -13,7 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<CmfResult> results = history.GetCmf(20).ToList();
+            List<CmfResult> results = quotes.GetCmf(20).ToList();
 
             // assertions
 
@@ -46,10 +46,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<CmfResult> results = history.GetCmf(20)
-                .PruneWarmupPeriods()
+            List<CmfResult> results = quotes.GetCmf(20)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -66,10 +66,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetCmf(history, 0));
+                Indicator.GetCmf(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCmf(HistoryTestData.Get(20), 20));
         }
     }

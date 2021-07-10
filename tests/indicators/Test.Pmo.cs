@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<PmoResult> results = history.GetPmo(35, 20, 10).ToList();
+            List<PmoResult> results = quotes.GetPmo(35, 20, 10).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(448, results.Where(x => x.Pmo != null).Count());
             Assert.AreEqual(439, results.Where(x => x.Signal != null).Count());
@@ -42,10 +42,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            List<PmoResult> results = history.GetPmo(35, 20, 10)
-                .PruneWarmupPeriods()
+            List<PmoResult> results = quotes.GetPmo(35, 20, 10)
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -61,18 +61,18 @@ namespace Internal.Tests
         {
             // bad time period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPmo(history, 1));
+                Indicator.GetPmo(quotes, 1));
 
             // bad smoothing period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPmo(history, 5, 0));
+                Indicator.GetPmo(quotes, 5, 0));
 
             // bad signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPmo(history, 5, 5, 0));
+                Indicator.GetPmo(quotes, 5, 5, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPmo(HistoryTestData.Get(54), 35, 20, 10));
         }
     }

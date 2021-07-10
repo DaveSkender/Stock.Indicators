@@ -13,18 +13,18 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int windowPeriod = 11;
-            int offsetPeriod = 9;
+            int windowPeriods = 11;
+            int offsetPeriods = 9;
             PivotPointType pointType = PivotPointType.Standard;
 
             List<RollingPivotsResult> results =
-                history.GetRollingPivots(windowPeriod, offsetPeriod, pointType)
+                quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
 
@@ -88,19 +88,19 @@ namespace Internal.Tests
         [TestMethod]
         public void Camarilla()
         {
-            int windowPeriod = 10;
-            int offsetPeriod = 0;
+            int windowPeriods = 10;
+            int offsetPeriods = 0;
             PivotPointType pointType = PivotPointType.Camarilla;
 
             IEnumerable<Quote> h = HistoryTestData.Get(38);
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(38, results.Count);
             Assert.AreEqual(28, results.Where(x => x.PP != null).Count());
 
@@ -164,18 +164,18 @@ namespace Internal.Tests
         [TestMethod]
         public void Demark()
         {
-            int windowPeriod = 10;
-            int offsetPeriod = 10;
+            int windowPeriods = 10;
+            int offsetPeriods = 10;
             PivotPointType pointType = PivotPointType.Demark;
 
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(history, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(quotes, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
 
@@ -250,19 +250,19 @@ namespace Internal.Tests
         [TestMethod]
         public void Fibonacci()
         {
-            int windowPeriod = 44;
-            int offsetPeriod = 15;
+            int windowPeriods = 44;
+            int offsetPeriods = 15;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
             IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(300, results.Count);
             Assert.AreEqual(241, results.Where(x => x.PP != null).Count());
 
@@ -327,19 +327,19 @@ namespace Internal.Tests
         [TestMethod]
         public void Woodie()
         {
-            int windowPeriod = 375;
-            int offsetPeriod = 16;
+            int windowPeriods = 375;
+            int offsetPeriods = 16;
             PivotPointType pointType = PivotPointType.Woodie;
 
             IEnumerable<Quote> h = HistoryTestData.GetIntraday(1564);
             List<RollingPivotsResult> results =
-                Indicator.GetRollingPivots(h, windowPeriod, offsetPeriod, pointType)
+                Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(1564, results.Count);
             Assert.AreEqual(1173, results.Where(x => x.PP != null).Count());
 
@@ -400,19 +400,19 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
-            int windowPeriod = 11;
-            int offsetPeriod = 9;
+            int windowPeriods = 11;
+            int offsetPeriods = 9;
             PivotPointType pointType = PivotPointType.Standard;
 
             List<RollingPivotsResult> results =
-                history.GetRollingPivots(windowPeriod, offsetPeriod, pointType)
-                    .PruneWarmupPeriods()
+                quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (windowPeriod + offsetPeriod), results.Count);
+            Assert.AreEqual(502 - (windowPeriods + offsetPeriods), results.Count);
 
             RollingPivotsResult last = results.LastOrDefault();
             Assert.AreEqual(null, last.R4);
@@ -431,14 +431,14 @@ namespace Internal.Tests
         {
             // bad window period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRollingPivots(history, 0, 10));
+                Indicator.GetRollingPivots(quotes, 0, 10));
 
             // bad offset period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRollingPivots(history, 10, -1));
+                Indicator.GetRollingPivots(quotes, 10, -1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
         }
     }

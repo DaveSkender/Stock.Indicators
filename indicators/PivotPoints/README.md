@@ -9,7 +9,7 @@ See also the alternative [Rolling Pivot Points](../RollingPivots/README.md#conte
 ```csharp
 // usage
 IEnumerable<PivotPointsResult> results =
-  history.GetPivotPoints(windowSize, pointType);  
+  quotes.GetPivotPoints(windowSize, pointType);  
 ```
 
 ## Parameters
@@ -21,9 +21,9 @@ IEnumerable<PivotPointsResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `2` windows of `history`.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `history`.
+You must have at least `2` windows of `quotes`.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ### PeriodSize options (for windowSize)
 
@@ -52,7 +52,7 @@ IEnumerable<PivotPointsResult>
 
 The first window will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `history`.
+:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 
 ### PivotPointsResult
 
@@ -67,15 +67,23 @@ The first window will have `null` values since there's not enough data to calcul
 | `S2` | decimal | Support level 2
 | `S3` | decimal | Support level 3
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style month-based Pivot Points
 IEnumerable<PivotPointsResult> results =
-  history.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
+  quotes.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
 
 // use results as needed
 PivotPointsResult result = results.LastOrDefault();
@@ -85,11 +93,3 @@ Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
 ```bash
 PP on 12/31/2018 was $251.86
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)

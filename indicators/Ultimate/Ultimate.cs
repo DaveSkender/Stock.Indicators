@@ -10,18 +10,18 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
-            this IEnumerable<TQuote> history,
-            int shortPeriod = 7,
-            int middlePeriod = 14,
-            int longPeriod = 28)
+            this IEnumerable<TQuote> quotes,
+            int shortPeriods = 7,
+            int middlePeriods = 14,
+            int longPeriods = 28)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> historyList = quotes.Sort();
 
             // check parameter arguments
-            ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
+            ValidateUltimate(quotes, shortPeriods, middlePeriods, longPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
 
             decimal priorClose = 0;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
@@ -49,7 +49,7 @@ namespace Skender.Stock.Indicators
                     tr[i] = Math.Max(h.High, priorClose) - Math.Min(h.Low, priorClose);
                 }
 
-                if (index >= longPeriod + 1)
+                if (index >= longPeriods + 1)
                 {
                     decimal sumBP1 = 0m;
                     decimal sumBP2 = 0m;
@@ -59,19 +59,19 @@ namespace Skender.Stock.Indicators
                     decimal sumTR2 = 0m;
                     decimal sumTR3 = 0m;
 
-                    for (int p = index - longPeriod; p < index; p++)
+                    for (int p = index - longPeriods; p < index; p++)
                     {
                         int pIndex = p + 1;
 
                         // short aggregate
-                        if (pIndex > index - shortPeriod)
+                        if (pIndex > index - shortPeriods)
                         {
                             sumBP1 += bp[p];
                             sumTR1 += tr[p];
                         }
 
                         // middle aggregate
-                        if (pIndex > index - middlePeriod)
+                        if (pIndex > index - middlePeriods)
                         {
                             sumBP2 += bp[p];
                             sumTR2 += tr[p];
@@ -96,52 +96,52 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<UltimateResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<UltimateResult> RemoveWarmupPeriods(
             this IEnumerable<UltimateResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Ultimate != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 
         // parameter validation
         private static void ValidateUltimate<TQuote>(
-            IEnumerable<TQuote> history,
-            int shortPeriod,
+            IEnumerable<TQuote> quotes,
+            int shortPeriods,
             int middleAverage,
-            int longPeriod)
+            int longPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (shortPeriod <= 0 || middleAverage <= 0 || longPeriod <= 0)
+            if (shortPeriods <= 0 || middleAverage <= 0 || longPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(longPeriod), longPeriod,
+                throw new ArgumentOutOfRangeException(nameof(longPeriods), longPeriods,
                     "Average periods must be greater than 0 for Ultimate Oscillator.");
             }
 
-            if (shortPeriod >= middleAverage || middleAverage >= longPeriod)
+            if (shortPeriods >= middleAverage || middleAverage >= longPeriods)
             {
                 throw new ArgumentOutOfRangeException(nameof(middleAverage), middleAverage,
                     "Average periods must be increasingly larger than each other for Ultimate Oscillator.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = longPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = longPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Ultimate.  " +
+                string message = "Insufficient quotes provided for Ultimate.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

@@ -8,22 +8,22 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<UltimateResult> results =
-  history.GetUltimate(shortPeriod, middlePeriod, longPeriod);  
+  quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `shortPeriod` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
-| `middlePeriod` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
-| `longPeriod` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
+| `shortPeriods` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
+| `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
+| `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
 
 ### Historical quotes requirements
 
-You must have at least `L+1` periods of `history`.
+You must have at least `L+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -40,14 +40,22 @@ The first `L-1` periods will have `null` Ultimate values since there's not enoug
 | `Date` | DateTime | Date
 | `Ultimate` | decimal | Simple moving average for `N` lookback periods
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period Ultimate
-IEnumerable<UltimateResult> results = history.GetUltimate(7,14,28);
+IEnumerable<UltimateResult> results = quotes.GetUltimate(7,14,28);
 
 // use results as needed
 UltimateResult result = results.LastOrDefault();
@@ -57,11 +65,3 @@ Console.WriteLine("ULT on {0} was {1}", result.Date, result.Ultimate);
 ```bash
 ULT on 12/31/2018 was 49.53
 ```
-
-## Utilities for results
-
-| name | description
-| -- |--
-| `.Find()` | Find a specific result by date.  See [guide](../../docs/UTILITIES.md#find-indicator-result-by-date)
-| `.PruneWarmupPeriods()` | Remove the recommended warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
-| `.PruneWarmupPeriods(qty)` | Remove a specific quantity of warmup periods.  See [guide](../../docs/UTILITIES.md#prune-warmup-periods)
