@@ -64,16 +64,16 @@ namespace Internal.Tests
                 Indicator.GetPrs(quotes, historyOther, 14, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPrs(quotes, HistoryTestData.GetCompare(13), 14));
 
             // insufficient eval quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPrs(quotes, HistoryTestData.GetCompare(300), 14));
 
             // mismatch quotes
             IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPrs(historyMismatch, historyOther, 14));
         }
     }

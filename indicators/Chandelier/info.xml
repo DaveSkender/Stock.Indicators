@@ -14,5 +14,5 @@
   <param name="type">Short or Long variant selection.</param>
   <returns>Time series of Chandelier Exit values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

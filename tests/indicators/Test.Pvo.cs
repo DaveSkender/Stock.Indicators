@@ -101,11 +101,11 @@ namespace Internal.Tests
                 Indicator.GetPvo(quotes, 12, 26, -1));
 
             // insufficient quotes 2×(S+P)
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPvo(HistoryTestData.Get(409), 12, 200, 5));
 
             // insufficient quotes S+P+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPvo(HistoryTestData.Get(134), 12, 26, 9));
         }
     }

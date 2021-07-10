@@ -438,7 +438,7 @@ namespace Internal.Tests
                 Indicator.GetRollingPivots(quotes, 10, -1));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
         }
     }

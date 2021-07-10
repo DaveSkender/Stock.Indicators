@@ -97,7 +97,7 @@ namespace Internal.Tests
                 Indicator.GetMama(quotes, 0.5m, 0m));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetMama(HistoryTestData.Get(49)));
         }
     }

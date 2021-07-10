@@ -73,11 +73,11 @@ namespace Internal.Tests
                 Indicator.GetTrix(quotes, 0));
 
             // insufficient quotes for 3*N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTrix(HistoryTestData.Get(189), 30));
 
             // insufficient quotes for 4×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTrix(HistoryTestData.GetLong(999), 250));
         }
     }

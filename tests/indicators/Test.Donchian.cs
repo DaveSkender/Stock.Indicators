@@ -90,7 +90,7 @@ namespace Internal.Tests
                 Indicator.GetDonchian(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetDonchian(HistoryTestData.Get(30), 30));
         }
     }

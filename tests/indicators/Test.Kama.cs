@@ -100,7 +100,7 @@ namespace Internal.Tests
                 Indicator.GetKama(quotes, 10, 5, 5));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKama(HistoryTestData.Get(109), 10, 2, 20));
         }
     }

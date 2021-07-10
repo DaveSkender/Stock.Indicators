@@ -61,7 +61,7 @@ namespace Internal.Tests
                 Indicator.GetWilliamsR(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetWilliamsR(HistoryTestData.Get(29), 30));
         }
     }

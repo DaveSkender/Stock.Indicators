@@ -14,5 +14,5 @@
   <param name="longPeriods">Number of periods in the largest window.</param>
   <returns>Time series of Ultimate Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

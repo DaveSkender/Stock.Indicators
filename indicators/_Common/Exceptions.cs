@@ -7,25 +7,25 @@ namespace Skender.Stock.Indicators
 {
 
     [Serializable]
-    public class BadHistoryException : ArgumentOutOfRangeException
+    public class BadQuotesException : ArgumentOutOfRangeException
     {
-        public BadHistoryException() { }
+        public BadQuotesException() { }
 
-        public BadHistoryException(string? paramName)
+        public BadQuotesException(string? paramName)
             : base(paramName) { }
 
-        public BadHistoryException(string? message, Exception? innerException)
+        public BadQuotesException(string? message, Exception? innerException)
             : base(message, innerException) { }
 
-        public BadHistoryException(string? paramName, string? message)
+        public BadQuotesException(string? paramName, string? message)
             : base(paramName, message) { }
 
-        public BadHistoryException(string? paramName, object? actualValue, string? message)
+        public BadQuotesException(string? paramName, object? actualValue, string? message)
             : base(paramName, actualValue, message) { }
 
         // A constructor is needed for serialization when an
         // exception propagates from a remoting server to the client.
-        protected BadHistoryException(SerializationInfo info, StreamingContext context)
+        protected BadQuotesException(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
     }
 }

@@ -133,7 +133,7 @@ namespace Skender.Stock.Indicators
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory, slowPeriods + 250);
 
-                throw new BadHistoryException(nameof(quotes), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

@@ -114,7 +114,7 @@ namespace Internal.Tests
                 Indicator.GetStdDev(quotes, 14, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStdDev(HistoryTestData.Get(29), 30));
         }
     }

@@ -14,5 +14,5 @@
   <param name="multiplier">Multiplier sets the ATR band width.</param>
   <returns>Time series of SuperTrend values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

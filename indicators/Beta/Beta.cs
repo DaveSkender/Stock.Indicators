@@ -89,13 +89,13 @@ namespace Skender.Stock.Indicators
                     "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistoryMarket, minHistoryMarket);
 
-                throw new BadHistoryException(nameof(historyMarket), message);
+                throw new BadQuotesException(nameof(historyMarket), message);
             }
 
             int qtyHistoryEval = historyEval.Count();
             if (qtyHistoryEval < qtyHistoryMarket)
             {
-                throw new BadHistoryException(
+                throw new BadQuotesException(
                     nameof(historyEval),
                     "Eval quotes should have at least as many records as Market quotes for Beta.");
             }

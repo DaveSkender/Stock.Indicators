@@ -93,7 +93,7 @@ namespace Internal.Tests
                 Indicator.GetConnorsRsi(quotes, 3, 2, 1));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetConnorsRsi(HistoryTestData.Get(102), 3, 2, 100));
         }
     }

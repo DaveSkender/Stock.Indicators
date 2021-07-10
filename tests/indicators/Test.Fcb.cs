@@ -80,7 +80,7 @@ namespace Internal.Tests
                 Indicator.GetFcb(quotes, 1));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetFcb(HistoryTestData.Get(60), 30));
         }
     }

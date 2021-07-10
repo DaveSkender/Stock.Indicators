@@ -103,11 +103,11 @@ namespace Internal.Tests
                 Indicator.GetStarcBands(quotes, 20, 0, 10));
 
             // insufficient quotes 120
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStarcBands(HistoryTestData.Get(119), 120, 2, 10));
 
             // insufficient quotes 250
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStarcBands(HistoryTestData.Get(249), 20, 2, 150));
         }
     }

@@ -82,7 +82,7 @@ namespace Internal.Tests
                 Indicator.GetAroon(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAroon(HistoryTestData.Get(29), 30));
         }
     }

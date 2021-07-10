@@ -74,7 +74,7 @@ namespace Internal.Tests
                 Indicator.GetVortex(quotes, 1));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetVortex(HistoryTestData.Get(30), 30));
         }
     }

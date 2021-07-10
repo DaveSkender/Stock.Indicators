@@ -85,7 +85,7 @@ namespace Internal.Tests
                 Indicator.GetIchimoku(quotes, 9, 26, 26));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetIchimoku(HistoryTestData.Get(51), 9, 26, 52));
         }
     }

@@ -58,7 +58,7 @@ namespace Internal.Tests
                 Indicator.GetUlcerIndex(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetUlcerIndex(HistoryTestData.Get(29), 30));
         }
     }

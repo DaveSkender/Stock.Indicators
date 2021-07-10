@@ -14,5 +14,5 @@
   <param name="slowPeriods">Number of periods in the Slow EMA.</param>
   <returns>Time series of KAMA values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

@@ -94,7 +94,7 @@ namespace Internal.Tests
                 Indicator.GetRoc(quotes, 14, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetRoc(HistoryTestData.Get(10), 10));
         }
     }

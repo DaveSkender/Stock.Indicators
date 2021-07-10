@@ -85,7 +85,7 @@ namespace Internal.Tests
                 Indicator.GetAlma(quotes, 10, 0.5, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAlma(HistoryTestData.Get(10), 11, 0.5));
         }
     }

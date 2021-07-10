@@ -28,7 +28,7 @@ namespace Skender.Stock.Indicators
 
                 if (lastDate == h.Date)
                 {
-                    throw new BadHistoryException(
+                    throw new BadQuotesException(
                         string.Format(NativeCulture, "Duplicate date found on {0}.", h.Date));
                 }
 
@@ -81,7 +81,7 @@ namespace Skender.Stock.Indicators
 
             // validate
             return historyList == null || historyList.Count == 0
-                ? throw new BadHistoryException(nameof(quotes), "No historical quotes provided.")
+                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
                 : historyList;
         }
 
@@ -106,7 +106,7 @@ namespace Skender.Stock.Indicators
 
             // validate
             return bdList == null || bdList.Count == 0
-                ? throw new BadHistoryException(nameof(quotes), "No historical quotes provided.")
+                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
                 : bdList;
         }
 

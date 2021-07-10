@@ -91,11 +91,11 @@ namespace Internal.Tests
                 Indicator.GetMacd(quotes, 12, 26, -1));
 
             // insufficient quotes 2×(S+P)
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetMacd(HistoryTestData.Get(409), 12, 200, 5));
 
             // insufficient quotes S+P+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetMacd(HistoryTestData.Get(134), 12, 26, 9));
         }
     }

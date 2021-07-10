@@ -434,27 +434,27 @@ namespace Internal.Tests
         public void Exceptions()
         {
             // insufficient quotes - month
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(HistoryTestData.Get(18), PeriodSize.Month));
 
             // insufficient quotes - week
             IEnumerable<Quote> w = HistoryTestData.Get(5)
                 .OrderBy(x => x.Date).Take(4);
 
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(w, PeriodSize.Week));
 
             // insufficient quotes - day
             IEnumerable<Quote> d = HistoryTestData.GetIntraday(250);
 
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(d, PeriodSize.Day));
 
             // insufficient quotes - hour
             IEnumerable<Quote> h = HistoryTestData.GetIntraday(30)
                 .OrderBy(x => x.Date).Take(29);
 
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(h, PeriodSize.OneHour));
         }
     }

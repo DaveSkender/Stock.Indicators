@@ -83,7 +83,7 @@ namespace Internal.Tests
                 Indicator.GetParabolicSar(quotes, 6, 2));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetParabolicSar(HistoryTestData.Get(1), 0.02m, 0.2m));
         }
     }

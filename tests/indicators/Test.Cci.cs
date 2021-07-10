@@ -57,7 +57,7 @@ namespace Internal.Tests
                 Indicator.GetCci(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCci(HistoryTestData.Get(30), 30));
         }
     }

@@ -277,7 +277,7 @@ namespace Skender.Stock.Indicators
                     + "This can be from either not enough quotes or insufficiently detailed Date values.",
                     qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));
 
-                throw new BadHistoryException(nameof(quotes), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

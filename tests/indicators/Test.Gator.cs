@@ -108,7 +108,7 @@ namespace Internal.Tests
         public void Exceptions()
         {
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetGator(HistoryTestData.Get(114)));
         }
     }

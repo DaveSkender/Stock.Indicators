@@ -140,7 +140,7 @@ namespace Skender.Stock.Indicators
                     + "usage date for better precision.",
                     qtyHistory, minHistory, erPeriods, 10 * erPeriods);
 
-                throw new BadHistoryException(nameof(quotes), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

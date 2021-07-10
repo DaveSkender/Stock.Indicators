@@ -62,11 +62,11 @@ namespace Internal.Tests
                 Indicator.GetTripleEma(quotes, 0));
 
             // insufficient quotes for 3*N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTripleEma(HistoryTestData.Get(189), 30));
 
             // insufficient quotes for 4×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTripleEma(HistoryTestData.GetLong(999), 250));
         }
     }

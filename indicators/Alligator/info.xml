@@ -11,5 +11,5 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <returns>Time series of Alligator values.</returns>
-  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicators>

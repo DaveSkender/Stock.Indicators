@@ -72,7 +72,7 @@ namespace Internal.Tests
                 Indicator.GetUltimate(quotes, 7, 14, 11));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetUltimate(HistoryTestData.Get(28), 7, 14, 28));
         }
     }

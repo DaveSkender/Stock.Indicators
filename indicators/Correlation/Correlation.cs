@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
 
                 if (a.Date != b.Date)
                 {
-                    throw new BadHistoryException(nameof(historyA), a.Date,
+                    throw new BadQuotesException(nameof(historyA), a.Date,
                         "Date sequence does not match.  Correlation requires matching dates in provided histories.");
                 }
 
@@ -127,13 +127,13 @@ namespace Skender.Stock.Indicators
                     "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistoryA, minHistoryA);
 
-                throw new BadHistoryException(nameof(historyA), message);
+                throw new BadQuotesException(nameof(historyA), message);
             }
 
             int qtyHistoryB = historyB.Count();
             if (qtyHistoryB != qtyHistoryA)
             {
-                throw new BadHistoryException(
+                throw new BadQuotesException(
                     nameof(historyB),
                     "B quotes should have at least as many records as A quotes for Correlation.");
             }

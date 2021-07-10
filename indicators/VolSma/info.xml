@@ -13,5 +13,5 @@
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <returns>Time series of Volume and its Moving Average values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

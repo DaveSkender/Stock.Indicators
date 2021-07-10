@@ -88,7 +88,7 @@ namespace Internal.Tests
                 Indicator.GetTsi(quotes, 25, 13, -1));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTsi(HistoryTestData.Get(137), 25, 13, 7));
         }
     }

@@ -154,7 +154,7 @@ namespace Internal.Tests
                 Indicator.GetZigZag(quotes, ZigZagType.Close, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetZigZag(HistoryTestData.Get(1)));
         }
     }

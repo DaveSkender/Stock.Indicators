@@ -43,5 +43,5 @@ class TestSma(TestBase):
         from System import ArgumentOutOfRangeException
         self.assertRaises(ArgumentOutOfRangeException, indicators.get_sma, self.quotes, 0)
 
-        from Skender.Stock.Indicators import BadHistoryException
-        self.assertRaises(BadHistoryException, indicators.get_sma, self.data_reader.get(9), 10)
+        from Skender.Stock.Indicators import BadQuotesException
+        self.assertRaises(BadQuotesException, indicators.get_sma, self.data_reader.get(9), 10)

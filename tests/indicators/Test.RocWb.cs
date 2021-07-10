@@ -115,7 +115,7 @@ namespace Internal.Tests
                 Indicator.GetRocWb(quotes, 15, 3, 16));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetRocWb(HistoryTestData.Get(10), 10, 2, 10));
         }
     }

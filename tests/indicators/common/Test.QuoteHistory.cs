@@ -188,7 +188,7 @@ namespace Internal.Tests
 
         /* BAD HISTORY EXCEPTIONS */
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "No historical quotes.")]
+        [ExpectedException(typeof(BadQuotesException), "No historical quotes.")]
         public void NoHistory()
         {
             List<Quote> badHistory = new();
@@ -196,7 +196,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Duplicate date found.")]
+        [ExpectedException(typeof(BadQuotesException), "Duplicate date found.")]
         public void DuplicateHistory()
         {
             List<Quote> badHistory = new()
@@ -212,7 +212,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "No historical basic data.")]
+        [ExpectedException(typeof(BadQuotesException), "No historical basic data.")]
         public void NoBasicData()
         {
             List<Quote> h = new();
@@ -220,7 +220,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad element.")]
+        [ExpectedException(typeof(BadQuotesException), "Bad element.")]
         public void ConvertBasicDataBadParam()
         {
             // compose basic data

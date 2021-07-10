@@ -76,7 +76,7 @@ namespace Internal.Tests
                 Indicator.GetT3(quotes, 25, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetT3(HistoryTestData.Get(6 * (5 - 1) + 99), 5));
         }
     }

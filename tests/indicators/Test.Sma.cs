@@ -59,7 +59,7 @@ namespace Internal.Tests
                 Indicator.GetSma(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetSma(HistoryTestData.Get(9), 10));
         }
     }

@@ -80,7 +80,7 @@ namespace Internal.Tests
                 Indicator.GetSlope(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetSlope(HistoryTestData.Get(29), 30));
         }
     }

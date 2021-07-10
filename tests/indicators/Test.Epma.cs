@@ -68,7 +68,7 @@ namespace Internal.Tests
                 Indicator.GetEpma(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetEpma(HistoryTestData.Get(9), 10));
         }
     }

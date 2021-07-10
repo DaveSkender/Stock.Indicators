@@ -79,12 +79,12 @@ namespace Internal.Tests
             // insufficient quotes
             IEnumerable<Quote> h1 = HistoryTestData.Get(29);
             IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetBeta(h1, h2, 30));
 
             // bad evaluation quotes
             IEnumerable<Quote> eval = HistoryTestData.GetCompare(300);
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetBeta(quotes, eval, 30));
         }
     }

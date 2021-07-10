@@ -93,11 +93,11 @@ namespace Internal.Tests
                 Indicator.GetKeltner(quotes, 20, 0, 10));
 
             // insufficient quotes for N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(119), 20, 2, 10));
 
             // insufficient quotes for 2×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
         }
     }

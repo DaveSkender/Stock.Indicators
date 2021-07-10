@@ -10,24 +10,24 @@ namespace Internal.Tests
 
         // bad quotes exceptions
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad quotes without message.")]
+        [ExpectedException(typeof(BadQuotesException), "Bad quotes without message.")]
         public void BadHistory()
         {
-            throw new BadHistoryException();
+            throw new BadQuotesException();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad quotes with message.")]
+        [ExpectedException(typeof(BadQuotesException), "Bad quotes with message.")]
         public void BadHistoryWithMessage()
         {
-            throw new BadHistoryException("This is a quotes exception.");
+            throw new BadQuotesException("This is a quotes exception.");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad quotes with inner Exception.")]
+        [ExpectedException(typeof(BadQuotesException), "Bad quotes with inner Exception.")]
         public void BadHistoryWithInner()
         {
-            throw new BadHistoryException("This has an inner Exception.", new ArgumentException());
+            throw new BadQuotesException("This has an inner Exception.", new ArgumentException());
         }
     }
 }

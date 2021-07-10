@@ -105,7 +105,7 @@ namespace Internal.Tests
                 Indicator.GetFractal(quotes, 1));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetFractal(HistoryTestData.Get(10), 5));
         }
     }

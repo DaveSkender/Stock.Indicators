@@ -197,7 +197,7 @@ namespace Skender.Stock.Indicators
                     qtyHistory, minHistory, lookbackPeriods + smoothPeriods,
                     lookbackPeriods + smoothPeriods + 250);
 
-                throw new BadHistoryException(nameof(quotes), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

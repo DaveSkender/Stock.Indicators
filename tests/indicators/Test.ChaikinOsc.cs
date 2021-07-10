@@ -73,11 +73,11 @@ namespace Internal.Tests
                 Indicator.GetChaikinOsc(quotes, 10, 5));
 
             // insufficient quotes S+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetChaikinOsc(HistoryTestData.Get(109), 3, 10));
 
             // insufficient quotes 2×S
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetChaikinOsc(HistoryTestData.Get(499), 3, 250));
         }
     }

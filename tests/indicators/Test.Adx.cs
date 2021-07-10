@@ -75,7 +75,7 @@ namespace Internal.Tests
                 Indicator.GetAdx(quotes, 1));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAdx(HistoryTestData.Get(159), 30));
         }
     }

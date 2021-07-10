@@ -36,7 +36,7 @@ namespace Skender.Stock.Indicators
 
                 if (ei.Date != bi.Date)
                 {
-                    throw new BadHistoryException(nameof(historyEval), ei.Date,
+                    throw new BadQuotesException(nameof(historyEval), ei.Date,
                         "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
                 }
 
@@ -113,12 +113,12 @@ namespace Skender.Stock.Indicators
                     "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistoryEval, minHistory);
 
-                throw new BadHistoryException(nameof(historyEval), message);
+                throw new BadQuotesException(nameof(historyEval), message);
             }
 
             if (qtyHistoryBase != qtyHistoryEval)
             {
-                throw new BadHistoryException(
+                throw new BadQuotesException(
                     nameof(historyBase),
                     "Base quotes should have at least as many records as Eval quotes for PRS.");
             }

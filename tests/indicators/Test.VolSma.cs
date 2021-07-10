@@ -66,7 +66,7 @@ namespace Internal.Tests
                 Indicator.GetVolSma(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetVolSma(HistoryTestData.Get(9), 10));
         }
     }

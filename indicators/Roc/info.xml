@@ -14,7 +14,7 @@
     <param name="smaPeriods">Optional.  Number of periods for an ROC SMA signal line.</param>
     <returns>Time series of ROC values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
   <type name="WithBands">
     <summary>
@@ -30,6 +30,6 @@
     <param name="stdDevPeriods">Number of periods the standard deviation for upper/lower band lines.</param>
     <returns>Time series of ROCWB values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadHistoryException">Insufficient quotes provided.</exception>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
 </indicator>

@@ -88,7 +88,7 @@ namespace Internal.Tests
                 Indicator.GetBollingerBands(quotes, 2, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetBollingerBands(HistoryTestData.Get(29), 30, 2));
         }
     }

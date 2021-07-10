@@ -69,7 +69,7 @@ namespace Internal.Tests
                 Indicator.GetCmf(quotes, 0));
 
             // insufficient quotes
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCmf(HistoryTestData.Get(20), 20));
         }
     }
