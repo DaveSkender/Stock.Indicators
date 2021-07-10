@@ -1,4 +1,4 @@
-﻿# Heikin-Ashi
+# Heikin-Ashi
 
 Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that uses prior day for smoothing.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/254 "Community discussion about this indicator")
@@ -34,9 +34,11 @@ The first period will have `null` values since there's not enough data to calcul
 | `High` | decimal | Modified high price
 | `Low` | decimal | Modified low price
 | `Close` | decimal | Modified close price
+| `Volume` | decimal | Volume (same as `quotes`)
 
 ### Utilities
 
+- [.ConvertToQuotes()](../../docs/UTILITIES.md#convert-to-quotes)
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
