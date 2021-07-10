@@ -47,6 +47,7 @@ The first period OBV will have `0` value since there's not enough data to calcul
 
 ### Utilities
 
+- [.ConvertToQuotes()](../../docs/UTILITIES.md#convert-to-quotes)
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 

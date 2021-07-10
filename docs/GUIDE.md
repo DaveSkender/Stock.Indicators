@@ -249,6 +249,18 @@ If you want to compute an indicator of indicators, such as an SMA of an ADX or a
 // fetch historical quotes from your feed (your method)
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
+// calculate RSI of OBV
+IEnumerable<RsiResult> results 
+  = quotes.GetObv()
+    .ConvertToQuotes()
+    .GetRsi(14);
+```
+
+See [.ConvertToQuotes()](UTILITIES.md#convert-to-quotes) for more information.
+
+When `.ConvertToQuotes()` is not available for an indicator, a workaround is to convert yourself.
+
+```csharp
 // calculate OBV
 IEnumerable<ObvResult> obvResults = quotes.GetObv();
 
@@ -263,8 +275,7 @@ List<Quote> obvQuotes = obvResults
   .ToList();
 
 // calculate RSI of OBV
-int lookbackPeriods = 14;
-IEnumerable<RsiResult> results = obvQuotes.GetRsi(lookbackPeriods);
+IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
 ```
 
 ## Utilities
