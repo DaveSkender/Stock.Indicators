@@ -40,7 +40,7 @@ The first `N` periods will have `null` MFI values since they cannot be calculate
 
 ### Utilities
 
-- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 

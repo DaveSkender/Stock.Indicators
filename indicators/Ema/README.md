@@ -62,7 +62,7 @@ Triple EMA: The first `3×N-2` periods will have `null` values since there's not
 
 ### Utilities
 
-- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 

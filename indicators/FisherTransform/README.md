@@ -43,7 +43,7 @@ We always return the same number of elements as there are in the historical quot
 
 ### Utilities
 
-- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
 For pruning of warmup periods, we recommend using the following guidelines:

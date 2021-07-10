@@ -61,7 +61,7 @@ See [individual indicator pages](INDICATORS.md) for information on recommended p
 
 ### Find indicator result by date
 
-`results.Find()` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
+`results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
 
 ```csharp
 // fetch historical quotes from your favorite feed

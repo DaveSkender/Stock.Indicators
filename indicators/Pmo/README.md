@@ -45,7 +45,7 @@ The first `T+S-1` periods will have `null` values for PMO since there's not enou
 
 ### Utilities
 
-- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 

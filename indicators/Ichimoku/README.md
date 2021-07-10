@@ -46,7 +46,7 @@ The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since 
 
 ### Utilities
 
-- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
 See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.

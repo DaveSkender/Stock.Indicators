@@ -37,7 +37,7 @@ The first period will have `null` values since there's not enough data to calcul
 
 ### Utilities
 
-- [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
 See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
