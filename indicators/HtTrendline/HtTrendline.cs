@@ -156,11 +156,11 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<HtlResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<HtlResult> RemoveWarmupPeriods(
             this IEnumerable<HtlResult> results)
         {
-            return results.Prune(100);
+            return results.Remove(100);
         }
 
 

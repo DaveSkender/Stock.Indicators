@@ -69,15 +69,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<DonchianResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<DonchianResult> RemoveWarmupPeriods(
             this IEnumerable<DonchianResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
               .ToList()
               .FindIndex(x => x.Width != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 

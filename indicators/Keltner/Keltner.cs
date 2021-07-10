@@ -59,15 +59,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<KeltnerResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<KeltnerResult> RemoveWarmupPeriods(
             this IEnumerable<KeltnerResult> results)
         {
             int n = results
                 .ToList()
                 .FindIndex(x => x.Width != null) + 1;
 
-            return results.Prune(Math.Max(2 * n, n + 100));
+            return results.Remove(Math.Max(2 * n, n + 100));
         }
 
 

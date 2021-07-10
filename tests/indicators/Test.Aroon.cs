@@ -59,10 +59,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<AroonResult> results = quotes.GetAroon(25)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

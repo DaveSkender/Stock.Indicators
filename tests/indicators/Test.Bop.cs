@@ -48,10 +48,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<BopResult> results = quotes.GetBop(14)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

@@ -42,10 +42,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<DemaResult> results = quotes.GetDoubleEma(20)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

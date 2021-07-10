@@ -36,28 +36,28 @@ IEnumerable<Quote> dayBarQuotes =
 
 ## Utilities for indicator results
 
-### Prune warmup periods
+### Remove warmup periods
 
-`results.PruneWarmupPeriods()` will remove the recommended initial periods from indicator results.
-An alternative `.PruneWarmupPeriods(prunePeriods)` is also provided if you want to customize the pruning amount.
+`results.RemoveWarmupPeriods()` will remove the recommended initial warmup periods from indicator results.
+An alternative `.RemoveWarmupPeriods(removePeriods)` is also provided if you want to customize the pruning amount.
 
 ```csharp
-// auto prune recommended periods
+// auto remove recommended warmup periods
 IEnumerable<AdxResult> results = 
   quotes.GetAdx(14)
-    .PruneWarmupPeriods();
+    .RemoveWarmupPeriods();
 
-// prune user-specific quantity of periods
+// remove user-specific quantity of periods
 IEnumerable<AdxResult> results = 
   quotes.GetAdx(14)
-    .PruneWarmupPeriods(50);
+    .RemoveWarmupPeriods(50);
 ```
 
 See [individual indicator pages](INDICATORS.md) for information on recommended pruning quantities.
 
-:warning: Note: `.PruneWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.PruneWarmupPeriods(prunePeriods)`.
+:warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 
-:warning: WARNING! `.PruneWarmupPeriods()` will reverse-engineer some parameters in determing the recommended pruning amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use the `.PruneWarmupPeriods(prunePeriods)` with a specific number of `prunePeriods`.
+:warning: WARNING! `.RemoveWarmupPeriods()` will reverse-engineer some parameters in determing the recommended pruning amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use the `.RemoveWarmupPeriods(removePeriods)` with a specific number of `removePeriods`.
 
 ### Find indicator result by date
 

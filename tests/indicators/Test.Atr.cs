@@ -57,10 +57,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<AtrResult> results = quotes.GetAtr(14)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

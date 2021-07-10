@@ -55,7 +55,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int emaPeriods = 20;
             int multiplier = 2;
@@ -64,7 +64,7 @@ namespace Internal.Tests
 
             List<KeltnerResult> results =
                 quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions

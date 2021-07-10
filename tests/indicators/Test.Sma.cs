@@ -40,10 +40,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<SmaResult> results = quotes.GetSma(20)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

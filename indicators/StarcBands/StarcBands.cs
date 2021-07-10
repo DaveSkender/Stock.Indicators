@@ -57,15 +57,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<StarcBandsResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<StarcBandsResult> RemoveWarmupPeriods(
             this IEnumerable<StarcBandsResult> results)
         {
             int n = results
                 .ToList()
                 .FindIndex(x => x.UpperBand != null || x.LowerBand != null) + 1;
 
-            return results.Prune(n + 150);
+            return results.Remove(n + 150);
         }
 
 

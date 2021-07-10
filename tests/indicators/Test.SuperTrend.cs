@@ -78,14 +78,14 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int lookbackPeriods = 14;
             decimal multiplier = 3;
 
             List<SuperTrendResult> results =
                 quotes.GetSuperTrend(lookbackPeriods, multiplier)
-                 .PruneWarmupPeriods()
+                 .RemoveWarmupPeriods()
                  .ToList();
 
             // assertions

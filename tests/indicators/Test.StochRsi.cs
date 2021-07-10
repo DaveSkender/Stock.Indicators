@@ -92,7 +92,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int rsiPeriods = 14;
             int stochPeriods = 14;
@@ -101,12 +101,12 @@ namespace Internal.Tests
 
             List<StochRsiResult> results =
                 Indicator.GetStochRsi(quotes, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions
-            int pruneQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
-            Assert.AreEqual(502 - pruneQty, results.Count);
+            int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
+            Assert.AreEqual(502 - removeQty, results.Count);
 
             StochRsiResult last = results.LastOrDefault();
             Assert.AreEqual(89.8385m, Math.Round((decimal)last.StochRsi, 4));

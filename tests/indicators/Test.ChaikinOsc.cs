@@ -42,13 +42,13 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int fastPeriods = 3;
             int slowPeriods = 10;
 
             List<ChaikinOscResult> results = quotes.GetChaikinOsc(fastPeriods, slowPeriods)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

@@ -54,7 +54,7 @@ Also, if you do not supply enough points to cover the percent change, there will
 ### Utilities
 
 - [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
-- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
 See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
 

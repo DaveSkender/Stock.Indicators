@@ -118,14 +118,14 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int lookbackPeriods = 20;
             decimal standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
                 quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions

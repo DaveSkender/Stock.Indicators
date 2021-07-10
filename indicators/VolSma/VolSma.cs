@@ -47,15 +47,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<VolSmaResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<VolSmaResult> RemoveWarmupPeriods(
             this IEnumerable<VolSmaResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.VolSma != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 

@@ -70,15 +70,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<UlcerIndexResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<UlcerIndexResult> RemoveWarmupPeriods(
             this IEnumerable<UlcerIndexResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.UI != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 

@@ -95,15 +95,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<VortexResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<VortexResult> RemoveWarmupPeriods(
             this IEnumerable<VortexResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Pvi != null || x.Nvi != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 

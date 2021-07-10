@@ -86,15 +86,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<KamaResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<KamaResult> RemoveWarmupPeriods(
             this IEnumerable<KamaResult> results)
         {
             int erPeriods = results
                 .ToList()
                 .FindIndex(x => x.ER != null);
 
-            return results.Prune(Math.Max(erPeriods + 100, 10 * erPeriods));
+            return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
         }
 
 

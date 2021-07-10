@@ -53,10 +53,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             IEnumerable<AdxResult> r = quotes.GetAdx(14)
-                .PruneWarmupPeriods();
+                .RemoveWarmupPeriods();
 
             // assertions
             Assert.AreEqual(502 - (2 * 14 + 100), r.Count());

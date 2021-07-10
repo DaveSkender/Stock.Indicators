@@ -49,14 +49,14 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             decimal acclerationStep = 0.02m;
             decimal maxAccelerationFactor = 0.2m;
 
             List<ParabolicSarResult> results =
                 quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions

@@ -50,11 +50,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             List<ChandelierResult> longResult =
                 quotes.GetChandelier(22, 3.0m)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions

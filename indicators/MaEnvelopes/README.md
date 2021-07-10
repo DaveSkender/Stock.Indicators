@@ -66,7 +66,7 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 ### Utilities
 
 - [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
-- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
 See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
 

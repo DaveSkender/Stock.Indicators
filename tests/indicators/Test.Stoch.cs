@@ -123,7 +123,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int lookbackPeriods = 14;
             int signalPeriods = 3;
@@ -131,7 +131,7 @@ namespace Internal.Tests
 
             List<StochResult> results =
                 quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions

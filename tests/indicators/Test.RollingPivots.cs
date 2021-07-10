@@ -400,7 +400,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int windowPeriods = 11;
             int offsetPeriods = 9;
@@ -408,7 +408,7 @@ namespace Internal.Tests
 
             List<RollingPivotsResult> results =
                 quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions

@@ -78,15 +78,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<TrixResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<TrixResult> RemoveWarmupPeriods(
             this IEnumerable<TrixResult> results)
         {
             int n3 = results
                 .ToList()
                 .FindIndex(x => x.Trix != null) + 2;
 
-            return results.Prune(n3 + 250);
+            return results.Remove(n3 + 250);
         }
 
 

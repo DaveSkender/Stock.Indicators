@@ -23,11 +23,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void PruneException()
+        public void RemoveException()
         {
-            // bad prune period
+            // bad remove period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                quotes.GetAdx(14).PruneWarmupPeriods(-1)); ;
+                quotes.GetAdx(14).RemoveWarmupPeriods(-1)); ;
         }
 
     }

@@ -55,11 +55,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
 
             List<AlmaResult> results = quotes.GetAlma(10, 0.85, 6)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

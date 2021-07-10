@@ -406,13 +406,13 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             PeriodSize periodSize = PeriodSize.Month;
             PivotPointType pointType = PivotPointType.Standard;
 
             List<PivotPointsResult> results = quotes.GetPivotPoints(periodSize, pointType)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

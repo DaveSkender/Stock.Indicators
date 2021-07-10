@@ -139,15 +139,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<KvoResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<KvoResult> RemoveWarmupPeriods(
             this IEnumerable<KvoResult> results)
         {
             int l = results
                 .ToList()
                 .FindIndex(x => x.Oscillator != null) - 1;
 
-            return results.Prune(l + 150);
+            return results.Remove(l + 150);
         }
 
 

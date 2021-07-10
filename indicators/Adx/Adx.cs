@@ -154,15 +154,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<AdxResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<AdxResult> RemoveWarmupPeriods(
             this IEnumerable<AdxResult> results)
         {
             int n = results
                 .ToList()
                 .FindIndex(x => x.Pdi != null);
 
-            return results.Prune(2 * n + 100);
+            return results.Remove(2 * n + 100);
         }
 
 

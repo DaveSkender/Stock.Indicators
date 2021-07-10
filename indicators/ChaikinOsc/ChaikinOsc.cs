@@ -53,15 +53,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<ChaikinOscResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<ChaikinOscResult> RemoveWarmupPeriods(
             this IEnumerable<ChaikinOscResult> results)
         {
             int s = results
                 .ToList()
                 .FindIndex(x => x.Oscillator != null) + 1;
 
-            return results.Prune(s + 100);
+            return results.Remove(s + 100);
         }
 
 

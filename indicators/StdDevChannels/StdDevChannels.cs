@@ -59,15 +59,15 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // prune recommended periods extensions
-        public static IEnumerable<StdDevChannelsResult> PruneWarmupPeriods(
+        // remove recommended periods extensions
+        public static IEnumerable<StdDevChannelsResult> RemoveWarmupPeriods(
             this IEnumerable<StdDevChannelsResult> results)
         {
-            int prunePeriods = results
+            int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
 
-            return results.Prune(prunePeriods);
+            return results.Remove(removePeriods);
         }
 
 

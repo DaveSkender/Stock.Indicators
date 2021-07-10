@@ -77,11 +77,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             // no start date
             List<VwapResult> results = intraday.GetVwap()
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
@@ -95,7 +95,7 @@ namespace Internal.Tests
             DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
 
             List<VwapResult> sdResults = Indicator.GetVwap(intraday, startDate)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

@@ -62,11 +62,11 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int lookbackPeriods = 14;
             List<MfiResult> results = quotes.GetMfi(lookbackPeriods)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

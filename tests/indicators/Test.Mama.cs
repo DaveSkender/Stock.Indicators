@@ -64,13 +64,13 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             decimal fastLimit = 0.5m;
             decimal slowLimit = 0.05m;
 
             List<MamaResult> results = quotes.GetMama(fastLimit, slowLimit)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

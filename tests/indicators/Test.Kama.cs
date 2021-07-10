@@ -66,14 +66,14 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int erPeriods = 10;
             int fastPeriods = 2;
             int slowPeriods = 30;
 
             List<KamaResult> results = quotes.GetKama(erPeriods, fastPeriods, slowPeriods)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

@@ -55,7 +55,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int fastPeriods = 12;
             int slowPeriods = 26;
@@ -63,7 +63,7 @@ namespace Internal.Tests
 
             List<MacdResult> results =
                 quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions

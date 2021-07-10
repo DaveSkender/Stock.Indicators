@@ -66,7 +66,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int smaPeriods = 20;
             int multiplier = 2;
@@ -75,7 +75,7 @@ namespace Internal.Tests
 
             List<StarcBandsResult> results =
                 quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
-                    .PruneWarmupPeriods()
+                    .RemoveWarmupPeriods()
                     .ToList();
 
             // assertions

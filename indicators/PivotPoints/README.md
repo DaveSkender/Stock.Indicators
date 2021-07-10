@@ -70,8 +70,8 @@ The first window will have `null` values since there's not enough data to calcul
 ### Utilities
 
 - [.Find()](../../docs/UTILITIES.md#find-indicator-result-by-date)
-- [.PruneWarmupPeriods()](../../docs/UTILITIES.md#prune-warmup-periods)
-- [.PruneWarmupPeriods(qty)](../../docs/UTILITIES.md#prune-warmup-periods)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
 See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
 

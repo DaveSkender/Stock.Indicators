@@ -58,10 +58,10 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             IEnumerable<AlligatorResult> r = quotes.GetAlligator()
-                .PruneWarmupPeriods();
+                .RemoveWarmupPeriods();
 
             Assert.AreEqual(237, r.Count());
 

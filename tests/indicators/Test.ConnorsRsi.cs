@@ -53,22 +53,22 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void Pruned()
+        public void Removed()
         {
             int rsiPeriods = 3;
             int streakPeriods = 2;
             int rankPeriods = 100;
 
             // TODO: I don't think this is right, inconsistent
-            int prunePeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
+            int removePeriods = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             List<ConnorsRsiResult> results =
                 quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
-                .PruneWarmupPeriods()
+                .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - prunePeriod + 1, results.Count);
+            Assert.AreEqual(502 - removePeriods + 1, results.Count);
 
             ConnorsRsiResult last = results.LastOrDefault();
             Assert.AreEqual(68.8087m, Math.Round((decimal)last.RsiClose, 4));
