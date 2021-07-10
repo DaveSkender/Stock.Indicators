@@ -31,6 +31,7 @@
        Slope;Standard;Deviation;Beta;Correlation;SuperTrend;Ulcer;Ultimate;Vortex;Williams;%R;Alligator;Gator;
        Fractal;Chaos;Choppiness;Endpoint;WMA;ZigZag;.NET;C#;Library;Package;
     </PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>More info: https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageLicenseFile></PackageLicenseFile>
@@ -47,6 +48,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
