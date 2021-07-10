@@ -17,31 +17,31 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateRoc(quotes, lookbackPeriods, smaPeriods);
 
             // initialize
-            List<RocResult> results = new(historyList.Count);
+            List<RocResult> results = new(quotesList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 RocResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index > lookbackPeriods)
                 {
-                    TQuote back = historyList[index - lookbackPeriods - 1];
+                    TQuote back = quotesList[index - lookbackPeriods - 1];
 
                     result.Roc = (back.Close == 0) ? null
-                        : 100 * (h.Close - back.Close) / back.Close;
+                        : 100 * (q.Close - back.Close) / back.Close;
                 }
 
                 results.Add(result);

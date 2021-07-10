@@ -16,23 +16,23 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateFisherTransform(quotes, lookbackPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             decimal[] pr = new decimal[size]; // median price
             double[] xv = new double[size];  // price transform "value"
             List<FisherTransformResult> results = new(size);
 
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
-                pr[i] = (h.High + h.Low) / 2m;
+                TQuote q = quotesList[i];
+                pr[i] = (q.High + q.Low) / 2m;
 
                 decimal minPrice = pr[i];
                 decimal maxPrice = pr[i];
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
 
                 FisherTransformResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (i > 0)

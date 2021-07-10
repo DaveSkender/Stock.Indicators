@@ -16,44 +16,44 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateObv(quotes, smaPeriods);
 
             // initialize
-            List<ObvResult> results = new(historyList.Count);
+            List<ObvResult> results = new(quotesList.Count);
 
             decimal? prevClose = null;
             decimal obv = 0;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
-                if (prevClose == null || h.Close == prevClose)
+                if (prevClose == null || q.Close == prevClose)
                 {
                     // no change to OBV
                 }
-                else if (h.Close > prevClose)
+                else if (q.Close > prevClose)
                 {
-                    obv += h.Volume;
+                    obv += q.Volume;
                 }
-                else if (h.Close < prevClose)
+                else if (q.Close < prevClose)
                 {
-                    obv -= h.Volume;
+                    obv -= q.Volume;
                 }
 
                 ObvResult result = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                     Obv = obv
                 };
                 results.Add(result);
 
-                prevClose = h.Close;
+                prevClose = q.Close;
 
                 // optional SMA
                 if (smaPeriods != null && index > smaPeriods)

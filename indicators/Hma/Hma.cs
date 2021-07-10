@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateHma(quotes, lookbackPeriods);
@@ -28,13 +28,13 @@ namespace Skender.Stock.Indicators
             List<WmaResult> wmaN2 = GetWma(quotes, lookbackPeriods / 2).ToList();
 
             // roll through quotes, to get interim synthetic quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 Quote sh = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 WmaResult w1 = wmaN1[i];
@@ -51,7 +51,7 @@ namespace Skender.Stock.Indicators
             int sqN = (int)Math.Sqrt(lookbackPeriods);
             int shiftQty = lookbackPeriods - 1;
 
-            List<HmaResult> results = historyList
+            List<HmaResult> results = quotesList
                 .Take(shiftQty)
                 .Select(x => new HmaResult
                 {

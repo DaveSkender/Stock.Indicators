@@ -18,22 +18,22 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateRollingPivots(quotes, windowPeriods, offsetPeriods);
 
             // initialize
-            List<RollingPivotsResult> results = new(historyList.Count);
+            List<RollingPivotsResult> results = new(quotesList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 RollingPivotsResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (i >= windowPeriods + offsetPeriods)
@@ -41,22 +41,22 @@ namespace Skender.Stock.Indicators
 
                     // window values
                     int s = i - windowPeriods - offsetPeriods;
-                    TQuote hi = historyList[s];
+                    TQuote hi = quotesList[s];
 
                     decimal windowHigh = hi.High;
                     decimal windowLow = hi.Low;
-                    decimal windowClose = historyList[i - offsetPeriods - 1].Close;
+                    decimal windowClose = quotesList[i - offsetPeriods - 1].Close;
 
                     for (int p = s; p <= i - offsetPeriods - 1; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         windowHigh = (d.High > windowHigh) ? d.High : windowHigh;
                         windowLow = (d.Low < windowLow) ? d.Low : windowLow;
                     }
 
                     // pivot points
                     RollingPivotsResult wp = GetPivotPoint<RollingPivotsResult>(
-                            pointType, h.Open, windowHigh, windowLow, windowClose);
+                            pointType, q.Open, windowHigh, windowLow, windowClose);
 
                     r.PP = wp.PP;
                     r.S1 = wp.S1;

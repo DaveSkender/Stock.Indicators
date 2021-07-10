@@ -16,23 +16,23 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateAroon(quotes, lookbackPeriods);
 
             // initialize
-            List<AroonResult> results = new(historyList.Count);
+            List<AroonResult> results = new(quotesList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 AroonResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // add aroons
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods - 1; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
 
                         if (d.High > lastHighPrice)
                         {

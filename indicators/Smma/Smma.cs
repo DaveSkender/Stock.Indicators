@@ -15,30 +15,30 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateSmma(quotes, lookbackPeriods);
 
             // initialize
-            List<SmmaResult> results = new(historyList.Count);
+            List<SmmaResult> results = new(quotesList.Count);
             decimal? prevValue = null;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 SmmaResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // calculate SMMA
                 if (index > lookbackPeriods)
                 {
-                    result.Smma = (prevValue * (lookbackPeriods - 1) + h.Close) / lookbackPeriods;
+                    result.Smma = (prevValue * (lookbackPeriods - 1) + q.Close) / lookbackPeriods;
                 }
 
                 // first SMMA calculated as simple SMA
@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
                     decimal sumClose = 0m;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         sumClose += d.Close;
                     }
 

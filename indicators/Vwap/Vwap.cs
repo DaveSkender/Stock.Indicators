@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateVwap(historyList, startDate);
+            ValidateVwap(quotesList, startDate);
 
             // initialize
-            int size = historyList.Count;
-            startDate = (startDate == null) ? historyList[0].Date : startDate;
+            int size = quotesList.Count;
+            startDate = (startDate == null) ? quotesList[0].Date : startDate;
             List<VwapResult> results = new(size);
 
             decimal cumVolume = 0m;
@@ -32,17 +32,17 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 VwapResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (h.Date >= startDate)
+                if (q.Date >= startDate)
                 {
-                    cumVolume += h.Volume;
-                    cumVolumeTP += h.Volume * (h.High + h.Low + h.Close) / 3;
+                    cumVolume += q.Volume;
+                    cumVolumeTP += q.Volume * (q.High + q.Low + q.Close) / 3;
 
                     r.Vwap = (cumVolume != 0) ? cumVolumeTP / cumVolume : null;
                 }
@@ -68,7 +68,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateVwap<TQuote>(
-            List<TQuote> historyList,
+            List<TQuote> quotesList,
             DateTime? startDate)
             where TQuote : IQuote
         {
@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
             // check quotes: done under Sort() for 0 length
 
             // check parameter arguments (intentionally after quotes check)
-            if (startDate < historyList[0].Date)
+            if (startDate < quotesList[0].Date)
             {
                 throw new ArgumentOutOfRangeException(nameof(startDate), startDate,
                     "Start Date must be within the quotes range for VWAP.");

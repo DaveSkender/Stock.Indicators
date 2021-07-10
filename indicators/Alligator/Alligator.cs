@@ -14,13 +14,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateAlligator(quotes);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             decimal[] pr = new decimal[size]; // median price
 
             int jawLookback = 13;
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
             int lipsOffset = 3;
 
             List<AlligatorResult> results =
-                historyList
+                quotesList
                 .Select(x => new AlligatorResult
                 {
                     Date = x.Date
@@ -41,9 +41,9 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
-                pr[i] = (h.High + h.Low) / 2;
+                pr[i] = (q.High + q.Low) / 2;
 
                 // only calculate jaw if the array index + offset is still in valid range
                 if (i + jawOffset < size)

@@ -17,15 +17,15 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateZigZag(quotes, percentChange);
 
             // initialize
-            List<ZigZagResult> results = new(historyList.Count);
+            List<ZigZagResult> results = new(quotesList.Count);
             decimal changeThreshold = percentChange / 100m;
-            TQuote firstQuote = historyList[0];
+            TQuote firstQuote = quotesList[0];
             ZigZagEval eval = GetZigZagEval(type, 1, firstQuote);
 
             ZigZagPoint lastPoint = new()
@@ -49,15 +49,15 @@ namespace Skender.Stock.Indicators
                 PointType = "L"
             };
 
-            int finalPointIndex = historyList.Count;
+            int finalPointIndex = quotesList.Count;
 
             // roll through quotes, to find initial trend
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
-                eval = GetZigZagEval(type, index, h);
+                eval = GetZigZagEval(type, index, q);
 
                 decimal? changeUp = (lastLowPoint.Value == 0) ? null
                     : (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
@@ -92,11 +92,11 @@ namespace Skender.Stock.Indicators
             // find and draw lines
             while (lastPoint.Index < finalPointIndex)
             {
-                ZigZagPoint nextPoint = EvaluateNextPoint(historyList, type, changeThreshold, lastPoint);
+                ZigZagPoint nextPoint = EvaluateNextPoint(quotesList, type, changeThreshold, lastPoint);
                 string lastDirection = lastPoint.PointType;
 
                 // draw line (and reset last point)
-                DrawZigZagLine(results, historyList, lastPoint, nextPoint);
+                DrawZigZagLine(results, quotesList, lastPoint, nextPoint);
 
                 // draw retrace line (and reset last high/low point)
                 DrawRetraceLine(results, lastDirection, lastLowPoint, lastHighPoint, nextPoint);
@@ -108,7 +108,7 @@ namespace Skender.Stock.Indicators
 
         // internals
         private static ZigZagPoint EvaluateNextPoint<TQuote>(
-            List<TQuote> historyList,
+            List<TQuote> quotesList,
             ZigZagType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
             // initialize
@@ -123,12 +123,12 @@ namespace Skender.Stock.Indicators
             };
 
             // find extreme point before reversal point
-            for (int i = lastPoint.Index; i < historyList.Count; i++)
+            for (int i = lastPoint.Index; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
-                ZigZagEval eval = GetZigZagEval(type, index, h);
+                ZigZagEval eval = GetZigZagEval(type, index, q);
 
                 // reset extreme point
                 if (trendUp)
@@ -166,7 +166,7 @@ namespace Skender.Stock.Indicators
             }
 
             // handle last unconfirmed point
-            int finalPointIndex = historyList.Count;
+            int finalPointIndex = quotesList.Count;
             if (extremePoint.Index == finalPointIndex && change < changeThreshold)
             {
                 extremePoint.PointType = null;
@@ -176,7 +176,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> historyList,
+        private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> quotesList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
         {
 
@@ -187,12 +187,12 @@ namespace Skender.Stock.Indicators
                 // add new line segment
                 for (int i = lastPoint.Index; i < nextPoint.Index; i++)
                 {
-                    TQuote h = historyList[i];
+                    TQuote q = quotesList[i];
                     int index = i + 1;
 
                     ZigZagResult result = new()
                     {
-                        Date = h.Date,
+                        Date = q.Date,
                         ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
                             lastPoint.Value + increment * (index - lastPoint.Index) : null,
                         PointType = (index == nextPoint.Index) ? nextPoint.PointType : null

@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateAdx(quotes, lookbackPeriods);
 
             // initialize
-            List<AdxResult> results = new(historyList.Count);
+            List<AdxResult> results = new(quotesList.Count);
             List<AtrResult> atr = GetAtr(quotes, lookbackPeriods).ToList(); // get True Range info
 
             decimal prevHigh = 0;
@@ -38,35 +38,35 @@ namespace Skender.Stock.Indicators
             decimal sumDx = 0;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 AdxResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
                 results.Add(result);
 
                 // skip first period
                 if (index == 1)
                 {
-                    prevHigh = h.High;
-                    prevLow = h.Low;
+                    prevHigh = q.High;
+                    prevLow = q.Low;
                     continue;
                 }
 
                 decimal tr = (decimal)atr[i].Tr;
 
-                decimal pdm1 = (h.High - prevHigh) > (prevLow - h.Low) ?
-                    Math.Max(h.High - prevHigh, 0) : 0;
+                decimal pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
+                    Math.Max(q.High - prevHigh, 0) : 0;
 
-                decimal mdm1 = (prevLow - h.Low) > (h.High - prevHigh) ?
-                    Math.Max(prevLow - h.Low, 0) : 0;
+                decimal mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
+                    Math.Max(prevLow - q.Low, 0) : 0;
 
-                prevHigh = h.High;
-                prevLow = h.Low;
+                prevHigh = q.High;
+                prevLow = q.Low;
 
                 // initialization period
                 if (index <= lookbackPeriods + 1)

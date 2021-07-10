@@ -18,24 +18,24 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<StochResult> results = new(size);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 StochResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index >= lookbackPeriods)
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
 
                         if (d.High > highHigh)
                         {
@@ -59,7 +59,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     result.Oscillator = lowLow != highHigh
-                        ? 100 * ((h.Close - lowLow) / (highHigh - lowLow))
+                        ? 100 * ((q.Close - lowLow) / (highHigh - lowLow))
                         : 0;
                 }
                 results.Add(result);

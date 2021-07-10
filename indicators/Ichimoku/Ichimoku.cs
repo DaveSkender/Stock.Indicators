@@ -18,30 +18,30 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateIchimoku(quotes, signalPeriods, shortSpanPeriods, longSpanPeriods);
 
             // initialize
-            List<IchimokuResult> results = new(historyList.Count);
+            List<IchimokuResult> results = new(quotesList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 IchimokuResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // tenkan-sen conversion line
-                CalcIchimokuTenkanSen(index, historyList, result, signalPeriods);
+                CalcIchimokuTenkanSen(index, quotesList, result, signalPeriods);
 
                 // kijun-sen base line
-                CalcIchimokuKijunSen(index, historyList, result, shortSpanPeriods);
+                CalcIchimokuKijunSen(index, quotesList, result, shortSpanPeriods);
 
                 // senkou span A
                 if (index >= 2 * shortSpanPeriods)
@@ -55,12 +55,12 @@ namespace Skender.Stock.Indicators
                 }
 
                 // senkou span B
-                CalcIchimokuSenkouB(index, historyList, result, shortSpanPeriods, longSpanPeriods);
+                CalcIchimokuSenkouB(index, quotesList, result, shortSpanPeriods, longSpanPeriods);
 
                 // chikou line
-                if (index + shortSpanPeriods <= historyList.Count)
+                if (index + shortSpanPeriods <= quotesList.Count)
                 {
-                    result.ChikouSpan = historyList[index + shortSpanPeriods - 1].Close;
+                    result.ChikouSpan = quotesList[index + shortSpanPeriods - 1].Close;
                 }
                 results.Add(result);
             }
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuTenkanSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int signalPeriods)
+            int index, List<TQuote> quotesList, IchimokuResult result, int signalPeriods)
             where TQuote : IQuote
         {
             if (index >= signalPeriods)
@@ -80,7 +80,7 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - signalPeriods; p < index; p++)
                 {
-                    TQuote d = historyList[p];
+                    TQuote d = quotesList[p];
 
                     if (d.High > max)
                     {
@@ -99,7 +99,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuKijunSen<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result, int shortSpanPeriods)
+            int index, List<TQuote> quotesList, IchimokuResult result, int shortSpanPeriods)
             where TQuote : IQuote
         {
             if (index >= shortSpanPeriods)
@@ -109,7 +109,7 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - shortSpanPeriods; p < index; p++)
                 {
-                    TQuote d = historyList[p];
+                    TQuote d = quotesList[p];
 
                     if (d.High > max)
                     {
@@ -128,7 +128,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuSenkouB<TQuote>(
-            int index, List<TQuote> historyList, IchimokuResult result,
+            int index, List<TQuote> quotesList, IchimokuResult result,
             int shortSpanPeriods, int longSpanPeriods)
             where TQuote : IQuote
         {
@@ -140,7 +140,7 @@ namespace Skender.Stock.Indicators
                 for (int p = index - shortSpanPeriods - longSpanPeriods;
                     p < index - shortSpanPeriods; p++)
                 {
-                    TQuote d = historyList[p];
+                    TQuote d = quotesList[p];
 
                     if (d.High > max)
                     {

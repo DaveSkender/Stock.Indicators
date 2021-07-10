@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateAtr(quotes, lookbackPeriods);
 
             // initialize
-            List<AtrResult> results = new(historyList.Count);
+            List<AtrResult> results = new(quotesList.Count);
             decimal prevAtr = 0;
             decimal prevClose = 0;
             decimal highMinusPrevClose = 0;
@@ -30,30 +30,30 @@ namespace Skender.Stock.Indicators
             decimal sumTr = 0;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 AtrResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index > 1)
                 {
-                    highMinusPrevClose = Math.Abs(h.High - prevClose);
-                    lowMinusPrevClose = Math.Abs(h.Low - prevClose);
+                    highMinusPrevClose = Math.Abs(q.High - prevClose);
+                    lowMinusPrevClose = Math.Abs(q.Low - prevClose);
                 }
 
-                decimal tr = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
+                decimal tr = Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
                 result.Tr = tr;
 
                 if (index > lookbackPeriods)
                 {
                     // calculate ATR
                     result.Atr = (prevAtr * (lookbackPeriods - 1) + tr) / lookbackPeriods;
-                    result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
+                    result.Atrp = (q.Close == 0) ? null : (result.Atr / q.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
                 else if (index == lookbackPeriods)
@@ -61,7 +61,7 @@ namespace Skender.Stock.Indicators
                     // initialize ATR
                     sumTr += tr;
                     result.Atr = sumTr / lookbackPeriods;
-                    result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
+                    result.Atrp = (q.Close == 0) ? null : (result.Atr / q.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
                 else
@@ -71,7 +71,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 results.Add(result);
-                prevClose = h.Close;
+                prevClose = q.Close;
             }
 
             return results;
