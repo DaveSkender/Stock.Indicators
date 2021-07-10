@@ -199,6 +199,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetHurst()
+        {
+            return h.GetHurst();
+        }
+
+        [Benchmark]
         public object GetIchimoku()
         {
             return h.GetIchimoku();
