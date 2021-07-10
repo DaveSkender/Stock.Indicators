@@ -25,7 +25,7 @@ IEnumerable<ObvResult> results =
 
 You must have at least two historical quotes; however, since this is a trendline, more is recommended.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 

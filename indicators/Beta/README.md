@@ -21,7 +21,7 @@ IEnumerable<BetaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of quotes.  You must have at least the same matching date elements of `historyMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+You must have at least `N` periods of quotes.  You must have at least the same matching date elements of `historyMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 

@@ -22,7 +22,7 @@ IEnumerable<CorrResult> results =
 
 You must have at least `N` periods for both versions of `quotes`.  Mismatch histories will produce a `BadQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`historyA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`historyA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
