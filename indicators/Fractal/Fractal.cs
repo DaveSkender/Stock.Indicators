@@ -16,26 +16,26 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateFractal(quotes, windowSpan);
 
             // initialize
-            List<FractalResult> results = new(historyList.Count);
+            List<FractalResult> results = new(quotesList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 FractalResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index > windowSpan && index <= historyList.Count - windowSpan)
+                if (index > windowSpan && index <= quotesList.Count - windowSpan)
                 {
                     bool isHigh = true;
                     bool isLow = true;
@@ -49,14 +49,14 @@ namespace Skender.Stock.Indicators
                         }
 
                         // evaluate "wings"
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
 
-                        if (h.High <= d.High)
+                        if (q.High <= d.High)
                         {
                             isHigh = false;
                         }
 
-                        if (h.Low >= d.Low)
+                        if (q.Low >= d.Low)
                         {
                             isLow = false;
                         }
@@ -65,13 +65,13 @@ namespace Skender.Stock.Indicators
                     // bearish signal
                     if (isHigh)
                     {
-                        r.FractalBear = h.High;
+                        r.FractalBear = q.High;
                     }
 
                     // bullish signal
                     if (isLow)
                     {
-                        r.FractalBull = h.Low;
+                        r.FractalBull = q.Low;
                     }
                 }
 

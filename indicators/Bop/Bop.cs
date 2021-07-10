@@ -16,16 +16,16 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateBop(quotes, smoothPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<BopResult> results = new(size);
 
-            decimal?[] raw = historyList
+            decimal?[] raw = quotesList
                 .Select(x => (x.High != x.Low) ?
                     (x.Close - x.Open) / (x.High - x.Low) : (decimal?)null)
                 .ToArray();
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
             {
                 BopResult r = new()
                 {
-                    Date = historyList[i].Date
+                    Date = quotesList[i].Date
                 };
 
                 if (i >= smoothPeriods - 1)

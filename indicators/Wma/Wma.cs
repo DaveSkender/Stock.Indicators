@@ -16,24 +16,24 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateWma(quotes, lookbackPeriods);
 
             // initialize
-            List<WmaResult> results = new(historyList.Count);
+            List<WmaResult> results = new(quotesList.Count);
             decimal divisor = (lookbackPeriods * (lookbackPeriods + 1)) / 2m;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 WmaResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index >= lookbackPeriods)
@@ -41,7 +41,7 @@ namespace Skender.Stock.Indicators
                     decimal wma = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         wma += d.Close * (lookbackPeriods - (decimal)(index - p - 1)) / divisor;
                     }
 

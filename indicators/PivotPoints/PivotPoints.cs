@@ -17,16 +17,16 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidatePivotPoints(quotes, windowSize);
 
             // initialize
-            List<PivotPointsResult> results = new(historyList.Count);
+            List<PivotPointsResult> results = new(quotesList.Count);
             PivotPointsResult windowPoint = new();
 
-            TQuote h0 = historyList[0];
+            TQuote h0 = quotesList[0];
             int windowId = GetWindowNumber(h0.Date, windowSize);
             int windowEval;
             bool firstWindow = true;
@@ -37,17 +37,17 @@ namespace Skender.Stock.Indicators
             decimal windowClose = h0.Close;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 PivotPointsResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // new window evaluation
-                windowEval = GetWindowNumber(h.Date, windowSize);
+                windowEval = GetWindowNumber(q.Date, windowSize);
 
                 if (windowEval != windowId)
                 {
@@ -57,16 +57,16 @@ namespace Skender.Stock.Indicators
                     // set new levels
                     if (pointType == PivotPointType.Woodie)
                     {
-                        windowOpen = h.Open;
+                        windowOpen = q.Open;
                     }
 
                     windowPoint = GetPivotPoint<PivotPointsResult>(
                         pointType, windowOpen, windowHigh, windowLow, windowClose);
 
                     // reset window min/max thresholds
-                    windowOpen = h.Open;
-                    windowHigh = h.High;
-                    windowLow = h.Low;
+                    windowOpen = q.Open;
+                    windowHigh = q.High;
+                    windowLow = q.Low;
                 }
 
                 // add levels
@@ -91,9 +91,9 @@ namespace Skender.Stock.Indicators
                 results.Add(r);
 
                 // capture window threholds (for next iteration)
-                windowHigh = (h.High > windowHigh) ? h.High : windowHigh;
-                windowLow = (h.Low < windowLow) ? h.Low : windowLow;
-                windowClose = h.Close;
+                windowHigh = (q.High > windowHigh) ? q.High : windowHigh;
+                windowLow = (q.Low < windowLow) ? q.Low : windowLow;
+                windowClose = q.Close;
             }
 
             return results;

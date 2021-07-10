@@ -18,37 +18,37 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateKama(quotes, erPeriods, fastPeriods, slowPeriods);
 
             // initialize
-            List<KamaResult> results = new(historyList.Count);
+            List<KamaResult> results = new(quotesList.Count);
             decimal scFast = 2m / (fastPeriods + 1);
             decimal scSlow = 2m / (slowPeriods + 1);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 KamaResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index > erPeriods)
                 {
                     // ER period change
-                    decimal change = Math.Abs(h.Close - historyList[i - erPeriods].Close);
+                    decimal change = Math.Abs(q.Close - quotesList[i - erPeriods].Close);
 
                     // volatility
                     decimal sumPV = 0m;
                     for (int p = i - erPeriods + 1; p <= i; p++)
                     {
-                        sumPV += Math.Abs(historyList[p].Close - historyList[p - 1].Close);
+                        sumPV += Math.Abs(quotesList[p].Close - quotesList[p - 1].Close);
                     }
 
                     if (sumPV != 0)
@@ -62,21 +62,21 @@ namespace Skender.Stock.Indicators
 
                         // kama calculation
                         decimal? pk = results[i - 1].Kama;  // prior KAMA
-                        r.Kama = pk + sc * sc * (h.Close - pk);
+                        r.Kama = pk + sc * sc * (q.Close - pk);
                     }
 
                     // handle flatline case
                     else
                     {
                         r.ER = 0;
-                        r.Kama = h.Close;
+                        r.Kama = q.Close;
                     }
                 }
 
                 // initial value
                 else if (index == erPeriods)
                 {
-                    r.Kama = h.Close;
+                    r.Kama = q.Close;
                 }
 
                 results.Add(r);

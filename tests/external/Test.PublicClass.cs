@@ -149,7 +149,7 @@ namespace External.Other
                 })
                 .ToList();
 
-            List<Quote> historyList = myGenericHistory
+            List<Quote> quotesList = myGenericHistory
                 .Aggregate(PeriodSize.TwoHours)
                 .ToList();
 
@@ -157,10 +157,10 @@ namespace External.Other
 
             // proper quantities
             // should always be the same number of results as there is quotes
-            Assert.AreEqual(20, historyList.Count);
+            Assert.AreEqual(20, quotesList.Count);
 
             // sample values
-            Quote r19 = historyList[19];
+            Quote r19 = quotesList[19];
             Assert.AreEqual(369.04m, r19.Low);
         }
 

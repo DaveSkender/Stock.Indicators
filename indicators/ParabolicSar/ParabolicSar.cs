@@ -17,14 +17,14 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateParabolicSar(quotes, accelerationStep, maxAccelerationFactor);
 
             // initialize
-            List<ParabolicSarResult> results = new(historyList.Count);
-            TQuote first = historyList[0];
+            List<ParabolicSarResult> results = new(quotesList.Count);
+            TQuote first = quotesList[0];
 
             decimal accelerationFactor = accelerationStep;
             decimal extremePoint = first.High;
@@ -32,13 +32,13 @@ namespace Skender.Stock.Indicators
             bool isRising = true;  // initial guess
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 ParabolicSarResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // skip first one
@@ -54,14 +54,14 @@ namespace Skender.Stock.Indicators
                     decimal currentSar = priorSar + accelerationFactor * (extremePoint - priorSar);
 
                     // turn down
-                    if (h.Low < currentSar)
+                    if (q.Low < currentSar)
                     {
                         result.IsReversal = true;
                         result.Sar = extremePoint;
 
                         isRising = false;
                         accelerationFactor = accelerationStep;
-                        extremePoint = h.Low;
+                        extremePoint = q.Low;
                     }
 
                     // continue rising
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
                         // SAR cannot be higher than last two lows
                         if (i >= 2)
                         {
-                            decimal minLastTwo = Math.Min(historyList[i - 1].Low, historyList[i - 2].Low);
+                            decimal minLastTwo = Math.Min(quotesList[i - 1].Low, quotesList[i - 2].Low);
 
                             result.Sar = Math.Min((decimal)result.Sar, minLastTwo);
                         }
@@ -82,9 +82,9 @@ namespace Skender.Stock.Indicators
                             result.Sar = (decimal)result.Sar;
                         }
 
-                        if (h.High > extremePoint)
+                        if (q.High > extremePoint)
                         {
-                            extremePoint = h.High;
+                            extremePoint = q.High;
                             accelerationFactor =
                                 Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
                         }
@@ -97,14 +97,14 @@ namespace Skender.Stock.Indicators
                     decimal currentSar = priorSar - accelerationFactor * (priorSar - extremePoint);
 
                     // turn up
-                    if (h.High > currentSar)
+                    if (q.High > currentSar)
                     {
                         result.IsReversal = true;
                         result.Sar = extremePoint;
 
                         isRising = true;
                         accelerationFactor = accelerationStep;
-                        extremePoint = h.High;
+                        extremePoint = q.High;
                     }
 
                     // continue falling
@@ -116,7 +116,7 @@ namespace Skender.Stock.Indicators
                         // SAR cannot be lower than last two highs
                         if (i >= 2)
                         {
-                            decimal maxLastTwo = Math.Max(historyList[i - 1].High, historyList[i - 2].High);
+                            decimal maxLastTwo = Math.Max(quotesList[i - 1].High, quotesList[i - 2].High);
 
                             result.Sar = Math.Max((decimal)result.Sar, maxLastTwo);
                         }
@@ -125,9 +125,9 @@ namespace Skender.Stock.Indicators
                             result.Sar = (decimal)result.Sar;
                         }
 
-                        if (h.Low < extremePoint)
+                        if (q.Low < extremePoint)
                         {
-                            extremePoint = h.Low;
+                            extremePoint = q.Low;
                             accelerationFactor =
                                 Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
                         }

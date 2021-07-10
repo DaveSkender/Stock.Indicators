@@ -18,26 +18,26 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateStarcBands(quotes, smaPeriods, multiplier, atrPeriods);
 
             // initialize
-            List<StarcBandsResult> results = new(historyList.Count);
+            List<StarcBandsResult> results = new(quotesList.Count);
             List<SmaResult> smaResults = GetSma(quotes, smaPeriods).ToList();
             List<AtrResult> atrResults = GetAtr(quotes, atrPeriods).ToList();
             int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 StarcBandsResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index >= lookbackPeriods)

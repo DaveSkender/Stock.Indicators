@@ -18,24 +18,24 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateChandelier(quotes, lookbackPeriods, multiplier);
 
             // initialize
-            List<ChandelierResult> results = new(historyList.Count);
+            List<ChandelierResult> results = new(quotesList.Count);
             List<AtrResult> atrResult = GetAtr(quotes, lookbackPeriods).ToList();  // uses ATR
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 ChandelierResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // add exit values
@@ -51,7 +51,7 @@ namespace Skender.Stock.Indicators
                             decimal maxHigh = 0;
                             for (int p = index - lookbackPeriods; p < index; p++)
                             {
-                                TQuote d = historyList[p];
+                                TQuote d = quotesList[p];
                                 if (d.High > maxHigh)
                                 {
                                     maxHigh = d.High;
@@ -66,7 +66,7 @@ namespace Skender.Stock.Indicators
                             decimal minLow = decimal.MaxValue;
                             for (int p = index - lookbackPeriods; p < index; p++)
                             {
-                                TQuote d = historyList[p];
+                                TQuote d = quotesList[p];
                                 if (d.Low < minLow)
                                 {
                                     minLow = d.Low;

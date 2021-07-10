@@ -16,23 +16,23 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateUlcer(quotes, lookbackPeriods);
 
             // initialize
-            List<UlcerIndexResult> results = new(historyList.Count);
+            List<UlcerIndexResult> results = new(quotesList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 UlcerIndexResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index >= lookbackPeriods)
@@ -40,13 +40,13 @@ namespace Skender.Stock.Indicators
                     double? sumSquared = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         int dIndex = p + 1;
 
                         decimal maxClose = 0;
-                        for (int q = index - lookbackPeriods; q < dIndex; q++)
+                        for (int s = index - lookbackPeriods; s < dIndex; s++)
                         {
-                            TQuote dd = historyList[q];
+                            TQuote dd = quotesList[s];
                             if (dd.Close > maxClose)
                             {
                                 maxClose = dd.Close;

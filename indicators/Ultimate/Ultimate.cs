@@ -18,13 +18,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateUltimate(quotes, shortPeriods, middlePeriods, longPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<UltimateResult> results = new(size);
             decimal[] bp = new decimal[size]; // buying pressure
             decimal[] tr = new decimal[size]; // true range
@@ -32,21 +32,21 @@ namespace Skender.Stock.Indicators
             decimal priorClose = 0;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 UltimateResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
                 results.Add(r);
 
                 if (i > 0)
                 {
-                    bp[i] = h.Close - Math.Min(h.Low, priorClose);
-                    tr[i] = Math.Max(h.High, priorClose) - Math.Min(h.Low, priorClose);
+                    bp[i] = q.Close - Math.Min(q.Low, priorClose);
+                    tr[i] = Math.Max(q.High, priorClose) - Math.Min(q.Low, priorClose);
                 }
 
                 if (index >= longPeriods + 1)
@@ -89,7 +89,7 @@ namespace Skender.Stock.Indicators
                     r.Ultimate = 100 * (4m * avg1 + 2m * avg2 + avg3) / 7m;
                 }
 
-                priorClose = h.Close;
+                priorClose = q.Close;
             }
 
             return results;

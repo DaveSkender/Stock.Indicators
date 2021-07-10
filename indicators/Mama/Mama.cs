@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateMama(quotes, fastLimit, slowLimit);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<MamaResult> results = new(size);
 
             double sumPr = 0d;
@@ -50,12 +50,12 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
-                pr[i] = (double)(h.High + h.Low) / 2;
+                TQuote q = quotesList[i];
+                pr[i] = (double)(q.High + q.Low) / 2;
 
                 MamaResult r = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                 };
 
                 if (i > 5)

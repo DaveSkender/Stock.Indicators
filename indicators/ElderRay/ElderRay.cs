@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateElderRay(quotes, lookbackPeriods);
@@ -31,13 +31,13 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // roll through quotes
-            for (int i = lookbackPeriods - 1; i < historyList.Count; i++)
+            for (int i = lookbackPeriods - 1; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 ElderRayResult r = results[i];
 
-                r.BullPower = h.High - r.Ema;
-                r.BearPower = h.Low - r.Ema;
+                r.BullPower = q.High - r.Ema;
+                r.BearPower = q.Low - r.Ema;
             }
 
             return results;

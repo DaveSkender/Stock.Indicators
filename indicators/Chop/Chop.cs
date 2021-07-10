@@ -16,10 +16,10 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateChop(historyList, lookbackPeriods);
+            ValidateChop(quotesList, lookbackPeriods);
 
             // initialize
             decimal sum;
@@ -27,25 +27,25 @@ namespace Skender.Stock.Indicators
             decimal low;
             decimal range;
 
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<ChopResult> results = new(size);
             decimal[] trueHigh = new decimal[size];
             decimal[] trueLow = new decimal[size];
             decimal[] trueRange = new decimal[size];
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
                 ChopResult r = new()
                 {
-                    Date = historyList[i].Date
+                    Date = quotesList[i].Date
                 };
                 results.Add(r);
 
                 if (i > 0)
                 {
-                    trueHigh[i] = Math.Max(historyList[i].High, historyList[i - 1].Close);
-                    trueLow[i] = Math.Min(historyList[i].Low, historyList[i - 1].Close);
+                    trueHigh[i] = Math.Max(quotesList[i].High, quotesList[i - 1].Close);
+                    trueLow[i] = Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
                     trueRange[i] = trueHigh[i] - trueLow[i];
 
                     // calculate CHOP

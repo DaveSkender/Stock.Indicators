@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateMfi(quotes, lookbackPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<MfiResult> results = new(size);
             decimal[] tp = new decimal[size];  // true price
             decimal[] mf = new decimal[size];  // raw MF value
@@ -31,20 +31,20 @@ namespace Skender.Stock.Indicators
             decimal? prevTP = null;
 
             // roll through quotes, to get preliminary data
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 MfiResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // true price
-                tp[i] = (h.High + h.Low + h.Close) / 3;
+                tp[i] = (q.High + q.Low + q.Close) / 3;
 
                 // raw money flow
-                mf[i] = tp[i] * h.Volume;
+                mf[i] = tp[i] * q.Volume;
 
                 // direction
                 if (prevTP == null || tp[i] == prevTP)

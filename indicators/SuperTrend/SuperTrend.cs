@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateSuperTrend(quotes, lookbackPeriods, multiplier);
 
             // initialize
-            List<SuperTrendResult> results = new(historyList.Count);
+            List<SuperTrendResult> results = new(quotesList.Count);
             List<AtrResult> atrResults = GetAtr(quotes, lookbackPeriods).ToList();
 
             bool isBullish = true;
@@ -31,21 +31,21 @@ namespace Skender.Stock.Indicators
             decimal? lowerBand = null;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 SuperTrendResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (i >= lookbackPeriods - 1)
                 {
 
-                    decimal mid = (h.High + h.Low) / 2;
+                    decimal mid = (q.High + q.Low) / 2;
                     decimal atr = (decimal)atrResults[i].Atr;
-                    decimal prevClose = historyList[i - 1].Close;
+                    decimal prevClose = quotesList[i - 1].Close;
 
                     // potential bands
                     decimal upperEval = mid + multiplier * atr;
@@ -54,7 +54,7 @@ namespace Skender.Stock.Indicators
                     // initial values
                     if (i == lookbackPeriods - 1)
                     {
-                        isBullish = (h.Close >= mid);
+                        isBullish = (q.Close >= mid);
 
                         upperBand = upperEval;
                         lowerBand = lowerEval;
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     // supertrend
-                    if (h.Close <= ((isBullish) ? lowerBand : upperBand))
+                    if (q.Close <= ((isBullish) ? lowerBand : upperBand))
                     {
                         r.SuperTrend = upperBand;
                         r.UpperBand = upperBand;

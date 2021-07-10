@@ -16,22 +16,22 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateDonchian(quotes, lookbackPeriods);
 
             // initialize
-            List<DonchianResult> results = new(historyList.Count);
+            List<DonchianResult> results = new(quotesList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 DonchianResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (i >= lookbackPeriods)
@@ -42,7 +42,7 @@ namespace Skender.Stock.Indicators
                     // high/low over prior periods
                     for (int p = i - lookbackPeriods; p < i; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
 
                         if (d.High > highHigh)
                         {

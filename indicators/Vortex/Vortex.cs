@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateVortex(quotes, lookbackPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<VortexResult> results = new(size);
 
             decimal[] tr = new decimal[size];
@@ -36,35 +36,35 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 VortexResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // skip first period
                 if (index == 1)
                 {
                     results.Add(result);
-                    prevHigh = h.High;
-                    prevLow = h.Low;
-                    prevClose = h.Close;
+                    prevHigh = q.High;
+                    prevLow = q.Low;
+                    prevClose = q.Close;
                     continue;
                 }
 
                 // trend information
-                decimal highMinusPrevClose = Math.Abs(h.High - prevClose);
-                decimal lowMinusPrevClose = Math.Abs(h.Low - prevClose);
+                decimal highMinusPrevClose = Math.Abs(q.High - prevClose);
+                decimal lowMinusPrevClose = Math.Abs(q.Low - prevClose);
 
-                tr[i] = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
-                pvm[i] = Math.Abs(h.High - prevLow);
-                nvm[i] = Math.Abs(h.Low - prevHigh);
+                tr[i] = Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
+                pvm[i] = Math.Abs(q.High - prevLow);
+                nvm[i] = Math.Abs(q.Low - prevHigh);
 
-                prevHigh = h.High;
-                prevLow = h.Low;
-                prevClose = h.Close;
+                prevHigh = q.High;
+                prevLow = q.Low;
+                prevClose = q.Close;
 
                 // vortex indicator
                 if (index > lookbackPeriods)

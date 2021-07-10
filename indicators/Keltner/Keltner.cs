@@ -18,26 +18,26 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateKeltner(quotes, emaPeriods, multiplier, atrPeriods);
 
             // initialize
-            List<KeltnerResult> results = new(historyList.Count);
+            List<KeltnerResult> results = new(quotesList.Count);
             List<EmaResult> emaResults = GetEma(quotes, emaPeriods).ToList();
             List<AtrResult> atrResults = GetAtr(quotes, atrPeriods).ToList();
             int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 KeltnerResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index >= lookbackPeriods)

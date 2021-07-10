@@ -18,13 +18,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateAlma(quotes, lookbackPeriods, offset, sigma);
 
             // initialize
-            List<AlmaResult> results = new(historyList.Count);
+            List<AlmaResult> results = new(quotesList.Count);
 
             // determine price weights
             double m = offset * (lookbackPeriods - 1);
@@ -41,14 +41,14 @@ namespace Skender.Stock.Indicators
             }
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 AlmaResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index >= lookbackPeriods)
@@ -58,7 +58,7 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         weightedSum += weight[n] * d.Close;
                         n++;
                     }

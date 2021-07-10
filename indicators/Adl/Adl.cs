@@ -16,28 +16,28 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateAdl(quotes, smaPeriods);
 
             // initialize
-            List<AdlResult> results = new(historyList.Count);
+            List<AdlResult> results = new(quotesList.Count);
             decimal prevAdl = 0;
 
             // roll through quotes
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
-                decimal mfm = (h.High == h.Low) ? 0 : ((h.Close - h.Low) - (h.High - h.Close)) / (h.High - h.Low);
-                decimal mfv = mfm * h.Volume;
+                decimal mfm = (q.High == q.Low) ? 0 : ((q.Close - q.Low) - (q.High - q.Close)) / (q.High - q.Low);
+                decimal mfv = mfm * q.Volume;
                 decimal adl = mfv + prevAdl;
 
                 AdlResult result = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                     MoneyFlowMultiplier = mfm,
                     MoneyFlowVolume = mfv,
                     Adl = adl

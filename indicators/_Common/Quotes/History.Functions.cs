@@ -18,24 +18,24 @@ namespace Skender.Stock.Indicators
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check for duplicates
             DateTime lastDate = DateTime.MinValue;
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
-                if (lastDate == h.Date)
+                if (lastDate == q.Date)
                 {
                     throw new BadQuotesException(
-                        string.Format(NativeCulture, "Duplicate date found on {0}.", h.Date));
+                        string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
                 }
 
-                lastDate = h.Date;
+                lastDate = q.Date;
             }
 
-            return historyList;
+            return quotesList;
         }
 
         // aggregation (quantization)
@@ -77,12 +77,12 @@ namespace Skender.Stock.Indicators
         internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
-            List<TQuote> historyList = quotes.OrderBy(x => x.Date).ToList();
+            List<TQuote> quotesList = quotes.OrderBy(x => x.Date).ToList();
 
             // validate
-            return historyList == null || historyList.Count == 0
+            return quotesList == null || quotesList.Count == 0
                 ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-                : historyList;
+                : quotesList;
         }
 
         // convert to basic

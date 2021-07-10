@@ -17,26 +17,26 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateAwesome(quotes, fastPeriods, slowPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<AwesomeResult> results = new();
             decimal[] pr = new decimal[size]; // median price
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
-                pr[i] = (h.High + h.Low) / 2;
+                TQuote q = quotesList[i];
+                pr[i] = (q.High + q.Low) / 2;
                 int index = i + 1;
 
                 AwesomeResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 if (index >= slowPeriods)

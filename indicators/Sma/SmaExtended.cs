@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // initialize
             List<SmaExtendedResult> results = GetSma(quotes, lookbackPeriods)
@@ -35,7 +35,7 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    TQuote d = historyList[p];
+                    TQuote d = quotesList[p];
                     sumMad += Math.Abs(d.Close - (decimal)r.Sma);
                     sumMse += (d.Close - (decimal)r.Sma) * (d.Close - (decimal)r.Sma);
 

@@ -18,13 +18,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateTsi(quotes, lookbackPeriods, smoothPeriods, signalPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             decimal mult1 = 2m / (lookbackPeriods + 1);
             decimal mult2 = 2m / (smoothPeriods + 1);
             decimal multS = 2m / (signalPeriods + 1);
@@ -47,12 +47,12 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 TsiResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
                 results.Add(r);
 
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // price change
-                c[i] = h.Close - historyList[i - 1].Close;
+                c[i] = q.Close - quotesList[i - 1].Close;
                 a[i] = Math.Abs(c[i]);
 
                 // smoothing

@@ -16,13 +16,13 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> historyList = quotes.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateCmf(quotes, lookbackPeriods);
 
             // initialize
-            List<CmfResult> results = new(historyList.Count);
+            List<CmfResult> results = new(quotesList.Count);
             List<AdlResult> adlResults = GetAdl(quotes).ToList();
 
             // roll through quotes
@@ -45,8 +45,8 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote h = historyList[p];
-                        sumVol += h.Volume;
+                        TQuote q = quotesList[p];
+                        sumVol += q.Volume;
 
                         AdlResult d = adlResults[p];
                         sumMfv += d.MoneyFlowVolume;

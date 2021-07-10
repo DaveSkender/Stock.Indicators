@@ -186,7 +186,7 @@ namespace Internal.Tests
         }
 
 
-        /* BAD HISTORY EXCEPTIONS */
+        /* BAD QUOTES EXCEPTIONS */
         [TestMethod]
         [ExpectedException(typeof(BadQuotesException), "No historical quotes.")]
         public void NoHistory()
