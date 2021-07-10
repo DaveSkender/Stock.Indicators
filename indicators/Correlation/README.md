@@ -8,7 +8,7 @@
 ```csharp
 // usage
 IEnumerable<CorrResult> results =
-  historyA.GetCorr(historyB, lookbackPeriod);  
+  historyA.GetCorr(historyB, lookbackPeriods);  
 ```
 
 ## Parameters
@@ -16,7 +16,7 @@ IEnumerable<CorrResult> results =
 | name | type | notes
 | -- |-- |--
 | `historyB` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical quotes (B) must have at least the same matching date elements of `historyA`.
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
 ### Historical quotes requirements
 

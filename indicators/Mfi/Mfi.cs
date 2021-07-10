@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<MfiResult> GetMfi<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateMfi(history, lookbackPeriod);
+            ValidateMfi(history, lookbackPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -66,7 +66,7 @@ namespace Skender.Stock.Indicators
             }
 
             // add money flow index
-            for (int i = lookbackPeriod; i < results.Count; i++)
+            for (int i = lookbackPeriods; i < results.Count; i++)
             {
                 MfiResult r = results[i];
                 int index = i + 1;
@@ -74,7 +74,7 @@ namespace Skender.Stock.Indicators
                 decimal sumPosMFs = 0;
                 decimal sumNegMFs = 0;
 
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     if (direction[p] == 1)
                     {
@@ -118,20 +118,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateMfi<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for MFI.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Money Flow Index.  " +

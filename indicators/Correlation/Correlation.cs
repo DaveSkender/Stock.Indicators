@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
             this IEnumerable<TQuote> historyA,
             IEnumerable<TQuote> historyB,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyListB = historyB.Sort();
 
             // check parameter arguments
-            ValidateCorrelation(historyA, historyB, lookbackPeriod);
+            ValidateCorrelation(historyA, historyB, lookbackPeriods);
 
             // initialize
             List<CorrResult> results = new(historyListA.Count);
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
                 };
 
                 // compute correlation
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal sumPriceA = 0m;
                     decimal sumPriceB = 0m;
@@ -53,7 +53,7 @@ namespace Skender.Stock.Indicators
                     decimal sumPriceB2 = 0m;
                     decimal sumPriceAB = 0m;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote qa = historyListA[p];
                         TQuote qb = historyListB[p];
@@ -65,11 +65,11 @@ namespace Skender.Stock.Indicators
                         sumPriceAB += qa.Close * qb.Close;
                     }
 
-                    decimal avgA = sumPriceA / lookbackPeriod;
-                    decimal avgB = sumPriceB / lookbackPeriod;
-                    decimal avgA2 = sumPriceA2 / lookbackPeriod;
-                    decimal avgB2 = sumPriceB2 / lookbackPeriod;
-                    decimal avgAB = sumPriceAB / lookbackPeriod;
+                    decimal avgA = sumPriceA / lookbackPeriods;
+                    decimal avgB = sumPriceB / lookbackPeriods;
+                    decimal avgA2 = sumPriceA2 / lookbackPeriods;
+                    decimal avgB2 = sumPriceB2 / lookbackPeriods;
+                    decimal avgAB = sumPriceAB / lookbackPeriods;
 
                     r.VarianceA = avgA2 - avgA * avgA;
                     r.VarianceB = avgB2 - avgB * avgB;
@@ -105,20 +105,20 @@ namespace Skender.Stock.Indicators
         private static void ValidateCorrelation<TQuote>(
             IEnumerable<TQuote> historyA,
             IEnumerable<TQuote> historyB,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Correlation.");
             }
 
             // check history
             int qtyHistoryA = historyA.Count();
-            int minHistoryA = lookbackPeriod;
+            int minHistoryA = lookbackPeriods;
             if (qtyHistoryA < minHistoryA)
             {
                 string message = "Insufficient history provided for Correlation.  " +

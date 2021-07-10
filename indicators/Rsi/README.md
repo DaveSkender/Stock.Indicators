@@ -7,14 +7,14 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 ```csharp
 // usage
 IEnumerable<RsiResult> results =
-  history.GetRsi(lookbackPeriod);  
+  history.GetRsi(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 

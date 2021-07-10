@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<SlopeResult> GetSlope<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateSlope(history, lookbackPeriod);
+            ValidateSlope(history, lookbackPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
                 results.Add(r);
 
                 // skip initialization period
-                if (index < lookbackPeriod)
+                if (index < lookbackPeriods)
                 {
                     continue;
                 }
@@ -48,7 +48,7 @@ namespace Skender.Stock.Indicators
                 decimal sumX = 0m;
                 decimal sumY = 0m;
 
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     TQuote d = historyList[p];
 
@@ -56,15 +56,15 @@ namespace Skender.Stock.Indicators
                     sumY += d.Close;
                 }
 
-                decimal avgX = sumX / lookbackPeriod;
-                decimal avgY = sumY / lookbackPeriod;
+                decimal avgX = sumX / lookbackPeriods;
+                decimal avgY = sumY / lookbackPeriods;
 
                 // least squares method
                 decimal sumSqX = 0m;
                 decimal sumSqY = 0m;
                 decimal sumSqXY = 0m;
 
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     TQuote d = historyList[p];
 
@@ -80,20 +80,20 @@ namespace Skender.Stock.Indicators
                 r.Intercept = avgY - r.Slope * avgX;
 
                 // calculate Standard Deviation and R-Squared
-                double stdDevX = Math.Sqrt((double)sumSqX / lookbackPeriod);
-                double stdDevY = Math.Sqrt((double)sumSqY / lookbackPeriod);
+                double stdDevX = Math.Sqrt((double)sumSqX / lookbackPeriods);
+                double stdDevY = Math.Sqrt((double)sumSqY / lookbackPeriods);
                 r.StdDev = stdDevY;
 
                 if (stdDevX * stdDevY != 0)
                 {
-                    double R = ((double)sumSqXY / (stdDevX * stdDevY)) / lookbackPeriod;
+                    double R = ((double)sumSqXY / (stdDevX * stdDevY)) / lookbackPeriods;
                     r.RSquared = R * R;
                 }
             }
 
             // add last Line (y = mx + b)
             SlopeResult last = results.LastOrDefault();
-            for (int p = size - lookbackPeriod; p < size; p++)
+            for (int p = size - lookbackPeriods; p < size; p++)
             {
                 SlopeResult d = results[p];
                 d.Line = last.Slope * (p + 1) + last.Intercept;
@@ -118,20 +118,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateSlope<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Slope/Linear Regression.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Slope/Linear Regression.  " +

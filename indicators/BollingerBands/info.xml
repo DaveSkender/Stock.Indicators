@@ -9,7 +9,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="lookbackPeriod">Number of periods in the lookback window.</param>
+  <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <param name="standardDeviations">Width of bands. Number of Standard Deviations from the moving average.</param>
   <returns>Time series of Bollinger Band and %B values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>

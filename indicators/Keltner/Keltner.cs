@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             List<KeltnerResult> results = new(historyList.Count);
             List<EmaResult> emaResults = GetEma(history, emaPeriod).ToList();
             List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
-            int lookbackPeriod = Math.Max(emaPeriod, atrPeriod);
+            int lookbackPeriods = Math.Max(emaPeriod, atrPeriod);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     EmaResult ema = emaResults[i];
                     AtrResult atr = atrResults[i];
@@ -100,9 +100,9 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int lookbackPeriod = Math.Max(emaPeriod, atrPeriod);
+            int lookbackPeriods = Math.Max(emaPeriod, atrPeriod);
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
+            int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Keltner Channel.  " +
@@ -112,7 +112,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }

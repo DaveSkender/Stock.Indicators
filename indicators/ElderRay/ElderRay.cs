@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<ElderRayResult> GetElderRay<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 13)
+            int lookbackPeriods = 13)
             where TQuote : IQuote
         {
 
@@ -19,10 +19,10 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateElderRay(history, lookbackPeriod);
+            ValidateElderRay(history, lookbackPeriods);
 
             // initialize with EMA
-            List<ElderRayResult> results = GetEma(history, lookbackPeriod)
+            List<ElderRayResult> results = GetEma(history, lookbackPeriods)
                 .Select(x => new ElderRayResult
                 {
                     Date = x.Date,
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // roll through history
-            for (int i = lookbackPeriod - 1; i < historyList.Count; i++)
+            for (int i = lookbackPeriods - 1; i < historyList.Count; i++)
             {
                 TQuote h = historyList[i];
                 ElderRayResult r = results[i];
@@ -59,20 +59,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateElderRay<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Elder-ray Index.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
+            int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Elder-ray Index.  " +
@@ -82,7 +82,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }

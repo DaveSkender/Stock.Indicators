@@ -13,11 +13,11 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 10;
+            int lookbackPeriods = 10;
             double offset = 0.85;
             double sigma = 6;
 
-            List<AlmaResult> results = history.GetAlma(lookbackPeriod, offset, sigma)
+            List<AlmaResult> results = history.GetAlma(lookbackPeriods, offset, sigma)
                 .ToList();
 
             // assertions

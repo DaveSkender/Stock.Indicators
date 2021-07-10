@@ -39,8 +39,8 @@ namespace Internal.Tests
         [TestMethod]
         public void SmallLookback()
         {
-            int lookbackPeriod = 1;
-            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriod).ToList();
+            int lookbackPeriods = 1;
+            List<RsiResult> results = Indicator.GetRsi(history, lookbackPeriods).ToList();
 
             // assertions
 

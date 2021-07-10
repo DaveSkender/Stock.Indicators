@@ -13,10 +13,10 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 22;
+            int lookbackPeriods = 22;
 
             List<ChandelierResult> longResult =
-                history.GetChandelier(lookbackPeriod, 3.0m)
+                history.GetChandelier(lookbackPeriods, 3.0m)
                 .ToList();
 
             // assertions
@@ -35,7 +35,7 @@ namespace Internal.Tests
 
             // short
             List<ChandelierResult> shortResult =
-                Indicator.GetChandelier(history, lookbackPeriod, 3.0m, ChandelierType.Short)
+                Indicator.GetChandelier(history, lookbackPeriods, 3.0m, ChandelierType.Short)
                 .ToList();
 
             ChandelierResult c = shortResult[501];

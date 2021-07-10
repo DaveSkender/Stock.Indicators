@@ -8,14 +8,14 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 ```csharp
 // usage
 IEnumerable<CmfResult> results =
-  history.GetCmf(lookbackPeriod);  
+  history.GetCmf(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
 
 ### Historical quotes requirements
 

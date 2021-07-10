@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<BetaResult> GetBeta<TQuote>(
             IEnumerable<TQuote> historyMarket,
             IEnumerable<TQuote> historyEval,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -20,11 +20,11 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyEvalList = historyEval.Sort();
 
             // check parameter arguments
-            ValidateBeta(historyMarket, historyEval, lookbackPeriod);
+            ValidateBeta(historyMarket, historyEval, lookbackPeriods);
 
             // initialize
             List<BetaResult> results = new(historyEvalList.Count);
-            List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriod).ToList();
+            List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriods).ToList();
 
             // roll through history
             for (int i = 0; i < historyEvalList.Count; i++)
@@ -67,20 +67,20 @@ namespace Skender.Stock.Indicators
         private static void ValidateBeta<TQuote>(
             IEnumerable<TQuote> historyMarket,
             IEnumerable<TQuote> historyEval,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Beta.");
             }
 
             // check history
             int qtyHistoryMarket = historyMarket.Count();
-            int minHistoryMarket = lookbackPeriod;
+            int minHistoryMarket = lookbackPeriods;
             if (qtyHistoryMarket < minHistoryMarket)
             {
                 string message = "Insufficient history provided for Beta.  " +

@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<SuperTrendResult> GetSuperTrend<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 10,
+            int lookbackPeriods = 10,
             decimal multiplier = 3)
             where TQuote : IQuote
         {
@@ -20,11 +20,11 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateSuperTrend(history, lookbackPeriod, multiplier);
+            ValidateSuperTrend(history, lookbackPeriods, multiplier);
 
             // initialize
             List<SuperTrendResult> results = new(historyList.Count);
-            List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList();
+            List<AtrResult> atrResults = GetAtr(history, lookbackPeriods).ToList();
 
             bool isBullish = true;
             decimal? upperBand = null;
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (i >= lookbackPeriod - 1)
+                if (i >= lookbackPeriods - 1)
                 {
 
                     decimal mid = (h.High + h.Low) / 2;
@@ -52,7 +52,7 @@ namespace Skender.Stock.Indicators
                     decimal lowerEval = mid - multiplier * atr;
 
                     // initial values
-                    if (i == lookbackPeriod - 1)
+                    if (i == lookbackPeriods - 1)
                     {
                         isBullish = (h.Close >= mid);
 
@@ -109,15 +109,15 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateSuperTrend<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            int lookbackPeriods,
             decimal multiplier)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for SuperTrend.");
             }
 
@@ -129,7 +129,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 100;
+            int minHistory = lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for SuperTrend.  " +

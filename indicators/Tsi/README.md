@@ -8,14 +8,14 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 ```csharp
 // usage
 IEnumerable<TsiResult> results = 
-  history.GetTsi(lookbackPeriod, smoothPeriod, signalPeriod);  
+  history.GetTsi(lookbackPeriods, smoothPeriod, signalPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
+| `lookbackPeriods` | int | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
 | `smoothPeriod` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
 | `signalPeriod` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
 

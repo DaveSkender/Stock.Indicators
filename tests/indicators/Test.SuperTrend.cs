@@ -13,10 +13,10 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
+            int lookbackPeriods = 14;
             decimal multiplier = 3;
 
-            List<SuperTrendResult> results = history.GetSuperTrend(lookbackPeriod, multiplier)
+            List<SuperTrendResult> results = history.GetSuperTrend(lookbackPeriods, multiplier)
                 .ToList();
 
             // assertions
@@ -80,11 +80,11 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int lookbackPeriod = 14;
+            int lookbackPeriods = 14;
             decimal multiplier = 3;
 
             List<SuperTrendResult> results =
-                history.GetSuperTrend(lookbackPeriod, multiplier)
+                history.GetSuperTrend(lookbackPeriods, multiplier)
                  .PruneWarmupPeriods()
                  .ToList();
 

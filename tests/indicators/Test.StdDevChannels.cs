@@ -13,11 +13,11 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
+            int lookbackPeriods = 20;
             decimal standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
-                history.GetStdDevChannels(lookbackPeriod, standardDeviations)
+                history.GetStdDevChannels(lookbackPeriods, standardDeviations)
                 .ToList();
 
             // assertions
@@ -120,11 +120,11 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int lookbackPeriod = 20;
+            int lookbackPeriods = 20;
             decimal standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
-                history.GetStdDevChannels(lookbackPeriod, standardDeviations)
+                history.GetStdDevChannels(lookbackPeriods, standardDeviations)
                     .PruneWarmupPeriods()
                     .ToList();
 

@@ -11,15 +11,15 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<EpmaResult> GetEpma<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateEpma(history, lookbackPeriod);
+            ValidateEpma(history, lookbackPeriods);
 
             // initialize
-            List<SlopeResult> slopeResults = GetSlope(history, lookbackPeriod)
+            List<SlopeResult> slopeResults = GetSlope(history, lookbackPeriods)
                 .ToList();
 
             int size = slopeResults.Count;
@@ -58,20 +58,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateEpma<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Epma.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Epma.  " +

@@ -8,14 +8,14 @@ Created by Tim Tillson, the [T3](https://www.forexfactory.com/attachment.php/845
 ```csharp
 // usage
 IEnumerable<T3Result> results = 
-  history.GetT3(lookbackPeriod, volumeFactor);  
+  history.GetT3(lookbackPeriods, volumeFactor);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the EMA smoothing.  Must be greater than 0 and is usually less than 63.  Default is 5.
+| `lookbackPeriods` | int | Number of periods (`N`) for the EMA smoothing.  Must be greater than 0 and is usually less than 63.  Default is 5.
 | `volumeFactor` | double | Size of the Volume Factor.  Must be greater than 0 and is usually less than 2.  Default is 0.7
 
 ### Historical quotes requirements

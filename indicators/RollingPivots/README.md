@@ -8,7 +8,7 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 ```csharp
 // usage
 IEnumerable<RollingPivotsResult> results = 
-  history.GetRollingPivots(lookbackPeriod, offsetPeriod, pointType);  
+  history.GetRollingPivots(lookbackPeriods, offsetPeriod, pointType);  
 ```
 
 ## Parameters

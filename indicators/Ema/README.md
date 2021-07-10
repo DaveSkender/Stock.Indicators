@@ -8,22 +8,22 @@
 ```csharp
 // usage for EMA (standard)
 IEnumerable<EmaResult> results =
-  history.GetEma(lookbackPeriod);
+  history.GetEma(lookbackPeriods);
 
 // usage for Double EMA
 IEnumerable<DemaResult> results =
-  history.GetDoubleEma(lookbackPeriod);
+  history.GetDoubleEma(lookbackPeriods);
 
 // usage for Triple EMA
 IEnumerable<TemaResult> results =
-  history.GetTripleEma(lookbackPeriod);
+  history.GetTripleEma(lookbackPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 

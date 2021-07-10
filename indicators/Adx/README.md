@@ -8,14 +8,14 @@ Created by J. Welles Wilder, the [Average Directional Movement Index](https://en
 ```csharp
 // usage
 IEnumerable<AdxResult> results =
-  history.GetAdx(lookbackPeriod);  
+  history.GetAdx(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
 
 ### Historical quotes requirements
 

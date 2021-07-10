@@ -8,14 +8,14 @@
 ```csharp
 // usage
 IEnumerable<SmaResult> results =
-  history.GetSma(lookbackPeriod);  
+  history.GetSma(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -71,7 +71,7 @@ An extended variant of this indicator includes additional analysis.
 ```csharp
 // usage
 IEnumerable<SmaExtendedResult> results =
-  history.GetSmaExtended(lookbackPeriod);  
+  history.GetSmaExtended(lookbackPeriods);  
 ```
 
 ### SmaExtendedResult

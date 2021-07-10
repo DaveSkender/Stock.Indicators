@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<HmaResult> GetHma<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -19,13 +19,13 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateHma(history, lookbackPeriod);
+            ValidateHma(history, lookbackPeriods);
 
             // initialize
             List<Quote> synthHistory = new();
 
-            List<WmaResult> wmaN1 = GetWma(history, lookbackPeriod).ToList();
-            List<WmaResult> wmaN2 = GetWma(history, lookbackPeriod / 2).ToList();
+            List<WmaResult> wmaN1 = GetWma(history, lookbackPeriods).ToList();
+            List<WmaResult> wmaN2 = GetWma(history, lookbackPeriods / 2).ToList();
 
             // roll through history, to get interim synthetic history
             for (int i = 0; i < historyList.Count; i++)
@@ -48,8 +48,8 @@ namespace Skender.Stock.Indicators
             }
 
             // add back truncated null results
-            int sqN = (int)Math.Sqrt(lookbackPeriod);
-            int shiftQty = lookbackPeriod - 1;
+            int sqN = (int)Math.Sqrt(lookbackPeriods);
+            int shiftQty = lookbackPeriods - 1;
 
             List<HmaResult> results = historyList
                 .Take(shiftQty)
@@ -91,20 +91,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateHma<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for HMA.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for HMA.  " +

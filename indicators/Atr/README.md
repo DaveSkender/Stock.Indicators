@@ -8,14 +8,14 @@ Created by J. Welles Wilder, [Average True Range](https://en.wikipedia.org/wiki/
 ```csharp
 // usage
 IEnumerable<AtrResult> results =
-  history.GetAtr(lookbackPeriod);  
+  history.GetAtr(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.
 
 ### Historical quotes requirements
 

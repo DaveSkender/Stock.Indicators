@@ -13,8 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<AdxResult> results = history.GetAdx(lookbackPeriod).ToList();
+            int lookbackPeriods = 14;
+            List<AdxResult> results = history.GetAdx(lookbackPeriods).ToList();
 
             // assertions
 

@@ -8,14 +8,14 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 ```csharp
 // usage
 IEnumerable<ForceIndexResult> results =
-  history.GetForceIndex(lookbackPeriod);  
+  history.GetForceIndex(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).
+| `lookbackPeriods` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).
 
 ### Historical quotes requirements
 

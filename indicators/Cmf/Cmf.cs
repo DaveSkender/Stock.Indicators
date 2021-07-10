@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<CmfResult> GetCmf<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 20)
+            int lookbackPeriods = 20)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateCmf(history, lookbackPeriod);
+            ValidateCmf(history, lookbackPeriods);
 
             // initialize
             List<CmfResult> results = new(historyList.Count);
@@ -38,12 +38,12 @@ namespace Skender.Stock.Indicators
                     MoneyFlowVolume = r.MoneyFlowVolume
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal sumMfv = 0;
                     decimal sumVol = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote h = historyList[p];
                         sumVol += h.Volume;
@@ -52,8 +52,8 @@ namespace Skender.Stock.Indicators
                         sumMfv += d.MoneyFlowVolume;
                     }
 
-                    decimal avgMfv = sumMfv / lookbackPeriod;
-                    decimal avgVol = sumVol / lookbackPeriod;
+                    decimal avgMfv = sumMfv / lookbackPeriods;
+                    decimal avgVol = sumVol / lookbackPeriods;
 
                     if (avgVol != 0)
                     {
@@ -83,20 +83,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateCmf<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Chaikin Money Flow.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Chaikin Money Flow.  " +

@@ -7,14 +7,14 @@ Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppine
 ```csharp
 // usage
 IEnumerable<ChopResult> results =
-  history.GetChop(lookbackPeriod);  
+  history.GetChop(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14.
 
 ### Historical quotes requirements
 

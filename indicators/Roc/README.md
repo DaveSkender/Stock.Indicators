@@ -8,18 +8,18 @@
 ```csharp
 // usage
 IEnumerable<RocResult> results =
-  history.GetRoc(lookbackPeriod);
+  history.GetRoc(lookbackPeriods);
 
 // usage with optional SMA of ROC (shown above)
 IEnumerable<RocResult> results =
-  history.GetRoc(lookbackPeriod, smaPeriod);
+  history.GetRoc(lookbackPeriods, smaPeriod);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.
 | `smaPeriod` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
@@ -77,16 +77,16 @@ ROC on 12/31/2018 was -8.25%
 ```csharp
 // usage
 IEnumerable<RocWbResult> results =
-  history.GetRocWb(lookbackPeriod, emaPeriod, stdDevPeriod);
+  history.GetRocWb(lookbackPeriods, emaPeriod, stdDevPeriod);
 ```
 
 ### Parameters with Bands
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
+| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
 | `emaPeriod` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
-| `stdDevPeriod` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriod`.  Standard is to use same value as `lookbackPeriod`.
+| `stdDevPeriod` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`.
 
 ### RocWbResult
 

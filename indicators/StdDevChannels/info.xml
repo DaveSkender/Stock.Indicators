@@ -9,7 +9,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="lookbackPeriod">Size of the evaluation window.</param>
+  <param name="lookbackPeriods">Size of the evaluation window.</param>
   <param name="standardDeviations">Width of bands. Number of Standard Deviations from the regression line.</param>
   <returns>Time series of Standard Deviation Channels values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>

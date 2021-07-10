@@ -8,14 +8,14 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 ```csharp
 // usage
 IEnumerable<CciResult> results =
-  history.GetCci(lookbackPeriod);  
+  history.GetCci(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
 
 ### Historical quotes requirements
 

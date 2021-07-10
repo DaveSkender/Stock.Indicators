@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<AroonResult> GetAroon<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 25)
+            int lookbackPeriods = 25)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateAroon(history, lookbackPeriod);
+            ValidateAroon(history, lookbackPeriods);
 
             // initialize
             List<AroonResult> results = new(historyList.Count);
@@ -36,14 +36,14 @@ namespace Skender.Stock.Indicators
                 };
 
                 // add aroons
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
                     decimal lastHighPrice = 0;
                     decimal lastLowPrice = decimal.MaxValue;
                     int lastHighIndex = 0;
                     int lastLowIndex = 0;
 
-                    for (int p = index - lookbackPeriod - 1; p < index; p++)
+                    for (int p = index - lookbackPeriods - 1; p < index; p++)
                     {
                         TQuote d = historyList[p];
 
@@ -60,8 +60,8 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    result.AroonUp = 100 * (decimal)(lookbackPeriod - (index - lastHighIndex)) / lookbackPeriod;
-                    result.AroonDown = 100 * (decimal)(lookbackPeriod - (index - lastLowIndex)) / lookbackPeriod;
+                    result.AroonUp = 100 * (decimal)(lookbackPeriods - (index - lastHighIndex)) / lookbackPeriods;
+                    result.AroonDown = 100 * (decimal)(lookbackPeriods - (index - lastLowIndex)) / lookbackPeriods;
                     result.Oscillator = result.AroonUp - result.AroonDown;
                 }
 
@@ -87,20 +87,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateAroon<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Aroon.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Aroon.  " +

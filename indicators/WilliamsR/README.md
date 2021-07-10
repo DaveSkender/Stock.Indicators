@@ -8,14 +8,14 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 ```csharp
 // usage
 IEnumerable<WilliamsResult> results =
-  history.GetWilliamsR(lookbackPeriod);  
+  history.GetWilliamsR(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 

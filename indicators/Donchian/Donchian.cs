@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<DonchianResult> GetDonchian<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 20)
+            int lookbackPeriods = 20)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateDonchian(history, lookbackPeriod);
+            ValidateDonchian(history, lookbackPeriods);
 
             // initialize
             List<DonchianResult> results = new(historyList.Count);
@@ -34,13 +34,13 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (i >= lookbackPeriod)
+                if (i >= lookbackPeriods)
                 {
                     decimal highHigh = 0;
                     decimal lowLow = decimal.MaxValue;
 
                     // high/low over prior periods
-                    for (int p = i - lookbackPeriod; p < i; p++)
+                    for (int p = i - lookbackPeriods; p < i; p++)
                     {
                         TQuote d = historyList[p];
 
@@ -84,20 +84,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateDonchian<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Donchian Channel.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Donchian Channel.  " +

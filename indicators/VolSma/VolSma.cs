@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<VolSmaResult> GetVolSma<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -25,22 +25,22 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // check parameter arguments
-            ValidateVolSma(history, lookbackPeriod);
+            ValidateVolSma(history, lookbackPeriods);
 
             // roll through history
-            for (int i = lookbackPeriod - 1; i < results.Count; i++)
+            for (int i = lookbackPeriods - 1; i < results.Count; i++)
             {
                 VolSmaResult h = results[i];
                 int index = i + 1;
 
                 decimal sumVolSma = 0m;
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     VolSmaResult q = results[p];
                     sumVolSma += q.Volume;
                 }
 
-                h.VolSma = sumVolSma / lookbackPeriod;
+                h.VolSma = sumVolSma / lookbackPeriods;
             }
 
             return results;
@@ -62,20 +62,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateVolSma<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for VolSma.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for VolSma.  " +

@@ -8,14 +8,14 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 ```csharp
 // usage
 IEnumerable<AroonResult> results =
-  history.GetAroon(lookbackPeriod);  
+  history.GetAroon(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
+| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
 
 ### Historical quotes requirements
 

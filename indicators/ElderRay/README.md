@@ -8,14 +8,14 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 ```csharp
 // usage
 IEnumerable<ElderRayResult> results =
-  history.GetElderRay(lookbackPeriod);  
+  history.GetElderRay(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
+| `lookbackPeriods` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
 
 ### Historical quotes requirements
 

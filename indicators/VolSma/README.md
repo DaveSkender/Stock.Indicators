@@ -8,14 +8,14 @@ The Volume Simple Moving Average is the average volume over a lookback window.  
 ```csharp
 // usage
 IEnumerable<VolSmaResult> results =
-  history.GetVolSma(lookbackPeriod);  
+  history.GetVolSma(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 

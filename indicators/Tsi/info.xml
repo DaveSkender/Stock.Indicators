@@ -9,7 +9,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="lookbackPeriod">Number of periods for the first EMA.</param>
+  <param name="lookbackPeriods">Number of periods for the first EMA.</param>
   <param name="smoothPeriod">Number of periods in the second smoothing.</param>
   <param name="signalPeriod">Number of periods in the TSI SMA signal line.</param>
   <returns>Time series of TSI values.</returns>

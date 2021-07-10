@@ -8,14 +8,14 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 ```csharp
 // usage
 IEnumerable<BollingerBandsResult> results =
-  history.GetBollingerBands(lookbackPeriod, standardDeviation);  
+  history.GetBollingerBands(lookbackPeriods, standardDeviation);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
+| `lookbackPeriods` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
 | `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
 
 ### Historical quotes requirements

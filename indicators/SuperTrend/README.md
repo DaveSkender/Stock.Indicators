@@ -9,14 +9,14 @@ It can indicate a buy/sell signal or a trailing stop when the trend changes.
 ```csharp
 // usage
 IEnumerable<SuperTrendResult> results =
-  history.GetSuperTrend(lookbackPeriod, multiplier);  
+  history.GetSuperTrend(lookbackPeriods, multiplier);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
+| `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
 | `multiplier` | decimal | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
 
 ### Historical quotes requirements

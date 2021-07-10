@@ -263,8 +263,8 @@ List<Quote> obvHistory = obvResults
   .ToList();
 
 // calculate RSI of OBV
-int lookbackPeriod = 14;
-IEnumerable<RsiResult> results = obvHistory.GetRsi(lookbackPeriod);
+int lookbackPeriods = 14;
+IEnumerable<RsiResult> results = obvHistory.GetRsi(lookbackPeriods);
 ```
 
 ## Utilities

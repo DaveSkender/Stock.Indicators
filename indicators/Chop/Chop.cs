@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         ///
         public static IEnumerable<ChopResult> GetChop<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateChop(historyList, lookbackPeriod);
+            ValidateChop(historyList, lookbackPeriods);
 
             // initialize
             decimal sum;
@@ -50,7 +50,7 @@ namespace Skender.Stock.Indicators
 
                     // calculate CHOP
 
-                    if (i >= lookbackPeriod)
+                    if (i >= lookbackPeriods)
                     {
                         // reset measurements
                         sum = trueRange[i];
@@ -58,7 +58,7 @@ namespace Skender.Stock.Indicators
                         low = trueLow[i];
 
                         // iterate over lookback window
-                        for (int j = 1; j < lookbackPeriod; j++)
+                        for (int j = 1; j < lookbackPeriods; j++)
                         {
                             sum += trueRange[i - j];
                             high = Math.Max(high, trueHigh[i - j]);
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
                         // calculate CHOP
                         if (range != 0)
                         {
-                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriod)));
+                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriods)));
                         }
                     }
                 }
@@ -94,20 +94,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateChop<TQuote>(
             List<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
 
         {
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for CHOP.");
             }
 
             // check history
             int qtyHistory = history.Count;
-            int minHistory = lookbackPeriod + 1;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for CHOP.  " +

@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<FisherTransformResult> GetFisherTransform<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 10)
+            int lookbackPeriods = 10)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateFisherTransform(history, lookbackPeriod);
+            ValidateFisherTransform(history, lookbackPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
                 decimal minPrice = pr[i];
                 decimal maxPrice = pr[i];
 
-                for (int p = Math.Max(i - lookbackPeriod + 1, 0); p <= i; p++)
+                for (int p = Math.Max(i - lookbackPeriods + 1, 0); p <= i; p++)
                 {
                     minPrice = Math.Min(pr[p], minPrice);
                     maxPrice = Math.Max(pr[p], maxPrice);
@@ -79,20 +79,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateFisherTransform<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Fisher Transform.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Fisher Transform.  " +
@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 15);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 15);
 
                 throw new BadHistoryException(nameof(history), message);
             }

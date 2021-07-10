@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<AtrResult> GetAtr<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateAtr(history, lookbackPeriod);
+            ValidateAtr(history, lookbackPeriods);
 
             // initialize
             List<AtrResult> results = new(historyList.Count);
@@ -49,18 +49,18 @@ namespace Skender.Stock.Indicators
                 decimal tr = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
                 result.Tr = tr;
 
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
                     // calculate ATR
-                    result.Atr = (prevAtr * (lookbackPeriod - 1) + tr) / lookbackPeriod;
+                    result.Atr = (prevAtr * (lookbackPeriods - 1) + tr) / lookbackPeriods;
                     result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
-                else if (index == lookbackPeriod)
+                else if (index == lookbackPeriods)
                 {
                     // initialize ATR
                     sumTr += tr;
-                    result.Atr = sumTr / lookbackPeriod;
+                    result.Atr = sumTr / lookbackPeriods;
                     result.Atrp = (h.Close == 0) ? null : (result.Atr / h.Close) * 100;
                     prevAtr = (decimal)result.Atr;
                 }
@@ -93,20 +93,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateAtr<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for Average True Range.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 100;
+            int minHistory = lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ATR.  " +

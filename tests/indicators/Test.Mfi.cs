@@ -13,8 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<MfiResult> results = history.GetMfi(lookbackPeriod).ToList();
+            int lookbackPeriods = 14;
+            List<MfiResult> results = history.GetMfi(lookbackPeriods).ToList();
 
             // assertions
 
@@ -34,9 +34,9 @@ namespace Internal.Tests
         [TestMethod]
         public void SmallLookback()
         {
-            int lookbackPeriod = 4;
+            int lookbackPeriods = 4;
 
-            List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriod)
+            List<MfiResult> results = Indicator.GetMfi(history, lookbackPeriods)
                 .ToList();
 
             // assertions
@@ -64,8 +64,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int lookbackPeriod = 14;
-            List<MfiResult> results = history.GetMfi(lookbackPeriod)
+            int lookbackPeriods = 14;
+            List<MfiResult> results = history.GetMfi(lookbackPeriods)
                 .PruneWarmupPeriods()
                 .ToList();
 

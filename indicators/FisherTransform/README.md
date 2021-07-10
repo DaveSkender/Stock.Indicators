@@ -8,14 +8,14 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 ```csharp
 // usage
 IEnumerable<FisherTransformResult> results =
-  history.GetFisherTransform(lookbackPeriod);  
+  history.GetFisherTransform(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.  Default is 10.
 
 ### Historical quotes requirements
 
@@ -49,8 +49,8 @@ We always return the same number of elements as there are in the historical quot
 For pruning of warmup periods, we recommend using the following guidelines:
 
 ```csharp
-history.GetFisherTransform(lookbackPeriod)
-  .PruneWarmupPeriods(lookbackPeriod+15);
+history.GetFisherTransform(lookbackPeriods)
+  .PruneWarmupPeriods(lookbackPeriods+15);
 ```
 
 See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.

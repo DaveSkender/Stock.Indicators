@@ -11,15 +11,15 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<WilliamsResult> GetWilliamsR<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateWilliam(history, lookbackPeriod);
+            ValidateWilliam(history, lookbackPeriods);
 
             // convert Stochastic to William %R
-            return GetStoch(history, lookbackPeriod, 1, 1) // fast variant
+            return GetStoch(history, lookbackPeriods, 1, 1) // fast variant
                 .Select(s => new WilliamsResult
                 {
                     Date = s.Date,
@@ -44,20 +44,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateWilliam<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for William %R.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for William %R.  " +

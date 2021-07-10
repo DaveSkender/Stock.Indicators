@@ -8,20 +8,20 @@
 ```csharp
 // usage
 IEnumerable<MaEnvelopeResult> results =
-  history.GetSmaEnvelopes(lookbackPeriod, percentOffset, movingAverageType);  
+  history.GetSmaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
 | `percentOffset` | double | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5.
 | `movingAverageType` | MaType | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Historical quotes requirements
 
-See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `history` and `lookbackPeriod`.
+See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `history` and `lookbackPeriods`.
 
 `history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
 

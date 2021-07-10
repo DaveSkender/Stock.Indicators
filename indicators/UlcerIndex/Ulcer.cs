@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<UlcerIndexResult> GetUlcerIndex<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateUlcer(history, lookbackPeriod);
+            ValidateUlcer(history, lookbackPeriods);
 
             // initialize
             List<UlcerIndexResult> results = new(historyList.Count);
@@ -35,16 +35,16 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     double? sumSquared = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = historyList[p];
                         int dIndex = p + 1;
 
                         decimal maxClose = 0;
-                        for (int q = index - lookbackPeriod; q < dIndex; q++)
+                        for (int q = index - lookbackPeriods; q < dIndex; q++)
                         {
                             TQuote dd = historyList[q];
                             if (dd.Close > maxClose)
@@ -60,7 +60,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     result.UI = (sumSquared == null) ? null
-                        : (decimal)Math.Sqrt((double)sumSquared / lookbackPeriod);
+                        : (decimal)Math.Sqrt((double)sumSquared / lookbackPeriods);
                 }
                 results.Add(result);
             }
@@ -85,20 +85,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateUlcer<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Ulcer Index.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Ulcer Index.  " +

@@ -8,14 +8,14 @@ Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.
 ```csharp
 // usage
 IEnumerable<VortexResult> results =
-  history.GetVortex(lookbackPeriod);  
+  history.GetVortex(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
 
 ### Historical quotes requirements
 

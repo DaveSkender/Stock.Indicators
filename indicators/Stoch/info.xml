@@ -10,7 +10,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="history">Historical price quotes.</param>
-  <param name="lookbackPeriod">Number of periods for the Oscillator.</param>
+  <param name="lookbackPeriods">Number of periods for the Oscillator.</param>
   <param name="signalPeriod">Smoothing period for the %D signal line.</param>
   <param name="smoothPeriod">Smoothing period for the %K Oscillator.  Use 3 for Slow or 1 for Fast.</param>
   <returns>Time series of Stochastic Oscillator values.</returns>

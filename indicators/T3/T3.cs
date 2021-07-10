@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<T3Result> GetT3<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 5,
+            int lookbackPeriods = 5,
             double volumeFactor = 0.7)
             where TQuote : IQuote
         {
@@ -20,13 +20,13 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateT3(history, lookbackPeriod, volumeFactor);
+            ValidateT3(history, lookbackPeriods, volumeFactor);
 
             // initialize
             int size = historyList.Count;
             List<T3Result> results = new(size);
 
-            decimal k = 2 / (decimal)(lookbackPeriod + 1);
+            decimal k = 2 / (decimal)(lookbackPeriods + 1);
             decimal a = (decimal)volumeFactor;
             decimal c1 = -a * a * a;
             decimal c2 = 3 * a * a + 3 * a * a * a;
@@ -46,32 +46,32 @@ namespace Skender.Stock.Indicators
                 };
 
                 // first smoothing
-                if (i > lookbackPeriod - 1)
+                if (i > lookbackPeriods - 1)
                 {
                     e1 += k * (h.Close - e1);
 
                     // second smoothing
-                    if (i > 2 * (lookbackPeriod - 1))
+                    if (i > 2 * (lookbackPeriods - 1))
                     {
                         e2 += k * (e1 - e2);
 
                         // third smoothing
-                        if (i > 3 * (lookbackPeriod - 1))
+                        if (i > 3 * (lookbackPeriods - 1))
                         {
                             e3 += k * (e2 - e3);
 
                             // fourth smoothing
-                            if (i > 4 * (lookbackPeriod - 1))
+                            if (i > 4 * (lookbackPeriods - 1))
                             {
                                 e4 += k * (e3 - e4);
 
                                 // fifth smoothing
-                                if (i > 5 * (lookbackPeriod - 1))
+                                if (i > 5 * (lookbackPeriods - 1))
                                 {
                                     e5 += k * (e4 - e5);
 
                                     // sixth smoothing
-                                    if (i > 6 * (lookbackPeriod - 1))
+                                    if (i > 6 * (lookbackPeriods - 1))
                                     {
                                         e6 += k * (e5 - e6);
 
@@ -84,9 +84,9 @@ namespace Skender.Stock.Indicators
                                     {
                                         sum6 += e5;
 
-                                        if (i == 6 * (lookbackPeriod - 1))
+                                        if (i == 6 * (lookbackPeriods - 1))
                                         {
-                                            e6 = sum6 / lookbackPeriod;
+                                            e6 = sum6 / lookbackPeriods;
 
                                             // initial T3 moving average
                                             r.T3 = c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3;
@@ -99,9 +99,9 @@ namespace Skender.Stock.Indicators
                                 {
                                     sum5 += e4;
 
-                                    if (i == 5 * (lookbackPeriod - 1))
+                                    if (i == 5 * (lookbackPeriods - 1))
                                     {
-                                        sum6 = e5 = sum5 / lookbackPeriod;
+                                        sum6 = e5 = sum5 / lookbackPeriods;
                                     }
                                 }
                             }
@@ -111,9 +111,9 @@ namespace Skender.Stock.Indicators
                             {
                                 sum4 += e3;
 
-                                if (i == 4 * (lookbackPeriod - 1))
+                                if (i == 4 * (lookbackPeriods - 1))
                                 {
-                                    sum5 = e4 = sum4 / lookbackPeriod;
+                                    sum5 = e4 = sum4 / lookbackPeriods;
                                 }
                             }
                         }
@@ -123,9 +123,9 @@ namespace Skender.Stock.Indicators
                         {
                             sum3 += e2;
 
-                            if (i == 3 * (lookbackPeriod - 1))
+                            if (i == 3 * (lookbackPeriods - 1))
                             {
-                                sum4 = e3 = sum3 / lookbackPeriod;
+                                sum4 = e3 = sum3 / lookbackPeriods;
                             }
                         }
                     }
@@ -135,9 +135,9 @@ namespace Skender.Stock.Indicators
                     {
                         sum2 += e1;
 
-                        if (i == 2 * (lookbackPeriod - 1))
+                        if (i == 2 * (lookbackPeriods - 1))
                         {
-                            sum3 = e2 = sum2 / lookbackPeriod;
+                            sum3 = e2 = sum2 / lookbackPeriods;
                         }
                     }
                 }
@@ -147,9 +147,9 @@ namespace Skender.Stock.Indicators
                 {
                     sum1 += h.Close;
 
-                    if (i == lookbackPeriod - 1)
+                    if (i == lookbackPeriods - 1)
                     {
-                        sum2 = e1 = sum1 / lookbackPeriod;
+                        sum2 = e1 = sum1 / lookbackPeriods;
                     }
                 }
 
@@ -175,15 +175,15 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateT3<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            int lookbackPeriods,
             double volumeFactor)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for T3.");
             }
 
@@ -195,7 +195,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 6 * (lookbackPeriod - 1) + 100;
+            int minHistory = 6 * (lookbackPeriods - 1) + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for T3.  " +
@@ -205,7 +205,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, 6 * (lookbackPeriod - 1) + 250);
+                    qtyHistory, minHistory, lookbackPeriods, 6 * (lookbackPeriods - 1) + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }

@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             List<StarcBandsResult> results = new(historyList.Count);
             List<SmaResult> smaResults = GetSma(history, smaPeriod).ToList();
             List<AtrResult> atrResults = GetAtr(history, atrPeriod).ToList();
-            int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
+            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     SmaResult s = smaResults[i];
                     AtrResult a = atrResults[i];
@@ -98,9 +98,9 @@ namespace Skender.Stock.Indicators
             }
 
             // check history
-            int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
+            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(lookbackPeriod, atrPeriod + 100);
+            int minHistory = Math.Max(lookbackPeriods, atrPeriod + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for STARC Bands.  " +
@@ -110,7 +110,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, atrPeriod + 150);
+                    qtyHistory, minHistory, lookbackPeriods, atrPeriod + 150);
 
                 throw new BadHistoryException(nameof(history), message);
             }

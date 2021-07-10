@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<VortexResult> GetVortex<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateVortex(history, lookbackPeriod);
+            ValidateVortex(history, lookbackPeriods);
 
             // initialize
             int size = historyList.Count;
@@ -67,14 +67,14 @@ namespace Skender.Stock.Indicators
                 prevClose = h.Close;
 
                 // vortex indicator
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
 
                     decimal sumTr = 0;
                     decimal sumPvm = 0;
                     decimal sumNvm = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         sumTr += tr[p];
                         sumPvm += pvm[p];
@@ -110,20 +110,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateVortex<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for VI.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for VI.  " +

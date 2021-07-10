@@ -8,18 +8,18 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 ```csharp
 // usage for Trix
 IEnumerable<TrixResult> results =
-  history.GetTrix(lookbackPeriod);
+  history.GetTrix(lookbackPeriods);
 
 // usage for Trix with Signal Line (shown above)
 IEnumerable<TrixResult> results =
-  history.GetTrix(lookbackPeriod, signalPeriod);
+  history.GetTrix(lookbackPeriods, signalPeriod);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
 | `signalPeriod` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements

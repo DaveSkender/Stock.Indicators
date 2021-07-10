@@ -8,14 +8,14 @@
 ```csharp
 // usage
 IEnumerable<SlopeResult> results =
-  history.GetSlope(lookbackPeriod);  
+  history.GetSlope(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the linear regression.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 0.
 
 ### Historical quotes requirements
 

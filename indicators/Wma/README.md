@@ -8,14 +8,14 @@
 ```csharp
 // usage
 IEnumerable<WmaResult> results =
-  history.GetWma(lookbackPeriod);  
+  history.GetWma(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 

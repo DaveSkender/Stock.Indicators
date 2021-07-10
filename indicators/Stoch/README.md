@@ -8,14 +8,14 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ```csharp
 // usage
 IEnumerable<StochResult> results =
-  history.GetStoch(lookbackPeriod, signalPeriod, smoothingPeriod);  
+  history.GetStoch(lookbackPeriods, signalPeriod, smoothingPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
+| `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
 | `signalPeriod` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
 | `smoothingPeriod` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
 

@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<AlmaResult> GetAlma<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 9,
+            int lookbackPeriods = 9,
             double offset = 0.85,
             double sigma = 6)
             where TQuote : IQuote
@@ -21,19 +21,19 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateAlma(history, lookbackPeriod, offset, sigma);
+            ValidateAlma(history, lookbackPeriods, offset, sigma);
 
             // initialize
             List<AlmaResult> results = new(historyList.Count);
 
             // determine price weights
-            double m = offset * (lookbackPeriod - 1);
-            double s = lookbackPeriod / sigma;
+            double m = offset * (lookbackPeriods - 1);
+            double s = lookbackPeriods / sigma;
 
-            decimal[] weight = new decimal[lookbackPeriod];
+            decimal[] weight = new decimal[lookbackPeriods];
             decimal norm = 0;
 
-            for (int i = 0; i < lookbackPeriod; i++)
+            for (int i = 0; i < lookbackPeriods; i++)
             {
                 decimal wt = (decimal)Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
                 weight[i] = wt;
@@ -51,12 +51,12 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal weightedSum = 0m;
                     int n = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = historyList[p];
                         weightedSum += weight[n] * d.Close;
@@ -88,16 +88,16 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateAlma<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            int lookbackPeriods,
             double offset,
             double sigma)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for ALMA.");
             }
 
@@ -115,7 +115,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ALMA.  " +

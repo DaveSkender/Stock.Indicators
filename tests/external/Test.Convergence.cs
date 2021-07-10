@@ -212,16 +212,16 @@ namespace External.Other
         [TestMethod]
         public void Rsi()
         {
-            int lookbackPeriod = 14;
+            int lookbackPeriods = 14;
 
-            foreach (int qty in convergeQuantities.Where(q => q > 100 - lookbackPeriod))
+            foreach (int qty in convergeQuantities.Where(q => q > 100 - lookbackPeriods))
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(lookbackPeriod + qty);
-                IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriod);
+                IEnumerable<Quote> h = HistoryTestData.GetLong(lookbackPeriods + qty);
+                IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriods);
 
                 RsiResult l = r.LastOrDefault();
                 Console.WriteLine("RSI({0}) on {1:d} with {2,4} periods: {3:N8}",
-                    lookbackPeriod, l.Date, h.Count(), l.Rsi);
+                    lookbackPeriods, l.Date, h.Count(), l.Rsi);
             }
         }
 

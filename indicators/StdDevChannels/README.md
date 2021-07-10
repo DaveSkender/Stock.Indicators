@@ -8,14 +8,14 @@ Standard Deviation Channels are based on an linear regression centerline and sta
 ```csharp
 // usage
 IEnumerable<StdDevChannelsResult> results =
-  history.GetStdDevChannels(lookbackPeriod, standardDeviations);  
+  history.GetStdDevChannels(lookbackPeriods, standardDeviations);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `history` evaluation window ([see below](#alternative-depiction-for-full-history-variant)).  Default is 20.
+| `lookbackPeriods` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `history` evaluation window ([see below](#alternative-depiction-for-full-history-variant)).  Default is 20.
 | `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
 
 ### Historical quotes requirements
@@ -74,6 +74,6 @@ Upper Channel on 12/31/2018 was $213.97
 
 ## Alternative depiction for full history variant
 
-If you specify `null` for the `lookbackPeriod`, you will get a regression line over the entire provided `history`.
+If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `history`.
 
 ![image](chart-full.png)

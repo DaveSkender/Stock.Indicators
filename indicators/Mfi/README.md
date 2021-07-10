@@ -8,14 +8,14 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<MfiResult> results =
-  history.GetMfi(lookbackPeriod);
+  history.GetMfi(lookbackPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
 
 ### Historical quotes requirements
 

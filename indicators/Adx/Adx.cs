@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<AdxResult> GetAdx<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
@@ -19,11 +19,11 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateAdx(history, lookbackPeriod);
+            ValidateAdx(history, lookbackPeriods);
 
             // initialize
             List<AdxResult> results = new(historyList.Count);
-            List<AtrResult> atr = GetAtr(history, lookbackPeriod).ToList(); // get True Range info
+            List<AtrResult> atr = GetAtr(history, lookbackPeriods).ToList(); // get True Range info
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -69,7 +69,7 @@ namespace Skender.Stock.Indicators
                 prevLow = h.Low;
 
                 // initialization period
-                if (index <= lookbackPeriod + 1)
+                if (index <= lookbackPeriods + 1)
                 {
                     sumTr += tr;
                     sumPdm += pdm1;
@@ -77,7 +77,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // skip DM initialization period
-                if (index <= lookbackPeriod)
+                if (index <= lookbackPeriods)
                 {
                     continue;
                 }
@@ -88,7 +88,7 @@ namespace Skender.Stock.Indicators
                 decimal pdm;
                 decimal mdm;
 
-                if (index == lookbackPeriod + 1)
+                if (index == lookbackPeriods + 1)
                 {
                     trs = sumTr;
                     pdm = sumPdm;
@@ -96,9 +96,9 @@ namespace Skender.Stock.Indicators
                 }
                 else
                 {
-                    trs = prevTrs - (prevTrs / lookbackPeriod) + tr;
-                    pdm = prevPdm - (prevPdm / lookbackPeriod) + pdm1;
-                    mdm = prevMdm - (prevMdm / lookbackPeriod) + mdm1;
+                    trs = prevTrs - (prevTrs / lookbackPeriods) + tr;
+                    pdm = prevPdm - (prevPdm / lookbackPeriods) + pdm1;
+                    mdm = prevMdm - (prevMdm / lookbackPeriods) + mdm1;
                 }
 
                 prevTrs = trs;
@@ -126,18 +126,18 @@ namespace Skender.Stock.Indicators
                 decimal dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
                 decimal adx;
 
-                if (index > 2 * lookbackPeriod)
+                if (index > 2 * lookbackPeriods)
                 {
-                    adx = (prevAdx * (lookbackPeriod - 1) + dx) / lookbackPeriod;
+                    adx = (prevAdx * (lookbackPeriods - 1) + dx) / lookbackPeriods;
                     result.Adx = adx;
                     prevAdx = adx;
                 }
 
                 // initial ADX
-                else if (index == 2 * lookbackPeriod)
+                else if (index == 2 * lookbackPeriods)
                 {
                     sumDx += dx;
-                    adx = sumDx / lookbackPeriod;
+                    adx = sumDx / lookbackPeriods;
                     result.Adx = adx;
                     prevAdx = adx;
                 }
@@ -169,20 +169,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateAdx<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 1 for ADX.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = 2 * lookbackPeriod + 100;
+            int minHistory = 2 * lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for ADX.  " +

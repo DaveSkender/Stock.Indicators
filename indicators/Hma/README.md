@@ -8,14 +8,14 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 ```csharp
 // usage
 IEnumerable<HmaResult> results =
-  history.GetHma(lookbackPeriod);  
+  history.GetHma(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
+| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
 
 ### Historical quotes requirements
 

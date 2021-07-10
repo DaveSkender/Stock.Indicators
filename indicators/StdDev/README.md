@@ -8,18 +8,18 @@
 ```csharp
 // usage
 IEnumerable<StdDevResult> results =
-  history.GetStdDev(lookbackPeriod);  
+  history.GetStdDev(lookbackPeriods);  
 
 // usage with optional SMA of STDEV (shown above)
 IEnumerable<StdDevResult> results =
-  history.GetStdDev(lookbackPeriod, smaPeriod);  
+  history.GetStdDev(lookbackPeriods, smaPeriod);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
 | `smaPeriod` | int | Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements

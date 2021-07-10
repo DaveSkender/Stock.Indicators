@@ -8,14 +8,14 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ```csharp
 // usage
 IEnumerable<ChandelierResult> results =
-  history.GetChandelier(lookbackPeriod, multiplier, type);  
+  history.GetChandelier(lookbackPeriods, multiplier, type);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22.
+| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22.
 | `multiplier` | decimal | Multiplier number must be a positive value.  Default is 3.
 | `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.
 

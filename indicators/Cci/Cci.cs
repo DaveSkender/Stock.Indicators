@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<CciResult> GetCci<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 20)
+            int lookbackPeriods = 20)
             where TQuote : IQuote
         {
 
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateCci(history, lookbackPeriod);
+            ValidateCci(history, lookbackPeriods);
 
             // initialize
             List<CciResult> results = new(historyList.Count);
@@ -37,25 +37,25 @@ namespace Skender.Stock.Indicators
                 };
                 results.Add(result);
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     // average TP over lookback
                     decimal avgTp = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
                         avgTp += (decimal)d.Tp;
                     }
-                    avgTp /= lookbackPeriod;
+                    avgTp /= lookbackPeriods;
 
                     // average Deviation over lookback
                     decimal avgDv = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
                         avgDv += Math.Abs(avgTp - (decimal)d.Tp);
                     }
-                    avgDv /= lookbackPeriod;
+                    avgDv /= lookbackPeriods;
 
                     result.Cci = (avgDv == 0) ? null
                         : (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
@@ -81,20 +81,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateCci<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Commodity Channel Index.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Commodity Channel Index.  " +

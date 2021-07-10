@@ -8,14 +8,14 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 ```csharp
 // usage
 IEnumerable<UlcerIndexResult> results =
-  history.GetUlcerIndex(lookbackPeriod);  
+  history.GetUlcerIndex(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 

@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<TsiResult> GetTsi<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 25,
+            int lookbackPeriods = 25,
             int smoothPeriod = 13,
             int signalPeriod = 7)
             where TQuote : IQuote
@@ -21,11 +21,11 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateTsi(history, lookbackPeriod, smoothPeriod, signalPeriod);
+            ValidateTsi(history, lookbackPeriods, smoothPeriod, signalPeriod);
 
             // initialize
             int size = historyList.Count;
-            decimal mult1 = 2m / (lookbackPeriod + 1);
+            decimal mult1 = 2m / (lookbackPeriods + 1);
             decimal mult2 = 2m / (smoothPeriod + 1);
             decimal multS = 2m / (signalPeriod + 1);
             decimal? sumS = 0m;
@@ -67,14 +67,14 @@ namespace Skender.Stock.Indicators
                 a[i] = Math.Abs(c[i]);
 
                 // smoothing
-                if (index > lookbackPeriod + 1)
+                if (index > lookbackPeriods + 1)
                 {
                     // first smoothing
                     cs1[i] = (c[i] - cs1[i - 1]) * mult1 + cs1[i - 1];
                     as1[i] = (a[i] - as1[i - 1]) * mult1 + as1[i - 1];
 
                     // second smoothing
-                    if (index > lookbackPeriod + smoothPeriod)
+                    if (index > lookbackPeriods + smoothPeriod)
                     {
                         cs2[i] = (cs1[i] - cs2[i - 1]) * mult2 + cs2[i - 1];
                         as2[i] = (as1[i] - as2[i - 1]) * mult2 + as2[i - 1];
@@ -84,7 +84,7 @@ namespace Skender.Stock.Indicators
                         // signal line
                         if (signalPeriod > 0)
                         {
-                            if (index >= lookbackPeriod + smoothPeriod + signalPeriod)
+                            if (index >= lookbackPeriods + smoothPeriod + signalPeriod)
                             {
                                 r.Signal = (r.Tsi - results[i - 1].Signal) * multS
                                          + results[i - 1].Signal;
@@ -95,7 +95,7 @@ namespace Skender.Stock.Indicators
                             {
                                 sumS += r.Tsi;
 
-                                if (index == lookbackPeriod + smoothPeriod + signalPeriod - 1)
+                                if (index == lookbackPeriods + smoothPeriod + signalPeriod - 1)
                                 {
                                     r.Signal = sumS / signalPeriod;
                                 }
@@ -110,7 +110,7 @@ namespace Skender.Stock.Indicators
                         sumA1 += as1[i];
 
                         // inialize second smoothing
-                        if (index == lookbackPeriod + smoothPeriod)
+                        if (index == lookbackPeriods + smoothPeriod)
                         {
                             cs2[i] = sumC1 / smoothPeriod;
                             as2[i] = sumA1 / smoothPeriod;
@@ -128,10 +128,10 @@ namespace Skender.Stock.Indicators
                     sumA += a[i];
 
                     // initialize first smoothing
-                    if (index == lookbackPeriod + 1)
+                    if (index == lookbackPeriods + 1)
                     {
-                        cs1[i] = sumC / lookbackPeriod;
-                        as1[i] = sumA / lookbackPeriod;
+                        cs1[i] = sumC / lookbackPeriods;
+                        as1[i] = sumA / lookbackPeriods;
 
                         sumC1 = cs1[i];
                         sumA1 = as1[i];
@@ -157,16 +157,16 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateTsi<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            int lookbackPeriods,
             int smoothPeriod,
             int signalPeriod)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for TSI.");
             }
 
@@ -184,7 +184,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + smoothPeriod + 100;
+            int minHistory = lookbackPeriods + smoothPeriod + 100;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for TSI.  " +
@@ -194,8 +194,8 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a double smoothing technique, for an N+M period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod + smoothPeriod,
-                    lookbackPeriod + smoothPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods + smoothPeriod,
+                    lookbackPeriods + smoothPeriod + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }

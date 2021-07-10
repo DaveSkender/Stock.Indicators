@@ -16,7 +16,7 @@ namespace Internal.Tests
             int smaPeriod = 20;
             int multiplier = 2;
             int atrPeriod = 14;
-            int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
+            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
 
             List<StarcBandsResult> results =
                 history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
@@ -71,7 +71,7 @@ namespace Internal.Tests
             int smaPeriod = 20;
             int multiplier = 2;
             int atrPeriod = 14;
-            int lookbackPeriod = Math.Max(smaPeriod, atrPeriod);
+            int lookbackPeriods = Math.Max(smaPeriod, atrPeriod);
 
             List<StarcBandsResult> results =
                 history.GetStarcBands(smaPeriod, multiplier, atrPeriod)
@@ -79,7 +79,7 @@ namespace Internal.Tests
                     .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (lookbackPeriod + 150), results.Count);
+            Assert.AreEqual(502 - (lookbackPeriods + 150), results.Count);
 
             StarcBandsResult last = results.LastOrDefault();
             Assert.AreEqual(251.8600m, Math.Round((decimal)last.Centerline, 4));

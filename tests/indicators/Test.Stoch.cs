@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()  // Slow
         {
-            int lookbackPeriod = 14;
+            int lookbackPeriods = 14;
             int signalPeriod = 3;
             int smoothPeriod = 3;
 
             List<StochResult> results =
-                history.GetStoch(lookbackPeriod, signalPeriod, smoothPeriod)
+                history.GetStoch(lookbackPeriods, signalPeriod, smoothPeriod)
                 .ToList();
 
             // assertions
@@ -59,12 +59,12 @@ namespace Internal.Tests
         [TestMethod]
         public void NoSignal()
         {
-            int lookbackPeriod = 5;
+            int lookbackPeriods = 5;
             int signalPeriod = 1;
             int smoothPeriod = 3;
 
             List<StochResult> results =
-                Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothPeriod)
+                Indicator.GetStoch(history, lookbackPeriods, signalPeriod, smoothPeriod)
                 .ToList();
 
             // signal equals oscillator
@@ -78,12 +78,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Fast()
         {
-            int lookbackPeriod = 5;
+            int lookbackPeriods = 5;
             int signalPeriod = 10;
             int smoothPeriod = 1;
 
             List<StochResult> results =
-                Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothPeriod)
+                Indicator.GetStoch(history, lookbackPeriods, signalPeriod, smoothPeriod)
                 .ToList();
 
             // sample values
@@ -99,12 +99,12 @@ namespace Internal.Tests
         [TestMethod]
         public void FastSmall()
         {
-            int lookbackPeriod = 1;
+            int lookbackPeriods = 1;
             int signalPeriod = 10;
             int smoothPeriod = 1;
 
             List<StochResult> results =
-                Indicator.GetStoch(history, lookbackPeriod, signalPeriod, smoothPeriod)
+                Indicator.GetStoch(history, lookbackPeriods, signalPeriod, smoothPeriod)
                 .ToList();
 
             // sample values
@@ -125,17 +125,17 @@ namespace Internal.Tests
         [TestMethod]
         public void Pruned()
         {
-            int lookbackPeriod = 14;
+            int lookbackPeriods = 14;
             int signalPeriod = 3;
             int smoothPeriod = 3;
 
             List<StochResult> results =
-                history.GetStoch(lookbackPeriod, signalPeriod, smoothPeriod)
+                history.GetStoch(lookbackPeriods, signalPeriod, smoothPeriod)
                     .PruneWarmupPeriods()
                     .ToList();
 
             // assertions
-            Assert.AreEqual(502 - (lookbackPeriod + smoothPeriod - 2), results.Count);
+            Assert.AreEqual(502 - (lookbackPeriods + smoothPeriod - 2), results.Count);
 
             StochResult last = results.LastOrDefault();
             Assert.AreEqual(43.1353m, Math.Round((decimal)last.Oscillator, 4));

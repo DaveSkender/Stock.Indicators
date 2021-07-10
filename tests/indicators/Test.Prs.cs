@@ -13,11 +13,11 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 30;
+            int lookbackPeriods = 30;
             int smaPeriod = 10;
 
             List<PrsResult> results =
-                history.GetPrs(historyOther, lookbackPeriod, smaPeriod)
+                history.GetPrs(historyOther, lookbackPeriods, smaPeriod)
                 .ToList();
 
             // assertions

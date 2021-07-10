@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<SmaExtendedResult> GetSmaExtended<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -19,12 +19,12 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // initialize
-            List<SmaExtendedResult> results = GetSma(history, lookbackPeriod)
+            List<SmaExtendedResult> results = GetSma(history, lookbackPeriods)
                 .Select(x => new SmaExtendedResult { Date = x.Date, Sma = x.Sma })
                 .ToList();
 
             // roll through history
-            for (int i = lookbackPeriod - 1; i < results.Count; i++)
+            for (int i = lookbackPeriods - 1; i < results.Count; i++)
             {
                 SmaExtendedResult r = results[i];
                 int index = i + 1;
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
                 decimal sumMse = 0m;
                 decimal? sumMape = 0m;
 
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     TQuote d = historyList[p];
                     sumMad += Math.Abs(d.Close - (decimal)r.Sma);
@@ -44,13 +44,13 @@ namespace Skender.Stock.Indicators
                 }
 
                 // mean absolute deviation
-                r.Mad = sumMad / lookbackPeriod;
+                r.Mad = sumMad / lookbackPeriods;
 
                 // mean squared error
-                r.Mse = sumMse / lookbackPeriod;
+                r.Mse = sumMse / lookbackPeriods;
 
                 // mean absolute percent error
-                r.Mape = sumMape / lookbackPeriod;
+                r.Mape = sumMape / lookbackPeriods;
             }
 
             return results;

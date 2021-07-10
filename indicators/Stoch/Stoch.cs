@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<StochResult> GetStoch<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14,
+            int lookbackPeriods = 14,
             int signalPeriod = 3,
             int smoothPeriod = 3)
             where TQuote : IQuote
@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
+            ValidateStoch(history, lookbackPeriods, signalPeriod, smoothPeriod);
 
             // initialize
             int size = historyList.Count;
@@ -38,12 +38,12 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal highHigh = 0;
                     decimal lowLow = decimal.MaxValue;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = historyList[p];
 
@@ -69,12 +69,12 @@ namespace Skender.Stock.Indicators
             // smooth the oscillator
             if (smoothPeriod > 1)
             {
-                results = SmoothOscillator(results, size, lookbackPeriod, smoothPeriod);
+                results = SmoothOscillator(results, size, lookbackPeriods, smoothPeriod);
             }
 
 
             // signal (%D) and %J
-            int stochIndex = lookbackPeriod + smoothPeriod - 2;
+            int stochIndex = lookbackPeriods + smoothPeriod - 2;
 
             for (int i = stochIndex; i < size; i++)
             {
@@ -82,7 +82,7 @@ namespace Skender.Stock.Indicators
                 int index = i + 1;
 
                 // add signal
-                int signalIndex = lookbackPeriod + smoothPeriod + signalPeriod - 2;
+                int signalIndex = lookbackPeriods + smoothPeriod + signalPeriod - 2;
 
                 if (signalPeriod <= 1)
                 {
@@ -120,11 +120,11 @@ namespace Skender.Stock.Indicators
 
         // internals
         private static List<StochResult> SmoothOscillator(
-            List<StochResult> results, int size, int lookbackPeriod, int smoothPeriod)
+            List<StochResult> results, int size, int lookbackPeriods, int smoothPeriod)
         {
 
             // temporarily store interim smoothed oscillator
-            int smoothIndex = lookbackPeriod + smoothPeriod - 2;
+            int smoothIndex = lookbackPeriods + smoothPeriod - 2;
             decimal?[] smooth = new decimal?[size]; // smoothed value
 
             for (int i = smoothIndex; i < size; i++)
@@ -153,16 +153,16 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateStoch<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            int lookbackPeriods,
             int signalPeriod,
             int smoothPeriod)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Stochastic.");
             }
 
@@ -180,7 +180,7 @@ namespace Skender.Stock.Indicators
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + smoothPeriod;
+            int minHistory = lookbackPeriods + smoothPeriod;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for Stochastic.  " +

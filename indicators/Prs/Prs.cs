@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<PrsResult> GetPrs<TQuote>(
             this IEnumerable<TQuote> historyBase,
             IEnumerable<TQuote> historyEval,
-            int? lookbackPeriod = null,
+            int? lookbackPeriods = null,
             int? smaPeriod = null)
             where TQuote : IQuote
         {
@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyEvalList = historyEval.Sort();
 
             // check parameter arguments
-            ValidatePriceRelative(historyBase, historyEval, lookbackPeriod, smaPeriod);
+            ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriod);
 
             // initialize
             List<PrsResult> results = new(historyEvalList.Count);
@@ -47,10 +47,10 @@ namespace Skender.Stock.Indicators
                 };
                 results.Add(r);
 
-                if (lookbackPeriod != null && index > lookbackPeriod)
+                if (lookbackPeriods != null && index > lookbackPeriods)
                 {
-                    TQuote bo = historyBaseList[i - (int)lookbackPeriod];
-                    TQuote eo = historyEvalList[i - (int)lookbackPeriod];
+                    TQuote bo = historyBaseList[i - (int)lookbackPeriods];
+                    TQuote eo = historyEvalList[i - (int)lookbackPeriods];
 
                     if (bo.Close != 0 && eo.Close != 0)
                     {
@@ -82,15 +82,15 @@ namespace Skender.Stock.Indicators
         private static void ValidatePriceRelative<TQuote>(
             IEnumerable<TQuote> historyBase,
             IEnumerable<TQuote> historyEval,
-            int? lookbackPeriod,
+            int? lookbackPeriods,
             int? smaPeriod)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod is not null and <= 0)
+            if (lookbackPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for Price Relative Strength.");
             }
 
@@ -104,7 +104,7 @@ namespace Skender.Stock.Indicators
             int qtyHistoryEval = historyEval.Count();
             int qtyHistoryBase = historyBase.Count();
 
-            int? minHistory = lookbackPeriod;
+            int? minHistory = lookbackPeriods;
             if (minHistory != null && qtyHistoryEval < minHistory)
             {
                 string message = "Insufficient history provided for Price Relative Strength.  " +

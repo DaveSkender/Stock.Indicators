@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<WmaResult> GetWma<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -19,11 +19,11 @@ namespace Skender.Stock.Indicators
             List<TQuote> historyList = history.Sort();
 
             // check parameter arguments
-            ValidateWma(history, lookbackPeriod);
+            ValidateWma(history, lookbackPeriods);
 
             // initialize
             List<WmaResult> results = new(historyList.Count);
-            decimal divisor = (lookbackPeriod * (lookbackPeriod + 1)) / 2m;
+            decimal divisor = (lookbackPeriods * (lookbackPeriods + 1)) / 2m;
 
             // roll through history
             for (int i = 0; i < historyList.Count; i++)
@@ -36,13 +36,13 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal wma = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = historyList[p];
-                        wma += d.Close * (lookbackPeriod - (decimal)(index - p - 1)) / divisor;
+                        wma += d.Close * (lookbackPeriods - (decimal)(index - p - 1)) / divisor;
                     }
 
                     result.Wma = wma;
@@ -70,20 +70,20 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateWma<TQuote>(
             IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for WMA.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for WMA.  " +

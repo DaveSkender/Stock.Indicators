@@ -11,7 +11,7 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
             this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
@@ -19,25 +19,25 @@ namespace Skender.Stock.Indicators
             List<BasicData> bdList = history.ConvertToBasic("C");
 
             // check parameter arguments
-            ValidateTema(bdList, lookbackPeriod);
+            ValidateTema(bdList, lookbackPeriods);
 
             // initialize
             List<TemaResult> results = new(bdList.Count);
-            List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriod).ToList();
+            List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriods).ToList();
 
             List<BasicData> bd2 = emaN1
                 .Where(x => x.Ema != null)
                 .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();
 
-            List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriod).ToList();
+            List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods).ToList();
 
             List<BasicData> bd3 = emaN2
                 .Where(x => x.Ema != null)
                 .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();
 
-            List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriod).ToList();
+            List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods).ToList();
 
             // compose final results
             for (int i = 0; i < emaN1.Count; i++)
@@ -50,10 +50,10 @@ namespace Skender.Stock.Indicators
                     Date = e1.Date
                 };
 
-                if (index >= 3 * lookbackPeriod - 2)
+                if (index >= 3 * lookbackPeriods - 2)
                 {
-                    EmaResult e2 = emaN2[index - lookbackPeriod];
-                    EmaResult e3 = emaN3[index - 2 * lookbackPeriod + 1];
+                    EmaResult e2 = emaN2[index - lookbackPeriods];
+                    EmaResult e3 = emaN3[index - 2 * lookbackPeriods + 1];
 
                     result.Tema = 3 * e1.Ema - 3 * e2.Ema + e3.Ema;
                 }
@@ -80,19 +80,19 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateTema(
             IEnumerable<BasicData> history,
-            int lookbackPeriod)
+            int lookbackPeriods)
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                     "Lookback period must be greater than 0 for TEMA.");
             }
 
             // check history
             int qtyHistory = history.Count();
-            int minHistory = Math.Max(4 * lookbackPeriod, 3 * lookbackPeriod + 100);
+            int minHistory = Math.Max(4 * lookbackPeriods, 3 * lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient history provided for TEMA.  " +
@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
                     + "Since this uses a smoothing technique, for a lookback period of {2}, "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, 3 * lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, 3 * lookbackPeriods + 250);
 
                 throw new BadHistoryException(nameof(history), message);
             }

@@ -8,14 +8,14 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 ```csharp
 // usage
 IEnumerable<DonchianResult> results =
-  history.GetDonchian(lookbackPeriod);  
+  history.GetDonchian(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
+| `lookbackPeriods` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
 
 ### Historical quotes requirements
 

@@ -39,8 +39,8 @@ namespace Internal.Tests
         [TestMethod]
         public void SmallLookback()
         {
-            int lookbackPeriod = 2;
-            List<ChopResult> results = Indicator.GetChop(history, lookbackPeriod).ToList();
+            int lookbackPeriods = 2;
+            List<ChopResult> results = Indicator.GetChop(history, lookbackPeriods).ToList();
 
             // assertions
 
