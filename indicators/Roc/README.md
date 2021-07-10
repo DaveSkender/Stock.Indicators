@@ -76,7 +76,6 @@ IEnumerable<RocWbResult> results =
 
 | name | type | notes
 | -- |-- |--
-
 | `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
 | `emaPeriod` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
 | `stdDevPeriod` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriod`.  Standard is to use same value as `lookbackPeriod`.
