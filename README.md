@@ -48,7 +48,7 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 ## Contributing
 
-This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](docs/CONTRIBUTING.md#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
 
 ## License
 
