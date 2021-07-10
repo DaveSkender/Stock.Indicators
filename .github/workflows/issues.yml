@@ -1,4 +1,4 @@
-name: Add a new GitHub Project card linked to a GitHub issue to the specified project column
+name: Add to GitHub project
 on: [issues, pull_request]
 jobs:
   github-actions-automate-projects:
