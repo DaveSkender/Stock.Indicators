@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
@@ -20,6 +21,29 @@ namespace Internal.Tests
 
             EmaResult r = emaResults.Find(findDate);
             Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
+        }
+
+
+        [TestMethod]
+        public void Remove()
+        {
+            // specific periods
+            IEnumerable<HeikinAshiResult> results =
+                quotes.GetHeikinAshi()
+                  .RemoveWarmupPeriods(102);
+
+            Assert.AreEqual(400, results.Count());
+        }
+
+        [TestMethod]
+        public void RemoveTooMany()
+        {
+            // more than available
+            IEnumerable<HeikinAshiResult> results =
+                quotes.GetHeikinAshi()
+                  .RemoveWarmupPeriods(600);
+
+            Assert.AreEqual(0, results.Count());
         }
 
         [TestMethod]
