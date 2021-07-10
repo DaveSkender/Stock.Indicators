@@ -8,7 +8,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 ```csharp
 // usage
 IEnumerable<BollingerBandsResult> results =
-  quotes.GetBollingerBands(lookbackPeriods, standardDeviation);  
+  quotes.GetBollingerBands(lookbackPeriods, standardDeviations);  
 ```
 
 ## Parameters
