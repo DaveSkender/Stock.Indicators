@@ -31,4 +31,10 @@
         TwoMinutes,
         OneMinute
     }
+
+    public enum EndType
+    {
+        Close = 0,
+        HighLow = 1
+    }
 }
