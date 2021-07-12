@@ -15,7 +15,7 @@ IEnumerable<ZigZagResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `type` | ZigZagType | Determines whether `Close` or `High/Low` are used to measure percent change.  See [ZigZagType options](#zigzagtype-options) below.  Default is `ZigZagType.Close`.
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used to measure percent change.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
 | `percentChange` | decimal | Percent change required to establish a line endpoint.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 3 to 10.  Default is 5.
 
 ### Historical quotes requirements
@@ -24,12 +24,12 @@ You must have at least two periods of `quotes` to calculate, but notably more is
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
-### ZigZagType options
+### EndType options
 
 | type | description
 |-- |--
-| `ZigZagType.Close` | Percent change measured from `Close` price (default)
-| `ZigZagType.HighLow` | Percent change measured from `High` and `Low` price
+| `EndType.Close` | Percent change measured from `Close` price (default)
+| `EndType.HighLow` | Percent change measured from `High` and `Low` price
 
 ## Response
 
@@ -66,7 +66,7 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 3% change ZIGZAG
 IEnumerable<ZigZagResult> results =
-  quotes.GetZigZag(ZigZagType.Close,3);
+  quotes.GetZigZag(EndType.Close,3);
 
 // use results as needed
 ZigZagResult result = results.LastOrDefault();

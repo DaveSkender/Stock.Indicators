@@ -11,12 +11,6 @@ namespace Skender.Stock.Indicators
         public decimal? RetraceLow { get; set; }   // zig zag retrace low line
     }
 
-    public enum ZigZagType
-    {
-        Close = 0,
-        HighLow = 1
-    }
-
     internal class ZigZagEval
     {
         internal int Index { get; set; }
