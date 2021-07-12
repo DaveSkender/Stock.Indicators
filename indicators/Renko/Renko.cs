@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
             int decimals = brickSize.GetDecimalPlaces();
             TQuote init = quotesList[0];
 
-            decimal o = Math.Round(init.Close, decimals - 1);
+            decimal o = Math.Round(init.Close, Math.Max(decimals - 1, 0));
             decimal h = init.Close;
             decimal l = init.Close;
             decimal v = init.Close;
@@ -125,10 +125,13 @@ namespace Skender.Stock.Indicators
 
                 case EndType.HighLow:
 
-                    int hQty = (int)((q.High - lastOpen) / brickSize);
-                    int lQty = (int)((q.Low - lastOpen) / brickSize);
+                    // high/low assumption: absolute greater diff wins
+                    // --> does not consider close direction
 
-                    return Math.Abs(hQty) >= Math.Abs(lQty) ? hQty : lQty;
+                    decimal hQty = (q.High - lastOpen) / brickSize;
+                    decimal lQty = (q.Low - lastOpen) / brickSize;
+
+                    return (int)(Math.Abs(hQty) >= Math.Abs(lQty) ? hQty : lQty);
 
                 default: return 0;
             }
