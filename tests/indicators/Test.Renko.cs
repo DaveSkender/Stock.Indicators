@@ -65,12 +65,6 @@ namespace Internal.Tests
                 .GetRenko(2.5m, EndType.HighLow)
                 .ToList();
 
-            foreach (RenkoResult r in results)
-            {
-                Console.WriteLine("{0:d}|{1:N2}|{2:N2}|{3:N2}|{4:N2}|{5:N2}|{6}",
-                    r.Date, r.Open, r.High, r.Low, r.Close, r.Volume, r.IsUp);
-            }
-
             // assertions
 
             // should always be the same number of results as there is quotes
@@ -110,25 +104,52 @@ namespace Internal.Tests
             Assert.IsFalse(r247.IsUp);
         }
 
-        //[TestMethod]
-        //public void Atr()
-        //{
+        [TestMethod]
+        public void Atr()
+        {
 
-        //    List<RenkoResult> results = quotes.GetRenkoAtr(14).ToList();
+            List<RenkoResult> results = quotes
+                .GetRenkoAtr(14, EndType.Close)
+                .ToList();
 
-        //    // assertions
+            // assertions
 
-        //    // should always be the same number of results as there is quotes
-        //    Assert.AreEqual(502, results.Count);
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(43, results.Count);
 
-        //    // sample value
-        //    RenkoResult r = results[501];
-        //    Assert.AreEqual(241.3018m, Math.Round(r.Open, 4));
-        //    Assert.AreEqual(245.54m, Math.Round(r.High, 4));
-        //    Assert.AreEqual(241.3018m, Math.Round(r.Low, 4));
-        //    Assert.AreEqual(244.6525m, Math.Round(r.Close, 4));
-        //    Assert.AreEqual(147031456m, r.Volume);
-        //}
+            // sample values
+            RenkoResult r0 = results[0];
+            Assert.AreEqual(212.8m, Math.Round(r0.Open, 4));
+            Assert.AreEqual(220.19m, Math.Round(r0.High, 4));
+            Assert.AreEqual(212.53m, Math.Round(r0.Low, 4));
+            Assert.AreEqual(218.9497m, Math.Round(r0.Close, 4));
+            Assert.AreEqual(2090292272m, Math.Round(r0.Volume, 0));
+            Assert.IsTrue(r0.IsUp);
+
+            RenkoResult r10 = results[10];
+            Assert.AreEqual(274.2975m, Math.Round(r10.Open, 4));
+            Assert.AreEqual(275.87m, Math.Round(r10.High, 4));
+            Assert.AreEqual(265.25m, Math.Round(r10.Low, 4));
+            Assert.AreEqual(268.1477m, Math.Round(r10.Close, 4));
+            Assert.AreEqual(627270200m, Math.Round(r10.Volume, 0));
+            Assert.IsFalse(r10.IsUp);
+
+            RenkoResult r25 = results[25];
+            Assert.AreEqual(268.1477m, Math.Round(r25.Open, 4));
+            Assert.AreEqual(270.25m, Math.Round(r25.High, 4));
+            Assert.AreEqual(261.38m, Math.Round(r25.Low, 4));
+            Assert.AreEqual(261.9980m, Math.Round(r25.Close, 4));
+            Assert.AreEqual(1233408112m, Math.Round(r25.Volume, 0));
+            Assert.IsFalse(r25.IsUp);
+
+            RenkoResult r42 = results[42];
+            Assert.AreEqual(237.3990m, Math.Round(r42.Open, 4));
+            Assert.AreEqual(246.73m, Math.Round(r42.High, 4));
+            Assert.AreEqual(234.52m, Math.Round(r42.Low, 4));
+            Assert.AreEqual(243.5487m, Math.Round(r42.Close, 4));
+            Assert.AreEqual(492824400m, Math.Round(r42.Volume, 0));
+            Assert.IsTrue(r42.IsUp);
+        }
 
         [TestMethod]
         public void ConvertToQuotes()

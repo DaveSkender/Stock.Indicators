@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -14,12 +16,17 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // TODO: get atr using last N+100 periods of quotes
+            // initialize
+            IEnumerable<AtrResult> atrResults = quotes.GetAtr(atrPeriods);
+            decimal? brickSize = atrResults.LastOrDefault().Atr;
 
-            // mock ATR
-            decimal brickSize = atrPeriods / 2.5m;
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+            Console.WriteLine("BRICK SIZE: {0}", brickSize);
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
 
-            return quotes.GetRenko(brickSize, endType);
+            return brickSize is null or 0 ?
+                new List<RenkoResult>()
+              : quotes.GetRenko((decimal)brickSize, endType);
         }
     }
 }
