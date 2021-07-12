@@ -90,20 +90,20 @@ IEnumerable<RenkoResult> results =
   quotes.GetRenkoAtr(atrPeriods);
 ```
 
-## Parameters
+### Parameters for ATR
 
 | name | type | notes
 | -- |-- |--
 | `atrPeriod` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.
 | `endType` | EndType | See options below.  Default is `EndType.Close`
 
-### Historical quotes requirements
+#### Historical quotes requirements for ATR
 
 You must have at least `A+100` periods of `quotes`.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
-## Response
+## Response for ATR
 
 ```csharp
 IEnumerable<RenkoResult>
