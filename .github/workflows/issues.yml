@@ -1,4 +1,4 @@
-name: Add to GitHub project
+name: Verify GitHub project
 on: [issues, pull_request]
 jobs:
   github-actions-automate-projects:
