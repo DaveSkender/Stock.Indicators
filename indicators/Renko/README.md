@@ -53,7 +53,7 @@ Each result record represents one Renko brick.
 | `Volume` | decimal | Sum of Volume over elapsed quotes periods
 | `IsUp` | boolean | Direction of brick (true=up,false=down)
 
-:warning: WARNING! When multiple bricks are drawn from a single `quote` period, the extra information about `High` and `Low` wicks and `Volume` is potentially confusing to interpret.  `High` and `Low` wicks will be the same across the multiple bricks; and `Volume` is portioning evenly across the number of bricks.  For example, if within one `quote` period 3 bricks are drawn, the `Volume` for each brick will be the `(sum of quotes Volume since last brick) / 3`.
+:warning: WARNING! When multiple bricks are drawn from a single `quote` period, the extra information about `High` and `Low` wicks and `Volume` is potentially confusing to interpret.  `High` and `Low` wicks will be the same across the multiple bricks; and `Volume` is portioning evenly across the number of bricks.  For example, if within one `quote` period 3 bricks are drawn, the `Volume` for each brick will be `(sum of quotes Volume since last brick) / 3`.
 
 ### Utilities
 
