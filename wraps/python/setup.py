@@ -15,7 +15,7 @@ setuptools.setup(
     project_urls={
         "Bug Tracker": "https://github.com/DaveSkender/Stock.Indicators/issues",
         "Documentation": "https://daveskender.github.io/Stock.Indicators/wraps/python",
-        "Source Code": "https://github.com/DaveSkender/Stock.Indicators/tree/master/wraps/python",
+        "Source Code": "https://github.com/DaveSkender/Stock.Indicators/tree/main/wraps/python",
     },
     license="Apache 2.0",
     classifiers=[
