@@ -109,6 +109,4 @@ You must have at least `A+100` periods of `quotes`.
 IEnumerable<RenkoResult>
 ```
 
-:warning: WARNING!  Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $0.25 price change to occur an entry is made on the third day while the first two are skipped.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
-
 :warning: REPAINT WARNING!  When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)](../Atr#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
