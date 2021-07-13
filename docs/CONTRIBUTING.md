@@ -65,7 +65,7 @@ git commit -m "A brief summary of the commit
 > A paragraph describing what changed and its impact."
 ```
 
-After a Pull Request is reviewed, accepted, and [squash] merged to master, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and [squash] merged to main, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 
@@ -88,7 +88,7 @@ Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding
 Patch | `-.-.x` | A small bug fix, chore, or documentation change.
 Increment | `-.-.-+x` | Intermediate commits between releases.
 
-This only needs to be done on the merge to `master` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
+This only needs to be done on the merge to `main` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
 
 - Adding `+semver: major` as a commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element
