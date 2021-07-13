@@ -65,7 +65,7 @@ git commit -m "A brief summary of the commit
 > A paragraph describing what changed and its impact."
 ```
 
-After a Pull Request is reviewed, accepted, and [squash] merged to main, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 
