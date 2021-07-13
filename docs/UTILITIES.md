@@ -5,6 +5,18 @@
 
 ## Utilities for historical quotes
 
+### Validate quote history
+
+`quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes` (historical quotes).  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
+
+```csharp
+// fetch historical quotes from your favorite feed
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+
+// advanced validation
+IEnumerable<Quote> validatedQuotes = quotes.Validate();
+```
+
 ### Resize quote history
 
 `quotes.Aggregate(newSize)` is a tool to convert quotes to larger bar sizes.  For example if you have minute bar sizes in `quotes`, but want to convert it to hourly or daily.

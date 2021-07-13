@@ -53,7 +53,7 @@ Each result record represents one Renko brick.
 | `Volume` | decimal | Sum of Volume over elapsed quotes periods
 | `IsUp` | boolean | Direction of brick (true=up,false=down)
 
-:warning: WARNING! When multiple bricks are drawn from a single `quote` period, the extra information about `High` and `Low` wicks and `Volume` is potentially confusing to interpret.  `High` and `Low` wicks will be the same across the multiple bricks; and `Volume` is portioning evenly across the number of bricks.  For example, if within one `quote` period 3 bricks are drawn, the `Volume` for each brick will be the `(sum of quotes Volume since last brick) / 3`.
+:warning: WARNING! When multiple bricks are drawn from a single `quote` period, the extra information about `High` and `Low` wicks and `Volume` is potentially confusing to interpret.  `High` and `Low` wicks will be the same across the multiple bricks; and `Volume` is portioning evenly across the number of bricks.  For example, if within one `quote` period 3 bricks are drawn, the `Volume` for each brick will be `(sum of quotes Volume since last brick) / 3`.
 
 ### Utilities
 
@@ -108,7 +108,5 @@ You must have at least `A+100` periods of `quotes`.
 ```csharp
 IEnumerable<RenkoResult>
 ```
-
-:warning: WARNING!  Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $0.25 price change to occur an entry is made on the third day while the first two are skipped.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
 
 :warning: REPAINT WARNING!  When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)](../Atr#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
