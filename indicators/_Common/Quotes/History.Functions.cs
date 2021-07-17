@@ -44,22 +44,25 @@ namespace Skender.Stock.Indicators
             PeriodSize newSize)
             where TQuote : IQuote
         {
+
+            // handle no quotes scenario
+            if (quotes == null || !quotes.Any())
+            {
+                return new List<Quote>();
+            }
+
+            // parameter validation
             TimeSpan newPeriod = newSize.ToTimeSpan();
 
-            return
-
-                // handle no quotes scenario
-                quotes == null || !quotes.Any() ? new List<Quote>()
-
-                // parameter validation
-                : newPeriod == TimeSpan.Zero ?
-
+            if (newPeriod == TimeSpan.Zero)
+            {
                 throw new ArgumentOutOfRangeException(nameof(newSize), newSize,
                     "Historical quotes Aggregation must use a New Size value of at least " +
-                    "one minute and not more than one week.")
+                    "one minute and not more than one week.");
+            }
 
-                // return aggregation
-                : quotes
+            // return aggregation
+            return quotes
                     .OrderBy(x => x.Date)
                     .GroupBy(x => x.Date.RoundDown(newPeriod))
                     .Select(x => new Quote
