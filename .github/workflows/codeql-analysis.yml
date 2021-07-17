@@ -19,7 +19,7 @@ defaults:
 
 jobs:
   analyse:
-    name: Analyse
+    name: analyse
     runs-on: ubuntu-latest
 
     steps:
