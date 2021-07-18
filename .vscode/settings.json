@@ -19,7 +19,5 @@
 
     // language settings
     "dotnet-test-explorer.testProjectPath": "**/*Tests*.csproj",
-    "python.enableFormatting.black": true,
-    "python.formatting.provider": "black",
     "scss.validate": false  // false-positives with Jekyll front matter
 }

@@ -10,7 +10,6 @@ exclude:
   [
     ".github",
     ".vscode",
-    "wraps/python/**/",
     "tests/**/BenchmarkDotNet**",
     "tests/indicators",
     "tests/external",
