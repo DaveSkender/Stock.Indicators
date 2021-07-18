@@ -64,5 +64,22 @@ namespace Skender.Stock.Indicators
                 _ => TimeSpan.Zero
             };
         }
+
+        // DETERMINE DECIMAL PLACES
+        internal static int GetDecimalPlaces(this decimal n)
+        {
+            // source: https://stackoverflow.com/a/30205131/4496145
+
+            n = Math.Abs(n); //make sure it is positive.
+            n -= (int)n;     //remove the integer part of the number.
+            int decimalPlaces = 0;
+            while (n > 0)
+            {
+                decimalPlaces++;
+                n *= 10;
+                n -= (int)n;
+            }
+            return decimalPlaces;
+        }
     }
 }

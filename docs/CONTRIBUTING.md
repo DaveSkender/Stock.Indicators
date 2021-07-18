@@ -1,6 +1,10 @@
 # Contributing guidelines
 
-Thanks for taking the time to contribute!
+[![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/main?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main)
+[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
+[![CodeQL](https://github.com/DaveSkender/Stock.Indicators/workflows/CodeQL/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/security/code-scanning)
+
+**Thanks for taking the time to contribute!**
 
 This project is simpler than most, so it's a good place to start contributing to the open source community, even if you're a newbie.
 
@@ -39,7 +43,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 - New indicators should be tested against manually calculated, proven, accurate results.  It is helpful to include your manual calculations spreadsheet in the appropriate indicator folder when [submitting changes](#submitting-changes).
 - Historical Stock Quotes are automatically added to unit test methods.  A `History.xlsx` Excel file is included in the `test data` folder that is an exact copy of what is used in the unit tests.  Use this for your manual calculations to ensure that it is correct.  Do not commit changes to this Excel file.
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
-- Failed builds or unit testing will block acceptance of your Pull Request, when submitting changes.
+- Failed builds or unit testing will block acceptance of your Pull Request when submitting changes.
 
 ### Performance benchmarking
 
@@ -65,7 +69,7 @@ git commit -m "A brief summary of the commit
 > A paragraph describing what changed and its impact."
 ```
 
-After a Pull Request is reviewed, accepted, and [squash] merged to master, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 
@@ -88,7 +92,7 @@ Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding
 Patch | `-.-.x` | A small bug fix, chore, or documentation change.
 Increment | `-.-.-+x` | Intermediate commits between releases.
 
-This only needs to be done on the merge to `master` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
+This only needs to be done on the merge to `main` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
 
 - Adding `+semver: major` as a commit message will increment the major x.-.- element
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element

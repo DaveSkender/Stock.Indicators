@@ -301,6 +301,18 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetRenko()
+        {
+            return h.GetRenko(2.5m);
+        }
+
+        [Benchmark]
+        public object GetRenkoAtr()
+        {
+            return h.GetRenko(14);
+        }
+
+        [Benchmark]
         public object GetRoc()
         {
             return h.GetRoc(20);

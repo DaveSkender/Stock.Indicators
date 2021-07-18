@@ -5,7 +5,6 @@
 - [Example usage](#example-usage)
 - [Historical quotes](#historical-quotes)
 - [Using custom quote classes](#using-custom-quote-classes)
-- [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Utilities and Helper functions](UTILITIES.md#content)
@@ -151,18 +150,6 @@ public class MyCustomQuote : IQuote
 Note the use of explicit interface (property declaration is `IQuote.Date`), this is because having two properties that expose the same information can be confusing, this way `Date` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Date` property will be hidden, avoiding confusion.
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
-
-### Validating historical quotes
-
-Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<TQuote> quotes` (historical quotes) you can _optionally_ validate it with the `quotes.Validate()` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
-
-```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// advanced validation
-IEnumerable<Quote> validatedQuotes = quotes.Validate();
-```
 
 ## Using derived results classes
 

@@ -90,6 +90,7 @@
 
 - [Ehlers Fisher Transform](../indicators/FisherTransform/README.md#content)
 - [Heikin-Ashi](../indicators/HeikinAshi/README.md#content)
+- [Renko Chart](../indicators/Renko/README.md#content)
 - [Zig Zag](../indicators/ZigZag/README.md#content)
 
 ## Price characteristics
