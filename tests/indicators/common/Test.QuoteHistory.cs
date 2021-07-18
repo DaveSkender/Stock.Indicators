@@ -149,6 +149,11 @@ namespace Internal.Tests
             Assert.AreEqual(366.57m, r2.Low);
             Assert.AreEqual(366.97m, r2.Close);
             Assert.AreEqual(1396993m, r2.Volume);
+
+            // no history scenario
+            List<Quote> noQuotes = new();
+            IEnumerable<Quote> noResults = noQuotes.Aggregate(PeriodSize.Day);
+            Assert.IsFalse(noResults.Any());
         }
 
         [TestMethod]
@@ -225,6 +230,14 @@ namespace Internal.Tests
         {
             // compose basic data
             quotes.ConvertToBasic("E");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad aggregation size.")]
+        public void BadAggregationSize()
+        {
+            // bad period size
+            quotes.Aggregate(PeriodSize.Month);
         }
     }
 }
