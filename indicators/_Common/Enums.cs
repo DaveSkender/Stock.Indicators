@@ -37,4 +37,12 @@
         Close = 0,
         HighLow = 1
     }
+
+    public enum DivergenceType
+    {
+        RegularBull,
+        RegularBear,
+        HiddenBull,
+        HiddenBear
+    }
 }

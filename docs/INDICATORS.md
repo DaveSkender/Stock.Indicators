@@ -38,7 +38,7 @@
 
 - [ConnorsRSI](../indicators/ConnorsRsi/README.md#content)
 - [Commodity Channel Index](../indicators/Cci/README.md#content)
-- [Relative Strength Index (RSI)](../indicators/Rsi/README.md#content)
+- [Relative Strength Index (RSI)](../indicators/Rsi/README.md#content) and [RSI Divergence](../indicators/Rsi/README.md#extended-analysis)]
 - [ROC with Bands](../indicators/Roc/README.md#roc-with-bands)
 - [Stochastic Oscillator](../indicators/Stoch/README.md#content) and [KDJ Index](../indicators/Stoch/README.md#content)
 - [Stochastic RSI](../indicators/StochRsi/README.md#content)

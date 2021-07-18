@@ -11,7 +11,8 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<FractalResult> GetFractal<TQuote>(
             this IEnumerable<TQuote> quotes,
-            int windowSpan = 2)
+            int windowSpan = 2,
+            EndType endType = EndType.HighLow)
             where TQuote : IQuote
         {
 
@@ -40,23 +41,36 @@ namespace Skender.Stock.Indicators
                     bool isHigh = true;
                     bool isLow = true;
 
+                    decimal evalHigh = (endType == EndType.Close) ?
+                        Math.Max(q.Open, q.Close) : q.High;
+
+                    decimal evalLow = (endType == EndType.Close) ?
+                        Math.Min(q.Open, q.Close) : q.Low;
+
+                    // compare today with wings
                     for (int p = i - windowSpan; p <= i + windowSpan; p++)
                     {
-                        // skip current period
+                        // skip center eval period
                         if (p == i)
                         {
                             continue;
                         }
 
-                        // evaluate "wings"
-                        TQuote d = quotesList[p];
+                        // evaluate wing periods
+                        TQuote wing = quotesList[p];
 
-                        if (q.High <= d.High)
+                        decimal wingHigh = (endType == EndType.Close) ?
+                            Math.Max(wing.Open, wing.Close) : wing.High;
+
+                        decimal wingLow = (endType == EndType.Close) ?
+                            Math.Min(wing.Open, wing.Close) : wing.Low;
+
+                        if (evalHigh <= wingHigh)
                         {
                             isHigh = false;
                         }
 
-                        if (q.Low >= d.Low)
+                        if (evalLow >= wingLow)
                         {
                             isLow = false;
                         }
@@ -65,13 +79,13 @@ namespace Skender.Stock.Indicators
                     // bearish signal
                     if (isHigh)
                     {
-                        r.FractalBear = q.High;
+                        r.FractalBear = evalHigh;
                     }
 
                     // bullish signal
                     if (isLow)
                     {
-                        r.FractalBull = q.Low;
+                        r.FractalBull = evalLow;
                     }
                 }
 
