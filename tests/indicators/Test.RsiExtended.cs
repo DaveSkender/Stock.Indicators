@@ -13,9 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
 
-            List<RsiExtendedResult> results = Indicator.GetRsiExtended(history, lookbackPeriod)
+            List<RsiExtendedResult> results = quotes.GetRsiExtended(14)
                 .ToList();
 
             // assertions
@@ -42,7 +41,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RsiExtendedResult> r = Indicator.GetRsiExtended(historyBad, 20);
+            IEnumerable<RsiExtendedResult> r = historyBad.GetRsiExtended(20);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -51,10 +50,10 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRsiExtended(history, 0));
+                Indicator.GetRsiExtended(quotes, 0));
 
             // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetRsiExtended(HistoryTestData.Get(129), 30));
         }
     }
