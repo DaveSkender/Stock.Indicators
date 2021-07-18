@@ -16,13 +16,13 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Month;
             PivotPointType pointType = PivotPointType.Standard;
 
-            List<PivotPointsResult> results = history.GetPivotPoints(periodSize, pointType)
+            List<PivotPointsResult> results = quotes.GetPivotPoints(periodSize, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
 
@@ -107,7 +107,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(38, results.Count);
             Assert.AreEqual(33, results.Where(x => x.PP != null).Count());
 
@@ -174,13 +174,13 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Month;
             PivotPointType pointType = PivotPointType.Demark;
 
-            List<PivotPointsResult> results = Indicator.GetPivotPoints(history, periodSize, pointType)
+            List<PivotPointsResult> results = Indicator.GetPivotPoints(quotes, periodSize, pointType)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
 
@@ -253,7 +253,7 @@ namespace Internal.Tests
 
 
             // special Demark case: test close = open
-            PivotPointsResult d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
+            PivotPointsResult d1 = Indicator.GetPivotPointDemark<PivotPointsResult>(125, 200, 100, 125);
             Assert.AreEqual(550m / 4, d1.PP);
         }
 
@@ -270,7 +270,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(300, results.Count);
             Assert.AreEqual(241, results.Where(x => x.PP != null).Count());
 
@@ -345,7 +345,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(1564, results.Count);
             Assert.AreEqual(1173, results.Where(x => x.PP != null).Count());
 
@@ -406,30 +406,55 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            PeriodSize periodSize = PeriodSize.Month;
+            PivotPointType pointType = PivotPointType.Standard;
+
+            List<PivotPointsResult> results = quotes.GetPivotPoints(periodSize, pointType)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(482, results.Count);
+
+            PivotPointsResult last = results.LastOrDefault();
+            Assert.AreEqual(null, last.R4);
+            Assert.AreEqual(null, last.R3);
+            Assert.AreEqual(266.6767m, Math.Round((decimal)last.PP, 4));
+            Assert.AreEqual(258.9633m, Math.Round((decimal)last.S1, 4));
+            Assert.AreEqual(248.9667m, Math.Round((decimal)last.S2, 4));
+            Assert.AreEqual(276.6733m, Math.Round((decimal)last.R1, 4));
+            Assert.AreEqual(284.3867m, Math.Round((decimal)last.R2, 4));
+            Assert.AreEqual(null, last.S3);
+            Assert.AreEqual(null, last.S4);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
-            // insufficient history - month
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes - month
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(HistoryTestData.Get(18), PeriodSize.Month));
 
-            // insufficient history - week
+            // insufficient quotes - week
             IEnumerable<Quote> w = HistoryTestData.Get(5)
                 .OrderBy(x => x.Date).Take(4);
 
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(w, PeriodSize.Week));
 
-            // insufficient history - day
+            // insufficient quotes - day
             IEnumerable<Quote> d = HistoryTestData.GetIntraday(250);
 
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(d, PeriodSize.Day));
 
-            // insufficient history - hour
+            // insufficient quotes - hour
             IEnumerable<Quote> h = HistoryTestData.GetIntraday(30)
                 .OrderBy(x => x.Date).Take(29);
 
-            Assert.ThrowsException<BadHistoryException>(() =>
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(h, PeriodSize.OneHour));
         }
     }

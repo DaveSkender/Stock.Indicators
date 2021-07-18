@@ -22,7 +22,7 @@ namespace Internal.Tests
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(391, results.Count);
             Assert.AreEqual(391, results.Where(x => x.Vwap != null).Count());
 
@@ -51,7 +51,7 @@ namespace Internal.Tests
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(391, results.Count);
             Assert.AreEqual(361, results.Where(x => x.Vwap != null).Count());
 
@@ -77,6 +77,35 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            // no start date
+            List<VwapResult> results = intraday.GetVwap()
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(391, results.Count);
+
+            VwapResult last = results.LastOrDefault();
+            Assert.AreEqual(368.1804m, Math.Round((decimal)last.Vwap, 4));
+
+            // with start date
+            DateTime startDate =
+            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
+
+            List<VwapResult> sdResults = Indicator.GetVwap(intraday, startDate)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(361, sdResults.Count);
+
+            VwapResult sdLast = sdResults.LastOrDefault();
+            Assert.AreEqual(368.2908m, Math.Round((decimal)sdLast.Vwap, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad SMA period
@@ -84,10 +113,10 @@ namespace Internal.Tests
                 DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", englishCulture);
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetVwap(history, startDate));
+                Indicator.GetVwap(quotes, startDate));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetVwap(HistoryTestData.Get(0)));
         }
     }

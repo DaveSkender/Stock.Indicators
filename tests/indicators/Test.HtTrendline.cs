@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<HtlResult> results = history.GetHtTrendline().ToList();
+            List<HtlResult> results = quotes.GetHtTrendline().ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Where(x => x.Trendline != null).Count());
             Assert.AreEqual(496, results.Where(x => x.SmoothPrice != null).Count());
@@ -62,6 +62,21 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<HtlResult> results = quotes.GetHtTrendline()
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 100, results.Count);
+
+            HtlResult last = results.LastOrDefault();
+            Assert.AreEqual(252.2172m, Math.Round((decimal)last.Trendline, 4));
+            Assert.AreEqual(242.3435m, Math.Round((decimal)last.SmoothPrice, 4));
+        }
+
+        [TestMethod]
         public void PennyData()
         {
             IEnumerable<Quote> penny = HistoryTestData.GetPenny();
@@ -72,8 +87,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Exceptions()
         {
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetHtTrendline(HistoryTestData.Get(99)));
         }
     }

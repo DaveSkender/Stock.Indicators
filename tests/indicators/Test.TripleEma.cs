@@ -13,32 +13,45 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<EmaResult> results = history.GetTripleEma(lookbackPeriod).ToList();
+            List<TemaResult> results = quotes.GetTripleEma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(445, results.Where(x => x.Ema != null).Count());
+            Assert.AreEqual(445, results.Where(x => x.Tema != null).Count());
 
             // sample values
-            EmaResult r1 = results[67];
-            Assert.AreEqual(222.9105m, Math.Round((decimal)r1.Ema, 4));
+            TemaResult r1 = results[67];
+            Assert.AreEqual(222.9105m, Math.Round((decimal)r1.Tema, 4));
 
-            EmaResult r2 = results[249];
-            Assert.AreEqual(258.6208m, Math.Round((decimal)r2.Ema, 4));
+            TemaResult r2 = results[249];
+            Assert.AreEqual(258.6208m, Math.Round((decimal)r2.Tema, 4));
 
-            EmaResult r3 = results[501];
-            Assert.AreEqual(238.7690m, Math.Round((decimal)r3.Ema, 4));
+            TemaResult r3 = results[501];
+            Assert.AreEqual(238.7690m, Math.Round((decimal)r3.Tema, 4));
         }
 
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<EmaResult> r = Indicator.GetTripleEma(historyBad, 15);
+            IEnumerable<TemaResult> r = Indicator.GetTripleEma(historyBad, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void Removed()
+        {
+            List<TemaResult> results = quotes.GetTripleEma(20)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (3 * 20 + 100), results.Count);
+
+            TemaResult last = results.LastOrDefault();
+            Assert.AreEqual(238.7690m, Math.Round((decimal)last.Tema, 4));
         }
 
         [TestMethod]
@@ -46,14 +59,14 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetTripleEma(history, 0));
+                Indicator.GetTripleEma(quotes, 0));
 
-            // insufficient history for 3*N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 3*N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTripleEma(HistoryTestData.Get(189), 30));
 
-            // insufficient history for 4×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 4×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTripleEma(HistoryTestData.GetLong(999), 250));
         }
     }

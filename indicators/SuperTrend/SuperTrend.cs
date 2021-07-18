@@ -10,51 +10,51 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<SuperTrendResult> GetSuperTrend<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 10,
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 10,
             decimal multiplier = 3)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateSuperTrend(history, lookbackPeriod, multiplier);
+            ValidateSuperTrend(quotes, lookbackPeriods, multiplier);
 
             // initialize
-            List<SuperTrendResult> results = new(historyList.Count);
-            List<AtrResult> atrResults = GetAtr(history, lookbackPeriod).ToList();
+            List<SuperTrendResult> results = new(quotesList.Count);
+            List<AtrResult> atrResults = GetAtr(quotes, lookbackPeriods).ToList();
 
             bool isBullish = true;
             decimal? upperBand = null;
             decimal? lowerBand = null;
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 SuperTrendResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (i >= lookbackPeriod - 1)
+                if (i >= lookbackPeriods - 1)
                 {
 
-                    decimal mid = (h.High + h.Low) / 2;
+                    decimal mid = (q.High + q.Low) / 2;
                     decimal atr = (decimal)atrResults[i].Atr;
-                    decimal prevClose = historyList[i - 1].Close;
+                    decimal prevClose = quotesList[i - 1].Close;
 
                     // potential bands
                     decimal upperEval = mid + multiplier * atr;
                     decimal lowerEval = mid - multiplier * atr;
 
                     // initial values
-                    if (i == lookbackPeriod - 1)
+                    if (i == lookbackPeriods - 1)
                     {
-                        isBullish = (h.Close >= mid);
+                        isBullish = (q.Close >= mid);
 
                         upperBand = upperEval;
                         lowerBand = lowerEval;
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     // supertrend
-                    if (h.Close <= ((isBullish) ? lowerBand : upperBand))
+                    if (q.Close <= ((isBullish) ? lowerBand : upperBand))
                     {
                         r.SuperTrend = upperBand;
                         r.UpperBand = upperBand;
@@ -94,18 +94,31 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<SuperTrendResult> RemoveWarmupPeriods(
+            this IEnumerable<SuperTrendResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.SuperTrend != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateSuperTrend<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
             decimal multiplier)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for SuperTrend.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for SuperTrend.");
             }
 
             if (multiplier <= 0m)
@@ -114,20 +127,20 @@ namespace Skender.Stock.Indicators
                     "Multiplier must be greater than 0 for SuperTrend.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 100;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for SuperTrend.  " +
+                string message = "Insufficient quotes provided for SuperTrend.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least N+250 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

@@ -8,20 +8,20 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 ```csharp
 // usage
 IEnumerable<AroonResult> results =
-  history.GetAroon(lookbackPeriod);  
+  quotes.GetAroon(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
+| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -40,14 +40,22 @@ The first `N-1` periods will have `null` Aroon values since there's not enough d
 | `AroonDown` | decimal | Based on last Low price
 | `Oscillator` | decimal | AroonUp - AroonDown
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Aroon(25)
-IEnumerable<AroonResult> results = history.GetAroon(25);
+IEnumerable<AroonResult> results = quotes.GetAroon(25);
 
 // use results as needed
 AroonResult result = results.LastOrDefault();

@@ -22,17 +22,14 @@ exclude:
     "*.txt",
     "*.xlsx",
     "*.xml",
-    "*.yml"
+    "*.yml",
   ]
 
-include:
-  [
-  "docs", 
-  "LICENSE"
-  ]
+include: ["docs", "LICENSE"]
 
 plugins:
   - jemoji
   - jekyll-sitemap
+  - jekyll-last-modified-at
 
 google_analytics: G-7602GXEZ0R

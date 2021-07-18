@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,7 +19,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(63, results.Where(x => x.FractalBear != null).Count());
             Assert.AreEqual(71, results.Where(x => x.FractalBull != null).Count());
@@ -59,7 +59,7 @@ namespace Internal.Tests
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(35, results.Where(x => x.FractalBear != null).Count());
             Assert.AreEqual(34, results.Where(x => x.FractalBull != null).Count());
@@ -102,10 +102,10 @@ namespace Internal.Tests
         {
             // bad window span
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetFractal(history, 1));
+                Indicator.GetFractal(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetFractal(HistoryTestData.Get(10), 5));
         }
     }

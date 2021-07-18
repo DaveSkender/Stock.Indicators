@@ -8,25 +8,25 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 ```csharp
 // usage for Trix
 IEnumerable<TrixResult> results =
-  history.GetTrix(lookbackPeriod);
+  quotes.GetTrix(lookbackPeriods);
 
 // usage for Trix with Signal Line (shown above)
 IEnumerable<TrixResult> results =
-  history.GetTrix(lookbackPeriod, signalPeriod);
+  quotes.GetTrix(lookbackPeriods, signalPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
-| `signalPeriod` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
+| `lookbackPeriods` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
+| `signalPeriods` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
-You must have at least `4×N` or `3×N+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -45,16 +45,24 @@ We always return the same number of elements as there are in the historical quot
 | `Date` | DateTime | Date
 | `Ema3` | decimal | 3 EMAs of the Close price
 | `Trix` | decimal | Rate of Change of 3 EMAs
-| `Signal` | decimal | SMA of `Trix` based on `signalPeriod` periods, if specified
+| `Signal` | decimal | SMA of `Trix` based on `signalPeriods` periods, if specified
+
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
 
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Trix
-IEnumerable<TrixResult> results = history.GetTrix(14);
+IEnumerable<TrixResult> results = quotes.GetTrix(14);
 
 // use results as needed
 TrixResult result = results.LastOrDefault();

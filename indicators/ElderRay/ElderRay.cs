@@ -10,19 +10,19 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ElderRayResult> GetElderRay<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 13)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 13)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateElderRay(history, lookbackPeriod);
+            ValidateElderRay(quotes, lookbackPeriods);
 
             // initialize with EMA
-            List<ElderRayResult> results = GetEma(history, lookbackPeriod)
+            List<ElderRayResult> results = GetEma(quotes, lookbackPeriods)
                 .Select(x => new ElderRayResult
                 {
                     Date = x.Date,
@@ -30,48 +30,61 @@ namespace Skender.Stock.Indicators
                 })
                 .ToList();
 
-            // roll through history
-            for (int i = lookbackPeriod - 1; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = lookbackPeriods - 1; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 ElderRayResult r = results[i];
 
-                r.BullPower = h.High - r.Ema;
-                r.BearPower = h.Low - r.Ema;
+                r.BullPower = q.High - r.Ema;
+                r.BearPower = q.Low - r.Ema;
             }
 
             return results;
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<ElderRayResult> RemoveWarmupPeriods(
+            this IEnumerable<ElderRayResult> results)
+        {
+            int n = results
+              .ToList()
+              .FindIndex(x => x.BullPower != null) + 1;
+
+            return results.Remove(n + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateElderRay<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Elder-ray Index.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Elder-ray Index.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Elder-ray Index.  " +
+                string message = "Insufficient quotes provided for Elder-ray Index.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

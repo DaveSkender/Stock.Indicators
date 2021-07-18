@@ -13,15 +13,14 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<AtrResult> results = history.GetAtr(lookbackPeriod).ToList();
+            List<AtrResult> results = quotes.GetAtr(14).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - lookbackPeriod + 1, results.Where(x => x.Atr != null).Count());
+            Assert.AreEqual(502 - 13, results.Where(x => x.Atr != null).Count());
 
             // sample values
             AtrResult r1 = results[12];
@@ -58,14 +57,30 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<AtrResult> results = quotes.GetAtr(14)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 13, results.Count);
+
+            AtrResult last = results.LastOrDefault();
+            Assert.AreEqual(2.67m, last.Tr);
+            Assert.AreEqual(6.1497m, Math.Round((decimal)last.Atr, 4));
+            Assert.AreEqual(2.5072m, Math.Round((decimal)last.Atrp, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAtr(history, 1));
+                Indicator.GetAtr(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAtr(HistoryTestData.Get(129), 30));
         }
     }

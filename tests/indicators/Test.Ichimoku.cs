@@ -13,18 +13,18 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int signalPeriod = 9;
-            int shortSpanPeriod = 26;
-            int longSpanPeriod = 52;
+            int signalPeriods = 9;
+            int shortSpanPeriods = 26;
+            int longSpanPeriods = 52;
 
-            List<IchimokuResult> results = history.GetIchimoku(
-                signalPeriod, shortSpanPeriod, longSpanPeriod)
+            List<IchimokuResult> results = quotes.GetIchimoku(
+                signalPeriods, shortSpanPeriods, longSpanPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(494, results.Where(x => x.TenkanSen != null).Count());
             Assert.AreEqual(477, results.Where(x => x.KijunSen != null).Count());
@@ -74,18 +74,18 @@ namespace Internal.Tests
         {
             // bad signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetIchimoku(history, 0));
+                Indicator.GetIchimoku(quotes, 0));
 
             // bad short span period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetIchimoku(history, 9, 0, 52));
+                Indicator.GetIchimoku(quotes, 9, 0, 52));
 
             // bad long span period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetIchimoku(history, 9, 26, 26));
+                Indicator.GetIchimoku(quotes, 9, 26, 26));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetIchimoku(HistoryTestData.Get(51), 9, 26, 52));
         }
     }

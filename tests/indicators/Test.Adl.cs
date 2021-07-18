@@ -14,11 +14,11 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<AdlResult> results = history.GetAdl().ToList();
+            List<AdlResult> results = quotes.GetAdl().ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(502, results.Where(x => x.AdlSma == null).Count());
 
@@ -37,6 +37,22 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void ConvertToQuotes()
+        {
+            List<Quote> newQuotes = quotes.GetAdl()
+                .ConvertToQuotes()
+                .ToList();
+
+            Assert.AreEqual(502, newQuotes.Count);
+
+            Quote q1 = newQuotes[249];
+            Assert.AreEqual(3266400865.74m, Math.Round(q1.Close, 2));
+
+            Quote q2 = newQuotes[501];
+            Assert.AreEqual(3439986548.42m, Math.Round(q2.Close, 2));
+        }
+
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<AdlResult> r = Indicator.GetAdl(historyBad);
@@ -47,11 +63,11 @@ namespace Internal.Tests
         public void WithSma()
         {
 
-            List<AdlResult> results = Indicator.GetAdl(history, 20).ToList();
+            List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.AdlSma != null).Count());
 
@@ -68,10 +84,10 @@ namespace Internal.Tests
         {
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAdl(history, 0));
+                Indicator.GetAdl(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAdl(HistoryTestData.Get(1)));
         }
     }

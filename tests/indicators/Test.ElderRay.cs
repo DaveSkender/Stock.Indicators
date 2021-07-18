@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<ElderRayResult> results = history.GetElderRay(13).ToList();
+            List<ElderRayResult> results = quotes.GetElderRay(13).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(490, results.Where(x => x.BullPower != null).Count());
             Assert.AreEqual(490, results.Where(x => x.BearPower != null).Count());
@@ -64,18 +64,34 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<ElderRayResult> results = quotes.GetElderRay(13)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (100 + 13), results.Count);
+
+            ElderRayResult last = results.LastOrDefault();
+            Assert.AreEqual(246.0129m, Math.Round((decimal)last.Ema, 4));
+            Assert.AreEqual(-0.4729m, Math.Round((decimal)last.BullPower, 4));
+            Assert.AreEqual(-3.1429m, Math.Round((decimal)last.BearPower, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetElderRay(history, 0));
+                Indicator.GetElderRay(quotes, 0));
 
-            // insufficient history for N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetElderRay(HistoryTestData.Get(129), 30));
 
-            // insufficient history for 2×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 2×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetElderRay(HistoryTestData.Get(499), 250));
         }
     }

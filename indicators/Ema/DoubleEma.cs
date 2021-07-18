@@ -9,28 +9,28 @@ namespace Skender.Stock.Indicators
         // DOUBLE EXPONENTIAL MOVING AVERAGE
         /// <include file='./info.xml' path='indicators/type[@name="DEMA"]/*' />
         /// 
-        public static IEnumerable<EmaResult> GetDoubleEma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+        public static IEnumerable<DemaResult> GetDoubleEma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // check parameter arguments
-            ValidateDema(bdList, lookbackPeriod);
+            ValidateDema(bdList, lookbackPeriods);
 
             // initialize
-            List<EmaResult> results = new(bdList.Count);
-            List<EmaResult> emaN = CalcEma(bdList, lookbackPeriod).ToList();
+            List<DemaResult> results = new(bdList.Count);
+            List<EmaResult> emaN = CalcEma(bdList, lookbackPeriods).ToList();
 
             List<BasicData> bd2 = emaN
                 .Where(x => x.Ema != null)
                 .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();  // note: ToList seems to be required when changing data
 
-            List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriod).ToList();
+            List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods).ToList();
 
             // compose final results
             for (int i = 0; i < emaN.Count; i++)
@@ -38,15 +38,15 @@ namespace Skender.Stock.Indicators
                 EmaResult e1 = emaN[i];
                 int index = i + 1;
 
-                EmaResult result = new()
+                DemaResult result = new()
                 {
                     Date = e1.Date
                 };
 
-                if (index >= 2 * lookbackPeriod - 1)
+                if (index >= 2 * lookbackPeriods - 1)
                 {
-                    EmaResult e2 = emaN2[index - lookbackPeriod];
-                    result.Ema = 2 * e1.Ema - e2.Ema;
+                    EmaResult e2 = emaN2[index - lookbackPeriods];
+                    result.Dema = 2 * e1.Ema - e2.Ema;
                 }
 
                 results.Add(result);
@@ -56,33 +56,46 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<DemaResult> RemoveWarmupPeriods(
+            this IEnumerable<DemaResult> results)
+        {
+            int n2 = results
+              .ToList()
+              .FindIndex(x => x.Dema != null) + 2;
+
+            return results.Remove(n2 + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateDema(
-            IEnumerable<BasicData> history,
-            int lookbackPeriod)
+            IEnumerable<BasicData> quotes,
+            int lookbackPeriods)
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for DEMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for DEMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = Math.Max(3 * lookbackPeriod, 2 * lookbackPeriod + 100);
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = Math.Max(3 * lookbackPeriods, 2 * lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for DEMA.  " +
+                string message = "Insufficient quotes provided for DEMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, 2 * lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, 2 * lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

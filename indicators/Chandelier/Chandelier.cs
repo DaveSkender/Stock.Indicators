@@ -10,36 +10,36 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ChandelierResult> GetChandelier<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 22,
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 22,
             decimal multiplier = 3.0m,
             ChandelierType type = ChandelierType.Long)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateChandelier(history, lookbackPeriod, multiplier);
+            ValidateChandelier(quotes, lookbackPeriods, multiplier);
 
             // initialize
-            List<ChandelierResult> results = new(historyList.Count);
-            List<AtrResult> atrResult = GetAtr(history, lookbackPeriod).ToList();  // uses ATR
+            List<ChandelierResult> results = new(quotesList.Count);
+            List<AtrResult> atrResult = GetAtr(quotes, lookbackPeriods).ToList();  // uses ATR
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 ChandelierResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // add exit values
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
 
                     decimal atr = (decimal)atrResult[i].Atr;
@@ -49,9 +49,9 @@ namespace Skender.Stock.Indicators
                         case ChandelierType.Long:
 
                             decimal maxHigh = 0;
-                            for (int p = index - lookbackPeriod; p < index; p++)
+                            for (int p = index - lookbackPeriods; p < index; p++)
                             {
-                                TQuote d = historyList[p];
+                                TQuote d = quotesList[p];
                                 if (d.High > maxHigh)
                                 {
                                     maxHigh = d.High;
@@ -64,9 +64,9 @@ namespace Skender.Stock.Indicators
                         case ChandelierType.Short:
 
                             decimal minLow = decimal.MaxValue;
-                            for (int p = index - lookbackPeriod; p < index; p++)
+                            for (int p = index - lookbackPeriods; p < index; p++)
                             {
-                                TQuote d = historyList[p];
+                                TQuote d = quotesList[p];
                                 if (d.Low < minLow)
                                 {
                                     minLow = d.Low;
@@ -88,18 +88,31 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<ChandelierResult> RemoveWarmupPeriods(
+            this IEnumerable<ChandelierResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.ChandelierExit != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateChandelier<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
             decimal multiplier)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Chandelier Exit.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Chandelier Exit.");
             }
 
             if (multiplier <= 0)
@@ -108,18 +121,18 @@ namespace Skender.Stock.Indicators
                     "Multiplier must be greater than 0 for Chandelier Exit.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Chandelier Exit.  " +
+                string message = "Insufficient quotes provided for Chandelier Exit.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

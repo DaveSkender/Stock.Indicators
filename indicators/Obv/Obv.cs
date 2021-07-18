@@ -10,61 +10,61 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ObvResult> GetObv<TQuote>(
-            this IEnumerable<TQuote> history,
-            int? smaPeriod = null)
+            this IEnumerable<TQuote> quotes,
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateObv(history, smaPeriod);
+            ValidateObv(quotes, smaPeriods);
 
             // initialize
-            List<ObvResult> results = new(historyList.Count);
+            List<ObvResult> results = new(quotesList.Count);
 
             decimal? prevClose = null;
             decimal obv = 0;
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
-                if (prevClose == null || h.Close == prevClose)
+                if (prevClose == null || q.Close == prevClose)
                 {
                     // no change to OBV
                 }
-                else if (h.Close > prevClose)
+                else if (q.Close > prevClose)
                 {
-                    obv += h.Volume;
+                    obv += q.Volume;
                 }
-                else if (h.Close < prevClose)
+                else if (q.Close < prevClose)
                 {
-                    obv -= h.Volume;
+                    obv -= q.Volume;
                 }
 
                 ObvResult result = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                     Obv = obv
                 };
                 results.Add(result);
 
-                prevClose = h.Close;
+                prevClose = q.Close;
 
                 // optional SMA
-                if (smaPeriod != null && index > smaPeriod)
+                if (smaPeriods != null && index > smaPeriods)
                 {
                     decimal sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Obv;
                     }
 
-                    result.ObvSma = sumSma / smaPeriod;
+                    result.ObvSma = sumSma / smaPeriods;
                 }
             }
 
@@ -72,31 +72,50 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // convert to quotes
+        public static IEnumerable<Quote> ConvertToQuotes(
+            this IEnumerable<ObvResult> results)
+        {
+            return results
+              .Select(x => new Quote
+              {
+                  Date = x.Date,
+                  Open = x.Obv,
+                  High = x.Obv,
+                  Low = x.Obv,
+                  Close = x.Obv,
+                  Volume = x.Obv
+              })
+              .ToList();
+        }
+
+
+        // parameter validation
         private static void ValidateObv<TQuote>(
-            IEnumerable<TQuote> history,
-            int? smaPeriod)
+            IEnumerable<TQuote> quotes,
+            int? smaPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for OBV.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for OBV.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for On-balance Volume.  " +
+                string message = "Insufficient quotes provided for On-balance Volume.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

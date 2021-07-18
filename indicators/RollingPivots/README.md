@@ -7,25 +7,25 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 
 ```csharp
 // usage
-IEnumerable<PivotPointResult> results = 
-  history.GetRollingPivots(lookbackPeriod, offsetPeriod, pointType);  
+IEnumerable<RollingPivotsResult> results = 
+  quotes.GetRollingPivots(lookbackPeriods, offsetPeriods, pointType);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `windowPeriod` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.
-| `offsetPeriod` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.
+| `windowPeriods` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.
+| `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
 
-For example, a window of 8 with an offset of 4 would evaluate history like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `history` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](../PivotPoints/README.md#content) indicator.
+For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](../PivotPoints/README.md#content) indicator.
 
 ### Historical quotes requirements
 
-You must have at least `W+F` periods of `history`.
+You must have at least `W+F` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ### PivotPointType options
 
@@ -40,12 +40,12 @@ You must have at least `W+F` periods of `history`.
 ## Response
 
 ```csharp
-IEnumerable<PivotPointsResult>
+IEnumerable<RollingPivotsResult>
 ```
 
 The first `W+F-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-### PivotPointResult
+### RollingPivotsResult
 
 | name | type | notes
 | -- |-- |--
@@ -58,18 +58,26 @@ The first `W+F-1` periods will have `null` values since there's not enough data 
 | `S2` | decimal | Support level 2
 | `S3` | decimal | Support level 3
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style 14 period Rolling Pivot Points
-IEnumerable<PivotPointResult> results = 
-  history.GetRollingPivots(14,0,PivotPointType.Woodie);
+IEnumerable<RollingPivotsResult> results = 
+  quotes.GetRollingPivots(14,0,PivotPointType.Woodie);
 
 // use results as needed
-PivotPointsResult result = results.LastOrDefault();
+RollingPivotsResult result = results.LastOrDefault();
 Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
 ```
 

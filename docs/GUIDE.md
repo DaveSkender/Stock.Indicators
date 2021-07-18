@@ -5,11 +5,10 @@
 - [Example usage](#example-usage)
 - [Historical quotes](#historical-quotes)
 - [Using custom quote classes](#using-custom-quote-classes)
-- [Validating historical quotes](#validating-historical-quotes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
-- [Helper functions](#helper-functions)
-- [Contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html)
+- [Utilities and Helper functions](UTILITIES.md#content)
+- [Contributing guidelines](CONTRIBUTING.md#content)
 
 ## Getting started
 
@@ -38,7 +37,7 @@ You can, of course, override these and provide your own values.
 
 ### Example usage
 
-All indicator methods will produce all possible results for the provided history as a time series dataset -- it is not just a single data point returned.  For example, if you provide 3 years worth of quote history for the SMA method, you'll get 3 years of SMA result values.
+All indicator methods will produce all possible results for the provided historical quotes as a time series dataset -- it is not just a single data point returned.  For example, if you provide 3 years worth of historical quotes for the SMA method, you'll get 3 years of SMA result values.
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -46,10 +45,10 @@ using Skender.Stock.Indicators;
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = history.GetSma(20);
+IEnumerable<SmaResult> results = quotes.GetSma(20);
 
 // use results as needed
 SmaResult result = results.LastOrDefault();
@@ -60,11 +59,11 @@ Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
 SMA on 12/31/2018 was $251.86
 ```
 
-If you do not prefer using the history extension syntax, a full method syntax can also be used.
+If you do not prefer using the quotes extension syntax, a full method syntax can also be used.
 
 ```csharp
 // alternate full syntax example
-IEnumerable<SmaResult> results = Indicator.GetSma(history,20);
+IEnumerable<SmaResult> results = Indicator.GetSma(quotes,20);
 ```
 
 See [individual indicator pages](INDICATORS.md) for specific usage guidance.
@@ -88,7 +87,7 @@ There are many places to get stock market data.  Check with your brokerage or ot
 
 ### How much historical quote data do I need?
 
-Each indicator will need different amounts of price quote `history` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, most use cases will require that you provide more than the minimum.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadHistoryException` will be thrown if you do not provide sufficient history to produce any results.
+Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, most use cases will require that you provide more than the minimum.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadQuotesException` will be thrown if you do not provide sufficient historical quotes to produce any results.
 
 :warning: IMPORTANT! Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
 
@@ -120,10 +119,10 @@ public class MyCustomQuote : IQuote
 
 ```csharp
 // fetch historical quotes from your favorite feed
-IEnumerable<MyCustomQuote> myHistory = GetHistoryFromFeed("MSFT");
+IEnumerable<MyCustomQuote> myQuotes = GetHistoryFromFeed("MSFT");
 
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = myHistory.GetSma(20);
+IEnumerable<SmaResult> results = myQuotes.GetSma(20);
 ```
 
 #### Using custom quote property names
@@ -152,18 +151,6 @@ Note the use of explicit interface (property declaration is `IQuote.Date`), this
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 
-### Validating historical quotes
-
-Historical quotes are automatically re-sorted [ascending by date] on every call to the library.  This is needed to ensure that it is sequenced properly.  If you want a more advanced check of your `IEnumerable<TQuote> history` (historical quotes) you can _optionally_ validate it with the `history.Validate()` helper function.  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `history` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
-
-```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
-
-// advanced validation
-IEnumerable<Quote> validatedHistory = history.Validate();
-```
-
 ## Using derived results classes
 
 The indicator result (e.g. `EmaResult`) classes can be extended in your code.  Here's an example of how you'd set that up:
@@ -179,10 +166,10 @@ public class MyEma : EmaResult
 public void MyClass(){
 
   // fetch historical quotes from your feed (your method)
-  IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+  IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
   // compute indicator
-  INumerable<EmaResult> emaResults = history.GetEma(14);
+  INumerable<EmaResult> emaResults = quotes.GetEma(14);
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
@@ -218,10 +205,10 @@ public class MyEma
 public void MyClass(){
 
   // fetch historical quotes from your feed (your method)
-  IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+  IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
   // compute indicator
-  INumerable<EmaResult> emaResults = history.GetEma(14);
+  INumerable<EmaResult> emaResults = quotes.GetEma(14);
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
@@ -243,17 +230,29 @@ public void MyClass(){
 
 ## Generating indicator of indicators
 
-If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one, reformat into a synthetic quote history, and send it through to another indicator.  Example:
+If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one, reformat into a synthetic historical quotes, and send it through to another indicator.  Example:
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
+// calculate RSI of OBV
+IEnumerable<RsiResult> results 
+  = quotes.GetObv()
+    .ConvertToQuotes()
+    .GetRsi(14);
+```
+
+See [.ConvertToQuotes()](UTILITIES.md#convert-to-quotes) for more information.
+
+When `.ConvertToQuotes()` is not available for an indicator, a workaround is to convert yourself.
+
+```csharp
 // calculate OBV
-IEnumerable<ObvResult> obvResults = history.GetObv();
+IEnumerable<ObvResult> obvResults = quotes.GetObv();
 
-// convert to synthetic history [using LINQ]
-List<Quote> obvHistory = obvResults
+// convert to synthetic quotes [using LINQ]
+List<Quote> obvQuotes = obvResults
   .Where(x => x.Obv != null)
   .Select(x => new Quote
     {
@@ -263,53 +262,9 @@ List<Quote> obvHistory = obvResults
   .ToList();
 
 // calculate RSI of OBV
-int lookbackPeriod = 14;
-IEnumerable<RsiResult> results = obvHistory.GetRsi(lookbackPeriod);
+IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
 ```
 
-## Helper functions
+## Utilities
 
-### Find indicator result by date
-
-`results.Find()` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
-
-```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
-
-// calculate indicator series
-IEnumerable<SmaResult> results = history.GetSma(20);
-
-// find result on a specific date
-DateTime lookupDate = [..] // the date you want to find
-SmaResult result = results.Find(lookupDate);
-```
-
-### Resize quote history
-
-`history.Aggregate(newSize)` is a tool to convert history to larger bar sizes.  For example if you have minute bar sizes in `history`, but want to convert it to hourly or daily.
-
-```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<TQuote> minuteBarHistory = GetHistoryFromFeed("MSFT");
-
-// aggregate into larger bars
-IEnumerable<Quote> dayBarHistory = 
-  minuteBarHistory.Aggregate(PeriodSize.Day);
-```
-
-:warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `history` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
-
-#### PeriodSize options (for newSize)
-
-- `PeriodSize.Week`
-- `PeriodSize.Day`
-- `PeriodSize.FourHours`
-- `PeriodSize.TwoHours`
-- `PeriodSize.OneHour`
-- `PeriodSize.ThirtyMinutes`
-- `PeriodSize.FifteenMinutes`
-- `PeriodSize.FiveMinutes`
-- `PeriodSize.ThreeMinutes`
-- `PeriodSize.TwoMinutes`
-- `PeriodSize.OneMinute`
+See [Utilities and Helper functions](UTILITIES.md#content) for additional tools.

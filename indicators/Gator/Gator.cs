@@ -10,15 +10,15 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<GatorResult> GetGator<TQuote>(
-            this IEnumerable<TQuote> history)
+            this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateGator(history);
+            ValidateGator(quotes);
 
             // initialize
-            List<GatorResult> results = GetAlligator(history)
+            List<GatorResult> results = GetAlligator(quotes)
                 .Select(x => new GatorResult
                 {
                     Date = x.Date,
@@ -31,7 +31,7 @@ namespace Skender.Stock.Indicators
                 })
                 .ToList();
 
-            // roll through history
+            // roll through quotes
             for (int i = 13; i < results.Count; i++)
             {
                 GatorResult r = results[i];
@@ -45,12 +45,22 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        // remove recommended periods extensions
+        public static IEnumerable<GatorResult> RemoveWarmupPeriods(
+            this IEnumerable<GatorResult> results)
+        {
+            return results.Remove(150);
+        }
+
+
+        // parameter validation
         private static void ValidateGator<TQuote>(
-            IEnumerable<TQuote> history)
+            IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
 
             // static values for traditional Gator Oscillator with max lookback of 13
             int minHistory = 115;
@@ -58,16 +68,16 @@ namespace Skender.Stock.Indicators
 
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Gator Oscillator.  " +
+                string message = "Insufficient quotes provided for Gator Oscillator.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.",
                     qtyHistory, minHistory, recHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

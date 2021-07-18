@@ -8,14 +8,14 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 ```csharp
 // usage
 IEnumerable<HtlResult> results =
-  history.GetHtTrendline();
+  quotes.GetHtTrendline();
 ```
 
 ## Historical quotes requirements
 
-Since this indicator has a warmup period, you must have at least `100` periods of `history`.
+Since this indicator has a warmup period, you must have at least `100` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -35,14 +35,22 @@ The first `6` periods will have `null` values for `SmoothPrice` since there's no
 | `Trendline` | decimal | HT Trendline
 | `SmoothPrice` | decimal | Weighted moving average of `(H+L)/2` price
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate HT Trendline
-IEnumerable<HtlResult> results = history.GetHtTrendline();
+IEnumerable<HtlResult> results = quotes.GetHtTrendline();
 
 // use results as needed
 HtlResult result = results.LastOrDefault();

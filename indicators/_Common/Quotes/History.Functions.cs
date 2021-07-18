@@ -13,53 +13,56 @@ namespace Skender.Stock.Indicators
         private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
         // validation
-        public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> history)
+        public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            List<TQuote> historyList = history.Sort();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check for duplicates
             DateTime lastDate = DateTime.MinValue;
-            for (int i = 0; i < historyList.Count; i++)
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
-                if (lastDate == h.Date)
+                if (lastDate == q.Date)
                 {
-                    throw new BadHistoryException(
-                        string.Format(NativeCulture, "Duplicate date found on {0}.", h.Date));
+                    throw new BadQuotesException(
+                        string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
                 }
 
-                lastDate = h.Date;
+                lastDate = q.Date;
             }
 
-            return historyList;
+            return quotesList;
         }
 
-        // quantization
+        // aggregation (quantization)
         public static IEnumerable<Quote> Aggregate<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             PeriodSize newSize)
             where TQuote : IQuote
         {
+
+            // handle no quotes scenario
+            if (quotes == null || !quotes.Any())
+            {
+                return new List<Quote>();
+            }
+
+            // parameter validation
             TimeSpan newPeriod = newSize.ToTimeSpan();
 
-            return
-
-                // handle no history scenario
-                history == null || !history.Any() ? new List<Quote>()
-
-                // validate parameters
-                : newPeriod == TimeSpan.Zero ?
-
+            if (newPeriod == TimeSpan.Zero)
+            {
                 throw new ArgumentOutOfRangeException(nameof(newSize), newSize,
-                    "History Aggregation must use a New Size value of at least " +
-                    "one minute and not more than one week.")
+                    "Historical quotes Aggregation must use a New Size value of at least " +
+                    "one minute and not more than one week.");
+            }
 
-                // return aggregation
-                : history
+            // return aggregation
+            return quotes
                     .OrderBy(x => x.Date)
                     .GroupBy(x => x.Date.RoundDown(newPeriod))
                     .Select(x => new Quote
@@ -74,31 +77,31 @@ namespace Skender.Stock.Indicators
         }
 
         // sort
-        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> history)
+        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
-            List<TQuote> historyList = history.OrderBy(x => x.Date).ToList();
+            List<TQuote> quotesList = quotes.OrderBy(x => x.Date).ToList();
 
             // validate
-            return historyList == null || historyList.Count == 0
-                ? throw new BadHistoryException(nameof(history), "No historical quotes provided.")
-                : historyList;
+            return quotesList == null || quotesList.Count == 0
+                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
+                : quotesList;
         }
 
         // convert to basic
         internal static List<BasicData> ConvertToBasic<TQuote>(
-            this IEnumerable<TQuote> history, string element = "C")
+            this IEnumerable<TQuote> quotes, string element = "C")
             where TQuote : IQuote
         {
             // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
             // convert to basic data format
             IEnumerable<BasicData> basicData = element switch
             {
-                "O" => history.Select(x => new BasicData { Date = x.Date, Value = x.Open }),
-                "H" => history.Select(x => new BasicData { Date = x.Date, Value = x.High }),
-                "L" => history.Select(x => new BasicData { Date = x.Date, Value = x.Low }),
-                "C" => history.Select(x => new BasicData { Date = x.Date, Value = x.Close }),
-                "V" => history.Select(x => new BasicData { Date = x.Date, Value = x.Volume }),
+                "O" => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Open }),
+                "H" => quotes.Select(x => new BasicData { Date = x.Date, Value = x.High }),
+                "L" => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Low }),
+                "C" => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Close }),
+                "V" => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Volume }),
                 _ => new List<BasicData>(),
             };
 
@@ -106,7 +109,7 @@ namespace Skender.Stock.Indicators
 
             // validate
             return bdList == null || bdList.Count == 0
-                ? throw new BadHistoryException(nameof(history), "No historical quotes provided.")
+                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
                 : bdList;
         }
 

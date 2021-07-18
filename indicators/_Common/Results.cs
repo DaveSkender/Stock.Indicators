@@ -6,13 +6,13 @@ namespace Skender.Stock.Indicators
 {
     // RESULT MODELS
 
-    public interface IResultBase
+    public interface IResult
     {
         public DateTime Date { get; }
     }
 
     [Serializable]
-    public class ResultBase : IResultBase
+    public class ResultBase : IResult
     {
         public DateTime Date { get; set; }
     }
@@ -20,15 +20,56 @@ namespace Skender.Stock.Indicators
 
     // HELPER FUNCTIONS
 
-    public static class IndicatorResults
+    public static partial class Indicator
     {
 
+        // FIND by DATE
         public static TResult Find<TResult>(
             this IEnumerable<TResult> results,
             DateTime lookupDate)
-            where TResult : IResultBase
+            where TResult : IResult
         {
             return results.FirstOrDefault(x => x.Date == lookupDate);
+        }
+
+
+        // REMOVE SPECIFIC PERIODS extension
+        public static IEnumerable<TResult> RemoveWarmupPeriods<TResult>(
+            this IEnumerable<TResult> results,
+            int removePeriods)
+            where TResult : IResult
+        {
+            return removePeriods < 0
+                ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
+                    "If specified, the Remove Periods value must be greater than or equal to 0.")
+                : results.Remove(removePeriods);
+        }
+
+
+        // REMOVE RESULTS
+        internal static IEnumerable<TResult> Remove<TResult>(
+            this IEnumerable<TResult> results,
+            int removePeriods)
+            where TResult : IResult
+        {
+            List<TResult> resultsList = results.ToList();
+
+            if (resultsList.Count <= removePeriods)
+            {
+                return new List<TResult>();
+            }
+            else
+            {
+                if (removePeriods > 0)
+                {
+                    for (int i = 0; i < removePeriods; i++)
+                    {
+                        resultsList.RemoveAt(0);
+                    }
+                }
+
+                return resultsList;
+            }
         }
     }
 }

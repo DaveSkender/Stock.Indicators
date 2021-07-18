@@ -8,11 +8,11 @@
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="history">Historical price quotes.</param>
-  <param name="fastPeriod">Number of periods for the short EMA.</param>
-  <param name="slowPeriod">Number of periods for the long EMA.</param>
-  <param name="signalPeriod">Number of periods Signal line.</param>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="fastPeriods">Number of periods for the short EMA.</param>
+  <param name="slowPeriods">Number of periods for the long EMA.</param>
+  <param name="signalPeriods">Number of periods Signal line.</param>
   <returns>Time series of Klinger Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadHistoryException">Insufficient history provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

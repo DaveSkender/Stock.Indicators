@@ -14,13 +14,13 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<UltimateResult> results = history.GetUltimate(7, 14, 28)
+            List<UltimateResult> results = quotes.GetUltimate(7, 14, 28)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(474, results.Where(x => x.Ultimate != null).Count());
 
@@ -43,22 +43,36 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<UltimateResult> results = quotes.GetUltimate(7, 14, 28)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 28, results.Count);
+
+            UltimateResult last = results.LastOrDefault();
+            Assert.AreEqual(49.5257m, Math.Round((decimal)last.Ultimate, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad short period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetUltimate(history, 0));
+                Indicator.GetUltimate(quotes, 0));
 
             // bad middle period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetUltimate(history, 7, 6));
+                Indicator.GetUltimate(quotes, 7, 6));
 
             // bad long period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetUltimate(history, 7, 14, 11));
+                Indicator.GetUltimate(quotes, 7, 14, 11));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetUltimate(HistoryTestData.Get(28), 7, 14, 28));
         }
     }

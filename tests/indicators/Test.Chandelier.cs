@@ -13,16 +13,16 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 22;
+            int lookbackPeriods = 22;
 
             List<ChandelierResult> longResult =
-                history.GetChandelier(lookbackPeriod, 3.0m)
+                quotes.GetChandelier(lookbackPeriods, 3.0m)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, longResult.Count);
             Assert.AreEqual(481, longResult.Where(x => x.ChandelierExit != null).Count());
 
@@ -35,7 +35,7 @@ namespace Internal.Tests
 
             // short
             List<ChandelierResult> shortResult =
-                Indicator.GetChandelier(history, lookbackPeriod, 3.0m, ChandelierType.Short)
+                Indicator.GetChandelier(quotes, lookbackPeriods, 3.0m, ChandelierType.Short)
                 .ToList();
 
             ChandelierResult c = shortResult[501];
@@ -50,18 +50,33 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<ChandelierResult> longResult =
+                quotes.GetChandelier(22, 3.0m)
+                    .RemoveWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 21, longResult.Count);
+
+            ChandelierResult last = longResult.LastOrDefault();
+            Assert.AreEqual(256.5860m, Math.Round((decimal)last.ChandelierExit, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetChandelier(history, 0));
+                Indicator.GetChandelier(quotes, 0));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetChandelier(history, 25, 0));
+                Indicator.GetChandelier(quotes, 25, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetChandelier(HistoryTestData.Get(30), 30));
         }
     }

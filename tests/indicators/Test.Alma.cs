@@ -13,17 +13,17 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 10;
+            int lookbackPeriods = 10;
             double offset = 0.85;
             double sigma = 6;
 
-            List<AlmaResult> results = history.GetAlma(lookbackPeriod, offset, sigma)
+            List<AlmaResult> results = quotes.GetAlma(lookbackPeriods, offset, sigma)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
 
@@ -55,22 +55,37 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+
+            List<AlmaResult> results = quotes.GetAlma(10, 0.85, 6)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 9, results.Count);
+
+            AlmaResult last = results.LastOrDefault();
+            Assert.AreEqual(242.1871m, Math.Round((decimal)last.Alma, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAlma(history, 0, 1, 5));
+                Indicator.GetAlma(quotes, 0, 1, 5));
 
             // bad offset
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAlma(history, 15, 1.1, 3));
+                Indicator.GetAlma(quotes, 15, 1.1, 3));
 
             // bad sigma
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAlma(history, 10, 0.5, 0));
+                Indicator.GetAlma(quotes, 10, 0.5, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAlma(HistoryTestData.Get(10), 11, 0.5));
         }
     }

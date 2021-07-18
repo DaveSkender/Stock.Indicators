@@ -8,25 +8,25 @@
 ```csharp
 // usage
 IEnumerable<RocResult> results =
-  history.GetRoc(lookbackPeriod);
+  quotes.GetRoc(lookbackPeriods);
 
 // usage with optional SMA of ROC (shown above)
 IEnumerable<RocResult> results =
-  history.GetRoc(lookbackPeriod, smaPeriod);
+  quotes.GetRoc(lookbackPeriods, smaPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.
-| `smaPeriod` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
+| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.
+| `smaPeriods` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -42,16 +42,24 @@ The first `N` periods will have `null` values for ROC since there's not enough d
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Roc` | decimal | Rate of Change over `N` lookback periods (%, not decimal)
-| `RocSma` | decimal | Moving average (SMA) of ROC based on `smaPeriod` periods, if specified
+| `RocSma` | decimal | Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
+
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
 
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period ROC
-IEnumerable<RocResult> results = history.GetRoc(20);
+IEnumerable<RocResult> results = quotes.GetRoc(20);
 
 // use results as needed
 RocResult result = results.LastOrDefault();
@@ -69,17 +77,16 @@ ROC on 12/31/2018 was -8.25%
 ```csharp
 // usage
 IEnumerable<RocWbResult> results =
-  history.GetRocWb(lookbackPeriod, emaPeriod, stdDevPeriod);
+  quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```
 
 ### Parameters with Bands
 
 | name | type | notes
 | -- |-- |--
-
-| `lookbackPeriod` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
-| `emaPeriod` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
-| `stdDevPeriod` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriod`.  Standard is to use same value as `lookbackPeriod`.
+| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
+| `emaPeriods` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
+| `stdDevPeriods` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`.
 
 ### RocWbResult
 

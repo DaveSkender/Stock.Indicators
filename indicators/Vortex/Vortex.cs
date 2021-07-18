@@ -10,19 +10,19 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<VortexResult> GetVortex<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateVortex(history, lookbackPeriod);
+            ValidateVortex(quotes, lookbackPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<VortexResult> results = new(size);
 
             decimal[] tr = new decimal[size];
@@ -33,48 +33,48 @@ namespace Skender.Stock.Indicators
             decimal prevLow = 0;
             decimal prevClose = 0;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 VortexResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // skip first period
                 if (index == 1)
                 {
                     results.Add(result);
-                    prevHigh = h.High;
-                    prevLow = h.Low;
-                    prevClose = h.Close;
+                    prevHigh = q.High;
+                    prevLow = q.Low;
+                    prevClose = q.Close;
                     continue;
                 }
 
                 // trend information
-                decimal highMinusPrevClose = Math.Abs(h.High - prevClose);
-                decimal lowMinusPrevClose = Math.Abs(h.Low - prevClose);
+                decimal highMinusPrevClose = Math.Abs(q.High - prevClose);
+                decimal lowMinusPrevClose = Math.Abs(q.Low - prevClose);
 
-                tr[i] = Math.Max((h.High - h.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
-                pvm[i] = Math.Abs(h.High - prevLow);
-                nvm[i] = Math.Abs(h.Low - prevHigh);
+                tr[i] = Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
+                pvm[i] = Math.Abs(q.High - prevLow);
+                nvm[i] = Math.Abs(q.Low - prevHigh);
 
-                prevHigh = h.High;
-                prevLow = h.Low;
-                prevClose = h.Close;
+                prevHigh = q.High;
+                prevLow = q.Low;
+                prevClose = q.Close;
 
                 // vortex indicator
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
 
                     decimal sumTr = 0;
                     decimal sumPvm = 0;
                     decimal sumNvm = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         sumTr += tr[p];
                         sumPvm += pvm[p];
@@ -95,30 +95,43 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<VortexResult> RemoveWarmupPeriods(
+            this IEnumerable<VortexResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Pvi != null || x.Nvi != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateVortex<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for VI.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for VI.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for VI.  " +
+                string message = "Insufficient quotes provided for VI.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

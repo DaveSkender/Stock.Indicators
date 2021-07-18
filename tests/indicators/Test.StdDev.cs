@@ -13,13 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 10;
-            List<StdDevResult> results = history.GetStdDev(lookbackPeriod).ToList();
+            List<StdDevResult> results = quotes.GetStdDev(10).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
             Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
@@ -54,14 +53,14 @@ namespace Internal.Tests
         [TestMethod]
         public void GetStdDevWithSma()
         {
-            int lookbackPeriod = 10;
-            int smaPeriod = 5;
-            List<StdDevResult> results = Indicator.GetStdDev(history, lookbackPeriod, smaPeriod).ToList();
+            int lookbackPeriods = 10;
+            int smaPeriods = 5;
+            List<StdDevResult> results = Indicator.GetStdDev(quotes, lookbackPeriods, smaPeriods).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
             Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
@@ -87,18 +86,35 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<StdDevResult> results = quotes.GetStdDev(10)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 9, results.Count);
+
+            StdDevResult last = results.LastOrDefault();
+            Assert.AreEqual(5.4738m, Math.Round((decimal)last.StdDev, 4));
+            Assert.AreEqual(242.4100m, Math.Round((decimal)last.Mean, 4));
+            Assert.AreEqual(0.524312m, Math.Round((decimal)last.ZScore, 6));
+            Assert.AreEqual(null, last.StdDevSma);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDev(history, 1));
+                Indicator.GetStdDev(quotes, 1));
 
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStdDev(history, 14, 0));
+                Indicator.GetStdDev(quotes, 14, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStdDev(HistoryTestData.Get(29), 30));
         }
     }

@@ -13,13 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<HmaResult> results = history.GetHma(lookbackPeriod).ToList();
+            List<HmaResult> results = quotes.GetHma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
 
@@ -39,14 +38,28 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<HmaResult> results = quotes.GetHma(20)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(480, results.Count);
+
+            HmaResult last = results.LastOrDefault();
+            Assert.AreEqual(235.6972m, Math.Round((decimal)last.Hma, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetHma(history, 0));
+                Indicator.GetHma(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetHma(HistoryTestData.Get(9), 10));
         }
     }

@@ -10,55 +10,55 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AlmaResult> GetAlma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 9,
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 9,
             double offset = 0.85,
             double sigma = 6)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateAlma(history, lookbackPeriod, offset, sigma);
+            ValidateAlma(quotes, lookbackPeriods, offset, sigma);
 
             // initialize
-            List<AlmaResult> results = new(historyList.Count);
+            List<AlmaResult> results = new(quotesList.Count);
 
             // determine price weights
-            double m = offset * (lookbackPeriod - 1);
-            double s = lookbackPeriod / sigma;
+            double m = offset * (lookbackPeriods - 1);
+            double s = lookbackPeriods / sigma;
 
-            decimal[] weight = new decimal[lookbackPeriod];
+            decimal[] weight = new decimal[lookbackPeriods];
             decimal norm = 0;
 
-            for (int i = 0; i < lookbackPeriod; i++)
+            for (int i = 0; i < lookbackPeriods; i++)
             {
                 decimal wt = (decimal)Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
                 weight[i] = wt;
                 norm += wt;
             }
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 AlmaResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal weightedSum = 0m;
                     int n = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         weightedSum += weight[n] * d.Close;
                         n++;
                     }
@@ -73,19 +73,32 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<AlmaResult> RemoveWarmupPeriods(
+            this IEnumerable<AlmaResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Alma != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateAlma<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
             double offset,
             double sigma)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for ALMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for ALMA.");
             }
 
             if (offset is < 0 or > 1)
@@ -100,18 +113,18 @@ namespace Skender.Stock.Indicators
                     "Sigma must be greater than 0 for ALMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ALMA.  " +
+                string message = "Insufficient quotes provided for ALMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

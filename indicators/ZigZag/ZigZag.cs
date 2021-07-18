@@ -10,22 +10,22 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             EndType endType = EndType.Close,
             decimal percentChange = 5)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateZigZag(history, percentChange);
+            ValidateZigZag(quotes, percentChange);
 
             // initialize
-            List<ZigZagResult> results = new(historyList.Count);
+            List<ZigZagResult> results = new(quotesList.Count);
             decimal changeThreshold = percentChange / 100m;
-            TQuote firstQuote = historyList[0];
+            TQuote firstQuote = quotesList[0];
             ZigZagEval eval = GetZigZagEval(endType, 1, firstQuote);
 
             ZigZagPoint lastPoint = new()
@@ -49,15 +49,15 @@ namespace Skender.Stock.Indicators
                 PointType = "L"
             };
 
-            int finalPointIndex = historyList.Count;
+            int finalPointIndex = quotesList.Count;
 
-            // roll through history, to find initial trend
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes, to find initial trend
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
-                eval = GetZigZagEval(endType, index, h);
+                eval = GetZigZagEval(endType, index, q);
 
                 decimal? changeUp = (lastLowPoint.Value == 0) ? null
                     : (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
@@ -92,11 +92,11 @@ namespace Skender.Stock.Indicators
             // find and draw lines
             while (lastPoint.Index < finalPointIndex)
             {
-                ZigZagPoint nextPoint = EvaluateNextPoint(historyList, endType, changeThreshold, lastPoint);
+                ZigZagPoint nextPoint = EvaluateNextPoint(quotesList, endType, changeThreshold, lastPoint);
                 string lastDirection = lastPoint.PointType;
 
                 // draw line (and reset last point)
-                DrawZigZagLine(results, historyList, lastPoint, nextPoint);
+                DrawZigZagLine(results, quotesList, lastPoint, nextPoint);
 
                 // draw retrace line (and reset last high/low point)
                 DrawRetraceLine(results, lastDirection, lastLowPoint, lastHighPoint, nextPoint);
@@ -106,9 +106,10 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // internals
         private static ZigZagPoint EvaluateNextPoint<TQuote>(
-            List<TQuote> historyList,
-            EndType endType, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
+            List<TQuote> quotesList,
+            EndType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
             // initialize
             bool trendUp = (lastPoint.PointType == "L");
@@ -122,9 +123,9 @@ namespace Skender.Stock.Indicators
             };
 
             // find extreme point before reversal point
-            for (int i = lastPoint.Index; i < historyList.Count; i++)
+            for (int i = lastPoint.Index; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 ZigZagEval eval = GetZigZagEval(endType, index, h);
@@ -165,7 +166,7 @@ namespace Skender.Stock.Indicators
             }
 
             // handle last unconfirmed point
-            int finalPointIndex = historyList.Count;
+            int finalPointIndex = quotesList.Count;
             if (extremePoint.Index == finalPointIndex && change < changeThreshold)
             {
                 extremePoint.PointType = null;
@@ -175,7 +176,7 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> historyList,
+        private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> quotesList,
             ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
         {
 
@@ -186,12 +187,12 @@ namespace Skender.Stock.Indicators
                 // add new line segment
                 for (int i = lastPoint.Index; i < nextPoint.Index; i++)
                 {
-                    TQuote h = historyList[i];
+                    TQuote q = quotesList[i];
                     int index = i + 1;
 
                     ZigZagResult result = new()
                     {
-                        Date = h.Date,
+                        Date = q.Date,
                         ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
                             lastPoint.Value + increment * (index - lastPoint.Index) : null,
                         PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
@@ -290,8 +291,9 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateZigZag<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             decimal percentChange)
             where TQuote : IQuote
         {
@@ -303,18 +305,18 @@ namespace Skender.Stock.Indicators
                     "Percent change must be greater than 0 for ZIGZAG.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ZIGZAG.  " +
+                string message = "Insufficient quotes provided for ZIGZAG.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

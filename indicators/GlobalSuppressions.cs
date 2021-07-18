@@ -17,4 +17,4 @@ using System.Diagnostics.CodeAnalysis;
     "CA1716:Identifiers should not match keywords",
     Justification = "Making an exception",
     Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IResultBase.Date")]
+    Target = "~P:Skender.Stock.Indicators.IResult.Date")]

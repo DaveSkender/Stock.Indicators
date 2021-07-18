@@ -10,42 +10,42 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<StochResult> GetStoch<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14,
-            int signalPeriod = 3,
-            int smoothPeriod = 3)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 14,
+            int signalPeriods = 3,
+            int smoothPeriods = 3)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateStoch(history, lookbackPeriod, signalPeriod, smoothPeriod);
+            ValidateStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<StochResult> results = new(size);
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 StochResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal highHigh = 0;
                     decimal lowLow = decimal.MaxValue;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
 
                         if (d.High > highHigh)
                         {
@@ -59,7 +59,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     result.Oscillator = lowLow != highHigh
-                        ? 100 * ((h.Close - lowLow) / (highHigh - lowLow))
+                        ? 100 * ((q.Close - lowLow) / (highHigh - lowLow))
                         : 0;
                 }
                 results.Add(result);
@@ -67,14 +67,14 @@ namespace Skender.Stock.Indicators
 
 
             // smooth the oscillator
-            if (smoothPeriod > 1)
+            if (smoothPeriods > 1)
             {
-                results = SmoothOscillator(results, size, lookbackPeriod, smoothPeriod);
+                results = SmoothOscillator(results, size, lookbackPeriods, smoothPeriods);
             }
 
 
             // signal (%D) and %J
-            int stochIndex = lookbackPeriod + smoothPeriod - 2;
+            int stochIndex = lookbackPeriods + smoothPeriods - 2;
 
             for (int i = stochIndex; i < size; i++)
             {
@@ -82,22 +82,22 @@ namespace Skender.Stock.Indicators
                 int index = i + 1;
 
                 // add signal
-                int signalIndex = lookbackPeriod + smoothPeriod + signalPeriod - 2;
+                int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
 
-                if (signalPeriod <= 1)
+                if (signalPeriods <= 1)
                 {
                     r.Signal = r.Oscillator;
                 }
                 else if (index >= signalIndex)
                 {
                     decimal sumOsc = 0m;
-                    for (int p = index - signalPeriod; p < index; p++)
+                    for (int p = index - signalPeriods; p < index; p++)
                     {
                         StochResult d = results[p];
                         sumOsc += (decimal)d.Oscillator;
                     }
 
-                    r.Signal = sumOsc / signalPeriod;
+                    r.Signal = sumOsc / signalPeriods;
                     r.PercentJ = (3 * r.Oscillator) - (2 * r.Signal);
                 }
             }
@@ -106,12 +106,25 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<StochResult> RemoveWarmupPeriods(
+            this IEnumerable<StochResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Oscillator != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // internals
         private static List<StochResult> SmoothOscillator(
-            List<StochResult> results, int size, int lookbackPeriod, int smoothPeriod)
+            List<StochResult> results, int size, int lookbackPeriods, int smoothPeriods)
         {
 
             // temporarily store interim smoothed oscillator
-            int smoothIndex = lookbackPeriod + smoothPeriod - 2;
+            int smoothIndex = lookbackPeriods + smoothPeriods - 2;
             decimal?[] smooth = new decimal?[size]; // smoothed value
 
             for (int i = smoothIndex; i < size; i++)
@@ -119,12 +132,12 @@ namespace Skender.Stock.Indicators
                 int index = i + 1;
 
                 decimal sumOsc = 0m;
-                for (int p = index - smoothPeriod; p < index; p++)
+                for (int p = index - smoothPeriods; p < index; p++)
                 {
                     sumOsc += (decimal)results[p].Oscillator;
                 }
 
-                smooth[i] = sumOsc / smoothPeriod;
+                smooth[i] = sumOsc / smoothPeriods;
             }
 
             // replace oscillator
@@ -137,45 +150,46 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateStoch<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod,
-            int signalPeriod,
-            int smoothPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            int signalPeriods,
+            int smoothPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Stochastic.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Stochastic.");
             }
 
-            if (signalPeriod <= 0)
+            if (signalPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(signalPeriod), signalPeriod,
-                    "Signal period must be greater than 0 for Stochastic.");
+                throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                    "Signal periods must be greater than 0 for Stochastic.");
             }
 
-            if (smoothPeriod <= 0)
+            if (smoothPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smoothPeriod), smoothPeriod,
-                    "Smooth period must be greater than 0 for Stochastic.");
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                    "Smooth periods must be greater than 0 for Stochastic.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + smoothPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + smoothPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Stochastic.  " +
+                string message = "Insufficient quotes provided for Stochastic.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

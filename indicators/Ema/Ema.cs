@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -9,39 +10,52 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="EMA"]/*' />
         /// 
         public static IEnumerable<EmaResult> GetEma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // calculate
-            return CalcEma(bdList, lookbackPeriod);
+            return CalcEma(bdList, lookbackPeriods);
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<EmaResult> RemoveWarmupPeriods(
+            this IEnumerable<EmaResult> results)
+        {
+            int n = results
+              .ToList()
+              .FindIndex(x => x.Ema != null) + 1;
+
+            return results.Remove(n + 100);
+        }
+
+
+        // standard calculation
         private static IEnumerable<EmaResult> CalcEma(
-            List<BasicData> bdList, int lookbackPeriod)
+            List<BasicData> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments
-            ValidateEma(bdList, lookbackPeriod);
+            ValidateEma(bdList, lookbackPeriods);
 
             // initialize
             List<EmaResult> results = new(bdList.Count);
 
-            decimal k = 2 / (decimal)(lookbackPeriod + 1);
+            decimal k = 2 / (decimal)(lookbackPeriods + 1);
             decimal lastEma = 0;
 
-            for (int i = 0; i < lookbackPeriod; i++)
+            for (int i = 0; i < lookbackPeriods; i++)
             {
                 lastEma += bdList[i].Value;
             }
-            lastEma /= lookbackPeriod;
+            lastEma /= lookbackPeriods;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData h = bdList[i];
@@ -52,12 +66,12 @@ namespace Skender.Stock.Indicators
                     Date = h.Date
                 };
 
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
                     result.Ema = lastEma + k * (h.Value - lastEma);
                     lastEma = (decimal)result.Ema;
                 }
-                else if (index == lookbackPeriod)
+                else if (index == lookbackPeriods)
                 {
                     result.Ema = lastEma;
                 }
@@ -69,33 +83,34 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateEma(
-            List<BasicData> history,
-            int lookbackPeriod)
+            List<BasicData> quotes,
+            int lookbackPeriods)
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for EMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for EMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count;
-            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
+            // check quotes
+            int qtyHistory = quotes.Count;
+            int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for EMA.  " +
+                string message = "Insufficient quotes provided for EMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

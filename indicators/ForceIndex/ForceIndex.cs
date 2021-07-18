@@ -10,48 +10,48 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ForceIndexResult> GetForceIndex<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateForceIndex(history, lookbackPeriod);
+            ValidateForceIndex(quotes, lookbackPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<ForceIndexResult> results = new(size);
             decimal? prevClose = null, prevFI = null;
-            decimal k = 2m / (lookbackPeriod + 1), sumRawFI = 0m;
+            decimal k = 2m / (lookbackPeriods + 1), sumRawFI = 0m;
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 ForceIndexResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
                 results.Add(r);
 
                 // skip first period
                 if (i == 0)
                 {
-                    prevClose = h.Close;
+                    prevClose = q.Close;
                     continue;
                 }
 
                 // raw Force Index
-                decimal? rawFI = h.Volume * (h.Close - prevClose);
-                prevClose = h.Close;
+                decimal? rawFI = q.Volume * (q.Close - prevClose);
+                prevClose = q.Close;
 
                 // calculate EMA
-                if (index > lookbackPeriod + 1)
+                if (index > lookbackPeriods + 1)
                 {
                     r.ForceIndex = prevFI + k * (rawFI - prevFI);
                 }
@@ -62,9 +62,9 @@ namespace Skender.Stock.Indicators
                     sumRawFI += (decimal)rawFI;
 
                     // first EMA value
-                    if (index == lookbackPeriod + 1)
+                    if (index == lookbackPeriods + 1)
                     {
-                        r.ForceIndex = sumRawFI / lookbackPeriod;
+                        r.ForceIndex = sumRawFI / lookbackPeriods;
                     }
                 }
 
@@ -75,34 +75,47 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<ForceIndexResult> RemoveWarmupPeriods(
+            this IEnumerable<ForceIndexResult> results)
+        {
+            int n = results
+                .ToList()
+                .FindIndex(x => x.ForceIndex != null);
+
+            return results.Remove(n + 100);
+        }
+
+
+        // parameter validation
         private static void ValidateForceIndex<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for Force Index.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for Force Index.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = Math.Max(2 * lookbackPeriod, lookbackPeriod + 100);
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Force Index.  " +
+                string message = "Insufficient quotes provided for Force Index.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
-                    + "Since this uses a smoothing technique, for a lookback period of {2}, "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
                     + "we recommend you use at least {3} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriod, lookbackPeriod + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

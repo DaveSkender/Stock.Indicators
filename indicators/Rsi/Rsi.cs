@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -9,24 +10,37 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<RsiResult> GetRsi<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
 
             // calculate
-            return CalcRsi(bdList, lookbackPeriod);
+            return CalcRsi(bdList, lookbackPeriods);
         }
 
-        // GENERIC RSI
-        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriod)
+      
+        // remove recommended periods extensions
+        public static IEnumerable<RsiResult> RemoveWarmupPeriods(
+            this IEnumerable<RsiResult> results)
+        {
+            int n = results
+                .ToList()
+                .FindIndex(x => x.Rsi != null);
+
+            return results.Remove(10 * n);
+        }
+
+
+        // internals
+        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments
-            ValidateRsi(bdList, lookbackPeriod);
+            ValidateRsi(bdList, lookbackPeriods);
 
             // initialize
             decimal lastValue = bdList[0].Value;
@@ -38,7 +52,7 @@ namespace Skender.Stock.Indicators
             decimal[] gain = new decimal[size]; // gain
             decimal[] loss = new decimal[size]; // loss
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
                 BasicData h = bdList[i];
@@ -55,10 +69,10 @@ namespace Skender.Stock.Indicators
                 lastValue = h.Value;
 
                 // calculate RSI
-                if (index > lookbackPeriod + 1)
+                if (index > lookbackPeriods + 1)
                 {
-                    avgGain = (avgGain * (lookbackPeriod - 1) + gain[i]) / lookbackPeriod;
-                    avgLoss = (avgLoss * (lookbackPeriod - 1) + loss[i]) / lookbackPeriod;
+                    avgGain = (avgGain * (lookbackPeriods - 1) + gain[i]) / lookbackPeriods;
+                    avgLoss = (avgLoss * (lookbackPeriods - 1) + loss[i]) / lookbackPeriods;
 
                     if (avgLoss > 0)
                     {
@@ -72,18 +86,18 @@ namespace Skender.Stock.Indicators
                 }
 
                 // initialize average gain
-                else if (index == lookbackPeriod + 1)
+                else if (index == lookbackPeriods + 1)
                 {
                     decimal sumGain = 0;
                     decimal sumLoss = 0;
 
-                    for (int p = 1; p <= lookbackPeriod; p++)
+                    for (int p = 1; p <= lookbackPeriods; p++)
                     {
                         sumGain += gain[p];
                         sumLoss += loss[p];
                     }
-                    avgGain = sumGain / lookbackPeriod;
-                    avgLoss = sumLoss / lookbackPeriod;
+                    avgGain = sumGain / lookbackPeriods;
+                    avgLoss = sumLoss / lookbackPeriods;
 
                     r.Rsi = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
                 }
@@ -92,34 +106,34 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
-        // validation
+        // parameter validation
         private static void ValidateRsi(
-            List<BasicData> history,
-            int lookbackPeriod)
+            List<BasicData> quotes,
+            int lookbackPeriods)
         {
 
             // check parameter arguments
-            if (lookbackPeriod < 1)
+            if (lookbackPeriods < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for RSI.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for RSI.");
             }
 
-            // check history
-            int qtyHistory = history.Count;
-            int minHistory = lookbackPeriod + 100;
+            // check quotes
+            int qtyHistory = quotes.Count;
+            int minHistory = lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for RSI.  " +
+                string message = "Insufficient quotes provided for RSI.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} is required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.",
-                    qtyHistory, minHistory, Math.Max(10 * lookbackPeriod, minHistory));
+                    qtyHistory, minHistory, Math.Max(10 * lookbackPeriods, minHistory));
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

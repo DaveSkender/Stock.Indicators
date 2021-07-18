@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<FcbResult> results = history.GetFcb(2).ToList();
+            List<FcbResult> results = quotes.GetFcb(2).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(497, results.Where(x => x.UpperBand != null).Count());
             Assert.AreEqual(493, results.Where(x => x.LowerBand != null).Count());
@@ -58,14 +58,29 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<FcbResult> results = quotes.GetFcb(2)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 5, results.Count);
+
+            FcbResult last = results.LastOrDefault();
+            Assert.AreEqual(262.47m, last.UpperBand);
+            Assert.AreEqual(229.42m, last.LowerBand);
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetFcb(history, 1));
+                Indicator.GetFcb(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetFcb(HistoryTestData.Get(60), 30));
         }
     }

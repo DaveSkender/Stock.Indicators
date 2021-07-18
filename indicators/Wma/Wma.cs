@@ -10,39 +10,39 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<WmaResult> GetWma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateWma(history, lookbackPeriod);
+            ValidateWma(quotes, lookbackPeriods);
 
             // initialize
-            List<WmaResult> results = new(historyList.Count);
-            decimal divisor = (lookbackPeriod * (lookbackPeriod + 1)) / 2m;
+            List<WmaResult> results = new(quotesList.Count);
+            decimal divisor = (lookbackPeriods * (lookbackPeriods + 1)) / 2m;
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 WmaResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal wma = 0;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
-                        wma += d.Close * (lookbackPeriod - (decimal)(index - p - 1)) / divisor;
+                        TQuote d = quotesList[p];
+                        wma += d.Close * (lookbackPeriods - (decimal)(index - p - 1)) / divisor;
                     }
 
                     result.Wma = wma;
@@ -55,31 +55,44 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<WmaResult> RemoveWarmupPeriods(
+            this IEnumerable<WmaResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Wma != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateWma<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for WMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for WMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for WMA.  " +
+                string message = "Insufficient quotes provided for WMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

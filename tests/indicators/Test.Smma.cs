@@ -12,13 +12,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<SmmaResult> results = history.GetSmma(lookbackPeriod).ToList();
+
+            List<SmmaResult> results = quotes.GetSmma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
 
@@ -42,18 +42,30 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<SmmaResult> results = quotes.GetSmma(20)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (20 + 100), results.Count);
+            Assert.AreEqual(255.67462m, Math.Round(results.LastOrDefault().Smma.Value, 5));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSmma(history, 0));
+                Indicator.GetSmma(quotes, 0));
 
-            // insufficient history for N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetSmma(HistoryTestData.Get(129), 30));
 
-            // insufficient history for 2×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 2×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetSmma(HistoryTestData.Get(499), 250));
         }
     }

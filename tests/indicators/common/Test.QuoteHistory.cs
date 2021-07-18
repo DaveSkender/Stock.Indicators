@@ -13,14 +13,14 @@ namespace Internal.Tests
         [TestMethod]
         public void Validate()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
 
             // clean
-            List<Quote> h = history.Validate().ToList();
+            List<Quote> h = quotes.Validate().ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, h.Count);
 
             // check last date
@@ -41,7 +41,7 @@ namespace Internal.Tests
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(5285, h.Count);
 
             // check last date
@@ -52,10 +52,10 @@ namespace Internal.Tests
         [TestMethod]
         public void ValidateCut()
         {
-            // if history post-cleaning, is cut down in size it should not corrupt the results
+            // if quotes post-cleaning, is cut down in size it should not corrupt the results
 
-            IEnumerable<Quote> history = HistoryTestData.Get(200);
-            List<Quote> h = history.Validate().ToList();
+            IEnumerable<Quote> quotes = HistoryTestData.Get(200);
+            List<Quote> h = quotes.Validate().ToList();
 
             // assertions
 
@@ -92,14 +92,14 @@ namespace Internal.Tests
         [TestMethod]
         public void Sort()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
 
             // clean
-            List<Quote> h = history.Sort();
+            List<Quote> h = quotes.Sort();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, h.Count);
 
             // check last date
@@ -114,15 +114,15 @@ namespace Internal.Tests
         [TestMethod]
         public void Aggregate()
         {
-            IEnumerable<Quote> history = HistoryTestData.GetIntraday();
+            IEnumerable<Quote> quotes = HistoryTestData.GetIntraday();
 
             // aggregate
-            List<Quote> results = history.Aggregate(PeriodSize.FifteenMinutes)
+            List<Quote> results = quotes.Aggregate(PeriodSize.FifteenMinutes)
                 .ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(108, results.Count);
 
             // sample values
@@ -149,34 +149,26 @@ namespace Internal.Tests
             Assert.AreEqual(366.57m, r2.Low);
             Assert.AreEqual(366.97m, r2.Close);
             Assert.AreEqual(1396993m, r2.Volume);
-        }
 
-        [TestMethod]
-        public void Find()
-        {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 20);
-
-            // find specific date
-            DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
-
-            EmaResult r = emaResults.Find(findDate);
-            Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
+            // no history scenario
+            List<Quote> noQuotes = new();
+            IEnumerable<Quote> noResults = noQuotes.Aggregate(PeriodSize.Day);
+            Assert.IsFalse(noResults.Any());
         }
 
         [TestMethod]
         public void ConvertToBasic()
         {
             // compose basic data
-            List<BasicData> o = history.ConvertToBasic("O");
-            List<BasicData> h = history.ConvertToBasic("H");
-            List<BasicData> l = history.ConvertToBasic("L");
-            List<BasicData> c = history.ConvertToBasic("C");
-            List<BasicData> v = history.ConvertToBasic("V");
+            List<BasicData> o = quotes.ConvertToBasic("O");
+            List<BasicData> h = quotes.ConvertToBasic("H");
+            List<BasicData> l = quotes.ConvertToBasic("L");
+            List<BasicData> c = quotes.ConvertToBasic("C");
+            List<BasicData> v = quotes.ConvertToBasic("V");
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, c.Count);
 
             // samples
@@ -199,9 +191,9 @@ namespace Internal.Tests
         }
 
 
-        /* BAD HISTORY EXCEPTIONS */
+        /* BAD QUOTES EXCEPTIONS */
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "No historical quotes.")]
+        [ExpectedException(typeof(BadQuotesException), "No historical quotes.")]
         public void NoHistory()
         {
             List<Quote> badHistory = new();
@@ -209,7 +201,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Duplicate date found.")]
+        [ExpectedException(typeof(BadQuotesException), "Duplicate date found.")]
         public void DuplicateHistory()
         {
             List<Quote> badHistory = new()
@@ -225,7 +217,7 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "No historical basic data.")]
+        [ExpectedException(typeof(BadQuotesException), "No historical basic data.")]
         public void NoBasicData()
         {
             List<Quote> h = new();
@@ -233,11 +225,19 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BadHistoryException), "Bad element.")]
+        [ExpectedException(typeof(BadQuotesException), "Bad element.")]
         public void ConvertBasicDataBadParam()
         {
             // compose basic data
-            history.ConvertToBasic("E");
+            quotes.ConvertToBasic("E");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad aggregation size.")]
+        public void BadAggregationSize()
+        {
+            // bad period size
+            quotes.Aggregate(PeriodSize.Month);
         }
     }
 }

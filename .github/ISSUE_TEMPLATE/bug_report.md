@@ -7,9 +7,9 @@ assignees: ''
 
 ---
 
-## Describe the bug
+## The problem
 
-A clear and concise description of the bug.  If known, explain why you believe the problem is within this library and not in your wrapper code or sources of comparison.
+A clear and concise description of the bug.  If known, explain why you believe the problem is within this library.
 
 Error message(s):
 

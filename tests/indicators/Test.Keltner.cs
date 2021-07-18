@@ -13,21 +13,21 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int emaPeriod = 20;
+            int emaPeriods = 20;
             int multiplier = 2;
-            int atrPeriod = 10;
+            int atrPeriods = 10;
 
             List<KeltnerResult> results =
-                history.GetKeltner(emaPeriod, multiplier, atrPeriod)
+                quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
 
-            int warmupPeriod = 502 - Math.Max(emaPeriod, atrPeriod) + 1;
+            int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
             Assert.AreEqual(warmupPeriod, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(warmupPeriod, results.Where(x => x.UpperBand != null).Count());
             Assert.AreEqual(warmupPeriod, results.Where(x => x.LowerBand != null).Count());
@@ -55,26 +55,49 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            int emaPeriods = 20;
+            int multiplier = 2;
+            int atrPeriods = 10;
+            int n = Math.Max(emaPeriods, atrPeriods);
+
+            List<KeltnerResult> results =
+                quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
+                    .RemoveWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - Math.Max(2 * n, n + 100), results.Count);
+
+            KeltnerResult last = results.LastOrDefault();
+            Assert.AreEqual(262.1873m, Math.Round((decimal)last.UpperBand, 4));
+            Assert.AreEqual(249.3519m, Math.Round((decimal)last.Centerline, 4));
+            Assert.AreEqual(236.5165m, Math.Round((decimal)last.LowerBand, 4));
+            Assert.AreEqual(0.102950m, Math.Round((decimal)last.Width, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad EMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 1, 2, 10));
+                Indicator.GetKeltner(quotes, 1, 2, 10));
 
             // bad ATR period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 20, 2, 1));
+                Indicator.GetKeltner(quotes, 20, 2, 1));
 
             // bad multiplier
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetKeltner(history, 20, 0, 10));
+                Indicator.GetKeltner(quotes, 20, 0, 10));
 
-            // insufficient history for N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(119), 20, 2, 10));
 
-            // insufficient history for 2×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 2×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
         }
     }

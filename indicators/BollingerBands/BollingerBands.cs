@@ -10,47 +10,47 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<BollingerBandsResult> GetBollingerBands<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 20,
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 20,
             decimal standardDeviations = 2)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateBollingerBands(history, lookbackPeriod, standardDeviations);
+            ValidateBollingerBands(quotes, lookbackPeriods, standardDeviations);
 
             // initialize
-            List<BollingerBandsResult> results = new(historyList.Count);
+            List<BollingerBandsResult> results = new(quotesList.Count);
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 BollingerBandsResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
-                    double[] periodClose = new double[lookbackPeriod];
+                    double[] periodClose = new double[lookbackPeriods];
                     decimal sum = 0m;
                     int n = 0;
 
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         periodClose[n] = (double)d.Close;
                         sum += d.Close;
                         n++;
                     }
 
-                    decimal periodAvg = sum / lookbackPeriod;
+                    decimal periodAvg = sum / lookbackPeriods;
                     decimal stdDev = (decimal)Functions.StdDev(periodClose);
 
                     r.Sma = periodAvg;
@@ -58,9 +58,9 @@ namespace Skender.Stock.Indicators
                     r.LowerBand = periodAvg - standardDeviations * stdDev;
 
                     r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                        : (h.Close - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                        : (q.Close - r.LowerBand) / (r.UpperBand - r.LowerBand);
 
-                    r.ZScore = (stdDev == 0) ? null : (h.Close - r.Sma) / stdDev;
+                    r.ZScore = (stdDev == 0) ? null : (q.Close - r.Sma) / stdDev;
                     r.Width = (r.Sma == 0) ? null : (r.UpperBand - r.LowerBand) / r.Sma;
                 }
 
@@ -71,18 +71,31 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<BollingerBandsResult> RemoveWarmupPeriods(
+            this IEnumerable<BollingerBandsResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Width != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateBollingerBands<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
             decimal standardDeviations)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for Bollinger Bands.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for Bollinger Bands.");
             }
 
             if (standardDeviations <= 0)
@@ -91,18 +104,18 @@ namespace Skender.Stock.Indicators
                     "Standard Deviations must be greater than 0 for Bollinger Bands.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Bollinger Bands.  " +
+                string message = "Insufficient quotes provided for Bollinger Bands.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

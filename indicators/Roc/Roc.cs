@@ -10,52 +10,52 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<RocResult> GetRoc<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod,
-            int? smaPeriod = null)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            int? smaPeriods = null)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateRoc(history, lookbackPeriod, smaPeriod);
+            ValidateRoc(quotes, lookbackPeriods, smaPeriods);
 
             // initialize
-            List<RocResult> results = new(historyList.Count);
+            List<RocResult> results = new(quotesList.Count);
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 RocResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index > lookbackPeriod)
+                if (index > lookbackPeriods)
                 {
-                    TQuote back = historyList[index - lookbackPeriod - 1];
+                    TQuote back = quotesList[index - lookbackPeriods - 1];
 
                     result.Roc = (back.Close == 0) ? null
-                        : 100 * (h.Close - back.Close) / back.Close;
+                        : 100 * (q.Close - back.Close) / back.Close;
                 }
 
                 results.Add(result);
 
                 // optional SMA
-                if (smaPeriod != null && index >= lookbackPeriod + smaPeriod)
+                if (smaPeriods != null && index >= lookbackPeriods + smaPeriods)
                 {
                     decimal? sumSma = 0m;
-                    for (int p = index - (int)smaPeriod; p < index; p++)
+                    for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Roc;
                     }
 
-                    result.RocSma = sumSma / smaPeriod;
+                    result.RocSma = sumSma / smaPeriods;
                 }
             }
 
@@ -63,38 +63,51 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<RocResult> RemoveWarmupPeriods(
+            this IEnumerable<RocResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Roc != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateRoc<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod,
-            int? smaPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            int? smaPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for ROC.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for ROC.");
             }
 
-            if (smaPeriod is not null and <= 0)
+            if (smaPeriods is not null and <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smaPeriod), smaPeriod,
-                    "SMA period must be greater than 0 for ROC.");
+                throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                    "SMA periods must be greater than 0 for ROC.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for ROC.  " +
+                string message = "Insufficient quotes provided for ROC.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

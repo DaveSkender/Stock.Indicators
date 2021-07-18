@@ -10,8 +10,8 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod,
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
             double percentOffset = 2.5,
             MaType movingAverageType = MaType.SMA)
             where TQuote : IQuote
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             // get envelopes variant
             return movingAverageType switch
             {
-                MaType.ALMA => GetAlma(history, lookbackPeriod)
+                MaType.ALMA => GetAlma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -36,16 +36,16 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Alma - x.Alma * offsetRatio
                     }),
 
-                MaType.DEMA => GetDoubleEma(history, lookbackPeriod)
+                MaType.DEMA => GetDoubleEma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
-                        Centerline = x.Ema,
-                        UpperEnvelope = x.Ema + x.Ema * offsetRatio,
-                        LowerEnvelope = x.Ema - x.Ema * offsetRatio
+                        Centerline = x.Dema,
+                        UpperEnvelope = x.Dema + x.Dema * offsetRatio,
+                        LowerEnvelope = x.Dema - x.Dema * offsetRatio
                     }),
 
-                MaType.EPMA => GetEpma(history, lookbackPeriod)
+                MaType.EPMA => GetEpma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -54,7 +54,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Epma - x.Epma * offsetRatio
                     }),
 
-                MaType.EMA => GetEma(history, lookbackPeriod)
+                MaType.EMA => GetEma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Ema - x.Ema * offsetRatio
                     }),
 
-                MaType.HMA => GetHma(history, lookbackPeriod)
+                MaType.HMA => GetHma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -72,7 +72,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Hma - x.Hma * offsetRatio
                     }),
 
-                MaType.SMA => GetSma(history, lookbackPeriod)
+                MaType.SMA => GetSma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -81,16 +81,16 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Sma - x.Sma * offsetRatio
                     }),
 
-                MaType.TEMA => GetTripleEma(history, lookbackPeriod)
+                MaType.TEMA => GetTripleEma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
-                        Centerline = x.Ema,
-                        UpperEnvelope = x.Ema + x.Ema * offsetRatio,
-                        LowerEnvelope = x.Ema - x.Ema * offsetRatio
+                        Centerline = x.Tema,
+                        UpperEnvelope = x.Tema + x.Tema * offsetRatio,
+                        LowerEnvelope = x.Tema - x.Tema * offsetRatio
                     }),
 
-                MaType.WMA => GetWma(history, lookbackPeriod)
+                MaType.WMA => GetWma(quotes, lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -109,6 +109,7 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateMaEnvelopes(
             double percentOffset)
         {

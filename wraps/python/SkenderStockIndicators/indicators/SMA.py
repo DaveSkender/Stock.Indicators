@@ -2,14 +2,14 @@ from Skender.Stock.Indicators import Indicator
 from SkenderStockIndicators._cstypes import List, to_pydecimal, to_pydatetime
 from .common import Quote, ResultBase
 
-def get_sma(history, lookbackPeriod: int):
-    sma_list = Indicator.GetSma[Quote](List(Quote, history), lookbackPeriod)
+def get_sma(quotes, lookbackPeriods: int):
+    sma_list = Indicator.GetSma[Quote](List(Quote, quotes), lookbackPeriods)
     sma_list = [ SmaResult(r) for r in sma_list ]
 
     return sma_list
 
-def get_sma_extended(history, lookbackPeriod: int):
-    sma_extended_list = Indicator.GetSmaExtended[Quote](List(Quote, history), lookbackPeriod)
+def get_sma_extended(quotes, lookbackPeriods: int):
+    sma_extended_list = Indicator.GetSmaExtended[Quote](List(Quote, quotes), lookbackPeriods)
     sma_extended_list = [ SmaExtendedResult(r) for r in sma_extended_list ]
 
     return sma_extended_list

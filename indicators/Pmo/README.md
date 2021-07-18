@@ -1,4 +1,4 @@
-﻿# Price Momentum Oscillator (PMO)
+# Price Momentum Oscillator (PMO)
 
 Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo) is double-smoothed ROC based momentum indicator.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/244 "Community discussion about this indicator")
@@ -8,22 +8,22 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 ```csharp
 // usage
 IEnumerable<PmoResult> results =
-  history.GetPmo(timePeriod, smoothingPeriod, signalPeriod);
+  quotes.GetPmo(timePeriods, smoothingPeriod, signalPeriods);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `timePeriod` | int | Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
+| `timePeriods` | int | Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
 | `smoothingPeriod` | int | Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
-| `signalPeriod` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
+| `signalPeriods` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`, where `N` is the greater of `T+S`,`2×T`, or `T+100`.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S`,`2×T`, or `T+100`.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -33,7 +33,7 @@ IEnumerable<PmoResult>
 
 The first `T+S-1` periods will have `null` values for PMO since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
-:warning: **Warning**: The first `N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:warning: **Warning**: The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### PmoResult
 
@@ -43,14 +43,22 @@ The first `T+S-1` periods will have `null` values for PMO since there's not enou
 | `Pmo` | decimal | Price Momentum Oscillator
 | `Signal` | decimal | Signal line is EMA of PMO
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period PMO
-IEnumerable<PmoResult> results = history.GetPmo(35,20,10);
+IEnumerable<PmoResult> results = quotes.GetPmo(35,20,10);
 
 // use results as needed
 PmoResult result = results.LastOrDefault();

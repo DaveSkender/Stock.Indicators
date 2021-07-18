@@ -15,13 +15,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(10, 2.5, MaType.ALMA)
+                quotes.GetMaEnvelopes(10, 2.5, MaType.ALMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(493, results.Where(x => x.Centerline != null).Count());
 
@@ -47,13 +47,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(20, 2.5, MaType.DEMA)
+                quotes.GetMaEnvelopes(20, 2.5, MaType.DEMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(464, results.Where(x => x.Centerline != null).Count());
 
@@ -79,13 +79,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(20, 2.5, MaType.EPMA)
+                quotes.GetMaEnvelopes(20, 2.5, MaType.EPMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
 
@@ -111,13 +111,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(20, 2.5, MaType.EMA)
+                quotes.GetMaEnvelopes(20, 2.5, MaType.EMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
 
@@ -143,13 +143,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(20, 2.5, MaType.HMA)
+                quotes.GetMaEnvelopes(20, 2.5, MaType.HMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(480, results.Where(x => x.Centerline != null).Count());
 
@@ -170,13 +170,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(20, 2.5, MaType.SMA)
+                quotes.GetMaEnvelopes(20, 2.5, MaType.SMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
 
@@ -202,13 +202,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(20, 2.5, MaType.TEMA)
+                quotes.GetMaEnvelopes(20, 2.5, MaType.TEMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(445, results.Where(x => x.Centerline != null).Count());
 
@@ -234,13 +234,13 @@ namespace Internal.Tests
         {
 
             List<MaEnvelopeResult> results =
-                history.GetMaEnvelopes(20, 2.5, MaType.WMA)
+                quotes.GetMaEnvelopes(20, 2.5, MaType.WMA)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
 
@@ -284,18 +284,19 @@ namespace Internal.Tests
             Assert.AreEqual(502, w.Count());
         }
 
+
         [TestMethod]
         public void Exceptions()
         {
             // bad offset period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMaEnvelopes(history, 14, 0));
+                Indicator.GetMaEnvelopes(quotes, 14, 0));
 
             // bad MA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMaEnvelopes(history, 14, 5, MaType.KAMA));
+                Indicator.GetMaEnvelopes(quotes, 14, 5, MaType.KAMA));
 
-            // note: insufficient history is tested elsewhere
+            // note: insufficient quotes is tested elsewhere
         }
     }
 }

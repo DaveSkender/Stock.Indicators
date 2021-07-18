@@ -10,46 +10,46 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
-            this IEnumerable<TQuote> history,
-            int shortPeriod = 7,
-            int middlePeriod = 14,
-            int longPeriod = 28)
+            this IEnumerable<TQuote> quotes,
+            int shortPeriods = 7,
+            int middlePeriods = 14,
+            int longPeriods = 28)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateUltimate(history, shortPeriod, middlePeriod, longPeriod);
+            ValidateUltimate(quotes, shortPeriods, middlePeriods, longPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<UltimateResult> results = new(size);
             decimal[] bp = new decimal[size]; // buying pressure
             decimal[] tr = new decimal[size]; // true range
 
             decimal priorClose = 0;
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 UltimateResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
                 results.Add(r);
 
                 if (i > 0)
                 {
-                    bp[i] = h.Close - Math.Min(h.Low, priorClose);
-                    tr[i] = Math.Max(h.High, priorClose) - Math.Min(h.Low, priorClose);
+                    bp[i] = q.Close - Math.Min(q.Low, priorClose);
+                    tr[i] = Math.Max(q.High, priorClose) - Math.Min(q.Low, priorClose);
                 }
 
-                if (index >= longPeriod + 1)
+                if (index >= longPeriods + 1)
                 {
                     decimal sumBP1 = 0m;
                     decimal sumBP2 = 0m;
@@ -59,19 +59,19 @@ namespace Skender.Stock.Indicators
                     decimal sumTR2 = 0m;
                     decimal sumTR3 = 0m;
 
-                    for (int p = index - longPeriod; p < index; p++)
+                    for (int p = index - longPeriods; p < index; p++)
                     {
                         int pIndex = p + 1;
 
                         // short aggregate
-                        if (pIndex > index - shortPeriod)
+                        if (pIndex > index - shortPeriods)
                         {
                             sumBP1 += bp[p];
                             sumTR1 += tr[p];
                         }
 
                         // middle aggregate
-                        if (pIndex > index - middlePeriod)
+                        if (pIndex > index - middlePeriods)
                         {
                             sumBP2 += bp[p];
                             sumTR2 += tr[p];
@@ -89,46 +89,59 @@ namespace Skender.Stock.Indicators
                     r.Ultimate = 100 * (4m * avg1 + 2m * avg2 + avg3) / 7m;
                 }
 
-                priorClose = h.Close;
+                priorClose = q.Close;
             }
 
             return results;
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<UltimateResult> RemoveWarmupPeriods(
+            this IEnumerable<UltimateResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Ultimate != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateUltimate<TQuote>(
-            IEnumerable<TQuote> history,
-            int shortPeriod,
+            IEnumerable<TQuote> quotes,
+            int shortPeriods,
             int middleAverage,
-            int longPeriod)
+            int longPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (shortPeriod <= 0 || middleAverage <= 0 || longPeriod <= 0)
+            if (shortPeriods <= 0 || middleAverage <= 0 || longPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(longPeriod), longPeriod,
+                throw new ArgumentOutOfRangeException(nameof(longPeriods), longPeriods,
                     "Average periods must be greater than 0 for Ultimate Oscillator.");
             }
 
-            if (shortPeriod >= middleAverage || middleAverage >= longPeriod)
+            if (shortPeriods >= middleAverage || middleAverage >= longPeriods)
             {
                 throw new ArgumentOutOfRangeException(nameof(middleAverage), middleAverage,
                     "Average periods must be increasingly larger than each other for Ultimate Oscillator.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = longPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = longPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Ultimate.  " +
+                string message = "Insufficient quotes provided for Ultimate.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

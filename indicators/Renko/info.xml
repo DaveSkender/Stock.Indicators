@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <type name="standard">
+    <summary>
+      (preview) Renko Chart is a modified Japanese candlestick pattern that uses time-lapsed bricks.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Renko/#content">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="brickSize">Fixed brick size ($)</param>
+    <param name="endType">End type.  See documentation.</param>
+    <returns>Time series of Renko Chart candlestick values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+  </type>
+  <type name="atr">
+    <summary>
+      (preview) The ATR Renko Chart is a modified Japanese candlestick pattern based on Average True Range brick size.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Renko/#content">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="atrPeriod">Lookback periods for the ATR evaluation.</param>
+    <param name="endType">End type.  See documentation.</param>
+    <returns>Time series of Renko Chart candlestick values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+  </type>
+</indicator>

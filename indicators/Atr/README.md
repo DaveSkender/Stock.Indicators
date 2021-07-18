@@ -8,20 +8,20 @@ Created by J. Welles Wilder, [Average True Range](https://en.wikipedia.org/wiki/
 ```csharp
 // usage
 IEnumerable<AtrResult> results =
-  history.GetAtr(lookbackPeriod);  
+  quotes.GetAtr(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1.
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.
 
 ### Historical quotes requirements
 
-You must have at least `N+100` periods of `history`.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` periods of `quotes`.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -42,14 +42,22 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 | `Atr` | decimal | Average True Range for `N` lookback periods
 | `Atrp` | decimal | Average True Range Percent is `(ATR/Close Price)*100`.  This normalizes so it can be compared to other stocks.
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ATR
-IEnumerable<AtrResult> results = history.GetAtr(14);
+IEnumerable<AtrResult> results = quotes.GetAtr(14);
 
 // use results as needed
 AtrResult result = results.LastOrDefault();

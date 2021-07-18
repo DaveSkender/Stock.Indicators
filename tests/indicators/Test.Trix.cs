@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<TrixResult> results = history.GetTrix(20, 5).ToList();
+            List<TrixResult> results = quotes.GetTrix(20, 5).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(445, results.Where(x => x.Ema3 != null).Count());
             Assert.AreEqual(444, results.Where(x => x.Trix != null).Count());
@@ -50,18 +50,34 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<TrixResult> results = quotes.GetTrix(20, 5)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (3 * 20 + 250), results.Count);
+
+            TrixResult last = results.LastOrDefault();
+            Assert.AreEqual(263.3216m, Math.Round((decimal)last.Ema3, 4));
+            Assert.AreEqual(-0.230742m, Math.Round((decimal)last.Trix, 6));
+            Assert.AreEqual(-0.204536m, Math.Round((decimal)last.Signal, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetTrix(history, 0));
+                Indicator.GetTrix(quotes, 0));
 
-            // insufficient history for 3*N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 3*N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTrix(HistoryTestData.Get(189), 30));
 
-            // insufficient history for 4×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 4×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetTrix(HistoryTestData.GetLong(999), 250));
         }
     }

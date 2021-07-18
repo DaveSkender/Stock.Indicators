@@ -10,41 +10,41 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<SmaResult> GetSma<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateSma(history, lookbackPeriod);
+            ValidateSma(quotes, lookbackPeriods);
 
             // initialize
-            List<SmaResult> results = new(historyList.Count);
+            List<SmaResult> results = new(quotesList.Count);
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 SmaResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index >= lookbackPeriod)
+                if (index >= lookbackPeriods)
                 {
                     decimal sumSma = 0m;
-                    for (int p = index - lookbackPeriod; p < index; p++)
+                    for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = historyList[p];
+                        TQuote d = quotesList[p];
                         sumSma += d.Close;
                     }
 
-                    result.Sma = sumSma / lookbackPeriod;
+                    result.Sma = sumSma / lookbackPeriods;
                 }
 
                 results.Add(result);
@@ -53,81 +53,45 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
-        // EXTENDED
-        /// <include file='./info.xml' path='indicators/type[@name="Extended"]/*' />
-        /// 
-        public static IEnumerable<SmaExtendedResult> GetSmaExtended<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod)
-            where TQuote : IQuote
+
+        // remove recommended periods extensions (standard)
+        public static IEnumerable<SmaResult> RemoveWarmupPeriods(
+            this IEnumerable<SmaResult> results)
         {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Sma != null);
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
-
-            // initialize
-            List<SmaExtendedResult> results = GetSma(history, lookbackPeriod)
-                .Select(x => new SmaExtendedResult { Date = x.Date, Sma = x.Sma })
-                .ToList();
-
-            // roll through history
-            for (int i = lookbackPeriod - 1; i < results.Count; i++)
-            {
-                SmaExtendedResult r = results[i];
-                int index = i + 1;
-
-                decimal sumMad = 0m;
-                decimal sumMse = 0m;
-                decimal? sumMape = 0m;
-
-                for (int p = index - lookbackPeriod; p < index; p++)
-                {
-                    TQuote d = historyList[p];
-                    sumMad += Math.Abs(d.Close - (decimal)r.Sma);
-                    sumMse += (d.Close - (decimal)r.Sma) * (d.Close - (decimal)r.Sma);
-
-                    sumMape += (d.Close == 0) ? null
-                        : Math.Abs(d.Close - (decimal)r.Sma) / d.Close;
-                }
-
-                // mean absolute deviation
-                r.Mad = sumMad / lookbackPeriod;
-
-                // mean squared error
-                r.Mse = sumMse / lookbackPeriod;
-
-                // mean absolute percent error
-                r.Mape = sumMape / lookbackPeriod;
-            }
-
-            return results;
+            return results.Remove(removePeriods);
         }
 
+
+        // parameter validation
         private static void ValidateSma<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 0)
+            if (lookbackPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 0 for SMA.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 0 for SMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for SMA.  " +
+                string message = "Insufficient quotes provided for SMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

@@ -10,18 +10,18 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<HtlResult> GetHtTrendline<TQuote>(
-            this IEnumerable<TQuote> history)
+            this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateHtTrendline(history);
+            ValidateHtTrendline(quotes);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<HtlResult> results = new(size);
 
             double[] pr = new double[size]; // price
@@ -44,15 +44,15 @@ namespace Skender.Stock.Indicators
             double[] sd = new double[size]; // smooth period
             double[] it = new double[size]; // instantaneous trend (raw)
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
-                pr[i] = (double)(h.High + h.Low) / 2;
+                TQuote q = quotesList[i];
+                pr[i] = (double)(q.High + q.Low) / 2;
 
                 HtlResult r = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                 };
 
                 if (i > 5)
@@ -111,7 +111,7 @@ namespace Skender.Stock.Indicators
                             sumPr += pr[d];
                         }
 
-                        // handle insufficient lookback history (trim scope)
+                        // handle insufficient lookback quotes (trim scope)
                         else
                         {
                             dcPeriods--;
@@ -156,22 +156,31 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<HtlResult> RemoveWarmupPeriods(
+            this IEnumerable<HtlResult> results)
+        {
+            return results.Remove(100);
+        }
+
+
+        // parameter validation
         private static void ValidateHtTrendline<TQuote>(
-            IEnumerable<TQuote> history)
+            IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for HTL.  " +
+                string message = "Insufficient quotes provided for HTL.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

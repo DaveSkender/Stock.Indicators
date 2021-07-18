@@ -9,50 +9,51 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(
-            this IEnumerable<TQuote> history)
+            this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateHeikinAshi(history);
+            ValidateHeikinAshi(quotes);
 
             // initialize
-            List<HeikinAshiResult> results = new(historyList.Count);
+            List<HeikinAshiResult> results = new(quotesList.Count);
 
             decimal? prevOpen = null;
             decimal? prevClose = null;
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 // close
-                decimal close = (h.Open + h.High + h.Low + h.Close) / 4;
+                decimal close = (q.Open + q.High + q.Low + q.Close) / 4;
 
                 // open
-                decimal open = (prevOpen == null) ? (h.Open + h.Close) / 2
+                decimal open = (prevOpen == null) ? (q.Open + q.Close) / 2
                     : (decimal)(prevOpen + prevClose) / 2;
 
                 // high
-                decimal[] arrH = { h.High, open, close };
+                decimal[] arrH = { q.High, open, close };
                 decimal high = arrH.Max();
 
                 // low
-                decimal[] arrL = { h.Low, open, close };
+                decimal[] arrL = { q.Low, open, close };
                 decimal low = arrL.Min();
 
 
                 HeikinAshiResult result = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                     Open = open,
                     High = high,
                     Low = low,
-                    Close = close
+                    Close = close,
+                    Volume = q.Volume
                 };
                 results.Add(result);
 
@@ -65,23 +66,42 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // convert to quotes
+        public static IEnumerable<Quote> ConvertToQuotes(
+            this IEnumerable<HeikinAshiResult> results)
+        {
+            return results
+              .Select(x => new Quote
+              {
+                  Date = x.Date,
+                  Open = x.Open,
+                  High = x.High,
+                  Low = x.Low,
+                  Close = x.Close,
+                  Volume = x.Volume
+              })
+              .ToList();
+        }
+
+
+        // parameter validation
         private static void ValidateHeikinAshi<TQuote>(
-            IEnumerable<TQuote> history)
+            IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Heikin-Ashi.  " +
+                string message = "Insufficient quotes provided for Heikin-Ashi.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

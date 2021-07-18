@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Skender.Stock.Indicators
 {
@@ -9,16 +10,16 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         ///
         public static IEnumerable<ChopResult> GetChop<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateChop(historyList, lookbackPeriod);
+            ValidateChop(quotesList, lookbackPeriods);
 
             // initialize
             decimal sum;
@@ -26,30 +27,30 @@ namespace Skender.Stock.Indicators
             decimal low;
             decimal range;
 
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<ChopResult> results = new(size);
             decimal[] trueHigh = new decimal[size];
             decimal[] trueLow = new decimal[size];
             decimal[] trueRange = new decimal[size];
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
                 ChopResult r = new()
                 {
-                    Date = historyList[i].Date
+                    Date = quotesList[i].Date
                 };
                 results.Add(r);
 
                 if (i > 0)
                 {
-                    trueHigh[i] = Math.Max(historyList[i].High, historyList[i - 1].Close);
-                    trueLow[i] = Math.Min(historyList[i].Low, historyList[i - 1].Close);
+                    trueHigh[i] = Math.Max(quotesList[i].High, quotesList[i - 1].Close);
+                    trueLow[i] = Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
                     trueRange[i] = trueHigh[i] - trueLow[i];
 
                     // calculate CHOP
 
-                    if (i >= lookbackPeriod)
+                    if (i >= lookbackPeriods)
                     {
                         // reset measurements
                         sum = trueRange[i];
@@ -57,7 +58,7 @@ namespace Skender.Stock.Indicators
                         low = trueLow[i];
 
                         // iterate over lookback window
-                        for (int j = 1; j < lookbackPeriod; j++)
+                        for (int j = 1; j < lookbackPeriods; j++)
                         {
                             sum += trueRange[i - j];
                             high = Math.Max(high, trueHigh[i - j]);
@@ -69,7 +70,7 @@ namespace Skender.Stock.Indicators
                         // calculate CHOP
                         if (range != 0)
                         {
-                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriod)));
+                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriods)));
                         }
                     }
                 }
@@ -77,30 +78,44 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
+        // remove recommended periods extensions
+        public static IEnumerable<ChopResult> RemoveWarmupPeriods(
+            this IEnumerable<ChopResult> results)
+        {
+            int removePeriods = results
+               .ToList()
+               .FindIndex(x => x.Chop != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateChop<TQuote>(
-            List<TQuote> history,
-            int lookbackPeriod)
+            List<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
 
         {
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for CHOP.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for CHOP.");
             }
 
-            // check history
-            int qtyHistory = history.Count;
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count;
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for CHOP.  " +
+                string message = "Insufficient quotes provided for CHOP.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

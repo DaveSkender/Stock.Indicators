@@ -8,20 +8,20 @@
 ```csharp
 // usage
 IEnumerable<SlopeResult> results =
-  history.GetSlope(lookbackPeriod);  
+  quotes.GetSlope(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) for the linear regression.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 0.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `history`.
+You must have at least `N` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -42,6 +42,14 @@ The first `N-1` periods will have `null` values for `Slope` since there's not en
 | `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination
 | `Line` | decimal | Best-fit line `y` over the last 'N' periods (i.e. `y=mx+b` using last period values)
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
@@ -49,7 +57,7 @@ The first `N-1` periods will have `null` values for `Slope` since there's not en
 IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 
 // calculate 20-period Slope
-IEnumerable<SlopeResult> results = history.GetSlope(20);
+IEnumerable<SlopeResult> results = quotes.GetSlope(20);
 
 // use results as needed
 SlopeResult result = results.LastOrDefault();

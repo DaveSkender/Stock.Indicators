@@ -13,18 +13,18 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int fastPeriod = 3;
-            int slowPeriod = 10;
+            int fastPeriods = 3;
+            int slowPeriods = 10;
 
-            List<ChaikinOscResult> results = history.GetChaikinOsc(fastPeriod, slowPeriod)
+            List<ChaikinOscResult> results = quotes.GetChaikinOsc(fastPeriods, slowPeriods)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - slowPeriod + 1, results.Where(x => x.Oscillator != null).Count());
+            Assert.AreEqual(502 - slowPeriods + 1, results.Where(x => x.Oscillator != null).Count());
 
             // sample value
             ChaikinOscResult r = results[501];
@@ -42,22 +42,42 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            int fastPeriods = 3;
+            int slowPeriods = 10;
+
+            List<ChaikinOscResult> results = quotes.GetChaikinOsc(fastPeriods, slowPeriods)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
+
+            ChaikinOscResult last = results.LastOrDefault();
+            Assert.AreEqual(3439986548.42m, Math.Round(last.Adl, 2));
+            Assert.AreEqual(0.8052m, Math.Round(last.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25m, Math.Round(last.MoneyFlowVolume, 2));
+            Assert.AreEqual(-19135200.72m, Math.Round((decimal)last.Oscillator, 2));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast lookback
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetChaikinOsc(history, 0));
+                Indicator.GetChaikinOsc(quotes, 0));
 
             // bad slow lookback
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetChaikinOsc(history, 10, 5));
+                Indicator.GetChaikinOsc(quotes, 10, 5));
 
-            // insufficient history S+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes S+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetChaikinOsc(HistoryTestData.Get(109), 3, 10));
 
-            // insufficient history 2×S
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes 2×S
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetChaikinOsc(HistoryTestData.Get(499), 3, 250));
         }
     }

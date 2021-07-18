@@ -10,23 +10,23 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<PivotPointsResult> GetPivotPoints<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             PeriodSize windowSize,
             PivotPointType pointType = PivotPointType.Standard)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidatePivotPoints(history, windowSize);
+            ValidatePivotPoints(quotes, windowSize);
 
             // initialize
-            List<PivotPointsResult> results = new(historyList.Count);
+            List<PivotPointsResult> results = new(quotesList.Count);
             PivotPointsResult windowPoint = new();
 
-            TQuote h0 = historyList[0];
+            TQuote h0 = quotesList[0];
             int windowId = GetWindowNumber(h0.Date, windowSize);
             int windowEval;
             bool firstWindow = true;
@@ -36,18 +36,18 @@ namespace Skender.Stock.Indicators
             decimal windowOpen = h0.Open;
             decimal windowClose = h0.Close;
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 PivotPointsResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // new window evaluation
-                windowEval = GetWindowNumber(h.Date, windowSize);
+                windowEval = GetWindowNumber(q.Date, windowSize);
 
                 if (windowEval != windowId)
                 {
@@ -57,15 +57,16 @@ namespace Skender.Stock.Indicators
                     // set new levels
                     if (pointType == PivotPointType.Woodie)
                     {
-                        windowOpen = h.Open;
+                        windowOpen = q.Open;
                     }
 
-                    windowPoint = GetPivotPoint(pointType, windowOpen, windowHigh, windowLow, windowClose);
+                    windowPoint = GetPivotPoint<PivotPointsResult>(
+                        pointType, windowOpen, windowHigh, windowLow, windowClose);
 
                     // reset window min/max thresholds
-                    windowOpen = h.Open;
-                    windowHigh = h.High;
-                    windowLow = h.Low;
+                    windowOpen = q.Open;
+                    windowHigh = q.High;
+                    windowLow = q.Low;
                 }
 
                 // add levels
@@ -90,36 +91,35 @@ namespace Skender.Stock.Indicators
                 results.Add(r);
 
                 // capture window threholds (for next iteration)
-                windowHigh = (h.High > windowHigh) ? h.High : windowHigh;
-                windowLow = (h.Low < windowLow) ? h.Low : windowLow;
-                windowClose = h.Close;
+                windowHigh = (q.High > windowHigh) ? q.High : windowHigh;
+                windowLow = (q.Low < windowLow) ? q.Low : windowLow;
+                windowClose = q.Close;
             }
 
             return results;
         }
 
 
-        internal static PivotPointsResult GetPivotPoint(
-            PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
+        // remove recommended periods extensions
+        public static IEnumerable<PivotPointsResult> RemoveWarmupPeriods(
+            this IEnumerable<PivotPointsResult> results)
         {
-            return pointType switch
-            {
-                PivotPointType.Standard => GetPivotPointStandard(high, low, close),
-                PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
-                PivotPointType.Demark => GetPivotPointDemark(open, high, low, close),
-                PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
-                PivotPointType.Woodie => GetPivotPointWoodie(open, high, low),
-                _ => null
-            };
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.PP != null);
+
+            return results.Remove(removePeriods);
         }
 
 
-        public static PivotPointsResult GetPivotPointStandard(
+        // internals
+        internal static TPivotPoint GetPivotPointStandard<TPivotPoint>(
             decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal pp = (high + low + close) / 3;
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = pp,
                 S1 = pp * 2 - high,
@@ -129,10 +129,11 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointCamarilla(
+        internal static TPivotPoint GetPivotPointCamarilla<TPivotPoint>(
             decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = close,
                 S1 = close - (1.1m / 12) * (high - low),
@@ -146,8 +147,9 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointDemark(
+        internal static TPivotPoint GetPivotPointDemark<TPivotPoint>(
             decimal open, decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal? x = null;
 
@@ -164,7 +166,7 @@ namespace Skender.Stock.Indicators
                 x = high + low + 2 * close;
             }
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = x / 4,
                 S1 = x / 2 - high,
@@ -172,12 +174,13 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointFibonacci(
+        internal static TPivotPoint GetPivotPointFibonacci<TPivotPoint>(
             decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal pp = (high + low + close) / 3;
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = pp,
                 S1 = pp - 0.382m * (high - low),
@@ -189,12 +192,13 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        public static PivotPointsResult GetPivotPointWoodie(
+        internal static TPivotPoint GetPivotPointWoodie<TPivotPoint>(
             decimal currentOpen, decimal high, decimal low)
+            where TPivotPoint : IPivotPoint, new()
         {
             decimal pp = (high + low + 2 * currentOpen) / 4;
 
-            return new PivotPointsResult
+            return new TPivotPoint
             {
                 PP = pp,
                 S1 = pp * 2 - high,
@@ -207,6 +211,23 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // pivot type lookup
+        internal static TPivotPoint GetPivotPoint<TPivotPoint>(
+            PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
+            where TPivotPoint : IPivotPoint, new()
+        {
+            return pointType switch
+            {
+                PivotPointType.Standard => GetPivotPointStandard<TPivotPoint>(high, low, close),
+                PivotPointType.Camarilla => GetPivotPointCamarilla<TPivotPoint>(high, low, close),
+                PivotPointType.Demark => GetPivotPointDemark<TPivotPoint>(open, high, low, close),
+                PivotPointType.Fibonacci => GetPivotPointFibonacci<TPivotPoint>(high, low, close),
+                PivotPointType.Woodie => GetPivotPointWoodie<TPivotPoint>(open, high, low),
+                _ => default
+            };
+        }
+
+        // window size lookup
         private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
         {
             return windowSize switch
@@ -219,9 +240,9 @@ namespace Skender.Stock.Indicators
             };
         }
 
-
+        // parameter validation
         private static void ValidatePivotPoints<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             PeriodSize windowSize)
             where TQuote : IQuote
         {
@@ -229,34 +250,34 @@ namespace Skender.Stock.Indicators
             // check parameter arguments
             int qtyWindows = windowSize switch
             {
-                PeriodSize.Month => history
+                PeriodSize.Month => quotes
                     .Select(x => x.Date.Month).Distinct().Count(),
 
-                PeriodSize.Week => history
+                PeriodSize.Week => quotes
                     .Select(x => EnglishCalendar
                     .GetWeekOfYear(x.Date, EnglishCalendarWeekRule, EnglishFirstDayOfWeek))
                     .Distinct().Count(),
 
-                PeriodSize.Day => history
+                PeriodSize.Day => quotes
                     .Select(x => x.Date.Day).Distinct().Count(),
 
-                PeriodSize.OneHour => history
+                PeriodSize.OneHour => quotes
                 .Select(x => x.Date.Hour).Distinct().Count(),
 
                 _ => 0
             };
 
-            // check history
+            // check quotes
             if (qtyWindows < 2)
             {
-                string message = "Insufficient history provided for Pivot Points.  " +
+                string message = "Insufficient quotes provided for Pivot Points.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} {1} windows of history when at least 2 are required.  "
-                    + "This can be from either not enough history or insufficiently detailed Date values.",
+                    "You provided {0} {1} windows of quotes when at least 2 are required.  "
+                    + "This can be from either not enough quotes or insufficiently detailed Date values.",
                     qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

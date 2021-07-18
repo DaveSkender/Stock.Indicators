@@ -8,22 +8,22 @@ Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https:
 ```csharp
 // usage
 IEnumerable<StarcBandsResult> results = 
-  history.GetStarcBands(smaPeriod, multiplier, atrPeriod);  
+  quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `smaPeriod` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
+| `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
 | `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
-| `atrPeriod` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriod`.  Default is 10.
+| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10.
 
 ### Historical quotes requirements
 
-You must have at least `S` or `A+100` periods of `history`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
+You must have at least `S` or `A+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -31,7 +31,7 @@ You must have at least `S` or `A+100` periods of `history`, whichever is more.  
 IEnumerable<StarcBandsResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` and `A+100`.  We always return the same number of elements as there are in the historical quotes.
+The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` or `A`.  We always return the same number of elements as there are in the historical quotes.
 
 :warning: **Warning**: The first `A+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
@@ -44,14 +44,22 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | `Centerline` | decimal | SMA of Close price
 | `LowerBand` | decimal | Lower STARC band
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StarcBands(20)
-IEnumerable<StarcBandsResult> results = history.GetStarcBands(20,2.0,10);
+IEnumerable<StarcBandsResult> results = quotes.GetStarcBands(20,2.0,10);
 
 // use results as needed
 StarcBandsResult result = results.LastOrDefault();

@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<BopResult> results = history.GetBop(14).ToList();
+            List<BopResult> results = quotes.GetBop(14).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(489, results.Where(x => x.Bop != null).Count());
 
@@ -48,14 +48,28 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<BopResult> results = quotes.GetBop(14)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 13, results.Count);
+
+            BopResult last = results.LastOrDefault();
+            Assert.AreEqual(-0.292788m, Math.Round((decimal)last.Bop, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad smoothing period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetBop(history, 0));
+                Indicator.GetBop(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetBop(HistoryTestData.Get(24), 25));
         }
     }

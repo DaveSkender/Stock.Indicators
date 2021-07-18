@@ -14,12 +14,12 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<AwesomeResult> results = history.GetAwesome(5, 34)
+            List<AwesomeResult> results = quotes.GetAwesome(5, 34)
                 .ToList();
 
             // assertions
 
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(469, results.Where(x => x.Oscillator != null).Count());
 
@@ -49,18 +49,33 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<AwesomeResult> results = quotes.GetAwesome(5, 34)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 33, results.Count);
+
+            AwesomeResult last = results.LastOrDefault();
+            Assert.AreEqual(-17.7692m, Math.Round((decimal)last.Oscillator, 4));
+            Assert.AreEqual(-7.2763m, Math.Round((decimal)last.Normalized, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad fast period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAwesome(history, 0, 34));
+                Indicator.GetAwesome(quotes, 0, 34));
 
             // bad slow period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAwesome(history, 25, 25));
+                Indicator.GetAwesome(quotes, 25, 25));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAwesome(HistoryTestData.Get(33), 5, 34));
         }
     }

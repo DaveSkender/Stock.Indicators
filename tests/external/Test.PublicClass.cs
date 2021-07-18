@@ -47,18 +47,18 @@ namespace External.Other
         [TestMethod]
         public void ValidateHistory()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            history.Validate();
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            quotes.Validate();
 
-            history.GetSma(6);
-            Indicator.GetSma(history, 5);
+            quotes.GetSma(6);
+            Indicator.GetSma(quotes, 5);
         }
 
         [TestMethod]
         public void ReadQuoteClass()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            IEnumerable<Quote> h = history.Validate();
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> h = quotes.Validate();
 
             Quote f = h.FirstOrDefault();
             Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);
@@ -80,12 +80,12 @@ namespace External.Other
         [TestMethod]
         public void DerivedQuoteClassLinq()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            history = history.Validate();
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            quotes = quotes.Validate();
 
             // can use a derive Quote class using Linq
 
-            IEnumerable<MyQuote> myHistory = history
+            IEnumerable<MyQuote> myHistory = quotes
                 .Select(x => new MyQuote
                 {
                     Date = x.Date,
@@ -118,7 +118,7 @@ namespace External.Other
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
 
@@ -149,18 +149,18 @@ namespace External.Other
                 })
                 .ToList();
 
-            List<Quote> historyList = myGenericHistory
+            List<Quote> quotesList = myGenericHistory
                 .Aggregate(PeriodSize.TwoHours)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
-            Assert.AreEqual(20, historyList.Count);
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(20, quotesList.Count);
 
             // sample values
-            Quote r19 = historyList[19];
+            Quote r19 = quotesList[19];
             Assert.AreEqual(369.04m, r19.Low);
         }
 
@@ -182,8 +182,8 @@ namespace External.Other
         [TestMethod]
         public void DerivedIndicatorClassLinq()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            IEnumerable<EmaResult> emaResults = history.GetEma(14);
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<EmaResult> emaResults = quotes.GetEma(14);
 
             // can use a derive Indicator class using Linq
 
@@ -202,8 +202,8 @@ namespace External.Other
         [TestMethod]
         public void DerivedIndicatorFind()
         {
-            IEnumerable<Quote> history = HistoryTestData.Get();
-            IEnumerable<EmaResult> emaResults = Indicator.GetEma(history, 20);
+            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
 
             // can use a derive Indicator class using Linq
 

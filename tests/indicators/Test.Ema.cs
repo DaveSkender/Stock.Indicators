@@ -13,13 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<EmaResult> results = history.GetEma(lookbackPeriod).ToList();
+            List<EmaResult> results = quotes.GetEma(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
 
@@ -42,18 +41,32 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<EmaResult> results = quotes.GetEma(20)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - (20 + 100), results.Count);
+
+            EmaResult last = results.LastOrDefault();
+            Assert.AreEqual(249.3519m, Math.Round((decimal)last.Ema, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetEma(history, 0));
+                Indicator.GetEma(quotes, 0));
 
-            // insufficient history for N+100
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for N+100
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetEma(HistoryTestData.Get(129), 30));
 
-            // insufficient history for 2×N
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes for 2×N
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetEma(HistoryTestData.Get(499), 250));
         }
     }

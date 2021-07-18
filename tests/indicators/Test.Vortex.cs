@@ -13,13 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 14;
-            List<VortexResult> results = history.GetVortex(lookbackPeriod).ToList();
+            List<VortexResult> results = quotes.GetVortex(14).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(488, results.Where(x => x.Pvi != null).Count());
 
@@ -53,14 +52,29 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<VortexResult> results = quotes.GetVortex(14)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 14, results.Count);
+
+            VortexResult last = results.LastOrDefault();
+            Assert.AreEqual(0.8712m, Math.Round((decimal)last.Pvi, 4));
+            Assert.AreEqual(1.1163m, Math.Round((decimal)last.Nvi, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetVortex(history, 1));
+                Indicator.GetVortex(quotes, 1));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetVortex(HistoryTestData.Get(30), 30));
         }
     }

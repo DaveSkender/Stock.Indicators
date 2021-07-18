@@ -10,20 +10,20 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<MamaResult> GetMama<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             decimal fastLimit = 0.5m,
             decimal slowLimit = 0.05m)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateMama(history, fastLimit, slowLimit);
+            ValidateMama(quotes, fastLimit, slowLimit);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<MamaResult> results = new(size);
 
             double sumPr = 0d;
@@ -47,15 +47,15 @@ namespace Skender.Stock.Indicators
 
             double[] ph = new double[size]; // phase
 
-            // roll through history
+            // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote h = historyList[i];
-                pr[i] = (double)(h.High + h.Low) / 2;
+                TQuote q = quotesList[i];
+                pr[i] = (double)(q.High + q.Low) / 2;
 
                 MamaResult r = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                 };
 
                 if (i > 5)
@@ -150,8 +150,17 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<MamaResult> RemoveWarmupPeriods(
+            this IEnumerable<MamaResult> results)
+        {
+            return results.Remove(50);
+        }
+
+
+        // parameter validation
         private static void ValidateMama<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             decimal fastLimit,
             decimal slowLimit)
             where TQuote : IQuote
@@ -170,18 +179,18 @@ namespace Skender.Stock.Indicators
                     "Slow Limit must be greater than 0 for MAMA.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 50;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for MAMA.  " +
+                string message = "Insufficient quotes provided for MAMA.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

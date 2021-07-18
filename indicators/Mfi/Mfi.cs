@@ -10,19 +10,19 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<MfiResult> GetMfi<TQuote>(
-            this IEnumerable<TQuote> history,
-            int lookbackPeriod = 14)
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods = 14)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateMfi(history, lookbackPeriod);
+            ValidateMfi(quotes, lookbackPeriods);
 
             // initialize
-            int size = historyList.Count;
+            int size = quotesList.Count;
             List<MfiResult> results = new(size);
             decimal[] tp = new decimal[size];  // true price
             decimal[] mf = new decimal[size];  // raw MF value
@@ -30,21 +30,21 @@ namespace Skender.Stock.Indicators
 
             decimal? prevTP = null;
 
-            // roll through history, to get preliminary data
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes, to get preliminary data
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 MfiResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // true price
-                tp[i] = (h.High + h.Low + h.Close) / 3;
+                tp[i] = (q.High + q.Low + q.Close) / 3;
 
                 // raw money flow
-                mf[i] = tp[i] * h.Volume;
+                mf[i] = tp[i] * q.Volume;
 
                 // direction
                 if (prevTP == null || tp[i] == prevTP)
@@ -66,7 +66,7 @@ namespace Skender.Stock.Indicators
             }
 
             // add money flow index
-            for (int i = lookbackPeriod; i < results.Count; i++)
+            for (int i = lookbackPeriods; i < results.Count; i++)
             {
                 MfiResult r = results[i];
                 int index = i + 1;
@@ -74,7 +74,7 @@ namespace Skender.Stock.Indicators
                 decimal sumPosMFs = 0;
                 decimal sumNegMFs = 0;
 
-                for (int p = index - lookbackPeriod; p < index; p++)
+                for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     if (direction[p] == 1)
                     {
@@ -103,31 +103,44 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<MfiResult> RemoveWarmupPeriods(
+            this IEnumerable<MfiResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Mfi != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateMfi<TQuote>(
-            IEnumerable<TQuote> history,
-            int lookbackPeriod)
+            IEnumerable<TQuote> quotes,
+            int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            if (lookbackPeriod <= 1)
+            if (lookbackPeriods <= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriod), lookbackPeriod,
-                    "Lookback period must be greater than 1 for MFI.");
+                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                    "Lookback periods must be greater than 1 for MFI.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
-            int minHistory = lookbackPeriod + 1;
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = lookbackPeriods + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Money Flow Index.  " +
+                string message = "Insufficient quotes provided for Money Flow Index.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

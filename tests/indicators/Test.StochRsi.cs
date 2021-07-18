@@ -13,13 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void FastRsi()
         {
-            int rsiPeriod = 14;
-            int stochPeriod = 14;
-            int signalPeriod = 3;
-            int smoothPeriod = 1;
+            int rsiPeriods = 14;
+            int stochPeriods = 14;
+            int signalPeriods = 3;
+            int smoothPeriods = 1;
 
             List<StochRsiResult> results =
-                history.GetStochRsi(rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // assertions
@@ -50,13 +50,13 @@ namespace Internal.Tests
         [TestMethod]
         public void SlowRsi()
         {
-            int rsiPeriod = 14;
-            int stochPeriod = 14;
-            int signalPeriod = 3;
-            int smoothPeriod = 3;
+            int rsiPeriods = 14;
+            int stochPeriods = 14;
+            int signalPeriods = 3;
+            int smoothPeriods = 3;
 
             List<StochRsiResult> results =
-                Indicator.GetStochRsi(history, rsiPeriod, stochPeriod, signalPeriod, smoothPeriod)
+                Indicator.GetStochRsi(quotes, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
                 .ToList();
 
             // assertions
@@ -92,26 +92,48 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            int rsiPeriods = 14;
+            int stochPeriods = 14;
+            int signalPeriods = 3;
+            int smoothPeriods = 3;
+
+            List<StochRsiResult> results =
+                Indicator.GetStochRsi(quotes, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
+                    .RemoveWarmupPeriods()
+                    .ToList();
+
+            // assertions
+            int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
+            Assert.AreEqual(502 - removeQty, results.Count);
+
+            StochRsiResult last = results.LastOrDefault();
+            Assert.AreEqual(89.8385m, Math.Round((decimal)last.StochRsi, 4));
+            Assert.AreEqual(73.4176m, Math.Round((decimal)last.Signal, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad RSI period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 0, 14, 3, 1));
+                Indicator.GetStochRsi(quotes, 0, 14, 3, 1));
 
             // bad STO period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 14, 0, 3, 3));
+                Indicator.GetStochRsi(quotes, 14, 0, 3, 3));
 
             // bad STO signal period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 14, 14, 0));
+                Indicator.GetStochRsi(quotes, 14, 14, 0));
 
             // bad STO smoothing period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetStochRsi(history, 14, 14, 3, 0));
+                Indicator.GetStochRsi(quotes, 14, 14, 3, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetStochRsi(HistoryTestData.Get(129), 30, 30, 5, 5));
         }
     }

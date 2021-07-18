@@ -13,14 +13,13 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<DonchianResult> results = history.GetDonchian(lookbackPeriod)
+            List<DonchianResult> results = quotes.GetDonchian(20)
                 .ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Centerline != null).Count());
             Assert.AreEqual(482, results.Where(x => x.UpperBand != null).Count());
@@ -67,14 +66,31 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<DonchianResult> results = quotes.GetDonchian(20)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 20, results.Count);
+
+            DonchianResult last = results.LastOrDefault();
+            Assert.AreEqual(251.5050m, Math.Round((decimal)last.Centerline, 4));
+            Assert.AreEqual(273.5900m, Math.Round((decimal)last.UpperBand, 4));
+            Assert.AreEqual(229.4200m, Math.Round((decimal)last.LowerBand, 4));
+            Assert.AreEqual(0.175623m, Math.Round((decimal)last.Width, 6));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetDonchian(history, 0));
+                Indicator.GetDonchian(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetDonchian(HistoryTestData.Get(30), 30));
         }
     }

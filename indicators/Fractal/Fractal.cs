@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,33 +10,33 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<FractalResult> GetFractal<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             int windowSpan = 2,
             EndType endType = EndType.HighLow)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateFractal(history, windowSpan);
+            ValidateFractal(quotes, windowSpan);
 
             // initialize
-            List<FractalResult> results = new(historyList.Count);
+            List<FractalResult> results = new(quotesList.Count);
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
                 int index = i + 1;
 
                 FractalResult r = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
-                if (index > windowSpan && index <= historyList.Count - windowSpan)
+                if (index > windowSpan && index <= quotesList.Count - windowSpan)
                 {
                     bool isHigh = true;
                     bool isLow = true;
@@ -56,8 +56,8 @@ namespace Skender.Stock.Indicators
                             continue;
                         }
 
-                        // evaluate wing period
-                        TQuote wing = historyList[p];
+                        // evaluate wing periods
+                        TQuote wing = quotesList[p];
 
                         decimal wingHigh = (endType == EndType.Close) ?
                             Math.Max(wing.Open, wing.Close) : wing.High;
@@ -96,8 +96,9 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // parameter validation
         private static void ValidateFractal<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             int windowSpan)
             where TQuote : IQuote
         {
@@ -109,18 +110,18 @@ namespace Skender.Stock.Indicators
                     "Window span must be at least 2 for Fractal.");
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2 * windowSpan + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Fractal.  " +
+                string message = "Insufficient quotes provided for Fractal.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

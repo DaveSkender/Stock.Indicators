@@ -12,12 +12,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<AlligatorResult> results = history.GetAlligator().ToList();
+            List<AlligatorResult> results = quotes.GetAlligator().ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
             Assert.AreEqual(490, results.Where(x => x.Teeth != null).Count());
@@ -58,10 +58,24 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            IEnumerable<AlligatorResult> r = quotes.GetAlligator()
+                .RemoveWarmupPeriods();
+
+            Assert.AreEqual(237, r.Count());
+
+            AlligatorResult last = r.LastOrDefault();
+            Assert.AreEqual(260.98953m, Math.Round((decimal)last.Jaw, 5));
+            Assert.AreEqual(253.53576m, Math.Round((decimal)last.Teeth, 5));
+            Assert.AreEqual(244.29591m, Math.Round((decimal)last.Lips, 5));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetAlligator(HistoryTestData.Get(114)));
         }
     }

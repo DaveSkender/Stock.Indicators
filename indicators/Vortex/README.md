@@ -8,20 +8,20 @@ Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.
 ```csharp
 // usage
 IEnumerable<VortexResult> results =
-  history.GetVortex(lookbackPeriod);  
+  quotes.GetVortex(lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriod` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
+| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `history`.
+You must have at least `N+1` periods of `quotes`.
 
-`history` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -39,14 +39,22 @@ The first `N` periods will have `null` values for VI since there's not enough da
 | `Pvi` | decimal | Positive Vortex Indicator (VI+)
 | `Nvi` | decimal | Negative Vortex Indicator (VI-)
 
+### Utilities
+
+- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+
+See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> history = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 14-period VI
-IEnumerable<VortexResult> results = history.GetVortex(14);
+IEnumerable<VortexResult> results = quotes.GetVortex(14);
 
 // use results as needed
 VortexResult result = results.LastOrDefault();

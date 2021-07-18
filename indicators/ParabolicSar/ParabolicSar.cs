@@ -10,35 +10,35 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
-            this IEnumerable<TQuote> history,
+            this IEnumerable<TQuote> quotes,
             decimal accelerationStep = (decimal)0.02,
             decimal maxAccelerationFactor = (decimal)0.2)
             where TQuote : IQuote
         {
 
-            // sort history
-            List<TQuote> historyList = history.Sort();
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateParabolicSar(history, accelerationStep, maxAccelerationFactor);
+            ValidateParabolicSar(quotes, accelerationStep, maxAccelerationFactor);
 
             // initialize
-            List<ParabolicSarResult> results = new(historyList.Count);
-            TQuote first = historyList[0];
+            List<ParabolicSarResult> results = new(quotesList.Count);
+            TQuote first = quotesList[0];
 
             decimal accelerationFactor = accelerationStep;
             decimal extremePoint = first.High;
             decimal priorSar = first.Low;
             bool isRising = true;  // initial guess
 
-            // roll through history
-            for (int i = 0; i < historyList.Count; i++)
+            // roll through quotes
+            for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote h = historyList[i];
+                TQuote q = quotesList[i];
 
                 ParabolicSarResult result = new()
                 {
-                    Date = h.Date
+                    Date = q.Date
                 };
 
                 // skip first one
@@ -54,14 +54,14 @@ namespace Skender.Stock.Indicators
                     decimal currentSar = priorSar + accelerationFactor * (extremePoint - priorSar);
 
                     // turn down
-                    if (h.Low < currentSar)
+                    if (q.Low < currentSar)
                     {
                         result.IsReversal = true;
                         result.Sar = extremePoint;
 
                         isRising = false;
                         accelerationFactor = accelerationStep;
-                        extremePoint = h.Low;
+                        extremePoint = q.Low;
                     }
 
                     // continue rising
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
                         // SAR cannot be higher than last two lows
                         if (i >= 2)
                         {
-                            decimal minLastTwo = Math.Min(historyList[i - 1].Low, historyList[i - 2].Low);
+                            decimal minLastTwo = Math.Min(quotesList[i - 1].Low, quotesList[i - 2].Low);
 
                             result.Sar = Math.Min((decimal)result.Sar, minLastTwo);
                         }
@@ -82,9 +82,9 @@ namespace Skender.Stock.Indicators
                             result.Sar = (decimal)result.Sar;
                         }
 
-                        if (h.High > extremePoint)
+                        if (q.High > extremePoint)
                         {
-                            extremePoint = h.High;
+                            extremePoint = q.High;
                             accelerationFactor =
                                 Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
                         }
@@ -97,14 +97,14 @@ namespace Skender.Stock.Indicators
                     decimal currentSar = priorSar - accelerationFactor * (priorSar - extremePoint);
 
                     // turn up
-                    if (h.High > currentSar)
+                    if (q.High > currentSar)
                     {
                         result.IsReversal = true;
                         result.Sar = extremePoint;
 
                         isRising = true;
                         accelerationFactor = accelerationStep;
-                        extremePoint = h.High;
+                        extremePoint = q.High;
                     }
 
                     // continue falling
@@ -116,7 +116,7 @@ namespace Skender.Stock.Indicators
                         // SAR cannot be lower than last two highs
                         if (i >= 2)
                         {
-                            decimal maxLastTwo = Math.Max(historyList[i - 1].High, historyList[i - 2].High);
+                            decimal maxLastTwo = Math.Max(quotesList[i - 1].High, quotesList[i - 2].High);
 
                             result.Sar = Math.Max((decimal)result.Sar, maxLastTwo);
                         }
@@ -125,9 +125,9 @@ namespace Skender.Stock.Indicators
                             result.Sar = (decimal)result.Sar;
                         }
 
-                        if (h.Low < extremePoint)
+                        if (q.Low < extremePoint)
                         {
-                            extremePoint = h.Low;
+                            extremePoint = q.Low;
                             accelerationFactor =
                                 Math.Min(accelerationFactor += accelerationStep, maxAccelerationFactor);
                         }
@@ -161,8 +161,21 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // remove recommended periods extensions
+        public static IEnumerable<ParabolicSarResult> RemoveWarmupPeriods(
+            this IEnumerable<ParabolicSarResult> results)
+        {
+            int removePeriods = results
+                .ToList()
+                .FindIndex(x => x.Sar != null);
+
+            return results.Remove(removePeriods);
+        }
+
+
+        // parameter validation
         private static void ValidateParabolicSar<TQuote>(
-            IEnumerable<TQuote> history,
+            IEnumerable<TQuote> quotes,
             decimal accelerationStep,
             decimal maxAccelerationFactor)
             where TQuote : IQuote
@@ -191,18 +204,18 @@ namespace Skender.Stock.Indicators
                 throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep, message);
             }
 
-            // check history
-            int qtyHistory = history.Count();
+            // check quotes
+            int qtyHistory = quotes.Count();
             int minHistory = 2;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient history provided for Parabolic SAR.  " +
+                string message = "Insufficient quotes provided for Parabolic SAR.  " +
                     string.Format(
                         EnglishCulture,
-                    "You provided {0} periods of history when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} is required.",
                     qtyHistory, minHistory);
 
-                throw new BadHistoryException(nameof(history), message);
+                throw new BadQuotesException(nameof(quotes), message);
             }
         }
     }

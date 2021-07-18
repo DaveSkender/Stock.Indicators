@@ -13,17 +13,16 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int lookbackPeriod = 20;
-            List<SlopeResult> results = history.GetSlope(lookbackPeriod).ToList();
+            List<SlopeResult> results = quotes.GetSlope(20).ToList();
 
             // assertions
 
             // proper quantities
-            // should always be the same number of results as there is history
+            // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
             Assert.AreEqual(483, results.Where(x => x.StdDev != null).Count());
-            Assert.AreEqual(lookbackPeriod, results.Where(x => x.Line != null).Count());
+            Assert.AreEqual(20, results.Where(x => x.Line != null).Count());
 
             // sample values
             SlopeResult r1 = results[249];
@@ -56,14 +55,32 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Removed()
+        {
+            List<SlopeResult> results = quotes.GetSlope(20)
+                .RemoveWarmupPeriods()
+                .ToList();
+
+            // assertions
+            Assert.AreEqual(502 - 19, results.Count);
+
+            SlopeResult last = results.LastOrDefault();
+            Assert.AreEqual(-1.689143m, Math.Round((decimal)last.Slope, 6));
+            Assert.AreEqual(1083.7629m, Math.Round((decimal)last.Intercept, 4));
+            Assert.AreEqual(0.7955m, Math.Round((decimal)last.RSquared, 4));
+            Assert.AreEqual(10.9202m, Math.Round((decimal)last.StdDev, 4));
+            Assert.AreEqual(235.8131m, Math.Round((decimal)last.Line, 4));
+        }
+
+        [TestMethod]
         public void Exceptions()
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetSlope(history, 0));
+                Indicator.GetSlope(quotes, 0));
 
-            // insufficient history
-            Assert.ThrowsException<BadHistoryException>(() =>
+            // insufficient quotes
+            Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetSlope(HistoryTestData.Get(29), 30));
         }
     }
