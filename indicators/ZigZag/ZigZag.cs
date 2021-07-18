@@ -109,7 +109,7 @@ namespace Skender.Stock.Indicators
         // internals
         private static ZigZagPoint EvaluateNextPoint<TQuote>(
             List<TQuote> quotesList,
-            EndType type, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
+            EndType endType, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
         {
             // initialize
             bool trendUp = (lastPoint.PointType == "L");
@@ -128,7 +128,7 @@ namespace Skender.Stock.Indicators
                 TQuote q = quotesList[i];
                 int index = i + 1;
 
-                ZigZagEval eval = GetZigZagEval(endType, index, h);
+                ZigZagEval eval = GetZigZagEval(endType, index, q);
 
                 // reset extreme point
                 if (trendUp)

@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
             return CalcRsi(bdList, lookbackPeriods);
         }
 
-      
+
         // remove recommended periods extensions
         public static IEnumerable<RsiResult> RemoveWarmupPeriods(
             this IEnumerable<RsiResult> results)

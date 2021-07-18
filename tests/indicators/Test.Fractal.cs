@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void StandardSpan2()
         {
 
-            List<FractalResult> results = history.GetFractal(2, EndType.HighLow).ToList();
+            List<FractalResult> results = quotes.GetFractal(2, EndType.HighLow).ToList();
 
             // assertions
 
@@ -54,7 +54,7 @@ namespace Internal.Tests
         public void StandardSpan4()
         {
 
-            List<FractalResult> results = history.GetFractal(4, EndType.HighLow).ToList();
+            List<FractalResult> results = quotes.GetFractal(4, EndType.HighLow).ToList();
 
             // assertions
 

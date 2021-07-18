@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,10 +42,10 @@ namespace Skender.Stock.Indicators
                     bool isLow = true;
 
                     decimal evalHigh = (endType == EndType.Close) ?
-                        Math.Max(h.Open, h.Close) : h.High;
+                        Math.Max(q.Open, q.Close) : q.High;
 
                     decimal evalLow = (endType == EndType.Close) ?
-                        Math.Min(h.Open, h.Close) : h.Low;
+                        Math.Min(q.Open, q.Close) : q.Low;
 
                     // compare today with wings
                     for (int p = i - windowSpan; p <= i + windowSpan; p++)

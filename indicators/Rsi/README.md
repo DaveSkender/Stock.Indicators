@@ -73,15 +73,14 @@ RSI on 12/31/2018 was 42.08
 ```csharp
 // usage
 IEnumerable<RsiExtendedResult> results =
-  Indicator.GetRsiExtended(history, lookbackPeriod);  
+  quotes.GetRsiExtended(lookbackPeriods);  
 ```
 
 ### Parameters for extended variant
 
 | name | type | notes
 | -- |-- |--
-| `history` | IEnumerable\<[TQuote](../../docs/GUIDE.md#historical-quotes)\> | Historical price quotes should have a consistent frequency (day, hour, minute, etc).
-| `lookbackPeriod` | int | Number of periods (`N`) in the lookback period for RSI.  Must be greater than 0.  Default is 14.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period for RSI.  Must be greater than 0.  Default is 14.
 
 ### RsiExtendedResult
 

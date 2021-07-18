@@ -10,22 +10,22 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicators/type[@name="Extended"]/*' />
         /// 
         public static IEnumerable<RsiExtendedResult> GetRsiExtended<TQuote>(
-            IEnumerable<TQuote> history,
-            int rsiPeriod = 14,
-            int maxTrendPeriod = 60,
-            int fractalPeriod = 2)
+            this IEnumerable<TQuote> quotes,
+            int rsiPeriods = 14,
+            int maxTrendPeriods = 60,
+            int fractalPeriods = 2)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidateRsiExtended(rsiPeriod, maxTrendPeriod, fractalPeriod);
+            ValidateRsiExtended(rsiPeriods, maxTrendPeriods, fractalPeriods);
 
             // convert history to basic format
-            List<BasicData> bdList = history.ConvertToBasic("C");
+            List<BasicData> bdList = quotes.ConvertToBasic("C");
             int size = bdList.Count;
 
             // calculate RSI
-            List<RsiExtendedResult> results = CalcRsi(bdList, rsiPeriod)
+            List<RsiExtendedResult> results = CalcRsi(bdList, rsiPeriods)
                 .Select(x => new RsiExtendedResult
                 {
                     Date = x.Date,
@@ -33,8 +33,8 @@ namespace Skender.Stock.Indicators
                 })
                 .ToList();
 
-            // convert RSI to synthetic history
-            IEnumerable<Quote> rsiHistory = results
+            // convert RSI to synthetic quotes
+            IEnumerable<Quote> rsiQuotes = results
                 .Where(x => x.Rsi != null)
                 .Select(x => new Quote
                 {
@@ -44,14 +44,14 @@ namespace Skender.Stock.Indicators
                 });
 
             // get fractal information
-            List<FractalResult> pfList = GetFractal(history, fractalPeriod, EndType.Close).ToList();
-            List<FractalResult> rsList = GetFractal(rsiHistory, fractalPeriod, EndType.Close).ToList();
+            List<FractalResult> pfList = GetFractal(quotes, fractalPeriods, EndType.Close).ToList();
+            List<FractalResult> rsList = GetFractal(rsiQuotes, fractalPeriods, EndType.Close).ToList();
 
             // restore missing RSI fractal records (due to exclusion of RSI nulls)
             for (int i = 0; i < size; i++)
             {
                 BasicData bd = bdList[i];
-                FractalResult rd = rsList.Where(x => x.Date == bd.Date).FirstOrDefault();
+                FractalResult rd = rsList.FirstOrDefault(x => x.Date == bd.Date);
 
                 if (rd == null)
                 {
@@ -62,8 +62,8 @@ namespace Skender.Stock.Indicators
             List<FractalResult> rfList = rsList
                 .OrderBy(x => x.Date).ToList();
 
-            // roll through history
-            for (int i = maxTrendPeriod - 1; i < size; i++)
+            // roll through quotes
+            for (int i = maxTrendPeriods - 1; i < size; i++)
             {
                 RsiExtendedResult r = results[i];
 
@@ -75,7 +75,7 @@ namespace Skender.Stock.Indicators
                 // prior H or Ls to satisfy the four categories
 
                 // find HH/LL price trends in lookback window
-                for (int p = i - maxTrendPeriod; p < i; p++)
+                for (int p = i - maxTrendPeriods; p < i; p++)
                 {
                     // only do this if fractal identified at (i)
 
@@ -92,18 +92,18 @@ namespace Skender.Stock.Indicators
 
         // validation
         private static void ValidateRsiExtended(
-            int rsiPeriod,
-            int maxTrendPeriod,
-            int fractalPeriod)
+            int rsiPeriods,
+            int maxTrendPeriods,
+            int fractalPeriods)
         {
 
             // RSI period is validated in CalcRSI
             // Fractal period is validated in GetFractal
 
             // check parameter arguments
-            if (maxTrendPeriod < rsiPeriod || maxTrendPeriod < fractalPeriod)
+            if (maxTrendPeriods < rsiPeriods || maxTrendPeriods < fractalPeriods)
             {
-                throw new ArgumentOutOfRangeException(nameof(maxTrendPeriod), maxTrendPeriod,
+                throw new ArgumentOutOfRangeException(nameof(maxTrendPeriods), maxTrendPeriods,
                     "Max trend period must be at least 2 for RSI Divergence.");
             }
         }
