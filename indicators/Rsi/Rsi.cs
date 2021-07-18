@@ -106,6 +106,7 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
+
         // parameter validation
         private static void ValidateRsi(
             List<BasicData> quotes,
