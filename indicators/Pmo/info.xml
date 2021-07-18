@@ -10,7 +10,7 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <param name="timePeriods">Number of periods for ROC EMA smoothing.</param>
-  <param name="smoothingPeriod">Number of periods for PMO EMA smoothing.</param>
+  <param name="smoothPeriods">Number of periods for PMO EMA smoothing.</param>
   <param name="signalPeriods">Number of periods for Signal line EMA.</param>
   <returns>Time series of PMO values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>

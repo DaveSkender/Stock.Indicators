@@ -8,7 +8,7 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ```csharp
 // usage
 IEnumerable<StochResult> results =
-  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothingPeriod);  
+  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);  
 ```
 
 ## Parameters
@@ -17,7 +17,7 @@ IEnumerable<StochResult> results =
 | -- |-- |--
 | `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
 | `signalPeriods` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
-| `smoothingPeriod` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
+| `smoothPeriods` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
 
 ### Historical quotes requirements
 
