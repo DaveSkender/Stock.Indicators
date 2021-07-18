@@ -8,7 +8,7 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 ```csharp
 // usage
 IEnumerable<PmoResult> results =
-  quotes.GetPmo(timePeriods, smoothingPeriod, signalPeriods);
+  quotes.GetPmo(timePeriods, smoothPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -16,7 +16,7 @@ IEnumerable<PmoResult> results =
 | name | type | notes
 | -- |-- |--
 | `timePeriods` | int | Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
-| `smoothingPeriod` | int | Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
+| `smoothPeriods` | int | Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
 | `signalPeriods` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
 
 ### Historical quotes requirements
