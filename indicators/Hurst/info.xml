@@ -2,15 +2,15 @@
 
 <indicator>
   <summary>
-    Chaikin Money Flow (Hurst) is the simple moving average of Money Flow Volume (MFV).
+    Hurst Exponent is a measure of trending and mean-reverting tendencies.
     See
     <see href="https://daveskender.github.io/Stock.Indicators/indicators/Hurst/#content">documentation</see>
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
-  <param name="lookbackPeriods">Number of periods for the MFV moving average.</param>
-  <returns>Time series of Chaikin Money Flow and MFV values.</returns>
+  <param name="lookbackPeriods">Number of lookback periods.</param>
+  <returns>Time series of Hurst Exponent values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

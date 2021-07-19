@@ -19,17 +19,17 @@ namespace Internal.Tests
 
             // proper quantities
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(483, results.Where(x => x.Hurst != null).Count());
+            Assert.AreEqual(483, results.Where(x => x.HurstExponent != null).Count());
 
             // sample values
             HurstResult r1 = results[49];
-            Assert.AreEqual(0.350596m, Math.Round((decimal)r1.Hurst, 6));
+            Assert.AreEqual(0.350596m, Math.Round((decimal)r1.HurstExponent, 6));
 
             HurstResult r2 = results[249];
-            Assert.AreEqual(-0.040226m, Math.Round((decimal)r2.Hurst, 6));
+            Assert.AreEqual(-0.040226m, Math.Round((decimal)r2.HurstExponent, 6));
 
             HurstResult r3 = results[501];
-            Assert.AreEqual(-0.123754m, Math.Round((decimal)r3.Hurst, 6));
+            Assert.AreEqual(-0.123754m, Math.Round((decimal)r3.HurstExponent, 6));
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 19, results.Count);
 
             HurstResult last = results.LastOrDefault();
-            Assert.AreEqual(-0.123754m, Math.Round((decimal)last.Hurst, 6));
+            Assert.AreEqual(-0.123754m, Math.Round((decimal)last.HurstExponent, 6));
         }
 
         [TestMethod]

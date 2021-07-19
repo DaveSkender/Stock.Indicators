@@ -1,6 +1,6 @@
 # Hurst Exponent
 
-The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) is TBD.
+The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) is a [random-walk](https://en.wikipedia.org/wiki/Random_walk) path analysis that measures trending and mean-reverting tendencies.  [Rescaled Range Analysis](https://en.wikipedia.org/wiki/Rescaled_range) is used to find the `H` exponent.  When `H` is greater than 0.5 it depicts a long-term trend.  When `H` is less than 0.5 it is is more likely to revert to the mean.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/477 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -36,7 +36,8 @@ The first `N-1` periods will have `null` values since there's not enough data to
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Hurst` | decimal | Hurst Exponent
+| `RescaledRange` | decimal | Rescaled Range value
+| `HurstExponent` | decimal | Hurst Exponent (`H`)
 
 ### Utilities
 

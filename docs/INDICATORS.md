@@ -101,7 +101,7 @@
 - [Bull and Bear Power](../indicators/ElderRay/README.md#content)
 - [Choppiness Index](../indicators/Chop/README.md#content)
 - [Historical Volatility (HV)](../indicators/StdDev/README.md#content)
-- [Hurst Exponent](../indicators/Hurst/README.md#content)
+- [Hurst Exponent](../indicators/Hurst/README.md#content) and Rescaled Range Analysis
 - [Momentum Oscillator](../indicators/Roc/README.md#content)
 - [Price (Comparative) Relative Strength](../indicators/Prs/README.md#content)
 - [Price Momentum Oscillator](../indicators/Pmo/README.md#content)

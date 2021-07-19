@@ -53,7 +53,7 @@ namespace Skender.Stock.Indicators
         {
             int removePeriods = results
               .ToList()
-              .FindIndex(x => x.Hurst != null);
+              .FindIndex(x => x.HurstExponent != null);
 
             return results.Remove(removePeriods);
         }
