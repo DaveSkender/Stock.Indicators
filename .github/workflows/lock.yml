@@ -15,7 +15,7 @@ jobs:
           process-only: ""
 
           issue-lock-reason: "resolved"
-          issue-lock-inactive-days: "90"
+          issue-lock-inactive-days: "91"
           issue-lock-comment: >
             This Issue has been automatically locked since there
             has not been any recent activity after it was closed.
@@ -25,7 +25,7 @@ jobs:
           issue-exclude-labels: ""
 
           pr-lock-reason: "resolved"
-          pr-lock-inactive-days: "30"
+          pr-lock-inactive-days: "35"
           pr-lock-comment: >
             This Pull Request has been automatically locked since there
             has not been any recent activity after it was closed.
