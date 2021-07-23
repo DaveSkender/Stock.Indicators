@@ -3,12 +3,11 @@
 <info>
   <type name="Convert">
     <summary>
-      Convert indicator results to historical quotes.
+      Convert indicator results into historical quotes.
       See
       <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#convert-to-quotes">documentation</see>
       for more information.
     </summary>
-    <typeparam name="TResult">Any result type.</typeparam>
     <param name="results">Indicator results to evaluate.</param>
     <returns>Time series of historical quote values.</returns>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>

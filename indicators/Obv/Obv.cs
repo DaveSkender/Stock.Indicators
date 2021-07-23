@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
 
 
         // convert to quotes
-        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Convert"]/*' />
         ///
         public static IEnumerable<Quote> ConvertToQuotes(
             this IEnumerable<ObvResult> results)
