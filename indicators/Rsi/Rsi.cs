@@ -23,7 +23,9 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // remove recommended periods extensions
+        // remove recommended periods
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        ///
         public static IEnumerable<RsiResult> RemoveWarmupPeriods(
             this IEnumerable<RsiResult> results)
         {
@@ -36,7 +38,7 @@ namespace Skender.Stock.Indicators
 
 
         // internals
-        private static IEnumerable<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriods)
+        private static List<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments

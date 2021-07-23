@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<info>
+  <type name="Validate">
+    <summary>
+      Validate historical quotes.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#validate-quote-history">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <returns>Time series of historical quote values.</returns>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+  </type>
+  <type name="Aggregate">
+    <summary>
+      Converts historical quotes into larger bar sizes.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="newSize">PeriodSize enum representing the new bar size.</param>
+    <returns>Time series of historical quote values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
+</info>

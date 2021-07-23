@@ -23,7 +23,9 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // remove recommended periods extensions
+        // remove recommended periods
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        ///
         public static IEnumerable<EmaResult> RemoveWarmupPeriods(
             this IEnumerable<EmaResult> results)
         {
@@ -36,7 +38,7 @@ namespace Skender.Stock.Indicators
 
 
         // standard calculation
-        private static IEnumerable<EmaResult> CalcEma(
+        private static List<EmaResult> CalcEma(
             List<BasicData> bdList, int lookbackPeriods)
         {
 
