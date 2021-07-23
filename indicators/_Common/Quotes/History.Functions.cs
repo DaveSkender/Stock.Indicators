@@ -13,6 +13,8 @@ namespace Skender.Stock.Indicators
         private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
         // validation
+        /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
+        /// 
         public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
@@ -39,6 +41,8 @@ namespace Skender.Stock.Indicators
         }
 
         // aggregation (quantization)
+        /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />
+        /// 
         public static IEnumerable<Quote> Aggregate<TQuote>(
             this IEnumerable<TQuote> quotes,
             PeriodSize newSize)
