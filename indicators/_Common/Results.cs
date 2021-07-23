@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
 
 
         // REMOVE RESULTS
-        internal static IEnumerable<TResult> Remove<TResult>(
+        private static List<TResult> Remove<TResult>(
             this IEnumerable<TResult> results,
             int removePeriods)
             where TResult : IResult
