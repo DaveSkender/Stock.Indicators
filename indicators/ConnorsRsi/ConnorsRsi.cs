@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
                 .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Streak })
                 .ToList();
 
-            List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods).ToList();
+            List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);
 
             // compose final results
             for (int p = streakPeriods + 2; p < results.Count; p++)
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
             List<BasicData> bdList, int rsiPeriods, int rankPeriods)
         {
             // initialize
-            List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods).ToList();
+            List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods);
 
             int size = bdList.Count;
             List<ConnorsRsiResult> results = new(size);
