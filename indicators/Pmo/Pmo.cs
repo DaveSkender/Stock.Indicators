@@ -12,21 +12,21 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<PmoResult> GetPmo<TQuote>(
             this IEnumerable<TQuote> quotes,
             int timePeriods = 35,
-            int smoothingPeriod = 20,
+            int smoothPeriods = 20,
             int signalPeriods = 10)
             where TQuote : IQuote
         {
 
             // check parameter arguments
-            ValidatePmo(quotes, timePeriods, smoothingPeriod, signalPeriods);
+            ValidatePmo(quotes, timePeriods, smoothPeriods, signalPeriods);
 
             // initialize
             List<PmoResult> results = CalcPmoRocEma(quotes, timePeriods);
-            decimal smoothingConstant = 2m / smoothingPeriod;
+            decimal smoothingConstant = 2m / smoothPeriods;
             decimal? lastPmo = null;
 
             // calculate PMO
-            int startIndex = timePeriods + smoothingPeriod;
+            int startIndex = timePeriods + smoothPeriods;
 
             for (int i = startIndex - 1; i < results.Count; i++)
             {
@@ -40,25 +40,27 @@ namespace Skender.Stock.Indicators
                 else if (index == startIndex)
                 {
                     decimal sumRocEma = 0;
-                    for (int p = index - smoothingPeriod; p < index; p++)
+                    for (int p = index - smoothPeriods; p < index; p++)
                     {
                         PmoResult d = results[p];
                         sumRocEma += (decimal)d.RocEma;
                     }
-                    pr.Pmo = sumRocEma / smoothingPeriod;
+                    pr.Pmo = sumRocEma / smoothPeriods;
                 }
 
                 lastPmo = pr.Pmo;
             }
 
             // add Signal
-            CalcPmoSignal(results, timePeriods, smoothingPeriod, signalPeriods);
+            CalcPmoSignal(results, timePeriods, smoothPeriods, signalPeriods);
 
             return results;
         }
 
 
-        // remove recommended periods extensions
+        // remove recommended periods
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        ///
         public static IEnumerable<PmoResult> RemoveWarmupPeriods(
             this IEnumerable<PmoResult> results)
         {
@@ -121,13 +123,13 @@ namespace Skender.Stock.Indicators
         private static void CalcPmoSignal(
             List<PmoResult> results,
             int timePeriods,
-            int smoothingPeriod,
+            int smoothPeriods,
             int signalPeriods)
         {
             decimal signalConstant = 2m / (signalPeriods + 1);
             decimal? lastSignal = null;
 
-            int startIndex = timePeriods + smoothingPeriod + signalPeriods - 1;
+            int startIndex = timePeriods + smoothPeriods + signalPeriods - 1;
 
             for (int i = startIndex - 1; i < results.Count; i++)
             {
@@ -158,7 +160,7 @@ namespace Skender.Stock.Indicators
         private static void ValidatePmo<TQuote>(
             IEnumerable<TQuote> quotes,
             int timePeriods,
-            int smoothingPeriod,
+            int smoothPeriods,
             int signalPeriods)
             where TQuote : IQuote
         {
@@ -170,9 +172,9 @@ namespace Skender.Stock.Indicators
                     "Time periods must be greater than 1 for PMO.");
             }
 
-            if (smoothingPeriod <= 0)
+            if (smoothPeriods <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(smoothingPeriod), smoothingPeriod,
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
                     "Smoothing periods must be greater than 0 for PMO.");
             }
 
@@ -184,7 +186,7 @@ namespace Skender.Stock.Indicators
 
             // check quotes
             int qtyHistory = quotes.Count();
-            int minHistory = Math.Max(timePeriods + smoothingPeriod, Math.Max(2 * timePeriods, timePeriods + 100));
+            int minHistory = Math.Max(timePeriods + smoothPeriods, Math.Max(2 * timePeriods, timePeriods + 100));
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient quotes provided for PMO.  " +

@@ -23,14 +23,14 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<DemaResult> results = new(bdList.Count);
-            List<EmaResult> emaN = CalcEma(bdList, lookbackPeriods).ToList();
+            List<EmaResult> emaN = CalcEma(bdList, lookbackPeriods);
 
             List<BasicData> bd2 = emaN
                 .Where(x => x.Ema != null)
                 .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
                 .ToList();  // note: ToList seems to be required when changing data
 
-            List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods).ToList();
+            List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
 
             // compose final results
             for (int i = 0; i < emaN.Count; i++)
@@ -56,7 +56,9 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // remove recommended periods extensions
+        // remove recommended periods
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        ///
         public static IEnumerable<DemaResult> RemoveWarmupPeriods(
             this IEnumerable<DemaResult> results)
         {

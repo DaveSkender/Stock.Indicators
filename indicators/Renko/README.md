@@ -87,7 +87,7 @@ Renko Chart open price on 12/31/2018 was $241.3
 ```csharp
 // usage
 IEnumerable<RenkoResult> results =
-  quotes.GetRenkoAtr(atrPeriods);
+  quotes.GetRenkoAtr(atrPeriods, endType);
 ```
 
 ### Parameters for ATR

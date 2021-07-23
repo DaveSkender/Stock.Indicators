@@ -24,6 +24,8 @@ namespace Skender.Stock.Indicators
     {
 
         // FIND by DATE
+        /// <include file='./info.xml' path='info/type[@name="Find"]/*' />
+        /// 
         public static TResult Find<TResult>(
             this IEnumerable<TResult> results,
             DateTime lookupDate)
@@ -34,6 +36,8 @@ namespace Skender.Stock.Indicators
 
 
         // REMOVE SPECIFIC PERIODS extension
+        /// <include file='./info.xml' path='info/type[@name="PruneSpecific"]/*' />
+        /// 
         public static IEnumerable<TResult> RemoveWarmupPeriods<TResult>(
             this IEnumerable<TResult> results,
             int removePeriods)
@@ -47,7 +51,7 @@ namespace Skender.Stock.Indicators
 
 
         // REMOVE RESULTS
-        internal static IEnumerable<TResult> Remove<TResult>(
+        private static List<TResult> Remove<TResult>(
             this IEnumerable<TResult> results,
             int removePeriods)
             where TResult : IResult
