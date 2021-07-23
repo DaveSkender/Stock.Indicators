@@ -36,7 +36,7 @@ namespace Skender.Stock.Indicators
 
 
         // standard calculation
-        private static IEnumerable<EmaResult> CalcEma(
+        private static List<EmaResult> CalcEma(
             List<BasicData> bdList, int lookbackPeriods)
         {
 

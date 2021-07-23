@@ -24,8 +24,8 @@ namespace Skender.Stock.Indicators
             ValidateMacd(quotes, fastPeriods, slowPeriods, signalPeriods);
 
             // initialize
-            List<EmaResult> emaFast = CalcEma(bdList, fastPeriods).ToList();
-            List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods).ToList();
+            List<EmaResult> emaFast = CalcEma(bdList, fastPeriods);
+            List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
 
             int size = bdList.Count;
             List<BasicData> emaDiff = new();
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
             }
 
             // add signal and histogram to result
-            List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods).ToList();
+            List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
 
             for (int d = slowPeriods - 1; d < size; d++)
             {
