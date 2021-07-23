@@ -37,7 +37,7 @@ namespace Skender.Stock.Indicators
 
 
         // internals
-        private static IEnumerable<StdDevResult> CalcStdDev(
+        private static List<StdDevResult> CalcStdDev(
             List<BasicData> bdList, int lookbackPeriods, int? smaPeriods = null)
         {
 
