@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<info>
+  <type name="Convert">
+    <summary>
+      Convert indicator results to historical quotes.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#convert-to-quotes">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TResult">Any result type.</typeparam>
+    <param name="results">Indicator results to evaluate.</param>
+    <returns>Time series of historical quote values.</returns>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+  </type>
+  <type name="Find">
+    <summary>
+      Finds indicator values on a specific date.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TResult">Any result type.</typeparam>
+    <param name="results">Indicator results to evaluate.</param>
+    <param name="lookupDate">Exact date to lookup</param>
+    <returns>First indicator result on the date specified.</returns>
+  </type>
+  <type name="Prune">
+    <summary>
+      Removes the recommended quantity of results from the beginning of the results list.
+    </summary>
+    <param name="results">Indicator results to evaluate.</param>
+    <returns>Time series of indicator results, pruned.</returns>
+  </type>
+  <type name="PruneSpecific">
+    <summary>
+      Removes a specific quantity of results from the beginning of the results list.
+    </summary>
+    <typeparam name="TResult">Any result type.</typeparam>
+    <param name="results">Indicator results to evaluate.</param>
+    <param name="removePeriods">Exact quantity to remove.</param>
+    <returns>Time series of indicator results, pruned.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
+</info>

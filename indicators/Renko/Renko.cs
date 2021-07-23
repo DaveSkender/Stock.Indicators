@@ -92,6 +92,8 @@ namespace Skender.Stock.Indicators
         }
 
         // convert to quotes
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        ///
         public static IEnumerable<Quote> ConvertToQuotes(
             this IEnumerable<RenkoResult> results)
         {
