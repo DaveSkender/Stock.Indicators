@@ -46,7 +46,9 @@ namespace Skender.Stock.Indicators
         }
 
 
-        // remove recommended periods extensions
+        // remove recommended periods
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        ///
         public static IEnumerable<GatorResult> RemoveWarmupPeriods(
             this IEnumerable<GatorResult> results)
         {
