@@ -26,9 +26,4 @@ exclude:
 
 include: ["docs", "LICENSE"]
 
-plugins:
-  - jemoji
-  - jekyll-sitemap
-  - jekyll-last-modified-at
-
 google_analytics: G-7602GXEZ0R
