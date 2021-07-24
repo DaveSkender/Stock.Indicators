@@ -222,7 +222,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  github-pages
+  github-pages (~> 215)
   jekyll-last-modified-at
   jekyll-sitemap
   jekyll-theme-cayman
