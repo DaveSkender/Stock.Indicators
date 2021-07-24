@@ -4,7 +4,8 @@ gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
 # jekyll plugins
 group :jekyll_plugins do
-  gem 'github-pages', "~>215"
+  gem 'github-pages'
+  gem 'jekyll-theme-cayman'
   gem 'jemoji'
   gem 'jekyll-sitemap'
   gem "jekyll-last-modified-at" # used in sitemap
