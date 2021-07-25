@@ -3,8 +3,14 @@
 title: "Stock Indicators"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
 
-theme: jekyll-theme-cayman
-# https://github.com/pages-themes/cayman
+theme: jekyll-theme-cayman # https://github.com/pages-themes/cayman
+
+plugins:
+  - jemoji
+  - jekyll-sitemap
+  - jekyll-last-modified-at
+
+google_analytics: G-7602GXEZ0R
 
 exclude:
   [
@@ -25,10 +31,3 @@ exclude:
   ]
 
 include: ["docs", "LICENSE"]
-
-plugins:
-  - jemoji
-  - jekyll-sitemap
-  - jekyll-last-modified-at
-
-google_analytics: G-7602GXEZ0R
