@@ -7,6 +7,8 @@ theme: jekyll-theme-cayman # https://github.com/pages-themes/cayman
 
 plugins:
   - jemoji
+  - jekyll-sitemap
+  - jekyll-last-modified-at
 
 google_analytics: G-7602GXEZ0R
 
