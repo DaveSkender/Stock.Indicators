@@ -4,7 +4,6 @@
         "**/.vs/**": true,
         "**/bin/**": true,
         "**/obj/**": true,
-        "**/_site/**": true,
         "**/TestResults/**": true,
         "**/*.csproj.user": true
     },
