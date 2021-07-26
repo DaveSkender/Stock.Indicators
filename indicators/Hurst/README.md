@@ -1,6 +1,6 @@
 # Hurst Exponent
 
-The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) is a [random-walk](https://en.wikipedia.org/wiki/Random_walk) path analysis that measures trending and mean-reverting tendencies.  [Rescaled Range Analysis](https://en.wikipedia.org/wiki/Rescaled_range) is used to find the `H` exponent.  When `H` is greater than 0.5 it depicts a long-term trend.  When `H` is less than 0.5 it is is more likely to revert to the mean.
+The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) is a [random-walk](https://en.wikipedia.org/wiki/Random_walk) path analysis that measures trending and mean-reverting tendencies.  [Rescaled Range Analysis](https://en.wikipedia.org/wiki/Rescaled_range) is used to find the `H` exponent.  When `H` is greater than 0.5 it depicts trending.  When `H` is less than 0.5 it is is more likely to revert to the mean.  When `H` is around 0.5 it represents a random walk.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/477 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -15,7 +15,7 @@ IEnumerable<HurstResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be greater than 100.  Default is 100.
 
 ### Historical quotes requirements
 
@@ -29,14 +29,13 @@ You must have at least `N+1` periods of `quotes`.
 IEnumerable<HurstResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### HurstResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `RescaledRange` | decimal | Rescaled Range value
 | `HurstExponent` | decimal | Hurst Exponent (`H`)
 
 ### Utilities

@@ -13,41 +13,56 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<HurstResult> results = quotes.GetHurst(20).ToList();
+            List<HurstResult> results = quotes
+                .GetHurst(100)
+                .ToList();
 
             // assertions
 
             // proper quantities
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(483, results.Where(x => x.HurstExponent != null).Count());
+            Assert.AreEqual(502 - 100, results.Count(x => x.HurstExponent != null));
 
             // sample values
-            HurstResult r1 = results[49];
-            Assert.AreEqual(0.350596m, Math.Round((decimal)r1.HurstExponent, 6));
+            HurstResult r501 = results[501];
+            Assert.AreEqual(0.492m, Math.Round((decimal)r501.HurstExponent, 3));
+        }
 
-            HurstResult r2 = results[249];
-            Assert.AreEqual(-0.040226m, Math.Round((decimal)r2.HurstExponent, 6));
+        [TestMethod]
+        public void StandardLong()
+        {
+            IEnumerable<Quote> longQuotes = TestData.GetSnP();
+            List<HurstResult> results = longQuotes
+                .GetHurst(longQuotes.Count() - 1)
+                .ToList();
 
-            HurstResult r3 = results[501];
-            Assert.AreEqual(-0.123754m, Math.Round((decimal)r3.HurstExponent, 6));
+            // assertions
+
+            // proper quantities
+            Assert.AreEqual(15821, results.Count);
+            Assert.AreEqual(1, results.Count(x => x.HurstExponent != null));
+
+            // sample values
+            HurstResult r15820 = results[15820];
+            Assert.AreEqual(0.492m, Math.Round((decimal)r15820.HurstExponent, 3));
         }
 
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<HurstResult> r = Indicator.GetHurst(historyBad, 15);
+            IEnumerable<HurstResult> r = Indicator.GetHurst(historyBad, 150);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod]
         public void Removed()
         {
-            List<HurstResult> results = quotes.GetHurst(20)
+            List<HurstResult> results = quotes.GetHurst(100)
                 .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - 19, results.Count);
+            Assert.AreEqual(502 - 100, results.Count);
 
             HurstResult last = results.LastOrDefault();
             Assert.AreEqual(-0.123754m, Math.Round((decimal)last.HurstExponent, 6));
@@ -58,11 +73,11 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetHurst(quotes, 0));
+                Indicator.GetHurst(quotes, 99));
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetHurst(HistoryTestData.Get(20), 20));
+                Indicator.GetHurst(HistoryTestData.Get(499), 500));
         }
     }
 }
