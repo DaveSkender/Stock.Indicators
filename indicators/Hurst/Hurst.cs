@@ -25,7 +25,6 @@ namespace Skender.Stock.Indicators
             int size = quotesList.Count;
             List<HurstResult> results = new(size);
 
-
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
@@ -40,7 +39,7 @@ namespace Skender.Stock.Indicators
                 if (index > lookbackPeriods)
                 {
                     // get evaluation batch
-                    decimal[] values = new decimal[lookbackPeriods];
+                    double[] values = new double[lookbackPeriods];
 
                     int x = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
@@ -48,7 +47,7 @@ namespace Skender.Stock.Indicators
                         // compile return values
                         if (quotesList[p - 1].Close != 0)
                         {
-                            values[x] = quotesList[p].Close / quotesList[p - 1].Close - 1;
+                            values[x] = (double)(quotesList[p].Close / quotesList[p - 1].Close - 1);
                         }
 
                         x++;
@@ -63,84 +62,96 @@ namespace Skender.Stock.Indicators
             return results;
         }
 
-        private static decimal CalcHurst(decimal[] values)
+        private static double CalcHurst(double[] values)
         {
-            int setNum = 1;
             int totalSize = values.Length;
-            double[] logRs = new double[6];
-            double[] logSize = new double[6];
+            int maxChunks = 0;
+            int setQty = 0;
+
+            // determine max chunk quantity so chunks are
+            // not smaller than 8 observations
+            // and not to exceed 32 total chunks
+            for (int chunkQty = 1; chunkQty <= 32; chunkQty *= 2)
+            {
+                if (totalSize / chunkQty >= 8)
+                {
+                    maxChunks = chunkQty;
+                    setQty++;
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // initialize result sets
+            double[] logRs = new double[setQty];
+            double[] logSize = new double[setQty];
+            int setNum = 0;
 
             // roll through sets
-            for (int n = 1; n <= 32; n *= 2)
+            for (int chunkQty = 1; chunkQty <= maxChunks; chunkQty *= 2)
             {
-                // initialize sets
-                int nominalChunkSize = totalSize / n;
-                logSize[setNum - 1] = Math.Log10(nominalChunkSize);
-                bool uneven = (nominalChunkSize * n != totalSize);
-                int index = 0;
-                decimal? sumChunkRs = 0;
+                // initialize set and chunks
+                int chunkSize = totalSize / chunkQty;
+                double? sumChunkRs = 0;
 
-                // initialize chunk
-                decimal[] mean = new decimal[n];
-                decimal?[] rsChunk = new decimal?[n];
+                // starting index position used to skip
+                // observations to enforce same-sized chunks
+                int index = totalSize - chunkSize * chunkQty;
 
                 // analyze chunks in set
-                for (int chunkNum = 1; chunkNum <= n; chunkNum++)
+                for (int chunkNum = 1; chunkNum <= chunkQty; chunkNum++)
                 {
-                    int chunkSize = (chunkNum == 1 && uneven) ?
-                          nominalChunkSize + 1 : nominalChunkSize;
-
-                    // mean
-                    decimal sum = 0m;
+                    // chunk mean
+                    double sum = 0;
                     for (int i = index; i < index + chunkSize; i++)
                     {
                         sum += values[i];
                     }
-                    decimal chunkMean = sum / chunkSize;
-                    mean[chunkNum - 1] = chunkMean;
+                    double chunkMean = sum / chunkSize;
 
-                    // mean diff
-                    decimal sumY = 0m;
-                    decimal sumSq = 0m;
-                    decimal maxY = 0m;
-                    decimal minY = 0m;
+                    // chunk mean diff
+                    double sumY = 0;
+                    double sumSq = 0;
+                    double maxY = 0;
+                    double minY = 0;
                     for (int i = index; i < index + chunkSize; i++)
                     {
-                        decimal y = values[i] - chunkMean;
+                        // TODO: unsure of cumulative sum of deviations method
+
+                        double y = values[i] - chunkMean;
                         sumY += y;
-                        sumSq += y * y;
                         minY = (sumY < minY) ? sumY : minY;
                         maxY = (sumY > maxY) ? sumY : maxY;
+
+                        sumSq += y * y;
                     }
 
-                    // TODO: unsure of cumulative sum of deviations method (sumY)
-
-                    // rescaled range for chunk
-                    decimal r = maxY - minY;
-                    decimal s = (decimal)Math.Sqrt((double)sumSq / chunkSize);
-                    decimal? rs = s != 0 ? r / s : null;
-                    rsChunk[chunkNum - 1] = rs;
+                    // chunk rescaled range
+                    double r = maxY - minY;
+                    double s = Math.Sqrt(sumSq / chunkSize);
+                    double? rs = s != 0 ? r / s : null;
                     sumChunkRs += rs;
 
                     // increment starting index
                     index += chunkSize;
                 }
 
-                // log(average chunk rs)
+                // set results
                 if (sumChunkRs != null)
                 {
-                    logRs[setNum - 1] = Math.Log10((double)sumChunkRs / n);
+                    logSize[setNum] = Math.Log10(chunkSize);
+                    logRs[setNum] = Math.Log10((double)sumChunkRs / chunkQty);
                 }
 
                 // increment set
                 setNum++;
             }
 
-            // TODO: see if all double arrays is any faster/less accurate
-
             // hurst exponent
-            decimal h = (decimal)Functions.Slope(logSize, logRs);
-            return h;
+            return Functions.Slope(logSize, logRs);
         }
 
 

@@ -36,7 +36,7 @@ The first `N` periods will have `null` values since there's not enough data to c
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `HurstExponent` | decimal | Hurst Exponent (`H`)
+| `HurstExponent` | double | Hurst Exponent (`H`)
 
 ### Utilities
 
