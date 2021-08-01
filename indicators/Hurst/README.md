@@ -1,6 +1,6 @@
 # Hurst Exponent
 
-The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) is a [random-walk](https://en.wikipedia.org/wiki/Random_walk) path analysis that measures trending and mean-reverting tendencies.  [Rescaled Range Analysis](https://en.wikipedia.org/wiki/Rescaled_range) is used to find the `H` exponent.  When `H` is greater than 0.5 it depicts trending.  When `H` is less than 0.5 it is is more likely to revert to the mean.  When `H` is around 0.5 it represents a random walk.
+The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) is a [random-walk](https://en.wikipedia.org/wiki/Random_walk) path analysis that measures trending and mean-reverting tendencies of incremental return values.  [Rescaled Range Analysis](https://en.wikipedia.org/wiki/Rescaled_range) is used to find the `H` exponent.  When `H` is greater than 0.5 it depicts trending.  When `H` is less than 0.5 it is is more likely to revert to the mean.  When `H` is around 0.5 it represents a random walk.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/477 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -57,9 +57,9 @@ IEnumerable<HurstResult> results = quotes.GetHurst(20);
 
 // use results as needed
 HurstResult result = results.LastOrDefault();
-Console.WriteLine("Hurst on {0} was {1}", result.Date, result.Hurst);
+Console.WriteLine("Hurst Exponent on {0} was {1}", result.Date, result.Hurst);
 ```
 
 ```bash
-Hurst on 12/31/2018 was 0.1234
+Hurst Exponent on 12/31/2018 was 0.5543
 ```

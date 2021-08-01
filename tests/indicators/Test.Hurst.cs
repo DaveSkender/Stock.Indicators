@@ -11,29 +11,10 @@ namespace Internal.Tests
     {
 
         [TestMethod]
-        public void Standard()
-        {
-            List<HurstResult> results = quotes
-                .GetHurst(100)
-                .ToList();
-
-            // assertions
-
-            // proper quantities
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502 - 100, results.Count(x => x.HurstExponent != null));
-
-            // sample values
-            HurstResult r501 = results[501];
-            Assert.AreEqual(0.492m, Math.Round((decimal)r501.HurstExponent, 3));
-        }
-
-        [TestMethod]
         public void StandardLong()
         {
-            IEnumerable<Quote> longQuotes = TestData.GetSnP();
-            List<HurstResult> results = longQuotes
-                .GetHurst(longQuotes.Count() - 1)
+            List<HurstResult> results = longSnp
+                .GetHurst(longSnp.Count() - 1)
                 .ToList();
 
             // assertions
@@ -42,9 +23,9 @@ namespace Internal.Tests
             Assert.AreEqual(15821, results.Count);
             Assert.AreEqual(1, results.Count(x => x.HurstExponent != null));
 
-            // sample values
+            // sample value
             HurstResult r15820 = results[15820];
-            Assert.AreEqual(0.492m, Math.Round((decimal)r15820.HurstExponent, 3));
+            Assert.AreEqual(0.483563m, Math.Round((decimal)r15820.HurstExponent, 6));
         }
 
         [TestMethod]
@@ -57,15 +38,15 @@ namespace Internal.Tests
         [TestMethod]
         public void Removed()
         {
-            List<HurstResult> results = quotes.GetHurst(100)
+            List<HurstResult> results = longSnp.GetHurst(longSnp.Count() - 1)
                 .RemoveWarmupPeriods()
                 .ToList();
 
             // assertions
-            Assert.AreEqual(502 - 100, results.Count);
+            Assert.AreEqual(1, results.Count);
 
             HurstResult last = results.LastOrDefault();
-            Assert.AreEqual(-0.123754m, Math.Round((decimal)last.HurstExponent, 6));
+            Assert.AreEqual(0.483563m, Math.Round((decimal)last.HurstExponent, 6));
         }
 
         [TestMethod]

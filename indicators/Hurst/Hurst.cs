@@ -115,8 +115,8 @@ namespace Skender.Stock.Indicators
                     // chunk mean diff
                     double sumY = 0;
                     double sumSq = 0;
-                    double maxY = 0;
-                    double minY = 0;
+                    double maxY = values[index] - chunkMean;
+                    double minY = values[index] - chunkMean;
                     for (int i = index; i < index + chunkSize; i++)
                     {
                         // TODO: unsure of cumulative sum of deviations method
@@ -151,6 +151,7 @@ namespace Skender.Stock.Indicators
             }
 
             // hurst exponent
+            // TODO: apply Anis-Lloyd corrected R/S Hurst?
             return Functions.Slope(logSize, logRs);
         }
 
