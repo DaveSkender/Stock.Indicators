@@ -34,6 +34,46 @@ namespace Skender.Stock.Indicators
             return sd;
         }
 
+        // SLOPE of BEST FIT LINE
+        internal static double Slope(double[] x, double[] y)
+        {
+            // TODO: add better error handling for mismatch size arrays
+
+            int size = Math.Min(x.Length, y.Length);
+
+            // get averages for period
+            double sumX = 0;
+            double sumY = 0;
+
+            for (int i = 0; i < size; i++)
+            {
+                sumX += x[i];
+                sumY += y[i];
+            }
+
+            double avgX = sumX / size;
+            double avgY = sumY / size;
+
+            // least squares method
+            double sumSqX = 0;
+            double sumSqY = 0;
+            double sumSqXY = 0;
+
+            for (int i = 0; i < size; i++)
+            {
+                double devX = (x[i] - avgX);
+                double devY = (y[i] - avgY);
+
+                sumSqX += devX * devX;
+                sumSqY += devY * devY;
+                sumSqXY += devX * devY;
+            }
+
+            double slope = sumSqXY / sumSqX;
+
+            return slope;
+        }
+
         // DATE ROUNDING
         internal static DateTime RoundDown(this DateTime dateTime, TimeSpan interval)
         {

@@ -34,4 +34,10 @@
     <ProjectReference Include="..\..\indicators\Indicators.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="data\snp-long.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
