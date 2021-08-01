@@ -119,8 +119,6 @@ namespace Skender.Stock.Indicators
                     double minY = values[index] - chunkMean;
                     for (int i = index; i < index + chunkSize; i++)
                     {
-                        // TODO: unsure of cumulative sum of deviations method
-
                         double y = values[i] - chunkMean;
                         sumY += y;
                         minY = (sumY < minY) ? sumY : minY;
@@ -133,6 +131,7 @@ namespace Skender.Stock.Indicators
                     double r = maxY - minY;
                     double s = Math.Sqrt(sumSq / chunkSize);
                     double? rs = s != 0 ? r / s : null;
+
                     sumChunkRs += rs;
 
                     // increment starting index
@@ -153,6 +152,26 @@ namespace Skender.Stock.Indicators
             // hurst exponent
             // TODO: apply Anis-Lloyd corrected R/S Hurst?
             return Functions.Slope(logSize, logRs);
+        }
+
+
+        // convert to quotes
+        /// <include file='../_Common/Results/info.xml' path='info/type[@name="Convert"]/*' />
+        /// 
+        public static IEnumerable<Quote> ConvertToQuotes(
+            this IEnumerable<HurstResult> results)
+        {
+            return results
+              .Where(x => x.HurstExponent != null)
+              .Select(x => new Quote
+              {
+                  Date = x.Date,
+                  Open = (decimal)x.HurstExponent,
+                  High = (decimal)x.HurstExponent,
+                  Low = (decimal)x.HurstExponent,
+                  Close = (decimal)x.HurstExponent
+              })
+              .ToList();
         }
 
 
