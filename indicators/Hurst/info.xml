@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    (Preview) Hurst Exponent is a measure of randomness, trending, and mean-reverting tendencies of incremental return values.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Hurst/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="lookbackPeriods">Number of lookback periods.</param>
+  <returns>Time series of Hurst Exponent values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+</indicator>
