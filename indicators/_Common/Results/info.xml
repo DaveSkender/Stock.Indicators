@@ -16,7 +16,7 @@
     <summary>
       Finds indicator values on a specific date.
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#find-indicator-result-by-date">documentation</see>
       for more information.
     </summary>
     <typeparam name="TResult">Any result type.</typeparam>
@@ -27,6 +27,9 @@
   <type name="Prune">
     <summary>
       Removes the recommended quantity of results from the beginning of the results list.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#remove-warmup-periods">documentation</see>
+      for more information.
     </summary>
     <param name="results">Indicator results to evaluate.</param>
     <returns>Time series of indicator results, pruned.</returns>
@@ -34,6 +37,9 @@
   <type name="PruneSpecific">
     <summary>
       Removes a specific quantity of results from the beginning of the results list.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#remove-warmup-periods">documentation</see>
+      for more information.
     </summary>
     <typeparam name="TResult">Any result type.</typeparam>
     <param name="results">Indicator results to evaluate.</param>
