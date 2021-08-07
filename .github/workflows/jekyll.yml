@@ -1,0 +1,43 @@
+name: "Jekyll"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [main]
+    paths-ignore:
+      - "**/*.txt"
+      - "**/*.xlsx"
+      - "**/*.cs"
+  schedule:
+    - cron: "0 6 * * 6"
+
+defaults:
+  run:
+    working-directory: /
+
+jobs:
+  analyse:
+    name: check-urls
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          # We must fetch at least the immediate parents so that if this is
+          # a pull request then we can checkout the head.
+          fetch-depth: 2
+
+      - name: Install Jekyll packages
+        run: bundle install
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+
+      - name: Install HTML proofer
+        run: gem install html-proofer
+
+      - name: Test URLs
+        run: bundle exec htmlproofer --http-status-ignore '999' _site;
