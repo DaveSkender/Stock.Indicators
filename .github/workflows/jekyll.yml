@@ -30,6 +30,11 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.3
+
       - name: Install Jekyll packages
         run: bundle install
 
