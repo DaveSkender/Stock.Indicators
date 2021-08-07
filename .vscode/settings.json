@@ -1,5 +1,7 @@
 {
     // file settings
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 3000,
     "files.exclude": {
         "**/.vs/**": true,
         "**/bin/**": true,
@@ -7,8 +9,6 @@
         "**/TestResults/**": true,
         "**/*.csproj.user": true
     },
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 3000,
 
     "search.exclude": {}, // auto includes files.exclude
 
