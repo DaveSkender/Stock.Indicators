@@ -160,7 +160,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetStoch(HistoryTestData.Get(32), 30, 3, 3));
+                Indicator.GetStoch(TestData.GetDefault(32), 30, 3, 3));
         }
     }
 }

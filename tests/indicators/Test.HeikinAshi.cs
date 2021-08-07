@@ -61,7 +61,7 @@ namespace Internal.Tests
         {
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetHeikinAshi(HistoryTestData.Get(1)));
+                Indicator.GetHeikinAshi(TestData.GetDefault(1)));
         }
     }
 }

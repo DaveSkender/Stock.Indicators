@@ -110,7 +110,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetSuperTrend(HistoryTestData.Get(129), 30));
+                Indicator.GetSuperTrend(TestData.GetDefault(129), 30));
         }
     }
 }

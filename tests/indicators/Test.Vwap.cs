@@ -117,7 +117,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetVwap(HistoryTestData.Get(0)));
+                Indicator.GetVwap(TestData.GetDefault(0)));
         }
     }
 }

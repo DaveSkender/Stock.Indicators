@@ -61,7 +61,7 @@ namespace Internal.Tests
                 Indicator.GetCorrelation(quotes, historyOther, 0));
 
             // insufficient quotes
-            IEnumerable<Quote> h1 = HistoryTestData.Get(29);
+            IEnumerable<Quote> h1 = TestData.GetDefault(29);
             IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
             Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCorrelation(h1, h2, 30));

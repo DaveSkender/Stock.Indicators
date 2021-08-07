@@ -100,7 +100,7 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Week;
             PivotPointType pointType = PivotPointType.Camarilla;
 
-            IEnumerable<Quote> h = HistoryTestData.Get(38);
+            IEnumerable<Quote> h = TestData.GetDefault(38);
             List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
                 .ToList();
 
@@ -435,10 +435,10 @@ namespace Internal.Tests
         {
             // insufficient quotes - month
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetPivotPoints(HistoryTestData.Get(18), PeriodSize.Month));
+                Indicator.GetPivotPoints(TestData.GetDefault(18), PeriodSize.Month));
 
             // insufficient quotes - week
-            IEnumerable<Quote> w = HistoryTestData.Get(5)
+            IEnumerable<Quote> w = TestData.GetDefault(5)
                 .OrderBy(x => x.Date).Take(4);
 
             Assert.ThrowsException<BadQuotesException>(() =>

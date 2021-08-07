@@ -13,7 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Validate()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
 
             // clean
             List<Quote> h = quotes.Validate().ToList();
@@ -54,7 +54,7 @@ namespace Internal.Tests
         {
             // if quotes post-cleaning, is cut down in size it should not corrupt the results
 
-            IEnumerable<Quote> quotes = HistoryTestData.Get(200);
+            IEnumerable<Quote> quotes = TestData.GetDefault(200);
             List<Quote> h = quotes.Validate().ToList();
 
             // assertions
@@ -92,7 +92,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Sort()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
 
             // clean
             List<Quote> h = quotes.Sort();

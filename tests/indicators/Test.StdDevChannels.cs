@@ -150,7 +150,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetStdDevChannels(HistoryTestData.Get(19), 20, 2));
+                Indicator.GetStdDevChannels(TestData.GetDefault(19), 20, 2));
         }
     }
 }

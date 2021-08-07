@@ -73,7 +73,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetFisherTransform(HistoryTestData.Get(9), 10));
+                Indicator.GetFisherTransform(TestData.GetDefault(9), 10));
         }
     }
 }

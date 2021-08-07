@@ -96,7 +96,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetKvo(HistoryTestData.Get(154), 33, 55));
+                Indicator.GetKvo(TestData.GetDefault(154), 33, 55));
         }
     }
 }

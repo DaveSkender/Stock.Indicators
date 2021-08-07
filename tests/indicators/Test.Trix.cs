@@ -74,7 +74,7 @@ namespace Internal.Tests
 
             // insufficient quotes for 3*N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetTrix(HistoryTestData.Get(189), 30));
+                Indicator.GetTrix(TestData.GetDefault(189), 30));
 
             // insufficient quotes for 4×N
             Assert.ThrowsException<BadQuotesException>(() =>

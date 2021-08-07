@@ -38,6 +38,16 @@ namespace Internal.Tests
     internal class TestData
     {
 
+        // DEFAULT: S&P 500 ~2 years of daily data
+        internal static IEnumerable<Quote> GetDefault(int days = 502)
+        {
+            return File.ReadAllLines("data/default.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days);
+        }
+
         // S&P 500 ~62 years of daily data
         internal static IEnumerable<Quote> GetSnP()
         {

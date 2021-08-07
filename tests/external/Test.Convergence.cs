@@ -258,7 +258,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities.Where(x => x <= 502))
             {
-                IEnumerable<Quote> h = HistoryTestData.Get(110 + qty);
+                IEnumerable<Quote> h = TestData.GetDefault(110 + qty);
                 IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(h, 14, 14, 3, 1);
 
                 StochRsiResult l = r.LastOrDefault();

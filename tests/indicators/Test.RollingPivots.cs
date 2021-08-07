@@ -92,7 +92,7 @@ namespace Internal.Tests
             int offsetPeriods = 0;
             PivotPointType pointType = PivotPointType.Camarilla;
 
-            IEnumerable<Quote> h = HistoryTestData.Get(38);
+            IEnumerable<Quote> h = TestData.GetDefault(38);
             List<RollingPivotsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
@@ -439,7 +439,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
+                Indicator.GetRollingPivots(TestData.GetDefault(19), 10, 10));
         }
     }
 }

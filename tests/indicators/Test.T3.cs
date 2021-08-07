@@ -77,7 +77,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetT3(HistoryTestData.Get(6 * (5 - 1) + 99), 5));
+                Indicator.GetT3(TestData.GetDefault(6 * (5 - 1) + 99), 5));
         }
     }
 }

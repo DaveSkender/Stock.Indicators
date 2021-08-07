@@ -106,7 +106,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetFractal(HistoryTestData.Get(10), 5));
+                Indicator.GetFractal(TestData.GetDefault(10), 5));
         }
     }
 }

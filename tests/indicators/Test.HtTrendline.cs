@@ -89,7 +89,7 @@ namespace Internal.Tests
         {
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetHtTrendline(HistoryTestData.Get(99)));
+                Indicator.GetHtTrendline(TestData.GetDefault(99)));
         }
     }
 }

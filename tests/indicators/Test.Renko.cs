@@ -185,7 +185,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetRenko(HistoryTestData.Get(1), 2.5m));
+                Indicator.GetRenko(TestData.GetDefault(1), 2.5m));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Tests.Performance
     [MarkdownExporterAttribute.GitHub]
     public class MarkHistoryHelpers
     {
-        private static readonly IEnumerable<Quote> h = HistoryTestData.Get();
+        private static readonly IEnumerable<Quote> h = TestData.GetDefault();
         private static readonly IEnumerable<Quote> i = HistoryTestData.GetIntraday();
 
         [Benchmark]

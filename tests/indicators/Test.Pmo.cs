@@ -73,7 +73,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetPmo(HistoryTestData.Get(54), 35, 20, 10));
+                Indicator.GetPmo(TestData.GetDefault(54), 35, 20, 10));
         }
     }
 }
