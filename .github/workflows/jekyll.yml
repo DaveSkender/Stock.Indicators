@@ -39,8 +39,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      - name: Build Jekyll site
+      - name: Install bundle
         run:  bundle install
+
+      - name: Build Jekyll site
+        run:  bundle exec jekyll build
 
       - name: Install HTML proofer
         run: gem install html-proofer
