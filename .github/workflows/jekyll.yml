@@ -29,7 +29,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
         with:
-          ruby-version: 2.6
+          ruby-version: 2.7.3
 
       - name: Ruby gem cache
         uses: actions/cache@v2
@@ -39,14 +39,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      - name: Install bundle
-        run:  bundle install
+      - name: Install dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gem install bundler
+          gem update bundler
+          gem install html-proofer
+          bundle install --without development --jobs 4 --retry 3
 
       - name: Build Jekyll site
         run:  bundle exec jekyll build
-
-      - name: Install HTML proofer
-        run: gem install html-proofer
 
       - name: Test URLs
         run: bundle exec htmlproofer --http-status-ignore '999' _site;
