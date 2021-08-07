@@ -46,7 +46,7 @@ jobs:
           gem install bundler
           gem update bundler
           gem install html-proofer
-          bundle install --without development --jobs 4 --retry 3
+          bundle install --retry 3
 
       - name: Build Jekyll site
         run:  bundle exec jekyll build
