@@ -31,12 +31,21 @@ jobs:
         with:
           ruby-version: 2.7.3
 
-      - name: Install Jekyll packages
-        run: bundle install
+      - name: Ruby gem cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+            
+      - name: Install dependencies
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
       - name: Build Jekyll site
-        run: bundle exec jekyll build
-
+        run:  bundle exec jekyll build --config _config.yml,_config-publish.yml
       - name: Install HTML proofer
         run: gem install html-proofer
 
