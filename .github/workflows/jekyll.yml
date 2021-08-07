@@ -13,10 +13,6 @@ on:
   schedule:
     - cron: "0 6 * * 6"
 
-defaults:
-  run:
-    working-directory: /
-
 jobs:
   analyse:
     name: check-urls
