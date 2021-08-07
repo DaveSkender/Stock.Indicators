@@ -43,10 +43,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gem install bundler
-          gem update bundler
+          bundle config path vendor/bundle 
+          bundle install --jobs 4 --retry 3
           gem install html-proofer
-          bundle install --retry 3
 
       - name: Build Jekyll site
         run:  bundle exec jekyll build
