@@ -26,6 +26,11 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
+        with:
+          ruby-version: 2.6
+
       - name: Ruby gem cache
         uses: actions/cache@v2
         with:
@@ -33,11 +38,9 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-            
+
       - name: Build Jekyll site
-        uses:  helaili/jekyll-action@v2
-        with:
-          build_only: true
+        run:  bundle install
 
       - name: Install HTML proofer
         run: gem install html-proofer
