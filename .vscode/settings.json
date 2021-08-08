@@ -10,7 +10,11 @@
         "**/*.csproj.user": true
     },
 
-    "search.exclude": {}, // auto includes files.exclude
+    // search settings
+    "search.exclude": {
+        // auto excludes files.exclude
+        "**/_site/**": true
+    },
 
     // editor settings
     "editor.codeLens": false,
@@ -18,5 +22,13 @@
 
     // language settings
     "dotnet-test-explorer.testProjectPath": "**/*Tests*.csproj",
-    "scss.validate": false  // false-positives with Jekyll front matter
+    "scss.validate": false,  // false-positives on SCSS files with Jekyll front matter
+
+    // markdown settings
+    "markdownlint.config": {
+        "MD033": false // no-inline-html
+    },
+    "markdownlint.ignore": [
+        "404.md",
+    ]
 }
