@@ -67,7 +67,7 @@ namespace Internal.Tests
 
             // insufficient quotes for 4×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetTripleEma(HistoryTestData.GetLong(999), 250));
+                Indicator.GetTripleEma(TestData.GetLongish(999), 250));
         }
     }
 }

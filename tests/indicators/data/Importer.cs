@@ -111,7 +111,17 @@ namespace Internal.Tests
                 .Take(days);
         }
 
-        // S&P 500 ~62 years of daily data
+        // LONGISH DATA ~20 years of S&P 500 daily data
+        internal static IEnumerable<Quote> GetLongish(int days = 5285)
+        {
+            return File.ReadAllLines("data/longish.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days);
+        }
+
+        // LONGEST DATA ~62 years of S&P 500 daily data
         internal static IEnumerable<Quote> GetLongest()
         {
             return File.ReadAllLines("data/longest.csv")

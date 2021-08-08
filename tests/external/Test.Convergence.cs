@@ -18,7 +18,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(128 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(128 + qty);
                 IEnumerable<AdxResult> r = h.GetAdx();
 
                 AdxResult l = r.LastOrDefault();
@@ -32,7 +32,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(115 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(115 + qty);
                 IEnumerable<AtrResult> r = Indicator.GetAtr(h);
 
                 AtrResult l = r.LastOrDefault();
@@ -46,7 +46,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(110 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(110 + qty);
                 IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(h);
 
                 ChaikinOscResult l = r.LastOrDefault();
@@ -60,7 +60,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(103 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(103 + qty);
                 IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(h, 3, 2, 10);
 
                 ConnorsRsiResult l = r.LastOrDefault();
@@ -74,7 +74,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
                 IEnumerable<DemaResult> r = Indicator.GetDoubleEma(h, 15);
 
                 DemaResult l = r.LastOrDefault();
@@ -88,7 +88,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(115 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(115 + qty);
                 IEnumerable<EmaResult> r = Indicator.GetEma(h, 15);
 
                 EmaResult l = r.LastOrDefault();
@@ -102,7 +102,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(5 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(5 + qty);
                 IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(h, 10);
 
                 FisherTransformResult l = r.LastOrDefault();
@@ -116,7 +116,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(100 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(100 + qty);
                 IEnumerable<HtlResult> r = Indicator.GetHtTrendline(h);
 
                 HtlResult l = r.LastOrDefault();
@@ -130,7 +130,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(105 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(105 + qty);
                 IEnumerable<KamaResult> r = Indicator.GetKama(h, 10);
 
                 KamaResult l = r.LastOrDefault();
@@ -144,7 +144,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(200 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(200 + qty);
                 IEnumerable<KeltnerResult> r = Indicator.GetKeltner(h, 100);
 
                 KeltnerResult l = r.LastOrDefault();
@@ -158,7 +158,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
                 IEnumerable<MacdResult> r = Indicator.GetMacd(h);
 
                 MacdResult l = r.LastOrDefault();
@@ -172,7 +172,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(50 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(50 + qty);
                 IEnumerable<MamaResult> r = Indicator.GetMama(h);
 
                 MamaResult l = r.LastOrDefault();
@@ -186,7 +186,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
                 IEnumerable<PmoResult> r = Indicator.GetPmo(h);
 
                 PmoResult l = r.LastOrDefault();
@@ -200,7 +200,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(130 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
                 IEnumerable<PvoResult> r = Indicator.GetPvo(h);
 
                 PvoResult l = r.LastOrDefault();
@@ -216,7 +216,7 @@ namespace External.Other
 
             foreach (int qty in convergeQuantities.Where(q => q > 100 - lookbackPeriods))
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(lookbackPeriods + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(lookbackPeriods + qty);
                 IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriods);
 
                 RsiResult l = r.LastOrDefault();
@@ -230,7 +230,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(110 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(110 + qty);
                 IEnumerable<SmmaResult> r = Indicator.GetSmma(h, 15);
 
                 SmmaResult l = r.LastOrDefault();
@@ -244,7 +244,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(200 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(200 + qty);
                 IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(h, 100);
 
                 StarcBandsResult l = r.LastOrDefault();
@@ -272,7 +272,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong((6 * 20) + 100 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish((6 * 20) + 100 + qty);
                 IEnumerable<T3Result> r = Indicator.GetT3(h, 20);
 
                 T3Result l = r.LastOrDefault();
@@ -286,7 +286,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(145 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(145 + qty);
                 IEnumerable<TemaResult> r = Indicator.GetTripleEma(h, 15);
 
                 TemaResult l = r.LastOrDefault();
@@ -300,7 +300,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(140 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(140 + qty);
                 IEnumerable<TrixResult> r = Indicator.GetTrix(h, 15);
 
                 TrixResult l = r.LastOrDefault();
@@ -314,7 +314,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(135 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(135 + qty);
                 IEnumerable<TsiResult> r = Indicator.GetTsi(h);
 
                 TsiResult l = r.LastOrDefault();
@@ -328,7 +328,7 @@ namespace External.Other
         {
             foreach (int qty in convergeQuantities)
             {
-                IEnumerable<Quote> h = HistoryTestData.GetLong(15 + qty);
+                IEnumerable<Quote> h = TestData.GetLongish(15 + qty);
                 IEnumerable<VortexResult> r = Indicator.GetVortex(h, 14);
 
                 VortexResult l = r.LastOrDefault();

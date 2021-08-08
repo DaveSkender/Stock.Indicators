@@ -18,7 +18,7 @@ namespace Tests.Performance
         [GlobalSetup]
         public void Setup()
         {
-            values = HistoryTestData.GetLong(Periods)
+            values = TestData.GetLongish(Periods)
                 .Select(x => (double)x.Close)
                 .ToArray();
         }

@@ -78,7 +78,7 @@ namespace Internal.Tests
 
             // insufficient quotes for 4×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetTrix(HistoryTestData.GetLong(999), 250));
+                Indicator.GetTrix(TestData.GetLongish(999), 250));
         }
     }
 }

@@ -35,9 +35,7 @@ namespace Internal.Tests
         [TestMethod]
         public void ValidateLong()
         {
-            IEnumerable<Quote> historyLong = HistoryTestData.GetLong();
-
-            List<Quote> h = historyLong.Validate().ToList();
+            List<Quote> h = longishQuotes.Validate().ToList();
 
             // assertions
 
