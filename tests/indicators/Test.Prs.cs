@@ -72,9 +72,8 @@ namespace Internal.Tests
                 Indicator.GetPrs(quotes, TestData.GetCompare(300), 14));
 
             // mismatch quotes
-            IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetPrs(historyMismatch, otherQuotes, 14));
+                Indicator.GetPrs(mismatchQuotes, otherQuotes, 14));
         }
     }
 }

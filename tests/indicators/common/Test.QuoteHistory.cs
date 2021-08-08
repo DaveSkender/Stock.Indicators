@@ -90,7 +90,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Sort()
         {
-            IEnumerable<Quote> quotes = TestData.GetDefault();
+            IEnumerable<Quote> quotes = TestData.GetMismatch();
 
             // clean
             List<Quote> h = quotes.Sort();
@@ -100,13 +100,17 @@ namespace Internal.Tests
             // should always be the same number of results as there is quotes
             Assert.AreEqual(502, h.Count);
 
+            // check first date
+            DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(firstDate, h[0].Date);
+
             // check last date
             DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
-            Assert.AreEqual(lastDate, h[501].Date);
+            Assert.AreEqual(lastDate, h.LastOrDefault().Date);
 
             // spot check an out of sequence date
-            DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
-            Assert.AreEqual(spotDate, h[20].Date);
+            DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(spotDate, h[50].Date);
         }
 
         [TestMethod]

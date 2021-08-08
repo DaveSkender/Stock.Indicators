@@ -128,5 +128,14 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v));
         }
+
+        // MISMATCH DATA is in incorrect sequence
+        internal static IEnumerable<Quote> GetMismatch()
+        {
+            return File.ReadAllLines("data/mismatch.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v));
+        }
+
     }
 }

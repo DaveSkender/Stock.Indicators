@@ -22,5 +22,6 @@ namespace Internal.Tests
         internal static readonly IEnumerable<Quote> badQuotes = TestData.GetBad();
         internal static readonly IEnumerable<Quote> longishQuotes = TestData.GetLongish();
         internal static readonly IEnumerable<Quote> longestQuotes = TestData.GetLongest();
+        internal static readonly IEnumerable<Quote> mismatchQuotes = TestData.GetMismatch();
     }
 }
