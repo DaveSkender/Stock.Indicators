@@ -135,7 +135,7 @@ namespace Internal.Tests
         [TestMethod]
         public void SchrodingerScenario()
         {
-            IEnumerable<Quote> h = HistoryTestData.GetCustomZigZag();
+            IEnumerable<Quote> h = TestData.GetZigZag();
 
             IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(h, EndType.Close, 0.25m);
             Assert.AreEqual(342, r1.Count());
