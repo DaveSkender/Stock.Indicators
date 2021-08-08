@@ -9,7 +9,7 @@ namespace Tests.Performance
     public class MarkIndicators
     {
         private readonly IEnumerable<Quote> h = TestData.GetDefault();
-        private readonly IEnumerable<Quote> ho = HistoryTestData.GetCompare();
+        private readonly IEnumerable<Quote> ho = TestData.GetCompare();
         private readonly IEnumerable<Quote> hday = HistoryTestData.GetIntraday(391);
 
         [Benchmark]

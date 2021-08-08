@@ -18,7 +18,7 @@ namespace Internal.Tests
         internal static readonly CultureInfo englishCulture = new("en-US", false);
 
         internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
-        internal static readonly IEnumerable<Quote> historyOther = HistoryTestData.GetCompare();
+        internal static readonly IEnumerable<Quote> otherQuotes = TestData.GetCompare();
         internal static readonly IEnumerable<Quote> badQuotes = TestData.GetBad();
         internal static readonly IEnumerable<Quote> longestQuotes = TestData.GetLongest();
     }

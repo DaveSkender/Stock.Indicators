@@ -101,6 +101,16 @@ namespace Internal.Tests
                 .Take(days);
         }
 
+        // COMPARE DATA ~2 years of TSLA data (matches default time)
+        internal static IEnumerable<Quote> GetCompare(int days = 502)
+        {
+            return File.ReadAllLines("data/compare.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days);
+        }
+
         // S&P 500 ~62 years of daily data
         internal static IEnumerable<Quote> GetLongest()
         {

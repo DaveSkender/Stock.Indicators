@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             List<CorrResult> results =
-                quotes.GetCorrelation(historyOther, 20)
+                quotes.GetCorrelation(otherQuotes, 20)
                 .ToList();
 
             // assertions
@@ -41,7 +41,7 @@ namespace Internal.Tests
         public void Removed()
         {
             List<CorrResult> results =
-                quotes.GetCorrelation(historyOther, 20)
+                quotes.GetCorrelation(otherQuotes, 20)
                     .RemoveWarmupPeriods()
                     .ToList();
 
@@ -58,23 +58,23 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetCorrelation(quotes, historyOther, 0));
+                Indicator.GetCorrelation(quotes, otherQuotes, 0));
 
             // insufficient quotes
             IEnumerable<Quote> h1 = TestData.GetDefault(29);
-            IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
+            IEnumerable<Quote> h2 = TestData.GetCompare(29);
             Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCorrelation(h1, h2, 30));
 
             // bad eval quotes
-            IEnumerable<Quote> eval = HistoryTestData.GetCompare(300);
+            IEnumerable<Quote> eval = TestData.GetCompare(300);
             Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetCorrelation(quotes, eval, 30));
 
             // mismatched quotes
             IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetCorrelation(historyMismatch, historyOther, 20));
+                Indicator.GetCorrelation(historyMismatch, otherQuotes, 20));
         }
     }
 }
