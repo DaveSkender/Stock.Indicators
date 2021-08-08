@@ -47,7 +47,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<VortexResult> r = Indicator.GetVortex(historyBad, 20);
+            IEnumerable<VortexResult> r = Indicator.GetVortex(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 

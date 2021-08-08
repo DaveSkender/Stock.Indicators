@@ -50,7 +50,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SlopeResult> r = Indicator.GetSlope(historyBad, 15);
+            IEnumerable<SlopeResult> r = Indicator.GetSlope(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

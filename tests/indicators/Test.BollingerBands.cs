@@ -52,7 +52,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(historyBad, 15, 3);
+            IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(badQuotes, 15, 3);
             Assert.AreEqual(502, r.Count());
         }
 

@@ -113,7 +113,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(historyBad);
+            IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

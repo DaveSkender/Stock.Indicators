@@ -21,16 +21,48 @@ namespace Internal.Tests
             }
 
             string[] values = csvLine.Split(',');
-            Quote quotes = new()
+            Quote quote = new();
+
+            HandleOHLCV(quote, "D", values[0]);
+            HandleOHLCV(quote, "O", values[1]);
+            HandleOHLCV(quote, "H", values[2]);
+            HandleOHLCV(quote, "L", values[3]);
+            HandleOHLCV(quote, "C", values[4]);
+            HandleOHLCV(quote, "V", values[5]);
+
+            return quote;
+        }
+
+        private static void HandleOHLCV(Quote quote, string position, string value)
+        {
+            if (string.IsNullOrEmpty(value))
             {
-                Date = Convert.ToDateTime(values[0], EnglishCulture),
-                Open = Convert.ToDecimal(values[1], EnglishCulture),
-                High = Convert.ToDecimal(values[2], EnglishCulture),
-                Low = Convert.ToDecimal(values[3], EnglishCulture),
-                Close = Convert.ToDecimal(values[4], EnglishCulture),
-                Volume = Convert.ToDecimal(values[5], EnglishCulture)
-            };
-            return quotes;
+                return;
+            }
+
+            switch (position)
+            {
+                case "D":
+                    quote.Date = Convert.ToDateTime(value, EnglishCulture);
+                    break;
+                case "O":
+                    quote.Open = Convert.ToDecimal(value, EnglishCulture);
+                    break;
+                case "H":
+                    quote.High = Convert.ToDecimal(value, EnglishCulture);
+                    break;
+                case "L":
+                    quote.Low = Convert.ToDecimal(value, EnglishCulture);
+                    break;
+                case "C":
+                    quote.Close = Convert.ToDecimal(value, EnglishCulture);
+                    break;
+                case "V":
+                    quote.Volume = Convert.ToDecimal(value, EnglishCulture);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -42,6 +74,16 @@ namespace Internal.Tests
         internal static IEnumerable<Quote> GetDefault(int days = 502)
         {
             return File.ReadAllLines("data/default.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days);
+        }
+
+        // BAD DATA
+        internal static IEnumerable<Quote> GetBad(int days = 502)
+        {
+            return File.ReadAllLines("data/bad.csv")
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)

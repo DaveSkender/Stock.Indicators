@@ -45,7 +45,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ChandelierResult> r = Indicator.GetChandelier(historyBad, 15, 2m);
+            IEnumerable<ChandelierResult> r = Indicator.GetChandelier(badQuotes, 15, 2m);
             Assert.AreEqual(502, r.Count());
         }
 

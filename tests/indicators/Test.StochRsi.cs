@@ -87,7 +87,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(historyBad, 15, 20, 3, 2);
+            IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(badQuotes, 15, 20, 3, 2);
             Assert.AreEqual(502, r.Count());
         }
 

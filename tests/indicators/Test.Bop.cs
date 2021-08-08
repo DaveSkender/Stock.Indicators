@@ -43,7 +43,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<BopResult> r = Indicator.GetBop(historyBad);
+            IEnumerable<BopResult> r = Indicator.GetBop(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

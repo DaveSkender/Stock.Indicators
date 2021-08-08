@@ -72,7 +72,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<VwapResult> r = Indicator.GetVwap(historyBad);
+            IEnumerable<VwapResult> r = Indicator.GetVwap(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

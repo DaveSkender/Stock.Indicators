@@ -401,7 +401,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<PivotPointsResult> r = Indicator.GetPivotPoints(historyBad, PeriodSize.Week);
+            IEnumerable<PivotPointsResult> r = Indicator.GetPivotPoints(badQuotes, PeriodSize.Week);
             Assert.AreEqual(502, r.Count());
         }
 

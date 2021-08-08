@@ -33,7 +33,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<HmaResult> r = Indicator.GetHma(historyBad, 15);
+            IEnumerable<HmaResult> r = Indicator.GetHma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

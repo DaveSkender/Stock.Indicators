@@ -125,10 +125,10 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(historyBad, EndType.Close);
+            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(badQuotes, EndType.Close);
             Assert.AreEqual(502, r1.Count());
 
-            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(historyBad, EndType.HighLow);
+            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(badQuotes, EndType.HighLow);
             Assert.AreEqual(502, r2.Count());
         }
 

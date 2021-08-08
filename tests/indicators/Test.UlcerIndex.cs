@@ -31,7 +31,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(historyBad, 15);
+            IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

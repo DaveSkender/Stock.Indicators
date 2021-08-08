@@ -59,7 +59,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ElderRayResult> r = Indicator.GetElderRay(historyBad);
+            IEnumerable<ElderRayResult> r = Indicator.GetElderRay(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

@@ -31,7 +31,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<CciResult> r = Indicator.GetCci(historyBad, 15);
+            IEnumerable<CciResult> r = Indicator.GetCci(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

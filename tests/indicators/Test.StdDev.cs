@@ -81,7 +81,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StdDevResult> r = Indicator.GetStdDev(historyBad, 15, 3);
+            IEnumerable<StdDevResult> r = Indicator.GetStdDev(badQuotes, 15, 3);
             Assert.AreEqual(502, r.Count());
         }
 

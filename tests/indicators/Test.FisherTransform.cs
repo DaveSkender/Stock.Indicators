@@ -60,7 +60,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(historyBad, 9);
+            IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(badQuotes, 9);
             Assert.AreEqual(502, r.Count());
         }
 

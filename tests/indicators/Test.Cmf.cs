@@ -41,7 +41,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<CmfResult> r = Indicator.GetCmf(historyBad, 15);
+            IEnumerable<CmfResult> r = Indicator.GetCmf(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

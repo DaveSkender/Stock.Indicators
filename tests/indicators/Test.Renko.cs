@@ -172,7 +172,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RenkoResult> r = historyBad.GetRenko(100m);
+            IEnumerable<RenkoResult> r = badQuotes.GetRenko(100m);
             Assert.AreNotEqual(0, r.Count());
         }
 

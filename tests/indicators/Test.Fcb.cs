@@ -53,7 +53,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<FcbResult> r = Indicator.GetFcb(historyBad);
+            IEnumerable<FcbResult> r = Indicator.GetFcb(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

@@ -36,7 +36,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<EmaResult> r = Indicator.GetEma(historyBad, 15);
+            IEnumerable<EmaResult> r = Indicator.GetEma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

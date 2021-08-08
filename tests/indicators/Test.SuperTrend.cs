@@ -73,7 +73,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(historyBad, 7);
+            IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(badQuotes, 7);
             Assert.AreEqual(502, r.Count());
         }
 

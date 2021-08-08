@@ -395,7 +395,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RollingPivotsResult> r = Indicator.GetRollingPivots(historyBad, 5, 5);
+            IEnumerable<RollingPivotsResult> r = Indicator.GetRollingPivots(badQuotes, 5, 5);
             Assert.AreEqual(502, r.Count());
         }
 

@@ -13,8 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void StandardLong()
         {
-            List<HurstResult> results = longSnp
-                .GetHurst(longSnp.Count() - 1)
+            List<HurstResult> results = longQuotes
+                .GetHurst(longQuotes.Count() - 1)
                 .ToList();
 
             // assertions
@@ -31,14 +31,14 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<HurstResult> r = Indicator.GetHurst(historyBad, 150);
+            IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod]
         public void Removed()
         {
-            List<HurstResult> results = longSnp.GetHurst(longSnp.Count() - 1)
+            List<HurstResult> results = longQuotes.GetHurst(longQuotes.Count() - 1)
                 .RemoveWarmupPeriods()
                 .ToList();
 

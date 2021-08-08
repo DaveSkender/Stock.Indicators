@@ -35,7 +35,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(historyBad, 2);
+            IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(badQuotes, 2);
             Assert.AreEqual(502, r.Count());
         }
 

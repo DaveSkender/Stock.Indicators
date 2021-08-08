@@ -19,7 +19,7 @@ namespace Internal.Tests
 
         internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
         internal static readonly IEnumerable<Quote> historyOther = HistoryTestData.GetCompare();
-        internal static readonly IEnumerable<Quote> historyBad = HistoryTestData.GetBad();
-        internal static readonly IEnumerable<Quote> longSnp = TestData.GetSnP();
+        internal static readonly IEnumerable<Quote> badQuotes = TestData.GetBad();
+        internal static readonly IEnumerable<Quote> longQuotes = TestData.GetSnP();
     }
 }

@@ -48,7 +48,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(historyBad, 4, 3, 25);
+            IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(badQuotes, 4, 3, 25);
             Assert.AreEqual(502, r.Count());
         }
 

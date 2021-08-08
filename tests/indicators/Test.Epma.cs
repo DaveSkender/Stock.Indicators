@@ -42,7 +42,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<EpmaResult> r = Indicator.GetEpma(historyBad, 15);
+            IEnumerable<EpmaResult> r = Indicator.GetEpma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

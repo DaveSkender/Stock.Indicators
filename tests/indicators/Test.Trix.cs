@@ -45,7 +45,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<TrixResult> r = Indicator.GetTrix(historyBad, 15, 2);
+            IEnumerable<TrixResult> r = Indicator.GetTrix(badQuotes, 15, 2);
             Assert.AreEqual(502, r.Count());
         }
 

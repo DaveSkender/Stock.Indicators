@@ -48,7 +48,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<PrsResult> r = Indicator.GetPrs(historyBad, historyBad, 15, 4);
+            IEnumerable<PrsResult> r = Indicator.GetPrs(badQuotes, badQuotes, 15, 4);
             Assert.AreEqual(502, r.Count());
         }
 

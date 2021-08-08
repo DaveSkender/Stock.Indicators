@@ -78,7 +78,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RocWbResult> r = Indicator.GetRocWb(historyBad, 35, 3, 35);
+            IEnumerable<RocWbResult> r = Indicator.GetRocWb(badQuotes, 35, 3, 35);
             Assert.AreEqual(502, r.Count());
         }
 

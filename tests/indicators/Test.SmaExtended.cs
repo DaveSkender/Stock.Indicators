@@ -34,7 +34,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SmaResult> r = Indicator.GetSmaExtended(historyBad, 15);
+            IEnumerable<SmaResult> r = Indicator.GetSmaExtended(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

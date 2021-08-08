@@ -57,7 +57,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<MfiResult> r = Indicator.GetMfi(historyBad, 15);
+            IEnumerable<MfiResult> r = Indicator.GetMfi(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

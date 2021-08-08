@@ -37,7 +37,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SmmaResult> r = Indicator.GetSmma(historyBad, 15);
+            IEnumerable<SmmaResult> r = Indicator.GetSmma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

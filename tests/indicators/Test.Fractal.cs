@@ -93,7 +93,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<FractalResult> r = Indicator.GetFractal(historyBad);
+            IEnumerable<FractalResult> r = Indicator.GetFractal(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

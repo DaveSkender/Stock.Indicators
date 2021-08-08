@@ -37,7 +37,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<DemaResult> r = Indicator.GetDoubleEma(historyBad, 15);
+            IEnumerable<DemaResult> r = Indicator.GetDoubleEma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

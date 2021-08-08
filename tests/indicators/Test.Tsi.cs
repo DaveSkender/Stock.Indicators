@@ -53,7 +53,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<TsiResult> r = Indicator.GetTsi(historyBad);
+            IEnumerable<TsiResult> r = Indicator.GetTsi(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

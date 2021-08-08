@@ -46,7 +46,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<T3Result> r = Indicator.GetT3(historyBad);
+            IEnumerable<T3Result> r = Indicator.GetT3(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

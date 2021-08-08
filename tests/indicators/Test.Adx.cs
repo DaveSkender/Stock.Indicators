@@ -48,7 +48,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AdxResult> r = Indicator.GetAdx(historyBad, 20);
+            IEnumerable<AdxResult> r = Indicator.GetAdx(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 

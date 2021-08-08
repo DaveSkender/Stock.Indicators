@@ -55,7 +55,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AdlResult> r = Indicator.GetAdl(historyBad);
+            IEnumerable<AdlResult> r = Indicator.GetAdl(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

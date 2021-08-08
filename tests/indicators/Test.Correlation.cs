@@ -33,7 +33,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<CorrResult> r = Indicator.GetCorrelation(historyBad, historyBad, 15);
+            IEnumerable<CorrResult> r = Indicator.GetCorrelation(badQuotes, badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

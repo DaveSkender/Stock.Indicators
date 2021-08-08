@@ -52,7 +52,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(historyBad);
+            IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

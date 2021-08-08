@@ -37,7 +37,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(historyBad, 5, 15);
+            IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(badQuotes, 5, 15);
             Assert.AreEqual(502, r.Count());
         }
 

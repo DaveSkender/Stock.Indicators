@@ -60,7 +60,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RsiResult> r = Indicator.GetRsi(historyBad, 20);
+            IEnumerable<RsiResult> r = Indicator.GetRsi(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 

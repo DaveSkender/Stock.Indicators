@@ -37,7 +37,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<PmoResult> r = Indicator.GetPmo(historyBad, 25, 15, 5);
+            IEnumerable<PmoResult> r = Indicator.GetPmo(badQuotes, 25, 15, 5);
             Assert.AreEqual(502, r.Count());
         }
 

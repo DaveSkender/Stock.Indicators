@@ -54,7 +54,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AroonResult> r = Indicator.GetAroon(historyBad, 20);
+            IEnumerable<AroonResult> r = Indicator.GetAroon(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 

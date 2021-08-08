@@ -50,7 +50,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<MacdResult> r = Indicator.GetMacd(historyBad, 10, 20, 5);
+            IEnumerable<MacdResult> r = Indicator.GetMacd(badQuotes, 10, 20, 5);
             Assert.AreEqual(502, r.Count());
         }
 

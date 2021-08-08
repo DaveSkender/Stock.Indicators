@@ -39,7 +39,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<VolSmaResult> r = Indicator.GetVolSma(historyBad, 15);
+            IEnumerable<VolSmaResult> r = Indicator.GetVolSma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

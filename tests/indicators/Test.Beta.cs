@@ -32,7 +32,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<BetaResult> r = Indicator.GetBeta(historyBad, historyBad, 15);
+            IEnumerable<BetaResult> r = Indicator.GetBeta(badQuotes, badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 

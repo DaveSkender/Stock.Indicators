@@ -50,7 +50,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<KeltnerResult> r = Indicator.GetKeltner(historyBad, 10, 3, 15);
+            IEnumerable<KeltnerResult> r = Indicator.GetKeltner(badQuotes, 10, 3, 15);
             Assert.AreEqual(502, r.Count());
         }
 

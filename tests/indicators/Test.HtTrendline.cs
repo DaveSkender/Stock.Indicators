@@ -57,7 +57,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<HtlResult> r = Indicator.GetHtTrendline(historyBad);
+            IEnumerable<HtlResult> r = Indicator.GetHtTrendline(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 

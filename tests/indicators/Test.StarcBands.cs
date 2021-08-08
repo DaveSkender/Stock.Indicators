@@ -61,7 +61,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(historyBad, 10, 3, 15);
+            IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(badQuotes, 10, 3, 15);
             Assert.AreEqual(502, r.Count());
         }
 

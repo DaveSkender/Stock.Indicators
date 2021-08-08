@@ -65,7 +65,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<IchimokuResult> r = Indicator.GetIchimoku(historyBad, 8, 20, 35);
+            IEnumerable<IchimokuResult> r = Indicator.GetIchimoku(badQuotes, 8, 20, 35);
             Assert.AreEqual(502, r.Count());
         }
 

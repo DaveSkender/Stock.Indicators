@@ -60,7 +60,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<PvoResult> r = Indicator.GetPvo(historyBad, 10, 20, 5);
+            IEnumerable<PvoResult> r = Indicator.GetPvo(badQuotes, 10, 20, 5);
             Assert.AreEqual(502, r.Count());
         }
 

@@ -61,7 +61,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<KamaResult> r = Indicator.GetKama(historyBad);
+            IEnumerable<KamaResult> r = Indicator.GetKama(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
