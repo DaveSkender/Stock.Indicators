@@ -16,7 +16,6 @@ Explore more information:
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
-- [Contact us](#contact-us)
 
 ## Samples
 
