@@ -79,7 +79,7 @@ namespace Internal.Tests
         [TestMethod]
         public void PennyData()
         {
-            IEnumerable<Quote> penny = HistoryTestData.GetPenny();
+            IEnumerable<Quote> penny = TestData.GetPenny();
             IEnumerable<HtlResult> r = Indicator.GetHtTrendline(penny);
             Assert.AreEqual(533, r.Count());
         }

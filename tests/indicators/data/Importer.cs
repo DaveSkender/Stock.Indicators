@@ -129,6 +129,14 @@ namespace Internal.Tests
                 .Select(v => Importer.FromCsv(v));
         }
 
+        // PENNY DATA
+        internal static IEnumerable<Quote> GetPenny()
+        {
+            return File.ReadAllLines("data/penny.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v));
+        }
+
         // MISMATCH DATA is in incorrect sequence
         internal static IEnumerable<Quote> GetMismatch()
         {
