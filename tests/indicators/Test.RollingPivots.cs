@@ -254,7 +254,7 @@ namespace Internal.Tests
             int offsetPeriods = 15;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
-            IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
+            IEnumerable<Quote> h = TestData.GetIntraday(300);
             List<RollingPivotsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
@@ -331,7 +331,7 @@ namespace Internal.Tests
             int offsetPeriods = 16;
             PivotPointType pointType = PivotPointType.Woodie;
 
-            IEnumerable<Quote> h = HistoryTestData.GetIntraday(1564);
+            IEnumerable<Quote> h = TestData.GetIntraday(1564);
             List<RollingPivotsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();

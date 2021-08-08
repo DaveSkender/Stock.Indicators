@@ -116,7 +116,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Aggregate()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.GetIntraday();
+            IEnumerable<Quote> quotes = TestData.GetIntraday();
 
             // aggregate
             List<Quote> results = quotes.Aggregate(PeriodSize.FifteenMinutes)

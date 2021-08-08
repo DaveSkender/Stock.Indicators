@@ -136,7 +136,7 @@ namespace External.Other
         [TestMethod]
         public void CustomQuoteAggregate()
         {
-            List<MyGenericQuote> myGenericHistory = HistoryTestData.GetIntraday()
+            List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
                 .Select(x => new MyGenericQuote
                 {
                     CloseDate = x.Date,

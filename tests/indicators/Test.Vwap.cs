@@ -9,7 +9,7 @@ namespace Internal.Tests
     [TestClass]
     public class Vwap : TestBase
     {
-        private readonly IEnumerable<Quote> intraday = HistoryTestData.GetIntraday()
+        private readonly IEnumerable<Quote> intraday = TestData.GetIntraday()
             .OrderBy(x => x.Date)
             .Take(391);
 

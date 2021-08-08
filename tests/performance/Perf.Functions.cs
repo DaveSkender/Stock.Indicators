@@ -36,7 +36,7 @@ namespace Tests.Performance
     public class MarkHistoryHelpers
     {
         private static readonly IEnumerable<Quote> h = TestData.GetDefault();
-        private static readonly IEnumerable<Quote> i = HistoryTestData.GetIntraday();
+        private static readonly IEnumerable<Quote> i = TestData.GetIntraday();
 
         [Benchmark]
         public object Sort()

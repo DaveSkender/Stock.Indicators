@@ -111,6 +111,16 @@ namespace Internal.Tests
                 .Take(days);
         }
 
+        // INTRADAY DATA
+        internal static IEnumerable<Quote> GetIntraday(int days = 1564)
+        {
+            return File.ReadAllLines("data/intraday.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days);
+        }
+
         // LONGISH DATA ~20 years of S&P 500 daily data
         internal static IEnumerable<Quote> GetLongish(int days = 5285)
         {

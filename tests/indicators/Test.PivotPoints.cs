@@ -263,7 +263,7 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.OneHour;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
-            IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
+            IEnumerable<Quote> h = TestData.GetIntraday(300);
             List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
                 .ToList();
 
@@ -338,7 +338,7 @@ namespace Internal.Tests
             PeriodSize periodSize = PeriodSize.Day;
             PivotPointType pointType = PivotPointType.Woodie;
 
-            IEnumerable<Quote> h = HistoryTestData.GetIntraday();
+            IEnumerable<Quote> h = TestData.GetIntraday();
             List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
                 .ToList();
 
@@ -445,13 +445,13 @@ namespace Internal.Tests
                 Indicator.GetPivotPoints(w, PeriodSize.Week));
 
             // insufficient quotes - day
-            IEnumerable<Quote> d = HistoryTestData.GetIntraday(250);
+            IEnumerable<Quote> d = TestData.GetIntraday(250);
 
             Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetPivotPoints(d, PeriodSize.Day));
 
             // insufficient quotes - hour
-            IEnumerable<Quote> h = HistoryTestData.GetIntraday(30)
+            IEnumerable<Quote> h = TestData.GetIntraday(30)
                 .OrderBy(x => x.Date).Take(29);
 
             Assert.ThrowsException<BadQuotesException>(() =>

@@ -10,7 +10,7 @@ namespace Tests.Performance
     {
         private readonly IEnumerable<Quote> h = TestData.GetDefault();
         private readonly IEnumerable<Quote> ho = TestData.GetCompare();
-        private readonly IEnumerable<Quote> hday = HistoryTestData.GetIntraday(391);
+        private readonly IEnumerable<Quote> hday = TestData.GetIntraday(391);
 
         [Benchmark]
         public object GetAdl()
