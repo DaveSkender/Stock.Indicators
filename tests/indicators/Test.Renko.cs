@@ -172,7 +172,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RenkoResult> r = historyBad.GetRenko(100m);
+            IEnumerable<RenkoResult> r = badQuotes.GetRenko(100m);
             Assert.AreNotEqual(0, r.Count());
         }
 
@@ -185,7 +185,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetRenko(HistoryTestData.Get(1), 2.5m));
+                Indicator.GetRenko(TestData.GetDefault(1), 2.5m));
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<WmaResult> r = Indicator.GetWma(historyBad, 15);
+            IEnumerable<WmaResult> r = Indicator.GetWma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -60,7 +60,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetWma(HistoryTestData.Get(9), 10));
+                Indicator.GetWma(TestData.GetDefault(9), 10));
         }
     }
 }

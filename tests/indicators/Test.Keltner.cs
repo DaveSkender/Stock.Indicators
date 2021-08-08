@@ -50,7 +50,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<KeltnerResult> r = Indicator.GetKeltner(historyBad, 10, 3, 15);
+            IEnumerable<KeltnerResult> r = Indicator.GetKeltner(badQuotes, 10, 3, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -94,11 +94,11 @@ namespace Internal.Tests
 
             // insufficient quotes for N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetKeltner(HistoryTestData.Get(119), 20, 2, 10));
+                Indicator.GetKeltner(TestData.GetDefault(119), 20, 2, 10));
 
             // insufficient quotes for 2×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetKeltner(HistoryTestData.Get(499), 20, 2, 250));
+                Indicator.GetKeltner(TestData.GetDefault(499), 20, 2, 250));
         }
     }
 }

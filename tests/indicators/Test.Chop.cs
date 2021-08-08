@@ -53,7 +53,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ChopResult> r = Indicator.GetChop(historyBad, 20);
+            IEnumerable<ChopResult> r = Indicator.GetChop(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -80,7 +80,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetChop(HistoryTestData.Get(30), 30));
+                Indicator.GetChop(TestData.GetDefault(30), 30));
         }
     }
 }

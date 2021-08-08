@@ -31,7 +31,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(historyBad, 15);
+            IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -59,7 +59,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetUlcerIndex(HistoryTestData.Get(29), 30));
+                Indicator.GetUlcerIndex(TestData.GetDefault(29), 30));
         }
     }
 }

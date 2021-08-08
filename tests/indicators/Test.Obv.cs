@@ -70,7 +70,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ObvResult> r = Indicator.GetObv(historyBad);
+            IEnumerable<ObvResult> r = Indicator.GetObv(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -83,7 +83,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetObv(HistoryTestData.Get(1)));
+                Indicator.GetObv(TestData.GetDefault(1)));
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<FcbResult> r = Indicator.GetFcb(historyBad);
+            IEnumerable<FcbResult> r = Indicator.GetFcb(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -81,7 +81,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetFcb(HistoryTestData.Get(60), 30));
+                Indicator.GetFcb(TestData.GetDefault(60), 30));
         }
     }
 }

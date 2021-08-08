@@ -36,7 +36,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<TemaResult> r = Indicator.GetTripleEma(historyBad, 15);
+            IEnumerable<TemaResult> r = Indicator.GetTripleEma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -63,11 +63,11 @@ namespace Internal.Tests
 
             // insufficient quotes for 3*N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetTripleEma(HistoryTestData.Get(189), 30));
+                Indicator.GetTripleEma(TestData.GetDefault(189), 30));
 
             // insufficient quotes for 4×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetTripleEma(HistoryTestData.GetLong(999), 250));
+                Indicator.GetTripleEma(TestData.GetLongish(999), 250));
         }
     }
 }

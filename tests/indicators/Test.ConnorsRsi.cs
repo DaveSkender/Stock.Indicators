@@ -48,7 +48,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(historyBad, 4, 3, 25);
+            IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(badQuotes, 4, 3, 25);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -94,7 +94,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetConnorsRsi(HistoryTestData.Get(102), 3, 2, 100));
+                Indicator.GetConnorsRsi(TestData.GetDefault(102), 3, 2, 100));
         }
     }
 }

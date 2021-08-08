@@ -38,7 +38,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<UltimateResult> r = Indicator.GetUltimate(historyBad, 1, 2, 3);
+            IEnumerable<UltimateResult> r = Indicator.GetUltimate(badQuotes, 1, 2, 3);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -73,7 +73,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetUltimate(HistoryTestData.Get(28), 7, 14, 28));
+                Indicator.GetUltimate(TestData.GetDefault(28), 7, 14, 28));
         }
     }
 }

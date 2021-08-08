@@ -9,7 +9,7 @@ namespace Internal.Tests
     [TestClass]
     public class Vwap : TestBase
     {
-        private readonly IEnumerable<Quote> intraday = HistoryTestData.GetIntraday()
+        private readonly IEnumerable<Quote> intraday = TestData.GetIntraday()
             .OrderBy(x => x.Date)
             .Take(391);
 
@@ -72,7 +72,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<VwapResult> r = Indicator.GetVwap(historyBad);
+            IEnumerable<VwapResult> r = Indicator.GetVwap(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -117,7 +117,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetVwap(HistoryTestData.Get(0)));
+                Indicator.GetVwap(TestData.GetDefault(0)));
         }
     }
 }

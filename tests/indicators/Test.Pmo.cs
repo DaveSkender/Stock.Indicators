@@ -37,7 +37,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<PmoResult> r = Indicator.GetPmo(historyBad, 25, 15, 5);
+            IEnumerable<PmoResult> r = Indicator.GetPmo(badQuotes, 25, 15, 5);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -73,7 +73,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetPmo(HistoryTestData.Get(54), 35, 20, 10));
+                Indicator.GetPmo(TestData.GetDefault(54), 35, 20, 10));
         }
     }
 }

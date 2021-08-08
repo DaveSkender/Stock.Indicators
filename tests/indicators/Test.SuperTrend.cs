@@ -61,7 +61,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Bitcoin()
         {
-            IEnumerable<Quote> h = HistoryTestData.GetBitcoin();
+            IEnumerable<Quote> h = TestData.GetBitcoin();
             List<SuperTrendResult> results = Indicator.GetSuperTrend(h, 10, 3)
                 .ToList();
             Assert.AreEqual(1246, results.Count);
@@ -73,7 +73,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(historyBad, 7);
+            IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(badQuotes, 7);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -110,7 +110,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetSuperTrend(HistoryTestData.Get(129), 30));
+                Indicator.GetSuperTrend(TestData.GetDefault(129), 30));
         }
     }
 }

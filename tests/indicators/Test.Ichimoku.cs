@@ -65,7 +65,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<IchimokuResult> r = Indicator.GetIchimoku(historyBad, 8, 20, 35);
+            IEnumerable<IchimokuResult> r = Indicator.GetIchimoku(badQuotes, 8, 20, 35);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -86,7 +86,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetIchimoku(HistoryTestData.Get(51), 9, 26, 52));
+                Indicator.GetIchimoku(TestData.GetDefault(51), 9, 26, 52));
         }
     }
 }

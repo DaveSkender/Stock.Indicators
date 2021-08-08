@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<BetaResult> results = Indicator.GetBeta(quotes, historyOther, 20)
+            List<BetaResult> results = Indicator.GetBeta(quotes, otherQuotes, 20)
                 .ToList();
 
             // assertions
@@ -32,14 +32,14 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<BetaResult> r = Indicator.GetBeta(historyBad, historyBad, 15);
+            IEnumerable<BetaResult> r = Indicator.GetBeta(badQuotes, badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod]
         public void Removed()
         {
-            List<BetaResult> results = Indicator.GetBeta(quotes, historyOther, 20)
+            List<BetaResult> results = Indicator.GetBeta(quotes, otherQuotes, 20)
                 .RemoveWarmupPeriods()
                 .ToList();
 
@@ -74,16 +74,16 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetBeta(quotes, historyOther, 0));
+                Indicator.GetBeta(quotes, otherQuotes, 0));
 
             // insufficient quotes
-            IEnumerable<Quote> h1 = HistoryTestData.Get(29);
-            IEnumerable<Quote> h2 = HistoryTestData.GetCompare(29);
+            IEnumerable<Quote> h1 = TestData.GetDefault(29);
+            IEnumerable<Quote> h2 = TestData.GetCompare(29);
             Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetBeta(h1, h2, 30));
 
             // bad evaluation quotes
-            IEnumerable<Quote> eval = HistoryTestData.GetCompare(300);
+            IEnumerable<Quote> eval = TestData.GetCompare(300);
             Assert.ThrowsException<BadQuotesException>(() =>
                 Indicator.GetBeta(quotes, eval, 30));
         }

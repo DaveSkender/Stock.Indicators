@@ -54,7 +54,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AroonResult> r = Indicator.GetAroon(historyBad, 20);
+            IEnumerable<AroonResult> r = Indicator.GetAroon(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -83,7 +83,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetAroon(HistoryTestData.Get(29), 30));
+                Indicator.GetAroon(TestData.GetDefault(29), 30));
         }
     }
 }

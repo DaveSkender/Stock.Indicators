@@ -259,28 +259,28 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<MaEnvelopeResult> a = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.ALMA);
+            IEnumerable<MaEnvelopeResult> a = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.ALMA);
             Assert.AreEqual(502, a.Count());
 
-            IEnumerable<MaEnvelopeResult> d = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.DEMA);
+            IEnumerable<MaEnvelopeResult> d = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.DEMA);
             Assert.AreEqual(502, d.Count());
 
-            IEnumerable<MaEnvelopeResult> p = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.EPMA);
+            IEnumerable<MaEnvelopeResult> p = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.EPMA);
             Assert.AreEqual(502, p.Count());
 
-            IEnumerable<MaEnvelopeResult> e = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.EMA);
+            IEnumerable<MaEnvelopeResult> e = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.EMA);
             Assert.AreEqual(502, e.Count());
 
-            IEnumerable<MaEnvelopeResult> h = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.HMA);
+            IEnumerable<MaEnvelopeResult> h = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.HMA);
             Assert.AreEqual(502, h.Count());
 
-            IEnumerable<MaEnvelopeResult> s = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.SMA);
+            IEnumerable<MaEnvelopeResult> s = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.SMA);
             Assert.AreEqual(502, s.Count());
 
-            IEnumerable<MaEnvelopeResult> t = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.TEMA);
+            IEnumerable<MaEnvelopeResult> t = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.TEMA);
             Assert.AreEqual(502, t.Count());
 
-            IEnumerable<MaEnvelopeResult> w = Indicator.GetMaEnvelopes(historyBad, 5, 2.5, MaType.WMA);
+            IEnumerable<MaEnvelopeResult> w = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.WMA);
             Assert.AreEqual(502, w.Count());
         }
 

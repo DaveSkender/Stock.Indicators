@@ -50,7 +50,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<MacdResult> r = Indicator.GetMacd(historyBad, 10, 20, 5);
+            IEnumerable<MacdResult> r = Indicator.GetMacd(badQuotes, 10, 20, 5);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -92,11 +92,11 @@ namespace Internal.Tests
 
             // insufficient quotes 2×(S+P)
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetMacd(HistoryTestData.Get(409), 12, 200, 5));
+                Indicator.GetMacd(TestData.GetDefault(409), 12, 200, 5));
 
             // insufficient quotes S+P+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetMacd(HistoryTestData.Get(134), 12, 26, 9));
+                Indicator.GetMacd(TestData.GetDefault(134), 12, 26, 9));
         }
     }
 }

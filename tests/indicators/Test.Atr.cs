@@ -52,7 +52,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AtrResult> r = Indicator.GetAtr(historyBad, 20);
+            IEnumerable<AtrResult> r = Indicator.GetAtr(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -81,7 +81,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetAtr(HistoryTestData.Get(129), 30));
+                Indicator.GetAtr(TestData.GetDefault(129), 30));
         }
     }
 }

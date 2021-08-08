@@ -17,7 +17,7 @@ namespace Internal.Tests
             int smaPeriods = 10;
 
             List<PrsResult> results =
-                quotes.GetPrs(historyOther, lookbackPeriods, smaPeriods)
+                quotes.GetPrs(otherQuotes, lookbackPeriods, smaPeriods)
                 .ToList();
 
             // assertions
@@ -48,7 +48,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<PrsResult> r = Indicator.GetPrs(historyBad, historyBad, 15, 4);
+            IEnumerable<PrsResult> r = Indicator.GetPrs(badQuotes, badQuotes, 15, 4);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -57,24 +57,23 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPrs(quotes, historyOther, 0));
+                Indicator.GetPrs(quotes, otherQuotes, 0));
 
             // bad SMA period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetPrs(quotes, historyOther, 14, 0));
+                Indicator.GetPrs(quotes, otherQuotes, 14, 0));
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetPrs(quotes, HistoryTestData.GetCompare(13), 14));
+                Indicator.GetPrs(quotes, TestData.GetCompare(13), 14));
 
             // insufficient eval quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetPrs(quotes, HistoryTestData.GetCompare(300), 14));
+                Indicator.GetPrs(quotes, TestData.GetCompare(300), 14));
 
             // mismatch quotes
-            IEnumerable<Quote> historyMismatch = HistoryTestData.GetMismatchDates();
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetPrs(historyMismatch, historyOther, 14));
+                Indicator.GetPrs(mismatchQuotes, otherQuotes, 14));
         }
     }
 }

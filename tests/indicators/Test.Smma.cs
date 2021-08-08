@@ -37,7 +37,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SmmaResult> r = Indicator.GetSmma(historyBad, 15);
+            IEnumerable<SmmaResult> r = Indicator.GetSmma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -62,11 +62,11 @@ namespace Internal.Tests
 
             // insufficient quotes for N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetSmma(HistoryTestData.Get(129), 30));
+                Indicator.GetSmma(TestData.GetDefault(129), 30));
 
             // insufficient quotes for 2×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetSmma(HistoryTestData.Get(499), 250));
+                Indicator.GetSmma(TestData.GetDefault(499), 250));
         }
     }
 }

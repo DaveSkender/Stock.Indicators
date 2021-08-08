@@ -57,7 +57,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<HtlResult> r = Indicator.GetHtTrendline(historyBad);
+            IEnumerable<HtlResult> r = Indicator.GetHtTrendline(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -79,7 +79,7 @@ namespace Internal.Tests
         [TestMethod]
         public void PennyData()
         {
-            IEnumerable<Quote> penny = HistoryTestData.GetPenny();
+            IEnumerable<Quote> penny = TestData.GetPenny();
             IEnumerable<HtlResult> r = Indicator.GetHtTrendline(penny);
             Assert.AreEqual(533, r.Count());
         }
@@ -89,7 +89,7 @@ namespace Internal.Tests
         {
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetHtTrendline(HistoryTestData.Get(99)));
+                Indicator.GetHtTrendline(TestData.GetDefault(99)));
         }
     }
 }

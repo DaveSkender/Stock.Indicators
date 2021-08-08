@@ -18,7 +18,7 @@ namespace Tests.Performance
         [GlobalSetup]
         public void Setup()
         {
-            values = HistoryTestData.GetLong(Periods)
+            values = TestData.GetLongish(Periods)
                 .Select(x => (double)x.Close)
                 .ToArray();
         }
@@ -35,8 +35,8 @@ namespace Tests.Performance
     [MarkdownExporterAttribute.GitHub]
     public class MarkHistoryHelpers
     {
-        private static readonly IEnumerable<Quote> h = HistoryTestData.Get();
-        private static readonly IEnumerable<Quote> i = HistoryTestData.GetIntraday();
+        private static readonly IEnumerable<Quote> h = TestData.GetDefault();
+        private static readonly IEnumerable<Quote> i = TestData.GetIntraday();
 
         [Benchmark]
         public object Sort()

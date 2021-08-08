@@ -52,7 +52,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(historyBad);
+            IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -61,7 +61,7 @@ namespace Internal.Tests
         {
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetHeikinAshi(HistoryTestData.Get(1)));
+                Indicator.GetHeikinAshi(TestData.GetDefault(1)));
         }
     }
 }

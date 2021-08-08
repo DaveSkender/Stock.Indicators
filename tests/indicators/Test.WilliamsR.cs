@@ -35,7 +35,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(historyBad, 20);
+            IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -62,7 +62,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetWilliamsR(HistoryTestData.Get(29), 30));
+                Indicator.GetWilliamsR(TestData.GetDefault(29), 30));
         }
     }
 }

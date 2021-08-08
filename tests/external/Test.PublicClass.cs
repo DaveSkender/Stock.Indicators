@@ -47,7 +47,7 @@ namespace External.Other
         [TestMethod]
         public void ValidateHistory()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
             quotes.Validate();
 
             quotes.GetSma(6);
@@ -57,7 +57,7 @@ namespace External.Other
         [TestMethod]
         public void ReadQuoteClass()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
             IEnumerable<Quote> h = quotes.Validate();
 
             Quote f = h.FirstOrDefault();
@@ -80,7 +80,7 @@ namespace External.Other
         [TestMethod]
         public void DerivedQuoteClassLinq()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
             quotes = quotes.Validate();
 
             // can use a derive Quote class using Linq
@@ -99,7 +99,7 @@ namespace External.Other
         [TestMethod]
         public void CustomQuoteClass()
         {
-            List<MyGenericQuote> myGenericHistory = HistoryTestData.Get()
+            List<MyGenericQuote> myGenericHistory = TestData.GetDefault()
                 .Select(x => new MyGenericQuote
                 {
                     CloseDate = x.Date,
@@ -136,7 +136,7 @@ namespace External.Other
         [TestMethod]
         public void CustomQuoteAggregate()
         {
-            List<MyGenericQuote> myGenericHistory = HistoryTestData.GetIntraday()
+            List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
                 .Select(x => new MyGenericQuote
                 {
                     CloseDate = x.Date,
@@ -182,7 +182,7 @@ namespace External.Other
         [TestMethod]
         public void DerivedIndicatorClassLinq()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
             IEnumerable<EmaResult> emaResults = quotes.GetEma(14);
 
             // can use a derive Indicator class using Linq
@@ -202,7 +202,7 @@ namespace External.Other
         [TestMethod]
         public void DerivedIndicatorFind()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
             IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
 
             // can use a derive Indicator class using Linq

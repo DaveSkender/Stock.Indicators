@@ -52,7 +52,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(historyBad, 15, 3);
+            IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(badQuotes, 15, 3);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -89,7 +89,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetBollingerBands(HistoryTestData.Get(29), 30, 2));
+                Indicator.GetBollingerBands(TestData.GetDefault(29), 30, 2));
         }
     }
 }

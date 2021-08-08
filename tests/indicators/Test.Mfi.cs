@@ -57,7 +57,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<MfiResult> r = Indicator.GetMfi(historyBad, 15);
+            IEnumerable<MfiResult> r = Indicator.GetMfi(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -85,7 +85,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetMfi(HistoryTestData.Get(14), 14));
+                Indicator.GetMfi(TestData.GetDefault(14), 14));
         }
     }
 }

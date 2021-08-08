@@ -13,7 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Find()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
             IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
 
             // find specific date
