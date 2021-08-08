@@ -41,7 +41,7 @@
     <None Update="data\default.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\snp-long.csv">
+    <None Update="data\longest.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

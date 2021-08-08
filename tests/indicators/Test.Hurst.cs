@@ -13,8 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void StandardLong()
         {
-            List<HurstResult> results = longQuotes
-                .GetHurst(longQuotes.Count() - 1)
+            List<HurstResult> results = longestQuotes
+                .GetHurst(longestQuotes.Count() - 1)
                 .ToList();
 
             // assertions
@@ -38,7 +38,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Removed()
         {
-            List<HurstResult> results = longQuotes.GetHurst(longQuotes.Count() - 1)
+            List<HurstResult> results = longestQuotes.GetHurst(longestQuotes.Count() - 1)
                 .RemoveWarmupPeriods()
                 .ToList();
 

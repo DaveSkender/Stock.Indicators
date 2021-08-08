@@ -66,6 +66,7 @@ namespace Internal.Tests
         }
     }
 
+
     // IMPORT TEST DATA
     internal class TestData
     {
@@ -91,9 +92,9 @@ namespace Internal.Tests
         }
 
         // S&P 500 ~62 years of daily data
-        internal static IEnumerable<Quote> GetSnP()
+        internal static IEnumerable<Quote> GetLongest()
         {
-            return File.ReadAllLines("data/snp-long.csv")
+            return File.ReadAllLines("data/longest.csv")
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v));
         }
