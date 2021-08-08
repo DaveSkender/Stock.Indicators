@@ -44,7 +44,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(historyBad);
+            IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -84,7 +84,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetParabolicSar(HistoryTestData.Get(1), 0.02m, 0.2m));
+                Indicator.GetParabolicSar(TestData.GetDefault(1), 0.02m, 0.2m));
         }
     }
 }

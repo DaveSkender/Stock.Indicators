@@ -41,7 +41,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<CmfResult> r = Indicator.GetCmf(historyBad, 15);
+            IEnumerable<CmfResult> r = Indicator.GetCmf(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -70,7 +70,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetCmf(HistoryTestData.Get(20), 20));
+                Indicator.GetCmf(TestData.GetDefault(20), 20));
         }
     }
 }

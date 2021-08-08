@@ -36,7 +36,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<EmaResult> r = Indicator.GetEma(historyBad, 15);
+            IEnumerable<EmaResult> r = Indicator.GetEma(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -63,11 +63,11 @@ namespace Internal.Tests
 
             // insufficient quotes for N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetEma(HistoryTestData.Get(129), 30));
+                Indicator.GetEma(TestData.GetDefault(129), 30));
 
             // insufficient quotes for 2×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetEma(HistoryTestData.Get(499), 250));
+                Indicator.GetEma(TestData.GetDefault(499), 250));
         }
     }
 }

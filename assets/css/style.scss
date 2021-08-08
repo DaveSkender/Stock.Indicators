@@ -76,3 +76,25 @@ h5 {
         vertical-align: top;
     }
 }
+
+// contributors display
+
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.list-style-none {
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+
+  li {
+    &::before {
+      display: none !important;
+    }
+  }
+}
+
+.circle {
+    border-radius: 50%;
+}

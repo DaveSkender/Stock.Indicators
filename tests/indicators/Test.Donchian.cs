@@ -61,7 +61,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<DonchianResult> r = Indicator.GetDonchian(historyBad, 15);
+            IEnumerable<DonchianResult> r = Indicator.GetDonchian(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -91,7 +91,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetDonchian(HistoryTestData.Get(30), 30));
+                Indicator.GetDonchian(TestData.GetDefault(30), 30));
         }
     }
 }

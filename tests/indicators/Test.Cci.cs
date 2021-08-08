@@ -31,7 +31,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<CciResult> r = Indicator.GetCci(historyBad, 15);
+            IEnumerable<CciResult> r = Indicator.GetCci(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -58,7 +58,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetCci(HistoryTestData.Get(30), 30));
+                Indicator.GetCci(TestData.GetDefault(30), 30));
         }
     }
 }

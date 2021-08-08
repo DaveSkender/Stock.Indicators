@@ -35,7 +35,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(historyBad, 2);
+            IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(badQuotes, 2);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -62,11 +62,11 @@ namespace Internal.Tests
 
             // insufficient quotes for N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetForceIndex(HistoryTestData.Get(129), 30));
+                Indicator.GetForceIndex(TestData.GetDefault(129), 30));
 
             // insufficient quotes for 2×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetForceIndex(HistoryTestData.Get(499), 250));
+                Indicator.GetForceIndex(TestData.GetDefault(499), 250));
         }
     }
 }

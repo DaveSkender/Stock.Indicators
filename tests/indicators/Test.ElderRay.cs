@@ -59,7 +59,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ElderRayResult> r = Indicator.GetElderRay(historyBad);
+            IEnumerable<ElderRayResult> r = Indicator.GetElderRay(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -88,11 +88,11 @@ namespace Internal.Tests
 
             // insufficient quotes for N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetElderRay(HistoryTestData.Get(129), 30));
+                Indicator.GetElderRay(TestData.GetDefault(129), 30));
 
             // insufficient quotes for 2×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetElderRay(HistoryTestData.Get(499), 250));
+                Indicator.GetElderRay(TestData.GetDefault(499), 250));
         }
     }
 }

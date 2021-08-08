@@ -93,7 +93,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<FractalResult> r = Indicator.GetFractal(historyBad);
+            IEnumerable<FractalResult> r = Indicator.GetFractal(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -106,7 +106,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetFractal(HistoryTestData.Get(10), 5));
+                Indicator.GetFractal(TestData.GetDefault(10), 5));
         }
     }
 }

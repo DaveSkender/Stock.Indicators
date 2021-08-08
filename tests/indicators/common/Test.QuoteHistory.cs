@@ -13,7 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Validate()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetDefault();
 
             // clean
             List<Quote> h = quotes.Validate().ToList();
@@ -35,9 +35,7 @@ namespace Internal.Tests
         [TestMethod]
         public void ValidateLong()
         {
-            IEnumerable<Quote> historyLong = HistoryTestData.GetLong();
-
-            List<Quote> h = historyLong.Validate().ToList();
+            List<Quote> h = longishQuotes.Validate().ToList();
 
             // assertions
 
@@ -54,7 +52,7 @@ namespace Internal.Tests
         {
             // if quotes post-cleaning, is cut down in size it should not corrupt the results
 
-            IEnumerable<Quote> quotes = HistoryTestData.Get(200);
+            IEnumerable<Quote> quotes = TestData.GetDefault(200);
             List<Quote> h = quotes.Validate().ToList();
 
             // assertions
@@ -92,7 +90,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Sort()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.Get();
+            IEnumerable<Quote> quotes = TestData.GetMismatch();
 
             // clean
             List<Quote> h = quotes.Sort();
@@ -102,19 +100,23 @@ namespace Internal.Tests
             // should always be the same number of results as there is quotes
             Assert.AreEqual(502, h.Count);
 
+            // check first date
+            DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(firstDate, h[0].Date);
+
             // check last date
             DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
-            Assert.AreEqual(lastDate, h[501].Date);
+            Assert.AreEqual(lastDate, h.LastOrDefault().Date);
 
             // spot check an out of sequence date
-            DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
-            Assert.AreEqual(spotDate, h[20].Date);
+            DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);
+            Assert.AreEqual(spotDate, h[50].Date);
         }
 
         [TestMethod]
         public void Aggregate()
         {
-            IEnumerable<Quote> quotes = HistoryTestData.GetIntraday();
+            IEnumerable<Quote> quotes = TestData.GetIntraday();
 
             // aggregate
             List<Quote> results = quotes.Aggregate(PeriodSize.FifteenMinutes)

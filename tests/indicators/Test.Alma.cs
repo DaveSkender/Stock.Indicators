@@ -50,7 +50,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AlmaResult> r = Indicator.GetAlma(historyBad, 14, 0.5, 3);
+            IEnumerable<AlmaResult> r = Indicator.GetAlma(badQuotes, 14, 0.5, 3);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -86,7 +86,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetAlma(HistoryTestData.Get(10), 11, 0.5));
+                Indicator.GetAlma(TestData.GetDefault(10), 11, 0.5));
         }
     }
 }

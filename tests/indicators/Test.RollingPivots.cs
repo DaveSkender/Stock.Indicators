@@ -92,7 +92,7 @@ namespace Internal.Tests
             int offsetPeriods = 0;
             PivotPointType pointType = PivotPointType.Camarilla;
 
-            IEnumerable<Quote> h = HistoryTestData.Get(38);
+            IEnumerable<Quote> h = TestData.GetDefault(38);
             List<RollingPivotsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
@@ -254,7 +254,7 @@ namespace Internal.Tests
             int offsetPeriods = 15;
             PivotPointType pointType = PivotPointType.Fibonacci;
 
-            IEnumerable<Quote> h = HistoryTestData.GetIntraday(300);
+            IEnumerable<Quote> h = TestData.GetIntraday(300);
             List<RollingPivotsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
@@ -331,7 +331,7 @@ namespace Internal.Tests
             int offsetPeriods = 16;
             PivotPointType pointType = PivotPointType.Woodie;
 
-            IEnumerable<Quote> h = HistoryTestData.GetIntraday(1564);
+            IEnumerable<Quote> h = TestData.GetIntraday(1564);
             List<RollingPivotsResult> results =
                 Indicator.GetRollingPivots(h, windowPeriods, offsetPeriods, pointType)
                 .ToList();
@@ -395,7 +395,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RollingPivotsResult> r = Indicator.GetRollingPivots(historyBad, 5, 5);
+            IEnumerable<RollingPivotsResult> r = Indicator.GetRollingPivots(badQuotes, 5, 5);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -439,7 +439,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetRollingPivots(HistoryTestData.Get(19), 10, 10));
+                Indicator.GetRollingPivots(TestData.GetDefault(19), 10, 10));
         }
     }
 }

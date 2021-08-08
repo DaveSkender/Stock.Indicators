@@ -59,7 +59,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<KvoResult> r = Indicator.GetKvo(historyBad);
+            IEnumerable<KvoResult> r = Indicator.GetKvo(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -96,7 +96,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetKvo(HistoryTestData.Get(154), 33, 55));
+                Indicator.GetKvo(TestData.GetDefault(154), 33, 55));
         }
     }
 }

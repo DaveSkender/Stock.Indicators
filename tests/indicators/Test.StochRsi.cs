@@ -87,7 +87,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(historyBad, 15, 20, 3, 2);
+            IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(badQuotes, 15, 20, 3, 2);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -134,7 +134,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetStochRsi(HistoryTestData.Get(129), 30, 30, 5, 5));
+                Indicator.GetStochRsi(TestData.GetDefault(129), 30, 30, 5, 5));
         }
     }
 }

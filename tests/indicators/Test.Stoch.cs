@@ -118,7 +118,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StochResult> r = Indicator.GetStoch(historyBad, 15);
+            IEnumerable<StochResult> r = Indicator.GetStoch(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -160,7 +160,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetStoch(HistoryTestData.Get(32), 30, 3, 3));
+                Indicator.GetStoch(TestData.GetDefault(32), 30, 3, 3));
         }
     }
 }

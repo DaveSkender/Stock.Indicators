@@ -44,15 +44,15 @@ See the [guide](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html) 
 
 The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 
-## Contributing
-
-This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
-
 ## License
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
+
+## :phone: Contact us
+
+[Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 ## :heart: Patronage
 
@@ -61,6 +61,16 @@ If you want to buy me a beer or are interest in ongoing support as a patron, [be
 Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 Thank you for your support!
 
-## :phone: Contact us
+## :octocat: Contributing
 
-[Start a new feature discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+
+Special thanks to all of our community code contributors!
+
+<ul class="list-style-none">
+{% for contributor in site.github.contributors %}
+  <li class="d-inline-block">
+     <a href="{{ contributor.html_url }}"><img src="{{ contributor.avatar_url }}" width="75" height="75" class="circle" alt="{{ contributor.login }}" /></a>
+  </li>
+{% endfor %}
+</ul>

@@ -45,7 +45,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<TrixResult> r = Indicator.GetTrix(historyBad, 15, 2);
+            IEnumerable<TrixResult> r = Indicator.GetTrix(badQuotes, 15, 2);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -74,11 +74,11 @@ namespace Internal.Tests
 
             // insufficient quotes for 3*N+100
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetTrix(HistoryTestData.Get(189), 30));
+                Indicator.GetTrix(TestData.GetDefault(189), 30));
 
             // insufficient quotes for 4×N
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetTrix(HistoryTestData.GetLong(999), 250));
+                Indicator.GetTrix(TestData.GetLongish(999), 250));
         }
     }
 }

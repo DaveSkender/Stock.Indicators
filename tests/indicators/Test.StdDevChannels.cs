@@ -113,7 +113,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(historyBad);
+            IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -150,7 +150,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetStdDevChannels(HistoryTestData.Get(19), 20, 2));
+                Indicator.GetStdDevChannels(TestData.GetDefault(19), 20, 2));
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AlligatorResult> r = Indicator.GetAlligator(historyBad);
+            IEnumerable<AlligatorResult> r = Indicator.GetAlligator(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -76,7 +76,7 @@ namespace Internal.Tests
         {
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetAlligator(HistoryTestData.Get(114)));
+                Indicator.GetAlligator(TestData.GetDefault(114)));
         }
     }
 }

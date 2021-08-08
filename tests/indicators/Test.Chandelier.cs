@@ -45,7 +45,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ChandelierResult> r = Indicator.GetChandelier(historyBad, 15, 2m);
+            IEnumerable<ChandelierResult> r = Indicator.GetChandelier(badQuotes, 15, 2m);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -77,7 +77,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetChandelier(HistoryTestData.Get(30), 30));
+                Indicator.GetChandelier(TestData.GetDefault(30), 30));
         }
     }
 }

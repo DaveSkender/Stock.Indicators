@@ -125,17 +125,17 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(historyBad, EndType.Close);
+            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(badQuotes, EndType.Close);
             Assert.AreEqual(502, r1.Count());
 
-            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(historyBad, EndType.HighLow);
+            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(badQuotes, EndType.HighLow);
             Assert.AreEqual(502, r2.Count());
         }
 
         [TestMethod]
         public void SchrodingerScenario()
         {
-            IEnumerable<Quote> h = HistoryTestData.GetCustomZigZag();
+            IEnumerable<Quote> h = TestData.GetZigZag();
 
             IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(h, EndType.Close, 0.25m);
             Assert.AreEqual(342, r1.Count());
@@ -155,7 +155,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetZigZag(HistoryTestData.Get(1)));
+                Indicator.GetZigZag(TestData.GetDefault(1)));
         }
     }
 }

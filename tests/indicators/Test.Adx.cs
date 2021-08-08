@@ -48,7 +48,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AdxResult> r = Indicator.GetAdx(historyBad, 20);
+            IEnumerable<AdxResult> r = Indicator.GetAdx(badQuotes, 20);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -76,7 +76,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetAdx(HistoryTestData.Get(159), 30));
+                Indicator.GetAdx(TestData.GetDefault(159), 30));
         }
     }
 }

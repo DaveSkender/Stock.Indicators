@@ -61,7 +61,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<KamaResult> r = Indicator.GetKama(historyBad);
+            IEnumerable<KamaResult> r = Indicator.GetKama(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -101,7 +101,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetKama(HistoryTestData.Get(109), 10, 2, 20));
+                Indicator.GetKama(TestData.GetDefault(109), 10, 2, 20));
         }
     }
 }

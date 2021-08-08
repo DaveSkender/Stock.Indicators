@@ -60,7 +60,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(historyBad, 9);
+            IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(badQuotes, 9);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -73,7 +73,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetFisherTransform(HistoryTestData.Get(9), 10));
+                Indicator.GetFisherTransform(TestData.GetDefault(9), 10));
         }
     }
 }

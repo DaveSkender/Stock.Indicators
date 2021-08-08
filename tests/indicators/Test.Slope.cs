@@ -50,7 +50,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SlopeResult> r = Indicator.GetSlope(historyBad, 15);
+            IEnumerable<SlopeResult> r = Indicator.GetSlope(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -81,7 +81,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetSlope(HistoryTestData.Get(29), 30));
+                Indicator.GetSlope(TestData.GetDefault(29), 30));
         }
     }
 }

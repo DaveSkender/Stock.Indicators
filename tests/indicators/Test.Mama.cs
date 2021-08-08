@@ -59,7 +59,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<MamaResult> r = Indicator.GetMama(historyBad);
+            IEnumerable<MamaResult> r = Indicator.GetMama(badQuotes);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -98,7 +98,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetMama(HistoryTestData.Get(49)));
+                Indicator.GetMama(TestData.GetDefault(49)));
         }
     }
 }

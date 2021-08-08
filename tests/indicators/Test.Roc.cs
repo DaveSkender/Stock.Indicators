@@ -63,7 +63,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<RocResult> r = Indicator.GetRoc(historyBad, 35, 2);
+            IEnumerable<RocResult> r = Indicator.GetRoc(badQuotes, 35, 2);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -95,7 +95,7 @@ namespace Internal.Tests
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetRoc(HistoryTestData.Get(10), 10));
+                Indicator.GetRoc(TestData.GetDefault(10), 10));
         }
     }
 }
