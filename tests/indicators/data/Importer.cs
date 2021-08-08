@@ -91,6 +91,16 @@ namespace Internal.Tests
                 .Take(days);
         }
 
+        // BITCOIN DATA
+        internal static IEnumerable<Quote> GetBitcoin(int days = 1246)
+        {
+            return File.ReadAllLines("data/bitcoin.csv")
+                .Skip(1)
+                .Select(v => Importer.FromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days);
+        }
+
         // S&P 500 ~62 years of daily data
         internal static IEnumerable<Quote> GetLongest()
         {

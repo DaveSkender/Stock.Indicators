@@ -61,7 +61,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Bitcoin()
         {
-            IEnumerable<Quote> h = HistoryTestData.GetBitcoin();
+            IEnumerable<Quote> h = TestData.GetBitcoin();
             List<SuperTrendResult> results = Indicator.GetSuperTrend(h, 10, 3)
                 .ToList();
             Assert.AreEqual(1246, results.Count);
