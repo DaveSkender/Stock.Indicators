@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Marubozu is a candlestick pattern that has no wicks, representing strong directional movement.
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Marubozu/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="minBodyPercent">Optional.  Minimum candle body size as decimalized percentage.</param>
+  <returns>Time series of Marubozu values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+</indicator>

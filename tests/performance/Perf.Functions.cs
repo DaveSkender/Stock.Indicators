@@ -61,5 +61,11 @@ namespace Tests.Performance
         {
             return h.ConvertToBasic();
         }
+
+        [Benchmark]
+        public object ConvertToCandles()
+        {
+            return h.ConvertToCandles();
+        }
     }
 }
