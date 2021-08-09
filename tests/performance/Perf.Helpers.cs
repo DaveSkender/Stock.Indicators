@@ -69,6 +69,5 @@ namespace Tests.Performance
         {
             return obv.ConvertToQuotes();
         }
-
     }
 }
