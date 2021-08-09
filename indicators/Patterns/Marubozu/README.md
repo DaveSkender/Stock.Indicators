@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<MarubozuResult> results = quotes.GetMarubozu();
-
-// use results as needed
-MarubozuResult result = results.LastOrDefault();
-Console.WriteLine("Marubozu on {0} was ${1}", result.Date, result.Marubozu);
-```
-
-```bash
-Marubozu on 12/31/2018 was $205.34
 ```
