@@ -67,13 +67,6 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
-If you do not prefer using the quotes extension syntax, a full method syntax can also be used.
-
-```csharp
-// alternate full syntax example
-IEnumerable<SmaResult> results = Indicator.GetSma(quotes,20);
-```
-
 See [individual indicator pages](INDICATORS.md) for specific usage guidance.
 
 ## Historical quotes
