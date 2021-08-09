@@ -6,8 +6,8 @@ namespace Skender.Stock.Indicators
 {
     public static class Candlesticks
     {
-        // sort into candles
-        internal static ReadOnlyCollection<Candle> SortCandles<TQuote>(
+        // convert/sort quotes into candles
+        internal static ReadOnlyCollection<Candle> ConvertToCandles<TQuote>(
             this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
