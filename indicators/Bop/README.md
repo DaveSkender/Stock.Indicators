@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 14-period BOP
 IEnumerable<BopResult> results = quotes.GetBop(14);
-
-// use results as needed
-BopResult result = results.LastOrDefault();
-Console.WriteLine("BOP on {0} was {1}", result.Date, result.Bop);
-```
-
-```bash
-BOP on 12/31/2018 was 0.29
 ```

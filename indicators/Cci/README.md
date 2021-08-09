@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CCI
 IEnumerable<CciResult> results = quotes.GetCci(20);
-
-// use results as needed
-CciResult result = results.LastOrDefault();
-Console.WriteLine("CCI on {0} was {1}", result.Date, result.Cci);
-```
-
-```bash
-CCI on 12/31/2018 was -52.99
 ```

@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate WilliamsR(14)
 IEnumerable<WilliamsResult> results = quotes.GetWilliamsR(14);
-
-// use results as needed
-WilliamsResult result = results.LastOrDefault();
-Console.WriteLine("Williams %R on {0} was {1}", result.Date, result.WilliamsR);
-```
-
-```bash
-Williams %R on 12/31/2018 was -52.0
 ```

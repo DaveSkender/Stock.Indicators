@@ -62,15 +62,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 10-period FisherTransform
-IEnumerable<FisherTransformResult> results =
-  quotes.GetFisherTransform(10);
-
-// use results as needed
-FisherTransformResult result = results.LastOrDefault();
-Console.WriteLine("Fisher Transform on {0} was {1}",
-                  result.Date, result.Fisher);
-```
-
-```bash
-Fisher Transform on 12/31/2018 was -1.29
+IEnumerable<FisherTransformResult> results
+  = quotes.GetFisherTransform(10);
 ```

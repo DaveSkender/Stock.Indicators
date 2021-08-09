@@ -53,14 +53,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate the Gator Oscillator
 IEnumerable<GatorResult> results = quotes.GetGator();
-
-// use results as needed
-GatorResult result = results.LastOrDefault();
-Console.WriteLine("Upper on {0} was {1}", result.Date, result.Upper);
-Console.WriteLine("Lower on {0} was {1}", result.Date, result.Lower);
-```
-
-```bash
-Upper on 12/31/2018 was 7.45
-Lower on 12/31/2018 was -9.24
 ```

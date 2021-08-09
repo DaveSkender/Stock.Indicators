@@ -62,12 +62,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Chaikin Oscillator
 IEnumerable<ChaikinOscResult> results = quotes.GetChaikinOsc(20);
-
-// use results as needed
-ChaikinOscResult result = results.LastOrDefault();
-Console.WriteLine("Chaikin Oscillator on {0} was {1}", result.Date, result.ChaikinOsc);
-```
-
-```bash
-Chaikin Oscillator on 12/31/2018 was -19135200
 ```

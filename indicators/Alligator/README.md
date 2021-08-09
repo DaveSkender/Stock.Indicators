@@ -62,16 +62,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate the Williams Alligator
 IEnumerable<AlligatorResult> results = quotes.GetAlligator();
-
-// use results as needed
-AlligatorResult result = results.LastOrDefault();
-Console.WriteLine("Jaw on {0} was ${1}", result.Date, result.Jaw);
-Console.WriteLine("Teeth on {0} was ${1}", result.Date, result.Teeth);
-Console.WriteLine("Lips on {0} was ${1}", result.Date, result.Lips);
-```
-
-```bash
-Jaw on 12/31/2018 was $260.61
-Teeth on 12/31/2018 was $252.27
-Lips on 12/31/2018 was $243.89
 ```

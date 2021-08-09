@@ -52,12 +52,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate
 IEnumerable<HeikinAshiResult> results = quotes.GetHeikinAshi();
-
-// use results as needed
-HeikinAshiResult result = results.LastOrDefault();
-Console.WriteLine("Heikin-Ashi open price on {0} was ${1}", result.Date, result.Open);
-```
-
-```bash
-Heikin-Ashi open price on 12/31/2018 was $241.3
 ```

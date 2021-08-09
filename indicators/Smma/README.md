@@ -56,12 +56,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMMA
 IEnumerable<SmmaResult> results = quotes.GetSmma(20);
-
-// use results as needed
-SmmaResult result = results.LastOrDefault();
-Console.WriteLine("SMMA on {0} was ${1}", result.Date, result.Smma);
-```
-
-```bash
-SMMA on 12/31/2018 was $255.67
 ```

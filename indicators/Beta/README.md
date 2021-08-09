@@ -56,13 +56,4 @@ IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 // calculate 20-period Beta coefficient
 IEnumerable<BetaResult> results =
   Indicator.GetBeta(historySPX,historyTSLA,20);
-
-// use results as needed
-BetaResult result = results.LastOrDefault();
-Console.WriteLine("Beta(SPX,TSLA,20) on {0} was {1}",
-  result.Date, result.Beta);
-```
-
-```bash
-Beta(SPX,TSLA,20) on 12/31/2018 was 1.676
 ```

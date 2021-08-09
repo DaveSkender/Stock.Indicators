@@ -60,12 +60,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Pvo(12,26,9)
 IEnumerable<PvoResult> results = quotes.GetPvo(12,26,9);
-
-// use results as needed
-PvoResult result = results.LastOrDefault();
-Console.WriteLine("PVO on {0} was {1}", result.Date, result.Pvo);
-```
-
-```bash
-PVO on 12/31/2018 was -6.22
 ```

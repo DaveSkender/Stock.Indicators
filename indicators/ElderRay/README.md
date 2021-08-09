@@ -60,13 +60,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate ElderRay(13)
 IEnumerable<ElderRayResult> results
   = quotes.GetElderRay(13);
-
-// use results as needed
-ElderRayResult r = results.LastOrDefault();
-Console.WriteLine("Elder-ray(13) Bull Power on {0} was {1}",
-  r.Date, r.BullPower);
-```
-
-```bash
-Elder-ray(13) Bull Power on 12/31/2018 was -0.47
 ```

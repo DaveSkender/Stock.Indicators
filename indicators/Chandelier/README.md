@@ -64,13 +64,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate Chandelier(22,3,LONG)
 IEnumerable<ChandelierResult> results =
   quotes.GetChandelier(22,3,ChandelierType.Long);
-
-// use results as needed
-ChandelierResult result = results.LastOrDefault();
-Console.WriteLine("ChandelierExit(22,3) on {0} was ${1}",
-  result.Date, result.ChandelierExit);
-```
-
-```bash
-ChandelierExit(22,3) on 12/31/2018 was $255.09
 ```

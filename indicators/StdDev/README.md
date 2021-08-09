@@ -62,12 +62,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPX");
 
 // calculate 10-period Standard Deviation
 IEnumerable<StdDevResult> results = quotes.GetStdDev(10);
-
-// use results as needed
-StdDevResult result = results.LastOrDefault();
-Console.WriteLine("StdDev(SPX,10) on {0} was ${1}", result.Date, result.StdDev);
-```
-
-```bash
-StdDev(SPX,10) on 12/31/2018 was $5.47
 ```

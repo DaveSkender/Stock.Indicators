@@ -57,12 +57,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 5-period T3
 IEnumerable<T3Result> results = quotes.GetT3(5,0.7);
-
-// use results as needed
-T3Result result = results.LastOrDefault();
-Console.WriteLine("T3 on {0} was {1}", result.Date, result.T3);
-```
-
-```bash
-T3 on 12/31/2018 was $238.93
 ```

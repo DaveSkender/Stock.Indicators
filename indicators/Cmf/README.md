@@ -58,12 +58,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CMF
 IEnumerable<CmfResult> results = quotes.GetCmf(20);
-
-// use results as needed
-CmfResult result = results.LastOrDefault();
-Console.WriteLine("CMF on {0} was {1}", result.Date, result.Cmf);
-```
-
-```bash
-CMF on 12/31/2018 was -20257894
 ```
