@@ -55,12 +55,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA of Volume
 IEnumerable<VolSmaResult> results = quotes.GetVolSma(20);
-
-// use results as needed
-VolSmaResult result = results.LastOrDefault();
-Console.WriteLine("Average Volume on {0} was {1}", result.Date, result.VolSma);
-```
-
-```bash
-Average Volume on 12/31/2018 was 163695200
 ```

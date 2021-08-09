@@ -63,12 +63,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Trix
 IEnumerable<TrixResult> results = quotes.GetTrix(14);
-
-// use results as needed
-TrixResult result = results.LastOrDefault();
-Console.WriteLine("Trix on {0} was {1}", result.Date, result.Trix);
-```
-
-```bash
-Trix on 12/31/2018 was -0.02045
 ```

@@ -53,12 +53,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate CHOP(14)
 IEnumerable<ChopResult> results = quotes.GetChop(14);
-
-// use results as needed
-ChopResult result = results.LastOrDefault();
-Console.WriteLine("CHOP(14) on {0} was {1}", result.Date, result.Chop);
-```
-
-```bash
-CHOP(14) on 12/31/2018 was 38.65 
 ```

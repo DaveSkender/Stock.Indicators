@@ -58,12 +58,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate Mama(0.5,0.05)
 IEnumerable<MamaResult> results = quotes.GetMama(0.5,0.05);
-
-// use results as needed
-MamaResult result = results.LastOrDefault();
-Console.WriteLine("MAMA on {0} was ${1}", result.Date, result.Mama);
-```
-
-```bash
-MAMA on 12/31/2018 was $251.86
 ```

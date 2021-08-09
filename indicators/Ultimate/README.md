@@ -56,12 +56,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period Ultimate
 IEnumerable<UltimateResult> results = quotes.GetUltimate(7,14,28);
-
-// use results as needed
-UltimateResult result = results.LastOrDefault();
-Console.WriteLine("ULT on {0} was {1}", result.Date, result.Ultimate);
-```
-
-```bash
-ULT on 12/31/2018 was 49.53
 ```

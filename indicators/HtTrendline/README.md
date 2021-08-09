@@ -51,12 +51,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate HT Trendline
 IEnumerable<HtlResult> results = quotes.GetHtTrendline();
-
-// use results as needed
-HtlResult result = results.LastOrDefault();
-Console.WriteLine("HTL on {0} was ${1}", result.Date, result.Trendline);
-```
-
-```bash
-HTL on 12/31/2018 was $242.34
 ```

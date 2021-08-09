@@ -58,12 +58,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<VwapResult> results = quotes.GetVwap();
-
-// use results as needed
-VwapResult result = results.LastOrDefault();
-Console.WriteLine("VWAP on {0} was ${1}", result.Date, result.Vwap);
-```
-
-```bash
-VWAP on 12/15/2020 16:00:00 was $368.18
 ```

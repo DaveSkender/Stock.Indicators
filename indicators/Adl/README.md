@@ -63,12 +63,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<AdlResult> results = quotes.GetAdl();
-
-// use results as needed
-AdlResult result = results.LastOrDefault();
-Console.WriteLine("ADL on {0} was {1}", result.Date, result.Adl);
-```
-
-```bash
-ADL on 12/31/2018 was 3439986548
 ```

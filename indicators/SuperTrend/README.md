@@ -64,13 +64,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate SuperTrend(14,3)
 IEnumerable<SuperTrendResult> results
   = quotes.GetSuperTrend(14,3);
-
-// use results as needed
-SuperTrendResult r = results.LastOrDefault();
-Console.WriteLine("SuperTrend(14,3) on {0} was ${1}",
-  r.Date, r.SuperTrend);
-```
-
-```bash
-SuperTrend(14,3) on 12/31/2018 was $250.80
 ```

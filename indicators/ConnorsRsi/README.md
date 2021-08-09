@@ -60,13 +60,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ConnorsRsi(3,2.100)
-IEnumerable<ConnorsRsiResult> results = quotes.GetConnorsRsi(3,2,100);
-
-// use results as needed
-ConnorsRsiResult result = results.LastOrDefault();
-Console.WriteLine("ConnorsRSI on {0} was {1}", result.Date, result.ConnorsRsi);
-```
-
-```bash
-ConnorsRSI on 12/31/2018 was 74.77
+IEnumerable<ConnorsRsiResult> results
+  = quotes.GetConnorsRsi(3,2,100);
 ```

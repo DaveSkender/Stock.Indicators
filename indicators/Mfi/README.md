@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<MfiResult> results = quotes.GetMfi(14);
-
-// use results as needed
-MfiResult result = results.LastOrDefault();
-Console.WriteLine("MFI on {0} was {1}", result.Date, result.Mfi);
-```
-
-```bash
-MFI on 12/31/2018 was 39.95
 ```

@@ -55,12 +55,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate RSI(14)
 IEnumerable<RsiResult> results = quotes.GetRsi(14);
-
-// use results as needed
-RsiResult result = results.LastOrDefault();
-Console.WriteLine("RSI on {0} was {1}", result.Date, result.Rsi);
-```
-
-```bash
-RSI on 12/31/2018 was 42.08
 ```

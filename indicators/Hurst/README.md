@@ -55,12 +55,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Hurst
 IEnumerable<HurstResult> results = quotes.GetHurst(20);
-
-// use results as needed
-HurstResult result = results.LastOrDefault();
-Console.WriteLine("Hurst Exponent on {0} was {1}", result.Date, result.Hurst);
-```
-
-```bash
-Hurst Exponent on 12/31/2018 was 0.5543
 ```

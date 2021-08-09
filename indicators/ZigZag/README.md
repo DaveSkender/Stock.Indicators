@@ -65,14 +65,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 3% change ZIGZAG
-IEnumerable<ZigZagResult> results =
-  quotes.GetZigZag(EndType.Close,3);
-
-// use results as needed
-ZigZagResult result = results.LastOrDefault();
-Console.WriteLine("ZIGZAG on {0} was ${1}", result.Date, result.ZigZag);
-```
-
-```bash
-ZIGZAG on 02/18/2018 was $248.13
+IEnumerable<ZigZagResult> results
+  = quotes.GetZigZag(EndType.Close,3);
 ```

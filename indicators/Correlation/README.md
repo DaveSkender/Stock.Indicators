@@ -59,13 +59,6 @@ IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 
 // calculate 20-period Correlation
-IEnumerable<CorrResult> results = historySPX.GetCorr(historyTSLA,20);
-
-// use results as needed
-CorrResult result = results.LastOrDefault();
-Console.WriteLine("CORR(SPX,TSLA,20) on {0} was {1}", result.Date, result.Corr);
-```
-
-```bash
-CORR(SPX,TSLA,20) on 12/31/2018 was 0.85
+IEnumerable<CorrResult> results 
+  = historySPX.GetCorr(historyTSLA,20);
 ```

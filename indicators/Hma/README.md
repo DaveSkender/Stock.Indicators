@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period HMA
 IEnumerable<HmaResult> results = quotes.GetHma(20);
-
-// use results as needed
-HmaResult result = results.LastOrDefault();
-Console.WriteLine("HMA on {0} was ${1}", result.Date, result.Hma);
-```
-
-```bash
-HMA on 12/31/2018 was $235.70
 ```

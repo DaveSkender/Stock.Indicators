@@ -73,14 +73,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style 14 period Rolling Pivot Points
-IEnumerable<RollingPivotsResult> results = 
-  quotes.GetRollingPivots(14,0,PivotPointType.Woodie);
-
-// use results as needed
-RollingPivotsResult result = results.LastOrDefault();
-Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
-```
-
-```bash
-PP on 12/31/2018 was $251.86
+IEnumerable<RollingPivotsResult> results
+  = quotes.GetRollingPivots(14,0,PivotPointType.Woodie);
 ```

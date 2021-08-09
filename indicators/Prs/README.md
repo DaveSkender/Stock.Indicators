@@ -62,12 +62,4 @@ IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 
 // calculate 14-period PRS
 IEnumerable<PrResult> results = historySPX.GetPrs(historyTSLA,14);
-
-// use results as needed
-PrResult result = results.LastOrDefault();
-Console.WriteLine("PRS(SPX,TSLA,14) on {0} was {1}", result.Date, result.PriceRatio);
-```
-
-```bash
-PRS(SPX,TSLA,14) on 12/31/2018 was 1.36
 ```

@@ -59,12 +59,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period TSI
 IEnumerable<TsiResult> results = quotes.GetTsi(25,13,7);
-
-// use results as needed
-TsiResult result = results.LastOrDefault();
-Console.WriteLine("TSI on {0} was {1}", result.Date, result.Tsi);
-```
-
-```bash
-TSI on 12/31/2018 was -28.35
 ```

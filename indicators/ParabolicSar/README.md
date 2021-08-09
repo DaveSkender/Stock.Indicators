@@ -55,13 +55,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ParabolicSar(0.02,0.2)
-IEnumerable<ParabolicSarResult> results = quotes.GetParabolicSar(0.02,0.2);
-
-// use results as needed
-ParabolicSarResult result = results.LastOrDefault();
-Console.WriteLine("SAR on {0} was ${1}", result.Date, result.Sar);
-```
-
-```bash
-SAR on 12/31/2018 was $229.76
+IEnumerable<ParabolicSarResult> results
+  = quotes.GetParabolicSar(0.02,0.2);
 ```

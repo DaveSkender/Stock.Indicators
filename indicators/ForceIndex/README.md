@@ -56,14 +56,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ForceIndex(13)
-IEnumerable<ForceIndexResult> results = quotes.GetForceIndex(13);
-
-// use results as needed
-ForceIndexResult result = results.LastOrDefault();
-Console.WriteLine("Force Index on {0} was {1}M",
-  result.Date, result.ForceIndex/1000000);
-```
-
-```bash
-Force Index on 12/31/2018 was -16.8M
+IEnumerable<ForceIndexResult> results
+  = quotes.GetForceIndex(13);
 ```

@@ -60,14 +60,6 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period ROC
 IEnumerable<RocResult> results = quotes.GetRoc(20);
-
-// use results as needed
-RocResult result = results.LastOrDefault();
-Console.WriteLine("ROC on {0} was {1}%", result.Date, result.Roc);
-```
-
-```bash
-ROC on 12/31/2018 was -8.25%
 ```
 
 ## ROC with Bands

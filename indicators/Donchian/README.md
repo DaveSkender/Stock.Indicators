@@ -57,12 +57,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Donchian(20)
 IEnumerable<DonchianResult> results = quotes.GetDonchian(20);
-
-// use results as needed
-DonchianResult result = results.LastOrDefault();
-Console.WriteLine("Upper Donchian Channel on {0} was ${1}", result.Date, result.UpperBand);
-```
-
-```bash
-Upper Donchian Channel on 12/31/2018 was $273.59
 ```

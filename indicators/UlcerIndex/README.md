@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate UI(14)
 IEnumerable<UlcerIndexResult> results = quotes.GetUlcerIndex(14);
-
-// use results as needed
-UlcerIndexResult result = results.LastOrDefault();
-Console.WriteLine("Ulcer Index on {0} was {1}", result.Date, result.UI);
-```
-
-```bash
-Ulcer Index on 12/31/2018 was 5.73
 ```

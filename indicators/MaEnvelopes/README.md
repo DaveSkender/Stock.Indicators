@@ -79,13 +79,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 // calculate 20-period SMA envelopes with 2.5% offset
 IEnumerable<MaEnvelopeResult> results = 
     quotes.GetMaEnvelopes(20,2.5,MaType.SMA);
-
-// use results as needed
-MaEnvelopeResult result = results.LastOrDefault();
-Console.WriteLine(
-    "MA Upper on {0} was ${1}", result.Date, result.UpperEnvelope);
-```
-
-```bash
-MA Upper on 12/31/2018 was $251.86
 ```

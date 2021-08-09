@@ -56,12 +56,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate
 IEnumerable<AwesomeResult> results = quotes.GetAwesome(5,34);
-
-// use results as needed
-AwesomeResult r = results.LastOrDefault();
-Console.WriteLine("AO on {0} was {1}", r.Date, r.Oscillator);
-```
-
-```bash
-AO on 12/31/2018 was -17.77
 ```

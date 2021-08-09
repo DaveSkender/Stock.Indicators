@@ -71,15 +71,6 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate
 IEnumerable<RenkoResult> results = quotes.GetRenko(2.5);
-
-// use results as needed
-RenkoResult result = results.LastOrDefault();
-Console.WriteLine("Renko Chart open price on {0} was ${1}",
-                   result.Date, result.Open);
-```
-
-```bash
-Renko Chart open price on 12/31/2018 was $241.3
 ```
 
 ## ATR Variant

@@ -59,17 +59,8 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StdDevChannels(20,2)
-IEnumerable<StdDevChannelsResult> results =
-  quotes.GetStdDevChannels(20,2);
-
-// use results as needed
-StdDevChannelsResult result = results.LastOrDefault();
-Console.WriteLine("Upper Channel on {0} was ${1}",
-  result.Date, result.UpperBand);
-```
-
-```bash
-Upper Channel on 12/31/2018 was $213.97
+IEnumerable<StdDevChannelsResult> results
+  = quotes.GetStdDevChannels(20,2);
 ```
 
 ## Alternative depiction for full quotes variant

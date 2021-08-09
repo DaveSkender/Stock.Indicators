@@ -59,12 +59,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Fractal(5)
 IEnumerable<FractalResult> results = quotes.GetFractal(5);
-
-// use results as needed
-FractalResult r = results.Where(x=>x.FractalBear!=null).LastOrDefault();
-Console.WriteLine("FractalBear on {0} was ${1}", r.Date, r.FractalBear);
-```
-
-```bash
-FractalBear on 12/12/2018 was $262.47
 ```
