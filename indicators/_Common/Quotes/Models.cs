@@ -31,23 +31,4 @@ namespace Skender.Stock.Indicators
         internal DateTime Date { get; set; }
         internal decimal Value { get; set; }
     }
-
-    [Serializable]
-    internal class Candle : Quote
-    {
-        // raw sizes
-        internal decimal Size => High - Low;
-        internal decimal RealBody => (Open > Close) ? (Open - Close) : (Close - Open);
-        internal decimal UpperWick => High - (Open > Close ? Open : Close);
-        internal decimal LowerWick => (Open > Close ? Close : Open) - Low;
-
-        // percent sizes
-        internal decimal RealBodyPct => (Size != 0) ? RealBody / Size : 1m;
-        internal decimal UpperWickPct => (Size != 0) ? UpperWick / Size : 1m;
-        internal decimal LowerWickPct => (Size != 0) ? LowerWick / Size : 1m;
-
-        // directional info
-        internal bool IsBullish => (Close > Open);
-        internal bool IsBearish => (Close < Open);
-    }
 }
