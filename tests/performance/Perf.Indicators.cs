@@ -6,11 +6,39 @@ using Skender.Stock.Indicators;
 namespace Tests.Performance
 {
     [MarkdownExporterAttribute.GitHub]
-    public class MarkIndicators
+    public class IndicatorPerformance
     {
-        private readonly IEnumerable<Quote> h = TestData.GetDefault();
-        private readonly IEnumerable<Quote> ho = TestData.GetCompare();
-        private readonly IEnumerable<Quote> hday = TestData.GetIntraday(391);
+        private static IEnumerable<Quote> h;
+        private static IEnumerable<Quote> ho;
+        private static IEnumerable<Quote> hday;
+
+        // SETUP
+
+        [GlobalSetup]
+        public void Setup()
+        {
+            h = TestData.GetDefault();
+        }
+
+        [GlobalSetup(Targets = new[] {
+            nameof(GetBeta),
+            nameof(GetCorrelation)
+        })]
+        public void SetupCompare()
+        {
+            h = TestData.GetDefault();
+            ho = TestData.GetCompare();
+        }
+
+        [GlobalSetup(Targets = new[] {
+            nameof(GetVwap)
+        })]
+        public void SetupIntraday()
+        {
+            hday = TestData.GetIntraday(391);
+        }
+
+        // BENCHMARKS
 
         [Benchmark]
         public object GetAdl()
