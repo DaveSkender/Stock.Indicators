@@ -10,7 +10,6 @@ namespace Tests.Performance
     {
         private static IEnumerable<Quote> h;
         private static IEnumerable<Quote> ho;
-        private static IEnumerable<Quote> hday;
 
         // SETUP
 
@@ -22,20 +21,14 @@ namespace Tests.Performance
 
         [GlobalSetup(Targets = new[] {
             nameof(GetBeta),
-            nameof(GetCorrelation)
+            nameof(GetCorrelation),
+            nameof(GetPrs),
+            nameof(GetPrsWithSma)
         })]
         public void SetupCompare()
         {
             h = TestData.GetDefault();
             ho = TestData.GetCompare();
-        }
-
-        [GlobalSetup(Targets = new[] {
-            nameof(GetVwap)
-        })]
-        public void SetupIntraday()
-        {
-            hday = TestData.GetIntraday(391);
         }
 
         // BENCHMARKS
@@ -487,7 +480,7 @@ namespace Tests.Performance
         [Benchmark]
         public object GetVwap()
         {
-            return hday.GetVwap();
+            return h.GetVwap();
         }
 
         [Benchmark]
