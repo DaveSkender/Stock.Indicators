@@ -78,7 +78,8 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
 
         // BAD DATA
@@ -88,7 +89,8 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
 
         // BITCOIN DATA
@@ -98,7 +100,8 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
 
         // COMPARE DATA ~2 years of TSLA data (matches default time)
@@ -108,7 +111,8 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
 
         // INTRADAY DATA
@@ -118,7 +122,8 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
 
         // LONGISH DATA ~20 years of S&P 500 daily data
@@ -128,7 +133,8 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
 
         // LONGEST DATA ~62 years of S&P 500 daily data
@@ -136,7 +142,8 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("data/longest.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v));
+                .Select(v => Importer.FromCsv(v))
+                .ToList();
         }
 
         // PENNY DATA
@@ -144,7 +151,8 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("data/penny.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v));
+                .Select(v => Importer.FromCsv(v))
+                .ToList();
         }
 
         // MISMATCH DATA is in incorrect sequence
@@ -152,7 +160,8 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("data/mismatch.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v));
+                .Select(v => Importer.FromCsv(v))
+                .ToList();
         }
 
         // ZIGZAG DATA
@@ -162,7 +171,8 @@ namespace Internal.Tests
                 .Skip(1)
                 .Select(v => Importer.FromCsv(v))
                 .OrderByDescending(x => x.Date)
-                .Take(days);
+                .Take(days)
+                .ToList();
         }
 
     }

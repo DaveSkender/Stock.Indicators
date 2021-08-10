@@ -6,37 +6,20 @@ using Skender.Stock.Indicators;
 
 namespace Tests.Performance
 {
+    // HELPERS, both public and private
 
     [MarkdownExporterAttribute.GitHub]
-    public class MarkFunctions
+    public class HelperPerformance
     {
-        private double[] values;
-
-        [Params(20, 50, 250, 1000)]
-        public int Periods;
+        private static IEnumerable<Quote> h;
+        private static IEnumerable<Quote> i;
+        private static IEnumerable<ObvResult> obv;
 
         [GlobalSetup]
         public void Setup()
         {
-            values = TestData.GetLongish(Periods)
-                .Select(x => (double)x.Close)
-                .ToArray();
+            h = TestData.GetDefault();
         }
-
-
-        [Benchmark]
-        public object StdDev()
-        {
-            return Functions.StdDev(values);
-        }
-    }
-
-
-    [MarkdownExporterAttribute.GitHub]
-    public class MarkHistoryHelpers
-    {
-        private static readonly IEnumerable<Quote> h = TestData.GetDefault();
-        private static readonly IEnumerable<Quote> i = TestData.GetIntraday();
 
         [Benchmark]
         public object Sort()
@@ -48,6 +31,12 @@ namespace Tests.Performance
         public object Validate()
         {
             return h.Validate();
+        }
+
+        [GlobalSetup(Targets = new[] { nameof(Aggregate) })]
+        public void SetupIntraday()
+        {
+            i = TestData.GetIntraday();
         }
 
         [Benchmark]
@@ -67,5 +56,19 @@ namespace Tests.Performance
         {
             return h.ConvertToCandles();
         }
+
+        [GlobalSetup(Targets = new[] { nameof(ConvertToQuotes) })]
+        public void SetupQuotes()
+        {
+            h = TestData.GetDefault();
+            obv = h.GetObv();
+        }
+
+        [Benchmark]
+        public object ConvertToQuotes()
+        {
+            return obv.ConvertToQuotes();
+        }
+
     }
 }
