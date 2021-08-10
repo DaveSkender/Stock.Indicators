@@ -59,12 +59,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Klinger(34,55,13)
 IEnumerable<KvoResult> results = quotes.GetKvo(34,55,13);
-
-// use results as needed
-KvoResult result = results.LastOrDefault();
-Console.WriteLine("Klinger Oscillator on {0} was {1:N0}", result.Date, result.Oscillator);
-```
-
-```bash
-Klinger Oscillator on 12/31/2018 was -539,224,047
 ```

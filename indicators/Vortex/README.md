@@ -55,12 +55,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 14-period VI
 IEnumerable<VortexResult> results = quotes.GetVortex(14);
-
-// use results as needed
-VortexResult result = results.LastOrDefault();
-Console.WriteLine("VI+ on {0} was {1}", result.Date, result.Pvi);
-```
-
-```bash
-VI+ on 12/31/2018 was 0.871
 ```

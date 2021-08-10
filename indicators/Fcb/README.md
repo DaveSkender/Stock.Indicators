@@ -58,13 +58,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Fcb(14)
 IEnumerable<FcbResult> results = quotes.GetFcb(14);
-
-// use results as needed
-FcbResult result = results.LastOrDefault();
-Console.WriteLine("FCB Upper Band on {0} was ${1}",
-  result.Date, result.UpperBand);
-```
-
-```bash
-FCB Upper Band on 12/31/2018 was $273.7
 ```

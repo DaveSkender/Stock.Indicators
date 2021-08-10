@@ -58,12 +58,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ADX
 IEnumerable<AdxResult> results = quotes.GetAdx(14);
-
-// use results as needed
-AdxResult result = results.LastOrDefault();
-Console.WriteLine("ADX on {0} was {1}", result.Date, result.Adx);
-```
-
-```bash
-ADX on 12/31/2018 was 34.30
 ```

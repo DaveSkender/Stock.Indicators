@@ -61,12 +61,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate KAMA(10,2,30)
 IEnumerable<KamaResult> results = quotes.GetKama(10,2,30);
-
-// use results as needed
-KamaResult result = results.LastOrDefault();
-Console.WriteLine("KAMA on {0} was ${1}", result.Date, result.Kama);
-```
-
-```bash
-KAMA on 12/31/2018 was $251.86
 ```

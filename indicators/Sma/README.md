@@ -54,14 +54,6 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
 IEnumerable<SmaResult> results = quotes.GetSma(20);
-
-// use results as needed
-SmaResult result = results.LastOrDefault();
-Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
-```
-
-```bash
-SMA on 12/31/2018 was $251.86
 ```
 
 ## Extended analysis

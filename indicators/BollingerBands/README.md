@@ -61,13 +61,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate BollingerBands(12,26,9)
 IEnumerable<BollingerBandsResult> results =
   quotes.GetBollingerBands(20,2);
-
-// use results as needed
-BollingerBandsResult result = results.LastOrDefault();
-Console.WriteLine("Upper Bollinger Band on {0} was ${1}",
-  result.Date, result.UpperBand);
-```
-
-```bash
-Upper Bollinger Band on 12/31/2018 was $273.7
 ```

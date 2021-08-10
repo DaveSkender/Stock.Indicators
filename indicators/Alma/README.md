@@ -56,12 +56,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate Alma(10,0.5,6)
 IEnumerable<AlmaResult> results = quotes.GetAlma(10,0.5,6);
-
-// use results as needed
-AlmaResult result = results.LastOrDefault();
-Console.WriteLine("ALMA on {0} was ${1}", result.Date, result.Alma);
-```
-
-```bash
-ALMA on 12/31/2018 was $242.19
 ```

@@ -60,12 +60,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate MACD(12,26,9)
 IEnumerable<MacdResult> results = quotes.GetMacd(12,26,9);
-
-// use results as needed
-MacdResult result = results.LastOrDefault();
-Console.WriteLine("MACD on {0} was {1}", result.Date, result.Macd);
-```
-
-```bash
-MACD on 12/31/2018 was -6.22
 ```

@@ -58,12 +58,4 @@ IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 
 // calculate 20-period Slope
 IEnumerable<SlopeResult> results = quotes.GetSlope(20);
-
-// use results as needed
-SlopeResult result = results.LastOrDefault();
-Console.WriteLine("SLOPE(20) on {0} was {1}", result.Date, result.Slope);
-```
-
-```bash
-SLOPE(20) on 12/31/2018 was -1.69
 ```

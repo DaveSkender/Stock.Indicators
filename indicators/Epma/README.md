@@ -54,12 +54,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period EPMA
 IEnumerable<EpmaResult> results = quotes.GetEpma(20);
-
-// use results as needed
-EpmaResult result = results.LastOrDefault();
-Console.WriteLine("EPMA on {0} was ${1}", result.Date, result.Epma);
-```
-
-```bash
-EPMA on 12/31/2018 was $251.86
 ```

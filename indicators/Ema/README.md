@@ -76,12 +76,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period EMA
 IEnumerable<EmaResult> results = quotes.GetEma(20);
-
-// use results as needed
-EmaResult result = results.LastOrDefault();
-Console.WriteLine("EMA on {0} was ${1}", result.Date, result.Ema);
-```
-
-```bash
-EMA on 12/31/2018 was $249.35
 ```

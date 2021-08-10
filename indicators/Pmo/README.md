@@ -59,12 +59,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period PMO
 IEnumerable<PmoResult> results = quotes.GetPmo(35,20,10);
-
-// use results as needed
-PmoResult result = results.LastOrDefault();
-Console.WriteLine("PMO on {0} was {1}", result.Date, result.Pmo);
-```
-
-```bash
-PMO on 12/31/2018 was -2.70
 ```

@@ -58,12 +58,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate STO %K(14),%D(3) (slow)
 IEnumerable<StochResult> results = quotes.GetStoch(14,3,3);
-
-// use results as needed
-StochResult result = results.LastOrDefault();
-Console.WriteLine("STO on {0} was {1}", result.Date, result.Oscillator);
-```
-
-```bash
-STOCH on 12/31/2018 was 43.1
 ```

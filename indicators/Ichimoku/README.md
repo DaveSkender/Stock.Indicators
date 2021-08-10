@@ -58,14 +58,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate ICHIMOKU(9,26,52)
-IEnumerable<IchimokuResult> results =
-  quotes.GetIchimoku(9,26,52);
-
-// use results as needed
-IchimokuResult result = results.LastOrDefault();
-Console.WriteLine("Tenkan-sen on {0} was ${1}", result.Date, result.TenkanSen);
-```
-
-```bash
-Tenkan-sen on 12/31/2018 was $241.26
+IEnumerable<IchimokuResult> results
+  = quotes.GetIchimoku(9,26,52);
 ```

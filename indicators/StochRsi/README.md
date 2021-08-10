@@ -62,13 +62,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StochRSI(14)
-IEnumerable<StochRsiResult> results = quotes.GetStochRsi(14,14,1,1);
-
-// use results as needed
-StochRsiResult result = results.LastOrDefault();
-Console.WriteLine("StochRSI on {0} was {1}", result.Date, result.StochRsi);
-```
-
-```bash
-StochRSI on 12/31/2018 was 0.975
+IEnumerable<StochRsiResult> results
+  = quotes.GetStochRsi(14,14,1,1);
 ```

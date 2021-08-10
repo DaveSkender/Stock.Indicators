@@ -59,13 +59,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StarcBands(20)
-IEnumerable<StarcBandsResult> results = quotes.GetStarcBands(20,2.0,10);
-
-// use results as needed
-StarcBandsResult result = results.LastOrDefault();
-Console.WriteLine("Upper STARC Band on {0} was ${1}", result.Date, result.UpperBand);
-```
-
-```bash
-Upper STARC Band on 12/31/2018 was $262.19
+IEnumerable<StarcBandsResult> results
+  = quotes.GetStarcBands(20,2.0,10);
 ```

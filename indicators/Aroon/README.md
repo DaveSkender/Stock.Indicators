@@ -56,12 +56,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Aroon(25)
 IEnumerable<AroonResult> results = quotes.GetAroon(25);
-
-// use results as needed
-AroonResult result = results.LastOrDefault();
-Console.WriteLine("Aroon-Up(25) on {0} was {1}", result.Date, result.AroonUp);
-```
-
-```bash
-Aroon-Up(25) on 12/31/2018 was 28.0
 ```
