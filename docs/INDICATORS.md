@@ -53,6 +53,7 @@
 
 ## Candlestick patterns
 
+- [Marubozu](../indicators/Patterns/Marubozu/README.md#content)
 - [Williams Fractal](../indicators/Fractal/README.md#content)
 
 ## Volume-based
