@@ -1,4 +1,4 @@
-# Marubozu | Candlestick Pattern (Preview)
+# Marubozu (Preview)
 
 [Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a candlestick pattern that has no wicks, representing consistent directional movement.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/512 "Community discussion about this indicator")
