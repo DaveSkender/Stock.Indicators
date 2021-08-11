@@ -16,39 +16,39 @@ namespace Internal.Tests
             IEnumerable<Quote> quotes = TestData.GetMismatch();
 
             // sort
-            ReadOnlyCollection<Candle> h = quotes.ConvertToCandles();
+            ReadOnlyCollection<Candle> candles = quotes.ConvertToCandles();
 
             // assertions
 
             // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, h.Count);
+            Assert.AreEqual(502, candles.Count);
 
             // check first date
             DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", englishCulture);
-            Assert.AreEqual(firstDate, h[0].Date);
+            Assert.AreEqual(firstDate, candles[0].Date);
 
             // check last date
             DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
-            Assert.AreEqual(lastDate, h.LastOrDefault().Date);
+            Assert.AreEqual(lastDate, candles.LastOrDefault().Date);
 
             // spot check an out of sequence date
             DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);
-            Assert.AreEqual(spotDate, h[50].Date);
+            Assert.AreEqual(spotDate, candles[50].Date);
         }
 
         [TestMethod]
         public void CandleValues()
         {
             // sort
-            ReadOnlyCollection<Candle> results = quotes.ConvertToCandles();
+            ReadOnlyCollection<Candle> candles = quotes.ConvertToCandles();
 
             // assertions
 
             // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(502, candles.Count);
 
             // sample values
-            Candle r0 = results[0];
+            Candle r0 = candles[0];
             Assert.AreEqual(212.8m, r0.Close);
             Assert.AreEqual(1.83m, r0.Size);
             Assert.AreEqual(0.19m, r0.Body);
@@ -60,7 +60,7 @@ namespace Internal.Tests
             Assert.IsTrue(r0.IsBullish);
             Assert.IsFalse(r0.IsBearish);
 
-            Candle r351 = results[351];
+            Candle r351 = candles[351];
             Assert.AreEqual(1.24m, r351.Size);
             Assert.AreEqual(0m, r351.Body);
             Assert.AreEqual(0.69m, r351.UpperWick);
@@ -71,7 +71,7 @@ namespace Internal.Tests
             Assert.IsFalse(r351.IsBullish);
             Assert.IsFalse(r351.IsBearish);
 
-            Candle r501 = results[501];
+            Candle r501 = candles[501];
             Assert.AreEqual(2.67m, r501.Size);
             Assert.AreEqual(0.36m, r501.Body);
             Assert.AreEqual(0.26m, r501.UpperWick);

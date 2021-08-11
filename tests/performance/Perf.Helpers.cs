@@ -51,6 +51,12 @@ namespace Tests.Performance
             return h.ConvertToBasic();
         }
 
+        [Benchmark]
+        public object ConvertToCandles()
+        {
+            return h.ConvertToCandles();
+        }
+
         [GlobalSetup(Targets = new[] { nameof(ConvertToQuotes) })]
         public void SetupQuotes()
         {

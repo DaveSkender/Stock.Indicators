@@ -268,6 +268,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetMarubozu()
+        {
+            return h.GetMarubozu();
+        }
+
+        [Benchmark]
         public object GetMfi()
         {
             return h.GetMfi();
