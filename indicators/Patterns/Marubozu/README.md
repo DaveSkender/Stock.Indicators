@@ -29,7 +29,9 @@ You must have at least one historical quote.
 IEnumerable<MarubozuResult>
 ```
 
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
 
 ### MarubozuResult
 

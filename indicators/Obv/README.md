@@ -33,7 +33,10 @@ You must have at least two historical quotes; however, since this is a trendline
 IEnumerable<ObvResult>
 ```
 
-The first period OBV will have `0` value since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first period OBV will have `0` value since there's not enough data to calculate.
 
 ### ObvResult
 

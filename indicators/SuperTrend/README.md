@@ -31,8 +31,10 @@ You must have at least `N+100` periods of `quotes`.  Since this uses a smoothing
 IEnumerable<SuperTrendResult>
 ```
 
-The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
 
 :warning: **Warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 

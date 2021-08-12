@@ -31,8 +31,10 @@ You must have at least `2×S+1` periods of `quotes`; however, more is typically 
 IEnumerable<FractalResult>
 ```
 
-The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
 :warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `quotes`.
 

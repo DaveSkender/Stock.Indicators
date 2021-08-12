@@ -48,7 +48,10 @@ These are the supported moving average types:
 IEnumerable<MaEnvelopeResult>
 ```
 
-The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
 :warning: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 

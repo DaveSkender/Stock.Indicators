@@ -31,7 +31,10 @@ You must have at least the greater of `N`,`S`, or `L` periods of `quotes`; thoug
 IEnumerable<IchimokuResult>
 ```
 
-The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since there's not enough data to calculate.
 
 ### IchimokuResult
 

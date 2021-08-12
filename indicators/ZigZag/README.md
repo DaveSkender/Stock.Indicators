@@ -37,9 +37,14 @@ You must have at least two periods of `quotes` to calculate, but notably more is
 IEnumerable<ZigZagResult>
 ```
 
-:warning: **Warning**:  depending on the specified `type`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- If you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.
+- The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.
+- The last line segment is an approximation as the direction is indeterminate.
 
-Also, if you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.  The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.  The last line segment is an approximation as the direction is indeterminate.  Swing high and low points are denoted with `PointType` values of `H` or `L`.  We always return the same number of result elements as there are in the historical quotes.
+:warning: **Warning**:  depending on the specified `type`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
 
 ### ZigZagResult
 
