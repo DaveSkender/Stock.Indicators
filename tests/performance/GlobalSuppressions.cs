@@ -24,3 +24,10 @@ using System.Diagnostics.CodeAnalysis;
     "Performance",
     "CA1822:Mark members as static",
     Justification = "Tests are excluded when static, for some reason")]
+
+// this can be removed after Microsoft publishes fix,
+// see https://github.com/dotnet/roslyn/issues/55014
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0130:Namespace does not match folder structure",
+    Justification = "Microsoft bug, not real")]

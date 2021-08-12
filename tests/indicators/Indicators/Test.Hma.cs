@@ -56,11 +56,11 @@ namespace Internal.Tests
         {
             // bad lookback period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetHma(quotes, 0));
+                quotes.GetHma(1));
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetHma(TestData.GetDefault(9), 10));
+                Indicator.GetHma(TestData.GetDefault(10), 9));
         }
     }
 }
