@@ -106,7 +106,7 @@ namespace Skender.Stock.Indicators
 
             // check quotes
             int qtyHistory = quotes.Count();
-            int minHistory = lookbackPeriods;
+            int minHistory = lookbackPeriods + (int)Math.Sqrt(lookbackPeriods) - 1;
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient quotes provided for HMA.  " +

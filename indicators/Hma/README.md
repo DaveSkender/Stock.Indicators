@@ -19,7 +19,7 @@ IEnumerable<HmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotes`.
+You must have at least `N+(integer of SQRT(N))-1` periods of `quotes`.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
@@ -29,7 +29,7 @@ You must have at least `N` periods of `quotes`.
 IEnumerable<HmaResult>
 ```
 
-The first `N-(integer of SQRT(N))-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+The first `N+(integer of SQRT(N))-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
 
 ### HmaResult
 
