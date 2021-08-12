@@ -19,3 +19,10 @@ using System.Diagnostics.CodeAnalysis;
     "StyleCop.CSharp.DocumentationRules",
     "SA1600:Elements should be documented",
     Justification = "Not documenting unit test projects.")]
+
+// this can be removed after Microsoft publishes fix,
+// see https://github.com/dotnet/roslyn/issues/55014
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0130:Namespace does not match folder structure",
+    Justification = "Microsoft bug, not real")]
