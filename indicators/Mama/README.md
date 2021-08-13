@@ -30,9 +30,12 @@ Since this indicator has a warmup period, you must have at least `50` periods of
 IEnumerable<MamaResult>
 ```
 
-The first `5` periods will have `null` values for MAMA since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `5` periods will have `null` values for `Mama` since there's not enough data to calculate.
 
-:warning: **Warning**: The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### MamaResult
 

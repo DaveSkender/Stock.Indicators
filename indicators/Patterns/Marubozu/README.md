@@ -1,4 +1,4 @@
-# Marubozu | Candlestick Pattern (Preview)
+# Marubozu (Preview)
 
 [Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a candlestick pattern that has no wicks, representing consistent directional movement.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/512 "Community discussion about this indicator")
@@ -29,7 +29,10 @@ You must have at least one historical quote.
 IEnumerable<MarubozuResult>
 ```
 
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The candlestick pattern is indicated on dates when `Marubozu` has a non-null value.
 
 ### MarubozuResult
 

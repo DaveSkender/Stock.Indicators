@@ -31,9 +31,12 @@ IEnumerable<ConnorsRsiResult> results =
 IEnumerable<ConnorsRsiResult>
 ```
 
-The first `MAX(R,S,P)-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `MAX(R,S,P)-1` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ConnorsRsiResult
 

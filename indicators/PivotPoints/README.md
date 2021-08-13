@@ -50,7 +50,10 @@ You must have at least `2` windows of `quotes`.  For example, if you specify a `
 IEnumerable<PivotPointsResult>
 ```
 
-The first window will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first window will have `null` values since there's not enough data to calculate.
 
 :warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 

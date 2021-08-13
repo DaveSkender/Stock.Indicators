@@ -43,15 +43,14 @@ IEnumerable<DemaResult>
 IEnumerable<TemaResult>
 ```
 
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- Standard EMA: The first `N-1` periods will have `null` values since there's not enough data to calculate.
+- Double EMA: The first `2×N-1` periods will have `null` values since there's not enough data to calculate.
+- Triple EMA: The first `3×N-2` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](../Trix/README.md) oscillator instead.
 
-Standard EMA: The first `N-1` periods will have `null` values since there's not enough data to calculate.
-
-Double EMA: The first `2×N-1` periods will have `null` values since there's not enough data to calculate.
-
-Triple EMA: The first `3×N-2` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](../Trix/README.md) oscillator instead.
-
-:warning: **Warning**: The first respective `N+100`, `2×N+100`, and `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first respective `N+100`, `2×N+100`, and `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### EmaResult / DemaResult / TemaResult
 

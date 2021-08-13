@@ -29,10 +29,12 @@ You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more
 IEnumerable<ForceIndexResult>
 ```
 
-The first `N` periods for will be `null` since they cannot be calculated.
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N` periods for will be `null` since they cannot be calculated.
 
-:warning: **Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ForceIndexResult
 
