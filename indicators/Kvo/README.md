@@ -36,7 +36,7 @@ IEnumerable<KvoResult>
 - It does not return a single incremental indicator value.
 - The first `L+1` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The first `L+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `L+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### KvoResult
 

@@ -39,7 +39,7 @@ IEnumerable<TrixResult>
 - It does not return a single incremental indicator value.
 - The first `3×N-3` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### TrixResult
 

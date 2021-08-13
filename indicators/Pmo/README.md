@@ -36,7 +36,7 @@ IEnumerable<PmoResult>
 - It does not return a single incremental indicator value.
 - The first `T+S-1` periods will have `null` values for PMO since there's not enough data to calculate.
 
-:warning: **Warning**: The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### PmoResult
 

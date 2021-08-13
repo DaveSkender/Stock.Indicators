@@ -46,6 +46,8 @@ IEnumerable<ZigZagResult>
 
 :warning: **Warning**:  depending on the specified `type`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
 
+:paintbrush: **Repaint Warning**: the last line segement will always be redrawn back to the last known pivot.  Do not attempt to calculate incremental values since previous values may change based on newer quotes.
+
 ### ZigZagResult
 
 | name | type | notes

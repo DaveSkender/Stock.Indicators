@@ -34,7 +34,7 @@ IEnumerable<ForceIndexResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods for will be `null` since they cannot be calculated.
 
-:warning: **Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ForceIndexResult
 
