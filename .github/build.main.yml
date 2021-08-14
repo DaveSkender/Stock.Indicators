@@ -57,7 +57,7 @@ steps:
     displayName: "test indicators"
     inputs:
       command: test
-      projects: "tests/indicators"
+      projects: "**/Tests.Indicators.csproj"
       arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
       publishTestResults: true
       testRunTitle: "Indicator Tests"
@@ -72,7 +72,7 @@ steps:
     displayName: "test external/other"
     inputs:
       command: test
-      projects: "tests/external"
+      projects: "**/Tests.Other.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: true
       testRunTitle: "External Tests"
