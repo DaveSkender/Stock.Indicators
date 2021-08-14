@@ -11,6 +11,9 @@ pool:
 variables:
   BuildConfiguration: "Release"
 
+workspace:
+    clean: all
+
 steps:
   - task: UseDotNet@2
     displayName: "use .NET SDK 5.0.x"
@@ -57,8 +60,13 @@ steps:
       projects: "tests/indicators"
       arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage"
       publishTestResults: true
-      modifyOutputPath: true
       testRunTitle: "Indicator Tests"
+
+  - task: PublishCodeCoverageResults@1
+    displayName: "publish code coverage"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: "$(Agent.TempDirectory)/**/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
     displayName: "test external/other"
@@ -68,12 +76,6 @@ steps:
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: true
       testRunTitle: "External Tests"
-
-  - task: PublishCodeCoverageResults@1
-    displayName: "publish code coverage"
-    inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/**/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
