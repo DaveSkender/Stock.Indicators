@@ -57,10 +57,10 @@ steps:
     displayName: "test indicators"
     inputs:
       command: test
-      projects: "**/Tests.Indicators.csproj"
-      arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
-      publishTestResults: true
       testRunTitle: "Indicator Tests"
+      projects: "tests/indicators/Tests.Indicators.csproj"
+      arguments: '--configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+      publishTestResults: true
 
   - task: PublishCodeCoverageResults@1
     displayName: "publish code coverage"
@@ -72,10 +72,10 @@ steps:
     displayName: "test external/other"
     inputs:
       command: test
-      projects: "**/Tests.Other.csproj"
+      testRunTitle: "External Tests"
+      projects: "tests/external/Tests.Other.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: true
-      testRunTitle: "External Tests"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
