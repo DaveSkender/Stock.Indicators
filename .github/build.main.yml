@@ -8,6 +8,9 @@ pool:
   name: Azure Pipelines
   vmImage: "ubuntu-latest"
 
+workspace:
+    clean: all
+
 variables:
   BuildConfiguration: "Release"
 
@@ -51,28 +54,28 @@ steps:
       arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
   - task: DotNetCoreCLI@2
-    displayName: "test internal"
+    displayName: "test indicators"
     inputs:
       command: test
-      projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
+      testRunTitle: "Indicator Tests"
+      projects: "tests/indicators/Tests.Indicators.csproj"
+      arguments: '--configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       publishTestResults: true
-      testRunTitle: ".NET Indicator Tests"
 
   - task: DotNetCoreCLI@2
     displayName: "test external/other"
     inputs:
       command: test
-      projects: "**/Tests.Other.csproj"
+      testRunTitle: "External Tests"
+      projects: "tests/external/Tests.Other.csproj"
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: true
-      testRunTitle: ".NET External/Other Tests"
 
   - task: PublishCodeCoverageResults@1
     displayName: "publish code coverage"
     inputs:
       codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
+      summaryFileLocation: "$(Agent.TempDirectory)/**/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"

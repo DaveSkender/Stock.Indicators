@@ -29,6 +29,23 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void ConvertToQuotes()
+        {
+            List<Quote> newQuotes = longestQuotes
+                .GetHurst(longestQuotes.Count() - 1)
+                .ConvertToQuotes()
+                .ToList();
+
+            Assert.AreEqual(1, newQuotes.Count);
+
+            Quote q = newQuotes.LastOrDefault();
+            Assert.AreEqual(0.483563m, Math.Round(q.Open, 6));
+            Assert.AreEqual(0.483563m, Math.Round(q.High, 6));
+            Assert.AreEqual(0.483563m, Math.Round(q.Low, 6));
+            Assert.AreEqual(0.483563m, Math.Round(q.Close, 6));
+        }
+
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);
