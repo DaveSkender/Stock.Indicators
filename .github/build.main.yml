@@ -72,7 +72,7 @@ steps:
     displayName: "publish code coverage"
     inputs:
       codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
+      summaryFileLocation: "$(Build.SourcesDirectory)/**/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
