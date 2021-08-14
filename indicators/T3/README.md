@@ -50,7 +50,7 @@ IEnumerable<T3Result>
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 

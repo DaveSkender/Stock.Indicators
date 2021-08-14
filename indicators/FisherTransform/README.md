@@ -55,7 +55,7 @@ quotes.GetFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
