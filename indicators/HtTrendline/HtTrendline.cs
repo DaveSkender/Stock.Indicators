@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
                     sd[i] = 0.33 * pd[i] + 0.67 * sd[i - 1];
 
                     // smooth dominant cycle period
-                    int dcPeriods = (int)(Math.Truncate(sd[i] + 0.5));
+                    int dcPeriods = (int)(sd[i] + 0.5);
                     double sumPr = 0;
                     for (int d = i - dcPeriods + 1; d <= i; d++)
                     {
