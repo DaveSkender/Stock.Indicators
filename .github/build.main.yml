@@ -48,14 +48,14 @@ steps:
     displayName: build
     inputs:
       projects: "**/*.csproj"
-      arguments: --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)
+      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
   - task: DotNetCoreCLI@2
     displayName: "test indicators"
     inputs:
       command: test
       projects: "tests/indicators"
-      arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+      arguments: '--configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       publishTestResults: true
       testRunTitle: "Indicator Tests"
 
@@ -64,7 +64,7 @@ steps:
     inputs:
       command: test
       projects: "tests/external"
-      arguments: --configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false
+      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: true
       testRunTitle: "External Tests"
 
