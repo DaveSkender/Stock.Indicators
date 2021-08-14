@@ -23,9 +23,6 @@ steps:
       versionSpec: 5.10.x
       checkLatest: false
 
-  - task: VisualStudioTestPlatformInstaller@1
-    displayName: use VS Test Platform
-
   - task: DotNetCoreCLI@2
     displayName: "use GitVersion"
     inputs:
@@ -51,15 +48,15 @@ steps:
     displayName: build
     inputs:
       projects: "**/*.csproj"
-      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
+      arguments: --configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)
 
-  - task: VSTest@2
+  - task: DotNetCoreCLI@2
     displayName: "test indicators"
     inputs:
-      testSelector: "testAssemblies"
-      testAssemblyVer2: |
-        **\*Skender.Stock.Indicators.dll
-      codeCoverageEnabled: true
+      command: test
+      projects: "**/Tests.Indicators.csproj"
+      arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect "Code Coverage"
+      publishTestResults: true
       testRunTitle: ".NET Indicator Tests"
 
   - task: DotNetCoreCLI@2
@@ -67,7 +64,7 @@ steps:
     inputs:
       command: test
       projects: "**/Tests.Other.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
+      arguments: --configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false
       publishTestResults: true
       testRunTitle: ".NET External/Other Tests"
 
