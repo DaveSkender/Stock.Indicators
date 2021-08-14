@@ -124,9 +124,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryA < minHistoryA)
             {
                 string message = "Insufficient quotes provided for Correlation.  " +
-                    string.Format(
-                        EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.",
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryA, minHistoryA);
 
                 throw new BadQuotesException(nameof(historyA), message);

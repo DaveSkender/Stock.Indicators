@@ -90,9 +90,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient quotes provided for BOP.  " +
-                    string.Format(
-                        EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.",
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistory, minHistory);
 
                 throw new BadQuotesException(nameof(quotes), message);

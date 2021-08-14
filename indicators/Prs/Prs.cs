@@ -108,9 +108,8 @@ namespace Skender.Stock.Indicators
             if (minHistory != null && qtyHistoryEval < minHistory)
             {
                 string message = "Insufficient quotes provided for Price Relative Strength.  " +
-                    string.Format(
-                        EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.",
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryEval, minHistory);
 
                 throw new BadQuotesException(nameof(historyEval), message);

@@ -189,7 +189,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient quotes provided for ADX.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least 2×N+250 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);

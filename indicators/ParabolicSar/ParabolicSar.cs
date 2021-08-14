@@ -198,8 +198,7 @@ namespace Skender.Stock.Indicators
 
             if (accelerationStep > maxAccelerationFactor)
             {
-                string message = string.Format(
-                    EnglishCulture,
+                string message = string.Format(EnglishCulture,
                     "Acceleration Step must be smaller than provided Max Accleration Factor ({0}) for Parabolic SAR.",
                     maxAccelerationFactor);
 
@@ -212,9 +211,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient quotes provided for Parabolic SAR.  " +
-                    string.Format(
-                        EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.",
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistory, minHistory);
 
                 throw new BadQuotesException(nameof(quotes), message);
