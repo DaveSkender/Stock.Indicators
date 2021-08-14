@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -19,7 +18,7 @@ namespace Skender.Stock.Indicators
             ValidateMarubozu(quotes, minBodyPercent);
 
             // sort quotes
-            ReadOnlyCollection<Candle> candles = quotes.ConvertToCandles();
+            List<Candle> candles = quotes.ConvertToCandles();
 
             // initialize
             int size = candles.Count;
