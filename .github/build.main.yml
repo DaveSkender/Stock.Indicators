@@ -58,14 +58,13 @@ steps:
     inputs:
       command: test
       projects: "tests/indicators"
-      arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage"
+      arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
       publishTestResults: true
       testRunTitle: "Indicator Tests"
 
   - task: PublishCodeCoverageResults@1
     displayName: "publish code coverage"
     inputs:
-      codeCoverageTool: Cobertura
       summaryFileLocation: "$(Agent.TempDirectory)/**/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
