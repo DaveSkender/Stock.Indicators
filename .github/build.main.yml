@@ -55,7 +55,7 @@ steps:
     inputs:
       command: test
       projects: "tests/indicators"
-      arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage --results-directory:$(Build.SourcesDirectory)/tests/indicators"
+      arguments: --configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" --results-directory:$(Build.SourcesDirectory)/tests/indicators"
       publishTestResults: true
       testRunTitle: "Indicator Tests"
 
