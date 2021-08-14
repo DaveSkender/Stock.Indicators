@@ -15,12 +15,11 @@ namespace Skender.Stock.Indicators
             double minBodyPercent = 0.95)
             where TQuote : IQuote
         {
+            // check parameter arguments
+            ValidateMarubozu(quotes, minBodyPercent);
 
             // sort quotes
             ReadOnlyCollection<Candle> candles = quotes.ConvertToCandles();
-
-            // check parameter arguments
-            ValidateMarubozu(quotes, minBodyPercent);
 
             // initialize
             int size = candles.Count;
