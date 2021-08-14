@@ -23,6 +23,9 @@ steps:
       versionSpec: 5.10.x
       checkLatest: false
 
+  - task: VisualStudioTestPlatformInstaller@1
+    displayName: use VS Test Platform
+
   - task: DotNetCoreCLI@2
     displayName: "use GitVersion"
     inputs:
