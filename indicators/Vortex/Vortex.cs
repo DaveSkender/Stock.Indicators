@@ -130,7 +130,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient quotes provided for VI.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistory, minHistory);
 
                 throw new BadQuotesException(nameof(quotes), message);

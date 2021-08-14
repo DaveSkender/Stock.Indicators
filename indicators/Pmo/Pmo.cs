@@ -190,9 +190,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient quotes provided for PMO.  " +
-                    string.Format(
-                        EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                     + "Since this uses a several smoothing operations, "
                     + "we recommend you use at least {2} data points prior to the intended "
                     + "usage date for better precision.",

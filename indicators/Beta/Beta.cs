@@ -86,9 +86,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistoryMarket < minHistoryMarket)
             {
                 string message = "Insufficient quotes provided for Beta.  " +
-                    string.Format(
-                        EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.",
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryMarket, minHistoryMarket);
 
                 throw new BadQuotesException(nameof(historyMarket), message);
