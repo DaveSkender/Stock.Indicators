@@ -55,7 +55,7 @@ steps:
     inputs:
       testSelector: "testAssemblies"
       testAssemblyVer2: |
-        "**\*Skender.Stock.Indicators.dll"
+        **\*Skender.Stock.Indicators.dll
       codeCoverageEnabled: true
       testRunTitle: ".NET Indicator Tests"
 
