@@ -16,7 +16,7 @@ namespace Internal.Tests
             IEnumerable<Quote> quotes = TestData.GetMismatch();
 
             // sort
-            ReadOnlyCollection<Candle> candles = quotes.ConvertToCandles();
+            List<Candle> candles = quotes.ConvertToCandles();
 
             // assertions
 
@@ -40,7 +40,7 @@ namespace Internal.Tests
         public void CandleValues()
         {
             // sort
-            ReadOnlyCollection<Candle> candles = quotes.ConvertToCandles();
+            List<Candle> candles = quotes.ConvertToCandles();
 
             // assertions
 
