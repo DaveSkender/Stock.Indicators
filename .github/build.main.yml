@@ -50,13 +50,13 @@ steps:
       projects: "**/*.csproj"
       arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
 
-  - task: DotNetCoreCLI@2
-    displayName: "test internal"
+  - task: VSTest@2
+    displayName: "test indicators"
     inputs:
-      command: test
-      projects: "**/Tests.Indicators.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura"
-      publishTestResults: true
+      testSelector: "testAssemblies"
+      testAssemblyVer2: |
+        Skender.Stock.Indicators.dll
+      codeCoverageEnabled: true
       testRunTitle: ".NET Indicator Tests"
 
   - task: DotNetCoreCLI@2
@@ -67,12 +67,6 @@ steps:
       arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
       publishTestResults: true
       testRunTitle: ".NET External/Other Tests"
-
-  - task: PublishCodeCoverageResults@1
-    displayName: "publish code coverage"
-    inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Build.SourcesDirectory)/tests/indicators/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
