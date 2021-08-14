@@ -56,10 +56,16 @@ namespace Skender.Stock.Indicators
         {
 
             // check parameter arguments
-            if (minBodyPercent <= 0)
+            if (minBodyPercent > 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(minBodyPercent), minBodyPercent,
-                    "Minimum Body Percent must be greater than 0 for Marubozu and is usually above 90%.");
+                    "Minimum Body Percent must be less than 1 for Marubozu (<=100%).");
+            }
+
+            if (minBodyPercent < 0.8)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minBodyPercent), minBodyPercent,
+                    "Minimum Body Percent must at least 0.8 (80%) for Marubozu and is usually greater than 0.9 (90%).");
             }
 
             // check quotes

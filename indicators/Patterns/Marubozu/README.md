@@ -15,7 +15,7 @@ IEnumerable<MarubozuResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `minBodyPercent` | double | Optional.  Minimum body size as a decimalized percent of total candle size.  Must be greater than 0, if specified.  Default is 0.95 (e.g. 95%).
+| `minBodyPercent` | double | Optional.  Minimum body size as a decimalized percent of total candle size.  Must be between 0.8 and 1, if specified.  Default is 0.95 (95%).
 
 ### Historical quotes requirements
 

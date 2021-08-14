@@ -45,9 +45,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Exceptions()
         {
-            // bad SMA period
+            // bad minimum body percent values
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMarubozu(quotes, 0));
+                Indicator.GetMarubozu(quotes, 0.799));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetMarubozu(quotes, 1.001));
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
