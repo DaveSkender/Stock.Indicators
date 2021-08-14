@@ -55,7 +55,7 @@ steps:
     inputs:
       command: test
       projects: "tests/indicators"
-      arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+      arguments: '--configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       publishTestResults: true
       testRunTitle: "Indicator Tests"
 
