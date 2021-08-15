@@ -29,7 +29,10 @@ You must have at least `N+1` periods of `quotes`.
 IEnumerable<CmfResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
 ### CmfResult
 
@@ -48,7 +51,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -58,12 +61,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period CMF
 IEnumerable<CmfResult> results = quotes.GetCmf(20);
-
-// use results as needed
-CmfResult result = results.LastOrDefault();
-Console.WriteLine("CMF on {0} was {1}", result.Date, result.Cmf);
-```
-
-```bash
-CMF on 12/31/2018 was -20257894
 ```

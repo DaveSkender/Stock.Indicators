@@ -31,10 +31,12 @@ You must have at least `N+100` periods of `quotes`.  Since this uses a smoothing
 IEnumerable<SuperTrendResult>
 ```
 
-The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
 
-:warning: **Warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
+:hourglass: **Convergence Warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 
 ### SuperTrendResult
 
@@ -53,7 +55,7 @@ We always return the same number of elements as there are in the historical quot
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -64,13 +66,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate SuperTrend(14,3)
 IEnumerable<SuperTrendResult> results
   = quotes.GetSuperTrend(14,3);
-
-// use results as needed
-SuperTrendResult r = results.LastOrDefault();
-Console.WriteLine("SuperTrend(14,3) on {0} was ${1}",
-  r.Date, r.SuperTrend);
-```
-
-```bash
-SuperTrend(14,3) on 12/31/2018 was $250.80
 ```

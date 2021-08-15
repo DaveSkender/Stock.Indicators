@@ -39,10 +39,12 @@ You must have at least `2×S+1` periods of `quotes`; however, more is typically 
 IEnumerable<FractalResult>
 ```
 
-The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
-:warning: **Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `quotes`.
+:paintbrush: **Repaint Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
 
 ### FractalResult
 
@@ -57,7 +59,7 @@ We always return the same number of elements as there are in the historical quot
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -67,12 +69,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Fractal(5)
 IEnumerable<FractalResult> results = quotes.GetFractal(5);
-
-// use results as needed
-FractalResult r = results.Where(x=>x.FractalBear!=null).LastOrDefault();
-Console.WriteLine("FractalBear on {0} was ${1}", r.Date, r.FractalBear);
-```
-
-```bash
-FractalBear on 12/12/2018 was $262.47
 ```

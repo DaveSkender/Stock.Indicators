@@ -30,9 +30,12 @@ You must have at least `6×(N-1)+100` periods of `quotes`.  Since this uses a sm
 IEnumerable<T3Result>
 ```
 
-The first `6×(N-1)` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `6×(N-1)` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The first `6×(N-1)+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `6×(N-1)+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### T3Result
 
@@ -47,7 +50,7 @@ The first `6×(N-1)` periods will have `null` values since there's not enough da
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -57,12 +60,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 5-period T3
 IEnumerable<T3Result> results = quotes.GetT3(5,0.7);
-
-// use results as needed
-T3Result result = results.LastOrDefault();
-Console.WriteLine("T3 on {0} was {1}", result.Date, result.T3);
-```
-
-```bash
-T3 on 12/31/2018 was $238.93
 ```

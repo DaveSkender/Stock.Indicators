@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
                     sd[i] = 0.33 * pd[i] + 0.67 * sd[i - 1];
 
                     // smooth dominant cycle period
-                    int dcPeriods = (int)(Math.Truncate(sd[i] + 0.5));
+                    int dcPeriods = (int)(sd[i] + 0.5);
                     double sumPr = 0;
                     for (int d = i - dcPeriods + 1; d <= i; d++)
                     {
@@ -179,7 +179,7 @@ namespace Skender.Stock.Indicators
             {
                 string message = "Insufficient quotes provided for HTL.  " +
                     string.Format(EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.",
+                    "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistory, minHistory);
 
                 throw new BadQuotesException(nameof(quotes), message);

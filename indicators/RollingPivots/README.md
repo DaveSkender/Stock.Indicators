@@ -43,7 +43,10 @@ You must have at least `W+F` periods of `quotes`.
 IEnumerable<RollingPivotsResult>
 ```
 
-The first `W+F-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `W+F-1` periods will have `null` values since there's not enough data to calculate.
 
 ### RollingPivotsResult
 
@@ -64,7 +67,7 @@ The first `W+F-1` periods will have `null` values since there's not enough data 
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -73,14 +76,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style 14 period Rolling Pivot Points
-IEnumerable<RollingPivotsResult> results = 
-  quotes.GetRollingPivots(14,0,PivotPointType.Woodie);
-
-// use results as needed
-RollingPivotsResult result = results.LastOrDefault();
-Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
-```
-
-```bash
-PP on 12/31/2018 was $251.86
+IEnumerable<RollingPivotsResult> results
+  = quotes.GetRollingPivots(14,0,PivotPointType.Woodie);
 ```

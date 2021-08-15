@@ -30,7 +30,10 @@ You must have at least `N` periods of `quotes`.
 IEnumerable<StdDevChannelsResult>
 ```
 
-Up to `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- Up to `N-1` periods will have `null` values since there's not enough data to calculate.
 
 :warning: **Warning**: Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
 
@@ -50,7 +53,7 @@ Up to `N-1` periods will have `null` values since there's not enough data to cal
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -59,17 +62,8 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StdDevChannels(20,2)
-IEnumerable<StdDevChannelsResult> results =
-  quotes.GetStdDevChannels(20,2);
-
-// use results as needed
-StdDevChannelsResult result = results.LastOrDefault();
-Console.WriteLine("Upper Channel on {0} was ${1}",
-  result.Date, result.UpperBand);
-```
-
-```bash
-Upper Channel on 12/31/2018 was $213.97
+IEnumerable<StdDevChannelsResult> results
+  = quotes.GetStdDevChannels(20,2);
 ```
 
 ## Alternative depiction for full quotes variant

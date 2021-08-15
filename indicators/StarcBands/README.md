@@ -31,9 +31,12 @@ You must have at least `S` or `A+100` periods of `quotes`, whichever is more.  S
 IEnumerable<StarcBandsResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` or `A`.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` or `A`.
 
-:warning: **Warning**: The first `A+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `A+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### StarcBandsResult
 
@@ -50,7 +53,7 @@ The first `N-1` periods will have `null` values since there's not enough data to
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -59,13 +62,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StarcBands(20)
-IEnumerable<StarcBandsResult> results = quotes.GetStarcBands(20,2.0,10);
-
-// use results as needed
-StarcBandsResult result = results.LastOrDefault();
-Console.WriteLine("Upper STARC Band on {0} was ${1}", result.Date, result.UpperBand);
-```
-
-```bash
-Upper STARC Band on 12/31/2018 was $262.19
+IEnumerable<StarcBandsResult> results
+  = quotes.GetStarcBands(20,2.0,10);
 ```

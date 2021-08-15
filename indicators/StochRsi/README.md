@@ -34,10 +34,12 @@ You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S
 IEnumerable<StochRsiResult>
 ```
 
-The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.
 
-:warning: **Warning**: The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
-We recommend pruning at least `R+S+M+100` initial values.
+:hourglass: **Convergence Warning**: The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  We recommend pruning at least `R+S+M+100` initial values.
 
 ### StochRsiResult
 
@@ -53,7 +55,7 @@ We recommend pruning at least `R+S+M+100` initial values.
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -62,13 +64,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate StochRSI(14)
-IEnumerable<StochRsiResult> results = quotes.GetStochRsi(14,14,1,1);
-
-// use results as needed
-StochRsiResult result = results.LastOrDefault();
-Console.WriteLine("StochRSI on {0} was {1}", result.Date, result.StochRsi);
-```
-
-```bash
-StochRSI on 12/31/2018 was 0.975
+IEnumerable<StochRsiResult> results
+  = quotes.GetStochRsi(14,14,1,1);
 ```

@@ -273,8 +273,7 @@ namespace Skender.Stock.Indicators
             if (qtyWindows < 2)
             {
                 string message = "Insufficient quotes provided for Pivot Points.  " +
-                    string.Format(
-                        EnglishCulture,
+                    string.Format(EnglishCulture,
                     "You provided {0} {1} windows of quotes when at least 2 are required.  "
                     + "This can be from either not enough quotes or insufficiently detailed Date values.",
                     qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));

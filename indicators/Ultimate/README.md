@@ -31,7 +31,10 @@ You must have at least `L+1` periods of `quotes`.
 IEnumerable<UltimateResult>
 ```
 
-The first `L-1` periods will have `null` Ultimate values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `L-1` periods will have `null` Ultimate values since there's not enough data to calculate.
 
 ### UltimateResult
 
@@ -46,7 +49,7 @@ The first `L-1` periods will have `null` Ultimate values since there's not enoug
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -56,12 +59,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period Ultimate
 IEnumerable<UltimateResult> results = quotes.GetUltimate(7,14,28);
-
-// use results as needed
-UltimateResult result = results.LastOrDefault();
-Console.WriteLine("ULT on {0} was {1}", result.Date, result.Ultimate);
-```
-
-```bash
-ULT on 12/31/2018 was 49.53
 ```

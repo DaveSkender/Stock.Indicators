@@ -31,7 +31,10 @@ You must have at least the greater of `N`,`S`, or `L` periods of `quotes`; thoug
 IEnumerable<IchimokuResult>
 ```
 
-The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since there's not enough data to calculate.
 
 ### IchimokuResult
 
@@ -49,7 +52,7 @@ The first `N-1`, `S-1`, and `L-1` periods will have various `null` values since 
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -58,14 +61,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate ICHIMOKU(9,26,52)
-IEnumerable<IchimokuResult> results =
-  quotes.GetIchimoku(9,26,52);
-
-// use results as needed
-IchimokuResult result = results.LastOrDefault();
-Console.WriteLine("Tenkan-sen on {0} was ${1}", result.Date, result.TenkanSen);
-```
-
-```bash
-Tenkan-sen on 12/31/2018 was $241.26
+IEnumerable<IchimokuResult> results
+  = quotes.GetIchimoku(9,26,52);
 ```

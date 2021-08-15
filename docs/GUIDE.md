@@ -50,20 +50,21 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 // calculate 20-period SMA
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 
-// use results as needed
-SmaResult result = results.LastOrDefault();
-Console.WriteLine("SMA on {0} was ${1}", result.Date, result.Sma);
+// use results as needed for your use case (example only)
+foreach (SmaResult r in results)
+{
+    Console.WriteLine($"SMA on {r.Date:d} was ${r.Sma:N4}");
+}
 ```
 
-```bash
-SMA on 12/31/2018 was $251.86
-```
-
-If you do not prefer using the quotes extension syntax, a full method syntax can also be used.
-
-```csharp
-// alternate full syntax example
-IEnumerable<SmaResult> results = Indicator.GetSma(quotes,20);
+```console
+SMA on 4/19/2018 was $255.0590
+SMA on 4/20/2018 was $255.2015
+SMA on 4/23/2018 was $255.6135
+SMA on 4/24/2018 was $255.5105
+SMA on 4/25/2018 was $255.6570
+SMA on 4/26/2018 was $255.9705
+..
 ```
 
 See [individual indicator pages](INDICATORS.md) for specific usage guidance.
@@ -87,7 +88,7 @@ There are many places to get stock market data.  Check with your brokerage or ot
 
 ### How much historical quote data do I need?
 
-Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, most use cases will require that you provide more than the minimum.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadQuotesException` will be thrown if you do not provide sufficient historical quotes to produce any results.
+Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).  A `BadQuotesException` will be thrown if you do not provide sufficient historical quotes to produce any results.
 
 :warning: IMPORTANT! Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
 

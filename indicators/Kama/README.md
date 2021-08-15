@@ -31,9 +31,12 @@ You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more.
 IEnumerable<KamaResult>
 ```
 
-The first `N-1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### KamaResult
 
@@ -51,7 +54,7 @@ More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes a
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -61,12 +64,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate KAMA(10,2,30)
 IEnumerable<KamaResult> results = quotes.GetKama(10,2,30);
-
-// use results as needed
-KamaResult result = results.LastOrDefault();
-Console.WriteLine("KAMA on {0} was ${1}", result.Date, result.Kama);
-```
-
-```bash
-KAMA on 12/31/2018 was $251.86
 ```

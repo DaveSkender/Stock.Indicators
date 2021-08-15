@@ -35,7 +35,10 @@ You must have at least `N` periods of `historyBase` to calculate `PrsPercent` if
 IEnumerable<PrsResult>
 ```
 
-The `N` periods will have `null` values for `PrsPercent` and the first `S-1` periods will have `null` values for `Sma` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The `N` periods will have `null` values for `PrsPercent` and the first `S-1` periods will have `null` values for `Sma` since there's not enough data to calculate.
 
 ### PrResult
 
@@ -51,7 +54,7 @@ The `N` periods will have `null` values for `PrsPercent` and the first `S-1` per
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -62,12 +65,4 @@ IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 
 // calculate 14-period PRS
 IEnumerable<PrResult> results = historySPX.GetPrs(historyTSLA,14);
-
-// use results as needed
-PrResult result = results.LastOrDefault();
-Console.WriteLine("PRS(SPX,TSLA,14) on {0} was {1}", result.Date, result.PriceRatio);
-```
-
-```bash
-PRS(SPX,TSLA,14) on 12/31/2018 was 1.36
 ```

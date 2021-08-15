@@ -30,9 +30,12 @@ Since this indicator has a warmup period, you must have at least `50` periods of
 IEnumerable<MamaResult>
 ```
 
-The first `5` periods will have `null` values for MAMA since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `5` periods will have `null` values for `Mama` since there's not enough data to calculate.
 
-:warning: **Warning**: The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `50` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### MamaResult
 
@@ -48,7 +51,7 @@ The first `5` periods will have `null` values for MAMA since there's not enough 
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -58,12 +61,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate Mama(0.5,0.05)
 IEnumerable<MamaResult> results = quotes.GetMama(0.5,0.05);
-
-// use results as needed
-MamaResult result = results.LastOrDefault();
-Console.WriteLine("MAMA on {0} was ${1}", result.Date, result.Mama);
-```
-
-```bash
-MAMA on 12/31/2018 was $251.86
 ```

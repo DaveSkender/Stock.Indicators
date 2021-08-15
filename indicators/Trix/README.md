@@ -34,9 +34,12 @@ You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is mo
 IEnumerable<TrixResult>
 ```
 
-We always return the same number of elements as there are in the historical quotes.  The first `3×N-3` periods will have `null` values since there's not enough data to calculate.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `3×N-3` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `3×N+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### TrixResult
 
@@ -53,7 +56,7 @@ We always return the same number of elements as there are in the historical quot
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -63,12 +66,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Trix
 IEnumerable<TrixResult> results = quotes.GetTrix(14);
-
-// use results as needed
-TrixResult result = results.LastOrDefault();
-Console.WriteLine("Trix on {0} was {1}", result.Date, result.Trix);
-```
-
-```bash
-Trix on 12/31/2018 was -0.02045
 ```

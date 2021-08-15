@@ -33,7 +33,11 @@ You must have at least one historical quote to calculate; however, more is often
 IEnumerable<VwapResult>
 ```
 
-The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.  `Vwap` values before `startDate`, if specified, will be `null`.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.
+- `Vwap` values before `startDate`, if specified, will be `null`.
 
 ### VwapResult
 
@@ -48,7 +52,7 @@ The first period or the `startDate` will have a `Vwap = Close` value since it is
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -58,12 +62,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<VwapResult> results = quotes.GetVwap();
-
-// use results as needed
-VwapResult result = results.LastOrDefault();
-Console.WriteLine("VWAP on {0} was ${1}", result.Date, result.Vwap);
-```
-
-```bash
-VWAP on 12/15/2020 16:00:00 was $368.18
 ```

@@ -50,7 +50,10 @@ You must have at least `2` windows of `quotes`.  For example, if you specify a `
 IEnumerable<PivotPointsResult>
 ```
 
-The first window will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first window will have `null` values since there's not enough data to calculate.
 
 :warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 
@@ -73,7 +76,7 @@ The first window will have `null` values since there's not enough data to calcul
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -82,14 +85,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Woodie-style month-based Pivot Points
-IEnumerable<PivotPointsResult> results =
-  quotes.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
-
-// use results as needed
-PivotPointsResult result = results.LastOrDefault();
-Console.WriteLine("PP on {0} was ${1}", result.Date, result.PP);
-```
-
-```bash
-PP on 12/31/2018 was $251.86
+IEnumerable<PivotPointsResult> results
+  = quotes.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
 ```

@@ -48,9 +48,12 @@ These are the supported moving average types:
 IEnumerable<MaEnvelopeResult>
 ```
 
-The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
-:warning: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+:hourglass: **Convergence Warning**: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 
 ### MaEnvelopeResult
 
@@ -68,7 +71,7 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -79,13 +82,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 // calculate 20-period SMA envelopes with 2.5% offset
 IEnumerable<MaEnvelopeResult> results = 
     quotes.GetMaEnvelopes(20,2.5,MaType.SMA);
-
-// use results as needed
-MaEnvelopeResult result = results.LastOrDefault();
-Console.WriteLine(
-    "MA Upper on {0} was ${1}", result.Date, result.UpperEnvelope);
-```
-
-```bash
-MA Upper on 12/31/2018 was $251.86
 ```

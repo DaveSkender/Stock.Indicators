@@ -37,9 +37,16 @@ You must have at least two periods of `quotes` to calculate, but notably more is
 IEnumerable<ZigZagResult>
 ```
 
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- If you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.
+- The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.
+- The last line segment is an approximation as the direction is indeterminate.
+
 :warning: **Warning**:  depending on the specified `endType`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
 
-Also, if you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.  The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.  The last line segment is an approximation as the direction is indeterminant.  Swing high and low points are denoted with `PointType` values of `H` or `L`.  We always return the same number of result elements as there are in the historical quotes.
+:paintbrush: **Repaint Warning**: the last line segement will always be redrawn back to the last known pivot.  Do not attempt to calculate incremental values since previous values may change based on newer quotes.
 
 ### ZigZagResult
 
@@ -56,7 +63,7 @@ Also, if you do not supply enough points to cover the percent change, there will
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -65,14 +72,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 3% change ZIGZAG
-IEnumerable<ZigZagResult> results =
-  quotes.GetZigZag(EndType.Close,3);
-
-// use results as needed
-ZigZagResult result = results.LastOrDefault();
-Console.WriteLine("ZIGZAG on {0} was ${1}", result.Date, result.ZigZag);
-```
-
-```bash
-ZIGZAG on 02/18/2018 was $248.13
+IEnumerable<ZigZagResult> results
+  = quotes.GetZigZag(EndType.Close,3);
 ```

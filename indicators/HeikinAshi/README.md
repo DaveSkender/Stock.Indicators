@@ -23,7 +23,10 @@ You must have at least two periods of `quotes`; however, more is typically provi
 IEnumerable<HeikinAshiResult>
 ```
 
-The first period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first period will have `null` values since there's not enough data to calculate.
 
 ### HeikinAshiResult
 
@@ -42,7 +45,7 @@ The first period will have `null` values since there's not enough data to calcul
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -52,12 +55,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate
 IEnumerable<HeikinAshiResult> results = quotes.GetHeikinAshi();
-
-// use results as needed
-HeikinAshiResult result = results.LastOrDefault();
-Console.WriteLine("Heikin-Ashi open price on {0} was ${1}", result.Date, result.Open);
-```
-
-```bash
-Heikin-Ashi open price on 12/31/2018 was $241.3
 ```

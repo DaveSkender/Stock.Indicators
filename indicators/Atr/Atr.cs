@@ -112,9 +112,8 @@ namespace Skender.Stock.Indicators
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient quotes provided for ATR.  " +
-                    string.Format(
-                        EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} is required.  "
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                     + "Since this uses a smoothing technique, "
                     + "we recommend you use at least N+250 data points prior to the intended "
                     + "usage date for better precision.", qtyHistory, minHistory);

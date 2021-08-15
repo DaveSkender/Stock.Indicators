@@ -33,7 +33,10 @@ You must have at least two historical quotes; however, since this is a trendline
 IEnumerable<ObvResult>
 ```
 
-The first period OBV will have `0` value since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first period OBV will have `0` value since there's not enough data to calculate.
 
 ### ObvResult
 
@@ -51,7 +54,7 @@ The first period OBV will have `0` value since there's not enough data to calcul
 - [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -61,12 +64,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<ObvResult> results = quotes.GetObv();
-
-// use results as needed
-ObvResult result = results.LastOrDefault();
-Console.WriteLine("OBV on {0} was {1}", result.Date, result.Obv);
-```
-
-```bash
-OBV on 12/31/2018 was 539843504
 ```

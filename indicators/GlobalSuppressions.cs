@@ -18,3 +18,10 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Making an exception",
     Scope = "member",
     Target = "~P:Skender.Stock.Indicators.IResult.Date")]
+
+// this can be removed after Microsoft publishes fix,
+// see https://github.com/dotnet/roslyn/issues/55014
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0130:Namespace does not match folder structure",
+    Justification = "Microsoft bug, not real")]

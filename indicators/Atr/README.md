@@ -29,9 +29,12 @@ You must have at least `N+100` periods of `quotes`.  Since this uses a smoothing
 IEnumerable<AtrResult>
 ```
 
-The first `N-1` periods will have `null` values for ATR since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` periods will have `null` values for ATR since there's not enough data to calculate.
 
-:warning: **Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### AtrResult
 
@@ -48,7 +51,7 @@ The first `N-1` periods will have `null` values for ATR since there's not enough
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -58,12 +61,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 14-period ATR
 IEnumerable<AtrResult> results = quotes.GetAtr(14);
-
-// use results as needed
-AtrResult result = results.LastOrDefault();
-Console.WriteLine("ATR on {0} was {1}", result.Date, result.Atr);
-```
-
-```bash
-ATR on 12/31/2018 was 6.15
 ```

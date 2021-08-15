@@ -30,7 +30,10 @@ At least two quotes records are required to calculate; however, we recommend at 
 IEnumerable<ParabolicSarResult>
 ```
 
-The first trend will have `null` values since it is not accurate and based on an initial guess.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first trend will have `null` values since it is not accurate and based on an initial guess.
 
 ### ParabolicSarResult
 
@@ -46,7 +49,7 @@ The first trend will have `null` values since it is not accurate and based on an
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -55,13 +58,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate ParabolicSar(0.02,0.2)
-IEnumerable<ParabolicSarResult> results = quotes.GetParabolicSar(0.02,0.2);
-
-// use results as needed
-ParabolicSarResult result = results.LastOrDefault();
-Console.WriteLine("SAR on {0} was ${1}", result.Date, result.Sar);
-```
-
-```bash
-SAR on 12/31/2018 was $229.76
+IEnumerable<ParabolicSarResult> results
+  = quotes.GetParabolicSar(0.02,0.2);
 ```

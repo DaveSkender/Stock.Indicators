@@ -29,9 +29,11 @@ You must have at least `N` periods of `quotes`.
 IEnumerable<FisherTransformResult>
 ```
 
-We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
 
-:warning: **Warning**: The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
+:hourglass: **Convergence Warning**: The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
 
 ### FisherTransformResult
 
@@ -53,7 +55,7 @@ quotes.GetFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -62,15 +64,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more informatio
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 10-period FisherTransform
-IEnumerable<FisherTransformResult> results =
-  quotes.GetFisherTransform(10);
-
-// use results as needed
-FisherTransformResult result = results.LastOrDefault();
-Console.WriteLine("Fisher Transform on {0} was {1}",
-                  result.Date, result.Fisher);
-```
-
-```bash
-Fisher Transform on 12/31/2018 was -1.29
+IEnumerable<FisherTransformResult> results
+  = quotes.GetFisherTransform(10);
 ```

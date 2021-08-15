@@ -31,9 +31,12 @@ You must have at least `L+100` periods of `quotes`.  Since this uses a smoothing
 IEnumerable<KvoResult>
 ```
 
-The first `L+1` periods will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `L+1` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The first `L+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `L+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### KvoResult
 
@@ -49,7 +52,7 @@ The first `L+1` periods will have `null` values since there's not enough data to
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -59,12 +62,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate Klinger(34,55,13)
 IEnumerable<KvoResult> results = quotes.GetKvo(34,55,13);
-
-// use results as needed
-KvoResult result = results.LastOrDefault();
-Console.WriteLine("Klinger Oscillator on {0} was {1:N0}", result.Date, result.Oscillator);
-```
-
-```bash
-Klinger Oscillator on 12/31/2018 was -539,224,047
 ```

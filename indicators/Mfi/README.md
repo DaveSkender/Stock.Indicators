@@ -29,7 +29,10 @@ You must have at least `N+1` historical quotes.
 IEnumerable<MfiResult>
 ```
 
-The first `N` periods will have `null` MFI values since they cannot be calculated.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N` periods will have `null` MFI values since they cannot be calculated.
 
 ### MfiResult
 
@@ -44,7 +47,7 @@ The first `N` periods will have `null` MFI values since they cannot be calculate
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -54,12 +57,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
 IEnumerable<MfiResult> results = quotes.GetMfi(14);
-
-// use results as needed
-MfiResult result = results.LastOrDefault();
-Console.WriteLine("MFI on {0} was {1}", result.Date, result.Mfi);
-```
-
-```bash
-MFI on 12/31/2018 was 39.95
 ```

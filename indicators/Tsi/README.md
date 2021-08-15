@@ -31,7 +31,11 @@ You must have at least `N+M+100` periods of `quotes`.  Since this uses a two EMA
 IEnumerable<TsiResult>
 ```
 
-The first `N+M-1` periods will have `null` values since there's not enough data to calculate.  `Signal` will be `null` for all periods if `signalPeriods=0`.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N+M-1` periods will have `null` values since there's not enough data to calculate.
+- `Signal` will be `null` for all periods if `signalPeriods=0`.
 
 :warning: **Warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
@@ -49,7 +53,7 @@ The first `N+M-1` periods will have `null` values since there's not enough data 
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -59,12 +63,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period TSI
 IEnumerable<TsiResult> results = quotes.GetTsi(25,13,7);
-
-// use results as needed
-TsiResult result = results.LastOrDefault();
-Console.WriteLine("TSI on {0} was {1}", result.Date, result.Tsi);
-```
-
-```bash
-TSI on 12/31/2018 was -28.35
 ```

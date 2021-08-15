@@ -29,7 +29,10 @@ You must have at least `N` periods of `quotes`.
 IEnumerable<UlcerIndexResult>
 ```
 
-The first `N-1` slow periods + signal period will have `null` values since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `N-1` slow periods + signal periods will have `null` values since there's not enough data to calculate.
 
 ### UlcerIndexResult
 
@@ -44,7 +47,7 @@ The first `N-1` slow periods + signal period will have `null` values since there
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -54,12 +57,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate UI(14)
 IEnumerable<UlcerIndexResult> results = quotes.GetUlcerIndex(14);
-
-// use results as needed
-UlcerIndexResult result = results.LastOrDefault();
-Console.WriteLine("Ulcer Index on {0} was {1}", result.Date, result.UI);
-```
-
-```bash
-Ulcer Index on 12/31/2018 was 5.73
 ```

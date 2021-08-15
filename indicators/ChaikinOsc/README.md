@@ -30,9 +30,12 @@ You must have at least `2×S` or `S+100` periods of `quotes`, whichever is more.
 IEnumerable<ChaikinOscResult>
 ```
 
-The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.  We always return the same number of elements as there are in the historical quotes.
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
-:warning: **Warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ChaikinOscResult
 
@@ -52,7 +55,7 @@ The first `S-1` periods will have `null` values for `Oscillator` since there's n
 - [.RemoveWarmupPeriods()](../../docs/UTILITIES.md#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#content) for more information.
+See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
@@ -62,12 +65,4 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period Chaikin Oscillator
 IEnumerable<ChaikinOscResult> results = quotes.GetChaikinOsc(20);
-
-// use results as needed
-ChaikinOscResult result = results.LastOrDefault();
-Console.WriteLine("Chaikin Oscillator on {0} was {1}", result.Date, result.ChaikinOsc);
-```
-
-```bash
-Chaikin Oscillator on 12/31/2018 was -19135200
 ```
