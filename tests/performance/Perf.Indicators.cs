@@ -298,6 +298,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetPivots()
+        {
+            return h.GetPivots();
+        }
+
+        [Benchmark]
         public object GetPivotPoints()
         {
             return h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
@@ -361,12 +367,6 @@ namespace Tests.Performance
         public object GetRsi()
         {
             return h.GetRsi();
-        }
-
-        [Benchmark]
-        public object GetRsiExtended()
-        {
-            return Indicator.GetRsiExtended(h);
         }
 
         [Benchmark]

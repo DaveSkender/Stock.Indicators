@@ -15,12 +15,23 @@ namespace Skender.Stock.Indicators
             EndType endType = EndType.HighLow)
             where TQuote : IQuote
         {
+            return GetFractal(quotes, windowSpan, windowSpan, endType);
+        }
+
+        // more configurable version (undocumented)
+        public static IEnumerable<FractalResult> GetFractal<TQuote>(
+            IEnumerable<TQuote> quotes,
+            int leftSpan,
+            int rightSpan,
+            EndType endType = EndType.HighLow)
+            where TQuote : IQuote
+        {
+
+            // check parameter arguments
+            ValidateFractal(quotes, Math.Min(leftSpan, rightSpan));
 
             // sort quotes
             List<TQuote> quotesList = quotes.Sort();
-
-            // check parameter arguments
-            ValidateFractal(quotes, windowSpan);
 
             // initialize
             List<FractalResult> results = new(quotesList.Count);
@@ -36,7 +47,7 @@ namespace Skender.Stock.Indicators
                     Date = q.Date
                 };
 
-                if (index > windowSpan && index <= quotesList.Count - windowSpan)
+                if (index > leftSpan && index <= quotesList.Count - rightSpan)
                 {
                     bool isHigh = true;
                     bool isLow = true;
@@ -48,7 +59,7 @@ namespace Skender.Stock.Indicators
                         Math.Min(q.Open, q.Close) : q.Low;
 
                     // compare today with wings
-                    for (int p = i - windowSpan; p <= i + windowSpan; p++)
+                    for (int p = i - leftSpan; p <= i + rightSpan; p++)
                     {
                         // skip center eval period
                         if (p == i)
