@@ -2,6 +2,28 @@
 {
     // ENUMERATIONS
 
+    public enum DivergenceType
+    {
+        RegularBull,
+        RegularBear,
+        HiddenBull,
+        HiddenBear
+    }
+
+    public enum EndType
+    {
+        Close = 0,
+        HighLow = 1
+    }
+
+    public enum PivotTrend
+    {
+        HH,
+        LH,
+        HL,
+        LL
+    }
+
     public enum MaType
     {
         ALMA,
@@ -30,19 +52,5 @@
         ThreeMinutes,
         TwoMinutes,
         OneMinute
-    }
-
-    public enum EndType
-    {
-        Close = 0,
-        HighLow = 1
-    }
-
-    public enum DivergenceType
-    {
-        RegularBull,
-        RegularBear,
-        HiddenBull,
-        HiddenBear
     }
 }
