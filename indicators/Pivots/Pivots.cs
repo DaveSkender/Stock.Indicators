@@ -66,9 +66,15 @@ namespace Skender.Stock.Indicators
                             ? PivotTrend.HH
                             : PivotTrend.LH;
 
+                        results[(int)lastHighIndex].HighLine = lastHighValue;
+
+                        decimal incr = (decimal)((r.HighPoint - lastHighValue)
+                                     / (decimal)(i - lastHighIndex));
+
                         for (int t = (int)lastHighIndex + 1; t <= i; t++)
                         {
                             results[t].HighTrend = trend;
+                            results[t].HighLine = r.HighPoint + incr * (t - i);
                         }
                     }
 
@@ -87,9 +93,15 @@ namespace Skender.Stock.Indicators
                             ? PivotTrend.HL
                             : PivotTrend.LL;
 
+                        results[(int)lastLowIndex].LowLine = lastLowValue;
+
+                        decimal incr = (decimal)((r.LowPoint - lastLowValue)
+                                     / (decimal)(i - lastLowIndex));
+
                         for (int t = (int)lastLowIndex + 1; t <= i; t++)
                         {
                             results[t].LowTrend = trend;
+                            results[t].LowLine = r.LowPoint + incr * (t - i);
                         }
                     }
 

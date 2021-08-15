@@ -2,8 +2,9 @@
 {
     // ENUMERATIONS
 
-    public enum DivergenceType
+    internal enum DivergenceType
     {
+        // TODO: not implemented
         RegularBull,
         RegularBear,
         HiddenBull,
@@ -18,10 +19,17 @@
 
     public enum PivotTrend
     {
-        HH,
-        LH,
-        HL,
-        LL
+        HH, // higher high
+        LH, // lower high
+        HL, // higher low
+        LL  // lower low
+    }
+
+    internal enum QuoteType
+    {
+        // TODO: not implemented
+        AllowNulls,
+        ExcludeNull
     }
 
     public enum MaType
