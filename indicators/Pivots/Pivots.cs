@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
             decimal? lastLowValue = null;
 
             // roll through results
-            for (int i = leftSpan; i < results.Count - rightSpan; i++)
+            for (int i = leftSpan; i <= results.Count - rightSpan; i++)
             {
                 PivotsResult r = results[i];
 
