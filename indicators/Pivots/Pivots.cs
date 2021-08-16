@@ -115,11 +115,12 @@ namespace Skender.Stock.Indicators
         }
 
         // parameter validation
-        private static void ValidatePivots<TQuote>(
+        internal static void ValidatePivots<TQuote>(
             IEnumerable<TQuote> quotes,
             int leftSpan,
             int rightSpan,
-            int maxTrendPeriods)
+            int maxTrendPeriods,
+            string caller = "Pivots")
             where TQuote : IQuote
         {
 
@@ -127,19 +128,19 @@ namespace Skender.Stock.Indicators
             if (rightSpan < 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(rightSpan), rightSpan,
-                    "Right span must be at least 2 for Pivots.");
+                    $"Right span must be at least 2 for {caller}.");
             }
 
             if (leftSpan < 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(leftSpan), leftSpan,
-                    "Left span must be at least 2 for Pivots.");
+                    $"Left span must be at least 2 for {caller}.");
             }
 
             if (maxTrendPeriods <= leftSpan)
             {
                 throw new ArgumentOutOfRangeException(nameof(leftSpan), leftSpan,
-                    "Lookback periods must be greater than the Left window span for Pivots.");
+                    $"Lookback periods must be greater than the Left window span for {caller}.");
             }
 
             // check quotes
@@ -147,7 +148,7 @@ namespace Skender.Stock.Indicators
             int minHistory = leftSpan + rightSpan + 1;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient quotes provided for Pivots.  " +
+                string message = $"Insufficient quotes provided for {caller}.  " +
                     string.Format(EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistory, minHistory);

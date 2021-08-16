@@ -2,15 +2,6 @@
 {
     // ENUMERATIONS
 
-    internal enum DivergenceType
-    {
-        // TODO: not implemented
-        RegularBull,
-        RegularBear,
-        HiddenBull,
-        HiddenBear
-    }
-
     public enum EndType
     {
         Close = 0,
@@ -23,13 +14,6 @@
         LH, // lower high
         HL, // higher low
         LL  // lower low
-    }
-
-    internal enum QuoteType
-    {
-        // TODO: not implemented
-        AllowNulls,
-        ExcludeNull
     }
 
     public enum MaType

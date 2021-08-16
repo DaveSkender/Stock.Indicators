@@ -61,26 +61,3 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate RSI(14)
 IEnumerable<RsiResult> results = quotes.GetRsi(14);
 ```
-
-## Extended analysis
-
-![image](chart-extended.png)
-
-```csharp
-// usage
-IEnumerable<RsiExtendedResult> results =
-  quotes.GetRsiExtended(lookbackPeriods);  
-```
-
-### Parameters for extended variant
-
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period for RSI.  Must be greater than 0.  Default is 14.
-
-### RsiExtendedResult
-
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Rsi` | decimal | RSI over prior `N` lookback periods
