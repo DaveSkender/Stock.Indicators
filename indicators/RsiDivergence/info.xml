@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    RSI Divergence
+    See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Pivots/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="rsiPeriods">Number of periods in the RSI lookback window.</param>
+  <param name="leftSpan">Number of span periods to the left of the evaluation period.</param>
+  <param name="rightSpan">Number of span periods to the right of the evaluation period.</param>
+  <param name="maxTrendPeriods">Number of periods in the lookback window.</param>
+  <param name="endType">Determines use of Close or High/Low wicks for points.</param>
+  <returns>Time series of Pivots values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+</indicator>
