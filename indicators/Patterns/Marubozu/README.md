@@ -21,7 +21,7 @@ IEnumerable<MarubozuResult> results =
 
 You must have at least one historical quote.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../../docs/GUIDE.md#historical-quotes) for more information.
 
 ## Response
 
@@ -44,10 +44,10 @@ IEnumerable<MarubozuResult>
 
 ### Utilities
 
-- [.Find(lookupDate)](../../docs/UTILITIES.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../../docs/UTILITIES.md#remove-warmup-periods)
+- [.Find(lookupDate)](../../../docs/UTILITIES.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](../../../docs/UTILITIES.md#remove-warmup-periods)
 
-See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
+See [Utilities and Helpers](../../../docs/UTILITIES.md#utilities-for-indicator-results) for more information.
 
 ## Example
 
