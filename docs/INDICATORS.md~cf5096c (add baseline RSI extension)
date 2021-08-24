@@ -45,6 +45,11 @@
 - [Ultimate Oscillator](../indicators/Ultimate/README.md#content)
 - [Williams %R](../indicators/WilliamsR/README.md#content)
 
+## Divergence
+
+- [RSI Divergence](../indicators/RsiDivergence/README.md#content)
+- more to come (help wanted)
+
 ## Stop and reverse
 
 - [Chandelier Exit](../indicators/Chandelier/README.md#content)
