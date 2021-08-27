@@ -1,4 +1,4 @@
-﻿# Ulcer Index (UI)
+# Ulcer Index (UI)
 
 Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_index) is a measure of downside Close price volatility over a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/232 "Community discussion about this indicator")
@@ -32,7 +32,7 @@ IEnumerable<UlcerIndexResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first `N-1` slow periods + signal periods will have `null` values since there's not enough data to calculate.
+- The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
 ### UlcerIndexResult
 
