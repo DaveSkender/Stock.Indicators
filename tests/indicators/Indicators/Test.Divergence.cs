@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
@@ -13,9 +14,22 @@ namespace Internal.Tests
         public void Standard()
         {
             IEnumerable<PivotsResult> pricePivots = quotes.GetPivots();
-            IEnumerable<PivotsResult> rsiPivots = quotes.GetRsi(14)
+            IEnumerable<RsiResult> rsi = quotes.GetRsi(14);
+
+            //foreach (RsiResult r in rsi)
+            //{
+            //    Console.WriteLine($"{r.Date:d},{r.Rsi:N4}");
+            //}
+
+            IEnumerable<PivotsResult> rsiPivots = rsi
                 .ConvertToQuotes()
                 .GetPivots();
+
+            //foreach (PivotsResult r in rsiPivots)
+            //{
+            //    Console.WriteLine($"{r.Date:d},{r.HighPoint:N2},{r.HighTrend},{r.HighLine:N4},"
+            //                     + $"{r.LowPoint:N2},{r.LowTrend},{r.LowLine:N4}");
+            //}
 
             List<DivergenceResult> results
                = Indicator.CalcDivergence(pricePivots, rsiPivots)
