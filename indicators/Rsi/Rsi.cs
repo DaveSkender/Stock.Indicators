@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // RELATIVE STRENGTH INDEX
-        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
+        /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<RsiResult> GetRsi<TQuote>(
             this IEnumerable<TQuote> quotes,

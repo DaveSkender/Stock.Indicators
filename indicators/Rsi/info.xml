@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <indicator>
-  <type name="Main">
-    <summary>
-      Relative Strength Index (RSI) measures strength of the winning/losing streak over N lookback periods
-      on a scale of 0 to 100, to depict overbought and oversold conditions.  See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Rsi/#content">documentation</see>
-      for more information.
-    </summary>
-    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-    <param name="quotes">Historical price quotes.</param>
-    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <returns>Time series of RSI values.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
-  </type>
-  <type name="Analysis">
-    <summary>
-      Relative Strength Index (RSI) with additional analysis information.  See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Rsi/#extended-analysis">documentation</see>
-      for more information.
-    </summary>
-    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-    <param name="quotes">Historical price quotes.</param>
-    <param name="rsiPeriods">Number of periods in the lookback window for RSI.</param>
-    <returns>Time series of RSI values and additional information.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadHistoryException">Insufficient history provided.</exception>
-  </type>
+  <summary>
+    Relative Strength Index (RSI) measures strength of the winning/losing streak over N lookback periods
+    on a scale of 0 to 100, to depict overbought and oversold conditions.  See
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Rsi/#content">documentation</see>
+    for more information.
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+  <returns>Time series of RSI values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>
