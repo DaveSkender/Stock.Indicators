@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // RSI Divergence (derived from Williams Fractal and Pivots)
+        // RSI DIVERGENCE
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<DivergenceResult> GetRsiDivergence<TQuote>(

@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // Divergence (uses GetPivots results)
+        // DIVERGENCE (uses GetPivots results)
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         internal static IEnumerable<DivergenceResult> CalcDivergence(
@@ -35,6 +35,7 @@ namespace Skender.Stock.Indicators
                 {
                     Date = a.Date,
 
+                    // divergence data
                     BullishRegular = (a.LowTrend == PivotTrend.LL
                                    && b.LowTrend == PivotTrend.HL) ? b.LowLine : null,
 
@@ -46,6 +47,10 @@ namespace Skender.Stock.Indicators
 
                     BearishHidden = (a.HighTrend == PivotTrend.LH
                                   && b.HighTrend == PivotTrend.HH) ? b.HighLine : null,
+
+                    // pass-thru pivots results
+                    PivotsA = a,
+                    PivotsB = b
                 };
                 results.Add(r);
             }
