@@ -88,7 +88,7 @@
 - [Smoothed Moving Average (SMMA)](../indicators/Smma/README.md#content)
 - [Tillson T3 Moving Average](../indicators/T3/README.md#content)
 - [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
-- [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
+- [Triple Exponential Moving Average (TEMA)](../indicators/TripleEma/README.md#content)
 - [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
 
