@@ -20,7 +20,7 @@ IEnumerable<PivotsResult> results =
 | `maxTrendPeriods` | int | Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20.
 | `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
 
-The total evaluation window size is `L×R+1`.
+The total evaluation window size is `L+R+1`.
 
 ### Historical quotes requirements
 
