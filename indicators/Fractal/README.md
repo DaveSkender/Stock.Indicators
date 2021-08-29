@@ -33,13 +33,6 @@ You must have at least `2×S+1` periods of `quotes`; however, more is typically 
 | `EndType.Close` | Chevron point identified from `Close` price
 | `EndType.HighLow` | Chevron point identified from `High` and `Low` price (default)
 
-### EndType options
-
-| type | description
-|-- |--
-| `EndType.Close` | Chevron point identified from `Close` price
-| `EndType.HighLow` | Chevron point identified from `High` and `Low` price (default)
-
 ## Response
 
 ```csharp
