@@ -55,10 +55,10 @@ namespace Skender.Stock.Indicators
                     bool isLow = true;
 
                     decimal evalHigh = (endType == EndType.Close) ?
-                        Math.Max(q.Open, q.Close) : q.High;
+                       q.Close : q.High;
 
                     decimal evalLow = (endType == EndType.Close) ?
-                        Math.Min(q.Open, q.Close) : q.Low;
+                        q.Close : q.Low;
 
                     // compare today with wings
                     for (int p = i - leftSpan; p <= i + rightSpan; p++)
@@ -73,10 +73,10 @@ namespace Skender.Stock.Indicators
                         TQuote wing = quotesList[p];
 
                         decimal wingHigh = (endType == EndType.Close) ?
-                            Math.Max(wing.Open, wing.Close) : wing.High;
+                            wing.Close : wing.High;
 
                         decimal wingLow = (endType == EndType.Close) ?
-                            Math.Min(wing.Open, wing.Close) : wing.Low;
+                            wing.Close : wing.Low;
 
                         if (evalHigh <= wingHigh)
                         {

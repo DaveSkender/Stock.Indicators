@@ -1,13 +1,13 @@
 # Pivots
 
-Created by Dave Skender, Pivots is an extended version of [Williams Fractal](../Fractal#content) that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
+Pivots is an extended version of [Williams Fractal](../Fractal#content) that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/436 "Community discussion about this indicator")
 
 ![image](chart.png)
 
 ```csharp
 // usage
-IEnumerable<FractalResult> results =
+IEnumerable<PivotsResult> results =
   quotes.GetPivots(leftSpan, rightSpan, maxTrendPeriods, endType);  
 ```
 
@@ -55,6 +55,19 @@ IEnumerable<PivotsResult>
 | `Date` | DateTime | Date
 | `HighPoint` | decimal | Value indicates a **high** point; otherwise `null` is returned.
 | `LowPoint` | decimal | Value indicates a **low** point; otherwise `null` is returned.
+| `HighLine` | decimal | Drawn line between two high points in the `maxTrendPeriods`
+| `LowLine` | decimal | Drawn line between two low points in the `maxTrendPeriods`
+| `HighTrend` | PivotTrend | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below.
+| `LowTrend` | PivotTrend | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below.
+
+#### PivotTrend values
+
+| type | description
+|-- |--
+| `PivotTrend.HH` | Higher high
+| `PivotTrend.LH` | Lower high
+| `PivotTrend.HL` | Higher low
+| `PivotTrend.LL` | Lower low
 
 ### Utilities
 
