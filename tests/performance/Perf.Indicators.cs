@@ -298,6 +298,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetPivots()
+        {
+            return h.GetPivots();
+        }
+
+        [Benchmark]
         public object GetPivotPoints()
         {
             return h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);

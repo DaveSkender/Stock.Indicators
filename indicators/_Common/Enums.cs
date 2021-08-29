@@ -2,6 +2,20 @@
 {
     // ENUMERATIONS
 
+    public enum EndType
+    {
+        Close = 0,
+        HighLow = 1
+    }
+
+    public enum PivotTrend
+    {
+        HH, // higher high
+        LH, // lower high
+        HL, // higher low
+        LL  // lower low
+    }
+
     public enum MaType
     {
         ALMA,
@@ -30,11 +44,5 @@
         ThreeMinutes,
         TwoMinutes,
         OneMinute
-    }
-
-    public enum EndType
-    {
-        Close = 0,
-        HighLow = 1
     }
 }
