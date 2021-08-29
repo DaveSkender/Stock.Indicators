@@ -2,15 +2,15 @@
 
 <indicators>
   <summary>
-    Exponential Moving Average (EMA) of the Close price.
+    Double Exponential Moving Average (DEMA) of the Close price.
       See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
+    <see href="https://daveskender.github.io/Stock.Indicators/indicators/DoubleEma/#content">documentation</see>
     for more information.
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-  <returns>Time series of EMA values.</returns>
+  <returns>Time series of Double EMA values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicators>

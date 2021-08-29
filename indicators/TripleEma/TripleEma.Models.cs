@@ -3,8 +3,8 @@
 namespace Skender.Stock.Indicators
 {
     [Serializable]
-    public class EmaResult : ResultBase
+    public class TemaResult : ResultBase
     {
-        public decimal? Ema { get; set; }
+        public decimal? Tema { get; set; }
     }
 }

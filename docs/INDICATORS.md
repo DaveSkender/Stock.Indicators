@@ -76,7 +76,7 @@
 ## Moving averages
 
 - [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
-- [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
+- [Double Exponential Moving Average (DEMA)](../indicators/DoubleEma/README.md#content)
 - [Endpoint Moving Average (EPMA)](../indicators/Epma/README.md#content)
 - [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
 - [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/README.md#content)
@@ -88,7 +88,7 @@
 - [Smoothed Moving Average (SMMA)](../indicators/Smma/README.md#content)
 - [Tillson T3 Moving Average](../indicators/T3/README.md#content)
 - [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
-- [Triple Exponential Moving Average (TEMA)](../indicators/Ema/README.md#content)
+- [Triple Exponential Moving Average (TEMA)](../indicators/TripleEma/README.md#content)
 - [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
 
