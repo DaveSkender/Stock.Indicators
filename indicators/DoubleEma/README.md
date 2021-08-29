@@ -60,5 +60,5 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-resu
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period DEMA
-IEnumerable<DemaResult> results = quotes.GetDema(20);
+IEnumerable<DemaResult> results = quotes.GetDoubleEma(20);
 ```
