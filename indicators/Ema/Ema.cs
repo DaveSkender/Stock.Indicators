@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // EXPONENTIAL MOVING AVERAGE
-        /// <include file='./info.xml' path='indicators/type[@name="EMA"]/*' />
+        /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<EmaResult> GetEma<TQuote>(
             this IEnumerable<TQuote> quotes,

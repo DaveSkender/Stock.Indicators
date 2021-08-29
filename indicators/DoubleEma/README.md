@@ -1,6 +1,6 @@
 # Double Exponential Moving Average (DEMA)
 
-[Double exponential moving average](https://school.stockcharts.com/doku.php?id=technical_indicators:dema) of the Close price over a lookback window.
+[Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) of the Close price over a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -8,7 +8,7 @@
 DEMA is shown as the dashed line above.  [Standard EMA](../Ema/README.md#content) (solid line) and [Triple EMA](../TripleEma/README.md#content) (dotted line) are also shown here for comparison.
 
 ```csharp
-// usage for Double EMA
+// usage
 IEnumerable<DemaResult> results =
   quotes.GetDoubleEma(lookbackPeriods);
 ```

@@ -1,19 +1,16 @@
-# Exponential Moving Average (EMA), Double EMA (DEMA), and Triple EMA (TEMA)
+# Exponential Moving Average (EMA)
 
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over a lookback window.
-Note: [TEMA](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is often confused with the alternative [TRIX](../Trix/README.md#content) oscillator.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
 ![image](chart.png)
 
+EMA is shown as the solid line above.  [Double EMA](../DoubleEma/README.md#content) (dashed line) and [Triple EMA](../TripleEma/README.md#content) (dotted line) are also shown here for comparison.
+
 ```csharp
-// usage for EMA (standard)
+// usage
 IEnumerable<EmaResult> results =
   quotes.GetEma(lookbackPeriods);
-
-// usage for Triple EMA
-IEnumerable<TemaResult> results =
-  quotes.GetTripleEma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -24,9 +21,7 @@ IEnumerable<TemaResult> results =
 
 ### Historical quotes requirements
 
-**EMA** (standard): You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
-
-**Triple EMA**: You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
@@ -34,23 +29,21 @@ IEnumerable<TemaResult> results =
 
 ```csharp
 IEnumerable<EmaResult>
-IEnumerable<TemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- Standard EMA: The first `N-1` periods will have `null` values since there's not enough data to calculate.
-- Triple EMA: The first `3×N-2` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](../Trix/README.md) oscillator instead.
+- The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
 :hourglass: **Convergence Warning**: The first respective `N+100`, `2×N+100`, and `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
-### EmaResult / TemaResult
+### EmaResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema`/`Tema` | decimal | Exponential moving average for `N` lookback period
+| `Ema` | decimal | Exponential moving average for `N` lookback period
 
 ### Utilities
 

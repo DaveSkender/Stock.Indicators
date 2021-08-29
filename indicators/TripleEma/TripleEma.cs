@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // TRIPLE EXPONENTIAL MOVING AVERAGE
-        /// <include file='./info.xml' path='indicators/type[@name="TEMA"]/*' />
+        /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
             this IEnumerable<TQuote> quotes,
