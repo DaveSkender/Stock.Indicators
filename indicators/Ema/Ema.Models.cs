@@ -9,15 +9,8 @@ namespace Skender.Stock.Indicators
     }
 
     [Serializable]
-    public class DemaResult : ResultBase
-    {
-        public decimal? Dema { get; set; }
-    }
-
-    [Serializable]
     public class TemaResult : ResultBase
     {
         public decimal? Tema { get; set; }
     }
-
 }

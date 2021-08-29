@@ -76,7 +76,7 @@
 ## Moving averages
 
 - [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
-- [Double Exponential Moving Average (DEMA)](../indicators/Ema/README.md#content)
+- [Double Exponential Moving Average (DEMA)](../indicators/DoubleEma/README.md#content)
 - [Endpoint Moving Average (EPMA)](../indicators/Epma/README.md#content)
 - [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
 - [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/README.md#content)
