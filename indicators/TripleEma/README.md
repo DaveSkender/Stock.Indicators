@@ -6,7 +6,7 @@ Note: TEMA is often confused with the alternative [TRIX](../Trix/README.md#conte
 
 ![image](chart.png)
 
-TEMA is shown as the dotted line above.  [Standard EMA](../Ema/README.md#content) (solid line) and [Double EMA](../DoubleEma/README.md#content) (dashed line) are also shown here for comparison.
+TEMA is shown as the dotted line above.  [EMA](../Ema/README.md#content) (solid line) and [Double EMA](../DoubleEma/README.md#content) (dashed line) are also shown here for comparison.
 
 ```csharp
 // usage

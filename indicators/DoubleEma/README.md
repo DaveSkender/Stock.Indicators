@@ -5,7 +5,7 @@
 
 ![image](chart.png)
 
-DEMA is shown as the dashed line above.  [Standard EMA](../Ema/README.md#content) (solid line) and [Triple EMA](../TripleEma/README.md#content) (dotted line) are also shown here for comparison.
+DEMA is shown as the dashed line above.  [EMA](../Ema/README.md#content) (solid line) and [Triple EMA](../TripleEma/README.md#content) (dotted line) are also shown here for comparison.
 
 ```csharp
 // usage
