@@ -57,6 +57,8 @@ IEnumerable<PivotPointsResult>
 
 :warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 
+:paintbrush: **Repaint Warning**: the last window will be repainted if it does not contain a full window of data.
+
 ### PivotPointsResult
 
 | name | type | notes

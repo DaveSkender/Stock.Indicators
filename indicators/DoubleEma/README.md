@@ -1,16 +1,16 @@
-# Exponential Moving Average (EMA)
+# Double Exponential Moving Average (DEMA)
 
-[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over a lookback window.
+[Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) of the Close price over a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
 ![image](chart.png)
 
-EMA is shown as the solid line above.  [Double EMA](../DoubleEma/README.md#content) (dashed line) and [Triple EMA](../TripleEma/README.md#content) (dotted line) are also shown here for comparison.
+DEMA is shown as the dashed line above.  [EMA](../Ema/README.md#content) (solid line) and [Triple EMA](../TripleEma/README.md#content) (dotted line) are also shown here for comparison.
 
 ```csharp
 // usage
-IEnumerable<EmaResult> results =
-  quotes.GetEma(lookbackPeriods);
+IEnumerable<DemaResult> results =
+  quotes.GetDoubleEma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -21,29 +21,29 @@ IEnumerable<EmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../../docs/GUIDE.md#historical-quotes) for more information.
 
-## Response (respectively)
+## Response
 
 ```csharp
-IEnumerable<EmaResult>
+IEnumerable<DemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first `N-1` periods will have `null` values since there's not enough data to calculate.
+- The first `2×N-1` periods will have `null` values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first respective `N+100`, `2×N+100`, and `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
-### EmaResult
+### DemaResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | decimal | Exponential moving average for `N` lookback period
+| `Dema` | decimal | Double exponential moving average for `N` lookback period
 
 ### Utilities
 
@@ -59,6 +59,6 @@ See [Utilities and Helpers](../../docs/UTILITIES.md#utilities-for-indicator-resu
 // fetch historical quotes from your feed (your method)
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
-// calculate 20-period EMA
-IEnumerable<EmaResult> results = quotes.GetEma(20);
+// calculate 20-period DEMA
+IEnumerable<DemaResult> results = quotes.GetDema(20);
 ```

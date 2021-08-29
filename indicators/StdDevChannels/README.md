@@ -35,7 +35,7 @@ IEnumerable<StdDevChannelsResult>
 - It does not return a single incremental indicator value.
 - Up to `N-1` periods will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
+:paintbrush: **Repaint Warning**: Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
 
 ### StdDevChannelsResult
 

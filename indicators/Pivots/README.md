@@ -1,6 +1,6 @@
 # Pivots
 
-Pivots is an extended version of [Williams Fractal](../Fractal#content) that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
+Pivots is an extended version of [Williams Fractal](../Fractal/README.md#content) that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/436 "Community discussion about this indicator")
 
 ![image](chart.png)
@@ -20,7 +20,7 @@ IEnumerable<PivotsResult> results =
 | `maxTrendPeriods` | int | Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20.
 | `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
 
-The total evaluation window size is `L×R+1`.
+The total evaluation window size is `L+R+1`.
 
 ### Historical quotes requirements
 
