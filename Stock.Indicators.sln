@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration Files", "Conf
 		gitversion.yml = gitversion.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "indicators\Indicators.csproj", "{8D0F1781-EDA3-4C51-B05D-D33FF1156E49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "src\Indicators.csproj", "{8D0F1781-EDA3-4C51-B05D-D33FF1156E49}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Indicators", "tests\indicators\Tests.Indicators.csproj", "{11CD6C7E-871F-4903-AEAD-58E034C6521D}"
 EndProject
