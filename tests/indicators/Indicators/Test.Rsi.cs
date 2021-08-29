@@ -40,7 +40,8 @@ namespace Internal.Tests
         public void SmallLookback()
         {
             int lookbackPeriods = 1;
-            List<RsiResult> results = Indicator.GetRsi(quotes, lookbackPeriods).ToList();
+            List<RsiResult> results = quotes.GetRsi(lookbackPeriods)
+                .ToList();
 
             // assertions
 
@@ -55,6 +56,27 @@ namespace Internal.Tests
 
             RsiResult r2 = results[52];
             Assert.AreEqual(0m, Math.Round((decimal)r2.Rsi, 4));
+        }
+
+        [TestMethod]
+        public void ConvertToQuotes()
+        {
+            // exclude nulls case
+            List<Quote> results = quotes.GetRsi(14)
+                .ConvertToQuotes()
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            Assert.AreEqual(488, results.Count);
+
+            // sample values
+            Quote first = results.FirstOrDefault();
+            Assert.AreEqual(62.0541m, Math.Round(first.Close, 4));
+
+            Quote last = results.LastOrDefault();
+            Assert.AreEqual(42.0773m, Math.Round(last.Close, 4));
         }
 
         [TestMethod]

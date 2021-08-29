@@ -7,19 +7,33 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // WILLIAMS FRACTAL
-        /// <include file='./info.xml' path='indicator/*' />
+        /// <include file='./info.xml' path='indicators/type[@name="standard"]/*' />
         /// 
         public static IEnumerable<FractalResult> GetFractal<TQuote>(
             this IEnumerable<TQuote> quotes,
-            int windowSpan = 2)
+            int windowSpan = 2,
+            EndType endType = EndType.HighLow)
+            where TQuote : IQuote
+        {
+            return GetFractal(quotes, windowSpan, windowSpan, endType);
+        }
+
+        // more configurable version (undocumented)
+        /// <include file='./info.xml' path='indicators/type[@name="alt"]/*' />
+        /// 
+        public static IEnumerable<FractalResult> GetFractal<TQuote>(
+            IEnumerable<TQuote> quotes,
+            int leftSpan,
+            int rightSpan,
+            EndType endType = EndType.HighLow)
             where TQuote : IQuote
         {
 
+            // check parameter arguments
+            ValidateFractal(quotes, Math.Min(leftSpan, rightSpan));
+
             // sort quotes
             List<TQuote> quotesList = quotes.Sort();
-
-            // check parameter arguments
-            ValidateFractal(quotes, windowSpan);
 
             // initialize
             List<FractalResult> results = new(quotesList.Count);
@@ -35,28 +49,41 @@ namespace Skender.Stock.Indicators
                     Date = q.Date
                 };
 
-                if (index > windowSpan && index <= quotesList.Count - windowSpan)
+                if (index > leftSpan && index <= quotesList.Count - rightSpan)
                 {
                     bool isHigh = true;
                     bool isLow = true;
 
-                    for (int p = i - windowSpan; p <= i + windowSpan; p++)
+                    decimal evalHigh = (endType == EndType.Close) ?
+                       q.Close : q.High;
+
+                    decimal evalLow = (endType == EndType.Close) ?
+                        q.Close : q.Low;
+
+                    // compare today with wings
+                    for (int p = i - leftSpan; p <= i + rightSpan; p++)
                     {
-                        // skip current period
+                        // skip center eval period
                         if (p == i)
                         {
                             continue;
                         }
 
-                        // evaluate "wings"
-                        TQuote d = quotesList[p];
+                        // evaluate wing periods
+                        TQuote wing = quotesList[p];
 
-                        if (q.High <= d.High)
+                        decimal wingHigh = (endType == EndType.Close) ?
+                            wing.Close : wing.High;
+
+                        decimal wingLow = (endType == EndType.Close) ?
+                            wing.Close : wing.Low;
+
+                        if (evalHigh <= wingHigh)
                         {
                             isHigh = false;
                         }
 
-                        if (q.Low >= d.Low)
+                        if (evalLow >= wingLow)
                         {
                             isLow = false;
                         }
@@ -65,13 +92,13 @@ namespace Skender.Stock.Indicators
                     // bearish signal
                     if (isHigh)
                     {
-                        r.FractalBear = q.High;
+                        r.FractalBear = evalHigh;
                     }
 
                     // bullish signal
                     if (isLow)
                     {
-                        r.FractalBull = q.Low;
+                        r.FractalBull = evalLow;
                     }
                 }
 
