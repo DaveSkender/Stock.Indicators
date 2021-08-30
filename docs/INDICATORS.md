@@ -1,4 +1,12 @@
-# Indicators and overlays
+---
+title: Indicators and overlays
+permalink: /indicators/
+layout: default
+redirect_from:
+ - /docs/INDICATORS.html
+---
+
+# {{ page.title }}
 
 - [Price trends](#price-trends)
 - [Price channels](#price-channels)
@@ -12,113 +20,113 @@
 
 ## Price trends
 
-- [Aroon Oscillator](../indicators/Aroon/README.md#content)
-- [Average Directional Movement Index (ADX)](../indicators/Adx/README.md#content)
-- [Elder-ray Index](../indicators/ElderRay/README.md#content)
-- [Gator Oscillator](../indicators/Gator/README.md#content)
-- [Ichimoku Cloud](../indicators/Ichimoku/README.md#content)
-- [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/README.md#content)
-- [SuperTrend](../indicators/SuperTrend/README.md#content)
-- [Vortex Indicator (VI)](../indicators/Vortex/README.md#content)
-- [Williams Alligator](../indicators/Alligator/README.md#content)
+- [Aroon Oscillator](../indicators/Aroon/#content)
+- [Average Directional Movement Index (ADX)](../indicators/Adx/#content)
+- [Elder-ray Index](../indicators/ElderRay/#content)
+- [Gator Oscillator](../indicators/Gator/#content)
+- [Ichimoku Cloud](../indicators/Ichimoku/#content)
+- [Moving Average Convergence/Divergence (MACD)](../indicators/Macd/#content)
+- [SuperTrend](../indicators/SuperTrend/#content)
+- [Vortex Indicator (VI)](../indicators/Vortex/#content)
+- [Williams Alligator](../indicators/Alligator/#content)
 
 ## Price channels
 
-- [Bollinger Bands&#174;](../indicators/BollingerBands/README.md#content)
-- [Donchian Channels](../indicators/Donchian/README.md#content)
-- [Fractal Chaos Bands](../indicators/Fcb/README.md#content)
-- [Keltner Channels](../indicators/Keltner/README.md#content)
-- [Moving Average Envelopes](../indicators/MaEnvelopes/README.md#content)
-- [Pivot Points](../indicators/PivotPoints/README.md#content) and [Rolling Pivot Points](../indicators/RollingPivots/README.md#content)
-- [Price Channels](../indicators/Donchian/README.md#content)
-- [Standard Deviation Channels](../indicators/StdDevChannels/README.md#content)
-- [STARC Bands](../indicators/StarcBands/README.md#content)
+- [Bollinger Bands&#174;](../indicators/BollingerBands/#content)
+- [Donchian Channels](../indicators/Donchian/#content)
+- [Fractal Chaos Bands](../indicators/Fcb/#content)
+- [Keltner Channels](../indicators/Keltner/#content)
+- [Moving Average Envelopes](../indicators/MaEnvelopes/#content)
+- [Pivot Points](../indicators/PivotPoints/#content) and [Rolling Pivot Points](../indicators/RollingPivots/#content)
+- [Price Channels](../indicators/Donchian/#content)
+- [Standard Deviation Channels](../indicators/StdDevChannels/#content)
+- [STARC Bands](../indicators/StarcBands/#content)
 
 ## Overbought/oversold oscillators
 
-- [ConnorsRSI](../indicators/ConnorsRsi/README.md#content)
-- [Commodity Channel Index](../indicators/Cci/README.md#content)
-- [Relative Strength Index (RSI)](../indicators/Rsi/README.md#content)
-- [ROC with Bands](../indicators/Roc/README.md#roc-with-bands)
-- [Stochastic Oscillator](../indicators/Stoch/README.md#content) and [KDJ Index](../indicators/Stoch/README.md#content)
-- [Stochastic RSI](../indicators/StochRsi/README.md#content)
-- [Ultimate Oscillator](../indicators/Ultimate/README.md#content)
-- [Williams %R](../indicators/WilliamsR/README.md#content)
+- [ConnorsRSI](../indicators/ConnorsRsi/#content)
+- [Commodity Channel Index](../indicators/Cci/#content)
+- [Relative Strength Index (RSI)](../indicators/Rsi/#content)
+- [ROC with Bands](../indicators/Roc/#roc-with-bands)
+- [Stochastic Oscillator](../indicators/Stoch/#content) and [KDJ Index](../indicators/Stoch/#content)
+- [Stochastic RSI](../indicators/StochRsi/#content)
+- [Ultimate Oscillator](../indicators/Ultimate/#content)
+- [Williams %R](../indicators/WilliamsR/#content)
 
 ## Stop and reverse
 
-- [Chandelier Exit](../indicators/Chandelier/README.md#content)
-- [Parabolic SAR](../indicators/ParabolicSar/README.md#content)
-- [SuperTrend](../indicators/SuperTrend/README.md#content)
+- [Chandelier Exit](../indicators/Chandelier/#content)
+- [Parabolic SAR](../indicators/ParabolicSar/#content)
+- [SuperTrend](../indicators/SuperTrend/#content)
 
 ## Candlestick patterns
 
-- [Marubozu](../indicators/Patterns/Marubozu/README.md#content)
+- [Marubozu](../indicators/Patterns/Marubozu/#content)
 - more to come (help wanted)
 
 ### Other price patterns
 
-- [Pivots](../indicators/Pivots/README.md#content)
-- [Williams Fractal](../indicators/Fractal/README.md#content)
+- [Pivots](../indicators/Pivots/#content)
+- [Williams Fractal](../indicators/Fractal/#content)
 
 ## Volume-based
 
-- [Accumulation/Distribution Line (ADL)](../indicators/Adl/README.md#content)
-- [Chaikin Money Flow (CMF)](../indicators/Cmf/README.md#content)
-- [Chaikin Oscillator](../indicators/ChaikinOsc/README.md#content)
-- [Force Index](../indicators/ForceIndex/README.md#content)
-- [Klinger Volume Oscillator](../indicators/Kvo/README.md#content)
-- [Money Flow Index (MFI)](../indicators/Mfi/README.md#content)
-- [On-balance Volume (OBV)](../indicators/Obv/README.md#content)
-- [Percentage Volume Oscillator (PVO)](../indicators/Pvo/README.md#content)
-- [Volume Simple Moving Average](../indicators/VolSma/README.md#content)
+- [Accumulation/Distribution Line (ADL)](../indicators/Adl/#content)
+- [Chaikin Money Flow (CMF)](../indicators/Cmf/#content)
+- [Chaikin Oscillator](../indicators/ChaikinOsc/#content)
+- [Force Index](../indicators/ForceIndex/#content)
+- [Klinger Volume Oscillator](../indicators/Kvo/#content)
+- [Money Flow Index (MFI)](../indicators/Mfi/#content)
+- [On-balance Volume (OBV)](../indicators/Obv/#content)
+- [Percentage Volume Oscillator (PVO)](../indicators/Pvo/#content)
+- [Volume Simple Moving Average](../indicators/VolSma/#content)
 
 ## Moving averages
 
-- [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/README.md#content)
-- [Double Exponential Moving Average (DEMA)](../indicators/DoubleEma/README.md#content)
-- [Endpoint Moving Average (EPMA)](../indicators/Epma/README.md#content)
-- [Exponential Moving Average (EMA)](../indicators/Ema/README.md#content)
-- [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/README.md#content)
-- [Hull Moving Average (HMA)](../indicators/Hma/README.md#content)
-- [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/README.md#content)
-- [Least Squares Moving Average (LSMA)](../indicators/Epma/README.md#content)
-- [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/README.md#content)
-- [Simple Moving Average (SMA)](../indicators/Sma/README.md#content)
-- [Smoothed Moving Average (SMMA)](../indicators/Smma/README.md#content)
-- [Tillson T3 Moving Average](../indicators/T3/README.md#content)
-- [Triple EMA Oscillator (TRIX)](../indicators/Trix/README.md#content)
-- [Triple Exponential Moving Average (TEMA)](../indicators/TripleEma/README.md#content)
-- [Volume Weighted Average Price (VWAP)](../indicators/Vwap/README.md#content)
-- [Weighted Moving Average (WMA)](../indicators/Wma/README.md#content)
+- [Arnaud Legoux Moving Average (ALMA)](../indicators/Alma/#content)
+- [Double Exponential Moving Average (DEMA)](../indicators/DoubleEma/#content)
+- [Endpoint Moving Average (EPMA)](../indicators/Epma/#content)
+- [Exponential Moving Average (EMA)](../indicators/Ema/#content)
+- [Hilbert Transform Instantaneous Trendline](../indicators/HtTrendline/#content)
+- [Hull Moving Average (HMA)](../indicators/Hma/#content)
+- [Kaufman's Adaptive Moving Average (KAMA)](../indicators/Kama/#content)
+- [Least Squares Moving Average (LSMA)](../indicators/Epma/#content)
+- [MESA Adaptive Moving Averages (MAMA)](../indicators/Mama/#content)
+- [Simple Moving Average (SMA)](../indicators/Sma/#content)
+- [Smoothed Moving Average (SMMA)](../indicators/Smma/#content)
+- [Tillson T3 Moving Average](../indicators/T3/#content)
+- [Triple EMA Oscillator (TRIX)](../indicators/Trix/#content)
+- [Triple Exponential Moving Average (TEMA)](../indicators/TripleEma/#content)
+- [Volume Weighted Average Price (VWAP)](../indicators/Vwap/#content)
+- [Weighted Moving Average (WMA)](../indicators/Wma/#content)
 
 ## Price transforms
 
-- [Ehlers Fisher Transform](../indicators/FisherTransform/README.md#content)
-- [Heikin-Ashi](../indicators/HeikinAshi/README.md#content)
-- [Renko Chart](../indicators/Renko/README.md#content)
-- [Zig Zag](../indicators/ZigZag/README.md#content)
+- [Ehlers Fisher Transform](../indicators/FisherTransform/#content)
+- [Heikin-Ashi](../indicators/HeikinAshi/#content)
+- [Renko Chart](../indicators/Renko/#content)
+- [Zig Zag](../indicators/ZigZag/#content)
 
 ## Price characteristics
 
-- [Average True Range (ATR)](../indicators/Atr/README.md#content)
-- [Awesome Oscillator](../indicators/Awesome/README.md#content)
-- [Balance of Power](../indicators/Bop/README.md#content)
-- [Bull and Bear Power](../indicators/ElderRay/README.md#content)
-- [Choppiness Index](../indicators/Chop/README.md#content)
-- [Historical Volatility (HV)](../indicators/StdDev/README.md#content)
-- [Hurst Exponent](../indicators/Hurst/README.md#content) and Rescaled Range Analysis
-- [Momentum Oscillator](../indicators/Roc/README.md#content)
-- [Price (Comparative) Relative Strength](../indicators/Prs/README.md#content)
-- [Price Momentum Oscillator](../indicators/Pmo/README.md#content)
-- [Rate of Change](../indicators/Roc/README.md#content) and [ROC with Bands](../indicators/Roc/README.md#roc-with-bands)
-- [True Strength Index](../indicators/Tsi/README.md#content)
-- [Ulcer Index](../indicators/UlcerIndex/README.md#content)
+- [Average True Range (ATR)](../indicators/Atr/#content)
+- [Awesome Oscillator](../indicators/Awesome/#content)
+- [Balance of Power](../indicators/Bop/#content)
+- [Bull and Bear Power](../indicators/ElderRay/#content)
+- [Choppiness Index](../indicators/Chop/#content)
+- [Historical Volatility (HV)](../indicators/StdDev/#content)
+- [Hurst Exponent](../indicators/Hurst/#content) and Rescaled Range Analysis
+- [Momentum Oscillator](../indicators/Roc/#content)
+- [Price (Comparative) Relative Strength](../indicators/Prs/#content)
+- [Price Momentum Oscillator](../indicators/Pmo/#content)
+- [Rate of Change](../indicators/Roc/#content) and [ROC with Bands](../indicators/Roc/#roc-with-bands)
+- [True Strength Index](../indicators/Tsi/#content)
+- [Ulcer Index](../indicators/UlcerIndex/#content)
 
 ### Numerical analysis
 
-- [Beta Coefficient](../indicators/Beta/README.md#content)
-- [Correlation Coefficient](../indicators/Correlation/README.md#content)
-- [R-Squared (Coefficient of Determination)](../indicators/Correlation/README.md#content)
-- [Slope and Linear Regression](../indicators/Slope/README.md#content)
-- [Standard Deviation](../indicators/StdDev/README.md#content)
+- [Beta Coefficient](../indicators/Beta/#content)
+- [Correlation Coefficient](../indicators/Correlation/#content)
+- [R-Squared (Coefficient of Determination)](../indicators/Correlation/#content)
+- [Slope and Linear Regression](../indicators/Slope/#content)
+- [Standard Deviation](../indicators/StdDev/#content)

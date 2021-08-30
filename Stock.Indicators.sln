@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration Files", "Configuration Files", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{89F97043-8E6C-4953-95AA-ACAC19C3B164}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
@@ -26,15 +26,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9
 		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{E5744FA9-7AC5-4FF7-8E16-9A851C4FB1DD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{E5744FA9-7AC5-4FF7-8E16-9A851C4FB1DD}"
 	ProjectSection(SolutionItems) = preProject
 		docs\CONTRIBUTING.md = docs\CONTRIBUTING.md
-		docs\GUIDE.md = docs\GUIDE.md
-		docs\INDICATORS.md = docs\INDICATORS.md
 		LICENSE = LICENSE
 		README.md = README.md
 		docs\SECURITY.md = docs\SECURITY.md
-		docs\UTILITIES.md = docs\UTILITIES.md
 	EndProjectSection
 EndProject
 Global

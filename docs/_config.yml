@@ -4,32 +4,102 @@ title: "Stock Indicators"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
 
 # https://github.com/pages-themes/cayman
-remote_theme: pages-themes/cayman@v0.2.0 
+remote_theme: pages-themes/cayman@v0.2.0
 
 plugins:
   - jemoji
   - jekyll-remote-theme
   - jekyll-sitemap
   - jekyll-last-modified-at
+  - jekyll-redirect-from
 
 google_analytics: G-7602GXEZ0R
 
-exclude:
-  [
-    ".github",
-    ".vscode",
-    "tests/**/BenchmarkDotNet**",
-    "tests/indicators",
-    "tests/external",
-    "*.cs",
-    "*.csproj",
-    "*.json",
-    "*.py",
-    "*.sln",
-    "*.txt",
-    "*.xlsx",
-    "*.xml",
-    "*.yml",
-  ]
+exclude: [
+  "*.yml", 
+  "*.pptx",
+  "vendor"
+]
 
-include: ["docs", "LICENSE"]
+include: ["../LICENSE"]
+
+collections:
+  indicators:
+    output: true
+    permalink: /:path/
+
+permalink: pretty
+
+indicators:
+  - href: /indicators/Adl/
+  - href: /indicators/Adx/
+  - href: /indicators/Alligator/
+  - href: /indicators/Alma/
+  - href: /indicators/Aroon/
+  - href: /indicators/Atr/
+  - href: /indicators/Awesome/
+  - href: /indicators/Beta/
+  - href: /indicators/BollingerBands/
+  - href: /indicators/Bop/
+  - href: /indicators/Cci/
+  - href: /indicators/ChaikinOsc/
+  - href: /indicators/Chandelier/
+  - href: /indicators/Chop/
+  - href: /indicators/Cmf/
+  - href: /indicators/ConnorsRsi/
+  - href: /indicators/Correlation/
+  - href: /indicators/Donchian/
+  - href: /indicators/DoubleEma/
+  - href: /indicators/ElderRay/
+  - href: /indicators/Ema/
+  - href: /indicators/Epma/
+  - href: /indicators/Fcb/
+  - href: /indicators/FisherTransform/
+  - href: /indicators/ForceIndex/
+  - href: /indicators/Fractal/
+  - href: /indicators/Gator/
+  - href: /indicators/HeikinAshi/
+  - href: /indicators/Hma/
+  - href: /indicators/HtTrendline/
+  - href: /indicators/Hurst/
+  - href: /indicators/Ichimoku/
+  - href: /indicators/Kama/
+  - href: /indicators/Keltner/
+  - href: /indicators/Kvo/
+  - href: /indicators/Macd/
+  - href: /indicators/MaEnvelopes/
+  - href: /indicators/Mama/
+  - href: /indicators/Marubozu/
+  - href: /indicators/Mfi/
+  - href: /indicators/Obv/
+  - href: /indicators/ParabolicSar/
+  - href: /indicators/PivotPoints/
+  - href: /indicators/Pivots/
+  - href: /indicators/Pmo/
+  - href: /indicators/Prs/
+  - href: /indicators/Pvo/
+  - href: /indicators/Renko/
+  - href: /indicators/Roc/
+  - href: /indicators/RollingPivots/
+  - href: /indicators/Rsi/
+  - href: /indicators/Slope/
+  - href: /indicators/Sma/
+  - href: /indicators/Smma/
+  - href: /indicators/StarcBands/
+  - href: /indicators/StdDev/
+  - href: /indicators/StdDevChannels/
+  - href: /indicators/Stoch/
+  - href: /indicators/StochRsi/
+  - href: /indicators/SuperTrend/
+  - href: /indicators/T3/
+  - href: /indicators/TripleEma/
+  - href: /indicators/Trix/
+  - href: /indicators/Tsi/
+  - href: /indicators/UlcerIndex/
+  - href: /indicators/Ultimate/
+  - href: /indicators/VolSma/
+  - href: /indicators/Vortex/
+  - href: /indicators/Vwap/
+  - href: /indicators/WilliamsR/
+  - href: /indicators/Wma/
+  - href: /indicators/ZigZag/

@@ -1,4 +1,12 @@
-# Utilities and Helpers
+---
+title: Utilities and Helpers
+permalink: /utilities/
+layout: default
+redirect_from:
+ - /docs/UTILITIES.html
+---
+
+# {{ page.title }}
 
 - [for Historical Quotes](#utilities-for-historical-quotes)
 - [for Indicator Results](#utilities-for-indicator-results)
@@ -64,7 +72,6 @@ Currently, `.ConvertToQuotes` is only available on a select few indicators.  If 
 
 :warning: WARNING! In many cases, `.ConvertToQuotes` will remove any `null` results -- this will produce fewer historical `quotes` than were originally provided.
 
-
 ### Find indicator result by date
 
 `results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
@@ -98,7 +105,7 @@ IEnumerable<AdxResult> results =
     .RemoveWarmupPeriods(50);
 ```
 
-See [individual indicator pages](INDICATORS.md) for information on recommended pruning quantities.
+See [individual indicator pages](indicators.md) for information on recommended pruning quantities.
 
 :warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 

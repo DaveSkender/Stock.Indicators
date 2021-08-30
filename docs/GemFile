@@ -9,5 +9,6 @@ group :jekyll_plugins do
   gem 'jemoji'
   gem 'jekyll-remote-theme'
   gem 'jekyll-sitemap'
-  gem "jekyll-last-modified-at" # used in sitemap
+  gem 'jekyll-last-modified-at' # used in sitemap
+  gem 'jekyll-redirect-from'
 end
