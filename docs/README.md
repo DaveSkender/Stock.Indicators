@@ -10,9 +10,9 @@ It can be used in any market analysis software using standard OHLCV price quotes
 
 Explore more information:
 
-- [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html)
-- [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html)
-- [Contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html)
+- [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/indicators)
+- [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/guide)
+- [Contributing guidelines](https://daveskender.github.io/Stock.Indicators/contributing)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
@@ -32,7 +32,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
-See the [guide](https://daveskender.github.io/Stock.Indicators/docs/GUIDE.html) and the [full list of indicators and overlays](https://daveskender.github.io/Stock.Indicators/docs/INDICATORS.html) for more information.
+See the [guide](https://daveskender.github.io/Stock.Indicators/guide) and the [full list of indicators and overlays](https://daveskender.github.io/Stock.Indicators/indicators) for more information.
 
 ## Frameworks targeted
 
@@ -62,7 +62,7 @@ Thank you for your support!
 
 ## :octocat: Contributing
 
-This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](https://daveskender.github.io/Stock.Indicators/docs/CONTRIBUTING.html#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](https://daveskender.github.io/Stock.Indicators/contributing/#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
 
 Special thanks to all of our community code contributors!
 

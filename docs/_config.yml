@@ -21,7 +21,10 @@ exclude: [
   "vendor"
 ]
 
-include: ["../LICENSE"]
+include: [
+  "../LICENSE",
+  "contributing.md"
+]
 
 collections:
   indicators:
