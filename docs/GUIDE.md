@@ -15,7 +15,7 @@ redirect_from:
 - [Using custom quote classes](#using-custom-quote-classes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
-- [Utilities and Helper functions](utilities.md#content)
+- [Utilities and Helper functions]({{site.baseurl}}utilities#content)
 - [Contributing guidelines](contributing.md#content)
 
 ## Getting started
@@ -252,7 +252,7 @@ IEnumerable<RsiResult> results
     .GetRsi(14);
 ```
 
-See [.ConvertToQuotes()](utilities.md#convert-to-quotes) for more information.
+See [.ConvertToQuotes()]({{site.baseurl}}utilities#convert-to-quotes) for more information.
 
 When `.ConvertToQuotes()` is not available for an indicator, a workaround is to convert yourself.
 
@@ -276,4 +276,4 @@ IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
 
 ## Utilities
 
-See [Utilities and Helper functions](utilities.md#content) for additional tools.
+See [Utilities and Helper functions]({{site.baseurl}}utilities#content) for additional tools.
