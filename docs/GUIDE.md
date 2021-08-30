@@ -1,4 +1,12 @@
-# Guide and Pro tips
+---
+title: Guide and Pro tips
+permalink: /guide/
+layout: default
+redirect_from:
+ - /docs/GUIDE.html
+---
+
+# {{ page.title }}
 
 - [Installation and setup](#installation-and-setup)
 - [Prerequisite data](#prerequisite-data)
@@ -7,7 +15,7 @@
 - [Using custom quote classes](#using-custom-quote-classes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
-- [Utilities and Helper functions](UTILITIES.md#content)
+- [Utilities and Helper functions](utilities.md#content)
 - [Contributing guidelines](CONTRIBUTING.md#content)
 
 ## Getting started
@@ -67,7 +75,7 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
-See [individual indicator pages](INDICATORS.md) for specific usage guidance.
+See [individual indicator pages](indicators.md) for specific usage guidance.
 
 ## Historical quotes
 
@@ -244,7 +252,7 @@ IEnumerable<RsiResult> results
     .GetRsi(14);
 ```
 
-See [.ConvertToQuotes()](UTILITIES.md#convert-to-quotes) for more information.
+See [.ConvertToQuotes()](utilities.md#convert-to-quotes) for more information.
 
 When `.ConvertToQuotes()` is not available for an indicator, a workaround is to convert yourself.
 
@@ -268,4 +276,4 @@ IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
 
 ## Utilities
 
-See [Utilities and Helper functions](UTILITIES.md#content) for additional tools.
+See [Utilities and Helper functions](utilities.md#content) for additional tools.

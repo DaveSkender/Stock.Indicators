@@ -81,7 +81,7 @@ steps:
     displayName: "pack for NuGet"
     inputs:
       command: "pack"
-      packagesToPack: "indicators/Indicators.csproj"
+      packagesToPack: "src/Indicators.csproj"
       nobuild: true
       versioningScheme: "byEnvVar"
       versionEnvVar: "GitVersion.NuGetVersion"
@@ -89,7 +89,7 @@ steps:
   - task: CopyFiles@2
     displayName: "stage artifacts"
     inputs:
-      SourceFolder: "indicators"
+      SourceFolder: "src"
       Contents: "**/*.nupkg"
       TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
