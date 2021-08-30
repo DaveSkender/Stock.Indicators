@@ -23,7 +23,8 @@ exclude: [
 
 include: [
   "../LICENSE",
-  "contributing.md"
+  "contributing.md",
+  "performance.md"
 ]
 
 collections:
