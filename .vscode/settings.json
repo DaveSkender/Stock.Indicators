@@ -2,6 +2,7 @@
     // file settings
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 3000,
+    "files.encoding": "utf8",
     "files.exclude": {
         "**/.vs/**": true,
         "**/bin/**": true,
@@ -26,7 +27,8 @@
 
     // markdown settings
     "markdownlint.config": {
-        "MD033": false // no-inline-html
+        "MD033": false, // no-inline-html
+        "MD025": false  // single-title/single-h1 --> fails with front-matter
     },
     "markdownlint.ignore": [
         "404.md",

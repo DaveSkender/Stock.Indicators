@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\indicators\Indicators.csproj" />
+    <ProjectReference Include="..\..\src\Indicators.csproj" />
     <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
 

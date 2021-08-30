@@ -34,7 +34,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 
 - Read this first: [contributing to an open-source GitHub project](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940)
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include unit and performance tests.
-- Update the `INDICATORS.md` file if you're adding a new indicator, and the `README.md` file for the individual indicator.  This is our only user documentation.
+- Update the `indicators.md` file if you're adding a new indicator, and the `README.md` file for the individual indicator.  This is our only user documentation.
 - Do not comingle multiple contributions.  Please keep changes small and separate.
 
 ## Testing
