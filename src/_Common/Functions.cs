@@ -105,34 +105,32 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        internal static PeriodSize? ToPeriodSize(this TimeSpan timeSpan)
+        public static PeriodSize? ToPeriodSize(this TimeSpan timeSpan)
         {
-            PeriodSize? _periodSize = null;
-
             if (timeSpan == TimeSpan.FromMinutes(1))
-                _periodSize = PeriodSize.OneMinute;
+                return PeriodSize.OneMinute;
             if (timeSpan == TimeSpan.FromMinutes(2))
-                _periodSize = PeriodSize.TwoMinutes;
+                return PeriodSize.TwoMinutes;
             if (timeSpan == TimeSpan.FromMinutes(3))
-                _periodSize = PeriodSize.ThreeMinutes;
+                return PeriodSize.ThreeMinutes;
             if (timeSpan == TimeSpan.FromMinutes(5))
-                _periodSize = PeriodSize.FiveMinutes;
+                return PeriodSize.FiveMinutes;
             if (timeSpan == TimeSpan.FromMinutes(15))
-                _periodSize = PeriodSize.FifteenMinutes;
+                return PeriodSize.FifteenMinutes;
             if (timeSpan == TimeSpan.FromMinutes(30))
-                _periodSize = PeriodSize.ThirtyMinutes;
+                return PeriodSize.ThirtyMinutes;
             if (timeSpan == TimeSpan.FromHours(1))
-                _periodSize = PeriodSize.OneHour;
+                return PeriodSize.OneHour;
             if (timeSpan == TimeSpan.FromHours(2))
-                _periodSize = PeriodSize.TwoHours;
+                return PeriodSize.TwoHours;
             if (timeSpan == TimeSpan.FromHours(4))
-                _periodSize = PeriodSize.FourHours;
+                return PeriodSize.FourHours;
             if (timeSpan == TimeSpan.FromDays(1))
-                _periodSize = PeriodSize.Day;
+                return PeriodSize.Day;
             if (timeSpan == TimeSpan.FromDays(7))
-                _periodSize = PeriodSize.Week;
+                return PeriodSize.Week;
 
-            return _periodSize;
+            return null;
         }
 
         // DETERMINE DECIMAL PLACES
