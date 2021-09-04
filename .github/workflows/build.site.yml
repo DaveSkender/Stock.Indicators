@@ -7,12 +7,13 @@ on:
 
 jobs:
   build:
-    name: build and test
+    name: test URLs
     runs-on: ubuntu-latest
     env:
       LANG: en_US.UTF-8
       LANGUAGE: en_US
       LC_ALL: en_US.UTF-8
+      working-directory: ./docs
 
     steps:
       - name: Checkout source
@@ -33,12 +34,12 @@ jobs:
 
       - name: Build site
         run: bundle exec jekyll build
-        working-directory: docs
+        working-directory: ${{working-directory}}
 
       - name: Serve site
         run: bundle exec jekyll serve --detach
-        working-directory: docs
+        working-directory: ${{working-directory}}
 
       - name: Test for broken URLs
         run: bundle exec htmlproofer _site
-        working-directory: docs
+        working-directory: ${{working-directory}}
