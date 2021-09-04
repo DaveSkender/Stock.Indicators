@@ -40,5 +40,5 @@ jobs:
 
       - name: Build site and test URLs
         run: |
-          ls
+          pwd
 
