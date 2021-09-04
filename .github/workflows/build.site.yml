@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [main]
 
+defaults:
+  run:
+    working-directory: docs
+
 jobs:
   build:
     name: test URLs
