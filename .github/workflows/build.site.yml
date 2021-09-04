@@ -25,30 +25,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      # - name: Setup Ruby environment
-      #   run: |
-      #     sudo apt-get update;
-      #     sudo apt-get install --reinstall -y locales;
-      #     sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
-      #     sudo locale-gen en_US.UTF-8;
+      - name: Setup Ruby environment
+        run: |
+          sudo apt-get update;
+          sudo apt-get install --reinstall -y locales;
+          sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
+          sudo locale-gen en_US.UTF-8;
 
-      # - name: Install Ruby
-      #   uses: ruby/setup-ruby@v1
-      #   with:
-      #     ruby-version: 2.6.6
-      #     bundler-cache: true
-
-      # - name: Build site and test URLs
-      #   run: |
-      #     ls
-      #     bundle exec jekyll build
-      #     bundle exec jekyll serve --detach
-      #     bundle exec htmlproofer _site
-
-      # Specify the Jekyll source location as a parameter
-      - uses: helaili/jekyll-action@v2
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          build_only: true
-          jekyll_src: docs
-          gem_src: docs
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Build site and test URLs
+        run: |
+          ls
+          bundle exec jekyll build
+          bundle exec jekyll serve --detach
+          bundle exec htmlproofer _site
