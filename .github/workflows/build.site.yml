@@ -41,6 +41,4 @@ jobs:
       - name: Build site and test URLs
         run: |
           ls
-          bundle exec jekyll build
-          bundle exec jekyll serve --detach
-          bundle exec htmlproofer _site
+
