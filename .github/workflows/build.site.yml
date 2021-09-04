@@ -46,6 +46,7 @@ jobs:
         run: |
           pwd
           ls
+          jekyll -v
           bundle install
           bundle exec jekyll build
 
