@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [main]
 
+defaults:
+  run:
+    working-directory: ./docs
+
 jobs:
   build:
     name: test URLs
@@ -13,7 +17,6 @@ jobs:
       LANG: en_US.UTF-8
       LANGUAGE: en_US
       LC_ALL: en_US.UTF-8
-      working-directory: ./docs
 
     steps:
       - name: Checkout source
@@ -34,12 +37,9 @@ jobs:
 
       - name: Build site
         run: bundle exec jekyll build
-        working-directory: ${{env.working-directory}}
 
       - name: Serve site
         run: bundle exec jekyll serve --detach
-        working-directory: ${{env.working-directory}}
 
       - name: Test for broken URLs
         run: bundle exec htmlproofer _site
-        working-directory: ${{env.working-directory}}
