@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [main]
 
+defaults:
+  run:
+    working-directory: docs
+
 jobs:
   build:
     name: build and test
@@ -13,10 +17,6 @@ jobs:
       LANG: en_US.UTF-8
       LANGUAGE: en_US
       LC_ALL: en_US.UTF-8
-    defaults:
-      run:
-        shell: bash
-        working-directory: docs
 
     steps:
       - name: Checkout source
@@ -42,6 +42,8 @@ jobs:
 
       - name: Build and start up jekyll server
         run: bundle exec jekyll build && bundle exec jekyll serve --detach
+        working-directory: docs
 
       - name: Test for broken URLs
         run: bundle exec htmlproofer _site
+        working-directory: docs
