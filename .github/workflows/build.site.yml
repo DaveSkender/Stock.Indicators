@@ -1,5 +1,9 @@
-name: Build documentation
-on: [push, pull_request]
+name: docs
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 defaults:
   run:
@@ -8,7 +12,7 @@ defaults:
 
 jobs:
   build:
-    name: Build and test
+    name: build and test
     runs-on: ubuntu-latest
     env:
       LANG: en_US.UTF-8
@@ -29,6 +33,7 @@ jobs:
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
+          ruby-version: 2.6.6
           bundler-cache: true
 
       - name: Install Node.js
