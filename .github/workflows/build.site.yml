@@ -11,7 +11,7 @@ defaults:
 
 jobs:
   build:
-    name: site
+    name: docs site
     runs-on: ubuntu-latest
     env:
       LANG: en_US.UTF-8
@@ -41,7 +41,10 @@ jobs:
           node-version: "14"
 
       - name: Build and start up jekyll server
-        run: bundle exec jekyll build && bundle exec jekyll serve --detached
+        run: |
+          pwd
+          bundle install
+          bundle exec jekyll build && bundle exec jekyll serve --detached
 
       - name: Test for broken URLs
         run: bundle exec htmlproofer --http-status-ignore "999" _site
