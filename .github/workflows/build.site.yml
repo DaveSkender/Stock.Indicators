@@ -5,10 +5,6 @@ on:
   pull_request:
     branches: [main]
 
-defaults:
-  run:
-    working-directory: ./docs
-
 jobs:
   build:
     name: test URLs
@@ -21,7 +17,6 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
-        run: cd docs
 
       - name: Setup Ruby environment
         run: |
@@ -30,19 +25,15 @@ jobs:
           sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
           sudo locale-gen en_US.UTF-8;
 
-      - run: cd docs
-
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6.6
           bundler-cache: true
 
-      - name: Build site
-        run: bundle exec jekyll build
-
-      - name: Serve site
-        run: bundle exec jekyll serve --detach
-
-      - name: Test for broken URLs
-        run: bundle exec htmlproofer _site
+      - name: Build site and test URLs
+        run: |
+          cd docs
+          bundle exec jekyll build
+          bundle exec jekyll serve --detach
+          bundle exec htmlproofer _site
