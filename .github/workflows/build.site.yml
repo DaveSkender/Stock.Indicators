@@ -29,6 +29,8 @@ jobs:
           sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
           sudo locale-gen en_US.UTF-8;
 
+      - run: cd docs
+
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
