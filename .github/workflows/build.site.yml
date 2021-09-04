@@ -49,5 +49,6 @@ jobs:
       - uses: helaili/jekyll-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          build_only: true
           jekyll_src: docs
           gem_src: docs
