@@ -2,6 +2,7 @@
 source 'https://rubygems.org'
 
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+gem "html-proofer", "~> 3.19"
 
 # jekyll plugins
 group :jekyll_plugins do

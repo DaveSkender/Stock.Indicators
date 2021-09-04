@@ -1,0 +1,43 @@
+name: Build documentation
+on: [push, pull_request]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: docs
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    env:
+      LANG: en_US.UTF-8
+      LANGUAGE: en_US
+      LC_ALL: en_US.UTF-8
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby environment
+        run: |
+          sudo apt-get update;
+          sudo apt-get install --reinstall -y locales;
+          sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
+          sudo locale-gen en_US.UTF-8;
+
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Build and start up jekyll server
+        run: bundle exec jekyll build && bundle exec jekyll serve --detach
+
+      - name: Test for broken URLs
+        run: bundle exec htmlproofer _site
