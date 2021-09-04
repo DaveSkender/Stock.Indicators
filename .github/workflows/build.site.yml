@@ -34,12 +34,12 @@ jobs:
 
       - name: Build site
         run: bundle exec jekyll build
-        working-directory: ${{working-directory}}
+        working-directory: ${{env.working-directory}}
 
       - name: Serve site
         run: bundle exec jekyll serve --detach
-        working-directory: ${{working-directory}}
+        working-directory: ${{env.working-directory}}
 
       - name: Test for broken URLs
         run: bundle exec htmlproofer _site
-        working-directory: ${{working-directory}}
+        working-directory: ${{env.working-directory}}
