@@ -17,7 +17,6 @@ jobs:
       LANG: en_US.UTF-8
       LANGUAGE: en_US
       LC_ALL: en_US.UTF-8
-      BUNDLE_GEMFILE: ./docs/Gemfile
 
     steps:
       - name: Checkout source
