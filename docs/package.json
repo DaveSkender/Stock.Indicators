@@ -1,0 +1,27 @@
+{
+    "name": "stock-indicators",
+    "version": "1.0.0",
+    "description": "Stock Indicators for .NET",
+    "scripts": {
+        "build": "bundle exec jekyll build",
+        "clean": "bundle exec jekyll clean",
+        "reset": "npx rimraf .git",
+        "start": "bundle exec jekyll serve --livereload",
+        "start-detached": "bundle exec jekyll serve --detach",
+        "test-links": "bundle exec htmlproofer --http-status-ignore '999' _site;",
+        "test-a11y": "pa11y-ci --sitemap http://localhost:4000/sitemap.xml --sitemap-find https://daveskender.github.io/Stock.Indicators --sitemap-replace http://localhost:4000 --sitemap-exclude \"/*.pdf\""
+    },
+    "author": "U.S. Digital Corps",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DaveSkender/Stock.Indicators"
+    },
+    "bugs": {
+        "url": "https://github.com/DaveSkender/Stock.Indicators/issues"
+    },
+    "license": "Apache2.0",
+    "dependencies": {},
+    "devDependencies": {
+        "pa11y-ci": "^2.4.2"
+    }
+}
