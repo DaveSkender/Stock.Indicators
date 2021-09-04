@@ -1,4 +1,4 @@
-name: docs
+name: build
 on:
   push:
     branches: [main]
@@ -11,7 +11,7 @@ defaults:
 
 jobs:
   build:
-    name: test URLs
+    name: site
     runs-on: ubuntu-latest
     env:
       LANG: en_US.UTF-8
@@ -21,13 +21,6 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
-
-      - uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
 
       - name: Setup Ruby environment
         run: |
@@ -39,14 +32,15 @@ jobs:
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
           bundler-cache: true
 
-      - name: Build site and test URLs
-        run: |
-          pwd
-          ls
-          bundle exec jekyll -v
-          bundle install
-          bundle exec jekyll build
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
 
+      - name: Build and start up jekyll server
+        run: bundle exec jekyll build && bundle exec jekyll serve --detached
+
+      - name: Test for broken URLs
+        run: bundle exec htmlproofer --http-status-ignore "999" _site
