@@ -33,7 +33,7 @@ jobs:
 
       - name: Build site and test URLs
         run: |
-          cd docs
+          cd ./docs
           bundle exec jekyll build
           bundle exec jekyll serve --detach
           bundle exec htmlproofer _site
