@@ -28,7 +28,7 @@ IEnumerable<EmaResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
-| `candlePart` | CandlePart | Optional.  Specify the OHLCV candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.C`
+| `candlePart` | CandlePart | Optional.  Specify the OHLCV candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
 
 ### Historical quotes requirements
 
@@ -40,11 +40,11 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.
 
 | type | description
 |-- |--
-| `CandlePart.O` | Use `Open` price
-| `CandlePart.H` | Use `High` price
-| `CandlePart.L` | Use `Low` price
-| `CandlePart.C` | Use `Close` price (default)
-| `CandlePart.V` | Use `Volume`
+| `CandlePart.Open` | Use `Open` price
+| `CandlePart.High` | Use `High` price
+| `CandlePart.Low` | Use `Low` price
+| `CandlePart.Close` | Use `Close` price (default)
+| `CandlePart.Volume` | Use `Volume`
 
 ## Response
 

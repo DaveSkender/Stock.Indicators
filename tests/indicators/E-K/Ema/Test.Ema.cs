@@ -37,7 +37,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Custom()
         {
-            List<EmaResult> results = quotes.GetEma(20, CandlePart.O)
+            List<EmaResult> results = quotes.GetEma(20, CandlePart.Open)
                 .ToList();
 
             // assertions

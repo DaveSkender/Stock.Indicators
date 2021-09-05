@@ -37,7 +37,7 @@ namespace Internal.Tests
         public void Custom()
         {
 
-            List<SmaResult> results = quotes.GetSma(20, CandlePart.O)
+            List<SmaResult> results = quotes.GetSma(20, CandlePart.Open)
                 .ToList();
 
             // assertions

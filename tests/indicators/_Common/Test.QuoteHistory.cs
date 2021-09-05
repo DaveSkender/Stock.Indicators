@@ -162,11 +162,11 @@ namespace Internal.Tests
         public void ConvertToBasic()
         {
             // compose basic data
-            List<BasicData> o = quotes.ConvertToBasic(CandlePart.O);
-            List<BasicData> h = quotes.ConvertToBasic(CandlePart.H);
-            List<BasicData> l = quotes.ConvertToBasic(CandlePart.L);
-            List<BasicData> c = quotes.ConvertToBasic(CandlePart.C);
-            List<BasicData> v = quotes.ConvertToBasic(CandlePart.V);
+            List<BasicData> o = quotes.ConvertToBasic(CandlePart.Open);
+            List<BasicData> h = quotes.ConvertToBasic(CandlePart.High);
+            List<BasicData> l = quotes.ConvertToBasic(CandlePart.Low);
+            List<BasicData> c = quotes.ConvertToBasic(CandlePart.Close);
+            List<BasicData> v = quotes.ConvertToBasic(CandlePart.Volume);
 
             // assertions
 

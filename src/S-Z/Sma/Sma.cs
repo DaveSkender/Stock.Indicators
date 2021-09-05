@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             ValidateSma(quotes, lookbackPeriods);
 
             // initialize
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.C);
+            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return bdList.CalcSma(lookbackPeriods);
@@ -32,7 +32,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<SmaResult> GetSma<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods,
-            CandlePart candlePart = CandlePart.C)
+            CandlePart candlePart = CandlePart.Close)
             where TQuote : IQuote
         {
 

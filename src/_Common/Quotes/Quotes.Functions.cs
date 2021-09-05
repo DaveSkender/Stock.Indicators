@@ -94,18 +94,18 @@ namespace Skender.Stock.Indicators
 
         // convert to basic
         internal static List<BasicData> ConvertToBasic<TQuote>(
-            this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.C)
+            this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
             where TQuote : IQuote
         {
             // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
             // convert to basic data format
             IEnumerable<BasicData> basicData = element switch
             {
-                CandlePart.O => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Open }),
-                CandlePart.H => quotes.Select(x => new BasicData { Date = x.Date, Value = x.High }),
-                CandlePart.L => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Low }),
-                CandlePart.C => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Close }),
-                CandlePart.V => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Volume }),
+                CandlePart.Open => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Open }),
+                CandlePart.High => quotes.Select(x => new BasicData { Date = x.Date, Value = x.High }),
+                CandlePart.Low => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Low }),
+                CandlePart.Close => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Close }),
+                CandlePart.Volume => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Volume }),
                 _ => new List<BasicData>(),
             };
 
