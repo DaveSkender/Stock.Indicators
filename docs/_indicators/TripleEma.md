@@ -50,7 +50,7 @@ IEnumerable<TemaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Tema` | decimal | Triple exponential moving average for `N` lookback period
+| `Tema` | decimal | Triple exponential moving average
 
 ### Utilities
 
