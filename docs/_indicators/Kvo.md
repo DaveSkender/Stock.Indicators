@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investopedia.com/terms/k/klingeroscillator.asp) depicts volume-based trend reversal and divergence between short and long-term money flow.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/446 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/446 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Kvo.png)
 

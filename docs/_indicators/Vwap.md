@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighted_average_price) is a Volume weighted average of Close price, typically used on intraday data.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/310 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/310 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Vwap.png)
 

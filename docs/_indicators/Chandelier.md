@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit) is typically used for stop-loss and can be computed for both long or short types.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/263 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/263 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Chandelier.png)
 

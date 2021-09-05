@@ -58,7 +58,7 @@ IEnumerable<Quote> dayBarQuotes =
 
 ### Convert to quotes
 
-`results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators](GUIDE.md#generating-indicator-of-indicators).
+`results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators]({{site.baseurl}}/guide#generating-indicator-of-indicators).
 
 ```csharp
 // example: an RSI of Renko bricks
@@ -68,7 +68,7 @@ IEnumerable<RsiResult> results
     .GetRsi(14);
 ```
 
-Currently, `.ConvertToQuotes` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues).
+Currently, `.ConvertToQuotes` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue]({{site.github.repository_url}}/issues).
 
 :warning: WARNING! In many cases, `.ConvertToQuotes` will remove any `null` results -- this will produce fewer historical `quotes` than were originally provided.
 

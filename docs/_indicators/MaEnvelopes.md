@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band overlay that is offset from the moving average of Close price over a lookback window.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/288 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/288 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/MaEnvelopes.png)
 
@@ -37,14 +37,14 @@ These are the supported moving average types:
 
 | type | description
 |-- |--
-| `MaType.ALMA` | [Arnaud Legoux Moving Average](Alma.md#content)
-| `MaType.DEMA` | [Double Exponential Moving Average](Ema.md#content)
-| `MaType.EPMA` | [Endpoint Moving Average](Epma.md#content)
-| `MaType.EMA` | [Exponential Moving Average](Ema.md#content)
-| `MaType.HMA` | [Hull Moving Average](Hma.md#content)
-| `MaType.SMA` | [Simple Moving Average](Sma.md#content) (default)
-| `MaType.TEMA` | [Triple Exponential Moving Average](Ema.md#content)
-| `MaType.WMA` | [Weighted Moving Average](Wma.md#content)
+| `MaType.ALMA` | [Arnaud Legoux Moving Average](../Alma#content)
+| `MaType.DEMA` | [Double Exponential Moving Average](../DoubleEma#content)
+| `MaType.EPMA` | [Endpoint Moving Average](../Epma#content)
+| `MaType.EMA` | [Exponential Moving Average](../Ema#content)
+| `MaType.HMA` | [Hull Moving Average](../Hma#content)
+| `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
+| `MaType.TEMA` | [Triple Exponential Moving Average](../TripleEma#content)
+| `MaType.WMA` | [Weighted Moving Average](../Wma#content)
 
 :warning: For ALMA, default values are used for `offset` and `sigma`.
 

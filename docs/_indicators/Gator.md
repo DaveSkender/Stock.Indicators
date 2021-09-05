@@ -6,8 +6,8 @@ layout: default
 
 # {{ page.title }}
 
-Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator](Alligator.md#content).
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
+Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator](../Alligator#content).
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Gator.png)
 
