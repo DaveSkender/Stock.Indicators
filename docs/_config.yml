@@ -18,7 +18,10 @@ google_analytics: G-7602GXEZ0R
 exclude: [
   "*.yml", 
   "*.pptx",
-  "vendor"
+  "vendor",
+  "node_modules",
+  "*.json",
+  "*.lock"
 ]
 
 include: [
