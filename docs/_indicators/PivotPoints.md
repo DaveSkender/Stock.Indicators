@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 [Pivot Points](https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)) depict support and resistance levels, based on the prior lookback window.  You can specify window size (e.g. month, week, day, etc).
-See also the alternative [Rolling Pivot Points](../RollingPivots/#content) variant for a modern update that uses a rolling window.
+See also the alternative [Rolling Pivot Points](RollingPivots.md#content) variant for a modern update that uses a rolling window.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/PivotPoints.png)
