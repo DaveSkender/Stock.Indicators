@@ -63,4 +63,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Indicators\" />
+  </ItemGroup>
+
 </Project>
