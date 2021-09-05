@@ -14,7 +14,8 @@ namespace Internal.Tests
         public void Standard()
         {
 
-            List<SmaResult> results = quotes.GetSma(20).ToList();
+            List<SmaResult> results = quotes.GetSma(20)
+                .ToList();
 
             // assertions
 
@@ -30,6 +31,29 @@ namespace Internal.Tests
             Assert.AreEqual(234.9350m, Math.Round(results[149].Sma.Value, 4));
             Assert.AreEqual(255.5500m, Math.Round(results[249].Sma.Value, 4));
             Assert.AreEqual(251.8600m, Math.Round(results[501].Sma.Value, 4));
+        }
+
+        [TestMethod]
+        public void Custom()
+        {
+
+            List<SmaResult> results = quotes.GetSma(20, CandlePart.O)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+
+            // sample values
+            Assert.IsNull(results[18].Sma);
+            Assert.AreEqual(214.3795m, Math.Round(results[19].Sma.Value, 4));
+            Assert.AreEqual(214.9535m, Math.Round(results[24].Sma.Value, 4));
+            Assert.AreEqual(234.8280m, Math.Round(results[149].Sma.Value, 4));
+            Assert.AreEqual(255.6915m, Math.Round(results[249].Sma.Value, 4));
+            Assert.AreEqual(253.1725m, Math.Round(results[501].Sma.Value, 4));
         }
 
         [TestMethod]

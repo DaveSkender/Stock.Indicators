@@ -15,6 +15,21 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+  <type name="Custom">
+    <summary>
+      Simple Moving Average (SMA) is the average of Close price over a lookback window with specification of which OHLCV element to use.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Sma/#content">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <param name="candlePart">Selected OHLCV part.</param>
+    <returns>Time series of SMA values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+  </type>
   <type name="Extended">
     <summary>
       Simple Moving Average (SMA) is the average of Close price over a lookback window.  This extended variant includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
