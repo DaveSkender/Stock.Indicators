@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // SIMPLE MOVING AVERAGE
+        // SIMPLE MOVING AVERAGE (on CLOSE price)
         /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<SmaResult> GetSma<TQuote>(
@@ -15,42 +15,35 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // check parameter arguments
+            ValidateSma(quotes, lookbackPeriods);
+
+            // initialize
+            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+
+            // calculate
+            return bdList.CalcSma(lookbackPeriods);
+        }
+
+
+        // SIMPLE MOVING AVERAGE (on specified OHLCV part)
+        /// <include file='./info.xml' path='indicators/type[@name="Custom"]/*' />
+        /// 
+        public static IEnumerable<SmaResult> GetSma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            CandlePart candlePart = CandlePart.Close)
+            where TQuote : IQuote
+        {
 
             // check parameter arguments
             ValidateSma(quotes, lookbackPeriods);
 
             // initialize
-            List<SmaResult> results = new(quotesList.Count);
+            List<BasicData> bdList = quotes.ConvertToBasic(candlePart);
 
-            // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
-            {
-                TQuote q = quotesList[i];
-                int index = i + 1;
-
-                SmaResult result = new()
-                {
-                    Date = q.Date
-                };
-
-                if (index >= lookbackPeriods)
-                {
-                    decimal sumSma = 0m;
-                    for (int p = index - lookbackPeriods; p < index; p++)
-                    {
-                        TQuote d = quotesList[p];
-                        sumSma += d.Close;
-                    }
-
-                    result.Sma = sumSma / lookbackPeriods;
-                }
-
-                results.Add(result);
-            }
-
-            return results;
+            // calculate
+            return bdList.CalcSma(lookbackPeriods);
         }
 
 
@@ -65,6 +58,46 @@ namespace Skender.Stock.Indicators
                 .FindIndex(x => x.Sma != null);
 
             return results.Remove(removePeriods);
+        }
+
+
+        // calculate
+        private static IEnumerable<SmaResult> CalcSma(
+            this List<BasicData> bdList,
+            int lookbackPeriods)
+        {
+
+            // note: pre-validated
+            // initialize
+            List<SmaResult> results = new(bdList.Count);
+
+            // roll through quotes
+            for (int i = 0; i < bdList.Count; i++)
+            {
+                BasicData q = bdList[i];
+                int index = i + 1;
+
+                SmaResult result = new()
+                {
+                    Date = q.Date
+                };
+
+                if (index >= lookbackPeriods)
+                {
+                    decimal sumSma = 0m;
+                    for (int p = index - lookbackPeriods; p < index; p++)
+                    {
+                        BasicData d = bdList[p];
+                        sumSma += d.Value;
+                    }
+
+                    result.Sma = sumSma / lookbackPeriods;
+                }
+
+                results.Add(result);
+            }
+
+            return results;
         }
 
 

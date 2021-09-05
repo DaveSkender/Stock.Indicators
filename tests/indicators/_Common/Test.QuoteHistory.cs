@@ -208,11 +208,11 @@ namespace Internal.Tests
         public void ConvertToBasic()
         {
             // compose basic data
-            List<BasicData> o = quotes.ConvertToBasic("O");
-            List<BasicData> h = quotes.ConvertToBasic("H");
-            List<BasicData> l = quotes.ConvertToBasic("L");
-            List<BasicData> c = quotes.ConvertToBasic("C");
-            List<BasicData> v = quotes.ConvertToBasic("V");
+            List<BasicData> o = quotes.ConvertToBasic(CandlePart.Open);
+            List<BasicData> h = quotes.ConvertToBasic(CandlePart.High);
+            List<BasicData> l = quotes.ConvertToBasic(CandlePart.Low);
+            List<BasicData> c = quotes.ConvertToBasic(CandlePart.Close);
+            List<BasicData> v = quotes.ConvertToBasic(CandlePart.Volume);
 
             // assertions
 
@@ -270,14 +270,6 @@ namespace Internal.Tests
         {
             List<Quote> h = new();
             h.ConvertToBasic();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(BadQuotesException), "Bad element.")]
-        public void ConvertBasicDataBadParam()
-        {
-            // compose basic data
-            quotes.ConvertToBasic("E");
         }
 
         [TestMethod]

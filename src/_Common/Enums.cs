@@ -1,6 +1,15 @@
-﻿namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators
 {
     // ENUMERATIONS
+
+    public enum CandlePart
+    {
+        Open,
+        High,
+        Low,
+        Close,
+        Volume
+    }
 
     public enum EndType
     {
