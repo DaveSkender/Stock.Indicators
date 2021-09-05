@@ -62,7 +62,7 @@ This site uses [GitHub Pages](https://pages.github.com) and [Jekyll](https://jek
 The documentation site is in the `docs` folder.  Build the site locally to test that it works properly.
 See [GitHub Pages documentation](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) for initial setup instructions.
 
-```console
+```bash
 bundle install
 bundle exec jekyll serve
 
