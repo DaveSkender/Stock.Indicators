@@ -25,9 +25,11 @@ exclude: [
 ]
 
 include: [
-  "../LICENSE",
   "contributing.md",
-  "performance.md"
+  "guide.md",
+  "indicators.md",
+  "performance.md",
+  "utilities.md"
 ]
 
 collections:
