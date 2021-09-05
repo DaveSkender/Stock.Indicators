@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a simple oscillator view of how long the new high or low price occured over a lookback window.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/266 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/266 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Aroon.png)
 

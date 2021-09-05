@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 Standard Deviation Channels are based on an linear regression centerline and standard deviations band widths.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/368 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/368 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/StdDevChannels.png)
 

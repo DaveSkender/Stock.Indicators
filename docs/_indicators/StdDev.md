@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of Close price over a rolling lookback window.  Also known as Historical Volatility (HV).
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/239 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/StdDev.png)
 

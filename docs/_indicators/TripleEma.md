@@ -7,12 +7,12 @@ layout: default
 # {{ page.title }}
 
 [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) of the Close price over a lookback window.
-Note: TEMA is often confused with the alternative [TRIX](Trix.md#content) oscillator.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
+Note: TEMA is often confused with the alternative [TRIX](../Trix#content) oscillator.
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/TripleEma.png)
 
-TEMA is shown as the dotted line above.  [EMA](Ema.md#content) (solid line) and [Double EMA](DoubleEma.md#content) (dashed line) are also shown here for comparison.
+TEMA is shown as the dotted line above.  [EMA](../Ema#content) (solid line) and [Double EMA](../DoubleEma#content) (dashed line) are also shown here for comparison.
 
 ```csharp
 // usage
@@ -41,7 +41,7 @@ IEnumerable<TemaResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first `3×N-2` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](Trix.md) oscillator instead.
+- The first `3×N-2` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](../Trix#content) oscillator instead.
 
 :hourglass: **Convergence Warning**: The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 

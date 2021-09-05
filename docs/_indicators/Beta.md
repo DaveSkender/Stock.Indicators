@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 [Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one stock responds to systemic volatility of the entire market.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/268 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/268 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Beta.png)
 

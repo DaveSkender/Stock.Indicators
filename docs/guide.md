@@ -16,7 +16,7 @@ redirect_from:
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Utilities and Helper functions]({{site.baseurl}}/utilities#content)
-- [Contributing guidelines](contributing.md#content)
+- [Contributing guidelines]({{site.baseurl}}/contributing#content)
 
 ## Getting started
 
