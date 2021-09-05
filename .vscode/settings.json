@@ -11,26 +11,23 @@
         "**/*.csproj.user": true
     },
 
-    // search settings
+    // search settings, auto excludes files.exclude
     "search.exclude": {
-        // auto excludes files.exclude
         "**/_site/**": true
     },
 
     // editor settings
     "editor.codeLens": false,
     "editor.formatOnPaste": true,
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
 
     // language settings
     "dotnet-test-explorer.testProjectPath": "**/*Tests*.csproj",
-    "scss.validate": false,  // false-positives on SCSS files with Jekyll front matter
+    "scss.validate": false, // false-positives on SCSS files with Jekyll front matter
 
     // markdown settings
     "markdownlint.config": {
-        "MD033": false, // no-inline-html
-        "MD025": false  // single-title/single-h1 --> fails with front-matter
-    },
-    "markdownlint.ignore": [
-        "404.md",
-    ]
+        "MD033": false,     // no-inline-html
+        "MD025": false      // single-title/single-h1 --> fails with front-matter
+    }
 }
