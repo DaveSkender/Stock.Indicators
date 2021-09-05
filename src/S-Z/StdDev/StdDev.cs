@@ -17,7 +17,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert to basic data
-            List<BasicData> bdList = quotes.ConvertToBasic("C");
+            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.C);
 
             // calculate
             return CalcStdDev(bdList, lookbackPeriods, smaPeriods);

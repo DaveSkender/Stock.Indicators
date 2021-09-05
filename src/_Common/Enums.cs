@@ -2,6 +2,15 @@
 {
     // ENUMERATIONS
 
+    public enum CandlePart
+    {
+        O,
+        H,
+        L,
+        C,
+        V
+    }
+
     public enum EndType
     {
         Close = 0,
