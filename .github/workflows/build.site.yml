@@ -13,21 +13,21 @@ jobs:
   build:
     name: docs site
     runs-on: ubuntu-latest
-    env:
-      LANG: en_US.UTF-8
-      LANGUAGE: en_US
-      LC_ALL: en_US.UTF-8
+    # env:
+    #   LANG: en_US.UTF-8
+    #   LANGUAGE: en_US
+    #   LC_ALL: en_US.UTF-8
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Setup Ruby environment
-        run: |
-          sudo apt-get update;
-          sudo apt-get install --reinstall -y locales;
-          sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
-          sudo locale-gen en_US.UTF-8;
+      # - name: Setup Ruby environment
+      #   run: |
+      #     sudo apt-get update;
+      #     sudo apt-get install --reinstall -y locales;
+      #     sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
+      #     sudo locale-gen en_US.UTF-8;
 
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
