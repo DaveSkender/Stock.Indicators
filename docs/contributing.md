@@ -2,7 +2,7 @@
 
 [![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/main?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main)
 [![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
-[![CodeQL]({{site.github.repository_url}}/workflows/CodeQL/badge.svg)]({{site.github.repository_url}}/security/code-scanning)
+[![CodeQL](https://github.com/DaveSkender/Stock.Indicators/workflows/CodeQL/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/security/code-scanning)
 
 **Thanks for taking the time to contribute!**
 
@@ -22,17 +22,17 @@ We are not accepting things that should be done in your own wrapper code:
 
 ## Reporting bugs and feature requests
 
-If you are reporting a bug or suspect a problem, please [submit an Issue]({{site.github.repository_url}}/issues) with a detailed description of the problem + include steps to reproduce, code samples, and any reference materials.  For new features, add a new Issue with the `enhancement` label.
+If you are reporting a bug or suspect a problem, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem + include steps to reproduce, code samples, and any reference materials.  For new features, add a new Issue with the `enhancement` label.
 
 ## Project management
 
-- Planned work is managed in [the backlog]({{site.github.repository_url}}/projects/1).
+- Planned work is managed in [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
 - Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
-- Use the [Discussions]({{site.github.repository_url}}/discussions) area for general ideation and unrelated questions.
+- Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area for general ideation and unrelated questions.
 
 ## Developing
 
-- Read this first: [contributing to an open-source GitHub project](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940)
+- Read this first: [A Step by Step Guide to Making Your First GitHub Contribution](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940).  I also have a discussion [on Forking](https://github.com/DaveSkender/Stock.Indicators/discussions/503) if you have questions.
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include unit and performance tests.
 - Do not comingle multiple contributions.  Please keep changes small and separate.
 
@@ -46,7 +46,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue]({{site
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the repo documentation.  You can find the latest results [here]({{site.baseurl}}/performance).
+Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the repo documentation.  You can find the latest results [here](https://daveskender.github.io/Stock.Indicators/performance).
 
 ```bash
 # run all performance benchmarks
@@ -104,7 +104,7 @@ We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It 
 Type | Format | Description
 ------------ | ------ | -----------
 Major | `x.-.-` | A significant deviation with breaking changes.
-Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding an indicator.  Small breaking changes may occur here and are denoted in the [release notes]({{site.github.repository_url}}/releases).
+Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding an indicator.  Small breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases).
 Patch | `-.-.x` | A small bug fix, chore, or documentation change.
 Increment | `-.-.-+x` | Intermediate commits between releases.
 
@@ -114,7 +114,7 @@ This only needs to be done on the merge to `main` when the Pull Request is commi
 - Adding `+semver: minor` as a commit message will increment the minor -.x.- element
 - Adding `+semver: patch` as a commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
 
-A manual Git `tag`, in accordance with the above schema, is introduced when deploying to package managers and is reflected in the [Releases]({{site.github.repository_url}}/releases).
+A manual Git `tag`, in accordance with the above schema, is introduced when deploying to package managers and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
 
 ## License
 
@@ -124,7 +124,7 @@ This repository uses a standard Apache 2.0 open-source license.  It enables open
 
 ## Contact info
 
-[Start a new discussion, ask a question]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+[Start a new discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 Thanks,
 Dave Skender
