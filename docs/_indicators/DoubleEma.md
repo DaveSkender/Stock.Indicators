@@ -49,7 +49,7 @@ IEnumerable<DemaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Dema` | decimal | Double exponential moving average for `N` lookback period
+| `Dema` | decimal | Double exponential moving average
 
 ### Utilities
 

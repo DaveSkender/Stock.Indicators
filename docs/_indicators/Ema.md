@@ -6,7 +6,7 @@ layout: default
 
 # {{ page.title }}
 
-[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over a lookback window.
+[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) price over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Ema.png)
@@ -14,9 +14,13 @@ layout: default
 EMA is shown as the solid line above.  [Double EMA](../DoubleEma#content) (dashed line) and [Triple EMA](../TripleEma#content) (dotted line) are also shown here for comparison.
 
 ```csharp
-// usage
+// usage (with Close price)
 IEnumerable<EmaResult> results =
   quotes.GetEma(lookbackPeriods);
+
+// alternate
+IEnumerable<EmaResult> results =
+  quotes.GetEma(lookbackPeriods, candlePart);
 ```
 
 ## Parameters
@@ -24,6 +28,7 @@ IEnumerable<EmaResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `candlePart` | CandlePart | Optional.  Specify the OHLCV candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
 
 ### Historical quotes requirements
 
@@ -31,7 +36,17 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide#historical-quotes) for more information.
 
-## Response (respectively)
+### CandlePart options
+
+| type | description
+|-- |--
+| `CandlePart.Open` | Use `Open` price
+| `CandlePart.High` | Use `High` price
+| `CandlePart.Low` | Use `Low` price
+| `CandlePart.Close` | Use `Close` price (default)
+| `CandlePart.Volume` | Use `Volume`
+
+## Response
 
 ```csharp
 IEnumerable<EmaResult>
@@ -42,14 +57,14 @@ IEnumerable<EmaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first respective `N+100`, `2×N+100`, and `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### EmaResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | decimal | Exponential moving average for `N` lookback period
+| `Ema` | decimal | Exponential moving average
 
 ### Utilities
 

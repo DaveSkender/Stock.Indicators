@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,7 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<EmaResult> results = quotes.GetEma(20).ToList();
+            List<EmaResult> results = quotes.GetEma(20)
+                .ToList();
 
             // assertions
 
@@ -23,14 +24,38 @@ namespace Internal.Tests
             Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
 
             // sample values
-            EmaResult r1 = results[29];
-            Assert.AreEqual(216.6228m, Math.Round((decimal)r1.Ema, 4));
+            EmaResult r29 = results[29];
+            Assert.AreEqual(216.6228m, Math.Round((decimal)r29.Ema, 4));
 
-            EmaResult r2 = results[249];
-            Assert.AreEqual(255.3873m, Math.Round((decimal)r2.Ema, 4));
+            EmaResult r249 = results[249];
+            Assert.AreEqual(255.3873m, Math.Round((decimal)r249.Ema, 4));
 
-            EmaResult r3 = results[501];
-            Assert.AreEqual(249.3519m, Math.Round((decimal)r3.Ema, 4));
+            EmaResult r501 = results[501];
+            Assert.AreEqual(249.3519m, Math.Round((decimal)r501.Ema, 4));
+        }
+
+        [TestMethod]
+        public void Custom()
+        {
+            List<EmaResult> results = quotes.GetEma(20, CandlePart.Open)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+
+            // sample values
+            EmaResult r29 = results[29];
+            Assert.AreEqual(216.2643m, Math.Round((decimal)r29.Ema, 4));
+
+            EmaResult r249 = results[249];
+            Assert.AreEqual(255.4875m, Math.Round((decimal)r249.Ema, 4));
+
+            EmaResult r501 = results[501];
+            Assert.AreEqual(249.9157m, Math.Round((decimal)r501.Ema, 4));
         }
 
         [TestMethod]

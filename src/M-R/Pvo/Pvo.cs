@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic("V");
+            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Volume);
 
             // check parameter arguments
             ValidatePvo(quotes, fastPeriods, slowPeriods, signalPeriods);

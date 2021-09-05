@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic("C");
+            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateMacd(quotes, fastPeriods, slowPeriods, signalPeriods);
