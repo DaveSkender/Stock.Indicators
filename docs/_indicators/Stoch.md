@@ -2,6 +2,8 @@
 title: Stochastic Oscillator
 permalink: /indicators/Stoch/
 layout: default
+redirect_from:
+ - /indicators/Stochastic/README.md
 ---
 
 # {{ page.title }}

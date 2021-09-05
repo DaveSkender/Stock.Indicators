@@ -2,6 +2,8 @@
 title: Relative Strength Index (RSI)
 permalink: /indicators/Rsi/
 layout: default
+redirect_from:
+ - /Indicators/Rsi
 ---
 
 # {{ page.title }}
