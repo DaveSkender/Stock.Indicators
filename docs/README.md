@@ -13,8 +13,8 @@ Explore more information:
 - [Indicators and overlays]({{site.baseurl}}/indicators#content)
 - [Guide and Pro tips]({{site.baseurl}}/guide#content)
 - [Contributing guidelines]({{site.baseurl}}/contributing#content)
-- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
-- [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
+- [Discussions]({{site.github.repository_url}}/discussions)
+- [Release notes]({{site.github.repository_url}}/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
 
 ## Samples
@@ -51,18 +51,18 @@ This repository uses the standard Apache 2.0 open-source license.  Please review
 
 ## :phone: Contact us
 
-[Start a new discussion, ask a question](https://github.com/DaveSkender/Stock.Indicators/discussions), or [submit an issue](https://github.com/DaveSkender/Stock.Indicators/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+[Start a new discussion, ask a question]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 ## :heart: Patronage
 
-If you or your organization use any of my projects or like what I’m doing, please add a :star: on the [GitHub Repo](https://github.com/DaveSkender/Stock.Indicators) as a token of appreciation.
+If you or your organization use any of my projects or like what I’m doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.
 If you want to buy me a beer or are interest in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).
 Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 Thank you for your support!
 
 ## :octocat: Contributing
 
-This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing#content) and [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing#content) and [the backlog]({{site.github.repository_url}}/projects/1).
 
 Special thanks to all of our community code contributors!
 

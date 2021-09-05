@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.  See also [STARC Bands](../StarcBands#content) for an SMA centerline equivalent.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/249 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/249 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Keltner.png)
 

@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) of the Close price over a lookback window.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Ema.png)
 

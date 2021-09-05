@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 The Volume Simple Moving Average is the average volume over a lookback window.  This is helpful when you are trying to assess whether volume is above or below normal.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/230 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/230 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/VolSma.png)
 

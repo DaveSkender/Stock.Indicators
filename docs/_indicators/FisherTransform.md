@@ -7,7 +7,7 @@ layout: default
 # {{ page.title }}
 
 Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/terms/f/fisher-transform.asp) converts prices into a Gaussian normal distribution.
-[[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/409 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/FisherTransform.png)
 
