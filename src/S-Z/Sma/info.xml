@@ -17,7 +17,7 @@
   </type>
   <type name="Custom">
     <summary>
-      Simple Moving Average (SMA) is the average of Close price over a lookback window with specification of which OHLCV element to use.
+      Simple Moving Average (SMA) is the average with user specification of which OHLCV element to use.
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/Sma/#content">documentation</see>
       for more information.

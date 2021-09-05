@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,8 +6,8 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // EXPONENTIAL MOVING AVERAGE
-        /// <include file='./info.xml' path='indicator/*' />
+        // EXPONENTIAL MOVING AVERAGE (on CLOSE price)
+        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<EmaResult> GetEma<TQuote>(
             this IEnumerable<TQuote> quotes,
@@ -19,7 +19,25 @@ namespace Skender.Stock.Indicators
             List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.C);
 
             // calculate
-            return CalcEma(bdList, lookbackPeriods);
+            return bdList.CalcEma(lookbackPeriods);
+        }
+
+
+        // EXPONENTIAL MOVING AVERAGE (on specified OHLCV part)
+        /// <include file='./info.xml' path='indicators/type[@name="Custom"]/*' />
+        /// 
+        public static IEnumerable<EmaResult> GetEma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            CandlePart candlePart)
+            where TQuote : IQuote
+        {
+
+            // convert quotes to basic format
+            List<BasicData> bdList = quotes.ConvertToBasic(candlePart);
+
+            // calculate
+            return bdList.CalcEma(lookbackPeriods);
         }
 
 
@@ -39,7 +57,7 @@ namespace Skender.Stock.Indicators
 
         // standard calculation
         private static List<EmaResult> CalcEma(
-            List<BasicData> bdList, int lookbackPeriods)
+            this List<BasicData> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments
