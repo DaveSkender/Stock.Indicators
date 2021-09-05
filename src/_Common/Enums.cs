@@ -1,4 +1,4 @@
-﻿namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators
 {
     // ENUMERATIONS
 
