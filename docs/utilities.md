@@ -58,7 +58,7 @@ IEnumerable<Quote> dayBarQuotes =
 
 ### Convert to quotes
 
-`results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators](GUIDE.md#generating-indicator-of-indicators).
+`results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators]({{site.baseurl}}/guide#generating-indicator-of-indicators).
 
 ```csharp
 // example: an RSI of Renko bricks

@@ -113,4 +113,4 @@ IEnumerable<RenkoResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-:paintbrush: **Repaint Warning**: When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)](Atr.md#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+:paintbrush: **Repaint Warning**: When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)](../Atr#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.

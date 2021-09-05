@@ -37,14 +37,14 @@ These are the supported moving average types:
 
 | type | description
 |-- |--
-| `MaType.ALMA` | [Arnaud Legoux Moving Average](Alma.md#content)
-| `MaType.DEMA` | [Double Exponential Moving Average](Ema.md#content)
-| `MaType.EPMA` | [Endpoint Moving Average](Epma.md#content)
-| `MaType.EMA` | [Exponential Moving Average](Ema.md#content)
-| `MaType.HMA` | [Hull Moving Average](Hma.md#content)
-| `MaType.SMA` | [Simple Moving Average](Sma.md#content) (default)
-| `MaType.TEMA` | [Triple Exponential Moving Average](Ema.md#content)
-| `MaType.WMA` | [Weighted Moving Average](Wma.md#content)
+| `MaType.ALMA` | [Arnaud Legoux Moving Average](../Alma#content)
+| `MaType.DEMA` | [Double Exponential Moving Average](../DoubleEma#content)
+| `MaType.EPMA` | [Endpoint Moving Average](../Epma#content)
+| `MaType.EMA` | [Exponential Moving Average](../Ema#content)
+| `MaType.HMA` | [Hull Moving Average](../Hma#content)
+| `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
+| `MaType.TEMA` | [Triple Exponential Moving Average](../TripleEma#content)
+| `MaType.WMA` | [Weighted Moving Average](../Wma#content)
 
 :warning: For ALMA, default values are used for `offset` and `sigma`.
 

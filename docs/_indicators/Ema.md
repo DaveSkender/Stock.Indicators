@@ -11,7 +11,7 @@ layout: default
 
 ![image]({{site.baseurl}}/assets/charts/Ema.png)
 
-EMA is shown as the solid line above.  [Double EMA](DoubleEma.md#content) (dashed line) and [Triple EMA](TripleEma.md#content) (dotted line) are also shown here for comparison.
+EMA is shown as the solid line above.  [Double EMA](../DoubleEma#content) (dashed line) and [Triple EMA](../TripleEma#content) (dotted line) are also shown here for comparison.
 
 ```csharp
 // usage
