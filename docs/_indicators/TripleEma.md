@@ -7,12 +7,12 @@ layout: default
 # {{ page.title }}
 
 [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) of the Close price over a lookback window.
-Note: TEMA is often confused with the alternative [TRIX](../Trix/#content) oscillator.
+Note: TEMA is often confused with the alternative [TRIX](Trix.md#content) oscillator.
 [[Discuss] :speech_balloon:](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/TripleEma.png)
 
-TEMA is shown as the dotted line above.  [EMA](../Ema/#content) (solid line) and [Double EMA](../DoubleEma/#content) (dashed line) are also shown here for comparison.
+TEMA is shown as the dotted line above.  [EMA](Ema.md#content) (solid line) and [Double EMA](DoubleEma.md#content) (dashed line) are also shown here for comparison.
 
 ```csharp
 // usage
