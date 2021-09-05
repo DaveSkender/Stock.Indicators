@@ -26,7 +26,7 @@ GEM
       ffi (>= 1.15.0)
     eventmachine (1.2.7-x64-mingw32)
     execjs (2.8.1)
-    faraday (1.7.0)
+    faraday (1.7.1)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -45,7 +45,7 @@ GEM
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
-    ffi (1.15.3-x64-mingw32)
+    ffi (1.15.4-x64-mingw32)
     forwardable-extended (2.6.0)
     gemoji (3.0.1)
     github-pages (219)
@@ -282,8 +282,7 @@ DEPENDENCIES
   jekyll-remote-theme
   jekyll-sitemap
   jemoji
-  kramdown-parser-gfm (~> 1.1.0)
   wdm (>= 0.1.0)
 
 BUNDLED WITH
-   2.2.24
+   2.2.27
