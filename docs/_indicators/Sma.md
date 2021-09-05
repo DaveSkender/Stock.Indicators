@@ -6,15 +6,19 @@ layout: default
 
 # {{ page.title }}
 
-[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average of Close price over a lookback window.
+[Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average price over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/240 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Sma.png)
 
 ```csharp
-// usage
+// usage (with Close price)
 IEnumerable<SmaResult> results =
-  quotes.GetSma(lookbackPeriods);  
+  quotes.GetSma(lookbackPeriods);
+
+// alternate
+IEnumerable<SmaResult> results =
+  quotes.GetSma(lookbackPeriods, candlePart);
 ```
 
 ## Parameters
@@ -22,12 +26,23 @@ IEnumerable<SmaResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+| `candlePart` | CandlePart | Optional.  Specify the OHLCV candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.C`
 
 ### Historical quotes requirements
 
 You must have at least `N` periods of `quotes`.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide#historical-quotes) for more information.
+
+### CandlePart options
+
+| type | description
+|-- |--
+| `CandlePart.O` | Use `Open` price
+| `CandlePart.H` | Use `High` price
+| `CandlePart.L` | Use `Low` price
+| `CandlePart.C` | Use `Close` price (default)
+| `CandlePart.V` | Use `Volume`
 
 ## Response
 
