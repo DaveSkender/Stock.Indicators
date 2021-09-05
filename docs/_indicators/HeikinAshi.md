@@ -2,6 +2,8 @@
 title: Heikin-Ashi
 permalink: /indicators/HeikinAshi/
 layout: default
+redirect_from:
+ - /Indicators/HeikinAshi
 ---
 
 # {{ page.title }}

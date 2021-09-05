@@ -3,7 +3,7 @@ title: Performance benchmarks for v1.15.0
 permalink: /performance/
 layout: default
 redirect_from:
- - /tests/performance
+ - /tests/performance/
 ---
 
 # {{ page.title }}
