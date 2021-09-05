@@ -34,7 +34,6 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 
 - Read this first: [contributing to an open-source GitHub project](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940)
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include unit and performance tests.
-- Update the `indicators.md` listings file if you're adding a new indicator, and the `/docs/_indicators` files for the individual indicator.
 - Do not comingle multiple contributions.  Please keep changes small and separate.
 
 ## Testing
@@ -56,6 +55,23 @@ dotnet run -c Release
 # run individual performance benchmark
 dotnet run -c Release --filter *.GetAdx
 ```
+
+## Documentation
+
+This site uses [GitHub Pages](https://pages.github.com) and [Jekyll](https://jekyllrb.com) construction with Front Matter.
+The documentation site is in the `docs` folder.  Build the site locally to test that it works properly.
+See [GitHub Pages documentation](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) for initial setup instructions.
+
+```console
+bundle install
+bundle exec jekyll serve
+
+# then open site on http://127.0.0.1:4000
+```
+
+When adding or updating indicators:
+
+- Add or update the `indicators.md` listings file (if needed) and the `/docs/_indicators` files for the individual indicator.
 
 ## Submitting changes
 
@@ -81,7 +97,7 @@ If you want to contribute administratively, do code reviews, or provide general 
 - [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
 
-## About versioning
+## Versioning
 
 We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).
 
