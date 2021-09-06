@@ -24,11 +24,11 @@ namespace Internal.Tests
             Assert.AreEqual(502, h.Count);
 
             // check last date
-            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(lastDate, h[501].Date);
 
             // spot check an out of sequence date
-            DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
+            DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(spotDate, h[20].Date);
         }
 
@@ -43,7 +43,7 @@ namespace Internal.Tests
             Assert.AreEqual(5285, h.Count);
 
             // check last date
-            DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", englishCulture);
+            DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(lastDate, h[5284].Date);
         }
 
@@ -101,15 +101,15 @@ namespace Internal.Tests
             Assert.AreEqual(502, h.Count);
 
             // check first date
-            DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", englishCulture);
+            DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(firstDate, h[0].Date);
 
             // check last date
-            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(lastDate, h.LastOrDefault().Date);
 
             // spot check an out of sequence date
-            DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);
+            DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(spotDate, h[50].Date);
         }
 
@@ -129,7 +129,7 @@ namespace Internal.Tests
 
             // sample values
             Quote r0 = results[0];
-            Assert.AreEqual(DateTime.Parse("2020-12-15 09:30", englishCulture), r0.Date);
+            Assert.AreEqual(DateTime.Parse("2020-12-15 09:30", EnglishCulture), r0.Date);
             Assert.AreEqual(367.40m, r0.Open);
             Assert.AreEqual(367.775m, r0.High);
             Assert.AreEqual(367.02m, r0.Low);
@@ -137,7 +137,7 @@ namespace Internal.Tests
             Assert.AreEqual(2401786m, r0.Volume);
 
             Quote r1 = results[1];
-            Assert.AreEqual(DateTime.Parse("2020-12-15 09:45", englishCulture), r1.Date);
+            Assert.AreEqual(DateTime.Parse("2020-12-15 09:45", EnglishCulture), r1.Date);
             Assert.AreEqual(367.25m, r1.Open);
             Assert.AreEqual(367.44m, r1.High);
             Assert.AreEqual(366.69m, r1.Low);
@@ -145,7 +145,7 @@ namespace Internal.Tests
             Assert.AreEqual(1669983m, r1.Volume);
 
             Quote r2 = results[2];
-            Assert.AreEqual(DateTime.Parse("2020-12-15 10:00", englishCulture), r2.Date);
+            Assert.AreEqual(DateTime.Parse("2020-12-15 10:00", EnglishCulture), r2.Date);
             Assert.AreEqual(366.85m, r2.Open);
             Assert.AreEqual(367.17m, r2.High);
             Assert.AreEqual(366.57m, r2.Low);
@@ -181,7 +181,7 @@ namespace Internal.Tests
             BasicData rv = v[501];
 
             // proper last date
-            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(lastDate, rc.Date);
 
             // last values should be correct
@@ -208,11 +208,11 @@ namespace Internal.Tests
         {
             List<Quote> badHistory = new()
             {
-                new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open = 214.86m, High = 220.33m, Low = 210.96m, Close = 216.99m, Volume = 5923254 },
-                new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open = 214.75m, High = 228.00m, Low = 214.31m, Close = 226.99m, Volume = 11213471 },
-                new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open = 226.42m, High = 227.48m, Low = 221.95m, Close = 226.75m, Volume = 5911695 },
-                new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open = 226.93m, High = 230.31m, Low = 225.45m, Close = 229.01m, Volume = 5527893 },
-                new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
+                new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", EnglishCulture), Open = 214.86m, High = 220.33m, Low = 210.96m, Close = 216.99m, Volume = 5923254 },
+                new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", EnglishCulture), Open = 214.75m, High = 228.00m, Low = 214.31m, Close = 226.99m, Volume = 11213471 },
+                new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", EnglishCulture), Open = 226.42m, High = 227.48m, Low = 221.95m, Close = 226.75m, Volume = 5911695 },
+                new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 226.93m, High = 230.31m, Low = 225.45m, Close = 229.01m, Volume = 5527893 },
+                new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
             };
 
             badHistory.Validate();

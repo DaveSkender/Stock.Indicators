@@ -27,10 +27,10 @@ namespace Internal.Tests
         public void RoundDownDate()
         {
             TimeSpan interval = PeriodSize.OneHour.ToTimeSpan();
-            DateTime evDate = DateTime.Parse("2020-12-15 09:35:45", englishCulture);
+            DateTime evDate = DateTime.Parse("2020-12-15 09:35:45", EnglishCulture);
 
             DateTime rnDate = evDate.RoundDown(interval);
-            DateTime exDate = DateTime.Parse("2020-12-15 09:00:00", englishCulture);
+            DateTime exDate = DateTime.Parse("2020-12-15 09:00:00", EnglishCulture);
 
             // assertions
             Assert.AreEqual(exDate, rnDate);

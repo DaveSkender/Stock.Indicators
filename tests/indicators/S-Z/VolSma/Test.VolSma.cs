@@ -31,7 +31,7 @@ namespace Internal.Tests
             Assert.AreEqual(157958070.8m, r2.VolSma);
 
             VolSmaResult r3 = results[501];
-            Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture), r3.Date);
+            Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r3.Date);
             Assert.AreEqual(147031456m, r3.Volume);
             Assert.AreEqual(163695200m, r3.VolSma);
         }

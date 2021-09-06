@@ -44,7 +44,7 @@ namespace Internal.Tests
         public void WithStartDate()
         {
             DateTime startDate =
-                DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
+                DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", EnglishCulture);
 
             List<VwapResult> results = Indicator.GetVwap(intraday, startDate)
                 .ToList();
@@ -92,7 +92,7 @@ namespace Internal.Tests
 
             // with start date
             DateTime startDate =
-            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
+            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", EnglishCulture);
 
             List<VwapResult> sdResults = Indicator.GetVwap(intraday, startDate)
                 .RemoveWarmupPeriods()
@@ -110,7 +110,7 @@ namespace Internal.Tests
         {
             // bad SMA period
             DateTime startDate =
-                DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", englishCulture);
+                DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", EnglishCulture);
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetVwap(quotes, startDate));

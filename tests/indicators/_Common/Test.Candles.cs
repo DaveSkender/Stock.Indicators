@@ -23,15 +23,15 @@ namespace Internal.Tests
             Assert.AreEqual(502, candles.Count);
 
             // check first date
-            DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", englishCulture);
+            DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(firstDate, candles[0].Date);
 
             // check last date
-            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+            DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(lastDate, candles.LastOrDefault().Date);
 
             // spot check an out of sequence date
-            DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);
+            DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(spotDate, candles[50].Date);
         }
 

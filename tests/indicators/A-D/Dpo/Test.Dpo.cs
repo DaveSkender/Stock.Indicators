@@ -24,7 +24,7 @@ namespace Internal.Tests
                     string[] csv = t.Split(",");
                     return new DpoResult
                     {
-                        Date = Convert.ToDateTime(csv[1], englishCulture),
+                        Date = Convert.ToDateTime(csv[1], EnglishCulture),
                         Sma = decimal.TryParse(csv[6], out decimal sma) ? sma : null,
                         Dpo = decimal.TryParse(csv[7], out decimal dpo) ? dpo : null
                     };
