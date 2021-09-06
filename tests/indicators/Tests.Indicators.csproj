@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="A-D\Dpo\data.csv">
+    <None Update="A-D\Dpo\Dpo.Data.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="_Common\data\bad.csv">

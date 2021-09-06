@@ -17,7 +17,7 @@ namespace Internal.Tests
             List<Quote> qot = new();
             List<DpoResult> exp = new();
 
-            List<string> csvData = File.ReadAllLines("A-D/Dpo/data.csv")
+            List<string> csvData = File.ReadAllLines("A-D/Dpo/Dpo.Data.csv")
                 .Skip(1)
                 .ToList();
 
