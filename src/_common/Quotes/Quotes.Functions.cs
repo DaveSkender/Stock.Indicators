@@ -82,6 +82,40 @@ namespace Skender.Stock.Indicators
 
         public static IEnumerable<Quote> Aggregate<TQuote>(
             this IEnumerable<TQuote> quotes,
+            TimeSpan newPeriod)
+            where TQuote : IQuote
+        {
+
+            // handle no quotes scenario
+            if (quotes == null || !quotes.Any())
+            {
+                return new List<Quote>();
+            }
+          
+            if (newPeriod == TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newPeriod), newPeriod,
+                    "Historical quotes Aggregation must use a New Size value of at least " +
+                    "one minute and not more than one week.");
+            }
+
+            // return aggregation
+            return quotes
+                    .OrderBy(x => x.Date)
+                    .GroupBy(x => x.Date.RoundDown(newPeriod))
+                    .Select(x => new Quote
+                    {
+                        Date = x.Key,
+                        Open = x.First().Open,
+                        High = x.Max(t => t.High),
+                        Low = x.Min(t => t.Low),
+                        Close = x.Last().Close,
+                        Volume = x.Sum(t => t.Volume)
+                    });
+        }
+
+        public static IEnumerable<Quote> Aggregate<TQuote>(
+            this IEnumerable<TQuote> quotes,
             TimeSpan timeSpan)
             where TQuote : IQuote
         {
