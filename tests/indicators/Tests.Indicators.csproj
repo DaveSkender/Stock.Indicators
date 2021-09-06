@@ -34,34 +34,34 @@
     <None Update="A-D\Dpo\data.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\bad.csv">
+    <None Update="_Common\data\bad.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\bitcoin.csv">
+    <None Update="_Common\data\bitcoin.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\compare.csv">
+    <None Update="_Common\data\compare.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\default.csv">
+    <None Update="_Common\data\default.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\intraday.csv">
+    <None Update="_Common\data\intraday.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\longest.csv">
+    <None Update="_Common\data\longest.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\longish.csv">
+    <None Update="_Common\data\longish.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\mismatch.csv">
+    <None Update="_Common\data\mismatch.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\penny.csv">
+    <None Update="_Common\data\penny.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\zigzag.csv">
+    <None Update="_Common\data\zigzag.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
