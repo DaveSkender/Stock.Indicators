@@ -13,22 +13,35 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            List<DpoResult> act = quotes.GetDpo(14)
+            // get test data
+            List<Quote> qot = new();
+            List<DpoResult> exp = new();
+
+            List<string> csvData = File.ReadAllLines("A-D/Dpo/data.csv")
+                .Skip(1)
                 .ToList();
 
-            // get test data
-            List<DpoResult> exp = File.ReadAllLines("A-D/Dpo/data.csv")
-                .Skip(1)
-                .Select(t =>
+            for (int i = 0; i < csvData.Count; i++)
+            {
+                string[] csv = csvData[i].Split(",");
+                DateTime date = Convert.ToDateTime(csv[1], EnglishCulture);
+
+                qot.Add(new Quote
                 {
-                    string[] csv = t.Split(",");
-                    return new DpoResult
-                    {
-                        Date = Convert.ToDateTime(csv[1], EnglishCulture),
-                        Sma = decimal.TryParse(csv[6], out decimal sma) ? sma : null,
-                        Dpo = decimal.TryParse(csv[7], out decimal dpo) ? dpo : null
-                    };
-                })
+                    Date = date,
+                    Close = decimal.TryParse(csv[5], out decimal c) ? c : c,
+                });
+
+                exp.Add(new DpoResult
+                {
+                    Date = date,
+                    Sma = decimal.TryParse(csv[6], out decimal sma) ? sma : null,
+                    Dpo = decimal.TryParse(csv[7], out decimal dpo) ? dpo : null
+                });
+            }
+
+            // calculate
+            List<DpoResult> act = qot.GetDpo(14)
                 .ToList();
 
             // assertions
