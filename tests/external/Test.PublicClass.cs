@@ -164,6 +164,36 @@ namespace External.Other
             Assert.AreEqual(369.04m, r19.Low);
         }
 
+        [TestMethod]
+        public void CustomQuoteAggregateTimeSpan()
+        {
+            List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
+                .Select(x => new MyGenericQuote
+                {
+                    CloseDate = x.Date,
+                    Open = x.Open,
+                    High = x.High,
+                    Low = x.Low,
+                    CloseValue = x.Close,
+                    Volume = x.Volume,
+                    MyOtherProperty = 123456
+                })
+                .ToList();
+
+            List<Quote> quotesList = myGenericHistory
+                .Aggregate(TimeSpan.FromHours(2))
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(20, quotesList.Count);
+
+            // sample values
+            Quote r19 = quotesList[19];
+            Assert.AreEqual(369.04m, r19.Low);
+        }
 
         [TestMethod]
         public void DerivedIndicatorClass()
