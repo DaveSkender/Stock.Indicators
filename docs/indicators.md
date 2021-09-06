@@ -46,6 +46,7 @@ redirect_from:
 
 - [ConnorsRSI](../indicators/ConnorsRsi/#content)
 - [Commodity Channel Index](../indicators/Cci/#content)
+- [Detrended Price Oscillator (DPO)](../indicators/Dpo/#content)
 - [Relative Strength Index (RSI)](../indicators/Rsi/#content)
 - [ROC with Bands](../indicators/Roc/#roc-with-bands)
 - [Stochastic Oscillator](../indicators/Stoch/#content) and [KDJ Index](../indicators/Stoch/#content)
