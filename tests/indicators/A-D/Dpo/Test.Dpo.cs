@@ -25,6 +25,7 @@ namespace Internal.Tests
                     return new DpoResult
                     {
                         Date = Convert.ToDateTime(csv[1], englishCulture),
+                        Sma = decimal.TryParse(csv[6], out decimal sma) ? sma : null,
                         Dpo = decimal.TryParse(csv[7], out decimal dpo) ? dpo : null
                     };
                 })

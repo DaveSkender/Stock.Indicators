@@ -41,6 +41,7 @@ namespace Skender.Stock.Indicators
                 if (i >= lookbackPeriods - offset - 1 && i < size - offset)
                 {
                     SmaResult s = sma[i + offset];
+                    r.Sma = s.Sma;
                     r.Dpo = q.Close - s.Sma;
                 }
             }
