@@ -13,7 +13,7 @@ namespace Internal.Tests
         private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
         // importer / parser
-        internal static Quote FromCsv(string csvLine)
+        internal static Quote QuoteFromCsv(string csvLine)
         {
             if (string.IsNullOrEmpty(csvLine))
             {
@@ -76,7 +76,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/default.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
                 .Take(days)
                 .ToList();
@@ -87,7 +87,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/bad.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
                 .Take(days)
                 .ToList();
@@ -98,7 +98,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/bitcoin.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
                 .Take(days)
                 .ToList();
@@ -109,7 +109,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/compare.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
                 .Take(days)
                 .ToList();
@@ -120,7 +120,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/intraday.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
                 .Take(days)
                 .ToList();
@@ -131,7 +131,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/longish.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
                 .Take(days)
                 .ToList();
@@ -142,7 +142,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/longest.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .ToList();
         }
 
@@ -151,7 +151,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/penny.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .ToList();
         }
 
@@ -160,7 +160,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/mismatch.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .ToList();
         }
 
@@ -169,7 +169,7 @@ namespace Internal.Tests
         {
             return File.ReadAllLines("_Common/data/intraday.csv")
                 .Skip(1)
-                .Select(v => Importer.FromCsv(v))
+                .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
                 .Take(days)
                 .ToList();

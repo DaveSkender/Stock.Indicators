@@ -13,7 +13,7 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            // get test data
+            // get expected data
             List<Quote> qot = new();
             List<DpoResult> exp = new();
 
@@ -29,18 +29,18 @@ namespace Internal.Tests
                 qot.Add(new Quote
                 {
                     Date = date,
-                    Close = decimal.TryParse(csv[5], out decimal c) ? c : c,
+                    Close = csv[5].ToDecimal()
                 });
 
                 exp.Add(new DpoResult
                 {
                     Date = date,
-                    Sma = decimal.TryParse(csv[6], out decimal sma) ? sma : null,
-                    Dpo = decimal.TryParse(csv[7], out decimal dpo) ? dpo : null
+                    Sma = csv[6].ToDecimalNull(),
+                    Dpo = csv[7].ToDecimalNull()
                 });
             }
 
-            // calculate
+            // calculate actual data
             List<DpoResult> act = qot.GetDpo(14)
                 .ToList();
 
@@ -54,14 +54,8 @@ namespace Internal.Tests
                 DpoResult a = act[i];
 
                 Assert.AreEqual(e.Date, a.Date);
-                Assert.AreEqual(e.Sma, a.Sma == null
-                    ? a.Sma
-                    : Math.Round((decimal)a.Sma, 5),
-                    $"at index {i}");
-                Assert.AreEqual(e.Dpo, a.Dpo == null
-                    ? a.Dpo
-                    : Math.Round((decimal)a.Dpo, 5),
-                    $"at index {i}");
+                Assert.AreEqual(e.Sma, a.Sma.NullRound(5), $"at index {i}");
+                Assert.AreEqual(e.Dpo, a.Dpo.NullRound(5), $"at index {i}");
             }
         }
 
