@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 using Internal.Tests;
 using Skender.Stock.Indicators;
@@ -151,6 +151,12 @@ namespace Tests.Performance
         public object GetDoubleEma()
         {
             return h.GetDoubleEma(14);
+        }
+
+        [Benchmark]
+        public object GetDpo()
+        {
+            return h.GetDpo(14);
         }
 
         [Benchmark]
