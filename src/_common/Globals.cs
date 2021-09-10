@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 namespace Skender.Stock.Indicators
 {
     /// <summary>Technical indicators and overlays.  See
-    /// <see href = "https://daveskender.github.io/Stock.Indicators/guide">
+    /// <see href = "https://daveskender.github.io/Stock.Indicators/guide/">
     ///  the Guide</see> for more information.</summary>
     public static partial class Indicator
     {

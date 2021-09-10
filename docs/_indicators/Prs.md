@@ -25,7 +25,7 @@ IEnumerable<PrsResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `historyEval` | IEnumerable\<[TQuote]({{site.baseurl}}/guide#historical-quotes)\> | Historical quotes for evaluation.  You must have the same number of periods as `historyBase`.
+| `historyEval` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical quotes for evaluation.  You must have the same number of periods as `historyBase`.
 | `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
 | `smaPeriods` | int | Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
 
@@ -33,7 +33,7 @@ IEnumerable<PrsResult> results =
 
 You must have at least `N` periods of `historyBase` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`historyBase` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide#historical-quotes) for more information.
+`historyBase` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
