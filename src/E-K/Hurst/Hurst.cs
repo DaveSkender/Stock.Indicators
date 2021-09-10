@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -156,7 +156,7 @@ namespace Skender.Stock.Indicators
 
 
         // convert to quotes
-        /// <include file='../../_Common/Results/info.xml' path='info/type[@name="Convert"]/*' />
+        /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
         /// 
         public static IEnumerable<Quote> ConvertToQuotes(
             this IEnumerable<HurstResult> results)
@@ -176,7 +176,7 @@ namespace Skender.Stock.Indicators
 
 
         // remove recommended periods
-        /// <include file='../../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
         ///
         public static IEnumerable<HurstResult> RemoveWarmupPeriods(
             this IEnumerable<HurstResult> results)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -155,7 +155,7 @@ namespace Skender.Stock.Indicators
 
 
         // remove recommended periods
-        /// <include file='../../_Common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
         /// 
         public static IEnumerable<AdxResult> RemoveWarmupPeriods(
             this IEnumerable<AdxResult> results)
