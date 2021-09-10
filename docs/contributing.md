@@ -46,7 +46,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the repo documentation.  You can find the latest results [here](https://daveskender.github.io/Stock.Indicators/performance).
+Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the repo documentation.  You can find the latest results [here](https://daveskender.github.io/Stock.Indicators/performance/).
 
 ```bash
 # run all performance benchmarks
@@ -103,18 +103,18 @@ We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It 
 
 Type | Format | Description
 ------------ | ------ | -----------
-Major | `x.-.-` | A significant deviation with breaking changes.
-Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding an indicator.  Small breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases).
+Major | `x.-.-` | A significant deviation with major breaking changes.
+Minor | `-.x.-` | A new feature, usually new non-breaking change, such as adding an indicator.  Minor breaking changes may occur here and are denoted in the [release notes](https://github.com/DaveSkender/Stock.Indicators/releases).
 Patch | `-.-.x` | A small bug fix, chore, or documentation change.
 Increment | `-.-.-+x` | Intermediate commits between releases.
 
 This only needs to be done on the merge to `main` when the Pull Request is committed, so your feature branch does not need to include this as it will get squashed anyway.
 
-- Adding `+semver: major` as a commit message will increment the major x.-.- element
-- Adding `+semver: minor` as a commit message will increment the minor -.x.- element
-- Adding `+semver: patch` as a commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
+- Adding `+semver: major` as a PR merge commit message will increment the major x.-.- element
+- Adding `+semver: minor` as a PR merge commit message will increment the minor -.x.- element
+- Adding `+semver: patch` as a PR merge commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
 
-A manual Git `tag`, in accordance with the above schema, is introduced when deploying to package managers and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
+A manual Git `tag`, in accordance with the above schema, is introduced when deploying to the public NuGet package manager and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
 
 ## License
 

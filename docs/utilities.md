@@ -58,7 +58,7 @@ IEnumerable<Quote> dayBarQuotes =
 
 ### Convert to quotes
 
-`results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators]({{site.baseurl}}/guide#generating-indicator-of-indicators).
+`results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators]({{site.baseurl}}/guide/#generating-indicator-of-indicators).
 
 ```csharp
 // example: an RSI of Renko bricks
@@ -105,7 +105,7 @@ IEnumerable<AdxResult> results =
     .RemoveWarmupPeriods(50);
 ```
 
-See [individual indicator pages]({{site.baseurl}}/indicators) for information on recommended pruning quantities.
+See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
 
 :warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 
