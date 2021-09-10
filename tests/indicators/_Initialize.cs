@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -15,7 +15,7 @@ namespace Internal.Tests
     [TestClass]
     public abstract class TestBase
     {
-        internal static readonly CultureInfo englishCulture = new("en-US", false);
+        internal static readonly CultureInfo EnglishCulture = new("en-US", false);
 
         internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
         internal static readonly IEnumerable<Quote> otherQuotes = TestData.GetCompare();

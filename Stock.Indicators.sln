@@ -26,14 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9
 		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{E5744FA9-7AC5-4FF7-8E16-9A851C4FB1DD}"
-	ProjectSection(SolutionItems) = preProject
-		docs\contributing.md = docs\contributing.md
-		LICENSE = LICENSE
-		README.md = README.md
-		docs\SECURITY.md = docs\SECURITY.md
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
