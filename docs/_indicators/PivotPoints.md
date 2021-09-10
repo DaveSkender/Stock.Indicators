@@ -29,7 +29,7 @@ IEnumerable<PivotPointsResult> results =
 
 You must have at least `2` windows of `quotes`.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `quotes`.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide#historical-quotes) for more information.
+`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### PeriodSize options (for windowSize)
 

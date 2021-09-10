@@ -10,6 +10,7 @@ $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
 $color-primary-hover: #bdbdbd;
+$color-accent: #006400;  // includes headers
 
 .page-header {
     padding: 10px;
@@ -64,7 +65,7 @@ h5 {
     h3,
     h4,
     h5 {
-        color: $color-primary;
+        color: $color-accent;
     }
 
     td,

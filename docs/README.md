@@ -10,9 +10,9 @@ It can be used in any market analysis software using standard OHLCV price quotes
 
 Explore more information:
 
-- [Indicators and overlays]({{site.baseurl}}/indicators#content)
-- [Guide and Pro tips]({{site.baseurl}}/guide#content)
-- [Contributing guidelines]({{site.baseurl}}/contributing#content)
+- [Indicators and overlays]({{site.baseurl}}/indicators/#content)
+- [Guide and Pro tips]({{site.baseurl}}/guide/#content)
+- [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 - [Discussions]({{site.github.repository_url}}/discussions)
 - [Release notes]({{site.github.repository_url}}/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
@@ -32,7 +32,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
-See the [guide]({{site.baseurl}}/guide#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators#content) for more information.
+See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.
 
 ## Frameworks targeted
 
@@ -62,7 +62,7 @@ Thank you for your support!
 
 ## :octocat: Contributing
 
-This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing#content) and [the backlog]({{site.github.repository_url}}/projects/1).
+This NuGet package is an open-source community project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog]({{site.github.repository_url}}/projects/1).
 
 Special thanks to all of our community code contributors!
 

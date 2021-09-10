@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Skender.Stock.Indicators
+{
+    public static partial class Indicator
+    {
+        // PRICE MOMENTUM OSCILLATOR (PMO)
+        /// <include file='./info.xml' path='indicator/*' />
+        /// 
+        public static IEnumerable<PmoResult> GetPmo<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int timePeriods = 35,
+            int smoothPeriods = 20,
+            int signalPeriods = 10)
+            where TQuote : IQuote
+        {
+
+            // check parameter arguments
+            ValidatePmo(quotes, timePeriods, smoothPeriods, signalPeriods);
+
+            // initialize
+            List<PmoResult> results = CalcPmoRocEma(quotes, timePeriods);
+            decimal smoothingConstant = 2m / smoothPeriods;
+            decimal? lastPmo = null;
+
+            // calculate PMO
+            int startIndex = timePeriods + smoothPeriods;
+
+            for (int i = startIndex - 1; i < results.Count; i++)
+            {
+                PmoResult pr = results[i];
+                int index = i + 1;
+
+                if (index > startIndex)
+                {
+                    pr.Pmo = (pr.RocEma - lastPmo) * smoothingConstant + lastPmo;
+                }
+                else if (index == startIndex)
+                {
+                    decimal sumRocEma = 0;
+                    for (int p = index - smoothPeriods; p < index; p++)
+                    {
+                        PmoResult d = results[p];
+                        sumRocEma += (decimal)d.RocEma;
+                    }
+                    pr.Pmo = sumRocEma / smoothPeriods;
+                }
+
+                lastPmo = pr.Pmo;
+            }
+
+            // add Signal
+            CalcPmoSignal(results, timePeriods, smoothPeriods, signalPeriods);
+
+            return results;
+        }
+
+
+        // remove recommended periods
+        /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+        ///
+        public static IEnumerable<PmoResult> RemoveWarmupPeriods(
+            this IEnumerable<PmoResult> results)
+        {
+            int ts = results
+                .ToList()
+                .FindIndex(x => x.Pmo != null) + 1;
+
+            return results.Remove(ts + 250);
+        }
+
+
+        // internals
+        private static List<PmoResult> CalcPmoRocEma<TQuote>(
+            IEnumerable<TQuote> quotes,
+            int timePeriods)
+            where TQuote : IQuote
+        {
+            // initialize
+            decimal smoothingMultiplier = 2m / timePeriods;
+            decimal? lastRocEma = null;
+            List<RocResult> roc = GetRoc(quotes, 1).ToList();
+            List<PmoResult> results = new();
+
+            int startIndex = timePeriods + 1;
+
+            for (int i = 0; i < roc.Count; i++)
+            {
+                RocResult r = roc[i];
+                int index = i + 1;
+
+                PmoResult result = new()
+                {
+                    Date = r.Date
+                };
+
+                if (index > startIndex)
+                {
+                    result.RocEma = r.Roc * smoothingMultiplier + lastRocEma * (1 - smoothingMultiplier);
+                }
+                else if (index == startIndex)
+                {
+                    decimal sumRoc = 0;
+                    for (int p = index - timePeriods; p < index; p++)
+                    {
+                        RocResult d = roc[p];
+                        sumRoc += (decimal)d.Roc;
+                    }
+                    result.RocEma = sumRoc / timePeriods;
+                }
+
+                lastRocEma = result.RocEma;
+                result.RocEma *= 10;
+                results.Add(result);
+            }
+
+            return results;
+        }
+
+
+        private static void CalcPmoSignal(
+            List<PmoResult> results,
+            int timePeriods,
+            int smoothPeriods,
+            int signalPeriods)
+        {
+            decimal signalConstant = 2m / (signalPeriods + 1);
+            decimal? lastSignal = null;
+
+            int startIndex = timePeriods + smoothPeriods + signalPeriods - 1;
+
+            for (int i = startIndex - 1; i < results.Count; i++)
+            {
+                PmoResult pr = results[i];
+                int index = i + 1;
+
+                if (index > startIndex)
+                {
+                    pr.Signal = (pr.Pmo - lastSignal) * signalConstant + lastSignal;
+                }
+                else if (index == startIndex)
+                {
+                    decimal sumPmo = 0;
+                    for (int p = index - signalPeriods; p < index; p++)
+                    {
+                        PmoResult d = results[p];
+                        sumPmo += (decimal)d.Pmo;
+                    }
+                    pr.Signal = sumPmo / signalPeriods;
+                }
+
+                lastSignal = pr.Signal;
+            }
+        }
+
+
+        // parameter validation
+        private static void ValidatePmo<TQuote>(
+            IEnumerable<TQuote> quotes,
+            int timePeriods,
+            int smoothPeriods,
+            int signalPeriods)
+            where TQuote : IQuote
+        {
+
+            // check parameter arguments
+            if (timePeriods <= 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timePeriods), timePeriods,
+                    "Time periods must be greater than 1 for PMO.");
+            }
+
+            if (smoothPeriods <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                    "Smoothing periods must be greater than 0 for PMO.");
+            }
+
+            if (signalPeriods <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                    "Signal periods must be greater than 0 for PMO.");
+            }
+
+            // check quotes
+            int qtyHistory = quotes.Count();
+            int minHistory = Math.Max(timePeriods + smoothPeriods, Math.Max(2 * timePeriods, timePeriods + 100));
+            if (qtyHistory < minHistory)
+            {
+                string message = "Insufficient quotes provided for PMO.  " +
+                    string.Format(EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
+                    + "Since this uses a several smoothing operations, "
+                    + "we recommend you use at least {2} data points prior to the intended "
+                    + "usage date for better precision.",
+                    qtyHistory, minHistory, minHistory + 250);
+
+                throw new BadQuotesException(nameof(quotes), message);
+            }
+        }
+    }
+}
