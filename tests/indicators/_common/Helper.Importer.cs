@@ -74,7 +74,7 @@ namespace Internal.Tests
         // DEFAULT: S&P 500 ~2 years of daily data
         internal static IEnumerable<Quote> GetDefault(int days = 502)
         {
-            return File.ReadAllLines("_Common/data/default.csv")
+            return File.ReadAllLines("_common/data/default.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
@@ -85,7 +85,7 @@ namespace Internal.Tests
         // BAD DATA
         internal static IEnumerable<Quote> GetBad(int days = 502)
         {
-            return File.ReadAllLines("_Common/data/bad.csv")
+            return File.ReadAllLines("_common/data/bad.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
@@ -96,7 +96,7 @@ namespace Internal.Tests
         // BITCOIN DATA
         internal static IEnumerable<Quote> GetBitcoin(int days = 1246)
         {
-            return File.ReadAllLines("_Common/data/bitcoin.csv")
+            return File.ReadAllLines("_common/data/bitcoin.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
@@ -107,7 +107,7 @@ namespace Internal.Tests
         // COMPARE DATA ~2 years of TSLA data (matches default time)
         internal static IEnumerable<Quote> GetCompare(int days = 502)
         {
-            return File.ReadAllLines("_Common/data/compare.csv")
+            return File.ReadAllLines("_common/data/compare.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
@@ -118,7 +118,7 @@ namespace Internal.Tests
         // INTRADAY DATA
         internal static IEnumerable<Quote> GetIntraday(int days = 1564)
         {
-            return File.ReadAllLines("_Common/data/intraday.csv")
+            return File.ReadAllLines("_common/data/intraday.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
@@ -129,7 +129,7 @@ namespace Internal.Tests
         // LONGISH DATA ~20 years of S&P 500 daily data
         internal static IEnumerable<Quote> GetLongish(int days = 5285)
         {
-            return File.ReadAllLines("_Common/data/longish.csv")
+            return File.ReadAllLines("_common/data/longish.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
@@ -140,7 +140,7 @@ namespace Internal.Tests
         // LONGEST DATA ~62 years of S&P 500 daily data
         internal static IEnumerable<Quote> GetLongest()
         {
-            return File.ReadAllLines("_Common/data/longest.csv")
+            return File.ReadAllLines("_common/data/longest.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .ToList();
@@ -149,7 +149,7 @@ namespace Internal.Tests
         // PENNY DATA
         internal static IEnumerable<Quote> GetPenny()
         {
-            return File.ReadAllLines("_Common/data/penny.csv")
+            return File.ReadAllLines("_common/data/penny.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .ToList();
@@ -158,7 +158,7 @@ namespace Internal.Tests
         // MISMATCH DATA is in incorrect sequence
         internal static IEnumerable<Quote> GetMismatch()
         {
-            return File.ReadAllLines("_Common/data/mismatch.csv")
+            return File.ReadAllLines("_common/data/mismatch.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .ToList();
@@ -167,7 +167,7 @@ namespace Internal.Tests
         // ZIGZAG DATA
         internal static IEnumerable<Quote> GetZigZag(int days = 342)
         {
-            return File.ReadAllLines("_Common/data/intraday.csv")
+            return File.ReadAllLines("_common/data/intraday.csv")
                 .Skip(1)
                 .Select(v => Importer.QuoteFromCsv(v))
                 .OrderByDescending(x => x.Date)
