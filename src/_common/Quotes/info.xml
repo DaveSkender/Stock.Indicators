@@ -26,4 +26,17 @@
     <returns>Time series of historical quote values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
+  <type name="AggregateTimeSpan">
+    <summary>
+      Converts historical quotes into larger bar sizes.
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
+      for more information.
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="timeSpan">TimeSpan representing the new bar size.</param>
+    <returns>Time series of historical quote values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
 </info>
