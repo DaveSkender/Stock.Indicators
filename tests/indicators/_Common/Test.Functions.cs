@@ -52,26 +52,6 @@ namespace Internal.Tests
             Assert.AreEqual(PeriodSize.Week.ToTimeSpan(), TimeSpan.FromDays(7));
 
             Assert.AreEqual(PeriodSize.Month.ToTimeSpan(), TimeSpan.Zero);
-        }
-
-        [TestMethod]
-        public void ToPeriodSize()
-        {
-            //POSITIVE TEST
-            Assert.AreEqual(TimeSpan.FromMinutes(1).ToPeriodSize(), PeriodSize.OneMinute);
-            Assert.AreEqual(TimeSpan.FromMinutes(2).ToPeriodSize(), PeriodSize.TwoMinutes);
-            Assert.AreEqual(TimeSpan.FromMinutes(3).ToPeriodSize(), PeriodSize.ThreeMinutes);
-            Assert.AreEqual(TimeSpan.FromMinutes(5).ToPeriodSize(), PeriodSize.FiveMinutes);
-            Assert.AreEqual(TimeSpan.FromMinutes(15).ToPeriodSize(), PeriodSize.FifteenMinutes);
-            Assert.AreEqual(TimeSpan.FromMinutes(30).ToPeriodSize(), PeriodSize.ThirtyMinutes);
-            Assert.AreEqual(TimeSpan.FromHours(1).ToPeriodSize(), PeriodSize.OneHour);
-            Assert.AreEqual(TimeSpan.FromHours(2).ToPeriodSize(), PeriodSize.TwoHours);
-            Assert.AreEqual(TimeSpan.FromHours(4).ToPeriodSize(), PeriodSize.FourHours);
-            Assert.AreEqual(TimeSpan.FromDays(1).ToPeriodSize(), PeriodSize.Day);
-            Assert.AreEqual(TimeSpan.FromDays(7).ToPeriodSize(), PeriodSize.Week);
-
-            //NEGATIVE TEST - NOT MATCH --> NULL           
-            Assert.IsNull(TimeSpan.FromMinutes(4).ToPeriodSize());
-        }
+        }        
     }
 }
