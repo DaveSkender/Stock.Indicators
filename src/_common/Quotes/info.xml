@@ -39,5 +39,4 @@
     <returns>Time series of historical quote values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-
 </info>

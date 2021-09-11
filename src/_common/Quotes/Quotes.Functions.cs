@@ -75,6 +75,14 @@ namespace Skender.Stock.Indicators
                 throw new ArgumentOutOfRangeException(nameof(timeSpan), timeSpan,
                     "Historical quotes Aggregation must use a new size value " +
                     "that is greater than zero (0).");
+            // parameter validation
+            TimeSpan newPeriod = newSize.ToTimeSpan();
+
+            if (newPeriod == TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newSize), newSize,
+                    "Historical quotes Aggregation must use a New Size value of at least " +
+                    "one minute and not more than one week.");
             }
 
             // return aggregation

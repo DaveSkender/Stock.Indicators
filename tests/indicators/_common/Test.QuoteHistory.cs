@@ -158,7 +158,6 @@ namespace Internal.Tests
             Assert.IsFalse(noResults.Any());
         }
 
-
         [TestMethod]
         public void AggregateTimeSpan()
         {
