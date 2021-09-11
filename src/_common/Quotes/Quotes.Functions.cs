@@ -82,7 +82,7 @@ namespace Skender.Stock.Indicators
 
         public static IEnumerable<Quote> Aggregate<TQuote>(
             this IEnumerable<TQuote> quotes,
-            TimeSpan newPeriod)
+            TimeSpan timeSpan)
             where TQuote : IQuote
         {
 
@@ -92,9 +92,9 @@ namespace Skender.Stock.Indicators
                 return new List<Quote>();
             }
           
-            if (newPeriod == TimeSpan.Zero)
+            if (timeSpan <= TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(newPeriod), newPeriod,
+                throw new ArgumentOutOfRangeException(nameof(timeSpan), timeSpan,
                     "Historical quotes Aggregation must use a New Size value of at least " +
                     "one minute and not more than one week.");
             }
@@ -102,7 +102,7 @@ namespace Skender.Stock.Indicators
             // return aggregation
             return quotes
                     .OrderBy(x => x.Date)
-                    .GroupBy(x => x.Date.RoundDown(newPeriod))
+                    .GroupBy(x => x.Date.RoundDown(timeSpan))
                     .Select(x => new Quote
                     {
                         Date = x.Key,
