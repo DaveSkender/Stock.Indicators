@@ -38,6 +38,14 @@ IEnumerable<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(PeriodSize.Day);
 ```
 
+An alternate version of this utility is provided where you can use any native `TimeSpan` value that is greater than `TimeSpan.Zero`.
+
+```csharp
+// alternate usage
+IEnumerable<Quote> dayBarQuotes = 
+  minuteBarQuotes.Aggregate(TimeSpan timeSpan);
+```
+
 :warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 
 #### PeriodSize options (for newSize)

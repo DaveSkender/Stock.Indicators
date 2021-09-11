@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
@@ -52,6 +52,6 @@ namespace Internal.Tests
             Assert.AreEqual(PeriodSize.Week.ToTimeSpan(), TimeSpan.FromDays(7));
 
             Assert.AreEqual(PeriodSize.Month.ToTimeSpan(), TimeSpan.Zero);
-        }        
+        }
     }
 }
