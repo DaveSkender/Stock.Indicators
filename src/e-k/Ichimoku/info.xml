@@ -9,9 +9,9 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
-  <param name="signalPeriods">Number of periods in the Tenkan-sen midpoint evaluation.</param>
-  <param name="shortSpanPeriods">Number of periods in the shorter Kijun-sen midpoint evaluation.</param>
-  <param name="longSpanPeriods">Number of periods in the longer Senkou leading span B midpoint evaluation.</param>
+  <param name="tenkanPeriods">Number of periods in the Tenkan-sen midpoint evaluation.</param>
+  <param name="kijunPeriods">Number of periods in the shorter Kijun-sen midpoint evaluation.</param>
+  <param name="senkouBPeriods">Number of periods in the longer Senkou leading span B midpoint evaluation.</param>
   <returns>Time series of Ichimoku Cloud values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>

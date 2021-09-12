@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int signalPeriods = 9;
-            int shortSpanPeriods = 26;
-            int longSpanPeriods = 52;
+            int tenkanPeriods = 9;
+            int kijunPeriods = 26;
+            int senkouBPeriods = 52;
 
             List<IchimokuResult> results = quotes.GetIchimoku(
-                signalPeriods, shortSpanPeriods, longSpanPeriods)
+                tenkanPeriods, kijunPeriods, senkouBPeriods)
                 .ToList();
 
             // assertions
