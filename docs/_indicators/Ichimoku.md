@@ -12,11 +12,7 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 ![image]({{site.baseurl}}/assets/charts/Ichimoku.png)
 
 ```csharp
-// usage with defaults
-IEnumerable<IchimokuResult> results =
-  quotes.GetIchimoku();
-
-// usage with custom parameters
+// usage
 IEnumerable<IchimokuResult> results =
   quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
