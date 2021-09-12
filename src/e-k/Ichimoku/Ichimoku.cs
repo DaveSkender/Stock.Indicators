@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ICHIMOKU CLOUD
-        /// <include file='./info.xml' path='indicator/*' />
+        /// <include file='./info.xml' path='indicators/type[@name="Standard"]/*' />
         /// 
         public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
             this IEnumerable<TQuote> quotes,
@@ -16,37 +16,82 @@ namespace Skender.Stock.Indicators
             int senkouBPeriods = 52)
             where TQuote : IQuote
         {
+            return quotes.GetIchimoku(
+                tenkanPeriods,
+                kijunPeriods,
+                senkouBPeriods,
+                kijunPeriods,
+                kijunPeriods);
+        }
+
+        /// <include file='./info.xml' path='indicators/type[@name="Extended"]/*' />
+        /// 
+        public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int tenkanPeriods,
+            int kijunPeriods,
+            int senkouBPeriods,
+            int offsetPeriods)
+            where TQuote : IQuote
+        {
+            return quotes.GetIchimoku(
+                tenkanPeriods,
+                kijunPeriods,
+                senkouBPeriods,
+                offsetPeriods,
+                offsetPeriods);
+        }
+
+        /// <include file='./info.xml' path='indicators/type[@name="Full"]/*' />
+        /// 
+        public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int senkouOffset,
+        int chikouOffset)
+        where TQuote : IQuote
+        {
 
             // sort quotes
             List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateIchimoku(quotes, tenkanPeriods, kijunPeriods, senkouBPeriods);
+            ValidateIchimoku(
+                quotes,
+                tenkanPeriods,
+                kijunPeriods,
+                senkouBPeriods,
+                senkouOffset,
+                chikouOffset);
 
             // initialize
             List<IchimokuResult> results = new(quotesList.Count);
+            int senkouStartPeriod = Math.Max(2 * senkouOffset,
+                                    Math.Max(tenkanPeriods, kijunPeriods)) - 1;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
                 TQuote q = quotesList[i];
-                int index = i + 1;
 
                 IchimokuResult result = new()
                 {
                     Date = q.Date
                 };
+                results.Add(result);
 
                 // tenkan-sen conversion line
-                CalcIchimokuTenkanSen(index, quotesList, result, tenkanPeriods);
+                CalcIchimokuTenkanSen(i, quotesList, result, tenkanPeriods);
 
                 // kijun-sen base line
-                CalcIchimokuKijunSen(index, quotesList, result, kijunPeriods);
+                CalcIchimokuKijunSen(i, quotesList, result, kijunPeriods);
 
                 // senkou span A
-                if (index >= 2 * kijunPeriods)
+                if (i >= senkouStartPeriod)
                 {
-                    IchimokuResult skq = results[index - kijunPeriods - 1];
+                    IchimokuResult skq = results[i - senkouOffset];
 
                     if (skq != null && skq.TenkanSen != null && skq.KijunSen != null)
                     {
@@ -55,14 +100,13 @@ namespace Skender.Stock.Indicators
                 }
 
                 // senkou span B
-                CalcIchimokuSenkouB(index, quotesList, result, kijunPeriods, senkouBPeriods);
+                CalcIchimokuSenkouB(i, quotesList, result, senkouOffset, senkouBPeriods);
 
                 // chikou line
-                if (index + kijunPeriods <= quotesList.Count)
+                if (i + chikouOffset < quotesList.Count)
                 {
-                    result.ChikouSpan = quotesList[index + kijunPeriods - 1].Close;
+                    result.ChikouSpan = quotesList[i + chikouOffset].Close;
                 }
-                results.Add(result);
             }
 
             return results;
@@ -70,15 +114,15 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuTenkanSen<TQuote>(
-            int index, List<TQuote> quotesList, IchimokuResult result, int tenkanPeriods)
+            int i, List<TQuote> quotesList, IchimokuResult result, int tenkanPeriods)
             where TQuote : IQuote
         {
-            if (index >= tenkanPeriods)
+            if (i >= tenkanPeriods - 1)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = index - tenkanPeriods; p < index; p++)
+                for (int p = i - tenkanPeriods + 1; p <= i; p++)
                 {
                     TQuote d = quotesList[p];
 
@@ -99,15 +143,18 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuKijunSen<TQuote>(
-            int index, List<TQuote> quotesList, IchimokuResult result, int kijunPeriods)
+            int i,
+            List<TQuote> quotesList,
+            IchimokuResult result,
+            int kijunPeriods)
             where TQuote : IQuote
         {
-            if (index >= kijunPeriods)
+            if (i >= kijunPeriods - 1)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = index - kijunPeriods; p < index; p++)
+                for (int p = i - kijunPeriods + 1; p <= i; p++)
                 {
                     TQuote d = quotesList[p];
 
@@ -128,17 +175,20 @@ namespace Skender.Stock.Indicators
 
 
         private static void CalcIchimokuSenkouB<TQuote>(
-            int index, List<TQuote> quotesList, IchimokuResult result,
-            int kijunPeriods, int senkouBPeriods)
+            int i,
+            List<TQuote> quotesList,
+            IchimokuResult result,
+            int senkouOffset,
+            int senkouBPeriods)
             where TQuote : IQuote
         {
-            if (index >= kijunPeriods + senkouBPeriods)
+            if (i >= senkouOffset + senkouBPeriods - 1)
             {
                 decimal max = 0;
                 decimal min = decimal.MaxValue;
 
-                for (int p = index - kijunPeriods - senkouBPeriods;
-                    p < index - kijunPeriods; p++)
+                for (int p = i - senkouOffset - senkouBPeriods + 1;
+                    p <= i - senkouOffset; p++)
                 {
                     TQuote d = quotesList[p];
 
@@ -162,7 +212,9 @@ namespace Skender.Stock.Indicators
             IEnumerable<TQuote> quotes,
             int tenkanPeriods,
             int kijunPeriods,
-            int senkouBPeriods)
+            int senkouBPeriods,
+            int senkouOffset,
+            int chikouOffset)
             where TQuote : IQuote
         {
 
@@ -185,9 +237,18 @@ namespace Skender.Stock.Indicators
                     "Senkou B periods must be greater than Kijun periods for Ichimoku Cloud.");
             }
 
+            if (senkouOffset < 0 || chikouOffset < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(senkouOffset), senkouOffset,
+                    "Senkou and Chikou offset periods must be non-negative for Ichimoku Cloud.");
+            }
+
             // check quotes
             int qtyHistory = quotes.Count();
-            int minHistory = Math.Max(tenkanPeriods, Math.Max(kijunPeriods, senkouBPeriods));
+            int minHistory = Math.Max(tenkanPeriods,
+                             Math.Max(kijunPeriods,
+                             Math.Max(senkouBPeriods,
+                             Math.Max(senkouOffset, chikouOffset))));
             if (qtyHistory < minHistory)
             {
                 string message = "Insufficient quotes provided for Ichimoku Cloud.  " +
