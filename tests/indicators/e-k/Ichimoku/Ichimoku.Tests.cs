@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,12 +13,12 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            int signalPeriods = 9;
-            int shortSpanPeriods = 26;
-            int longSpanPeriods = 52;
+            int tenkanPeriods = 9;
+            int kijunPeriods = 26;
+            int senkouBPeriods = 52;
 
             List<IchimokuResult> results = quotes.GetIchimoku(
-                signalPeriods, shortSpanPeriods, longSpanPeriods)
+                tenkanPeriods, kijunPeriods, senkouBPeriods)
                 .ToList();
 
             // assertions
@@ -63,9 +63,16 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Extended()
+        {
+            IEnumerable<IchimokuResult> r = quotes.GetIchimoku(3, 13, 40, 0, 0);
+            Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
         public void BadData()
         {
-            IEnumerable<IchimokuResult> r = Indicator.GetIchimoku(badQuotes, 8, 20, 35);
+            IEnumerable<IchimokuResult> r = badQuotes.GetIchimoku();
             Assert.AreEqual(502, r.Count());
         }
 
@@ -83,6 +90,16 @@ namespace Internal.Tests
             // bad long span period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 Indicator.GetIchimoku(quotes, 9, 26, 26));
+
+            // invalid offsets
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetIchimoku(quotes, 9, 26, 52, -1));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetIchimoku(quotes, 9, 26, 52, -1, 12));
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                Indicator.GetIchimoku(quotes, 9, 26, 52, 12, -1));
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>
