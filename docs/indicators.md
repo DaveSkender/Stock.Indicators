@@ -10,7 +10,7 @@ redirect_from:
 
 - [Price trends](#price-trends)
 - [Price channels](#price-channels)
-- [Overbought/oversold oscillators](#overboughtoversold-oscillators)
+- [Oscillators](#oscillators)
 - [Stop and reverse](#stop-and-reverse)
 - [Candlestick patterns](#candlestick-patterns)
 - [Volume-based](#volume-based)
@@ -42,7 +42,7 @@ redirect_from:
 - [Standard Deviation Channels](../indicators/StdDevChannels/#content)
 - [STARC Bands](../indicators/StarcBands/#content)
 
-## Overbought/oversold oscillators
+## Oscillators
 
 - [ConnorsRSI](../indicators/ConnorsRsi/#content)
 - [Commodity Channel Index](../indicators/Cci/#content)
