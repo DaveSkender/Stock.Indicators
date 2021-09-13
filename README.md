@@ -13,15 +13,7 @@ More information:
 - [Overview](https://daveskender.github.io/Stock.Indicators/)
 - [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/indicators/)
 - [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/guide/)
-- [Contributing guidelines](https://daveskender.github.io/Stock.Indicators/contributing/)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
-- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
-
-## Samples
-
-![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/examples.png)
-
-## License
-
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
+- [Contributing](https://daveskender.github.io/Stock.Indicators/contributing/)
