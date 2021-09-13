@@ -36,7 +36,7 @@ IEnumerable<IchimokuResult> results =
 | `senkouOffset` | int | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`.
 | `chikouOffset` | int | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`.
 
-See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameters arguments must by specified.
+See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
 
 ### Historical quotes requirements
 
