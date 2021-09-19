@@ -77,13 +77,7 @@ When adding or updating indicators:
 
 Submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests)).
 
-Always write a clear log message for your commits. One-line messages are fine for most changes, but bigger changes that require more explanation should look like this:
-
-```bash
-git commit -m "A brief summary of the commit
->
-> A paragraph describing what changed and its impact."
-```
+Always write a clear log message for your commits. One-line messages are fine for most changes.
 
 After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
