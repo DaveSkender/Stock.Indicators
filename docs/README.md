@@ -10,16 +10,16 @@ It can be used in any market analysis software using standard OHLCV price quotes
 
 Explore more information:
 
-- [Indicators and overlays]({{site.baseurl}}/indicators/#content)
-- [Guide and Pro tips]({{site.baseurl}}/guide/#content)
-- [Contributing guidelines]({{site.baseurl}}/contributing/#content)
-- [Discussions]({{site.github.repository_url}}/discussions)
-- [Release notes]({{site.github.repository_url}}/releases)
+- [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/indicators/)
+- [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/guide/)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
+- [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
+- [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
+- [Contributing](https://daveskender.github.io/Stock.Indicators/contributing/)
 
 ## Samples
 
-![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/examples.png)
+![image](examples.png)
 
 ### Example usage
 
