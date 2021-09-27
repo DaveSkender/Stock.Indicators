@@ -10,12 +10,12 @@
 <head>
 
   {% if site.google_analytics %}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{site.google_analytics}}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', '{{ site.google_analytics }}');
+    gtag('config', '{{site.google_analytics}}');
   </script>
   {% endif %}
   <meta charset="UTF-8">
@@ -34,7 +34,7 @@
 
     <h1 class="project-name">
       <a href="{{site.baseurl}}/">
-        Stock Indicators for .NET
+        {{site.title}}
       </a>
     </h1>
 
@@ -46,7 +46,7 @@
     <a href="{{site.baseurl}}/guide/" class="btn">Guide</a>
     <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" class="btn">NuGet Package</a>
     {% if site.github.is_project_page %}
-    <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
+    <a href="{{site.github.repository_url}}" class="btn">View on GitHub</a>
     {% endif %}
   </header>
 
