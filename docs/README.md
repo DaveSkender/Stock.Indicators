@@ -12,14 +12,14 @@ Explore more information:
 
 - [Indicators and overlays]({{site.baseurl}}/indicators/#content)
 - [Guide and Pro tips]({{site.baseurl}}/guide/#content)
-- [Contributing guidelines]({{site.baseurl}}/contributing/#content)
-- [Discussions]({{site.github.repository_url}}/discussions)
-- [Release notes]({{site.github.repository_url}}/releases)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
+- [Release notes]({{site.github.repository_url}}/releases)
+- [Discussions]({{site.github.repository_url}}/discussions)
+- [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 
 ## Samples
 
-![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/examples.png)
+![image](examples.png)
 
 ### Example usage
 

@@ -51,6 +51,7 @@ redirect_from:
 - [ROC with Bands](../indicators/Roc/#roc-with-bands)
 - [Stochastic Oscillator](../indicators/Stoch/#content) and [KDJ Index](../indicators/Stoch/#content)
 - [Stochastic RSI](../indicators/StochRsi/#content)
+- [Triple EMA Oscillator (TRIX)](../indicators/Trix/#content)
 - [Ultimate Oscillator](../indicators/Ultimate/#content)
 - [Williams %R](../indicators/WilliamsR/#content)
 
@@ -96,7 +97,6 @@ redirect_from:
 - [Simple Moving Average (SMA)](../indicators/Sma/#content)
 - [Smoothed Moving Average (SMMA)](../indicators/Smma/#content)
 - [Tillson T3 Moving Average](../indicators/T3/#content)
-- [Triple EMA Oscillator (TRIX)](../indicators/Trix/#content)
 - [Triple Exponential Moving Average (TEMA)](../indicators/TripleEma/#content)
 - [Volume Weighted Average Price (VWAP)](../indicators/Vwap/#content)
 - [Weighted Moving Average (WMA)](../indicators/Wma/#content)
