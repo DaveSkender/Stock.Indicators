@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <indicator>
+
   <type name="Main">
     <summary>
       Stochastic Oscillator is a momentum indicator that looks back N periods to produce a scale of 0 to 100.
@@ -18,10 +19,16 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+
   <type name="Results">
-    <remarks>
+    <summary>
       Stochastic indicator results includes aliases for those who prefer the simpler K,D,J outputs.
       <br />
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#response">documentation</see>
+      for more information.
+    </summary>
+    <remarks>
       Standard output properties:
       <list type="table">
         <item>
@@ -39,9 +46,7 @@
           </description>
         </item>
       </list>
-      <para>
-        These are the aliases of the above properties:
-      </para>
+      These are the aliases of the above properties:
       <list type="table">
         <item>
           <term>K</term>
@@ -58,4 +63,5 @@
       </list>
     </remarks>
   </type>
+
 </indicator>
