@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // STOCHASTIC OSCILLATOR
-        /// <include file='./info.xml' path='indicator/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<StochResult> GetStoch<TQuote>(
             this IEnumerable<TQuote> quotes,
