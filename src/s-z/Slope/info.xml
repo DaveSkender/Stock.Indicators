@@ -4,9 +4,11 @@
   <summary>
     Slope of the best fit line is determined by an ordinary least-squares simple linear regression on Close price.
     It can be used to help identify trend strength and direction.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Slope/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Slope/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

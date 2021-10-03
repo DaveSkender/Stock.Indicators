@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     On-balance Volume (OBV) is a rolling accumulation of volume based on Close price direction.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Obv/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Obv/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

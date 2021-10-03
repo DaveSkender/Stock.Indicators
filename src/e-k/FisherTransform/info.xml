@@ -2,9 +2,12 @@
 
 <indicator>
   <summary>
-    Ehlers Fisher Transform converts prices into a Gaussian normal distribution.  See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/FisherTransform/#content">documentation</see>
-    for more information.
+    Ehlers Fisher Transform converts prices into a Gaussian normal distribution.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/FisherTransform/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

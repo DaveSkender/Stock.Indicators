@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Double Exponential Moving Average (DEMA) of the Close price.
+    <para>
       See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/DoubleEma/#content">documentation</see>
-    for more information.
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/DoubleEma/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

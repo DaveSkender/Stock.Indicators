@@ -2,10 +2,12 @@
 
 <indicator>
   <summary>
-    Bollinger Bands&#174; depict volatility as standard deviation boundary lines from a moving average of Close price. 
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/BollingerBands/#content">documentation</see>
-    for more information.
+    Bollinger Bands&#174; depict volatility as standard deviation boundary lines from a moving average of Close price.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/BollingerBands/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

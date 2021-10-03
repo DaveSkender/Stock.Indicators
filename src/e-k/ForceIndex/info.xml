@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     The Force Index depicts volume-based buying and selling pressure.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/ForceIndex/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/ForceIndex/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

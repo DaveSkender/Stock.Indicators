@@ -4,9 +4,11 @@
   <summary>
     Vortex Indicator (VI) is a measure of price directional movement.
     It includes positive and negative indicators, and is often used to identify trends and reversals.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Vortex/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Vortex/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

@@ -4,9 +4,11 @@
   <summary>
     Volume Simple Moving Average is the average volume over a lookback window.
     This is helpful when you are trying to assess whether volume is above or below normal.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/VolSma/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/VolSma/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

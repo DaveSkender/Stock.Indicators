@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <indicator>
+
   <type name="Main">
     <summary>
       Rate of Change (ROC), also known as Momentum Oscillator, is the percent change of Close price over a lookback window.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Roc/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Roc/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -16,12 +19,15 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+
   <type name="WithBands">
     <summary>
       Rate of Change with Bands (ROCWB) is the percent change of Close price over a lookback window with standard deviation bands.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Roc/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Roc/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -32,4 +38,5 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+
 </indicator>

@@ -4,9 +4,12 @@
   <summary>
     SuperTrend attempts to determine the primary trend of Close prices by using 
     Average True Range (ATR) band thresholds. It can indicate a buy/sell signal or a 
-    trailing stop when the trend changes.  See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/SuperTrend/#content">documentation</see>
-    for more information.
+    trailing stop when the trend changes.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/SuperTrend/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

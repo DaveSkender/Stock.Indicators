@@ -3,9 +3,12 @@
 <indicator>
   <summary>
     Choppiness Index (CHOP) measures the trendiness or choppiness over N lookback periods
-    on a scale of 0 to 100.  See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Chop/#content">documentation</see>
-    for more information.
+    on a scale of 0 to 100.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Chop/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

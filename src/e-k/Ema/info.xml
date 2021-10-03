@@ -4,9 +4,11 @@
   <type name="Main">
     <summary>
       Exponential Moving Average (EMA) of the Close price.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -18,9 +20,11 @@
   <type name="Custom">
     <summary>
       Exponential Moving Average (EMA) with user specification of which OHLCV element to use.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>

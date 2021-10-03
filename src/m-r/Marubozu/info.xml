@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     (preview) Marubozu is a candlestick pattern that has no wicks, representing consistent directional movement.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Patterns/Marubozu/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Patterns/Marubozu/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
