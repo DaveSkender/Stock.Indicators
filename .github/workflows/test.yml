@@ -36,6 +36,8 @@ jobs:
           bundler-cache: true
           ruby-version: 2.6.6
 
+      - run: bundle info html-proofer
+      
       - name: Build and start up jekyll server
         run: bundle exec jekyll build && bundle exec jekyll serve --detach
 
