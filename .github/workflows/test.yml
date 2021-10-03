@@ -5,12 +5,15 @@ on:
   pull_request:
     branches: [main]
 
+defaults:
+  run:
+    working-directory: ./docs
+
 jobs:
   build:
     name: URLs
     runs-on: ubuntu-latest
     env:
-      working-directory: ./docs
       LANG: en_US.UTF-8
       LANGUAGE: en_US
       LC_ALL: en_US.UTF-8
