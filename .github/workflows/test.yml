@@ -26,13 +26,14 @@ jobs:
           sudo apt-get install --reinstall -y locales;
           sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
           sudo locale-gen en_US.UTF-8;
+        working-directory: docs
 
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
           ruby-version: 2.6.6
-          working-directory: docs
+          working-directory: ./docs
 
       - name: bundle info
         run: bundle info html-proofer
