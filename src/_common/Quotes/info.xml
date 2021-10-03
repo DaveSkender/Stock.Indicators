@@ -6,7 +6,7 @@
       Validate historical quotes.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#validate-quote-history">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#validate-quote-history">documentation</see>
         for more information.
       </para>
     </summary>
@@ -20,7 +20,7 @@
       Converts historical quotes into larger bar sizes.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#resize-quote-history">documentation</see>
         for more information.
       </para>
     </summary>
@@ -35,7 +35,7 @@
       Converts historical quotes into larger bar sizes.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#resize-quote-history">documentation</see>
         for more information.
       </para>
     </summary>

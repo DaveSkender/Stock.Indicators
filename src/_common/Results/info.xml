@@ -6,7 +6,7 @@
       Convert indicator results into historical quotes.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#convert-to-quotes">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#convert-to-quotes">documentation</see>
         for more information.
       </para>
     </summary>
@@ -19,7 +19,7 @@
       Finds indicator values on a specific date.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#find-indicator-result-by-date">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#find-indicator-result-by-date">documentation</see>
         for more information.
       </para>
     </summary>
@@ -33,7 +33,7 @@
       Removes the recommended quantity of results from the beginning of the results list.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#remove-warmup-periods">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#remove-warmup-periods">documentation</see>
         for more information.
       </para>
     </summary>
@@ -45,7 +45,7 @@
       Removes a specific quantity of results from the beginning of the results list.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#remove-warmup-periods">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#remove-warmup-periods">documentation</see>
         for more information.
       </para>
     </summary>
