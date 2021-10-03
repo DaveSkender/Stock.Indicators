@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // WILLIAMS FRACTAL
-        /// <include file='./info.xml' path='indicators/type[@name="standard"]/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="standard"]/*' />
         /// 
         public static IEnumerable<FractalResult> GetFractal<TQuote>(
             this IEnumerable<TQuote> quotes,
@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
         }
 
         // more configurable version (undocumented)
-        /// <include file='./info.xml' path='indicators/type[@name="alt"]/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="alt"]/*' />
         /// 
         public static IEnumerable<FractalResult> GetFractal<TQuote>(
             IEnumerable<TQuote> quotes,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicators>
+<indicator>
   <summary>
     Gator Oscillator is an expanded view of Williams Alligator. See
     <see href="https://daveskender.github.io/Stock.Indicators/indicators/Gator/#content">documentation</see>
@@ -10,4 +10,4 @@
   <param name="quotes">Historical price quotes.</param>
   <returns>Time series of Gator values.</returns>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
-</indicators>
+</indicator>

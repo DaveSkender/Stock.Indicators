@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicators>
+<indicator>
   <summary>
     Williams Alligator is an indicator that transposes multiple moving averages, 
     showing chart patterns that creator Bill Williams compared to an alligator's 
@@ -12,4 +12,4 @@
   <param name="quotes">Historical price quotes.</param>
   <returns>Time series of Alligator values.</returns>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
-</indicators>
+</indicator>

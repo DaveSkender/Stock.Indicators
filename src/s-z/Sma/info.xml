@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicators>
+<indicator>
   <type name="Main">
     <summary>
       Simple Moving Average (SMA) is the average of Close price over a lookback window.
@@ -44,4 +44,4 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
-</indicators>
+</indicator>

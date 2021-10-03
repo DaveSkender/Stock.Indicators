@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // ENDPOINT MOVING AVERAGE
-        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
+        /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<EpmaResult> GetEpma<TQuote>(
             this IEnumerable<TQuote> quotes,

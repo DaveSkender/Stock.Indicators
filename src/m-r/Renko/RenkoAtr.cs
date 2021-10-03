@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // RENKO CHART (ATR VARIANT)
-        /// <include file='./info.xml' path='indicators/type[@name="atr"]/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="atr"]/*' />
         /// 
         public static IEnumerable<RenkoResult> GetRenkoAtr<TQuote>(
             this IEnumerable<TQuote> quotes,

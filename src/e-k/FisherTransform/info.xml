@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicators>
+<indicator>
   <summary>
     Ehlers Fisher Transform converts prices into a Gaussian normal distribution.  See
     <see href="https://daveskender.github.io/Stock.Indicators/indicators/FisherTransform/#content">documentation</see>
@@ -12,4 +12,4 @@
   <returns>Time series of Fisher Transform values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
-</indicators>
+</indicator>

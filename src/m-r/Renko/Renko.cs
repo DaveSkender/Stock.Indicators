@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // RENKO CHART (STANDARD)
-        /// <include file='./info.xml' path='indicators/type[@name="standard"]/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="standard"]/*' />
         /// 
         public static IEnumerable<RenkoResult> GetRenko<TQuote>(
             this IEnumerable<TQuote> quotes,
