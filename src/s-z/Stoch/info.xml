@@ -6,9 +6,11 @@
     <summary>
       Stochastic Oscillator is a momentum indicator that looks back N periods to produce a scale of 0 to 100.
       %J is also included for the KDJ Index extension.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -23,10 +25,11 @@
   <type name="Results">
     <summary>
       Stochastic indicator results includes aliases for those who prefer the simpler K,D,J outputs.
-      <br />
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#response">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#response">documentation</see>
+        for more information.
+      </para>
     </summary>
     <remarks>
       Standard output properties:
