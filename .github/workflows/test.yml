@@ -35,16 +35,8 @@ jobs:
           bundler-cache: true
           ruby-version: 2.6.6
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install NPM dependencies
-        run: npm install
-
       - name: Build and start up jekyll server
-        run: npm run build && npm run start-detached
+        run: bundle exec jekyll build && bundle exec jekyll serve --detach
 
       - name: Test for broken URLs
         run: bundle exec htmlproofer --http-status-ignore "999" --url-swap "https\://daveskender.github.io/Stock.Indicators:" _site
