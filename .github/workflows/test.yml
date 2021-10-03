@@ -43,8 +43,6 @@ jobs:
 
       - name: Build and start up jekyll server
         run: bundle exec jekyll build && bundle exec jekyll serve --detach
-        with:
-          working-directory: ./docs
 
       - name: Test for broken URLs
         run: bundle exec htmlproofer --http-status-ignore "999" --url-swap "https\://daveskender.github.io/Stock.Indicators:" _site
