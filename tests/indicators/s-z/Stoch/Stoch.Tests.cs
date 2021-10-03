@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -45,10 +45,10 @@ namespace Internal.Tests
             Assert.AreEqual(79.7935m, Math.Round((decimal)r3.Signal, 4));
             Assert.AreEqual(85.4741m, Math.Round((decimal)r3.PercentJ, 4));
 
-            StochResult r4 = results[249];
-            Assert.AreEqual(83.2020m, Math.Round((decimal)r4.Oscillator, 4));
-            Assert.AreEqual(83.0813m, Math.Round((decimal)r4.Signal, 4));
-            Assert.AreEqual(83.4435m, Math.Round((decimal)r4.PercentJ, 4));
+            StochResult r4 = results[249];  // also testing aliases here
+            Assert.AreEqual(83.2020m, Math.Round((decimal)r4.K, 4));
+            Assert.AreEqual(83.0813m, Math.Round((decimal)r4.D, 4));
+            Assert.AreEqual(83.4435m, Math.Round((decimal)r4.J, 4));
 
             StochResult r5 = results[501];
             Assert.AreEqual(43.1353m, Math.Round((decimal)r5.Oscillator, 4));

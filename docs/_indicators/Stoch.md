@@ -49,9 +49,11 @@ IEnumerable<StochResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Oscillator` | decimal | %K Oscillator over prior `N` lookback periods
-| `Signal` | decimal | %D Simple moving average of Oscillator
-| `PercentJ` | decimal | %J is the weighted divergence of %K and %D: `%J=3×%K-2×%D`
+| `Oscillator` or `K` | decimal | %K Oscillator over prior `N` lookback periods
+| `Signal` or `D` | decimal | %D Simple moving average of Oscillator
+| `PercentJ` or `J` | decimal | %J is the weighted divergence of %K and %D: `%J=3×%K-2×%D`
+
+Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangably with the standard outputs.
 
 ### Utilities
 
