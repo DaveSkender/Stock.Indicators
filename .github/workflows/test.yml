@@ -5,44 +5,34 @@ on:
   pull_request:
     branches: [main]
 
-jobs:
+defaults:
+  run:
+    working-directory: docs
 
-  build:
+jobs:
+  checklinks:
     name: URLs
     runs-on: ubuntu-latest
-
-    env:
-      LANG: en_US.UTF-8
-      LANGUAGE: en_US
-      LC_ALL: en_US.UTF-8
-
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby environment
-        run: |
-          sudo apt-get update;
-          sudo apt-get install --reinstall -y locales;
-          sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen;
-          sudo locale-gen en_US.UTF-8;
-        working-directory: docs
-
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v2
+      - name: Ruby
+        uses: actions/setup-ruby@v1
         with:
-          bundler-cache: true
-          ruby-version: 2.6.6
-          working-directory: ./docs
-
-      - name: bundle info
-        run: bundle info html-proofer
-        working-directory: docs
-
-      - name: Build and start up jekyll server
-        run: bundle exec jekyll build && bundle exec jekyll serve --detach
-        working-directory: docs
-
-      - name: Test for broken URLs
-        run: bundle exec htmlproofer --http-status-ignore "999" --url-swap "https\://daveskender.github.io/Stock.Indicators:" _site
-        working-directory: docs
+          ruby-version: 2.6.x
+      - name: Setup Rubygems, Bundler, jekyll
+        run: |
+          gem update --system --no-document
+          gem update bundler --no-document
+          gem install jekyll bundler
+          bundle install
+      - name: Build jekyll website with drafts
+        run: bundle exec jekyll build --drafts
+      - name: Check for broken links
+        run: |
+          bundle exec htmlproofer --log-level :debug ./_site &> links.log
+        continue-on-error: true
+      - name: Archive log links
+        uses: actions/upload-artifact@v1
+        with:
+          name: links-check.log
+          path: links.log
