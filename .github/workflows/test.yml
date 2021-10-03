@@ -5,19 +5,15 @@ on:
   pull_request:
     branches: [main]
 
-defaults:
-  run:
-    working-directory: docs
-
 jobs:
   build:
     name: URLs
     runs-on: ubuntu-latest
     env:
+      working-directory: ./docs
       LANG: en_US.UTF-8
       LANGUAGE: en_US
       LC_ALL: en_US.UTF-8
-      BUNDLE_GEMFILE: ${{ github.workspace }}/docs
 
     steps:
       - name: Checkout source
@@ -36,8 +32,9 @@ jobs:
           bundler-cache: true
           ruby-version: 2.6.6
 
-      - run: bundle info html-proofer
-      
+      - name: bundle info
+        run: bundle info html-proofer
+
       - name: Build and start up jekyll server
         run: bundle exec jekyll build && bundle exec jekyll serve --detach
 
