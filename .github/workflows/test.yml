@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./docs
+    working-directory: docs
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: 2.6.6
-          working-directory: ./docs
+          working-directory: docs
 
       - name: bundle info
         run: bundle info html-proofer
