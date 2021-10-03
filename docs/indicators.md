@@ -60,6 +60,7 @@ redirect_from:
 - [Chandelier Exit](../indicators/Chandelier/#content)
 - [Parabolic SAR](../indicators/ParabolicSar/#content)
 - [SuperTrend](../indicators/SuperTrend/#content)
+- [Volatility Stop](../indicators/VolatilityStop/#content)
 
 ## Candlestick patterns
 
