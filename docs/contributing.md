@@ -71,11 +71,12 @@ bundle exec jekyll serve
 
 When adding or updating indicators:
 
-- Add or update the `indicators.md` listings file (if needed) and the `/docs/_indicators` files for the individual indicator.
+- Add or update the `indicators.md` and `_config.yml` listings files (if needed) and the `/docs/_indicators` files for the individual indicator.
+- Page image assets go in the `/docs/assets/` folder.
 
 ## Submitting changes
 
-By submitting changes to this repo you are also acknowledging and agree to the terms in both the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org) and the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).
+By submitting changes to this repo you are also acknowledging and agree to the terms in both the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org) and the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).  These are standard open-source terms and conditions.
 
 When ready, submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests)).
 Always write a clear log message for your commits. One-line messages are fine for most changes.
