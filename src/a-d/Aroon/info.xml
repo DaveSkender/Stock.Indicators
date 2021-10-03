@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Aroon is a simple oscillator view of how long the new high or low price occured over a lookback window.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Aroon/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Aroon/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

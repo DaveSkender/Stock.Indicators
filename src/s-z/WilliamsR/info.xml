@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Williams %R momentum indicator is a stochastic oscillator with scale of -100 to 0. It is exactly the same as the Fast variant of Stochastic Oscillator, but with a different scaling.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/WilliamsR/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/WilliamsR/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

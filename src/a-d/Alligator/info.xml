@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicators>
+<indicator>
   <summary>
     Williams Alligator is an indicator that transposes multiple moving averages, 
     showing chart patterns that creator Bill Williams compared to an alligator's 
-    feeding habits when describing market movement. See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Alligator/#content">documentation</see>
-    for more information.
+    feeding habits when describing market movement.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Alligator/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <returns>Time series of Alligator values.</returns>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
-</indicators>
+</indicator>

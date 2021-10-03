@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Awesome Oscillator (aka Super AO) is a measure of the gap between a fast and slow period modified moving average.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Awesome/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Awesome/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

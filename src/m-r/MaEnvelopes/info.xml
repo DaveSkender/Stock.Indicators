@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Moving Average Envelopes is a price band overlay that is offset from the moving average of Close price over a lookback window.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/MaEnvelopes/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/MaEnvelopes/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

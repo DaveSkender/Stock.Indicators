@@ -4,9 +4,11 @@
   <summary>
     Average Directional Movement Index (ADX) is a measure of price directional movement.
     It includes upward and downward indicators, and is often used to measure strength of trend.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Adx/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Adx/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

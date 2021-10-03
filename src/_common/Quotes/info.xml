@@ -4,9 +4,11 @@
   <type name="Validate">
     <summary>
       Validate historical quotes.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#validate-quote-history">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#validate-quote-history">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -16,9 +18,11 @@
   <type name="Aggregate">
     <summary>
       Converts historical quotes into larger bar sizes.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#resize-quote-history">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -29,9 +33,11 @@
   <type name="AggregateTimeSpan">
     <summary>
       Converts historical quotes into larger bar sizes.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/docs/UTILITIES.html#resize-quote-history">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#resize-quote-history">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>

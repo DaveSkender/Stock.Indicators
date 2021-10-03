@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // RATE OF CHANGE (ROC) WITH BANDS
-        /// <include file='./info.xml' path='indicators/type[@name="WithBands"]/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="WithBands"]/*' />
         /// 
         public static IEnumerable<RocWbResult> GetRocWb<TQuote>(
             this IEnumerable<TQuote> quotes,

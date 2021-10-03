@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements. FCB is a channelized depiction of Williams Fractals.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Fcb/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Fcb/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

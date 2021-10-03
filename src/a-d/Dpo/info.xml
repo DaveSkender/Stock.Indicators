@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Detrended Price Oscillator (DPO) depicts the difference between price and an offset simple moving average.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Dpo/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Dpo/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

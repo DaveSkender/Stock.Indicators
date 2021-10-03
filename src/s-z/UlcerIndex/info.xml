@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Ulcer Index (UI) is a measure of downside Close price volatility over a lookback window.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/UlcerIndex/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/UlcerIndex/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

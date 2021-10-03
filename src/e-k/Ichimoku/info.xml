@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <indicator>
+
   <type name="Standard">
     <summary>
       Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ichimoku/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ichimoku/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -17,12 +20,15 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+
   <type name="Extended">
     <summary>
       Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ichimoku/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ichimoku/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -34,12 +40,15 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+
   <type name="Full">
     <summary>
       Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ichimoku/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ichimoku/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -52,4 +61,5 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+
 </indicator>

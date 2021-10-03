@@ -2,9 +2,12 @@
 
 <indicator>
   <summary>
-    The Elder-ray Index depicts buying and selling pressure, also known as Bull and Bear Power.  See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/ElderRay/#content">documentation</see>
-    for more information.
+    The Elder-ray Index depicts buying and selling pressure, also known as Bull and Bear Power.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/ElderRay/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

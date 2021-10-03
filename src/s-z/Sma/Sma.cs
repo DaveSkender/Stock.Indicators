@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE (on CLOSE price)
-        /// <include file='./info.xml' path='indicators/type[@name="Main"]/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
         /// 
         public static IEnumerable<SmaResult> GetSma<TQuote>(
             this IEnumerable<TQuote> quotes,
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
 
 
         // SIMPLE MOVING AVERAGE (on specified OHLCV part)
-        /// <include file='./info.xml' path='indicators/type[@name="Custom"]/*' />
+        /// <include file='./info.xml' path='indicator/type[@name="Custom"]/*' />
         /// 
         public static IEnumerable<SmaResult> GetSma<TQuote>(
             this IEnumerable<TQuote> quotes,

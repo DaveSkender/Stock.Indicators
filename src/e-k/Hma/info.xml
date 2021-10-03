@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Hull Moving Average (HMA) is a modified weighted average of Close price over N lookback periods that reduces lag.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Hma/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Hma/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

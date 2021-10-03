@@ -4,9 +4,11 @@
   <summary>
     Rolling Pivot Points is a modern update to traditional fixed calendar window Pivot Points.
     It depicts support and resistance levels, based on a defined rolling window and offset.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/RollingPivots/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/RollingPivots/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

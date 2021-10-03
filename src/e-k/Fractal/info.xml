@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <indicator>
+
   <type name="standard">
     <summary>
       Williams Fractal is a retrospective price pattern that identifies a central high or low point over a lookback window.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Fractal/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Fractal/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -16,12 +19,15 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
+
   <type name="alt">
     <summary>
       Williams Fractal is a retrospective price pattern that identifies a central high or low point over a lookback window.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Fractal/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Fractal/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicators>
+<indicator>
   <type name="Main">
     <summary>
       Smoothed Moving Average (SMMA) is the average of Close price over a lookback window using a smoothing method.
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smma/#content">documentation</see>
-      for more information.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smma/#content">documentation</see>
+        for more information.
+      </para>
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
@@ -15,4 +17,4 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
-</indicators>
+</indicator>

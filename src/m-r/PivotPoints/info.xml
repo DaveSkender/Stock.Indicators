@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Pivot Points depict support and resistance levels, based on the prior lookback window. You can specify window size (e.g. month, week, day, etc).
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/PivotPoints/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/PivotPoints/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>

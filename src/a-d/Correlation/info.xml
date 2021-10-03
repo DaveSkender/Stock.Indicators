@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Correlation Coefficient between two quote histories, based on Close price.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Correlation/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Correlation/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="historyA">Historical price quotes for comparison.</param>

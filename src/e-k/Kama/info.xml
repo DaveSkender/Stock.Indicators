@@ -3,9 +3,11 @@
 <indicator>
   <summary>
     Kaufman’s Adaptive Moving Average (KAMA) is an volatility adaptive moving average of Close price over configurable lookback periods.
-    See
-    <see href="https://daveskender.github.io/Stock.Indicators/indicators/Kama/#content">documentation</see>
-    for more information.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Kama/#content">documentation</see>
+      for more information.
+    </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
