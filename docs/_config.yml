@@ -2,6 +2,7 @@
 
 title: "Stock Indicators"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
+lang: en-US
 
 # https://github.com/pages-themes/cayman
 remote_theme: pages-themes/cayman@v0.2.0
