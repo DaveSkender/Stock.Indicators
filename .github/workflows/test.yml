@@ -38,8 +38,6 @@ jobs:
 
       - name: bundle info
         run: bundle info html-proofer
-        with:
-          working-directory: ./docs
 
       - name: Build and start up jekyll server
         run: bundle exec jekyll build && bundle exec jekyll serve --detach
