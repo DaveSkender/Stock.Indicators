@@ -18,11 +18,6 @@ namespace ConsoleApp
             // Calculate 10-period SMA
             IEnumerable<SmaResult> results = quotes.GetSma(10);
 
-            // Results are usually returned with the same
-            // number of elements as the provided quotes;
-            // see individual indicator docs for more information.
-
-
             // Show results
             Console.WriteLine("SMA Results ---------------------------");
 
