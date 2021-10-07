@@ -92,7 +92,7 @@ You must provide historical price quotes to the library in the standard OHLCV `I
 
 ### Where can I get historical quote data?
 
-There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Polygon.io](https://polygon.io), [TwelveData](https://twelvedata.com), or [Alpha Vantage](https://www.alphavantage.co).
+There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, review our [discussion on market data]({{site.github.repository_url}}/discussions/579) for ideas.
 
 ### How much historical quote data do I need?
 
