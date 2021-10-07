@@ -11,17 +11,19 @@ namespace ConsoleApp
     {
         public static void Main()
         {
-            // fetch historical quotes from data provider
+            // Fetch historical quotes from data provider
             IEnumerable<Quote> quotes = GetHistoryFromFeed();
 
-            // calculate 10-period SMA
+
+            // Calculate 10-period SMA
             IEnumerable<SmaResult> results = quotes.GetSma(10);
 
-            // note: results are usually returned with the same
+            // Results are usually returned with the same
             // number of elements as the provided quotes;
-            // see individual indicator docs for more information
+            // see individual indicator docs for more information.
 
-            // show results
+
+            // Show results
             Console.WriteLine("SMA Results ---------------------------");
 
             // --> only showing last 10 records for brevity
@@ -30,9 +32,19 @@ namespace ConsoleApp
                 Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}");
             }
 
-            // analyze results (compare to quote values)
+
+            // Analyze results (compare to quote values)
             Console.WriteLine();
             Console.WriteLine("SMA Analysis --------------------------");
+
+            /************************************************************
+              Results are usually returned with the same number of
+              elements as the provided quotes; see individual indicator
+              docs for more information.
+
+              As such, converting to List means they can be indexed
+              with the same ordinal position.
+             ************************************************************/
 
             List<Quote> quotesList = quotes
                 .ToList();
@@ -40,9 +52,10 @@ namespace ConsoleApp
             List<SmaResult> resultsList = results
                 .ToList();
 
-            // --> only showing ~25 records for brevity
             for (int i = quotesList.Count - 25; i < quotesList.Count; i++)
             {
+                // only showing ~25 records for brevity
+
                 Quote q = quotesList[i];
                 SmaResult r = resultsList[i];
 
@@ -56,14 +69,20 @@ namespace ConsoleApp
 
         private static IEnumerable<Quote> GetHistoryFromFeed()
         {
-            // were mocking a data provider here by simply
-            // importing a JSON file, a similar format of many public APIs
+            /************************************************************
+             We're mocking a data provider here by simply
+             importing a JSON file, a similar format of many public APIs.
 
-            // see https://github.com/DaveSkender/Stock.Indicators/discussions/579
-            // for recommended market data providers and examples
+             This approach will vary widely depending on where
+             you are getting your quote history.
 
-            // note: this approach will vary widely depending on where
-            // you are getting your quote history
+             See https://github.com/DaveSkender/Stock.Indicators/discussions/579
+             for free or inexpensive market data providers and examples.
+
+             The return type of IEnumerable<Quote>
+             can also be List<Quote> or ICollection<Quote>
+             or other IEnumerable compatible types.
+             ************************************************************/
 
             string json = File.ReadAllText("quotes.data.json");
 
