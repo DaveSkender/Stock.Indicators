@@ -65,18 +65,19 @@ namespace ConsoleApp
         private static IEnumerable<Quote> GetHistoryFromFeed()
         {
             /************************************************************
-             We're mocking a data provider here by simply
-             importing a JSON file, a similar format of many public APIs.
+             
+             We're mocking a data provider here by simply importing a
+             JSON file, a similar format of many public APIs.
 
-             This approach will vary widely depending on where
-             you are getting your quote history.
+             This approach will vary widely depending on where you are
+             getting your quote history.
 
              See https://github.com/DaveSkender/Stock.Indicators/discussions/579
              for free or inexpensive market data providers and examples.
 
-             The return type of IEnumerable<Quote>
-             can also be List<Quote> or ICollection<Quote>
-             or other IEnumerable compatible types.
+             The return type of IEnumerable<Quote> can also be List<Quote>
+             or ICollection<Quote> or other IEnumerable compatible types.
+
              ************************************************************/
 
             string json = File.ReadAllText("quotes.data.json");
