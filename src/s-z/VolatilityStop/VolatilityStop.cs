@@ -32,8 +32,8 @@ namespace Skender.Stock.Indicators
             bool isBullish = true;
             decimal sicBull = first.Close; // close high
             decimal sicBear = first.Close; // close low
-            decimal? bearStop = null;
             decimal? bullStop = null;
+            decimal? bearStop = null;
 
             // roll through quotes
             for (int i = 0; i < size; i++)
@@ -52,21 +52,15 @@ namespace Skender.Stock.Indicators
                     decimal prevClose = quotesList[i - 1].Close;
 
                     // potential stops
-                    decimal bearEval = sicBear + arc;
                     decimal bullEval = sicBull - arc;
+                    decimal bearEval = sicBear + arc;
 
                     // initial trend (guess)
                     if (i == lookbackPeriods)
                     {
-                        isBullish = (q.Close <= bearEval);
+                        isBullish = (q.Close > bullEval);
 
-                        bearStop = bearEval;
                         bullStop = bullEval;
-                    }
-
-                    // new upper band
-                    if (bearEval < bearStop || prevClose > bearStop)
-                    {
                         bearStop = bearEval;
                     }
 
@@ -74,6 +68,12 @@ namespace Skender.Stock.Indicators
                     if (bullEval > bullStop || prevClose < bullStop)
                     {
                         bullStop = bullEval;
+                    }
+
+                    // new upper band
+                    if (bearEval < bearStop || prevClose > bearStop)
+                    {
+                        bearStop = bearEval;
                     }
 
                     // SAR
