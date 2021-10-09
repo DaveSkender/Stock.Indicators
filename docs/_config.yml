@@ -22,7 +22,9 @@ exclude: [
   "vendor",
   "node_modules",
   "*.json",
-  "*.lock"
+  "*.lock",
+  "examples/ConsoleApp",
+  "examples/*.sln"
 ]
 
 include: [

@@ -6,9 +6,16 @@ layout: default
 
 # {{ page.title }}
 
-In the `examples` folder there is a sample `ConsoleApp` project that you 
+This is a simple project that you can review as a basic working example.
 
-## Console App
+- [Download](Skender.Stock.Indicators-Examples.zip) the ZIP file and extract contents
+- Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
+- Review the code in the `Program.cs` file
+- Run the `ConsoleApp` project by pressing the `CTRL+F5` key or clicking the play button
+
+  ![Play](run.png)
+
+## Console output
 
 ```console
 SMA Results ---------------------------
@@ -53,3 +60,8 @@ SMA on 2021-08-13 06:35:41Z was $1.727 and Bullishness is False
 SMA on 2021-08-13 06:40:56Z was $1.726 and Bullishness is True
 SMA on 2021-08-13 06:50:11Z was $1.727 and Bullishness is True
 ```
+
+### More info
+
+- Tutorial: [Create a simple C# console app](https://docs.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-console)
+- These files can also be found in the [`/docs/examples/`]({{site.github.repository_url}}/tree/main/docs/examples) GitHub repo folder
