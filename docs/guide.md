@@ -77,6 +77,11 @@ SMA on 4/26/2018 was $255.9705
 
 See [individual indicator pages]({{site.baseurl}}/indicators/) for specific usage guidance.
 
+More examples available:
+
+- [Example code]({{site.baseurl}}/examples/#content) in a simple working console application
+- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
+
 ## Historical quotes
 
 You must provide historical price quotes to the library in the standard OHLCV `IEnumerable<Quote>` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
