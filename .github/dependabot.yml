@@ -6,6 +6,6 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "bundler"
-    directory: "/"
+    directory: "/docs"
     schedule:
       interval: "weekly"
