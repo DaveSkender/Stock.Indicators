@@ -6,7 +6,7 @@ layout: default
 
 # {{ page.title }}
 
-This is a simple project that you can review as a basic working example.
+This is a simple console application project that you can review as a basic working example.
 
 - [Download](Skender.Stock.Indicators-Examples.zip) the ZIP file and extract contents
 - Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
