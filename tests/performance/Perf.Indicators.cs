@@ -406,6 +406,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetStc()
+        {
+            return h.GetStc();
+        }
+
+        [Benchmark]
         public object GetStdDev()
         {
             return h.GetStdDev(20);
