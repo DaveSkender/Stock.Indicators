@@ -1,12 +1,10 @@
-﻿using System;
+using System;
 
 namespace Skender.Stock.Indicators
 {
     [Serializable]
-    public class MacdResult : ResultBase
+    public class StcResult : ResultBase
     {
-        public decimal? Macd { get; set; }
-        public decimal? Signal { get; set; }
-        public decimal? Histogram { get; set; }
+        public decimal? Stc { get; set; }
     }
 }

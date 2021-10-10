@@ -49,6 +49,7 @@ redirect_from:
 - [Detrended Price Oscillator (DPO)](../indicators/Dpo/#content)
 - [Relative Strength Index (RSI)](../indicators/Rsi/#content)
 - [ROC with Bands](../indicators/Roc/#roc-with-bands)
+- [Schaff Trend Cycle](../indicators/Stc/#content)
 - [Stochastic Oscillator](../indicators/Stoch/#content) and [KDJ Index](../indicators/Stoch/#content)
 - [Stochastic RSI](../indicators/StochRsi/#content)
 - [Triple EMA Oscillator (TRIX)](../indicators/Trix/#content)

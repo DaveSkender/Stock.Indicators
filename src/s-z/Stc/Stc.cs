@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,73 +6,55 @@ namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
-        // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR
+        // SCHAFF TREND CYCLE (STC)
         /// <include file='./info.xml' path='indicator/*' />
         /// 
-        public static IEnumerable<MacdResult> GetMacd<TQuote>(
+        public static IEnumerable<StcResult> GetStc<TQuote>(
             this IEnumerable<TQuote> quotes,
-            int fastPeriods = 12,
-            int slowPeriods = 26,
-            int signalPeriods = 9)
+            int cyclePeriods = 10,
+            int fastPeriods = 23,
+            int slowPeriods = 50)
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            // sort quotes
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateMacd(quotes, fastPeriods, slowPeriods, signalPeriods);
+            ValidateStc(quotes, cyclePeriods, fastPeriods, slowPeriods);
 
-            // initialize
-            List<EmaResult> emaFast = CalcEma(bdList, fastPeriods);
-            List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
+            // get stochastic of macd
+            IEnumerable<StochResult> stochMacd = quotes
+                .GetMacd(fastPeriods, slowPeriods, 1)
+                .Where(x => x.Macd != null)
+                .Select(x => new Quote
+                {
+                    Date = x.Date,
+                    High = (decimal)x.Macd,
+                    Low = (decimal)x.Macd,
+                    Close = (decimal)x.Macd
+                })
+                .GetStoch(cyclePeriods, 1, 3);
 
-            int size = bdList.Count;
-            List<BasicData> emaDiff = new();
-            List<MacdResult> results = new(size);
+            // initialize results
+            // to ensure same length as original quotes
+            List<StcResult> results = new(quotesList.Count);
 
-            // roll through quotes
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < slowPeriods - 1; i++)
             {
-                BasicData h = bdList[i];
-                EmaResult df = emaFast[i];
-                EmaResult ds = emaSlow[i];
-
-                MacdResult result = new()
-                {
-                    Date = h.Date
-                };
-
-                if (df?.Ema != null && ds?.Ema != null)
-                {
-
-                    decimal macd = (decimal)df.Ema - (decimal)ds.Ema;
-                    result.Macd = macd;
-
-                    // temp data for interim EMA of macd
-                    BasicData diff = new()
-                    {
-                        Date = h.Date,
-                        Value = macd
-                    };
-
-                    emaDiff.Add(diff);
-                }
-
-                results.Add(result);
+                TQuote q = quotesList[i];
+                results.Add(new StcResult() { Date = q.Date });
             }
 
-            // add signal and histogram to result
-            List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
-
-            for (int d = slowPeriods - 1; d < size; d++)
-            {
-                MacdResult r = results[d];
-                EmaResult ds = emaSignal[d + 1 - slowPeriods];
-
-                r.Signal = ds.Ema;
-                r.Histogram = r.Macd - r.Signal;
-            }
+            // add stoch results
+            // TODO: see if List Add works faster
+            results.AddRange(
+               stochMacd
+               .Select(x => new StcResult
+               {
+                   Date = x.Date,
+                   Stc = x.Oscillator
+               }));
 
             return results;
         }
@@ -81,51 +63,51 @@ namespace Skender.Stock.Indicators
         // remove recommended periods
         /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
         ///
-        public static IEnumerable<MacdResult> RemoveWarmupPeriods(
-            this IEnumerable<MacdResult> results)
+        public static IEnumerable<StcResult> RemoveWarmupPeriods(
+            this IEnumerable<StcResult> results)
         {
             int n = results
                 .ToList()
-                .FindIndex(x => x.Signal != null) + 2;
+                .FindIndex(x => x.Stc != null);
 
             return results.Remove(n + 250);
         }
 
 
         // parameter validation
-        private static void ValidateMacd<TQuote>(
+        private static void ValidateStc<TQuote>(
             IEnumerable<TQuote> quotes,
+            int cyclePeriods,
             int fastPeriods,
-            int slowPeriods,
-            int signalPeriods)
+            int slowPeriods)
             where TQuote : IQuote
         {
 
             // check parameter arguments
+            if (cyclePeriods < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(cyclePeriods), cyclePeriods,
+                    "Trend Cycle periods must be greater than or equal to 0 for STC.");
+            }
+
             if (fastPeriods <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                    "Fast periods must be greater than 0 for MACD.");
-            }
-
-            if (signalPeriods < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                    "Signal periods must be greater than or equal to 0 for MACD.");
+                    "Fast periods must be greater than 0 for STC.");
             }
 
             if (slowPeriods <= fastPeriods)
             {
                 throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                    "Slow periods must be greater than the fast period for MACD.");
+                    "Slow periods must be greater than the fast period for STC.");
             }
 
             // check quotes
             int qtyHistory = quotes.Count();
-            int minHistory = Math.Max(2 * (slowPeriods + signalPeriods), slowPeriods + signalPeriods + 100);
+            int minHistory = Math.Max(2 * (slowPeriods + cyclePeriods), slowPeriods + cyclePeriods + 100);
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient quotes provided for MACD.  " +
+                string message = "Insufficient quotes provided for STC.  " +
                     string.Format(EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.  "
                     + "Since this uses a smoothing technique, "
