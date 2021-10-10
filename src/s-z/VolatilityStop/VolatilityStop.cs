@@ -27,78 +27,62 @@ namespace Skender.Stock.Indicators
             List<VolatilityStopResult> results = new(size);
             List<AtrResult> atrList = quotes.GetAtr(lookbackPeriods).ToList();
 
-            TQuote first = quotesList[0];
+            // initial trend (guess)
+            decimal sic = quotesList[0].Close;
+            bool isLong = (quotesList[lookbackPeriods - 1].Close > sic);
 
-            bool isBullish = true;
-            decimal sicBull = first.Close; // close high
-            decimal sicBear = first.Close; // close low
-            decimal? bullStop = null;
-            decimal? bearStop = null;
+            for (int i = 0; i < lookbackPeriods; i++)
+            {
+                TQuote q = quotesList[i];
+                sic = isLong ? Math.Max(sic, q.Close) : Math.Min(sic, q.Close);
+                results.Add(new VolatilityStopResult() { Date = q.Date });
+            }
 
             // roll through quotes
-            for (int i = 0; i < size; i++)
+            for (int i = lookbackPeriods; i < size; i++)
             {
                 TQuote q = quotesList[i];
 
+                // average true range × multiplier constant
+                decimal arc = (decimal)atrList[i - 1].Atr * multiplier;
+
                 VolatilityStopResult r = new()
                 {
-                    Date = q.Date
+                    Date = q.Date,
+
+                    // stop and reverse threshold
+                    Sar = isLong ? sic - arc : sic + arc
                 };
+                results.Add(r);
 
-                if (i >= lookbackPeriods)
+                // add SAR as separate bands
+                if (isLong)
                 {
-                    // initialize values for range
-                    decimal arc = (decimal)atrList[i].Atr * multiplier;
-                    decimal prevClose = quotesList[i - 1].Close;
-
-                    // potential stops
-                    decimal bullEval = sicBull - arc;
-                    decimal bearEval = sicBear + arc;
-
-                    // initial trend (guess)
-                    if (i == lookbackPeriods)
-                    {
-                        isBullish = (q.Close > bullEval);
-
-                        bullStop = bullEval;
-                        bearStop = bearEval;
-                    }
-
-                    // new lower band
-                    if (bullEval > bullStop || prevClose < bullStop)
-                    {
-                        bullStop = bullEval;
-                    }
-
-                    // new upper band
-                    if (bearEval < bearStop || prevClose > bearStop)
-                    {
-                        bearStop = bearEval;
-                    }
-
-                    // SAR
-                    if (q.Close <= ((isBullish) ? bullStop : bearStop))
-                    {
-                        r.Sar = bearStop;
-                        r.UpperBand = bearStop;
-                        r.IsStop = isBullish ? true : null;
-                        isBullish = false;
-                    }
-                    else
-                    {
-                        r.Sar = bullStop;
-                        r.LowerBand = bullStop;
-                        r.IsStop = !isBullish ? true : null;
-                        isBullish = true;
-                    }
+                    r.LowerBand = r.Sar;
+                }
+                else
+                {
+                    r.UpperBand = r.Sar;
                 }
 
-                // next SIC
-                sicBull = q.Close > sicBull ? q.Close : sicBull;
-                sicBear = q.Close < sicBear ? q.Close : sicBear;
+                // evaluate stop and reverse
+                if ((isLong && q.Close < r.Sar) || (!isLong && q.Close > r.Sar))
+                {
+                    r.IsStop = true;
+                    sic = q.Close;
+                    isLong = !isLong;
+                }
+                else
+                {
+                    r.IsStop = false;
+
+                    // significant close adjustment
+                    // extreme favorable close while in trade
+                    sic = isLong ? Math.Max(sic, q.Close) : Math.Min(sic, q.Close);
+                }
             }
 
-            // remove first trend to stop, since it is an invalid guess
+            // remove first trend to stop, since it is a guess
             VolatilityStopResult firstStop = results
                 .Where(x => x.IsStop == true)
                 .OrderBy(x => x.Date)
@@ -131,6 +115,8 @@ namespace Skender.Stock.Indicators
             int removePeriods = results
                 .ToList()
                 .FindIndex(x => x.Sar != null);
+
+            removePeriods = Math.Max(100, removePeriods);
 
             return results.Remove(removePeriods);
         }

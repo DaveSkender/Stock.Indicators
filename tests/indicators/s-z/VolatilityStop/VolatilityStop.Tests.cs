@@ -22,20 +22,53 @@ namespace Internal.Tests
             // proper quantities
             // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(488, results.Where(x => x.Sar != null).Count());
+            Assert.AreEqual(448, results.Where(x => x.Sar != null).Count());
 
             // sample values
-            VolatilityStopResult r1 = results[14];
-            Assert.AreEqual(212.83m, Math.Round((decimal)r1.Sar, 4));
-            Assert.AreEqual(true, r1.IsStop);
+            VolatilityStopResult r53 = results[53];
+            Assert.IsNull(r53.Sar);
+            Assert.IsNull(r53.IsStop);
+            Assert.IsNull(r53.LowerBand);
+            Assert.IsNull(r53.UpperBand);
 
-            VolatilityStopResult r2 = results[16];
-            Assert.AreEqual(212.9924m, Math.Round((decimal)r2.Sar, 4));
-            Assert.AreEqual(false, r2.IsStop);
+            VolatilityStopResult r54 = results[54];
+            Assert.AreEqual(226.2177m, Math.Round((decimal)r54.Sar, 4));
+            Assert.AreEqual(false, r54.IsStop);
+            Assert.AreEqual(226.2177m, Math.Round((decimal)r54.UpperBand, 4));
+            Assert.IsNull(r54.LowerBand);
 
-            VolatilityStopResult r3 = results[501];
-            Assert.AreEqual(229.7662m, Math.Round((decimal)r3.Sar, 4));
-            Assert.AreEqual(false, r3.IsStop);
+            VolatilityStopResult r55 = results[55];
+            Assert.AreEqual(226.2178m, Math.Round((decimal)r55.Sar, 4));
+            Assert.AreEqual(false, r55.IsStop);
+            Assert.AreEqual(226.2178m, Math.Round((decimal)r55.UpperBand, 4));
+            Assert.IsNull(r55.LowerBand);
+
+            VolatilityStopResult r168 = results[168];
+            Assert.IsTrue(r168.IsStop);
+
+            VolatilityStopResult r282 = results[282];
+            Assert.AreEqual(261.8687m, Math.Round((decimal)r282.Sar, 4));
+            Assert.AreEqual(true, r282.IsStop);
+            Assert.AreEqual(261.8687m, Math.Round((decimal)r282.UpperBand, 4));
+            Assert.IsNull(r282.LowerBand);
+
+            VolatilityStopResult r283 = results[283];
+            Assert.AreEqual(249.3219m, Math.Round((decimal)r283.Sar, 4));
+            Assert.AreEqual(false, r283.IsStop);
+            Assert.AreEqual(249.3219m, Math.Round((decimal)r283.LowerBand, 4));
+            Assert.IsNull(r283.UpperBand);
+
+            VolatilityStopResult r284 = results[284];
+            Assert.AreEqual(249.7460m, Math.Round((decimal)r284.Sar, 4));
+            Assert.AreEqual(false, r284.IsStop);
+            Assert.AreEqual(249.7460m, Math.Round((decimal)r284.LowerBand, 4));
+            Assert.IsNull(r284.UpperBand);
+
+            VolatilityStopResult last = results.LastOrDefault();
+            Assert.AreEqual(249.2423m, Math.Round((decimal)last.Sar, 4));
+            Assert.AreEqual(false, last.IsStop);
+            Assert.AreEqual(249.2423m, Math.Round((decimal)last.UpperBand, 4));
+            Assert.IsNull(last.LowerBand);
         }
 
         [TestMethod]
@@ -54,10 +87,10 @@ namespace Internal.Tests
                     .ToList();
 
             // assertions
-            Assert.AreEqual(488, results.Count);
+            Assert.AreEqual(402, results.Count);
 
             VolatilityStopResult last = results.LastOrDefault();
-            Assert.AreEqual(229.7662m, Math.Round((decimal)last.Sar, 4));
+            Assert.AreEqual(249.2423m, Math.Round((decimal)last.Sar, 4));
             Assert.AreEqual(false, last.IsStop);
         }
 

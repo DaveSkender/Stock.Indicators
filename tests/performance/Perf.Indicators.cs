@@ -484,6 +484,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetVolatilityStop()
+        {
+            return h.GetVolatilityStop();
+        }
+
+        [Benchmark]
         public object GetVolSma()
         {
             return h.GetVolSma(14);
