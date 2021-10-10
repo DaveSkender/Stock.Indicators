@@ -21,9 +21,9 @@ steps:
       version: 5.0.x
 
   - task: NuGetToolInstaller@1
-    displayName: "use NuGet 5.10.x"
+    displayName: "use NuGet 5.11.x"
     inputs:
-      versionSpec: 5.10.x
+      versionSpec: 5.11.x
       checkLatest: false
 
   - task: DotNetCoreCLI@2
@@ -85,12 +85,15 @@ steps:
       nobuild: true
       versioningScheme: "byEnvVar"
       versionEnvVar: "GitVersion.NuGetVersion"
+      includesymbols: true
 
   - task: CopyFiles@2
     displayName: "stage artifacts"
     inputs:
       SourceFolder: "src"
-      Contents: "**/*.nupkg"
+      Contents: |
+        "**/*.nupkg"
+        "**/*.snupkg"
       TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
       OverWrite: true
