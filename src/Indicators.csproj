@@ -28,14 +28,17 @@
        Relative;Strength;Index;RSI;ConnorsRSI;Stochastic;Directional;Movement;ADX;Donchian;Keltner;Channel;
        Heikin-Ashi;Hilbert;Transform;Instantaneous;Trendline;Hull;HMA;Ichimoku;Cloud;On-balance;Volume;OBV;
        Price;PMO;PRS;Parabolic;SAR;Stop;Reverse;PSAR;Pivot;Points;Rate;Change;ROC;Linear;Regression;R-Squared;Renko;
-       Slope;Standard;Deviation;Beta;Correlation;SuperTrend;Ulcer;Ultimate;Vortex;Williams;%R;Alligator;Gator;
-       Fractal;Chaos;Choppiness;Endpoint;WMA;ZigZag;.NET;C#;Library;Package;
+       Schaff;Cycle;Slope;Standard;Deviation;Beta;Correlation;SuperTrend;Ulcer;Ultimate;Vortex;Williams;%R;
+       Alligator;Gator;Fractal;Chaos;Choppiness;Endpoint;WMA;ZigZag;.NET;C#;Library;Package;
     </PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageLicenseFile></PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
+
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
