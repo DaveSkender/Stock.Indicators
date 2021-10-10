@@ -85,7 +85,6 @@ steps:
       nobuild: true
       versioningScheme: "byEnvVar"
       versionEnvVar: "GitVersion.NuGetVersion"
-      includesymbols: true
 
   - task: CopyFiles@2
     displayName: "stage artifacts"
