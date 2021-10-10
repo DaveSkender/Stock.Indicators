@@ -21,7 +21,7 @@ IEnumerable<VolatilityStopResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.  Default is 7.
+| `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7.
 | `multiplier` | decimal | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0.
 
 ### Historical quotes requirements
@@ -46,8 +46,12 @@ IEnumerable<VolatilityStopResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sar` | decimal | Stop and Reverse value
-| `IsReversal` | bool | Indicates a trend reversal
+| `Sar` | decimal | Stop and Reverse value contains both Upper and Lower segments
+| `IsStop` | bool | Indicates a trend reversal
+| `UpperBand` | decimal | Upper band only (bearish/red)
+| `LowerBand` | decimal | Lower band only (bullish/green)
+
+`UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `Sar` is the contiguous combination of both upper and lower line data.
 
 ### Utilities
 
@@ -63,7 +67,7 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 // fetch historical quotes from your feed (your method)
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
-// calculate VolatilityStop(20,2)
+// calculate VolatilityStop(20,2.5)
 IEnumerable<VolatilityStopResult> results
-  = quotes.VolatilityStop(20,2);
+  = quotes.VolatilityStop(20,2.5m);
 ```
