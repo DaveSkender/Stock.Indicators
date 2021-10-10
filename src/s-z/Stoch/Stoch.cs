@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriods)
                 {
-                    decimal highHigh = 0;
+                    decimal highHigh = decimal.MinValue;
                     decimal lowLow = decimal.MaxValue;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
