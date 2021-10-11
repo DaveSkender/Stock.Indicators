@@ -10,7 +10,9 @@ $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
 $color-primary-hover: #bdbdbd;
-$color-accent: #006400;  // includes headers
+$color-accent: #006400; // includes headers
+$color-code: #212121;
+$color-rouge: #f8f8f8; // code block backgrounds
 
 .page-header {
     padding: 10px;
@@ -40,7 +42,7 @@ $color-accent: #006400;  // includes headers
 }
 
 .btn {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
 }
 
 h1 {
@@ -60,6 +62,9 @@ h5 {
 }
 
 .main-content {
+    // body
+
+    // headers
     h1,
     h2,
     h3,
@@ -68,32 +73,93 @@ h5 {
         color: $color-accent;
     }
 
+    // tables
     td,
     th {
-        font-size: 0.85em;
+        font-size: 0.9em;
     }
 
     td {
         vertical-align: top;
+    }
+
+    // code blocks
+    .highlight {
+        color: $color-code;
+        background-color: $color-rouge;
+    }
+
+    .highlighter-rouge {
+        background-color: $color-rouge;
+    }
+
+    pre {
+        color: $color-code;
+        background-color: $color-rouge;
+    }
+
+    code {
+        // baseline font color
+        color: $color-code;
+
+        // comments
+        .c,
+        .c1 {
+            color: green;
+        }
+
+        // normal text and objects/types
+        .n {
+            color: $color-code;
+        }
+
+        // base declarations (using, public, etc)
+        .k {
+            font-weight: normal;
+            color: darkblue;
+        }
+
+        // base types (int, decimal, etc)
+        .kt {
+            font-weight: normal;
+            color: darkblue;
+        }
+
+        // normal commandline
+        .nx {
+            color: $color-code;
+        }
+
+        // normal functions/methods
+        .nf {
+            font-weight: bold;
+            color: unset;
+        }
+
+        // string and constant values
+        .s,
+        .m {
+            color: darkred;
+        }
     }
 }
 
 // contributors display
 
 .d-inline-block {
-  display: inline-block !important;
+    display: inline-block !important;
 }
 
 .list-style-none {
-  padding: 0 !important;
-  margin: 0 !important;
-  list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
 
-  li {
-    &::before {
-      display: none !important;
+    li {
+        &::before {
+            display: none !important;
+        }
     }
-  }
 }
 
 .circle {
