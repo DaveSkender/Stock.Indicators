@@ -4,7 +4,7 @@
 
   <type name="standard">
     <summary>
-      (preview) Renko Chart is a modified Japanese candlestick pattern that uses time-lapsed bricks.
+      Renko Chart is a modified Japanese candlestick pattern that uses time-lapsed bricks.
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Renko/#content">documentation</see>
@@ -22,7 +22,7 @@
 
   <type name="atr">
     <summary>
-      (preview) The ATR Renko Chart is a modified Japanese candlestick pattern based on Average True Range brick size.
+      The ATR Renko Chart is a modified Japanese candlestick pattern based on Average True Range brick size.
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Renko/#content">documentation</see>
