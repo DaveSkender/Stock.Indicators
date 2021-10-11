@@ -6,11 +6,14 @@
 @import "jekyll-theme-cayman";
 
 // https://material.io/resources/color
+// https://www.materialpalette.com/colors
+// using GREY, BLUE, and LIGHT GREEN palettes
 $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
 $color-primary-hover: #bdbdbd;
-$color-accent: #006400; // includes headers
+$color-accent: #33691e; // includes headers
+$color-body-font: #424242;
 $color-code: #212121;
 $color-rouge: #f8f8f8; // code block backgrounds
 
@@ -62,7 +65,8 @@ h5 {
 }
 
 .main-content {
-    // body
+    // base fonts
+    color: $color-body-font;
 
     // headers
     h1,
@@ -71,6 +75,21 @@ h5 {
     h4,
     h5 {
         color: $color-accent;
+    }
+
+    // paragraphs
+    p {
+    }
+
+    // links
+    a {
+        text-decoration: none;
+        color: #1565c0;
+
+        &:hover {
+            text-decoration: underline;
+            color: #1e88e5;
+        }
     }
 
     // tables
@@ -96,6 +115,10 @@ h5 {
     pre {
         color: $color-code;
         background-color: $color-rouge;
+
+        code {
+            color: $color-code;
+        }
     }
 
     code {
@@ -105,24 +128,33 @@ h5 {
         // comments
         .c,
         .c1 {
-            color: green;
+            color: #558b2f;
         }
 
         // normal text and objects/types
-        .n {
+        // and namespaces
+        .n,
+        .nn,
+        .gp
+        {
             color: $color-code;
+        }
+
+        // parentheses and brackets
+        .p {
+            color: #616161;
         }
 
         // base declarations (using, public, etc)
         .k {
             font-weight: normal;
-            color: darkblue;
+            color: #1565c0;
         }
 
         // base types (int, decimal, etc)
         .kt {
             font-weight: normal;
-            color: darkblue;
+            color: #1565c0;
         }
 
         // normal commandline
@@ -130,16 +162,17 @@ h5 {
             color: $color-code;
         }
 
-        // normal functions/methods
+        // normal functions/classes
+        .nc,
         .nf {
-            font-weight: bold;
-            color: unset;
+            font-weight: normal;
+            color: #b71c1c;
         }
 
         // string and constant values
         .s,
         .m {
-            color: darkred;
+            color: #d32f2f;
         }
     }
 }
