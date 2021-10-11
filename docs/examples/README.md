@@ -14,9 +14,13 @@ To run the sample app:
 1. [Download](Skender.Stock.Indicators-Examples.zip) the ZIP file and extract contents
 2. Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
 3. Review the code in the `Program.cs` file
-4. Run the `ConsoleApp` project by pressing the `CTRL+F5` key or clicking the play button
+4. Run the `ConsoleApp` by any one of the following methods:
+   - pressing the `CTRL+F5` key
+   - clicking the play button
 
-   ![how to execute the code](run.png)
+     ![how to execute the code](run.png)
+
+   - execute `dotnet run` CLI command in the `ConsoleApp` folder
 
 ## Console output
 
