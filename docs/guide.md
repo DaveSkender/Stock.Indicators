@@ -187,11 +187,11 @@ public void MyClass(){
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
-    .Select(x => new MyEma
+    .Select(e => new MyEma
       {
         MyId = 123,
-        Date = x.Date,
-        Ema = x.Ema
+        Date = e.Date,
+        Ema = e.Ema
       })
     .ToList();
 
@@ -226,10 +226,10 @@ public void MyClass(){
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
-    .Select(x => new MyEma
+    .Select(result => new MyEma
       {
         MyId = 123,
-        Result = x
+        Result = result
       })
     .ToList();
 
