@@ -13,6 +13,7 @@
   <param name="quotesMarket">Historical price quotes for Market.</param>
   <param name="quotesEval">Historical price quotes for Evaluation.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+  <param name="type">Type of Beta to calculate.</param>
   <returns>Time series of Beta values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>

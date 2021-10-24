@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,10 +11,11 @@ namespace Internal.Tests
     {
 
         [TestMethod]
-        public void Standard()
+        public void All()
         {
 
-            List<BetaResult> results = Indicator.GetBeta(quotes, otherQuotes, 20)
+            List<BetaResult> results = Indicator
+                .GetBeta(quotes, otherQuotes, 20, BetaType.All)
                 .ToList();
 
             // assertions
@@ -30,10 +31,79 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Standard()
+        {
+
+            List<BetaResult> results = Indicator
+                .GetBeta(quotes, otherQuotes, 20, BetaType.Standard)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
+
+            // sample value
+            BetaResult r = results[501];
+            Assert.AreEqual(1.6759m, Math.Round((decimal)r.Beta, 4));
+        }
+
+        [TestMethod]
+        public void Up()
+        {
+
+            List<BetaResult> results = Indicator
+                .GetBeta(quotes, otherQuotes, 20, BetaType.Up)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(482, results.Where(x => x.BetaUp != null).Count());
+
+            // sample value
+            BetaResult r = results[501];
+            Assert.AreEqual(1.2838m, Math.Round((decimal)r.BetaUp, 4));
+        }
+
+        [TestMethod]
+        public void Down()
+        {
+
+            List<BetaResult> results = Indicator
+                .GetBeta(quotes, otherQuotes, 20, BetaType.Down)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(482, results.Where(x => x.BetaDown != null).Count());
+
+            // sample value
+            BetaResult r = results[501];
+            Assert.AreEqual(2.1034m, Math.Round((decimal)r.BetaDown, 4));
+        }
+
+        [TestMethod]
         public void BadData()
         {
-            IEnumerable<BetaResult> r = Indicator.GetBeta(badQuotes, badQuotes, 15);
-            Assert.AreEqual(502, r.Count());
+            IEnumerable<BetaResult> r1 = Indicator
+                .GetBeta(badQuotes, badQuotes, 15, BetaType.Standard);
+            Assert.AreEqual(502, r1.Count());
+
+            IEnumerable<BetaResult> r2 = Indicator
+                .GetBeta(badQuotes, badQuotes, 15, BetaType.Up);
+            Assert.AreEqual(502, r2.Count());
+
+            IEnumerable<BetaResult> r3 = Indicator
+                .GetBeta(badQuotes, badQuotes, 15, BetaType.Down);
+            Assert.AreEqual(502, r3.Count());
         }
 
         [TestMethod]
