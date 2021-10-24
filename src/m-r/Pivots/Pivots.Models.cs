@@ -12,4 +12,12 @@ namespace Skender.Stock.Indicators
         public PivotTrend? HighTrend { get; set; }
         public PivotTrend? LowTrend { get; set; }
     }
+
+    public enum PivotTrend
+    {
+        HH, // higher high
+        LH, // lower high
+        HL, // higher low
+        LL  // lower low
+    }
 }

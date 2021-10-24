@@ -11,4 +11,12 @@ namespace Skender.Stock.Indicators
         public decimal? Ratio { get; set; }
         public decimal? Convexity { get; set; }
     }
+
+    public enum BetaType
+    {
+        Standard,
+        Up,
+        Down,
+        All
+    }
 }
