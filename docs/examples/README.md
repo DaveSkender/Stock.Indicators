@@ -6,7 +6,7 @@ layout: default
 
 # {{ page.title }}
 
-To help you get started, here is a very simple .NET 5.0 C# console application that you can review as a complete minimal working standalone example.
+To help you get started, here is a simple .NET 5.0 C# console application that you can review as a complete minimal working example.
 For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
 
 To run the sample app:
@@ -71,4 +71,4 @@ SMA on 2021-08-13 06:50:11Z was $1.727 and Bullishness is True
 ### More info
 
 - Tutorial: [Create a simple C# console app](https://docs.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-console)
-- These files can also be found in the [`/docs/examples/`]({{site.github.repository_url}}/tree/main/docs/examples) GitHub repo folder
+- These files can also be found in the [/docs/examples]({{site.github.repository_url}}/tree/main/docs/examples) GitHub repo folder
