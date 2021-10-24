@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,39 +47,19 @@ namespace Skender.Stock.Indicators
                 // compute correlation
                 if (index >= lookbackPeriods)
                 {
-                    decimal sumPriceA = 0m;
-                    decimal sumPriceB = 0m;
-                    decimal sumPriceA2 = 0m;
-                    decimal sumPriceB2 = 0m;
-                    decimal sumPriceAB = 0m;
+                    decimal[] dataA = new decimal[lookbackPeriods];
+                    decimal[] dataB = new decimal[lookbackPeriods];
+                    int z = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote qa = historyListA[p];
-                        TQuote qb = historyListB[p];
+                        dataA[z] = historyListA[p].Close;
+                        dataB[z] = historyListB[p].Close;
 
-                        sumPriceA += qa.Close;
-                        sumPriceB += qb.Close;
-                        sumPriceA2 += qa.Close * qa.Close;
-                        sumPriceB2 += qb.Close * qb.Close;
-                        sumPriceAB += qa.Close * qb.Close;
+                        z++;
                     }
 
-                    decimal avgA = sumPriceA / lookbackPeriods;
-                    decimal avgB = sumPriceB / lookbackPeriods;
-                    decimal avgA2 = sumPriceA2 / lookbackPeriods;
-                    decimal avgB2 = sumPriceB2 / lookbackPeriods;
-                    decimal avgAB = sumPriceAB / lookbackPeriods;
-
-                    r.VarianceA = avgA2 - avgA * avgA;
-                    r.VarianceB = avgB2 - avgB * avgB;
-                    r.Covariance = avgAB - avgA * avgB;
-
-                    double divisor = Math.Sqrt((double)(r.VarianceA * r.VarianceB));
-
-                    r.Correlation = (divisor == 0) ? null : r.Covariance / (decimal)divisor;
-
-                    r.RSquared = r.Correlation * r.Correlation;
+                    r.CalcCorrelation(dataA, dataB);
                 }
 
                 results.Add(r);
@@ -100,6 +80,50 @@ namespace Skender.Stock.Indicators
               .FindIndex(x => x.Correlation != null);
 
             return results.Remove(removePeriods);
+        }
+
+
+        // calculate correlation
+        private static void CalcCorrelation(
+            this CorrResult r,
+            decimal[] dataA,
+            decimal[] dataB
+            )
+        {
+            int size = dataA.Length;
+            decimal sumA = 0m;
+            decimal sumB = 0m;
+            decimal sumA2 = 0m;
+            decimal sumB2 = 0m;
+            decimal sumAB = 0m;
+
+            for (int i = 0; i < size; i++)
+            {
+                decimal a = dataA[i];
+                decimal b = dataB[i];
+
+                sumA += a;
+                sumB += b;
+                sumA2 += a * a;
+                sumB2 += b * b;
+                sumAB += a * b;
+            }
+
+            decimal avgA = sumA / size;
+            decimal avgB = sumB / size;
+            decimal avgA2 = sumA2 / size;
+            decimal avgB2 = sumB2 / size;
+            decimal avgAB = sumAB / size;
+
+            r.VarianceA = avgA2 - avgA * avgA;
+            r.VarianceB = avgB2 - avgB * avgB;
+            r.Covariance = avgAB - avgA * avgB;
+
+            double divisor = Math.Sqrt((double)(r.VarianceA * r.VarianceB));
+
+            r.Correlation = (divisor == 0) ? null : r.Covariance / (decimal)divisor;
+
+            r.RSquared = r.Correlation * r.Correlation;
         }
 
 
