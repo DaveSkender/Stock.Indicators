@@ -10,41 +10,59 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<BetaResult> GetBeta<TQuote>(
-            IEnumerable<TQuote> historyMarket,
-            IEnumerable<TQuote> historyEval,
+            IEnumerable<TQuote> quotesMarket,
+            IEnumerable<TQuote> quotesEval,
             int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // sort quotes
-            List<TQuote> historyEvalList = historyEval.Sort();
+            List<TQuote> quotesListEval = quotesEval.Sort();
+            List<TQuote> quotesListMrkt = quotesMarket.Sort();
 
             // check parameter arguments
-            ValidateBeta(historyMarket, historyEval, lookbackPeriods);
+            ValidateBeta(quotesMarket, quotesEval, lookbackPeriods);
 
             // initialize
-            List<BetaResult> results = new(historyEvalList.Count);
-            List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriods).ToList();
+            List<BetaResult> results = new(quotesListEval.Count);
+            //List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriods).ToList();
 
             // roll through quotes
-            for (int i = 0; i < historyEvalList.Count; i++)
+            for (int i = 0; i < quotesListEval.Count; i++)
             {
-                TQuote e = historyEvalList[i];
+                TQuote e = quotesListEval[i];
 
-                BetaResult result = new()
+                BetaResult r = new()
                 {
                     Date = e.Date
                 };
+                results.Add(r);
 
-                // calculate beta, if available
-                CorrResult c = correlation[i];
+                // calculate correlation, covariance, and variance
+                CorrResult c = new();
 
-                if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
+                if (i >= lookbackPeriods - 1)
                 {
-                    result.Beta = c.Covariance / c.VarianceA;
+                    decimal[] dataA = new decimal[lookbackPeriods];
+                    decimal[] dataB = new decimal[lookbackPeriods];
+                    int z = 0;
+
+                    for (int p = i - lookbackPeriods + 1; p <= i; p++)
+                    {
+                        dataA[z] = quotesListMrkt[p].Close;
+                        dataB[z] = quotesListEval[p].Close;
+
+                        z++;
+                    }
+
+                    c.CalcCorrelation(dataA, dataB);
                 }
 
-                results.Add(result);
+                // calculate beta, if available
+                if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
+                {
+                    r.Beta = c.Covariance / c.VarianceA;
+                }
             }
 
             return results;

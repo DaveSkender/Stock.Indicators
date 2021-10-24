@@ -10,32 +10,32 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
-            this IEnumerable<TQuote> historyA,
-            IEnumerable<TQuote> historyB,
+            this IEnumerable<TQuote> quotesA,
+            IEnumerable<TQuote> quotesB,
             int lookbackPeriods)
             where TQuote : IQuote
         {
 
             // sort quotes
-            List<TQuote> historyListA = historyA.Sort();
-            List<TQuote> historyListB = historyB.Sort();
+            List<TQuote> quotesListA = quotesA.Sort();
+            List<TQuote> quotesListB = quotesB.Sort();
 
             // check parameter arguments
-            ValidateCorrelation(historyA, historyB, lookbackPeriods);
+            ValidateCorrelation(quotesA, quotesB, lookbackPeriods);
 
             // initialize
-            List<CorrResult> results = new(historyListA.Count);
+            List<CorrResult> results = new(quotesListA.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyListA.Count; i++)
+            for (int i = 0; i < quotesListA.Count; i++)
             {
-                TQuote a = historyListA[i];
-                TQuote b = historyListB[i];
+                TQuote a = quotesListA[i];
+                TQuote b = quotesListB[i];
                 int index = i + 1;
 
                 if (a.Date != b.Date)
                 {
-                    throw new BadQuotesException(nameof(historyA), a.Date,
+                    throw new BadQuotesException(nameof(quotesA), a.Date,
                         "Date sequence does not match.  Correlation requires matching dates in provided histories.");
                 }
 
@@ -44,7 +44,7 @@ namespace Skender.Stock.Indicators
                     Date = a.Date
                 };
 
-                // compute correlation
+                // calculate correlation
                 if (index >= lookbackPeriods)
                 {
                     decimal[] dataA = new decimal[lookbackPeriods];
@@ -53,8 +53,8 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        dataA[z] = historyListA[p].Close;
-                        dataB[z] = historyListB[p].Close;
+                        dataA[z] = quotesListA[p].Close;
+                        dataB[z] = quotesListB[p].Close;
 
                         z++;
                     }
@@ -129,8 +129,8 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateCorrelation<TQuote>(
-            IEnumerable<TQuote> historyA,
-            IEnumerable<TQuote> historyB,
+            IEnumerable<TQuote> quotesA,
+            IEnumerable<TQuote> quotesB,
             int lookbackPeriods)
             where TQuote : IQuote
         {
@@ -143,7 +143,7 @@ namespace Skender.Stock.Indicators
             }
 
             // check quotes
-            int qtyHistoryA = historyA.Count();
+            int qtyHistoryA = quotesA.Count();
             int minHistoryA = lookbackPeriods;
             if (qtyHistoryA < minHistoryA)
             {
@@ -152,14 +152,14 @@ namespace Skender.Stock.Indicators
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryA, minHistoryA);
 
-                throw new BadQuotesException(nameof(historyA), message);
+                throw new BadQuotesException(nameof(quotesA), message);
             }
 
-            int qtyHistoryB = historyB.Count();
+            int qtyHistoryB = quotesB.Count();
             if (qtyHistoryB != qtyHistoryA)
             {
                 throw new BadQuotesException(
-                    nameof(historyB),
+                    nameof(quotesB),
                     "B quotes should have at least as many records as A quotes for Correlation.");
             }
         }
