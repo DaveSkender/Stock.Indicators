@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,20 +31,26 @@ namespace Internal.Tests
             Assert.AreEqual(469, results.Where(x => x.Histogram != null).Count());
 
             // sample values
-            MacdResult r1 = results[49];
-            Assert.AreEqual(1.7203m, Math.Round((decimal)r1.Macd, 4));
-            Assert.AreEqual(1.9675m, Math.Round((decimal)r1.Signal, 4));
-            Assert.AreEqual(-0.2472m, Math.Round((decimal)r1.Histogram, 4));
+            MacdResult r49 = results[49];
+            Assert.AreEqual(1.7203m, Math.Round((decimal)r49.Macd, 4));
+            Assert.AreEqual(1.9675m, Math.Round((decimal)r49.Signal, 4));
+            Assert.AreEqual(-0.2472m, Math.Round((decimal)r49.Histogram, 4));
+            Assert.AreEqual(224.1840m, Math.Round((decimal)r49.FastEma, 4));
+            Assert.AreEqual(222.4637m, Math.Round((decimal)r49.SlowEma, 4));
 
-            MacdResult r2 = results[249];
-            Assert.AreEqual(2.2353m, Math.Round((decimal)r2.Macd, 4));
-            Assert.AreEqual(2.3141m, Math.Round((decimal)r2.Signal, 4));
-            Assert.AreEqual(-0.0789m, Math.Round((decimal)r2.Histogram, 4));
+            MacdResult r249 = results[249];
+            Assert.AreEqual(2.2353m, Math.Round((decimal)r249.Macd, 4));
+            Assert.AreEqual(2.3141m, Math.Round((decimal)r249.Signal, 4));
+            Assert.AreEqual(-0.0789m, Math.Round((decimal)r249.Histogram, 4));
+            Assert.AreEqual(256.6780m, Math.Round((decimal)r249.FastEma, 4));
+            Assert.AreEqual(254.4428m, Math.Round((decimal)r249.SlowEma, 4));
 
-            MacdResult r3 = results[501];
-            Assert.AreEqual(-6.2198m, Math.Round((decimal)r3.Macd, 4));
-            Assert.AreEqual(-5.8569m, Math.Round((decimal)r3.Signal, 4));
-            Assert.AreEqual(-0.3629m, Math.Round((decimal)r3.Histogram, 4));
+            MacdResult r501 = results[501];
+            Assert.AreEqual(-6.2198m, Math.Round((decimal)r501.Macd, 4));
+            Assert.AreEqual(-5.8569m, Math.Round((decimal)r501.Signal, 4));
+            Assert.AreEqual(-0.3629m, Math.Round((decimal)r501.Histogram, 4));
+            Assert.AreEqual(245.4957m, Math.Round((decimal)r501.FastEma, 4));
+            Assert.AreEqual(251.7155m, Math.Round((decimal)r501.SlowEma, 4));
         }
 
         [TestMethod]

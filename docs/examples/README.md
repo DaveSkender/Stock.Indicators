@@ -1,19 +1,26 @@
 ---
-title: Examples
+title: Example Console App
 permalink: /examples/
 layout: default
 ---
 
 # {{ page.title }}
 
-This is a simple console application project that you can review as a basic working example.
+To help you get started, here is a simple .NET 5.0 C# console application that you can review as a complete minimal working example.
+For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
 
-- [Download](Skender.Stock.Indicators-Examples.zip) the ZIP file and extract contents
-- Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
-- Review the code in the `Program.cs` file
-- Run the `ConsoleApp` project by pressing the `CTRL+F5` key or clicking the play button
+To run the sample app:
 
-  ![Play](run.png)
+1. [Download](Skender.Stock.Indicators-Examples.zip) the ZIP file and extract contents
+2. Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
+3. Review the code in the `Program.cs` file
+4. Run the `ConsoleApp` by any one of the following methods:
+   - pressing the `CTRL+F5` key
+   - clicking the play button
+
+     ![how to execute the code](run.png)
+
+   - execute `dotnet run` CLI command in the `ConsoleApp` folder
 
 ## Console output
 
@@ -64,4 +71,4 @@ SMA on 2021-08-13 06:50:11Z was $1.727 and Bullishness is True
 ### More info
 
 - Tutorial: [Create a simple C# console app](https://docs.microsoft.com/en-us/visualstudio/get-started/csharp/tutorial-console)
-- These files can also be found in the [`/docs/examples/`]({{site.github.repository_url}}/tree/main/docs/examples) GitHub repo folder
+- These files can also be found in the [/docs/examples]({{site.github.repository_url}}/tree/main/docs/examples) GitHub repo folder

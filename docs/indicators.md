@@ -44,6 +44,7 @@ redirect_from:
 
 ## Oscillators
 
+- [Awesome Oscillator](../indicators/Awesome/#content)
 - [ConnorsRSI](../indicators/ConnorsRsi/#content)
 - [Commodity Channel Index](../indicators/Cci/#content)
 - [Detrended Price Oscillator (DPO)](../indicators/Dpo/#content)
@@ -113,7 +114,6 @@ redirect_from:
 ## Price characteristics
 
 - [Average True Range (ATR)](../indicators/Atr/#content)
-- [Awesome Oscillator](../indicators/Awesome/#content)
 - [Balance of Power](../indicators/Bop/#content)
 - [Bull and Bear Power](../indicators/ElderRay/#content)
 - [Choppiness Index](../indicators/Chop/#content)

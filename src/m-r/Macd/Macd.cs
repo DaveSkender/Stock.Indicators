@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,7 +40,9 @@ namespace Skender.Stock.Indicators
 
                 MacdResult result = new()
                 {
-                    Date = h.Date
+                    Date = h.Date,
+                    FastEma = df.Ema,
+                    SlowEma = ds.Ema
                 };
 
                 if (df?.Ema != null && ds?.Ema != null)

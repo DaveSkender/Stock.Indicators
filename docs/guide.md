@@ -38,10 +38,9 @@ Most indicators require that you provide historical quote data and additional co
 
 You must get historical quotes from your own market data provider.  For clarification, the `GetHistoryFromFeed()` method shown in the example below and throughout our documentation **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
 
-Historical price data can be provided as an `IEnumerable` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+Historical price data can be provided as an `List`, `IEnumerable`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
-For additional configuration parameters, default values are provided when there is an industry standard.
-You can, of course, override these and provide your own values.
+For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
 ### Example usage
 
@@ -79,7 +78,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/) for specific usag
 
 More examples available:
 
-- [Example code]({{site.baseurl}}/examples/#content) in a simple working console application
+- [Example usage code]({{site.baseurl}}/examples/#content) in a simple working console application
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
 
 ## Historical quotes
@@ -97,7 +96,7 @@ You must provide historical price quotes to the library in the standard OHLCV `I
 
 ### Where can I get historical quote data?
 
-There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, try [Polygon.io](https://polygon.io), [TwelveData](https://twelvedata.com), or [Alpha Vantage](https://www.alphavantage.co).
+There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data]({{site.github.repository_url}}/discussions/579) for ideas.
 
 ### How much historical quote data do I need?
 
@@ -187,15 +186,16 @@ public void MyClass(){
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
-    .Select(x => new MyEma
+    .Select(e => new MyEma
       {
         MyId = 123,
-        Date = x.Date,
-        Ema = x.Ema
+        Date = e.Date,
+        Ema = e.Ema
       })
     .ToList();
 
-  // randomly selecting first record from the collection here for the example
+  // randomly selecting first record from the
+  // collection here for the example
   MyEma r = myEmaResults.FirstOrDefault();
 
   // use your custom quote data
@@ -226,14 +226,15 @@ public void MyClass(){
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
-    .Select(x => new MyEma
+    .Select(result => new MyEma
       {
         MyId = 123,
-        Result = x
+        Result = result
       })
     .ToList();
 
-  // randomly selecting first record from the collection here for the example
+  // randomly selecting first record from the
+  // collection here for the example
   MyEma r = myEmaResults.FirstOrDefault();
 
   // use your custom quote data

@@ -8,7 +8,7 @@
 
 It can be used in any market analysis software using standard OHLCV price quotes for equities, commodities, forex, cryptocurrencies, and others.  We had private trading algorithms, machine learning, and charting systems in mind when originally creating this community library.
 
-More information:
+Visit our project site for more information:
 
 - [Overview](https://daveskender.github.io/Stock.Indicators/)
 - [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/indicators/)

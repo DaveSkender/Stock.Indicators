@@ -1,5 +1,5 @@
 ---
-title: Renko Chart (Preview)
+title: Renko Chart
 permalink: /indicators/Renko/
 layout: default
 ---
