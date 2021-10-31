@@ -20,8 +20,8 @@
     <PackageProjectUrl>https://daveskender.github.io/Stock.Indicators</PackageProjectUrl>
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageTags>
-       Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;
-       Financial;Strategy;Chart;Charting;Oscillator;Overlay;Equity;Bitcoin;Crypto;Cryptocurrency;Forex;
+       Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;Algo;
+       AlgoTrading;Financial;Strategy;Chart;Charting;Oscillator;Overlay;Equity;Bitcoin;Crypto;Cryptocurrency;Forex;
        Quantitative;Historical;Quotes;Accumulation;Distribution;ADL;Aroon;True;Range;ATR;Bollinger;Bands;Commodity;
        CCI;Chandelier;Exit;Chaikin;Money;Flow;CMF;MFI;Kaufman;Adaptive;Simple;Weighted;Exponential;Moving;Average;
        Convergence;Divergence;MACD;SMA;EMA;DEMA;TEMA;TRIX;Smoothed;Elder-ray;Bull;Bear;Power;Force;Hurst;Exponent;
