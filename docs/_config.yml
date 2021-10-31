@@ -21,6 +21,7 @@ exclude: [
   "*.pptx",
   "vendor",
   "node_modules",
+  "offline",
   "*.json",
   "*.lock",
   "examples/ConsoleApp",
