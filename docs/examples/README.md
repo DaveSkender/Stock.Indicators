@@ -1,5 +1,5 @@
 ---
-title: Example Console App
+title: Example usage code
 permalink: /examples/
 layout: default
 ---
@@ -7,6 +7,7 @@ layout: default
 # {{ page.title }}
 
 To help you get started, here is a simple .NET 5.0 C# console application that you can review as a complete minimal working example.
+There are two minimalist example projects in this Solution: 1) a basic `ConsoleApp`, and 2) a bit more advanced `Backtest`.  Start with the `ConsoleApp` if you are a newbie.
 For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
 
 To run the sample app:
