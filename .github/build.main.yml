@@ -21,9 +21,9 @@ steps:
       version: 6.0.x
 
   - task: NuGetToolInstaller@1
-    displayName: "use NuGet 5.10.x"
+    displayName: "use NuGet 6.0.x"
     inputs:
-      versionSpec: 5.10.x
+      versionSpec: 6.0.x
       checkLatest: false
 
   - task: DotNetCoreCLI@2
@@ -31,7 +31,7 @@ steps:
     inputs:
       command: custom
       custom: tool
-      arguments: "install -g gitversion.tool --version 5.6.10"
+      arguments: "install -g gitversion.tool --version 5.6.11"
 
   - task: DotNetCoreCLI@2
     displayName: "get version number"
