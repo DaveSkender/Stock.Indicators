@@ -12,6 +12,7 @@
 
     <AssemblyName>Skender.Stock.Indicators</AssemblyName>
     <RootNamespace>Skender.Stock.Indicators</RootNamespace>
+    <LangVersion>10.0</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
