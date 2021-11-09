@@ -1,5 +1,5 @@
 ---
-title: Hurst Exponent (Preview)
+title: Hurst Exponent
 permalink: /indicators/Hurst/
 layout: default
 ---
