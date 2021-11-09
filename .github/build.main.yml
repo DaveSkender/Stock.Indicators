@@ -21,9 +21,9 @@ steps:
       version: 5.0.x
 
   - task: NuGetToolInstaller@1
-    displayName: "use NuGet 5.10.x"
+    displayName: "use NuGet 6.0.x"
     inputs:
-      versionSpec: 5.10.x
+      versionSpec: 6.0.x
       checkLatest: false
 
   - task: DotNetCoreCLI@2
@@ -31,7 +31,7 @@ steps:
     inputs:
       command: custom
       custom: tool
-      arguments: "install -g gitversion.tool --version 5.6.10"
+      arguments: "install -g gitversion.tool --version 5.6.11"
 
   - task: DotNetCoreCLI@2
     displayName: "get version number"
@@ -47,11 +47,16 @@ steps:
       custom: "gitversion"
       arguments: "/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo"
 
+  - task: UseDotNet@2
+    displayName: "use .NET SDK 6.0.x"
+    inputs:
+      version: 6.0.x
+
   - task: DotNetCoreCLI@2
     displayName: build
     inputs:
       projects: "**/*.csproj"
-      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)"
+      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion) /p:ContinuousIntegrationBuild=true"
 
   - task: DotNetCoreCLI@2
     displayName: "test indicators"
@@ -90,7 +95,9 @@ steps:
     displayName: "stage artifacts"
     inputs:
       SourceFolder: "src"
-      Contents: "**/*.nupkg"
+      Contents: |
+        "**/*.nupkg"
+        "**/*.snupkg"
       TargetFolder: "$(Build.ArtifactStagingDirectory)"
       CleanTargetFolder: true
       OverWrite: true
