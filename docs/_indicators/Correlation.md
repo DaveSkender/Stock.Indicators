@@ -14,21 +14,21 @@ layout: default
 ```csharp
 // usage
 IEnumerable<CorrResult> results =
-  historyA.GetCorr(historyB, lookbackPeriods);  
+  quotesA.GetCorr(quotesB, lookbackPeriods);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `historyB` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical quotes (B) must have at least the same matching date elements of `historyA`.
+| `quotesB` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical quotes (B) must have at least the same matching date elements of `quotesA`.
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
 ### Historical quotes requirements
 
 You must have at least `N` periods for both versions of `quotes`.  Mismatch histories will produce a `BadQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`historyA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotesA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
