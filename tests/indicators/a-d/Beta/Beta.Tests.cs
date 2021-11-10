@@ -20,14 +20,46 @@ namespace Internal.Tests
 
             // assertions
 
+            foreach (BetaResult r in results)
+            {
+                Console.WriteLine($"{r.Date:d},{r.Beta:N4},{r.BetaUp:N4},{r.BetaDown:N4},{r.Ratio:N4},{r.Convexity:N4}");
+            }
+
             // proper quantities
             // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
+            Assert.AreEqual(482, results.Where(x => x.BetaUp != null).Count());
+            Assert.AreEqual(482, results.Where(x => x.BetaDown != null).Count());
 
-            // sample value
-            BetaResult r = results[501];
-            Assert.AreEqual(1.6759m, Math.Round((decimal)r.Beta, 4));
+            // sample values
+            BetaResult r19 = results[19];
+            Assert.AreEqual(7.5476m, Math.Round((decimal)r19.Beta, 4));
+            Assert.IsNull(r19.BetaUp);
+            Assert.IsNull(r19.BetaDown);
+            Assert.IsNull(r19.Ratio);
+            Assert.IsNull(r19.Convexity);
+
+            BetaResult r20 = results[20];
+            Assert.AreEqual(6.7488m, Math.Round((decimal)r20.Beta, 4));
+            Assert.AreEqual(8.2407m, Math.Round((decimal)r20.BetaUp, 4));
+            Assert.AreEqual(5.9296m, Math.Round((decimal)r20.BetaDown, 4));
+            Assert.AreEqual(1.3898m, Math.Round((decimal)r20.Ratio, 4));
+            Assert.AreEqual(5.3415m, Math.Round((decimal)r20.Convexity, 4));
+
+            BetaResult r249 = results[249];
+            Assert.AreEqual(3.5528m, Math.Round((decimal)r249.Beta, 4));
+            Assert.AreEqual(3.1061m, Math.Round((decimal)r249.BetaUp, 4));
+            Assert.AreEqual(4.0684m, Math.Round((decimal)r249.BetaDown, 4));
+            Assert.AreEqual(0.7635m, Math.Round((decimal)r249.Ratio, 4));
+            Assert.AreEqual(0.9260m, Math.Round((decimal)r249.Convexity, 4));
+
+            BetaResult r501 = results[501];
+            Assert.AreEqual(1.6759m, Math.Round((decimal)r501.Beta, 4));
+            Assert.AreEqual(1.2838m, Math.Round((decimal)r501.BetaUp, 4));
+            Assert.AreEqual(2.1034m, Math.Round((decimal)r501.BetaDown, 4));
+            Assert.AreEqual(0.6104m, Math.Round((decimal)r501.Ratio, 4));
+            Assert.AreEqual(0.6717m, Math.Round((decimal)r501.Convexity, 4));
         }
 
         [TestMethod]

@@ -69,6 +69,7 @@ namespace Skender.Stock.Indicators
                         i, lookbackPeriods, quotesListMrkt, quotesListEval, BetaType.Up);
                     }
                 }
+
                 // ratio and convexity
                 if (type == BetaType.All && r.BetaUp != null && r.BetaDown != null)
                 {
