@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,17 +17,27 @@ namespace Internal.Tests
                 quotes.GetCorrelation(otherQuotes, 20)
                 .ToList();
 
-            // assertions
-
             // proper quantities
             // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
             Assert.AreEqual(483, results.Where(x => x.Correlation != null).Count());
 
-            // sample value
-            CorrResult r = results[501];
-            Assert.AreEqual(0.8460m, Math.Round((decimal)r.Correlation, 4));
-            Assert.AreEqual(0.7157m, Math.Round((decimal)r.RSquared, 4));
+            // sample values
+            CorrResult r18 = results[18];
+            Assert.IsNull(r18.Correlation);
+            Assert.IsNull(r18.RSquared);
+
+            CorrResult r19 = results[19];
+            Assert.AreEqual(0.6933m, Math.Round((decimal)r19.Correlation, 4));
+            Assert.AreEqual(0.4806m, Math.Round((decimal)r19.RSquared, 4));
+
+            CorrResult r257 = results[257];
+            Assert.AreEqual(-0.1347m, Math.Round((decimal)r257.Correlation, 4));
+            Assert.AreEqual(0.0181m, Math.Round((decimal)r257.RSquared, 4));
+
+            CorrResult r501 = results[501];
+            Assert.AreEqual(0.8460m, Math.Round((decimal)r501.Correlation, 4));
+            Assert.AreEqual(0.7157m, Math.Round((decimal)r501.RSquared, 4));
         }
 
         [TestMethod]

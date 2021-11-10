@@ -10,41 +10,72 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<BetaResult> GetBeta<TQuote>(
-            IEnumerable<TQuote> historyMarket,
-            IEnumerable<TQuote> historyEval,
-            int lookbackPeriods)
+            IEnumerable<TQuote> quotesMarket,
+            IEnumerable<TQuote> quotesEval,
+            int lookbackPeriods,
+            BetaType type = BetaType.Standard)
             where TQuote : IQuote
         {
 
             // sort quotes
-            List<TQuote> historyEvalList = historyEval.Sort();
+            List<TQuote> quotesListEval = quotesEval.Sort();
+            List<TQuote> quotesListMrkt = quotesMarket.Sort();
 
             // check parameter arguments
-            ValidateBeta(historyMarket, historyEval, lookbackPeriods);
+            ValidateBeta(quotesMarket, quotesEval, lookbackPeriods);
 
             // initialize
-            List<BetaResult> results = new(historyEvalList.Count);
-            List<CorrResult> correlation = GetCorrelation(historyMarket, historyEval, lookbackPeriods).ToList();
+            List<BetaResult> results = new(quotesListEval.Count);
+            bool calcSd = type is BetaType.All or BetaType.Standard;
+            bool calcUp = type is BetaType.All or BetaType.Up;
+            bool calcDn = type is BetaType.All or BetaType.Down;
 
             // roll through quotes
-            for (int i = 0; i < historyEvalList.Count; i++)
+            for (int i = 0; i < quotesListEval.Count; i++)
             {
-                TQuote e = historyEvalList[i];
+                TQuote e = quotesListEval[i];
 
-                BetaResult result = new()
+                BetaResult r = new()
                 {
                     Date = e.Date
                 };
+                results.Add(r);
 
-                // calculate beta, if available
-                CorrResult c = correlation[i];
-
-                if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
+                // skip warmup periods
+                if (i < lookbackPeriods - 1)
                 {
-                    result.Beta = c.Covariance / c.VarianceA;
+                    continue;
                 }
 
-                results.Add(result);
+                // calculate standard beta
+                if (calcSd)
+                {
+                    r.CalcBeta(
+                    i, lookbackPeriods, quotesListMrkt, quotesListEval, BetaType.Standard);
+                }
+
+                // calculate up/down betas
+                if (i >= lookbackPeriods)
+                {
+                    if (calcDn)
+                    {
+                        r.CalcBeta(
+                        i, lookbackPeriods, quotesListMrkt, quotesListEval, BetaType.Down);
+                    }
+
+                    if (calcUp)
+                    {
+                        r.CalcBeta(
+                        i, lookbackPeriods, quotesListMrkt, quotesListEval, BetaType.Up);
+                    }
+                }
+
+                // ratio and convexity
+                if (type == BetaType.All && r.BetaUp != null && r.BetaDown != null)
+                {
+                    r.Ratio = (r.BetaDown != 0) ? r.BetaUp / r.BetaDown : null;
+                    r.Convexity = (r.BetaUp - r.BetaDown) * (r.BetaUp - r.BetaDown);
+                }
             }
 
             return results;
@@ -65,12 +96,84 @@ namespace Skender.Stock.Indicators
         }
 
 
+        // calculate beta
+        private static void CalcBeta<TQuote>(
+            this BetaResult r,
+            int index,
+            int lookbackPeriods,
+            List<TQuote> quotesListMrkt,
+            List<TQuote> quotesListEval,
+            BetaType type)
+            where TQuote : IQuote
+        {
+            // do not supply type==BetaType.All
+            if (type is BetaType.All)
+            {
+                return;
+            }
+
+            // initialize
+            CorrResult c = new();
+
+            List<decimal> dataA = new(lookbackPeriods);
+            List<decimal> dataB = new(lookbackPeriods);
+
+            for (int p = index - lookbackPeriods + 1; p <= index; p++)
+            {
+                decimal a = quotesListMrkt[p].Close;
+                decimal b = quotesListEval[p].Close;
+
+                if (type is BetaType.Standard)
+                {
+                    dataA.Add(a);
+                    dataB.Add(b);
+                }
+                else if (type is BetaType.Down
+                    && a < quotesListMrkt[p - 1].Close)
+                {
+                    dataA.Add(a);
+                    dataB.Add(b);
+                }
+                else if (type is BetaType.Up
+                    && a > quotesListMrkt[p - 1].Close)
+                {
+                    dataA.Add(a);
+                    dataB.Add(b);
+                }
+            }
+
+            if (dataA.Count > 0)
+            {
+                // calculate correlation, covariance, and variance 
+                c.CalcCorrelation(dataA.ToArray(), dataB.ToArray());
+
+                // calculate beta
+                if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
+                {
+                    decimal? beta = c.Covariance / c.VarianceA;
+
+                    if (type == BetaType.Standard)
+                    {
+                        r.Beta = beta;
+                    }
+                    else if (type == BetaType.Down)
+                    {
+                        r.BetaDown = beta;
+                    }
+                    else if (type == BetaType.Up)
+                    {
+                        r.BetaUp = beta;
+                    }
+                }
+            }
+        }
+
         // parameter validation
         private static void ValidateBeta<TQuote>(
-            IEnumerable<TQuote> historyMarket,
-            IEnumerable<TQuote> historyEval,
-            int lookbackPeriods)
-            where TQuote : IQuote
+        IEnumerable<TQuote> historyMarket,
+        IEnumerable<TQuote> historyEval,
+        int lookbackPeriods)
+        where TQuote : IQuote
         {
 
             // check parameter arguments
@@ -103,3 +206,4 @@ namespace Skender.Stock.Indicators
         }
     }
 }
+

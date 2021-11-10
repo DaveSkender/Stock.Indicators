@@ -21,6 +21,9 @@ namespace Tests.Performance
 
         [GlobalSetup(Targets = new[] {
             nameof(GetBeta),
+            nameof(GetBetaUp),
+            nameof(GetBetaDown),
+            nameof(GetBetaAll),
             nameof(GetCorrelation),
             nameof(GetPrs),
             nameof(GetPrsWithSma)
@@ -84,7 +87,25 @@ namespace Tests.Performance
         [Benchmark]
         public object GetBeta()
         {
-            return Indicator.GetBeta(h, ho, 20);
+            return Indicator.GetBeta(h, ho, 20, BetaType.Standard);
+        }
+
+        [Benchmark]
+        public object GetBetaUp()
+        {
+            return Indicator.GetBeta(h, ho, 20, BetaType.Up);
+        }
+
+        [Benchmark]
+        public object GetBetaDown()
+        {
+            return Indicator.GetBeta(h, ho, 20, BetaType.Down);
+        }
+
+        [Benchmark]
+        public object GetBetaAll()
+        {
+            return Indicator.GetBeta(h, ho, 20, BetaType.All);
         }
 
         [Benchmark]
