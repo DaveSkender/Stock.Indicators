@@ -20,11 +20,6 @@ namespace Internal.Tests
 
             // assertions
 
-            foreach (BetaResult r in results)
-            {
-                Console.WriteLine($"{r.Date:d},{r.Beta:N4},{r.BetaUp:N4},{r.BetaDown:N4},{r.Ratio:N4},{r.Convexity:N4}");
-            }
-
             // proper quantities
             // should always be the same number of results as there is quotes
             Assert.AreEqual(502, results.Count);
