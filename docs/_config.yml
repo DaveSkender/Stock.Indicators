@@ -17,14 +17,17 @@ plugins:
 google_analytics: G-7602GXEZ0R
 
 exclude: [
-  "*.yml", 
-  "*.pptx",
-  "vendor",
-  "node_modules",
   "*.json",
   "*.lock",
+  "*.yml", 
+  "*.pptx",
+  "examples/Backtest",
   "examples/ConsoleApp",
-  "examples/*.sln"
+  "examples/*.sln",
+  "GemFile",
+  "node_modules",
+  "offline",
+  "vendor"
 ]
 
 include: [

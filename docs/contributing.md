@@ -110,7 +110,7 @@ This only needs to be done on the merge to `main` when the Pull Request is commi
 - Adding `+semver: minor` as a PR merge commit message will increment the minor -.x.- element
 - Adding `+semver: patch` as a PR merge commit message will increment the minor -.-.x element.  Patch element auto-increments, so you'd only need to do this to override the next value.
 
-A manual Git `tag`, in accordance with the above schema, is introduced when deploying to the public NuGet package manager and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
+A Git `tag`, in accordance with the above schema, is introduced automatically after deploying to the public NuGet package manager and is reflected in the [Releases](https://github.com/DaveSkender/Stock.Indicators/releases).
 
 ## License
 
