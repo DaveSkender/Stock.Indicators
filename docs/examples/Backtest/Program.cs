@@ -52,7 +52,7 @@ namespace Backtest
                 string cross = string.Empty;
 
                 // unrealized gain on open trade
-                decimal trdGain = trdQty * (trdPrice - q.Close);
+                decimal trdGain = trdQty * (q.Close - trdPrice);
 
                 // check for LONG event
                 // condition: Stoch RSI was <= 20 and Stoch RSI crosses over Signal
