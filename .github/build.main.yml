@@ -103,7 +103,7 @@ steps:
       OverWrite: true
       flattenFolders: true
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: "save artifacts"
     inputs:
       ArtifactName: packages
