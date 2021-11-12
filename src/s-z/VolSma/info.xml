@@ -2,6 +2,9 @@
 
 <indicator>
   <summary>
+    WARNING! This indicator will be replaced by GetSma() and removed at the end of 2021 in future versions.
+    Please migrate your scripts now.
+
     Volume Simple Moving Average is the average volume over a lookback window.
     This is helpful when you are trying to assess whether volume is above or below normal.
     <para>

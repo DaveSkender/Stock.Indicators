@@ -84,7 +84,7 @@ redirect_from:
 - [Money Flow Index (MFI)](../indicators/Mfi/#content)
 - [On-balance Volume (OBV)](../indicators/Obv/#content)
 - [Percentage Volume Oscillator (PVO)](../indicators/Pvo/#content)
-- [Volume Simple Moving Average](../indicators/VolSma/#content)
+- [Volume Simple Moving Average](../indicators/Sma/#content)
 
 ## Moving averages
 
