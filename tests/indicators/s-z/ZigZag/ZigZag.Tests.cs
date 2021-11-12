@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests
@@ -9,6 +11,40 @@ namespace Internal.Tests
     [TestClass]
     public class ZigZag : TestBase
     {
+        [TestMethod]
+        public void UserEval()
+        {
+            string json = File.ReadAllText("./s-z/ZigZag/ethusdt.json");
+
+            List<Quote> quotesList = JsonConvert
+                .DeserializeObject<IReadOnlyCollection<Quote>>(json)
+                .OrderBy(x => x.Date)
+                .ToList();
+
+            List<ZigZagResult> resultsList = quotesList
+                .GetZigZag(EndType.Close, 1.2m)
+                .ToList();
+
+            decimal lastPointClose = quotesList[0].Close;
+
+            for (int i = 0; i < resultsList.Count; i++)
+            {
+                Quote q = quotesList[i];
+                ZigZagResult r = resultsList[i];
+
+                // % change since last point
+                decimal change = (q.Close - lastPointClose) / lastPointClose;
+
+                // reset last point
+                if (r.PointType != null)
+                {
+                    lastPointClose = q.Close;
+                }
+
+                Console.WriteLine($"{i},{r.Date},{q.Close},{r.ZigZag},{change:P1},{r.PointType}");
+            }
+        }
+
 
         [TestMethod]
         public void StandardClose()
