@@ -523,12 +523,6 @@ namespace Tests.Performance
         }
 
         [Benchmark]
-        public object GetVolSma()
-        {
-            return h.GetVolSma(14);
-        }
-
-        [Benchmark]
         public object GetVortex()
         {
             return h.GetVortex(14);
