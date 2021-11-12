@@ -7,6 +7,7 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE of VOLUME
+        // DO NOT USE - WILL BE DEPRECATED AT END OF 2021
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<VolSmaResult> GetVolSma<TQuote>(
@@ -15,33 +16,36 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes and initialize results
-            List<VolSmaResult> results = quotes.Sort()
-                .Select(x => new VolSmaResult
-                {
-                    Date = x.Date,
-                    Volume = x.Volume
-                })
-                .ToList();
+            List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
             ValidateVolSma(quotes, lookbackPeriods);
 
+            // initialize
+            int size = quotesList.Count;
+            List<VolSmaResult> results = new(size);
+            List<SmaResult> sma = quotes
+                .GetSma(lookbackPeriods, CandlePart.Volume)
+                .ToList();
+
             // roll through quotes
-            for (int i = lookbackPeriods - 1; i < results.Count; i++)
+            for (int i = 0; i < size; i++)
             {
-                VolSmaResult h = results[i];
-                int index = i + 1;
+                SmaResult s = sma[i];
+                TQuote q = quotesList[i];
 
-                decimal sumVolSma = 0m;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                results.Add(new VolSmaResult
                 {
-                    VolSmaResult q = results[p];
-                    sumVolSma += q.Volume;
-                }
-
-                h.VolSma = sumVolSma / lookbackPeriods;
+                    Date = s.Date,
+                    VolSma = s.Sma,
+                    Volume = q.Volume
+                });
             }
+
+            string msg = "WARNING! This indicator will be replaced by GetSma() "
+                       + "and removed at the end of 2021 in future versions. "
+                       + "Please migrate your scripts now.";
+            Console.WriteLine(msg);
 
             return results;
         }

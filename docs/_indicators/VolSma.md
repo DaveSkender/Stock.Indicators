@@ -4,6 +4,8 @@ permalink: /indicators/VolSma/
 layout: default
 ---
 
+:warning: **Deprecation Warning!** `GetVolSma` is now redundant and will be removed from the library.  It is replaced by [GetSma()](../Sma/#content) with a `CandlePart.Volume` specification.
+
 # {{ page.title }}
 
 The Volume Simple Moving Average is the average volume over a lookback window.  This is helpful when you are trying to assess whether volume is above or below normal.
