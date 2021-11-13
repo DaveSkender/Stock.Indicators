@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -195,6 +195,38 @@ namespace Internal.Tests
             Assert.AreEqual(251.8600m, Math.Round((decimal)r3.Centerline, 4));
             Assert.AreEqual(258.1565m, Math.Round((decimal)r3.UpperEnvelope, 4));
             Assert.AreEqual(245.5635m, Math.Round((decimal)r3.LowerEnvelope, 4));
+        }
+
+        [TestMethod]
+        public void Smma()
+        {
+
+            List<MaEnvelopeResult> results =
+                quotes.GetMaEnvelopes(20, 2.5, MaType.SMMA)
+                .ToList();
+
+            // assertions
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+
+            // sample values
+            MaEnvelopeResult r1 = results[24];
+            Assert.AreEqual(214.8433m, Math.Round((decimal)r1.Centerline, 4));
+            Assert.AreEqual(220.2144m, Math.Round((decimal)r1.UpperEnvelope, 4));
+            Assert.AreEqual(209.4722m, Math.Round((decimal)r1.LowerEnvelope, 4));
+
+            MaEnvelopeResult r2 = results[249];
+            Assert.AreEqual(252.5574m, Math.Round((decimal)r2.Centerline, 4));
+            Assert.AreEqual(258.8714m, Math.Round((decimal)r2.UpperEnvelope, 4));
+            Assert.AreEqual(246.2435m, Math.Round((decimal)r2.LowerEnvelope, 4));
+
+            MaEnvelopeResult r3 = results[501];
+            Assert.AreEqual(255.6746m, Math.Round((decimal)r3.Centerline, 4));
+            Assert.AreEqual(262.0665m, Math.Round((decimal)r3.UpperEnvelope, 4));
+            Assert.AreEqual(249.2828m, Math.Round((decimal)r3.LowerEnvelope, 4));
         }
 
         [TestMethod]

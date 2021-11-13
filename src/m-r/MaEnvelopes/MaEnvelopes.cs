@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             // get envelopes variant
             return movingAverageType switch
             {
-                MaType.ALMA => GetAlma(quotes, lookbackPeriods)
+                MaType.ALMA => quotes.GetAlma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -36,7 +36,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Alma - x.Alma * offsetRatio
                     }),
 
-                MaType.DEMA => GetDoubleEma(quotes, lookbackPeriods)
+                MaType.DEMA => quotes.GetDoubleEma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Dema - x.Dema * offsetRatio
                     }),
 
-                MaType.EPMA => GetEpma(quotes, lookbackPeriods)
+                MaType.EPMA => quotes.GetEpma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -54,7 +54,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Epma - x.Epma * offsetRatio
                     }),
 
-                MaType.EMA => GetEma(quotes, lookbackPeriods)
+                MaType.EMA => quotes.GetEma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Ema - x.Ema * offsetRatio
                     }),
 
-                MaType.HMA => GetHma(quotes, lookbackPeriods)
+                MaType.HMA => quotes.GetHma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -72,7 +72,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Hma - x.Hma * offsetRatio
                     }),
 
-                MaType.SMA => GetSma(quotes, lookbackPeriods)
+                MaType.SMA => quotes.GetSma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -81,7 +81,16 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Sma - x.Sma * offsetRatio
                     }),
 
-                MaType.TEMA => GetTripleEma(quotes, lookbackPeriods)
+                MaType.SMMA => quotes.GetSmma(lookbackPeriods)
+                    .Select(x => new MaEnvelopeResult
+                    {
+                        Date = x.Date,
+                        Centerline = x.Smma,
+                        UpperEnvelope = x.Smma + x.Smma * offsetRatio,
+                        LowerEnvelope = x.Smma - x.Smma * offsetRatio
+                    }),
+
+                MaType.TEMA => quotes.GetTripleEma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
@@ -90,7 +99,7 @@ namespace Skender.Stock.Indicators
                         LowerEnvelope = x.Tema - x.Tema * offsetRatio
                     }),
 
-                MaType.WMA => GetWma(quotes, lookbackPeriods)
+                MaType.WMA => quotes.GetWma(lookbackPeriods)
                     .Select(x => new MaEnvelopeResult
                     {
                         Date = x.Date,
