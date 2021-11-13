@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,87 +27,167 @@ namespace Skender.Stock.Indicators
             // get envelopes variant
             return movingAverageType switch
             {
-                MaType.ALMA => GetAlma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Alma,
-                        UpperEnvelope = x.Alma + x.Alma * offsetRatio,
-                        LowerEnvelope = x.Alma - x.Alma * offsetRatio
-                    }),
-
-                MaType.DEMA => GetDoubleEma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Dema,
-                        UpperEnvelope = x.Dema + x.Dema * offsetRatio,
-                        LowerEnvelope = x.Dema - x.Dema * offsetRatio
-                    }),
-
-                MaType.EPMA => GetEpma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Epma,
-                        UpperEnvelope = x.Epma + x.Epma * offsetRatio,
-                        LowerEnvelope = x.Epma - x.Epma * offsetRatio
-                    }),
-
-                MaType.EMA => GetEma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Ema,
-                        UpperEnvelope = x.Ema + x.Ema * offsetRatio,
-                        LowerEnvelope = x.Ema - x.Ema * offsetRatio
-                    }),
-
-                MaType.HMA => GetHma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Hma,
-                        UpperEnvelope = x.Hma + x.Hma * offsetRatio,
-                        LowerEnvelope = x.Hma - x.Hma * offsetRatio
-                    }),
-
-                MaType.SMA => GetSma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Sma,
-                        UpperEnvelope = x.Sma + x.Sma * offsetRatio,
-                        LowerEnvelope = x.Sma - x.Sma * offsetRatio
-                    }),
-
-                MaType.TEMA => GetTripleEma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Tema,
-                        UpperEnvelope = x.Tema + x.Tema * offsetRatio,
-                        LowerEnvelope = x.Tema - x.Tema * offsetRatio
-                    }),
-
-                MaType.WMA => GetWma(quotes, lookbackPeriods)
-                    .Select(x => new MaEnvelopeResult
-                    {
-                        Date = x.Date,
-                        Centerline = x.Wma,
-                        UpperEnvelope = x.Wma + x.Wma * offsetRatio,
-                        LowerEnvelope = x.Wma - x.Wma * offsetRatio
-                    }),
+                MaType.ALMA => quotes.MaEnvAlma(lookbackPeriods, offsetRatio),
+                MaType.DEMA => quotes.MaEnvDema(lookbackPeriods, offsetRatio),
+                MaType.EMA => quotes.MaEnvEma(lookbackPeriods, offsetRatio),
+                MaType.EPMA => quotes.MaEnvEpma(lookbackPeriods, offsetRatio),
+                MaType.HMA => quotes.MaEnvHma(lookbackPeriods, offsetRatio),
+                MaType.SMA => quotes.MaEnvSma(lookbackPeriods, offsetRatio),
+                MaType.SMMA => quotes.MaEnvSmma(lookbackPeriods, offsetRatio),
+                MaType.TEMA => quotes.MaEnvTema(lookbackPeriods, offsetRatio),
+                MaType.WMA => quotes.MaEnvWma(lookbackPeriods, offsetRatio),
 
                 _ => throw new ArgumentOutOfRangeException(
                          nameof(movingAverageType), movingAverageType,
-                         string.Format(
-                             EnglishCulture,
+                         string.Format(EnglishCulture,
                          "Moving Average Envelopes does not support {0}.",
                          Enum.GetName(typeof(MaType), movingAverageType)))
             };
         }
 
+        private static IEnumerable<MaEnvelopeResult> MaEnvAlma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetAlma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Alma,
+                UpperEnvelope = x.Alma + x.Alma * offsetRatio,
+                LowerEnvelope = x.Alma - x.Alma * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvDema<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetDoubleEma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Dema,
+                UpperEnvelope = x.Dema + x.Dema * offsetRatio,
+                LowerEnvelope = x.Dema - x.Dema * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvEma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetEma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Ema,
+                UpperEnvelope = x.Ema + x.Ema * offsetRatio,
+                LowerEnvelope = x.Ema - x.Ema * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvEpma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetEpma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Epma,
+                UpperEnvelope = x.Epma + x.Epma * offsetRatio,
+                LowerEnvelope = x.Epma - x.Epma * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvHma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetHma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Hma,
+                UpperEnvelope = x.Hma + x.Hma * offsetRatio,
+                LowerEnvelope = x.Hma - x.Hma * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvSma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetSma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Sma,
+                UpperEnvelope = x.Sma + x.Sma * offsetRatio,
+                LowerEnvelope = x.Sma - x.Sma * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvSmma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetSmma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Smma,
+                UpperEnvelope = x.Smma + x.Smma * offsetRatio,
+                LowerEnvelope = x.Smma - x.Smma * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvTema<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetTripleEma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Tema,
+                UpperEnvelope = x.Tema + x.Tema * offsetRatio,
+                LowerEnvelope = x.Tema - x.Tema * offsetRatio
+            });
+        }
+
+        private static IEnumerable<MaEnvelopeResult> MaEnvWma<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            decimal offsetRatio)
+            where TQuote : IQuote
+        {
+            return quotes.GetWma(lookbackPeriods)
+            .Select(x => new MaEnvelopeResult
+            {
+                Date = x.Date,
+                Centerline = x.Wma,
+                UpperEnvelope = x.Wma + x.Wma * offsetRatio,
+                LowerEnvelope = x.Wma - x.Wma * offsetRatio
+            });
+        }
 
         // parameter validation
         private static void ValidateMaEnvelopes(

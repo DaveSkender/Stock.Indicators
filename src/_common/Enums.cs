@@ -28,6 +28,7 @@ namespace Skender.Stock.Indicators
         KAMA,
         MAMA,
         SMA,
+        SMMA,
         TEMA,
         WMA
     }

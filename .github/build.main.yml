@@ -98,12 +98,14 @@ steps:
       Contents: |
         "**/*.nupkg"
         "**/*.snupkg"
-      TargetFolder: "$(Build.ArtifactStagingDirectory)"
+      TargetFolder: "$(Pipeline.Workspace)/a"
       CleanTargetFolder: true
       OverWrite: true
       flattenFolders: true
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: "save artifacts"
     inputs:
-      ArtifactName: packages
+      targetPath: '$(Pipeline.Workspace)/a'
+      artifact: 'packages'
+      publishLocation: 'pipeline'
