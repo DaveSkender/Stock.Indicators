@@ -171,14 +171,19 @@ namespace Internal.Tests
         [TestMethod]
         public void SchrodingerScenario()
         {
-            IEnumerable<Quote> h = TestData.GetZigZag();
+            string json = File.ReadAllText("./s-z/ZigZag/data.schrodinger.json");
 
-            IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(h, EndType.Close, 0.25m);
+            List<Quote> h = JsonConvert
+                .DeserializeObject<IReadOnlyCollection<Quote>>(json)
+                .OrderBy(x => x.Date)
+                .ToList();
+
+            IEnumerable<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m);
             Assert.AreEqual(342, r1.Count());
 
             // first period has High/Low that exceeds threhold
             // where it is both a H and L pivot simultaenously
-            IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(h, EndType.HighLow, 3);
+            IEnumerable<ZigZagResult> r2 = h.GetZigZag(EndType.HighLow, 3);
             Assert.AreEqual(342, r2.Count());
         }
 

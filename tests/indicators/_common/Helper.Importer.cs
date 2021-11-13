@@ -163,17 +163,5 @@ namespace Internal.Tests
                 .Select(v => Importer.QuoteFromCsv(v))
                 .ToList();
         }
-
-        // ZIGZAG DATA
-        internal static IEnumerable<Quote> GetZigZag(int days = 342)
-        {
-            return File.ReadAllLines("_common/data/zigzag.csv")
-                .Skip(1)
-                .Select(v => Importer.QuoteFromCsv(v))
-                .OrderByDescending(x => x.Date)
-                .Take(days)
-                .ToList();
-        }
-
     }
 }
