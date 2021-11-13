@@ -12,9 +12,9 @@ namespace Internal.Tests
     public class ZigZag : TestBase
     {
         [TestMethod]
-        public void UserEval()
+        public void TailEnd()
         {
-            string json = File.ReadAllText("./s-z/ZigZag/ethusdt.json");
+            string json = File.ReadAllText("./s-z/ZigZag/data.ethusdt.json");
 
             List<Quote> quotesList = JsonConvert
                 .DeserializeObject<IReadOnlyCollection<Quote>>(json)
@@ -22,7 +22,7 @@ namespace Internal.Tests
                 .ToList();
 
             List<ZigZagResult> resultsList = quotesList
-                .GetZigZag(EndType.Close, 1.2m)
+                .GetZigZag(EndType.Close, 5m)
                 .ToList();
 
             decimal lastPointClose = quotesList[0].Close;
@@ -41,8 +41,10 @@ namespace Internal.Tests
                     lastPointClose = q.Close;
                 }
 
-                Console.WriteLine($"{i},{r.Date},{q.Close},{r.ZigZag},{change:P1},{r.PointType}");
+                Console.WriteLine($"{i},{r.Date},{q.Close},{r.ZigZag},{change:P4},{r.PointType}");
             }
+
+            Assert.Fail();
         }
 
 
