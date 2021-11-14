@@ -216,8 +216,12 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawRetraceLine(List<ZigZagResult> results, string lastDirection,
-            ZigZagPoint lastLowPoint, ZigZagPoint lastHighPoint, ZigZagPoint nextPoint)
+        private static void DrawRetraceLine(
+            List<ZigZagResult> results,
+            string lastDirection,
+            ZigZagPoint lastLowPoint,
+            ZigZagPoint lastHighPoint,
+            ZigZagPoint nextPoint)
         {
             ZigZagPoint priorPoint = new();
 
@@ -272,7 +276,11 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagEval GetZigZagEval<TQuote>(EndType endType, int index, TQuote q) where TQuote : IQuote
+        private static ZigZagEval GetZigZagEval<TQuote>(
+            EndType endType,
+            int index,
+            TQuote q)
+            where TQuote : IQuote
         {
             ZigZagEval eval = new()
             {
