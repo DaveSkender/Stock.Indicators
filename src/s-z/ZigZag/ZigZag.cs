@@ -109,12 +109,15 @@ namespace Skender.Stock.Indicators
         // internals
         private static ZigZagPoint EvaluateNextPoint<TQuote>(
             List<TQuote> quotesList,
-            EndType endType, decimal changeThreshold, ZigZagPoint lastPoint) where TQuote : IQuote
+            EndType endType,
+            decimal changeThreshold,
+            ZigZagPoint lastPoint)
+            where TQuote : IQuote
         {
             // initialize
             bool trendUp = (lastPoint.PointType == "L");
-            decimal? change = 0;
 
+            // candidate
             ZigZagPoint extremePoint = new()
             {
                 Index = lastPoint.Index,
@@ -127,6 +130,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote q = quotesList[i];
                 int index = i + 1;
+                decimal? change;
 
                 ZigZagEval eval = GetZigZagEval(endType, index, q);
 
@@ -137,6 +141,7 @@ namespace Skender.Stock.Indicators
                     {
                         extremePoint.Index = eval.Index;
                         extremePoint.Value = eval.High;
+                        change = 0;
                     }
                     else
                     {
@@ -150,6 +155,7 @@ namespace Skender.Stock.Indicators
                     {
                         extremePoint.Index = eval.Index;
                         extremePoint.Value = eval.Low;
+                        change = 0;
                     }
                     else
                     {
@@ -158,18 +164,19 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-                // return extreme point when deviation threshold met
+                // return extreme point when reversion threshold met
                 if (change >= changeThreshold)
                 {
                     return extremePoint;
                 }
-            }
 
-            // handle last unconfirmed point
-            int finalPointIndex = quotesList.Count;
-            if (extremePoint.Index == finalPointIndex && change < changeThreshold)
-            {
-                extremePoint.PointType = null;
+                // add last unconfirmed end point
+                if (index == quotesList.Count)
+                {
+                    extremePoint.Index = index;
+                    extremePoint.Value = (trendUp) ? eval.High : eval.Low;
+                    extremePoint.PointType = null;
+                }
             }
 
             return extremePoint;
@@ -209,14 +216,17 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static void DrawRetraceLine(List<ZigZagResult> results, string lastDirection,
-            ZigZagPoint lastLowPoint, ZigZagPoint lastHighPoint, ZigZagPoint nextPoint)
+        private static void DrawRetraceLine(
+            List<ZigZagResult> results,
+            string lastDirection,
+            ZigZagPoint lastLowPoint,
+            ZigZagPoint lastHighPoint,
+            ZigZagPoint nextPoint)
         {
-            bool isHighLine = (lastDirection == "L");
             ZigZagPoint priorPoint = new();
 
             // handle type and reset last point
-            if (isHighLine)
+            if (lastDirection == "L")
             {
                 priorPoint.Index = lastHighPoint.Index;
                 priorPoint.Value = lastHighPoint.Value;
@@ -224,7 +234,9 @@ namespace Skender.Stock.Indicators
                 lastHighPoint.Index = nextPoint.Index;
                 lastHighPoint.Value = nextPoint.Value;
             }
-            else
+
+            // low line
+            else if (lastDirection == "H")
             {
                 priorPoint.Index = lastLowPoint.Index;
                 priorPoint.Value = lastLowPoint.Value;
@@ -249,11 +261,14 @@ namespace Skender.Stock.Indicators
                 ZigZagResult r = results[i];
                 int index = i + 1;
 
-                if (isHighLine)
+                // high line
+                if (lastDirection == "L")
                 {
                     r.RetraceHigh = priorPoint.Value + increment * (index - priorPoint.Index);
                 }
-                else
+
+                // low line
+                else if (lastDirection == "H")
                 {
                     r.RetraceLow = priorPoint.Value + increment * (index - priorPoint.Index);
                 }
@@ -261,7 +276,11 @@ namespace Skender.Stock.Indicators
         }
 
 
-        private static ZigZagEval GetZigZagEval<TQuote>(EndType endType, int index, TQuote q) where TQuote : IQuote
+        private static ZigZagEval GetZigZagEval<TQuote>(
+            EndType endType,
+            int index,
+            TQuote q)
+            where TQuote : IQuote
         {
             ZigZagEval eval = new()
             {
