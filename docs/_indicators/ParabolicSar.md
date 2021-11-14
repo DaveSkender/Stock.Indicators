@@ -23,6 +23,7 @@ IEnumerable<ParabolicSarResult> results =
 | -- |-- |--
 | `accelerationStep` | decimal | Incremental step size.  Must be greater than 0.  Default is 0.02
 | `maxAccelerationFactor` | decimal | Maximimum step limit.  Must be greater than `accelerationStep`.  Default is 0.2
+| `initialStep` | decimal | Optional.  Initial incremental step size.  Must be greater than 0.  Default is `accelerationStep`.
 
 ### Historical quotes requirements
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +18,46 @@ namespace Internal.Tests
 
             List<ParabolicSarResult> results =
                 quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
-                .ToList();
+                    .ToList();
+
+            // assertions
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                ParabolicSarResult r = results[i];
+                Console.WriteLine($"{i},{r.IsReversal},{r.Sar:N4}");
+            }
+
+            // proper quantities
+            // should always be the same number of results as there is quotes
+            Assert.AreEqual(502, results.Count);
+            Assert.AreEqual(488, results.Where(x => x.Sar != null).Count());
+
+            // sample values
+            ParabolicSarResult r1 = results[14];
+            Assert.AreEqual(212.83m, Math.Round((decimal)r1.Sar, 4));
+            Assert.AreEqual(true, r1.IsReversal);
+
+            ParabolicSarResult r2 = results[16];
+            Assert.AreEqual(212.9924m, Math.Round((decimal)r2.Sar, 4));
+            Assert.AreEqual(false, r2.IsReversal);
+
+            ParabolicSarResult r3 = results[501];
+            Assert.AreEqual(229.7662m, Math.Round((decimal)r3.Sar, 4));
+            Assert.AreEqual(false, r3.IsReversal);
+        }
+
+        [TestMethod]
+        public void Extended()
+        {
+            decimal acclerationStep = 0.02m;
+            decimal maxAccelerationFactor = 0.2m;
+            decimal initialStep = 0.02m;
+
+            List<ParabolicSarResult> results =
+                quotes.GetParabolicSar(
+                    acclerationStep, maxAccelerationFactor, initialStep)
+                    .ToList();
 
             // assertions
 
