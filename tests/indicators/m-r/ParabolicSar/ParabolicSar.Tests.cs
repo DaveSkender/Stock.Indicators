@@ -50,7 +50,7 @@ namespace Internal.Tests
         {
             decimal acclerationStep = 0.02m;
             decimal maxAccelerationFactor = 0.2m;
-            decimal initialStep = 0.02m;
+            decimal initialStep = 0.01m;
 
             List<ParabolicSarResult> results =
                 quotes.GetParabolicSar(
@@ -65,17 +65,25 @@ namespace Internal.Tests
             Assert.AreEqual(488, results.Where(x => x.Sar != null).Count());
 
             // sample values
-            ParabolicSarResult r1 = results[14];
-            Assert.AreEqual(212.83m, Math.Round((decimal)r1.Sar, 4));
-            Assert.AreEqual(true, r1.IsReversal);
+            ParabolicSarResult r14 = results[14];
+            Assert.AreEqual(212.83m, r14.Sar);
+            Assert.AreEqual(true, r14.IsReversal);
 
-            ParabolicSarResult r2 = results[16];
-            Assert.AreEqual(212.9924m, Math.Round((decimal)r2.Sar, 4));
-            Assert.AreEqual(false, r2.IsReversal);
+            ParabolicSarResult r16 = results[16];
+            Assert.AreEqual(212.9518m, Math.Round((decimal)r16.Sar, 4));
+            Assert.AreEqual(false, r16.IsReversal);
 
-            ParabolicSarResult r3 = results[501];
-            Assert.AreEqual(229.7662m, Math.Round((decimal)r3.Sar, 4));
-            Assert.AreEqual(false, r3.IsReversal);
+            ParabolicSarResult r94 = results[94];
+            Assert.AreEqual(228.36m, r94.Sar);
+            Assert.AreEqual(false, r94.IsReversal);
+
+            ParabolicSarResult r486 = results[486];
+            Assert.AreEqual(273.4148m, r486.Sar);
+            Assert.AreEqual(false, r486.IsReversal);
+
+            ParabolicSarResult r501 = results[501];
+            Assert.AreEqual(246.73m, r501.Sar);
+            Assert.AreEqual(false, r501.IsReversal);
         }
 
         [TestMethod]

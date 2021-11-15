@@ -156,8 +156,6 @@ namespace Skender.Stock.Indicators
                 }
 
                 priorSar = (decimal)r.Sar;
-
-                //Console.WriteLine($"{i},{r.IsReversal},{extremePoint},{accelerationFactor},{r.Sar:N4}");
             }
 
             // remove first trend to reversal, since it is an invalid guess
