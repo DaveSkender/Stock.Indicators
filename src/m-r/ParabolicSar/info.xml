@@ -31,7 +31,7 @@
     <param name="quotes">Historical price quotes.</param>
     <param name="accelerationStep">Incremental step size.</param>
     <param name="maxAccelerationFactor">Maximum step threshold.</param>
-    <param name="initialStep">Initial incremental step size.</param>
+    <param name="initialFactor">Initial starting acceleration factor.</param>
     <returns>Time series of Parabolic SAR values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
     <exception cref="BadQuotesException">Insufficient quotes provided.</exception>

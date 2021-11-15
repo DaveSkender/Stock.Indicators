@@ -12,18 +12,22 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 ![image]({{site.baseurl}}/assets/charts/ParabolicSar.png)
 
 ```csharp
-// usage
+// usage (standard)
 IEnumerable<ParabolicSarResult> results =
   quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);  
+
+// alternate usage with custom initial Factor
+IEnumerable<ParabolicSarResult> results =
+  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);  
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `accelerationStep` | decimal | Incremental step size.  Must be greater than 0.  Default is 0.02
-| `maxAccelerationFactor` | decimal | Maximimum step limit.  Must be greater than `accelerationStep`.  Default is 0.2
-| `initialStep` | decimal | Optional.  Initial incremental step size.  Must be greater than 0.  Default is `accelerationStep`.
+| `accelerationStep` | decimal | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
+| `maxAccelerationFactor` | decimal | Maximimum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
+| `initialFactor` | decimal | Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
 
 ### Historical quotes requirements
 
