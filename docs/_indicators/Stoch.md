@@ -20,7 +20,8 @@ IEnumerable<StochResult> results =
 
 // advanced customization
 IEnumerable<StochResult> results =
-  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
+  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods,
+                  kFactor, dFactor, movingAverageType);
 ```
 
 ## Parameters
