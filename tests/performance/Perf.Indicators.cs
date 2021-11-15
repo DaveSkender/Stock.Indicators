@@ -457,6 +457,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetStochSMMA()
+        {
+            return h.GetStoch(9, 3, 3, 3, 2, MaType.SMMA);
+        }
+
+        [Benchmark]
         public object GetStochRsi()
         {
             return h.GetStochRsi(14, 14, 3);

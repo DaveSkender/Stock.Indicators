@@ -96,16 +96,15 @@ namespace Skender.Stock.Indicators
 
 
             // signal (%D) and %J
-            int stochIndex = lookbackPeriods + smoothPeriods - 2;
-            decimal? s = results[stochIndex].Oscillator;
+            int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
+            decimal? s = results[lookbackPeriods - 1].Oscillator;
 
-            for (int i = stochIndex; i < size; i++)
+            for (int i = lookbackPeriods - 1; i < size; i++)
             {
                 StochResult r = results[i];
                 int index = i + 1;
 
                 // add signal
-                int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
 
                 if (signalPeriods <= 1)
                 {
@@ -126,7 +125,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // SMMA case
-                else if (index > stochIndex && movingAverageType is MaType.SMMA)
+                else if (i >= lookbackPeriods - 1 && movingAverageType is MaType.SMMA)
                 {
                     s = (s == null) ? results[i].Oscillator : s; // reset if null
 
@@ -166,11 +165,12 @@ namespace Skender.Stock.Indicators
         {
 
             // temporarily store interim smoothed oscillator
-            int smoothIndex = lookbackPeriods + smoothPeriods - 2;
             decimal?[] smooth = new decimal?[size]; // smoothed value
 
             if (movingAverageType is MaType.SMA)
             {
+                int smoothIndex = lookbackPeriods + smoothPeriods - 2;
+
                 for (int i = smoothIndex; i < size; i++)
                 {
                     int index = i + 1;
@@ -187,9 +187,9 @@ namespace Skender.Stock.Indicators
             else if (movingAverageType is MaType.SMMA)
             {
                 // initialize with unsmoothed value
-                decimal? k = results[smoothIndex].Oscillator;
+                decimal? k = results[lookbackPeriods - 1].Oscillator;
 
-                for (int i = smoothIndex; i < size; i++)
+                for (int i = lookbackPeriods - 1; i < size; i++)
                 {
                     k = (k == null) ? results[i].Oscillator : k; // reset if null
 
