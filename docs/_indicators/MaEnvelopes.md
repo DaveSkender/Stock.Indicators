@@ -43,7 +43,7 @@ These are the supported moving average types:
 | `MaType.EMA` | [Exponential Moving Average](../Ema#content)
 | `MaType.HMA` | [Hull Moving Average](../Hma#content)
 | `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average](../Smma#content) (default)
+| `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
 | `MaType.TEMA` | [Triple Exponential Moving Average](../TripleEma#content)
 | `MaType.WMA` | [Weighted Moving Average](../Wma#content)
 

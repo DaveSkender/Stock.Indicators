@@ -14,9 +14,13 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ![image]({{site.baseurl}}/assets/charts/Stoch.png)
 
 ```csharp
-// usage
+// usage (standard)
 IEnumerable<StochResult> results =
-  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);  
+  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+
+// advanced customization
+IEnumerable<StochResult> results =
+  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
 ```
 
 ## Parameters
@@ -26,12 +30,24 @@ IEnumerable<StochResult> results =
 | `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
 | `signalPeriods` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
 | `smoothPeriods` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
+| `kFactor` | int | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
+| `dFactor` | int | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
+| `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Historical quotes requirements
 
 You must have at least `N+S` periods of `quotes`.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+
+### MaType options
+
+These are the supported moving average types:
+
+| type | description
+|-- |--
+| `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
+| `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
 
 ## Response
 
@@ -44,6 +60,8 @@ IEnumerable<StochResult>
 - It does not return a single incremental indicator value.
 - The first `N+S-2` periods will have `null` Oscillator values since there's not enough data to calculate.
 
+:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
+
 ### StochResult
 
 | name | type | notes
@@ -51,7 +69,7 @@ IEnumerable<StochResult>
 | `Date` | DateTime | Date
 | `Oscillator` or `K` | decimal | %K Oscillator over prior `N` lookback periods
 | `Signal` or `D` | decimal | %D Simple moving average of Oscillator
-| `PercentJ` or `J` | decimal | %J is the weighted divergence of %K and %D: `%J=3×%K-2×%D`
+| `PercentJ` or `J` | decimal | %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
 
 Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangably with the standard outputs.
 

@@ -16,12 +16,33 @@ namespace Skender.Stock.Indicators
             int smoothPeriods = 3)
             where TQuote : IQuote
         {
+            return quotes
+                .GetStoch(
+                    lookbackPeriods,
+                    signalPeriods,
+                    smoothPeriods, 3, 2, MaType.SMA);
+        }
+
+        /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
+        /// 
+        public static IEnumerable<StochResult> GetStoch<TQuote>(
+            this IEnumerable<TQuote> quotes,
+            int lookbackPeriods,
+            int signalPeriods,
+            int smoothPeriods,
+            int kFactor,
+            int dFactor,
+            MaType movingAverageType)
+            where TQuote : IQuote
+        {
 
             // sort quotes
             List<TQuote> quotesList = quotes.Sort();
 
             // check parameter arguments
-            ValidateStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods);
+            ValidateStoch(
+                quotes, lookbackPeriods, signalPeriods, smoothPeriods,
+                kFactor, dFactor, movingAverageType);
 
             // initialize
             int size = quotesList.Count;
@@ -45,16 +66,16 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
+                        TQuote x = quotesList[p];
 
-                        if (d.High > highHigh)
+                        if (x.High > highHigh)
                         {
-                            highHigh = d.High;
+                            highHigh = x.High;
                         }
 
-                        if (d.Low < lowLow)
+                        if (x.Low < lowLow)
                         {
-                            lowLow = d.Low;
+                            lowLow = x.Low;
                         }
                     }
 
@@ -69,12 +90,14 @@ namespace Skender.Stock.Indicators
             // smooth the oscillator
             if (smoothPeriods > 1)
             {
-                results = SmoothOscillator(results, size, lookbackPeriods, smoothPeriods);
+                results = SmoothOscillator(
+                    results, size, lookbackPeriods, smoothPeriods, movingAverageType);
             }
 
 
             // signal (%D) and %J
             int stochIndex = lookbackPeriods + smoothPeriods - 2;
+            decimal? s = results[stochIndex].Oscillator;
 
             for (int i = stochIndex; i < size; i++)
             {
@@ -88,18 +111,31 @@ namespace Skender.Stock.Indicators
                 {
                     r.Signal = r.Oscillator;
                 }
-                else if (index >= signalIndex)
+
+                // SMA case
+                else if (index >= signalIndex && movingAverageType is MaType.SMA)
                 {
                     decimal sumOsc = 0m;
                     for (int p = index - signalPeriods; p < index; p++)
                     {
-                        StochResult d = results[p];
-                        sumOsc += (decimal)d.Oscillator;
+                        StochResult x = results[p];
+                        sumOsc += (decimal)x.Oscillator;
                     }
 
                     r.Signal = sumOsc / signalPeriods;
-                    r.PercentJ = (3 * r.Oscillator) - (2 * r.Signal);
                 }
+
+                // SMMA case
+                else if (index > stochIndex && movingAverageType is MaType.SMMA)
+                {
+                    s = (s == null) ? results[i].Oscillator : s; // reset if null
+
+                    s = (s * (signalPeriods - 1) + results[i].Oscillator) / signalPeriods;
+                    r.Signal = s;
+                }
+
+                // %J
+                r.PercentJ = (kFactor * r.Oscillator) - (dFactor * r.Signal);
             }
 
             return results;
@@ -122,24 +158,48 @@ namespace Skender.Stock.Indicators
 
         // internals
         private static List<StochResult> SmoothOscillator(
-            List<StochResult> results, int size, int lookbackPeriods, int smoothPeriods)
+            List<StochResult> results,
+            int size,
+            int lookbackPeriods,
+            int smoothPeriods,
+            MaType movingAverageType)
         {
 
             // temporarily store interim smoothed oscillator
             int smoothIndex = lookbackPeriods + smoothPeriods - 2;
             decimal?[] smooth = new decimal?[size]; // smoothed value
 
-            for (int i = smoothIndex; i < size; i++)
+            if (movingAverageType is MaType.SMA)
             {
-                int index = i + 1;
-
-                decimal sumOsc = 0m;
-                for (int p = index - smoothPeriods; p < index; p++)
+                for (int i = smoothIndex; i < size; i++)
                 {
-                    sumOsc += (decimal)results[p].Oscillator;
-                }
+                    int index = i + 1;
 
-                smooth[i] = sumOsc / smoothPeriods;
+                    decimal sumOsc = 0m;
+                    for (int p = index - smoothPeriods; p < index; p++)
+                    {
+                        sumOsc += (decimal)results[p].Oscillator;
+                    }
+
+                    smooth[i] = sumOsc / smoothPeriods;
+                }
+            }
+            else if (movingAverageType is MaType.SMMA)
+            {
+                // initialize with unsmoothed value
+                decimal? k = results[smoothIndex].Oscillator;
+
+                for (int i = smoothIndex; i < size; i++)
+                {
+                    k = (k == null) ? results[i].Oscillator : k; // reset if null
+
+                    k = (k * (smoothPeriods - 1) + results[i].Oscillator) / smoothPeriods;
+                    smooth[i] = k;
+                }
+            }
+            else
+            {
+                return results;
             }
 
             // replace oscillator
@@ -157,7 +217,10 @@ namespace Skender.Stock.Indicators
             IEnumerable<TQuote> quotes,
             int lookbackPeriods,
             int signalPeriods,
-            int smoothPeriods)
+            int smoothPeriods,
+            int kFactor,
+            int dFactor,
+            MaType movingAverageType)
             where TQuote : IQuote
         {
 
@@ -178,6 +241,24 @@ namespace Skender.Stock.Indicators
             {
                 throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
                     "Smooth periods must be greater than 0 for Stochastic.");
+            }
+
+            if (kFactor <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(kFactor), kFactor,
+                    "kFactor must be greater than 0 for Stochastic.");
+            }
+
+            if (dFactor <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
+                    "dFactor must be greater than 0 for Stochastic.");
+            }
+
+            if (movingAverageType is not MaType.SMA and not MaType.SMMA)
+            {
+                throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
+                    "Stochastic only supports SMA and SMMA moving average types.");
             }
 
             // check quotes
