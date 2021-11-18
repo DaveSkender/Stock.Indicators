@@ -26,7 +26,6 @@ steps:
       useConfigFile: true
       configFilePath: 'gitversion.yml'
       updateAssemblyInfo: true
-      updateAssemblyInfoFilename: AssemblyInfo.cs
 
   - task: UseDotNet@2
     displayName: "use .NET SDK 6.0.x"
