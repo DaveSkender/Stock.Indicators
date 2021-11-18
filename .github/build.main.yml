@@ -15,37 +15,24 @@ variables:
   BuildConfiguration: "Release"
 
 steps:
-  - task: UseDotNet@2
-    displayName: "use .NET SDK 5.0.x"
-    inputs:
-      version: 5.0.x
-
   - task: NuGetToolInstaller@1
     displayName: "use NuGet 6.0.x"
     inputs:
       versionSpec: 6.0.x
       checkLatest: false
 
-  - task: DotNetCoreCLI@2
-    displayName: "use GitVersion"
-    inputs:
-      command: custom
-      custom: tool
-      arguments: "install -g gitversion.tool --version 5.6.11"
+  - task: gitversion/setup@0
+    displayName: use GitVersion 5.x
+      inputs:
+      versionSpec: '5.x'
 
-  - task: DotNetCoreCLI@2
-    displayName: "get version number"
+  - task: gitversion/execute@0
+    displayName: get GitVersion
     inputs:
-      command: custom
-      custom: gitversion
-      arguments: "/output buildserver"
-
-  - task: DotNetCoreCLI@2
-    displayName: "create assembly info"
-    inputs:
-      command: "custom"
-      custom: "gitversion"
-      arguments: "/updateassemblyinfo AssemblyInfo.cs /ensureassemblyinfo"
+      useConfigFile: true
+      configFilePath: 'gitversion.yml'
+      updateAssemblyInfo: true
+      updateAssemblyInfoFilename: AssemblyInfo.cs
 
   - task: UseDotNet@2
     displayName: "use .NET SDK 6.0.x"
