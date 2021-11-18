@@ -15,15 +15,9 @@ variables:
   BuildConfiguration: "Release"
 
 steps:
-  - task: NuGetToolInstaller@1
-    displayName: "use NuGet 6.0.x"
-    inputs:
-      versionSpec: 6.0.x
-      checkLatest: false
-
   - task: gitversion/setup@0
     displayName: use GitVersion 5.x
-      inputs:
+    inputs:
       versionSpec: '5.x'
 
   - task: gitversion/execute@0
