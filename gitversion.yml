@@ -1,4 +1,4 @@
-mode: mainline
+mode: ContinuousDelivery
 
 commit-message-incrementing: Enabled
 major-version-bump-message: '\+semver:\s?(breaking|major)'
