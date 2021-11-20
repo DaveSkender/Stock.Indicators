@@ -4,7 +4,7 @@ permalink: /indicators/VolSma/
 layout: default
 ---
 
-:warning: **Deprecation Warning!** `GetVolSma` is now redundant and will be removed from the library.  It is replaced by [GetSma()](../Sma/#content) with a `CandlePart.Volume` specification.
+:warning: **Deprecation Warning!** `GetVolSma` is now redundant and will be removed from the library at the end of 2021.  It is replaced by [GetSma()](../Sma/#content) with a `CandlePart.Volume` specification.
 
 # {{ page.title }}
 
@@ -14,9 +14,13 @@ The Volume Simple Moving Average is the average volume over a lookback window.  
 ![image]({{site.baseurl}}/assets/charts/VolSma.png)
 
 ```csharp
-// usage
+// legacy usage
 IEnumerable<VolSmaResult> results =
-  quotes.GetVolSma(lookbackPeriods);  
+  quotes.GetVolSma(lookbackPeriods);
+
+// please convert to equivalent:
+IEnumerable<SmaResult> results =
+  quotes.GetSma(lookbackPeriods, CandlePart.Volume);
 ```
 
 ## Parameters
