@@ -141,6 +141,23 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void Issue632()
+        {
+            // thresholds are never met
+            string json = File.ReadAllText("./s-z/ZigZag/data.issue632.json");
+
+            List<Quote> quotesList = JsonConvert
+                .DeserializeObject<IReadOnlyCollection<Quote>>(json)
+                .ToList();
+
+            List<ZigZagResult> resultsList = quotesList
+                .GetZigZag(EndType.Close, 5m)
+                .ToList();
+
+            Assert.AreEqual(17, resultsList.Count);
+        }
+
+        [TestMethod]
         public void BadData()
         {
             IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(badQuotes, EndType.Close);

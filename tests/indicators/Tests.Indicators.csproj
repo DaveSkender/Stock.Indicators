@@ -37,6 +37,9 @@
     <None Update="s-z\ZigZag\data.ethusdt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="s-z\ZigZag\data.issue632.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="s-z\ZigZag\data.schrodinger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
