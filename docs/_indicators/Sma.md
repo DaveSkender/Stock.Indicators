@@ -3,6 +3,8 @@ title: Simple Moving Average (SMA)
 permalink: /indicators/Sma/
 type: moving-average
 layout: indicator
+redirect_from:
+ - /indicators/VolSma/
 ---
 
 # {{ page.title }}
