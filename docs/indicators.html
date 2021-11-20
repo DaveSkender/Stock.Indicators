@@ -11,7 +11,7 @@ redirect_from:
 <!-- table of contents -->
 <ul>
   {% for c in site.data.categories %}
-  <li><a href="{{page.url}}#{{c.type}}">{{c.name}}</a></li>
+  <li><a href="{{site.baseurl}}{{page.permalink}}#{{c.type}}">{{c.name}}</a></li>
   {% endfor %}
 </ul>
 
@@ -24,7 +24,7 @@ redirect_from:
   {% assign all = indicators | concat: aliases | sort: "title" %}
 
   {% for i in all %}
-  <li><a href="{{i.permalink}}#content">{{i.title}}</a></li>
+  <li><a href="{{site.baseurl}}{{i.permalink}}#content">{{i.title}}</a></li>
   {% endfor %}
 </ul>
 
@@ -37,7 +37,7 @@ redirect_from:
   {% assign all = indicators | concat: aliases | sort: "title" %}
 
   {% for i in all %}
-  <li><a href="{{i.permalink}}#content">{{i.title}}</a></li>
+  <li><a href="{{site.baseurl}}{{i.permalink}}#content">{{i.title}}</a></li>
   {% endfor%}
 </ul>
 {% endfor %}
