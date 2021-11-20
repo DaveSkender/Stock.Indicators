@@ -1,6 +1,8 @@
 ---
 title: Hurst Exponent
+description: Hurst Exponent with Rescaled Range Analysis
 permalink: /indicators/Hurst/
+type: price-characteristic
 layout: default
 ---
 

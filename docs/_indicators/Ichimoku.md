@@ -1,6 +1,8 @@
 ---
 title: Ichimoku Cloud
+description: Ichimoku Cloud (Ichimoku Kinkō Hyō)
 permalink: /indicators/Ichimoku/
+type: price-trend
 layout: default
 ---
 

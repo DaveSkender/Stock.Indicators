@@ -2,6 +2,7 @@
 title: Marubozu (Preview)
 permalink: /indicators/Marubozu/
 layout: default
+type: candlestick-pattern
 redirect_from:
   - /indicators/Patterns/Marubozu/
 ---

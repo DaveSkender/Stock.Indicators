@@ -1,6 +1,7 @@
 ---
 title: Klinger Volume Oscillator
 permalink: /indicators/Kvo/
+type: volume-based
 layout: default
 ---
 

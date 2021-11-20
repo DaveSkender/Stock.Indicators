@@ -1,6 +1,7 @@
 ---
 title: Average Directional Index (ADX)
 permalink: /indicators/Adx/
+type: price-trend
 layout: default
 ---
 

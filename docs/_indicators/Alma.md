@@ -1,6 +1,7 @@
 ---
 title: Arnaud Legoux Moving Average (ALMA)
 permalink: /indicators/Alma/
+type: moving-average
 layout: default
 ---
 

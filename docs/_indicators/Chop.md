@@ -1,6 +1,7 @@
 ---
 title: Choppiness Index
 permalink: /indicators/Chop/
+type: price-characteristic
 layout: default
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: STARC Bands
 permalink: /indicators/StarcBands/
+type: price-channel
 layout: default
 ---
 

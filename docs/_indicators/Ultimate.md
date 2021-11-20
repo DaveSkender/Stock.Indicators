@@ -1,6 +1,7 @@
 ---
 title: Ultimate Oscillator
 permalink: /indicators/Ultimate/
+type: oscillator
 layout: default
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: MESA Adaptive Moving Average (MAMA)
 permalink: /indicators/Mama/
+type: moving-average
 layout: default
 ---
 

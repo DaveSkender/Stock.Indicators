@@ -1,6 +1,7 @@
 ---
 title: Ehlers Fisher Transform
 permalink: /indicators/FisherTransform/
+type: price-transform
 layout: default
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Chandelier Exit
 permalink: /indicators/Chandelier/
+type: stop-and-reverse
 layout: default
 ---
 

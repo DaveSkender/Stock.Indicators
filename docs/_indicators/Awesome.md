@@ -1,6 +1,8 @@
 ---
 title: Awesome Oscillator (AO)
+description: Awesome Oscillator (AO), also known as Super AO
 permalink: /indicators/Awesome/
+type: oscillator
 layout: default
 ---
 

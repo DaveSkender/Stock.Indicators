@@ -1,6 +1,7 @@
 ---
 title: SuperTrend
 permalink: /indicators/SuperTrend/
+type: price-trend
 layout: default
 ---
 

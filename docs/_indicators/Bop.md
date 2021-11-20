@@ -1,6 +1,8 @@
 ---
 title: Balance of Power (BOP)
+description: Balance of Power (BOP) / Balance of Market Power
 permalink: /indicators/Bop/
+type: price-characteristic
 layout: default
 ---
 

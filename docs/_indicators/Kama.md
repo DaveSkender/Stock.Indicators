@@ -1,6 +1,7 @@
 ---
 title: Kaufman's Adaptive Moving Average (KAMA)
 permalink: /indicators/Kama/
+type: moving-average
 layout: default
 ---
 

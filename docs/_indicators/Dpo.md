@@ -1,6 +1,7 @@
 ---
 title: Detrended Price Oscillator (DPO)
 permalink: /indicators/Dpo/
+type: oscillator
 layout: default
 ---
 

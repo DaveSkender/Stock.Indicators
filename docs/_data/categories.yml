@@ -1,0 +1,27 @@
+- name: Price trends
+  type: price-trend
+- name: Price channels
+  type: price-channel
+- name: Oscillators
+  type: oscillator
+- name: Stop and reverse
+  type: stop-and-reverse
+- name: Candlestick patterns
+  type: candlestick-pattern
+  subcategories:
+  - name: Other price patterns
+    type: price-pattern
+- name: Volume-based
+  type: volume-based
+- name: Moving averages
+  type: moving-average
+- name: Price transforms
+  type: price-transform
+- name: Price characteristics
+  type: price-characteristic
+  subcategories:
+  - name: Numerical analysis
+    type: numerical-analysis
+
+
+

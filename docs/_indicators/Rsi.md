@@ -1,6 +1,7 @@
 ---
 title: Relative Strength Index (RSI)
 permalink: /indicators/Rsi/
+type: oscillator
 layout: default
 redirect_from:
  - /Indicators/Rsi/

@@ -1,6 +1,8 @@
 ---
 title: Elder-ray Index
+description: Elder-ray Index with Bull and Bear Power
 permalink: /indicators/ElderRay/
+type: price-trend
 layout: default
 ---
 

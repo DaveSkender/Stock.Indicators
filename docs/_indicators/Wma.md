@@ -1,6 +1,7 @@
 ---
 title: Weighted Moving Average (WMA)
 permalink: /indicators/Wma/
+type: moving-average
 layout: default
 ---
 

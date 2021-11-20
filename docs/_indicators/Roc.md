@@ -1,6 +1,8 @@
 ---
-title: Rate of Change (ROC) and Momentum Oscillator
+title: Rate of Change (ROC)
+description: Rate of Change (ROC), Momentum Oscillator, and ROC with Bands
 permalink: /indicators/Roc/
+type: price-characteristic
 layout: default
 ---
 

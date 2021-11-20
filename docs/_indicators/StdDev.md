@@ -1,6 +1,8 @@
 ---
 title: Standard Deviation (volatility)
+description: Standard Deviation, Historical Volatility (HV)
 permalink: /indicators/StdDev/
+type: numerical-analysis
 layout: default
 ---
 

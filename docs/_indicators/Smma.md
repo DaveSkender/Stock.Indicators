@@ -1,6 +1,8 @@
 ---
 title: Smoothed Moving Average (SMMA)
+description: Smoothed Moving Average (SMMA), Modified Moving Average (MMA), Running Moving Average (RMA)
 permalink: /indicators/Smma/
+type: moving-average
 layout: default
 ---
 
