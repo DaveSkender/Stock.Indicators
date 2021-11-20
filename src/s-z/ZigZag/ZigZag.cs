@@ -245,8 +245,11 @@ namespace Skender.Stock.Indicators
                 lastLowPoint.Value = nextPoint.Value;
             }
 
-            // nothing to do if first line or no-span case
-            if (priorPoint.Index == 1 || nextPoint.Index == priorPoint.Index)
+            // nothing to draw cases
+            if (
+                lastDirection == "U"    // first line skipped, single line
+             || priorPoint.Index == 1   // first line skipped, normal case
+             || nextPoint.Index == priorPoint.Index)  // no span
             {
                 return;
             }
