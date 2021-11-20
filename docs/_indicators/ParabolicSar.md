@@ -1,5 +1,5 @@
 ---
-title: Parabolic SAR (stop and reverse)
+title: Parabolic SAR
 permalink: /indicators/ParabolicSar/
 type: stop-and-reverse
 layout: default
