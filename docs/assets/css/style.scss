@@ -12,7 +12,7 @@ $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
 $color-primary-hover: #bdbdbd;
-$color-accent: #33691e; // includes headers
+$color-accent: #33691e; // headers, code comments
 $color-body-font: #424242;
 $color-code: #212121;
 $color-rouge: #f8f8f8; // code block backgrounds
@@ -131,7 +131,7 @@ h5 {
         // comments
         .c,
         .c1 {
-            color: #558b2f;
+            color: $color-accent;
         }
 
         // normal text and objects/types
