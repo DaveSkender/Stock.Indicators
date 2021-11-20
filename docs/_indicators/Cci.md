@@ -1,6 +1,7 @@
 ---
 title: Commodity Channel Index (CCI)
 permalink: /indicators/Cci/
+type: oscillator
 layout: default
 ---
 

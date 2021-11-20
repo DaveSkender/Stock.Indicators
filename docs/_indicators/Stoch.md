@@ -1,6 +1,8 @@
 ---
 title: Stochastic Oscillator
+description: Stochastic Oscillator and KDJ Index
 permalink: /indicators/Stoch/
+type: oscillator
 layout: default
 redirect_from:
  - /indicators/Stochastic/README.md

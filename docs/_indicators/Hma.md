@@ -1,6 +1,7 @@
 ---
 title: Hull Moving Average (HMA)
 permalink: /indicators/Hma/
+type: moving-average
 layout: default
 ---
 

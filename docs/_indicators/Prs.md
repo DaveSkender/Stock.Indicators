@@ -1,6 +1,7 @@
 ---
 title: Price Relative Strength (PRS)
 permalink: /indicators/Prs/
+type: price-characteristic
 layout: default
 ---
 

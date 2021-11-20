@@ -1,6 +1,8 @@
 ---
-title: Donchian Channels (Price Channels)
+title: Donchian Channels
+description: Donchian Channels (Price Channels)
 permalink: /indicators/Donchian/
+type: price-channel
 layout: default
 ---
 

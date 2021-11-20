@@ -1,6 +1,7 @@
 ---
 title: Simple Moving Average (SMA)
 permalink: /indicators/Sma/
+type: moving-average
 layout: default
 ---
 

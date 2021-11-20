@@ -1,6 +1,7 @@
 ---
 title: ConnorsRSI
 permalink: /indicators/ConnorsRsi/
+type: oscillator
 layout: default
 ---
 

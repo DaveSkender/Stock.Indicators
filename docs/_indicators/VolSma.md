@@ -1,6 +1,7 @@
 ---
 title: Volume Simple Moving Average
 permalink: /indicators/VolSma/
+type: moving-average
 layout: default
 ---
 

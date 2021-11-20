@@ -1,6 +1,7 @@
 ---
 title: Percentage Volume Oscillator (PVO)
 permalink: /indicators/Pvo/
+type: volume-based
 layout: default
 ---
 

@@ -1,6 +1,8 @@
 ---
 title: Endpoint Moving Average (EPMA)
+description: Endpoint Moving Average (EPMA) and Least Squares Moving Average (LSMA)
 permalink: /indicators/Epma/
+type: moving-average
 layout: default
 ---
 

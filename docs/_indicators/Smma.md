@@ -1,6 +1,7 @@
 ---
 title: Smoothed Moving Average (SMMA)
 permalink: /indicators/Smma/
+type: moving-average
 layout: default
 ---
 

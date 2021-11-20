@@ -8,6 +8,9 @@
   type: stop-and-reverse
 - name: Candlestick patterns
   type: candlestick-pattern
+  subcategories:
+  - name: Other price patterns
+    type: price-pattern
 - name: Volume-based
   type: volume-based
 - name: Moving averages

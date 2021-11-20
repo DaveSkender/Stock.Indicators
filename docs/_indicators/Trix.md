@@ -1,6 +1,7 @@
 ---
 title: Triple EMA Oscillator (TRIX)
 permalink: /indicators/Trix/
+type: oscillator
 layout: default
 ---
 

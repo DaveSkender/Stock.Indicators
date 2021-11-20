@@ -1,6 +1,7 @@
 ---
 title: Chaikin Oscillator
 permalink: /indicators/ChaikinOsc/
+type: volume-based
 layout: default
 ---
 

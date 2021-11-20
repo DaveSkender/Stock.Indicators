@@ -1,6 +1,7 @@
 ---
 title: On-Balance Volume (OBV)
 permalink: /indicators/Obv/
+type: volume-based
 layout: default
 ---
 

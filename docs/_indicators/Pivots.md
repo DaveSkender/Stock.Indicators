@@ -1,6 +1,7 @@
 ---
 title: Pivots
 permalink: /indicators/Pivots/
+type: price-pattern
 layout: default
 ---
 

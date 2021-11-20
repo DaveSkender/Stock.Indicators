@@ -1,6 +1,7 @@
 ---
 title: Ichimoku Cloud
 permalink: /indicators/Ichimoku/
+type: price-trend
 layout: default
 ---
 

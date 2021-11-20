@@ -1,6 +1,7 @@
 ---
 title: Force Index
 permalink: /indicators/ForceIndex/
+type: volume-based
 layout: default
 ---
 

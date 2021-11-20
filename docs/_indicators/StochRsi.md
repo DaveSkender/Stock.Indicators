@@ -1,6 +1,7 @@
 ---
 title: Stochastic RSI
 permalink: /indicators/StochRsi/
+type: oscillator
 layout: default
 ---
 

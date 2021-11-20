@@ -1,0 +1,43 @@
+- title: Bull and Bear Power
+  permalink: /indicators/ElderRay/
+  type: price-characteristic
+
+- title: Historical Volatility (HV)
+  permalink: /indicators/StdDev/
+  type: price-characteristic
+
+- title: KDJ Index
+  permalink: /indicators/Stoch/
+  type: oscillator
+
+- title: Least Squares Moving Average (LSMA)
+  permalink: /indicators/Epma/
+  type: moving-average
+
+- title: Momentum Oscillator
+  permalink: /indicators/Roc/
+  type: price-characteristic
+
+- title: Price Channels
+  permalink: /indicators/Donchian/
+  type: price-channel
+
+- title: R-Squared (Coefficient of Determination)
+  permalink: /indicators/Correlation/
+  type: numerical-analysis
+
+- title: Rescaled Range Analysis
+  permalink: /indicators/Hurst/
+  type: price-characteristic
+
+- title: ROC with Bands
+  permalink: /indicators/Roc/
+  type: oscillator
+
+- title: SuperTrend
+  permalink: /indicators/SuperTrend/
+  type: stop-and-reverse
+
+- title: Volume Simple Moving Average
+  permalink: /indicators/VolSma/
+  type: volume-based

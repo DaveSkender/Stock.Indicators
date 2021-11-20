@@ -1,6 +1,7 @@
 ---
 title: Williams Alligator
 permalink: /indicators/Alligator/
+type: price-trend
 layout: default
 ---
 

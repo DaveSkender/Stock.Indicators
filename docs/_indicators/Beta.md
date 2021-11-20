@@ -1,6 +1,8 @@
 ---
 title: Beta Coefficient
+description: Beta Coefficient with Beta+/Beta-
 permalink: /indicators/Beta/
+type: numerical-analysis
 layout: default
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Awesome Oscillator (AO)
 permalink: /indicators/Awesome/
+type: oscillator
 layout: default
 ---
 

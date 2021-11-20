@@ -19,8 +19,11 @@ redirect_from:
 {% for c in site.data.categories %}
   <h2 id="{{c.type}}">{{c.name}}</h2>
   <ul>
-    {% assign indicators = site.indicators | where: "type", c.type | sort: "title" %}
-    {% for i in indicators %}
+    {% assign indicators = site.indicators | where: "type", c.type %}
+    {% assign aliases = site.data.aliases | where: "type", c.type %}
+    {% assign all = indicators | concat: aliases | sort: "title" %}
+
+    {% for i in all %}
     <li><a href="{{i.permalink}}#content">{{i.title}}</a></li>
     {% endfor %}
   </ul>
@@ -29,8 +32,11 @@ redirect_from:
   {% for s in c.subcategories %}
     <h3 id="{{s.type}}">{{s.name}}</h3>
     <ul>
-    {% assign indicators = site.indicators | where: "type", s.type | sort: "title" %}
-    {% for i in indicators %}
+    {% assign indicators = site.indicators | where: "type", s.type %}
+    {% assign aliases = site.data.aliases | where: "type", s.type %}
+    {% assign all = indicators | concat: aliases | sort: "title" %}
+
+    {% for i in all %}
     <li><a href="{{i.permalink}}#content">{{i.title}}</a></li>
     {% endfor%}
     </ul>
