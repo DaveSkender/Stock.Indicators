@@ -6,3 +6,19 @@
   type: oscillator
 - name: Stop and reverse
   type: stop-and-reverse
+- name: Candlestick patterns
+  type: candlestick-pattern
+- name: Volume-based
+  type: volume-based
+- name: Moving averages
+  type: moving-average
+- name: Price transforms
+  type: price-transform
+- name: Price characteristics
+  type: price-characteristic
+  subcategories:
+  - name: Numerical analysis
+    type: numerical-analysis
+
+
+

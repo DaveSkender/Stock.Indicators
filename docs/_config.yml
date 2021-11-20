@@ -45,3 +45,4 @@ collections:
   indicators:
     output: true
     permalink: /:path/
+    sort_by: "title"
