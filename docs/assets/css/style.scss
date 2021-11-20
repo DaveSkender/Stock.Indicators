@@ -89,6 +89,14 @@ h5 {
         }
     }
 
+    // lists
+    ul,
+    ol {
+        li {
+            padding-bottom: 6px;
+        }
+    }
+
     // tables
     td,
     th { }
@@ -130,8 +138,7 @@ h5 {
         // and namespaces
         .n,
         .nn,
-        .gp
-        {
+        .gp {
             color: $color-code;
         }
 

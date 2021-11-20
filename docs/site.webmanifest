@@ -1,7 +1,6 @@
 {
     "name": "Stock Indicators for .NET",
-    "short_name": "",
-    "start_url": "https://daveskender.github.io/Stock.Indicators/",
+    "short_name": "Stock Indicators for .NET",
     "icons": [
         {
             "src": "/assets/icons/android-chrome-192x192.png",
@@ -22,6 +21,5 @@
     ],
     "theme_color": "#424242",
     "background_color": "#424242",
-    "display": "standalone",
-    "prefer_related_applications": "false"
+    "display": "standalone"
 }
