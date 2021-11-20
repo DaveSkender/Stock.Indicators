@@ -1,0 +1,8 @@
+- name: Price trends
+  type: price-trend
+- name: Price channels
+  type: price-channel
+- name: Oscillators
+  type: oscillator
+- name: Stop and reverse
+  type: stop-and-reverse

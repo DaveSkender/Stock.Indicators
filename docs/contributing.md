@@ -71,7 +71,7 @@ bundle exec jekyll serve
 
 When adding or updating indicators:
 
-- Add or update the `indicators.md` and `_config.yml` listings files (if needed) and the `/docs/_indicators` files for the individual indicator.
+- Add or update the indicator documentation `/docs/_indicators` files.
 - Page image assets go in the `/docs/assets/` folder.
 
 ## Submitting changes

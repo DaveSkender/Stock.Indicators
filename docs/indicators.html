@@ -3,11 +3,44 @@ title: Indicators and overlays
 permalink: /indicators/
 layout: default
 redirect_from:
- - /docs/INDICATORS.html
+- /docs/INDICATORS.html
 ---
 
-# {{ page.title }}
+<h1>{{ page.title }}</h1>
 
+<!-- table of contents -->
+<ul>
+  {% for c in site.data.categories %}
+  <li><a href="{{page.url}}#{{c.type}}">{{c.name}}</a></li>
+  {% endfor %}
+</ul>
+
+<!-- categories -->
+{% for c in site.data.categories %}
+  <h2 id="{{c.type}}">{{c.name}}</h2>
+  <ul>
+    {% for i in site.indicators %}
+    {% if i.type==c.type %}
+    <li><a href="{{i.permalink}}">{{i.title}}</a></li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+
+  <!-- subcategories -->
+  {% for s in c.subcategories %}
+    <h3 id="{{s.type}}">{{s.name}}</h3>
+    <ul>
+    {% for i in site.indicators %}
+    {% if i.type==s.type %}
+    <li><a href="{{i.permalink}}">{{i.title}}</a></li>
+    {% endif %}
+    </ul>
+    {% endfor%}
+  {% endfor %}
+
+{% endfor %}
+
+<!--
 - [Price trends](#price-trends)
 - [Price channels](#price-channels)
 - [Oscillators](#oscillators)
@@ -133,3 +166,4 @@ redirect_from:
 - [R-Squared (Coefficient of Determination)](../indicators/Correlation/#content)
 - [Slope and Linear Regression](../indicators/Slope/#content)
 - [Standard Deviation](../indicators/StdDev/#content)
+-->
