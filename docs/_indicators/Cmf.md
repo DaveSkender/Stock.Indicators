@@ -2,7 +2,7 @@
 title: Chaikin Money Flow (CMF)
 permalink: /indicators/Cmf/
 type: volume-based
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

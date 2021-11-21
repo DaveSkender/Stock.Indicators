@@ -2,7 +2,7 @@
 title: Volatility Stop
 permalink: /indicators/VolatilityStop/
 type: stop-and-reverse
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

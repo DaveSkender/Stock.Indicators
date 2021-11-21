@@ -2,7 +2,7 @@
 title: Heikin-Ashi
 permalink: /indicators/HeikinAshi/
 type: price-transform
-layout: default
+layout: indicator
 redirect_from:
  - /Indicators/HeikinAshi/
 ---

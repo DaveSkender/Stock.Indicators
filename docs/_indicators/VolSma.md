@@ -2,7 +2,7 @@
 title: Volume Simple Moving Average
 permalink: /indicators/VolSma/
 type: moving-average
-layout: default
+layout: indicator
 ---
 
 :warning: **Deprecation Warning!** `GetVolSma` is now redundant and will be removed from the library at the end of 2021.  It is replaced by [GetSma()](../Sma/#content) with a `CandlePart.Volume` specification.

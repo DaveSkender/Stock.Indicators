@@ -2,7 +2,7 @@
 title: Williams Fractal
 permalink: /indicators/Fractal/
 type: price-pattern
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

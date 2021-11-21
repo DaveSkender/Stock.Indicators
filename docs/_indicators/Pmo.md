@@ -2,7 +2,7 @@
 title: Price Momentum Oscillator (PMO)
 permalink: /indicators/Pmo/
 type: price-characteristic
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

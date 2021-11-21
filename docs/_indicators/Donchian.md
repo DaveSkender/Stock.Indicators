@@ -3,7 +3,7 @@ title: Donchian Channels
 description: Donchian Channels (Price Channels)
 permalink: /indicators/Donchian/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

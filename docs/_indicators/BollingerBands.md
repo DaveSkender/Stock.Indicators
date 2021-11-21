@@ -2,7 +2,7 @@
 title: Bollinger Bands&#174;
 permalink: /indicators/BollingerBands/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

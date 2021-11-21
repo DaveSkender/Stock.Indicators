@@ -2,7 +2,7 @@
 title: Exponential Moving Average (EMA)
 permalink: /indicators/Ema/
 type: moving-average
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}
@@ -29,7 +29,7 @@ IEnumerable<EmaResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
-| `candlePart` | CandlePart | Optional.  Specify the OHLCV candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
+| `candlePart` | CandlePart | Optional.  Specify the [OHLCV]({{site.baseurl}}/guide/#historical-quotes) candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
 
 ### Historical quotes requirements
 

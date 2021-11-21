@@ -83,7 +83,7 @@ More examples available:
 
 ## Historical quotes
 
-You must provide historical price quotes to the library in the standard OHLCV `IEnumerable<Quote>` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+You must provide historical price quotes to the library in the standard [OHLCV](https://acronyms.thefreedictionary.com/OHLCV) `IEnumerable<Quote>` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 | name | type | notes
 | -- |-- |--

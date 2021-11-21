@@ -2,7 +2,7 @@
 title: Moving Average Envelopes
 permalink: /indicators/MaEnvelopes/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

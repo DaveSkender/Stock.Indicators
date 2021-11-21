@@ -2,7 +2,7 @@
 title: Money Flow Index (MFI)
 permalink: /indicators/Mfi/
 type: volume-based
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

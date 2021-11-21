@@ -2,7 +2,7 @@
 title: Double Exponential Moving Average (DEMA)
 permalink: /indicators/DoubleEma/
 type: moving-average
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

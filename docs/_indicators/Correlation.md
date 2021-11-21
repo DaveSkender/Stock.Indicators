@@ -3,7 +3,7 @@ title: Correlation Coefficient
 description: Correlation Coefficient and R-Squared (Coefficient of Determination)
 permalink: /indicators/Correlation/
 type: numerical-analysis
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

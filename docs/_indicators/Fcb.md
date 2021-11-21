@@ -2,7 +2,7 @@
 title: Fractal Chaos Bands (FCB)
 permalink: /indicators/Fcb/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

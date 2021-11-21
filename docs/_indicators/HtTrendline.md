@@ -2,7 +2,7 @@
 title: Hilbert Transform Instantaneous Trendline
 permalink: /indicators/HtTrendline/
 type: moving-average
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

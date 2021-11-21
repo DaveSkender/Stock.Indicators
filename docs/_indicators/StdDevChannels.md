@@ -2,7 +2,7 @@
 title: Standard Deviation Channels
 permalink: /indicators/StdDevChannels/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

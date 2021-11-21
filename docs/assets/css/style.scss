@@ -12,15 +12,25 @@ $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
 $color-primary-hover: #bdbdbd;
-$color-accent: #33691e; // includes headers
+$color-accent: #33691e; // headers, code comments
 $color-body-font: #424242;
 $color-code: #212121;
 $color-rouge: #f8f8f8; // code block backgrounds
+
+$mobile-breakpoint: 376px;
+$minimum-screensize: 320px;
+
+@mixin mobile {
+    @media screen and (max-width: #{$mobile-breakpoint}) {
+        @content;
+    }
+}
 
 .page-header {
     padding: 10px;
     background-color: $color-primary;
     background-image: linear-gradient(120deg, $color-primary, $color-primary-dark);
+    min-width: $minimum-screensize;
 }
 
 .project-name {
@@ -44,7 +54,32 @@ $color-rouge: #f8f8f8; // code block backgrounds
     margin-top: 0;
 }
 
-.btn { }
+.btn {
+    @include small {
+        display: inline-block;
+        width: auto;
+        padding: 0.6rem 0.9rem;
+
+        + .btn {
+            margin-top: 0;
+            margin-left: 0;
+        }
+    }
+}
+
+.if-large {
+    display: inline;
+
+    @include small {
+        display: none;
+    }
+}
+
+.not-mobile {
+    @include mobile {
+        display: none;
+    }
+}
 
 h1 {
     font-size: 2rem;
@@ -63,6 +98,9 @@ h5 {
 }
 
 .main-content {
+    min-width: $minimum-screensize;
+    padding-top: 0;
+
     // base fonts
     color: $color-body-font;
 
@@ -75,8 +113,13 @@ h5 {
         color: $color-accent;
     }
 
+    h1 {
+        margin-top: 0;
+        padding-top: 32px;
+    }
+
     // paragraphs
-    p { }
+    // p { }
 
     // links
     a {
@@ -89,9 +132,16 @@ h5 {
         }
     }
 
+    // lists
+    ul,
+    ol {
+        li {
+            padding-bottom: 6px;
+        }
+    }
+
     // tables
-    td,
-    th { }
+    // td, th { }
 
     td {
         vertical-align: top;
@@ -123,15 +173,14 @@ h5 {
         // comments
         .c,
         .c1 {
-            color: #558b2f;
+            color: $color-accent;
         }
 
         // normal text and objects/types
         // and namespaces
         .n,
         .nn,
-        .gp
-        {
+        .gp {
             color: $color-code;
         }
 
@@ -169,6 +218,28 @@ h5 {
         .m {
             color: #d32f2f;
         }
+    }
+}
+
+// cyclotron (prev/next indicator nav)
+.cyclotron {
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 0.8;
+
+    a {
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    .prev {
+        float: left;
+    }
+    .next {
+        float: right;
     }
 }
 

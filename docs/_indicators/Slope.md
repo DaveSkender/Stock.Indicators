@@ -2,7 +2,7 @@
 title: Slope and Linear Regression
 permalink: /indicators/Slope/
 type: numerical-analysis
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}
