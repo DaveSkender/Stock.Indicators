@@ -19,7 +19,6 @@ jobs:
 
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
-        run: pwd
         with:
           working-directory: ${{ github.workspace }}/docs
           ruby-version: 2.7.0
