@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "pa11y-ci": "^2.4.2"
+  }
+}
