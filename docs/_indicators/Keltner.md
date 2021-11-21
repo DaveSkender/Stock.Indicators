@@ -2,7 +2,7 @@
 title: Keltner Channels
 permalink: /indicators/Keltner/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

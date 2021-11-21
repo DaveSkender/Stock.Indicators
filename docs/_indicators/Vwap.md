@@ -2,7 +2,7 @@
 title: Volume Weighted Average Price (VWAP)
 permalink: /indicators/Vwap/
 type: moving-average
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

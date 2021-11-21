@@ -2,7 +2,7 @@
 title: True Strength Index (TSI)
 permalink: /indicators/Tsi/
 type: price-characteristic
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

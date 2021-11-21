@@ -2,7 +2,7 @@
 title: Renko Chart
 permalink: /indicators/Renko/
 type: price-transform
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

@@ -2,7 +2,7 @@
 title: Williams %R
 permalink: /indicators/WilliamsR/
 type: oscillator
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

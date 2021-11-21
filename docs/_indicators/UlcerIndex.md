@@ -2,7 +2,7 @@
 title: Ulcer Index (UI)
 permalink: /indicators/UlcerIndex/
 type: price-characteristic
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

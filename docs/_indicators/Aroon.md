@@ -2,7 +2,7 @@
 title: Aroon
 permalink: /indicators/Aroon/
 type: price-trend
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

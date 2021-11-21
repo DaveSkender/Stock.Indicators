@@ -2,7 +2,7 @@
 title: Triple Exponential Moving Average (TEMA)
 permalink: /indicators/TripleEma/
 type: moving-average
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

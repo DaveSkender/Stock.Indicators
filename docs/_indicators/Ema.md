@@ -2,7 +2,7 @@
 title: Exponential Moving Average (EMA)
 permalink: /indicators/Ema/
 type: moving-average
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

@@ -2,7 +2,7 @@
 title: Average True Range (ATR)
 permalink: /indicators/Atr/
 type: price-characteristic
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

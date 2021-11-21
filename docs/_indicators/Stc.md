@@ -2,7 +2,7 @@
 title: Schaff Trend Cycle
 permalink: /indicators/Stc/
 type: oscillator
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

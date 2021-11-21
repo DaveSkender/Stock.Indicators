@@ -2,7 +2,7 @@
 title: Accumulation/Distribution Line (ADL)
 permalink: /indicators/Adl/
 type: volume-based
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

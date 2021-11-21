@@ -2,7 +2,7 @@
 title: ConnorsRSI
 permalink: /indicators/ConnorsRsi/
 type: oscillator
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

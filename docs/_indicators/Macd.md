@@ -2,7 +2,7 @@
 title: Moving Average Convergence/Divergence (MACD)
 permalink: /indicators/Macd/
 type: price-trend
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

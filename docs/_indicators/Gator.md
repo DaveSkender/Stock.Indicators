@@ -2,7 +2,7 @@
 title: Gator Oscillator
 permalink: /indicators/Gator/
 type: price-trend
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

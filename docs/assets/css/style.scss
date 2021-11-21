@@ -44,7 +44,7 @@ $color-rouge: #f8f8f8; // code block backgrounds
     margin-top: 0;
 }
 
-.btn { }
+// .btn { }
 
 h1 {
     font-size: 2rem;
@@ -63,6 +63,8 @@ h5 {
 }
 
 .main-content {
+    padding-top: 0;
+
     // base fonts
     color: $color-body-font;
 
@@ -75,8 +77,13 @@ h5 {
         color: $color-accent;
     }
 
+    h1 {
+        margin-top: 0;
+        padding-top: 32px;
+    }
+
     // paragraphs
-    p { }
+    // p { }
 
     // links
     a {
@@ -98,8 +105,7 @@ h5 {
     }
 
     // tables
-    td,
-    th { }
+    // td, th { }
 
     td {
         vertical-align: top;
@@ -176,6 +182,28 @@ h5 {
         .m {
             color: #d32f2f;
         }
+    }
+}
+
+// cyclotron (prev/next indicator nav)
+.cyclotron {
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 0.8;
+
+    a {
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    .prev {
+        float: left;
+    }
+    .next {
+        float: right;
     }
 }
 

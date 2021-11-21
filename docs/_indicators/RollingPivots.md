@@ -2,7 +2,7 @@
 title: Rolling Pivot Points
 permalink: /indicators/RollingPivots/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

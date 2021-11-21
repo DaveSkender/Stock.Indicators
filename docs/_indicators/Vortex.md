@@ -2,7 +2,7 @@
 title: Vortex Indicator (VI)
 permalink: /indicators/Vortex/
 type: price-trend
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

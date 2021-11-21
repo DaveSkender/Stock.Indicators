@@ -2,7 +2,7 @@
 title: Williams Alligator
 permalink: /indicators/Alligator/
 type: price-trend
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

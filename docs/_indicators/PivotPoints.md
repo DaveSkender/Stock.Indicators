@@ -2,7 +2,7 @@
 title: Pivot Points
 permalink: /indicators/PivotPoints/
 type: price-channel
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}

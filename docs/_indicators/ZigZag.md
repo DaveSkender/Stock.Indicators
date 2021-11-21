@@ -2,7 +2,7 @@
 title: Zig Zag
 permalink: /indicators/ZigZag/
 type: price-transform
-layout: default
+layout: indicator
 ---
 
 # {{ page.title }}
