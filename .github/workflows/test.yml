@@ -36,7 +36,6 @@ jobs:
           pwd
           ls -a
           BUNDLE_GEMFILE="${{ github.workspace }}/docs/GemFile" bundle install
-          bundle install
 
       - name: Build and start up jekyll server
         working-directory: docs
