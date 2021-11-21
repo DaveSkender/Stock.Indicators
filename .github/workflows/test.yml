@@ -30,7 +30,9 @@ jobs:
 
       - name: Install GEM dependencies
         working-directory: ${{ github.workspace }}/docs
-        run: bundle install
+        run:
+          echo $PATH
+          bundle install
 
       - name: Build and start up jekyll server
         working-directory: docs
