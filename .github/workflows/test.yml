@@ -24,8 +24,10 @@ jobs:
           ruby-version: 2.7.0
           bundler-cache: true
 
-      - name: Install NPM dependencies
-        run: npm install
+      - name: Install dependencies
+        run: |
+          npm install
+          bundle install
         working-directory: docs
 
       - name: Build and start up jekyll server
