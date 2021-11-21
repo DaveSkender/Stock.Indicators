@@ -11,11 +11,11 @@ Must follow cyclotron.html
     var content = document.getElementById('content');
 
     new Hammer(content).on('swipeleft', function (event) {
-        document.location.replace("{{site.baseurl}}{{next.url}}");
+        document.location.replace("{{site.baseurl}}{{next.url}}#content");
     });
 
     new Hammer(content).on('swiperight', function (event) {
-        document.location.replace("{{site.baseurl}}{{prev.url}}");
+        document.location.replace("{{site.baseurl}}{{prev.url}}#content");
     });
 </script>
 {% endif %}
