@@ -4,13 +4,9 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  test:
     name: a11y and URLs
     runs-on: ubuntu-latest
-    env:
-      LANG: en_US.UTF-8
-      LANGUAGE: en_US
-      LC_ALL: en_US.UTF-8
 
     steps:
       - name: Checkout source
@@ -26,24 +22,24 @@ jobs:
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
+          ruby-version: 2.7.0
           bundler-cache: true
+          working-directory: docs
 
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "14"
 
-      - name: Install dependencies
+      - name: Install NPM dependencies
         run: |
-          cd docs
           npm install
-          bundle install docs
 
       - name: Build and start up jekyll server
         run: |
-          cd docs
           bundle exec jekyll build
           bundle exec jekyll serve --detach
+        working-directory: docs
 
       - name: Test accessibility
         run: 'pa11y-ci --sitemap http://localhost:4000/sitemap.xml --sitemap-find https://daveskender.github.io/Stock.Indicators --sitemap-replace http://localhost:4000 --sitemap-exclude "/*.pdf"'
