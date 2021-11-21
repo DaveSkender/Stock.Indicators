@@ -20,7 +20,7 @@ jobs:
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: ${{ github.workspace }}/docs
+          working-directory: docs
           ruby-version: 2.7.0
           bundler-cache: true
 
@@ -31,18 +31,17 @@ jobs:
           npm install
 
       - name: Install GEM dependencies
-        working-directory: ${{ github.workspace }}/docs
+        working-directory: docs
         run: |
           pwd
-          ls -a
-          BUNDLE_GEMFILE="${{ github.workspace }}/docs/GemFile" bundle install
+          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle install
 
       - name: Build and start up jekyll server
         working-directory: docs
         run: |
           pwd
-          bundle exec jekyll build
-          bundle exec jekyll serve --detach
+          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll build
+          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll serve --detach
 
       - name: Test accessibility
         working-directory: docs
