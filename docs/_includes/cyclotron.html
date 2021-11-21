@@ -42,11 +42,7 @@ Assign variables from the entire indicators collection
     {% endfor %}
 
     <div class="cyclotron">
-        {% if prev %}
-            <a href="{{ prev.url | append: "#content"}}" class="prev" title="{{ prev.title }}">&#171;</a>
-        {% endif %}
-        {% if next %}
-            <a href="{{ next.url | append: "#content"}}" class="next" title="{{ next.title }}">&#187;</a>
-        {% endif %}
+    <a href="{{ prev.url | append: "#content"}}" class="prev" title="{{ prev.title }}">&#171;</a>
+    <a href="{{ next.url | append: "#content"}}" class="next" title="{{ next.title }}">&#187;</a>
     </div>
 {% endif %}
