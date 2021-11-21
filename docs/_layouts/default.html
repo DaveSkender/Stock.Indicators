@@ -26,7 +26,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#424242">
 
-{% if site.google_analytics %}
+{% if site.google_analytics and site.branch=="main" %}
 <script async src="https://www.googletagmanager.com/gtag/js?id={{site.google_analytics}}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
