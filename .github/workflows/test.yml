@@ -12,21 +12,21 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.0
-          bundler-cache: true
-          working-directory: docs
-
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "14"
 
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: ./docs
+          ruby-version: 2.7.0
+          bundler-cache: true
+
       - name: Install NPM dependencies
-        run: |
-          npm install
+        run: npm install
+        working-directory: docs
 
       - name: Build and start up jekyll server
         run: |
