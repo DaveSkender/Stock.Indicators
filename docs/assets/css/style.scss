@@ -17,10 +17,20 @@ $color-body-font: #424242;
 $color-code: #212121;
 $color-rouge: #f8f8f8; // code block backgrounds
 
+$mobile-breakpoint: 376px;
+$minimum-screensize: 320px;
+
+@mixin mobile {
+    @media screen and (max-width: #{$mobile-breakpoint}) {
+        @content;
+    }
+}
+
 .page-header {
     padding: 10px;
     background-color: $color-primary;
     background-image: linear-gradient(120deg, $color-primary, $color-primary-dark);
+    min-width: $minimum-screensize;
 }
 
 .project-name {
@@ -44,7 +54,32 @@ $color-rouge: #f8f8f8; // code block backgrounds
     margin-top: 0;
 }
 
-// .btn { }
+.btn {
+    @include small {
+        display: inline-block;
+        width: auto;
+        padding: 0.6rem 0.9rem;
+
+        + .btn {
+            margin-top: 0;
+            margin-left: 0;
+        }
+    }
+}
+
+.if-large {
+    display: inline;
+
+    @include small {
+        display: none;
+    }
+}
+
+.not-mobile {
+    @include mobile {
+        display: none;
+    }
+}
 
 h1 {
     font-size: 2rem;
@@ -63,6 +98,7 @@ h5 {
 }
 
 .main-content {
+    min-width: $minimum-screensize;
     padding-top: 0;
 
     // base fonts
