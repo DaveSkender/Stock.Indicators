@@ -18,7 +18,6 @@ $color-code: #212121;
 $color-rouge: #f8f8f8; // code block backgrounds
 
 $mobile-breakpoint: 376px;
-$minimum-screensize: 320px;
 
 @mixin mobile {
     @media screen and (max-width: #{$mobile-breakpoint}) {
@@ -30,7 +29,6 @@ $minimum-screensize: 320px;
     padding: 10px;
     background-color: $color-primary;
     background-image: linear-gradient(120deg, $color-primary, $color-primary-dark);
-    min-width: $minimum-screensize;
 }
 
 .project-name {
@@ -98,7 +96,6 @@ h5 {
 }
 
 .main-content {
-    min-width: $minimum-screensize;
     padding-top: 0;
 
     // base fonts
