@@ -45,14 +45,12 @@ jobs:
 
       - name: Test accessibility
         working-directory: docs
-        continue-on-error: true
         run: |
           pwd
-          'pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-find https://daveskender.github.io/Stock.Indicators --sitemap-replace http://127.0.0.1:4000 --sitemap-exclude "/*.pdf"'
+          pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 
       - name: Test for broken URLs
         working-directory: docs
-        continue-on-error: true
         run: |
           pwd
-          bundle exec htmlproofer --http-status-ignore "999" --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000" _site
+          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer --http-status-ignore "999" --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000" _site
