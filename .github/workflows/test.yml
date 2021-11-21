@@ -37,12 +37,16 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install NPM dependencies
-        run: npm install
+      - name: Install dependencies
+        run: |
+          npm install
+          bundle install
         working-directory: docs
 
       - name: Build and start up jekyll server
-        run: bundle exec jekyll build && bundle exec jekyll serve --detach
+        run: |
+          bundle exec jekyll build
+          bundle exec jekyll serve --detach
         working-directory: docs
 
       - name: Test accessibility
