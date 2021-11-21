@@ -37,7 +37,7 @@ jobs:
         run: |
           cd docs
           npm install
-          bundle install
+          bundle install docs
 
       - name: Build and start up jekyll server
         run: |
