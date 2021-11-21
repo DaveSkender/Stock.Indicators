@@ -34,6 +34,7 @@ jobs:
         working-directory: ${{ github.workspace }}/docs
         run: |
           pwd
+          ls -a
           bundle install
 
       - name: Build and start up jekyll server
