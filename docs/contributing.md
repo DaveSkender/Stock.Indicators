@@ -84,7 +84,7 @@ npm i -g pa11y-ci
 pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
 ```
 
-### Testing for brokern URLs
+### Testing for broken URLs
 
 ```bash
 cd docs

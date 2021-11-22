@@ -169,13 +169,15 @@ h5 {
 
         // comments
         .c,
-        .c1 {
+        .c1,
+        .go {
             color: $color-accent;
         }
 
         // normal text and objects/types
         // and namespaces
         .n,
+        .nb,
         .nn,
         .gp {
             color: $color-code;
@@ -199,6 +201,7 @@ h5 {
         }
 
         // normal commandline
+        .nv,
         .nx {
             color: $color-code;
         }
