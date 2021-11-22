@@ -16,4 +16,4 @@ Visit our project site for more information:
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
-- [Contributing](https://daveskender.github.io/Stock.Indicators/contributing/)
+- [Contributing](https://github.com/DaveSkender/Stock.Indicators/blob/main/docs/contributing.md#readme)

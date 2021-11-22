@@ -1,9 +1,10 @@
-# local dev: bundle exec jekyll serve
 source 'https://rubygems.org'
 
+# windows compatibilty pack
 gem 'wdm', '>= 0.1.1' if Gem.win_platform?
 
 # jekyll plugins
+# local dev: bundle exec jekyll serve
 group :jekyll_plugins do
   gem 'github-pages'
   gem 'jemoji'
@@ -12,3 +13,7 @@ group :jekyll_plugins do
   gem 'jekyll-last-modified-at' # used in sitemap
   gem 'jekyll-redirect-from'
 end
+
+# validate URLs with:
+# bundle exec htmlproofer --http-status-ignore '999' _site;
+gem "html-proofer", "~> 3.19"
