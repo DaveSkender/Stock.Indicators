@@ -71,8 +71,25 @@ bundle exec jekyll serve
 
 When adding or updating indicators:
 
-- Add or update the indicator documentation `/docs/_indicators` files.
-- Page image assets go in the `/docs/assets/` folder.
+- Add or update the `/docs/_indicators/` documentation files.
+- Page image assets go here: `/docs/assets/`.
+
+### Accessibility testing
+
+- use Lighthouse in Chrome, or
+- build the site locally (see above), then:
+
+```bash
+npm i -g pa11y-ci
+pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
+```
+
+### Testing for broken URLs
+
+```bash
+cd docs
+bundle exec htmlproofer _site
+```
 
 ## Submitting changes
 
