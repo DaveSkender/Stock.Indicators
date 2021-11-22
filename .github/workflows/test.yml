@@ -24,12 +24,6 @@ jobs:
           ruby-version: 2.7.0
           bundler-cache: true
 
-      - name: Install NPM dependencies
-        working-directory: docs
-        run: |
-          pwd
-          npm install
-
       - name: Install GEM dependencies
         working-directory: docs
         run: |
