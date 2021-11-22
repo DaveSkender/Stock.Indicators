@@ -52,4 +52,3 @@ jobs:
             --http-status-ignore "403,999"
             --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000"
             _site
-        if: succeeded() || failed()
