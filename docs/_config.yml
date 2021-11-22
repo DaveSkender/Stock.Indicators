@@ -25,6 +25,7 @@ exclude: [
   "*.yml", 
   "*.pptx",
   ".offline",
+  "contributing.md",
   "examples/Backtest",
   "examples/ConsoleApp",
   "examples/*.sln",
@@ -34,7 +35,6 @@ exclude: [
 ]
 
 include: [
-  "contributing.md",
   "guide.md",
   "indicators.html",
   "performance.md",
