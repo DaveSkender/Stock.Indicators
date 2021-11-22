@@ -12,11 +12,6 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -24,13 +19,13 @@ jobs:
           ruby-version: 2.7.0
           bundler-cache: true
 
-      - name: Install GEM dependencies
+      - name: Install GEMs
         working-directory: docs
         run: |
           pwd
           BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle install
 
-      - name: Build and start up jekyll server
+      - name: Build/serve site
         working-directory: docs
         run: |
           BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll build
