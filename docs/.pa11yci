@@ -3,6 +3,6 @@
     "concurrency": 4,
     "standard": "WCAG2AA",
     "runners": ["axe"],
-    "timeout": 200000
+    "timeout": 30000
   }
 }
