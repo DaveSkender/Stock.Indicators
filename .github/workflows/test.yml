@@ -40,15 +40,15 @@ jobs:
         working-directory: docs
         run: |
           npm i -g pa11y-ci
-          > pa11y-ci 
-            --sitemap http://127.0.0.1:4000/sitemap.xml 
+          pa11y-ci \
+            --sitemap http://127.0.0.1:4000/sitemap.xml \
             --sitemap-exclude "/*.pdf"
 
       - name: Test for broken URLs
         working-directory: docs
         run: |
-          > BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer 
-            --url-ignore "/"
-            --http-status-ignore "403,999"
-            --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000"
+          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer \
+            --url-ignore "/" \
+            --http-status-ignore "403,999" \
+            --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000" \
             _site
