@@ -37,7 +37,3 @@
 - title: SuperTrend
   permalink: /indicators/SuperTrend/
   type: stop-and-reverse
-
-- title: Volume Simple Moving Average
-  permalink: /indicators/VolSma/
-  type: volume-based
