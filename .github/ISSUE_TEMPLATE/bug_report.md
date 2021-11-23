@@ -6,9 +6,9 @@ labels: bug
 assignees: ''
 ---
 
-## the problem
+### the problem
 
-A clear and concise description of the bug.  If known, explain why you believe the problem is within this library.
+A clear and concise description of the bug and expected behavior.  If known, explain why you believe the problem is within this library.
 
 Error message(s):
 
@@ -16,15 +16,11 @@ Error message(s):
 # Include any error messages if available.
 ```
 
-## to reproduce
+### to reproduce
 
 1. What indicator and parameter arguments were used?
-2. Attach the historical quotes you used (as CSV or Excel file)
+2. Attach the historical quotes you used as JSON (preferred), CSV, or Excel file.
 
-## expected behavior
-
-A description of what you expected to happen.
-
-## screenshots or other reference materials
+### additional supporting info
 
 If applicable, add screenshots or other reference materials to help explain the problem.
