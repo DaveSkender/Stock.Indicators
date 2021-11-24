@@ -23,7 +23,7 @@ IEnumerable<SmiResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Lookback period (`N`) for the stochastic.  Must be greater than 0..
+| `lookbackPeriods` | int | Lookback period (`N`) for the stochastic.  Must be greater than 0.
 | `firstSmoothPeriods` | int | First smoothing factor lookback.  Must be greater than 0.
 | `secondSmoothPeriods` | int | Second smoothing factor lookback.  Must be greater than 0.
 | `signalPeriods` | int | Optional. EMA of SMI lookback periods.  Must be greater than 0. Default is 3.
@@ -52,7 +52,7 @@ IEnumerable<SmiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `SMI` | decimal | Stochastic Momentum Index
+| `Smi` | decimal | Stochastic Momentum Index
 | `Signal` | decimal | Signal line is an Exponential Moving Average (EMA) of SMI
 
 ### Utilities
