@@ -17,11 +17,6 @@ namespace Internal.Tests
             List<SmiResult> results = quotes.GetSmi(14, 20, 5, 3)
                 .ToList();
 
-            foreach (SmiResult r in results)
-            {
-                Console.WriteLine($"{r.Date},{r.Smi:N4},{r.Signal:N4}");
-            }
-
             // assertions
 
             // proper quantities
@@ -60,7 +55,6 @@ namespace Internal.Tests
             Assert.AreEqual(-54.1903m, Math.Round((decimal)r501.Signal, 4));
         }
 
-
         [TestMethod]
         public void NoSignal()
         {
@@ -75,7 +69,6 @@ namespace Internal.Tests
             SmiResult r2 = results[501];
             Assert.AreEqual(r2.Smi, r2.Signal);
         }
-
 
         [TestMethod]
         public void SmallPeriods()
