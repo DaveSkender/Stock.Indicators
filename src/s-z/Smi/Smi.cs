@@ -45,7 +45,7 @@ namespace Skender.Stock.Indicators
             decimal lastSignal = 0m;
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < size; i++)
             {
                 TQuote q = quotesList[i];
                 int index = i + 1;
@@ -170,13 +170,12 @@ namespace Skender.Stock.Indicators
                     "Signal periods must be greater than 0 for SMI.");
             }
 
-
             // check quotes
             int qtyHistory = quotes.Count();
             int minHistory = lookbackPeriods + 100;
             if (qtyHistory < minHistory)
             {
-                string message = "Insufficient quotes provided for Stochastic.  " +
+                string message = "Insufficient quotes provided for SMI.  " +
                     string.Format(EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistory, minHistory);
