@@ -1,6 +1,6 @@
 {
   "defaults": {
-    "concurrency": 1,
+    "concurrency": 4,
     "standard": "WCAG2AA",
     "runners": ["htmlcs"],
     "timeout": 30000
