@@ -1,6 +1,6 @@
 # local dev: bundle exec jekyll serve
 
-title: "Stock Indicators"
+title: "Stock Indicators for .NET"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
 
 # override built-in github url because it does not fetch in build tests

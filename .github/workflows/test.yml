@@ -1,10 +1,10 @@
-name: test
+name: test doc site
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  test:
+  testing:
     name: a11y and URLs
     runs-on: ubuntu-latest
 
