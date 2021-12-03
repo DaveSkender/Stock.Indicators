@@ -36,6 +36,11 @@ $mobile-breakpoint: 376px;
     font-size: 2rem;
     margin: 0;
 
+    // adjust for screen size
+    @include small {
+        font-size: 1.5rem;
+    }
+
     a {
         text-decoration: none;
         color: unset;
@@ -50,6 +55,11 @@ $mobile-breakpoint: 376px;
     font-size: 1rem;
     margin-bottom: 12px;
     margin-top: 0;
+
+    // adjust for screen size
+    @include small {
+        font-size: 0.9rem;
+    }
 }
 
 .btn {
@@ -223,23 +233,19 @@ h5 {
 
 // cyclotron (prev/next indicator nav)
 .cyclotron {
-    font-size: 2rem;
+    font-size: 2.4rem;
     font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     line-height: 0.8;
+    float: right;
 
     a {
         &:hover {
             text-decoration: none;
         }
     }
-    .prev {
-        float: left;
-    }
+    // .prev { }
     .next {
-        float: right;
+        padding-left: 1rem;
     }
 }
 

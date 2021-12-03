@@ -20,6 +20,8 @@ We are not accepting things that should be done in your own wrapper code:
 - Personal customizations and preferences
 - Modified or augmented outputs that are not instrinsic
 
+If you have general interest in contributing, but are not sure where to start, please [contact us](#contact-info) and we can help to find work in an area of your intests.
+
 ## Reporting bugs and feature requests
 
 If you are reporting a bug or suspect a problem, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem + include steps to reproduce, code samples, and any reference materials.  For new features, add a new Issue with the `enhancement` label.
@@ -28,13 +30,14 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 
 - Planned work is managed in [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
 - Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
-- Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area for general ideation and unrelated questions.
+- Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area for general ideation and help/usage questions.
 
 ## Developing
 
 - Read this first: [A Step by Step Guide to Making Your First GitHub Contribution](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940).  I also have a discussion [on Forking](https://github.com/DaveSkender/Stock.Indicators/discussions/503) if you have questions.
+- If you want to work on something specific, please mention your intention on the related [Issue](https://github.com/DaveSkender/Stock.Indicators/issues).  If an Issue does not exist for your contribution, please create one before starting.  This will help us reserve that feature and avoid duplicative efforts.
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include unit and performance tests.
-- Do not comingle multiple contributions.  Please keep changes small and separate.
+- Do not comingle multiple contributions on different topics.  Please keep changes small and separate.
 
 ## Testing
 
@@ -46,7 +49,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the repo documentation.  You can find the latest results [here](https://daveskender.github.io/Stock.Indicators/performance/).
+Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the [repo documentation](https://daveskender.github.io/Stock.Indicators/performance/).
 
 ```bash
 # run all performance benchmarks
@@ -80,8 +83,7 @@ When adding or updating indicators:
 - build the site locally (see above), then:
 
 ```bash
-npm i -g pa11y-ci
-pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
+npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
 ```
 
 ### Testing for broken URLs
