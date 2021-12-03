@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+
+  <type name="Main">
+    <summary>
+      Stochastic Momentum Index is a double-smoothed variant of the Stochastic Oscillator on a scale from -100 to 100.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smi/#content">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="lookbackPeriods">Number of periods for the Stochastic lookback.</param>
+    <param name="firstSmoothPeriods">Number of periods in the first smoothing.</param>
+    <param name="secondSmoothPeriods">Number of periods in the second smoothing.</param>
+    <param name="signalPeriods">Number of periods in the EMA of SMI.</param>
+    <returns>Time series of Stochastic Momentum Index values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+  </type>
+
+  <type name="Results">
+    <summary>
+      Stochastic indicator results outputs.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smi/#response">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <remarks>
+      <list type="table">
+        <item>
+          <term>Smi</term>
+          <description>Stochastic Momentum Index</description>
+        </item>
+        <item>
+          <term>Signal</term>
+          <description>Exponential moving average (EMA) of SMI</description>
+        </item>
+      </list>
+    </remarks>
+  </type>
+
+</indicator>
