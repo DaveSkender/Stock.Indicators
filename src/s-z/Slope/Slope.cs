@@ -52,7 +52,7 @@ namespace Skender.Stock.Indicators
                 {
                     TQuote d = quotesList[p];
 
-                    sumX += p + 1d;
+                    sumX += p + 1;
                     sumY += (double)d.Close;
                 }
 
@@ -68,7 +68,7 @@ namespace Skender.Stock.Indicators
                 {
                     TQuote d = quotesList[p];
 
-                    double devX = (p + 1d - avgX);
+                    double devX = (p + 1 - avgX);
                     double devY = ((double)d.Close - avgY);
 
                     sumSqX += devX * devX;

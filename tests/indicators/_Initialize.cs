@@ -20,6 +20,7 @@ namespace Internal.Tests
         internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
         internal static readonly IEnumerable<Quote> otherQuotes = TestData.GetCompare();
         internal static readonly IEnumerable<Quote> badQuotes = TestData.GetBad();
+        internal static readonly IEnumerable<Quote> tooBigQuotes = TestData.GetTooBig();
         internal static readonly IEnumerable<Quote> longishQuotes = TestData.GetLongish();
         internal static readonly IEnumerable<Quote> longestQuotes = TestData.GetLongest();
         internal static readonly IEnumerable<Quote> mismatchQuotes = TestData.GetMismatch();
