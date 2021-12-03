@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Internal.Tests;
@@ -222,6 +222,20 @@ namespace External.Other
                 RsiResult l = r.LastOrDefault();
                 Console.WriteLine("RSI({0}) on {1:d} with {2,4} periods: {3:N8}",
                     lookbackPeriods, l.Date, h.Count(), l.Rsi);
+            }
+        }
+
+        [TestMethod]
+        public void Smi()
+        {
+            foreach (int qty in convergeQuantities.Where(x => x <= 502))
+            {
+                IEnumerable<Quote> h = TestData.GetDefault(110 + qty);
+                IEnumerable<SmiResult> r = h.GetSmi(14, 20, 5, 3);
+
+                SmiResult l = r.LastOrDefault();
+                Console.WriteLine("SMI on {0:d} with {1,4} periods: {2:N8}",
+                    l.Date, h.Count(), l.Smi);
             }
         }
 

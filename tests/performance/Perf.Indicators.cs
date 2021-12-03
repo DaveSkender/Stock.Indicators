@@ -415,6 +415,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetSmi()
+        {
+            return h.GetSmi(5, 20, 5, 3);
+        }
+
+        [Benchmark]
         public object GetSmma()
         {
             return h.GetSmma(10);
