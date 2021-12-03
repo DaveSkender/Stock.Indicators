@@ -47,7 +47,7 @@ IEnumerable<EpmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Epma` | decimal | Endpoint moving average
+| `Epma` | double | Endpoint moving average
 
 ### Utilities
 

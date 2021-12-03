@@ -93,6 +93,17 @@ namespace Internal.Tests
                 .ToList();
         }
 
+        // BAD DATA
+        internal static IEnumerable<Quote> GetTooBig(int days = 1246)
+        {
+            return File.ReadAllLines("_common/data/toobig.csv")
+                .Skip(1)
+                .Select(v => Importer.QuoteFromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days)
+                .ToList();
+        }
+
         // BITCOIN DATA
         internal static IEnumerable<Quote> GetBitcoin(int days = 1246)
         {

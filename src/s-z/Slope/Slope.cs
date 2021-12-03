@@ -45,31 +45,31 @@ namespace Skender.Stock.Indicators
                 }
 
                 // get averages for period
-                decimal sumX = 0m;
-                decimal sumY = 0m;
+                double sumX = 0;
+                double sumY = 0;
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     TQuote d = quotesList[p];
 
-                    sumX += p + 1m;
-                    sumY += d.Close;
+                    sumX += p + 1d;
+                    sumY += (double)d.Close;
                 }
 
-                decimal avgX = sumX / lookbackPeriods;
-                decimal avgY = sumY / lookbackPeriods;
+                double avgX = sumX / lookbackPeriods;
+                double avgY = sumY / lookbackPeriods;
 
                 // least squares method
-                decimal sumSqX = 0m;
-                decimal sumSqY = 0m;
-                decimal sumSqXY = 0m;
+                double sumSqX = 0;
+                double sumSqY = 0;
+                double sumSqXY = 0;
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     TQuote d = quotesList[p];
 
-                    decimal devX = (p + 1m - avgX);
-                    decimal devY = (d.Close - avgY);
+                    double devX = (p + 1d - avgX);
+                    double devY = ((double)d.Close - avgY);
 
                     sumSqX += devX * devX;
                     sumSqY += devY * devY;

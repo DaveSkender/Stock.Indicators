@@ -23,7 +23,7 @@ IEnumerable<StdDevChannelsResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `quotes` evaluation window ([see below](#alternative-depiction-for-full-quotes-variant)).  Default is 20.
-| `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
+| `standardDeviations` | double | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
 
 ### Historical quotes requirements
 
@@ -49,9 +49,9 @@ IEnumerable<StdDevChannelsResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Centerline` | decimal | Linear regression line (center line)
-| `UpperChannel` | decimal | Upper line is `D` standard deviations above the center line
-| `LowerChannel` | decimal | Lower line is `D` standard deviations below the center line
+| `Centerline` | double | Linear regression line (center line)
+| `UpperChannel` | double | Upper line is `D` standard deviations above the center line
+| `LowerChannel` | double | Lower line is `D` standard deviations below the center line
 | `BreakPoint` | bool | Helper information.  Indicates first point in new window.
 
 ### Utilities

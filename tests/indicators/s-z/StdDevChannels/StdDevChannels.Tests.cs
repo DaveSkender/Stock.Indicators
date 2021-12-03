@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriods = 20;
-            decimal standardDeviations = 2;
+            double standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
                 quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
@@ -121,7 +121,7 @@ namespace Internal.Tests
         public void Removed()
         {
             int lookbackPeriods = 20;
-            decimal standardDeviations = 2;
+            double standardDeviations = 2;
 
             List<StdDevChannelsResult> results =
                 quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)

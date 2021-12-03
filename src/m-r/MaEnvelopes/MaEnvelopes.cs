@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
                 MaType.ALMA => quotes.MaEnvAlma(lookbackPeriods, offsetRatio),
                 MaType.DEMA => quotes.MaEnvDema(lookbackPeriods, offsetRatio),
                 MaType.EMA => quotes.MaEnvEma(lookbackPeriods, offsetRatio),
-                MaType.EPMA => quotes.MaEnvEpma(lookbackPeriods, offsetRatio),
+                MaType.EPMA => quotes.MaEnvEpma(lookbackPeriods, (double)offsetRatio),
                 MaType.HMA => quotes.MaEnvHma(lookbackPeriods, offsetRatio),
                 MaType.SMA => quotes.MaEnvSma(lookbackPeriods, offsetRatio),
                 MaType.SMMA => quotes.MaEnvSmma(lookbackPeriods, offsetRatio),
@@ -55,9 +55,9 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Alma,
-                UpperEnvelope = x.Alma + x.Alma * offsetRatio,
-                LowerEnvelope = x.Alma - x.Alma * offsetRatio
+                Centerline = (double?)x.Alma,
+                UpperEnvelope = (double?)(x.Alma + x.Alma * offsetRatio),
+                LowerEnvelope = (double?)(x.Alma - x.Alma * offsetRatio)
             });
         }
 
@@ -71,9 +71,9 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Dema,
-                UpperEnvelope = x.Dema + x.Dema * offsetRatio,
-                LowerEnvelope = x.Dema - x.Dema * offsetRatio
+                Centerline = (double?)x.Dema,
+                UpperEnvelope = (double?)(x.Dema + x.Dema * offsetRatio),
+                LowerEnvelope = (double?)(x.Dema - x.Dema * offsetRatio)
             });
         }
 
@@ -87,16 +87,16 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Ema,
-                UpperEnvelope = x.Ema + x.Ema * offsetRatio,
-                LowerEnvelope = x.Ema - x.Ema * offsetRatio
+                Centerline = (double?)x.Ema,
+                UpperEnvelope = (double?)(x.Ema + x.Ema * offsetRatio),
+                LowerEnvelope = (double?)(x.Ema - x.Ema * offsetRatio)
             });
         }
 
         private static IEnumerable<MaEnvelopeResult> MaEnvEpma<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods,
-            decimal offsetRatio)
+            double offsetRatio)
             where TQuote : IQuote
         {
             return quotes.GetEpma(lookbackPeriods)
@@ -119,9 +119,9 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Hma,
-                UpperEnvelope = x.Hma + x.Hma * offsetRatio,
-                LowerEnvelope = x.Hma - x.Hma * offsetRatio
+                Centerline = (double?)x.Hma,
+                UpperEnvelope = (double?)(x.Hma + x.Hma * offsetRatio),
+                LowerEnvelope = (double?)(x.Hma - x.Hma * offsetRatio)
             });
         }
 
@@ -135,9 +135,9 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Sma,
-                UpperEnvelope = x.Sma + x.Sma * offsetRatio,
-                LowerEnvelope = x.Sma - x.Sma * offsetRatio
+                Centerline = (double?)x.Sma,
+                UpperEnvelope = (double?)(x.Sma + x.Sma * offsetRatio),
+                LowerEnvelope = (double?)(x.Sma - x.Sma * offsetRatio)
             });
         }
 
@@ -151,9 +151,9 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Smma,
-                UpperEnvelope = x.Smma + x.Smma * offsetRatio,
-                LowerEnvelope = x.Smma - x.Smma * offsetRatio
+                Centerline = (double?)x.Smma,
+                UpperEnvelope = (double?)(x.Smma + x.Smma * offsetRatio),
+                LowerEnvelope = (double?)(x.Smma - x.Smma * offsetRatio)
             });
         }
 
@@ -167,9 +167,9 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Tema,
-                UpperEnvelope = x.Tema + x.Tema * offsetRatio,
-                LowerEnvelope = x.Tema - x.Tema * offsetRatio
+                Centerline = (double?)x.Tema,
+                UpperEnvelope = (double?)(x.Tema + x.Tema * offsetRatio),
+                LowerEnvelope = (double?)(x.Tema - x.Tema * offsetRatio)
             });
         }
 
@@ -183,9 +183,9 @@ namespace Skender.Stock.Indicators
             .Select(x => new MaEnvelopeResult
             {
                 Date = x.Date,
-                Centerline = x.Wma,
-                UpperEnvelope = x.Wma + x.Wma * offsetRatio,
-                LowerEnvelope = x.Wma - x.Wma * offsetRatio
+                Centerline = (double?)x.Wma,
+                UpperEnvelope = (double?)(x.Wma + x.Wma * offsetRatio),
+                LowerEnvelope = (double?)(x.Wma - x.Wma * offsetRatio)
             });
         }
 
