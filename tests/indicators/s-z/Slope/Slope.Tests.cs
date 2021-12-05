@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,32 +26,39 @@ namespace Internal.Tests
 
             // sample values
             SlopeResult r1 = results[249];
-            Assert.AreEqual(0.312406m, Math.Round((decimal)r1.Slope, 6));
-            Assert.AreEqual(180.4164m, Math.Round((decimal)r1.Intercept, 4));
-            Assert.AreEqual(0.8056m, Math.Round((decimal)r1.RSquared, 4));
-            Assert.AreEqual(2.0071m, Math.Round((decimal)r1.StdDev, 4));
+            Assert.AreEqual(0.312406, Math.Round((double)r1.Slope, 6));
+            Assert.AreEqual(180.4164, Math.Round((double)r1.Intercept, 4));
+            Assert.AreEqual(0.8056, Math.Round((double)r1.RSquared, 4));
+            Assert.AreEqual(2.0071, Math.Round((double)r1.StdDev, 4));
             Assert.AreEqual(null, r1.Line);
 
             SlopeResult r2 = results[482];
-            Assert.AreEqual(-0.337015m, Math.Round((decimal)r2.Slope, 6));
-            Assert.AreEqual(425.1111m, Math.Round((decimal)r2.Intercept, 4));
-            Assert.AreEqual(0.1730m, Math.Round((decimal)r2.RSquared, 4));
-            Assert.AreEqual(4.6719m, Math.Round((decimal)r2.StdDev, 4));
+            Assert.AreEqual(-0.337015, Math.Round((double)r2.Slope, 6));
+            Assert.AreEqual(425.1111, Math.Round((double)r2.Intercept, 4));
+            Assert.AreEqual(0.1730, Math.Round((double)r2.RSquared, 4));
+            Assert.AreEqual(4.6719, Math.Round((double)r2.StdDev, 4));
             Assert.AreEqual(267.9069m, Math.Round((decimal)r2.Line, 4));
 
             SlopeResult r3 = results[501];
-            Assert.AreEqual(-1.689143m, Math.Round((decimal)r3.Slope, 6));
-            Assert.AreEqual(1083.7629m, Math.Round((decimal)r3.Intercept, 4));
-            Assert.AreEqual(0.7955m, Math.Round((decimal)r3.RSquared, 4));
-            Assert.AreEqual(10.9202m, Math.Round((decimal)r3.StdDev, 4));
+            Assert.AreEqual(-1.689143, Math.Round((double)r3.Slope, 6));
+            Assert.AreEqual(1083.7629, Math.Round((double)r3.Intercept, 4));
+            Assert.AreEqual(0.7955, Math.Round((double)r3.RSquared, 4));
+            Assert.AreEqual(10.9202, Math.Round((double)r3.StdDev, 4));
             Assert.AreEqual(235.8131m, Math.Round((decimal)r3.Line, 4));
         }
 
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<SlopeResult> r = Indicator.GetSlope(badQuotes, 15);
+            IEnumerable<SlopeResult> r = badQuotes.GetSlope(15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void BigData()
+        {
+            IEnumerable<SlopeResult> r = bigQuotes.GetSlope(250);
+            Assert.AreEqual(1246, r.Count());
         }
 
         [TestMethod]
@@ -65,10 +72,10 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 19, results.Count);
 
             SlopeResult last = results.LastOrDefault();
-            Assert.AreEqual(-1.689143m, Math.Round((decimal)last.Slope, 6));
-            Assert.AreEqual(1083.7629m, Math.Round((decimal)last.Intercept, 4));
-            Assert.AreEqual(0.7955m, Math.Round((decimal)last.RSquared, 4));
-            Assert.AreEqual(10.9202m, Math.Round((decimal)last.StdDev, 4));
+            Assert.AreEqual(-1.689143, Math.Round((double)last.Slope, 6));
+            Assert.AreEqual(1083.7629, Math.Round((double)last.Intercept, 4));
+            Assert.AreEqual(0.7955, Math.Round((double)last.RSquared, 4));
+            Assert.AreEqual(10.9202, Math.Round((double)last.StdDev, 4));
             Assert.AreEqual(235.8131m, Math.Round((decimal)last.Line, 4));
         }
 

@@ -44,7 +44,7 @@ namespace Skender.Stock.Indicators
                     if (p >= 0)
                     {
                         StdDevChannelsResult d = results[p];
-                        d.Centerline = s.Slope * (p + 1) + s.Intercept;
+                        d.Centerline = (decimal?)(s.Slope * (p + 1) + s.Intercept);
 
                         decimal width = standardDeviations * (decimal)s.StdDev;
                         d.UpperChannel = d.Centerline + width;
