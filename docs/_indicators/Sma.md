@@ -97,6 +97,6 @@ IEnumerable<SmaExtendedResult> results =
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average
-| `Mad` | decimal | Mean absolute deviation
-| `Mse` | decimal | Mean square error
-| `Mape` | decimal | Mean absolute percentage error
+| `Mad` | double | Mean absolute deviation
+| `Mse` | double | Mean square error
+| `Mape` | double | Mean absolute percentage error
