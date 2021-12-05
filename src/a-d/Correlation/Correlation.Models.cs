@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 
 namespace Skender.Stock.Indicators
 {
     [Serializable]
     public class CorrResult : ResultBase
     {
-        public decimal? VarianceA { get; set; }
-        public decimal? VarianceB { get; set; }
-        public decimal? Covariance { get; set; }
-        public decimal? Correlation { get; set; }
-        public decimal? RSquared { get; set; }
+        public double? VarianceA { get; set; }
+        public double? VarianceB { get; set; }
+        public double? Covariance { get; set; }
+        public double? Correlation { get; set; }
+        public double? RSquared { get; set; }
     }
 }

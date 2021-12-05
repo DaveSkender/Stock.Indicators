@@ -28,16 +28,16 @@ namespace Internal.Tests
             Assert.IsNull(r18.RSquared);
 
             CorrResult r19 = results[19];
-            Assert.AreEqual(0.6933m, Math.Round((decimal)r19.Correlation, 4));
-            Assert.AreEqual(0.4806m, Math.Round((decimal)r19.RSquared, 4));
+            Assert.AreEqual(0.6933, Math.Round((double)r19.Correlation, 4));
+            Assert.AreEqual(0.4806, Math.Round((double)r19.RSquared, 4));
 
             CorrResult r257 = results[257];
-            Assert.AreEqual(-0.1347m, Math.Round((decimal)r257.Correlation, 4));
-            Assert.AreEqual(0.0181m, Math.Round((decimal)r257.RSquared, 4));
+            Assert.AreEqual(-0.1347, Math.Round((double)r257.Correlation, 4));
+            Assert.AreEqual(0.0181, Math.Round((double)r257.RSquared, 4));
 
             CorrResult r501 = results[501];
-            Assert.AreEqual(0.8460m, Math.Round((decimal)r501.Correlation, 4));
-            Assert.AreEqual(0.7157m, Math.Round((decimal)r501.RSquared, 4));
+            Assert.AreEqual(0.8460, Math.Round((double)r501.Correlation, 4));
+            Assert.AreEqual(0.7157, Math.Round((double)r501.RSquared, 4));
         }
 
         [TestMethod]
@@ -45,6 +45,13 @@ namespace Internal.Tests
         {
             IEnumerable<CorrResult> r = Indicator.GetCorrelation(badQuotes, badQuotes, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void BigData()
+        {
+            IEnumerable<CorrResult> r = Indicator.GetCorrelation(bigQuotes, bigQuotes, 150);
+            Assert.AreEqual(1246, r.Count());
         }
 
         [TestMethod]
@@ -59,8 +66,8 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 19, results.Count);
 
             CorrResult last = results.LastOrDefault();
-            Assert.AreEqual(0.8460m, Math.Round((decimal)last.Correlation, 4));
-            Assert.AreEqual(0.7157m, Math.Round((decimal)last.RSquared, 4));
+            Assert.AreEqual(0.8460, Math.Round((double)last.Correlation, 4));
+            Assert.AreEqual(0.7157, Math.Round((double)last.RSquared, 4));
         }
 
         [TestMethod]
