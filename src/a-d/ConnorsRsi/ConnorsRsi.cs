@@ -76,37 +76,37 @@ namespace Skender.Stock.Indicators
 
             int size = bdList.Count;
             List<ConnorsRsiResult> results = new(size);
-            decimal?[] gain = new decimal?[size];
+            double?[] gain = new double?[size];
 
             decimal? lastClose = null;
-            decimal streak = 0;
+            int streak = 0;
 
             // compose interim results
             for (int i = 0; i < size; i++)
             {
-                BasicData h = bdList[i];
+                BasicData q = bdList[i];
                 int index = i + 1;
 
-                ConnorsRsiResult result = new()
+                ConnorsRsiResult r = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                     RsiClose = rsiResults[i].Rsi
                 };
+                results.Add(r);
 
                 // bypass for first record
                 if (lastClose == null)
                 {
-                    lastClose = h.Value;
-                    results.Add(result);
+                    lastClose = q.Value;
                     continue;
                 }
 
                 // streak of up or down
-                if (h.Value == lastClose)
+                if (q.Value == lastClose)
                 {
                     streak = 0;
                 }
-                else if (h.Value > lastClose)
+                else if (q.Value > lastClose)
                 {
                     if (streak >= 0)
                     {
@@ -129,13 +129,11 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-                result.Streak = streak;
+                r.Streak = streak;
 
                 // percentile rank
                 gain[i] = (lastClose <= 0) ? null
-                        : (decimal)(h.Value - lastClose) / lastClose;
-
-                results.Add(result);
+                        : (double?)((q.Value - lastClose) / lastClose);
 
                 if (index > rankPeriods)
                 {
@@ -148,11 +146,10 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    result.PercentRank = 100m * qty / rankPeriods;
+                    r.PercentRank = 100m * qty / rankPeriods;
                 }
 
-
-                lastClose = h.Value;
+                lastClose = q.Value;
             }
 
             return results;

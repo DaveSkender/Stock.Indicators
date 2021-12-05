@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Skender.Stock.Indicators
 {
@@ -11,6 +11,6 @@ namespace Skender.Stock.Indicators
         public decimal? ConnorsRsi { get; set; }
 
         // internal use only
-        internal decimal? Streak { get; set; }
+        internal int? Streak { get; set; }
     }
 }
