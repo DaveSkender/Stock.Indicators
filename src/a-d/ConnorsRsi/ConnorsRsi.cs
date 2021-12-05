@@ -132,8 +132,8 @@ namespace Skender.Stock.Indicators
                 result.Streak = streak;
 
                 // percentile rank
-                gain[i] = (lastClose == 0) ? null
-                    : (decimal)((lastClose <= 0) ? null : (h.Value - lastClose) / lastClose);
+                gain[i] = (lastClose <= 0) ? null
+                        : (decimal)(h.Value - lastClose) / lastClose;
 
                 results.Add(result);
 

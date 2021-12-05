@@ -391,6 +391,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetRollingPivots()
+        {
+            return h.GetRollingPivots(14, 1);
+        }
+
+        [Benchmark]
         public object GetRsi()
         {
             return h.GetRsi();
