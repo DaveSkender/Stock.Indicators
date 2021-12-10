@@ -16,7 +16,8 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            List<BasicDouble> quotesList =
+                quotes.ConvertToBasicDouble(CandlePart.Close);
 
             // check parameter arguments
             ValidateHurst(quotes, lookbackPeriods);
@@ -29,7 +30,7 @@ namespace Skender.Stock.Indicators
             for (int i = 0; i < size; i++)
             {
                 int index = i + 1;
-                TQuote q = quotesList[i];
+                BasicDouble q = quotesList[i];
 
                 HurstResult result = new()
                 {
@@ -45,9 +46,9 @@ namespace Skender.Stock.Indicators
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         // compile return values
-                        if (quotesList[p - 1].Close != 0)
+                        if (quotesList[p - 1].Value != 0)
                         {
-                            values[x] = (double)(quotesList[p].Close / quotesList[p - 1].Close - 1);
+                            values[x] = quotesList[p].Value / quotesList[p - 1].Value - 1;
                         }
 
                         x++;

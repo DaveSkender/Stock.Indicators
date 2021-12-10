@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,13 +27,13 @@ namespace Internal.Tests
             Assert.AreEqual(null, r1.Rsi);
 
             RsiResult r2 = results[14];
-            Assert.AreEqual(62.0541m, Math.Round((decimal)r2.Rsi, 4));
+            Assert.AreEqual(62.0541, Math.Round((double)r2.Rsi, 4));
 
             RsiResult r3 = results[249];
-            Assert.AreEqual(70.9368m, Math.Round((decimal)r3.Rsi, 4));
+            Assert.AreEqual(70.9368, Math.Round((double)r3.Rsi, 4));
 
             RsiResult r4 = results[501];
-            Assert.AreEqual(42.0773m, Math.Round((decimal)r4.Rsi, 4));
+            Assert.AreEqual(42.0773, Math.Round((double)r4.Rsi, 4));
         }
 
         [TestMethod]
@@ -52,10 +52,25 @@ namespace Internal.Tests
 
             // sample values
             RsiResult r1 = results[28];
-            Assert.AreEqual(100m, Math.Round((decimal)r1.Rsi, 4));
+            Assert.AreEqual(100, r1.Rsi);
 
             RsiResult r2 = results[52];
-            Assert.AreEqual(0m, Math.Round((decimal)r2.Rsi, 4));
+            Assert.AreEqual(0, r2.Rsi);
+        }
+
+        [TestMethod]
+        public void CrytoData()
+        {
+            IEnumerable<Quote> btc = TestData.GetBitcoin();
+            IEnumerable<RsiResult> r = btc.GetRsi(1);
+            Assert.AreEqual(1246, r.Count());
+        }
+
+        [TestMethod]
+        public void BadData()
+        {
+            IEnumerable<RsiResult> r = badQuotes.GetRsi(20);
+            Assert.AreEqual(502, r.Count());
         }
 
         [TestMethod]
@@ -80,13 +95,6 @@ namespace Internal.Tests
         }
 
         [TestMethod]
-        public void BadData()
-        {
-            IEnumerable<RsiResult> r = Indicator.GetRsi(badQuotes, 20);
-            Assert.AreEqual(502, r.Count());
-        }
-
-        [TestMethod]
         public void Removed()
         {
             List<RsiResult> results = quotes.GetRsi(14)
@@ -97,7 +105,7 @@ namespace Internal.Tests
             Assert.AreEqual(502 - (10 * 14), results.Count);
 
             RsiResult last = results.LastOrDefault();
-            Assert.AreEqual(42.0773m, Math.Round((decimal)last.Rsi, 4));
+            Assert.AreEqual(42.0773, Math.Round((double)last.Rsi, 4));
         }
 
         [TestMethod]

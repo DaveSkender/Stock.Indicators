@@ -146,7 +146,7 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    r.PercentRank = 100m * qty / rankPeriods;
+                    r.PercentRank = 100 * qty / rankPeriods;
                 }
 
                 lastClose = q.Value;

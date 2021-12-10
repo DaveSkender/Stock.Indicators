@@ -97,7 +97,7 @@ namespace Skender.Stock.Indicators
 
                     if (avgLoss > 0)
                     {
-                        decimal rs = avgGain / avgLoss;
+                        double rs = (double)(avgGain / avgLoss);
                         r.Rsi = 100 - (100 / (1 + rs));
                     }
                     else
@@ -120,7 +120,7 @@ namespace Skender.Stock.Indicators
                     avgGain = sumGain / lookbackPeriods;
                     avgLoss = sumLoss / lookbackPeriods;
 
-                    r.Rsi = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
+                    r.Rsi = (avgLoss > 0) ? 100 - (100 / (1 + (double)(avgGain / avgLoss))) : 100;
                 }
             }
 
