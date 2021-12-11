@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,11 +25,11 @@ namespace Internal.Tests
             // sample values
             Assert.IsNull(r[12].ForceIndex);
 
-            Assert.AreEqual(10668240.778m, Math.Round(r[13].ForceIndex.Value, 3));
-            Assert.AreEqual(15883211.364m, Math.Round(r[24].ForceIndex.Value, 3));
-            Assert.AreEqual(7598218.196m, Math.Round(r[149].ForceIndex.Value, 3));
-            Assert.AreEqual(23612118.994m, Math.Round(r[249].ForceIndex.Value, 3));
-            Assert.AreEqual(-16824018.428m, Math.Round(r[501].ForceIndex.Value, 3));
+            Assert.AreEqual(10668240.778, Math.Round(r[13].ForceIndex.Value, 3));
+            Assert.AreEqual(15883211.364, Math.Round(r[24].ForceIndex.Value, 3));
+            Assert.AreEqual(7598218.196, Math.Round(r[149].ForceIndex.Value, 3));
+            Assert.AreEqual(23612118.994, Math.Round(r[249].ForceIndex.Value, 3));
+            Assert.AreEqual(-16824018.428, Math.Round(r[501].ForceIndex.Value, 3));
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace Internal.Tests
             Assert.AreEqual(502 - (13 + 100), results.Count);
 
             ForceIndexResult last = results.LastOrDefault();
-            Assert.AreEqual(-16824018.428m, Math.Round(last.ForceIndex.Value, 3));
+            Assert.AreEqual(-16824018.428, Math.Round(last.ForceIndex.Value, 3));
         }
 
         [TestMethod]

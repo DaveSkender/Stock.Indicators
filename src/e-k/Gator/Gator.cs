@@ -24,10 +24,10 @@ namespace Skender.Stock.Indicators
                     Date = x.Date,
 
                     Upper = ((x.Jaw - x.Teeth) is null) ? null :
-                    Math.Abs(x.Jaw.Value - x.Teeth.Value),
+                    (double)Math.Abs(x.Jaw.Value - x.Teeth.Value),
 
                     Lower = ((x.Teeth - x.Lips) is null) ? null :
-                    -Math.Abs(x.Teeth.Value - x.Lips.Value)
+                    -(double)Math.Abs(x.Teeth.Value - x.Lips.Value)
                 })
                 .ToList();
 
