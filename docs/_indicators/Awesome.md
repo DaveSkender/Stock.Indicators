@@ -48,8 +48,8 @@ IEnumerable<AwesomeResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Oscillator` | decimal | Awesome Oscillator
-| `Normalized` | decimal | `100 × Oscillator ÷ (median price)`
+| `Oscillator` | double | Awesome Oscillator
+| `Normalized` | double | `100 × Oscillator ÷ (median price)`
 
 ### Utilities
 
