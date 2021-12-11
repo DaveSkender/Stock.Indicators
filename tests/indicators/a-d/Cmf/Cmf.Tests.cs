@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,19 +23,19 @@ namespace Internal.Tests
 
             // sample values
             CmfResult r1 = results[49];
-            Assert.AreEqual(0.5468m, Math.Round(r1.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(55609259m, Math.Round(r1.MoneyFlowVolume, 2));
-            Assert.AreEqual(0.350596m, Math.Round((decimal)r1.Cmf, 6));
+            Assert.AreEqual(0.5468, Math.Round(r1.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(55609259, Math.Round(r1.MoneyFlowVolume, 2));
+            Assert.AreEqual(0.350596, Math.Round((double)r1.Cmf, 6));
 
             CmfResult r2 = results[249];
-            Assert.AreEqual(0.7778m, Math.Round(r2.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(36433792.89m, Math.Round(r2.MoneyFlowVolume, 2));
-            Assert.AreEqual(-0.040226m, Math.Round((decimal)r2.Cmf, 6));
+            Assert.AreEqual(0.7778, Math.Round(r2.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(36433792.89, Math.Round(r2.MoneyFlowVolume, 2));
+            Assert.AreEqual(-0.040226, Math.Round((double)r2.Cmf, 6));
 
             CmfResult r3 = results[501];
-            Assert.AreEqual(0.8052m, Math.Round(r3.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(r3.MoneyFlowVolume, 2));
-            Assert.AreEqual(-0.123754m, Math.Round((decimal)r3.Cmf, 6));
+            Assert.AreEqual(0.8052, Math.Round(r3.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25, Math.Round(r3.MoneyFlowVolume, 2));
+            Assert.AreEqual(-0.123754, Math.Round((double)r3.Cmf, 6));
         }
 
         [TestMethod]
@@ -43,6 +43,13 @@ namespace Internal.Tests
         {
             IEnumerable<CmfResult> r = Indicator.GetCmf(badQuotes, 15);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void BigData()
+        {
+            IEnumerable<CmfResult> r = Indicator.GetCmf(bigQuotes, 150);
+            Assert.AreEqual(1246, r.Count());
         }
 
         [TestMethod]
@@ -56,9 +63,9 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 19, results.Count);
 
             CmfResult last = results.LastOrDefault();
-            Assert.AreEqual(0.8052m, Math.Round(last.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(last.MoneyFlowVolume, 2));
-            Assert.AreEqual(-0.123754m, Math.Round((decimal)last.Cmf, 6));
+            Assert.AreEqual(0.8052, Math.Round(last.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25, Math.Round(last.MoneyFlowVolume, 2));
+            Assert.AreEqual(-0.123754, Math.Round((double)last.Cmf, 6));
         }
 
         [TestMethod]
