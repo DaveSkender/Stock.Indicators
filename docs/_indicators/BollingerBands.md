@@ -23,7 +23,7 @@ IEnumerable<BollingerBandsResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
-| `standardDeviations` | int | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
+| `standardDeviations` | double | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
 
 ### Historical quotes requirements
 
@@ -50,9 +50,9 @@ IEnumerable<BollingerBandsResult>
 | `Sma` | decimal | Simple moving average (SMA) of Close price (center line)
 | `UpperBand` | decimal | Upper line is `D` standard deviations above the SMA
 | `LowerBand` | decimal | Lower line is `D` standard deviations below the SMA
-| `PercentB` | decimal | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)`
-| `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
-| `Width` | decimal | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
+| `PercentB` | double | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)`
+| `ZScore` | double | Z-Score of current Close price (number of standard deviations from mean)
+| `Width` | double | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
 
 ### Utilities
 

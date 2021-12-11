@@ -47,7 +47,7 @@ IEnumerable<BopResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Bop` | decimal | Balance of Power
+| `Bop` | double | Balance of Power
 
 ### Utilities
 
