@@ -553,6 +553,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetVwma()
+        {
+            return h.GetVwma(14);
+        }
+
+        [Benchmark]
         public object GetWilliamsR()
         {
             return h.GetWilliamsR();
