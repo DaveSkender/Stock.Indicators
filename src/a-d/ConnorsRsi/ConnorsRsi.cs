@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
 
             // check parameter arguments
             ValidateConnorsRsi(bdList, rsiPeriods, streakPeriods, rankPeriods);
@@ -28,9 +28,9 @@ namespace Skender.Stock.Indicators
             int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             // RSI of streak
-            List<BasicData> bdStreak = results
+            List<BasicDouble> bdStreak = results
                 .Where(x => x.Streak != null)
-                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Streak })
+                .Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Streak })
                 .ToList();
 
             List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);
@@ -69,7 +69,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
-            List<BasicData> bdList, int rsiPeriods, int rankPeriods)
+            List<BasicDouble> bdList, int rsiPeriods, int rankPeriods)
         {
             // initialize
             List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods);
@@ -78,13 +78,13 @@ namespace Skender.Stock.Indicators
             List<ConnorsRsiResult> results = new(size);
             double?[] gain = new double?[size];
 
-            decimal? lastClose = null;
+            double? lastClose = null;
             int streak = 0;
 
             // compose interim results
             for (int i = 0; i < size; i++)
             {
-                BasicData q = bdList[i];
+                BasicDouble q = bdList[i];
                 int index = i + 1;
 
                 ConnorsRsiResult r = new()
@@ -133,7 +133,7 @@ namespace Skender.Stock.Indicators
 
                 // percentile rank
                 gain[i] = (lastClose <= 0) ? null
-                        : (double?)((q.Value - lastClose) / lastClose);
+                        : (q.Value - lastClose) / lastClose;
 
                 if (index > rankPeriods)
                 {
@@ -157,7 +157,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateConnorsRsi(
-            IEnumerable<BasicData> quotes,
+            IEnumerable<BasicDouble> quotes,
             int rsiPeriods,
             int streakPeriods,
             int rankPeriods)

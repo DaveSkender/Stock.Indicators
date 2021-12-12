@@ -46,8 +46,8 @@ IEnumerable<VortexResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Pvi` | decimal | Positive Vortex Indicator (VI+)
-| `Nvi` | decimal | Negative Vortex Indicator (VI-)
+| `Pvi` | double | Positive Vortex Indicator (VI+)
+| `Nvi` | double | Negative Vortex Indicator (VI-)
 
 ### Utilities
 
