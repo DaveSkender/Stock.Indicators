@@ -22,8 +22,8 @@ IEnumerable<MamaResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `fastLimit` | decimal | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
-| `slowLimit` | decimal | Slow limit threshold.  Must be greater than 0.  Default is 0.05.
+| `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
+| `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05.
 
 ### Historical quotes requirements
 

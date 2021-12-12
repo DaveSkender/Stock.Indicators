@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 
 namespace Skender.Stock.Indicators
 {
     [Serializable]
     public class ObvResult : ResultBase
     {
-        public decimal Obv { get; set; }
-        public decimal? ObvSma { get; set; }
+        public double Obv { get; set; }
+        public double? ObvSma { get; set; }
     }
 }

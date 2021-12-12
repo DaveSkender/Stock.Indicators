@@ -50,7 +50,7 @@ IEnumerable<KamaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `ER`   | decimal | Efficiency Ratio is the fractal efficiency of price changes
+| `ER`   | double | Efficiency Ratio is the fractal efficiency of price changes
 | `Kama` | decimal | Kaufman's adaptive moving average
 
 More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` periods. ER would be zero if prices are unchanged over the `erPeriods` periods.

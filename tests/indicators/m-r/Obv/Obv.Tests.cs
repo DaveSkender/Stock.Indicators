@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,11 +24,11 @@ namespace Internal.Tests
 
             // sample values
             ObvResult r1 = results[249];
-            Assert.AreEqual(1780918888m, r1.Obv);
+            Assert.AreEqual(1780918888, r1.Obv);
             Assert.AreEqual(null, r1.ObvSma);
 
             ObvResult r2 = results[501];
-            Assert.AreEqual(539843504m, r2.Obv);
+            Assert.AreEqual(539843504, r2.Obv);
             Assert.AreEqual(null, r2.ObvSma);
         }
 
@@ -47,7 +47,7 @@ namespace Internal.Tests
             // sample values
             ObvResult r1 = results[501];
             Assert.AreEqual(539843504, r1.Obv);
-            Assert.AreEqual(1016208844.40m, r1.ObvSma);
+            Assert.AreEqual(1016208844.40, r1.ObvSma);
         }
 
         [TestMethod]
@@ -70,8 +70,15 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ObvResult> r = Indicator.GetObv(badQuotes);
+            IEnumerable<ObvResult> r = badQuotes.GetObv();
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void BigData()
+        {
+            IEnumerable<ObvResult> r = bigQuotes.GetObv();
+            Assert.AreEqual(1246, r.Count());
         }
 
         [TestMethod]
