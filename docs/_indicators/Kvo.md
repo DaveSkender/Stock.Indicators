@@ -50,8 +50,8 @@ IEnumerable<KvoResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Oscillator` | decimal | Klinger Oscillator
-| `Signal` | decimal | EMA of Klinger Oscillator (signal line)
+| `Oscillator` | double | Klinger Oscillator
+| `Signal` | double | EMA of Klinger Oscillator (signal line)
 
 ### Utilities
 

@@ -52,10 +52,10 @@ IEnumerable<StdDevResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `StdDev` | decimal | Standard Deviation of Close price over `N` lookback periods
-| `Mean` | decimal | Mean value of Close price over `N` lookback periods
-| `ZScore` | decimal | Z-Score of current Close price (number of standard deviations from mean)
-| `StdDevSma` | decimal | Moving average (SMA) of STDDEV based on `smaPeriods` periods, if specified
+| `StdDev` | double | Standard Deviation of Close price over `N` lookback periods
+| `Mean` | double | Mean value of Close price over `N` lookback periods
+| `ZScore` | double | Z-Score of current Close price (number of standard deviations from mean)
+| `StdDevSma` | double | Moving average (SMA) of STDDEV based on `smaPeriods` periods, if specified
 
 ### Utilities
 

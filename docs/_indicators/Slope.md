@@ -48,8 +48,8 @@ IEnumerable<SlopeResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Slope` | decimal | Slope `m` of the best-fit line of Close price
-| `Intercept` | decimal | Y-Intercept `b` of the best-fit line
+| `Slope` | double | Slope `m` of the best-fit line of Close price
+| `Intercept` | double | Y-Intercept `b` of the best-fit line
 | `StdDev` | double | Standard Deviation of Close price over `N` lookback periods
 | `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination
 | `Line` | decimal | Best-fit line `y` over the last 'N' periods (i.e. `y=mx+b` using last period values)

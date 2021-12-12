@@ -34,15 +34,15 @@ namespace Skender.Stock.Indicators
             int size = quotesList.Count;
             List<SmiResult> results = new(size);
 
-            decimal k1 = 2m / (firstSmoothPeriods + 1m);
-            decimal k2 = 2m / (secondSmoothPeriods + 1m);
-            decimal kS = 2m / (signalPeriods + 1m);
+            double k1 = 2d / (firstSmoothPeriods + 1);
+            double k2 = 2d / (secondSmoothPeriods + 1);
+            double kS = 2d / (signalPeriods + 1);
 
-            decimal lastSmEma1 = 0m;
-            decimal lastSmEma2 = 0m;
-            decimal lastHlEma1 = 0m;
-            decimal lastHlEma2 = 0m;
-            decimal lastSignal = 0m;
+            double lastSmEma1 = 0;
+            double lastSmEma2 = 0;
+            double lastHlEma1 = 0;
+            double lastHlEma2 = 0;
+            double lastSignal = 0;
 
             // roll through quotes
             for (int i = 0; i < size; i++)
@@ -75,8 +75,8 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    decimal sm = q.Close - 0.5m * (HH + LL);
-                    decimal hl = HH - LL;
+                    double sm = (double)(q.Close - 0.5m * (HH + LL));
+                    double hl = (double)(HH - LL);
 
                     // initialize last EMA values
                     if (index == lookbackPeriods)
@@ -88,31 +88,33 @@ namespace Skender.Stock.Indicators
                     }
 
                     // first smoothing
-                    decimal smEma1 = lastSmEma1 + k1 * (sm - lastSmEma1);
-                    decimal hlEma1 = lastHlEma1 + k1 * (hl - lastHlEma1);
+                    double smEma1 = lastSmEma1 + k1 * (sm - lastSmEma1);
+                    double hlEma1 = lastHlEma1 + k1 * (hl - lastHlEma1);
 
                     // second smoothing
-                    decimal smEma2 = lastSmEma2 + k2 * (smEma1 - lastSmEma2);
-                    decimal hlEma2 = lastHlEma2 + k2 * (hlEma1 - lastHlEma2);
+                    double smEma2 = lastSmEma2 + k2 * (smEma1 - lastSmEma2);
+                    double hlEma2 = lastHlEma2 + k2 * (hlEma1 - lastHlEma2);
 
                     // stochastic momentum index
-                    r.Smi = 100 * (smEma2 / (0.5m * hlEma2));
+                    double smi = 100 * (smEma2 / (0.5 * hlEma2));
+                    r.Smi = (decimal)smi;
 
                     // initialize signal line
                     if (index == lookbackPeriods)
                     {
-                        lastSignal = (decimal)r.Smi;
+                        lastSignal = smi;
                     }
 
                     // signal line
-                    r.Signal = lastSignal + kS * (r.Smi - lastSignal);
+                    double signal = (lastSignal + kS * (smi - lastSignal));
+                    r.Signal = (decimal)signal;
 
                     // carryover values
                     lastSmEma1 = smEma1;
                     lastSmEma2 = smEma2;
                     lastHlEma1 = hlEma1;
                     lastHlEma2 = hlEma2;
-                    lastSignal = (decimal)r.Signal;
+                    lastSignal = signal;
                 }
                 results.Add(r);
             }

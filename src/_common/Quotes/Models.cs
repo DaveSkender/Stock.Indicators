@@ -31,4 +31,11 @@ namespace Skender.Stock.Indicators
         internal DateTime Date { get; set; }
         internal decimal Value { get; set; }
     }
+
+    [Serializable]
+    internal class BasicDouble
+    {
+        internal DateTime Date { get; set; }
+        internal double Value { get; set; }
+    }
 }

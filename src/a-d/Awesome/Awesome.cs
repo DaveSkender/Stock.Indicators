@@ -25,13 +25,13 @@ namespace Skender.Stock.Indicators
             // initialize
             int size = quotesList.Count;
             List<AwesomeResult> results = new();
-            decimal[] pr = new decimal[size]; // median price
+            double[] pr = new double[size]; // median price
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote q = quotesList[i];
-                pr[i] = (q.High + q.Low) / 2;
+                pr[i] = (double)(q.High + q.Low) / 2;
                 int index = i + 1;
 
                 AwesomeResult r = new()
@@ -41,8 +41,8 @@ namespace Skender.Stock.Indicators
 
                 if (index >= slowPeriods)
                 {
-                    decimal sumSlow = 0m;
-                    decimal sumFast = 0m;
+                    double sumSlow = 0;
+                    double sumFast = 0;
 
                     for (int p = index - slowPeriods; p < index; p++)
                     {

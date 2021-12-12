@@ -49,10 +49,10 @@ IEnumerable<AdlResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `MoneyFlowMultiplier` | decimal | Money Flow Multiplier
-| `MoneyFlowVolume` | decimal | Money Flow Volume
-| `Adl` | decimal | Accumulation Distribution Line (ADL)
-| `AdlSma` | decimal | Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
+| `MoneyFlowMultiplier` | double | Money Flow Multiplier
+| `MoneyFlowVolume` | double | Money Flow Volume
+| `Adl` | double | Accumulation Distribution Line (ADL)
+| `AdlSma` | double | Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
 
 :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
 

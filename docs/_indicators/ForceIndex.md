@@ -48,7 +48,7 @@ IEnumerable<ForceIndexResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `ForceIndex` | decimal | Force Index
+| `ForceIndex` | double | Force Index
 
 ### Utilities
 

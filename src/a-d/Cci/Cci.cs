@@ -33,32 +33,32 @@ namespace Skender.Stock.Indicators
                 CciResult result = new()
                 {
                     Date = q.Date,
-                    Tp = (q.High + q.Low + q.Close) / 3
+                    Tp = (double?)(q.High + q.Low + q.Close) / 3
                 };
                 results.Add(result);
 
                 if (index >= lookbackPeriods)
                 {
                     // average TP over lookback
-                    decimal avgTp = 0;
+                    double avgTp = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
-                        avgTp += (decimal)d.Tp;
+                        avgTp += (double)d.Tp;
                     }
                     avgTp /= lookbackPeriods;
 
                     // average Deviation over lookback
-                    decimal avgDv = 0;
+                    double avgDv = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
-                        avgDv += Math.Abs(avgTp - (decimal)d.Tp);
+                        avgDv += Math.Abs(avgTp - (double)d.Tp);
                     }
                     avgDv /= lookbackPeriods;
 
                     result.Cci = (avgDv == 0) ? null
-                        : (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
+                        : (result.Tp - avgTp) / (0.015 * avgDv);
                 }
             }
 

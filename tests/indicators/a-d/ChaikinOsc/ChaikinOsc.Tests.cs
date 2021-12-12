@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,10 +28,10 @@ namespace Internal.Tests
 
             // sample value
             ChaikinOscResult r = results[501];
-            Assert.AreEqual(3439986548.42m, Math.Round(r.Adl, 2));
-            Assert.AreEqual(0.8052m, Math.Round(r.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(r.MoneyFlowVolume, 2));
-            Assert.AreEqual(-19135200.72m, Math.Round((decimal)r.Oscillator, 2));
+            Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
+            Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
+            Assert.AreEqual(-19135200.72, Math.Round((double)r.Oscillator, 2));
         }
 
         [TestMethod]
@@ -55,10 +55,10 @@ namespace Internal.Tests
             Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
 
             ChaikinOscResult last = results.LastOrDefault();
-            Assert.AreEqual(3439986548.42m, Math.Round(last.Adl, 2));
-            Assert.AreEqual(0.8052m, Math.Round(last.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(last.MoneyFlowVolume, 2));
-            Assert.AreEqual(-19135200.72m, Math.Round((decimal)last.Oscillator, 2));
+            Assert.AreEqual(3439986548.42, Math.Round(last.Adl, 2));
+            Assert.AreEqual(0.8052, Math.Round(last.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25, Math.Round(last.MoneyFlowVolume, 2));
+            Assert.AreEqual(-19135200.72, Math.Round((double)last.Oscillator, 2));
         }
 
         [TestMethod]

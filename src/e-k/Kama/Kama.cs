@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,8 +25,8 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<KamaResult> results = new(quotesList.Count);
-            decimal scFast = 2m / (fastPeriods + 1);
-            decimal scSlow = 2m / (slowPeriods + 1);
+            double scFast = 2d / (fastPeriods + 1);
+            double scSlow = 2d / (slowPeriods + 1);
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -42,23 +42,23 @@ namespace Skender.Stock.Indicators
                 if (index > erPeriods)
                 {
                     // ER period change
-                    decimal change = Math.Abs(q.Close - quotesList[i - erPeriods].Close);
+                    double change = (double)Math.Abs(q.Close - quotesList[i - erPeriods].Close);
 
                     // volatility
-                    decimal sumPV = 0m;
+                    double sumPV = 0;
                     for (int p = i - erPeriods + 1; p <= i; p++)
                     {
-                        sumPV += Math.Abs(quotesList[p].Close - quotesList[p - 1].Close);
+                        sumPV += (double)Math.Abs(quotesList[p].Close - quotesList[p - 1].Close);
                     }
 
                     if (sumPV != 0)
                     {
                         // efficiency ratio
-                        decimal er = change / sumPV;
+                        double er = change / sumPV;
                         r.ER = er;
 
                         // smoothing constant
-                        decimal sc = er * (scFast - scSlow) + scSlow;  // squared later
+                        decimal sc = (decimal)(er * (scFast - scSlow) + scSlow);  // squared later
 
                         // kama calculation
                         decimal? pk = results[i - 1].Kama;  // prior KAMA

@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<AdlResult> results = new(quotesList.Count);
-            decimal prevAdl = 0;
+            double prevAdl = 0;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -31,9 +31,9 @@ namespace Skender.Stock.Indicators
                 TQuote q = quotesList[i];
                 int index = i + 1;
 
-                decimal mfm = (q.High == q.Low) ? 0 : ((q.Close - q.Low) - (q.High - q.Close)) / (q.High - q.Low);
-                decimal mfv = mfm * q.Volume;
-                decimal adl = mfv + prevAdl;
+                double mfm = (q.High == q.Low) ? 0 : (double)(((q.Close - q.Low) - (q.High - q.Close)) / (q.High - q.Low));
+                double mfv = mfm * (double)q.Volume;
+                double adl = mfv + prevAdl;
 
                 AdlResult result = new()
                 {
@@ -49,7 +49,7 @@ namespace Skender.Stock.Indicators
                 // optional SMA
                 if (smaPeriods != null && index >= smaPeriods)
                 {
-                    decimal sumSma = 0m;
+                    double sumSma = 0;
                     for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Adl;
@@ -73,11 +73,11 @@ namespace Skender.Stock.Indicators
               .Select(x => new Quote
               {
                   Date = x.Date,
-                  Open = x.Adl,
-                  High = x.Adl,
-                  Low = x.Adl,
-                  Close = x.Adl,
-                  Volume = x.Adl
+                  Open = (decimal)x.Adl,
+                  High = (decimal)x.Adl,
+                  Low = (decimal)x.Adl,
+                  Close = (decimal)x.Adl,
+                  Volume = (decimal)x.Adl
               })
               .ToList();
         }

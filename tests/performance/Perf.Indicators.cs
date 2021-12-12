@@ -391,6 +391,12 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        public object GetRollingPivots()
+        {
+            return h.GetRollingPivots(14, 1);
+        }
+
+        [Benchmark]
         public object GetRsi()
         {
             return h.GetRsi();
@@ -544,6 +550,12 @@ namespace Tests.Performance
         public object GetVwap()
         {
             return h.GetVwap();
+        }
+
+        [Benchmark]
+        public object GetVwma()
+        {
+            return h.GetVwma(14);
         }
 
         [Benchmark]

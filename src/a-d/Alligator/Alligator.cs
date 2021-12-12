@@ -21,7 +21,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             int size = quotesList.Count;
-            decimal[] pr = new decimal[size]; // median price
+            double[] pr = new double[size]; // median price
 
             int jawLookback = 13;
             int jawOffset = 8;
@@ -43,7 +43,7 @@ namespace Skender.Stock.Indicators
             {
                 TQuote q = quotesList[i];
                 int index = i + 1;
-                pr[i] = (q.High + q.Low) / 2;
+                pr[i] = (double)(q.High + q.Low) / 2;
 
                 // only calculate jaw if the array index + offset is still in valid range
                 if (i + jawOffset < size)
@@ -54,19 +54,19 @@ namespace Skender.Stock.Indicators
                     // first value: calculate SMA
                     if (index == jawLookback)
                     {
-                        decimal sumMedianPrice = 0m;
+                        double sumMedianPrice = 0;
                         for (int p = index - jawLookback; p < index; p++)
                         {
                             sumMedianPrice += pr[p];
                         }
 
-                        jawResult.Jaw = sumMedianPrice / jawLookback;
+                        jawResult.Jaw = (decimal)sumMedianPrice / jawLookback;
                     }
                     // remaining values: SMMA
                     else if (index > jawLookback)
                     {
-                        decimal? prevValue = results[i + jawOffset - 1].Jaw;
-                        jawResult.Jaw = (prevValue * (jawLookback - 1) + pr[i]) / jawLookback;
+                        double? prevValue = (double)results[i + jawOffset - 1].Jaw;
+                        jawResult.Jaw = (decimal)(prevValue * (jawLookback - 1) + pr[i]) / jawLookback;
                     }
                 }
 
@@ -79,19 +79,19 @@ namespace Skender.Stock.Indicators
                     // first value: calculate SMA
                     if (index == teethLookback)
                     {
-                        decimal sumMedianPrice = 0m;
+                        double sumMedianPrice = 0;
                         for (int p = index - teethLookback; p < index; p++)
                         {
                             sumMedianPrice += pr[p];
                         }
 
-                        teethResult.Teeth = sumMedianPrice / teethLookback;
+                        teethResult.Teeth = (decimal)sumMedianPrice / teethLookback;
                     }
                     // remaining values: SMMA
                     else if (index > teethLookback)
                     {
-                        decimal? prevValue = results[i + teethOffset - 1].Teeth;
-                        teethResult.Teeth = (prevValue * (teethLookback - 1) + pr[i]) / teethLookback;
+                        double? prevValue = (double)results[i + teethOffset - 1].Teeth;
+                        teethResult.Teeth = (decimal)(prevValue * (teethLookback - 1) + pr[i]) / teethLookback;
                     }
                 }
 
@@ -104,19 +104,19 @@ namespace Skender.Stock.Indicators
                     // first value: calculate SMA
                     if (index == lipsLookback)
                     {
-                        decimal sumMedianPrice = 0m;
+                        double sumMedianPrice = 0;
                         for (int p = index - lipsLookback; p < index; p++)
                         {
                             sumMedianPrice += pr[p];
                         }
 
-                        lipsResult.Lips = sumMedianPrice / lipsLookback;
+                        lipsResult.Lips = (decimal)sumMedianPrice / lipsLookback;
                     }
                     // remaining values: SMMA
                     else if (index > lipsLookback)
                     {
-                        decimal? prevValue = results[i + lipsOffset - 1].Lips;
-                        lipsResult.Lips = (prevValue * (lipsLookback - 1) + pr[i]) / lipsLookback;
+                        double? prevValue = (double)results[i + lipsOffset - 1].Lips;
+                        lipsResult.Lips = (decimal)(prevValue * (lipsLookback - 1) + pr[i]) / lipsLookback;
                     }
                 }
             }

@@ -93,6 +93,28 @@ namespace Internal.Tests
                 .ToList();
         }
 
+        // TOO BIG DATA
+        internal static IEnumerable<Quote> GetTooBig(int days = 1246)
+        {
+            return File.ReadAllLines("_common/data/toobig.csv")
+                .Skip(1)
+                .Select(v => Importer.QuoteFromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days)
+                .ToList();
+        }
+
+        // MAX SIZE DATA
+        internal static IEnumerable<Quote> GetMax(int days = 502)
+        {
+            return File.ReadAllLines("_common/data/toobig.csv")
+                .Skip(1)
+                .Select(v => Importer.QuoteFromCsv(v))
+                .OrderByDescending(x => x.Date)
+                .Take(days)
+                .ToList();
+        }
+
         // BITCOIN DATA
         internal static IEnumerable<Quote> GetBitcoin(int days = 1246)
         {

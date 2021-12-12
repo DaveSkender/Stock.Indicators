@@ -27,15 +27,15 @@ namespace Skender.Stock.Indicators
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
-            decimal prevTrs = 0; // smoothed
-            decimal prevPdm = 0;
-            decimal prevMdm = 0;
-            decimal prevAdx = 0;
+            double prevTrs = 0; // smoothed
+            double prevPdm = 0;
+            double prevMdm = 0;
+            double prevAdx = 0;
 
-            decimal sumTr = 0;
-            decimal sumPdm = 0;
-            decimal sumMdm = 0;
-            decimal sumDx = 0;
+            double sumTr = 0;
+            double sumPdm = 0;
+            double sumMdm = 0;
+            double sumDx = 0;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -57,13 +57,13 @@ namespace Skender.Stock.Indicators
                     continue;
                 }
 
-                decimal tr = (decimal)atr[i].Tr;
+                double tr = (double)atr[i].Tr;
 
-                decimal pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
-                    Math.Max(q.High - prevHigh, 0) : 0;
+                double pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
+                    (double)Math.Max(q.High - prevHigh, 0) : 0;
 
-                decimal mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
-                    Math.Max(prevLow - q.Low, 0) : 0;
+                double mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
+                    (double)Math.Max(prevLow - q.Low, 0) : 0;
 
                 prevHigh = q.High;
                 prevLow = q.Low;
@@ -84,9 +84,9 @@ namespace Skender.Stock.Indicators
 
 
                 // smoothed true range and directional movement
-                decimal trs;
-                decimal pdm;
-                decimal mdm;
+                double trs;
+                double pdm;
+                double mdm;
 
                 if (index == lookbackPeriods + 1)
                 {
@@ -111,8 +111,8 @@ namespace Skender.Stock.Indicators
                 }
 
                 // directional increments
-                decimal pdi = 100 * pdm / trs;
-                decimal mdi = 100 * mdm / trs;
+                double pdi = 100 * pdm / trs;
+                double mdi = 100 * mdm / trs;
 
                 result.Pdi = pdi;
                 result.Mdi = mdi;
@@ -123,8 +123,8 @@ namespace Skender.Stock.Indicators
                 }
 
                 // calculate ADX
-                decimal dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
-                decimal adx;
+                double dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
+                double adx;
 
                 if (index > 2 * lookbackPeriods)
                 {

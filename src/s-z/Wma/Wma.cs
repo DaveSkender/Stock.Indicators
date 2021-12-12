@@ -23,7 +23,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<WmaResult> results = new(quotesList.Count);
-            decimal divisor = (lookbackPeriods * (lookbackPeriods + 1)) / 2m;
+            double divisor = (lookbackPeriods * (lookbackPeriods + 1)) / 2d;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -38,14 +38,14 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriods)
                 {
-                    decimal wma = 0;
+                    double wma = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = quotesList[p];
-                        wma += d.Close * (lookbackPeriods - (decimal)(index - p - 1)) / divisor;
+                        wma += (double)d.Close * (lookbackPeriods - (index - p - 1)) / divisor;
                     }
 
-                    result.Wma = wma;
+                    result.Wma = (decimal)wma;
                 }
 
                 results.Add(result);

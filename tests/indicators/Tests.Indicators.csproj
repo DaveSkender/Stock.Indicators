@@ -64,6 +64,9 @@
     <None Update="_common\data\longish.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="_common\data\max.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="_common\data\mismatch.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -71,6 +74,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="s-z\ZigZag\zigzag.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="_common\data\toobig.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -22,16 +22,16 @@ namespace Skender.Stock.Indicators
             ValidateChop(quotesList, lookbackPeriods);
 
             // initialize
-            decimal sum;
-            decimal high;
-            decimal low;
-            decimal range;
+            double sum;
+            double high;
+            double low;
+            double range;
 
             int size = quotesList.Count;
             List<ChopResult> results = new(size);
-            decimal[] trueHigh = new decimal[size];
-            decimal[] trueLow = new decimal[size];
-            decimal[] trueRange = new decimal[size];
+            double[] trueHigh = new double[size];
+            double[] trueLow = new double[size];
+            double[] trueRange = new double[size];
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -44,8 +44,8 @@ namespace Skender.Stock.Indicators
 
                 if (i > 0)
                 {
-                    trueHigh[i] = Math.Max(quotesList[i].High, quotesList[i - 1].Close);
-                    trueLow[i] = Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
+                    trueHigh[i] = (double)Math.Max(quotesList[i].High, quotesList[i - 1].Close);
+                    trueLow[i] = (double)Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
                     trueRange[i] = trueHigh[i] - trueLow[i];
 
                     // calculate CHOP
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
                         // calculate CHOP
                         if (range != 0)
                         {
-                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriods)));
+                            r.Chop = (decimal)(100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods)));
                         }
                     }
                 }

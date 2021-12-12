@@ -26,21 +26,24 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = lookbackPeriods - 1; i < results.Count; i++)
             {
-                SmaExtendedResult r = results[i];
                 int index = i + 1;
+                SmaExtendedResult r = results[i];
+                double sma = (double)r.Sma;
 
-                decimal sumMad = 0m;
-                decimal sumMse = 0m;
-                decimal? sumMape = 0m;
+                double sumMad = 0;
+                double sumMse = 0;
+                double? sumMape = 0;
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     TQuote d = quotesList[p];
-                    sumMad += Math.Abs(d.Close - (decimal)r.Sma);
-                    sumMse += (d.Close - (decimal)r.Sma) * (d.Close - (decimal)r.Sma);
+                    double close = (double)d.Close;
 
-                    sumMape += (d.Close == 0) ? null
-                        : Math.Abs(d.Close - (decimal)r.Sma) / d.Close;
+                    sumMad += Math.Abs(close - sma);
+                    sumMse += (close - sma) * (close - sma);
+
+                    sumMape += (close == 0) ? null
+                        : Math.Abs(close - sma) / close;
                 }
 
                 // mean absolute deviation

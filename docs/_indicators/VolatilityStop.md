@@ -23,7 +23,7 @@ IEnumerable<VolatilityStopResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7.
-| `multiplier` | decimal | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0.
+| `multiplier` | double | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0.
 
 ### Historical quotes requirements
 

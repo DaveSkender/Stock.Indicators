@@ -25,9 +25,9 @@ namespace Skender.Stock.Indicators
             int size = quotesList.Count;
             List<VortexResult> results = new(size);
 
-            decimal[] tr = new decimal[size];
-            decimal[] pvm = new decimal[size];
-            decimal[] nvm = new decimal[size];
+            double[] tr = new double[size];
+            double[] pvm = new double[size];
+            double[] nvm = new double[size];
 
             decimal prevHigh = 0;
             decimal prevLow = 0;
@@ -58,9 +58,9 @@ namespace Skender.Stock.Indicators
                 decimal highMinusPrevClose = Math.Abs(q.High - prevClose);
                 decimal lowMinusPrevClose = Math.Abs(q.Low - prevClose);
 
-                tr[i] = Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
-                pvm[i] = Math.Abs(q.High - prevLow);
-                nvm[i] = Math.Abs(q.Low - prevHigh);
+                tr[i] = (double)Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
+                pvm[i] = (double)Math.Abs(q.High - prevLow);
+                nvm[i] = (double)Math.Abs(q.Low - prevHigh);
 
                 prevHigh = q.High;
                 prevLow = q.Low;
@@ -70,9 +70,9 @@ namespace Skender.Stock.Indicators
                 if (index > lookbackPeriods)
                 {
 
-                    decimal sumTr = 0;
-                    decimal sumPvm = 0;
-                    decimal sumNvm = 0;
+                    double sumTr = 0;
+                    double sumPvm = 0;
+                    double sumNvm = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {

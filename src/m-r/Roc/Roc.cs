@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,7 +41,7 @@ namespace Skender.Stock.Indicators
                     TQuote back = quotesList[index - lookbackPeriods - 1];
 
                     result.Roc = (back.Close == 0) ? null
-                        : 100 * (q.Close - back.Close) / back.Close;
+                        : 100 * (double)((q.Close - back.Close) / back.Close);
                 }
 
                 results.Add(result);
@@ -49,7 +49,7 @@ namespace Skender.Stock.Indicators
                 // optional SMA
                 if (smaPeriods != null && index >= lookbackPeriods + smaPeriods)
                 {
-                    decimal? sumSma = 0m;
+                    double? sumSma = 0;
                     for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Roc;

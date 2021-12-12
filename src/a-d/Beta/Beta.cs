@@ -115,13 +115,13 @@ namespace Skender.Stock.Indicators
             // initialize
             CorrResult c = new();
 
-            List<decimal> dataA = new(lookbackPeriods);
-            List<decimal> dataB = new(lookbackPeriods);
+            List<double> dataA = new(lookbackPeriods);
+            List<double> dataB = new(lookbackPeriods);
 
             for (int p = index - lookbackPeriods + 1; p <= index; p++)
             {
-                decimal a = quotesListMrkt[p].Close;
-                decimal b = quotesListEval[p].Close;
+                double a = (double)quotesListMrkt[p].Close;
+                double b = (double)quotesListEval[p].Close;
 
                 if (type is BetaType.Standard)
                 {
@@ -129,13 +129,13 @@ namespace Skender.Stock.Indicators
                     dataB.Add(b);
                 }
                 else if (type is BetaType.Down
-                    && a < quotesListMrkt[p - 1].Close)
+                    && a < (double)quotesListMrkt[p - 1].Close)
                 {
                     dataA.Add(a);
                     dataB.Add(b);
                 }
                 else if (type is BetaType.Up
-                    && a > quotesListMrkt[p - 1].Close)
+                    && a > (double)quotesListMrkt[p - 1].Close)
                 {
                     dataA.Add(a);
                     dataB.Add(b);
@@ -150,7 +150,7 @@ namespace Skender.Stock.Indicators
                 // calculate beta
                 if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
                 {
-                    decimal? beta = c.Covariance / c.VarianceA;
+                    double? beta = c.Covariance / c.VarianceA;
 
                     if (type == BetaType.Standard)
                     {

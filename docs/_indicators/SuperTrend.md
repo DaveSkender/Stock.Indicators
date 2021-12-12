@@ -24,7 +24,7 @@ IEnumerable<SuperTrendResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
-| `multiplier` | decimal | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
+| `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
 
 ### Historical quotes requirements
 
