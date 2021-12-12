@@ -52,8 +52,8 @@ IEnumerable<RocResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Roc` | decimal | Rate of Change over `N` lookback periods (%, not decimal)
-| `RocSma` | decimal | Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
+| `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal)
+| `RocSma` | double | Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
 
 ### Utilities
 
@@ -96,7 +96,7 @@ IEnumerable<RocWbResult> results =
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Roc` | decimal | Rate of Change over `N` lookback periods (%, not decimal)
-| `RocEma` | decimal | Exponential moving average (EMA) of `Roc`
-| `UpperBand` | decimal | Upper band of ROC (overbought indicator)
-| `LowerBand` | decimal | Lower band of ROC (oversold indicator)
+| `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal)
+| `RocEma` | double | Exponential moving average (EMA) of `Roc`
+| `UpperBand` | double | Upper band of ROC (overbought indicator)
+| `LowerBand` | double | Lower band of ROC (oversold indicator)

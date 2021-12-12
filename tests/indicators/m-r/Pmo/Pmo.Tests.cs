@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,12 +26,12 @@ namespace Internal.Tests
 
             // sample values
             PmoResult r1 = results[92];
-            Assert.AreEqual(0.6159m, Math.Round((decimal)r1.Pmo, 4));
-            Assert.AreEqual(0.5582m, Math.Round((decimal)r1.Signal, 4));
+            Assert.AreEqual(0.6159, Math.Round((double)r1.Pmo, 4));
+            Assert.AreEqual(0.5582, Math.Round((double)r1.Signal, 4));
 
             PmoResult r2 = results[501];
-            Assert.AreEqual(-2.7016m, Math.Round((decimal)r2.Pmo, 4));
-            Assert.AreEqual(-2.3117m, Math.Round((decimal)r2.Signal, 4));
+            Assert.AreEqual(-2.7016, Math.Round((double)r2.Pmo, 4));
+            Assert.AreEqual(-2.3117, Math.Round((double)r2.Signal, 4));
         }
 
         [TestMethod]
@@ -52,8 +52,8 @@ namespace Internal.Tests
             Assert.AreEqual(502 - (35 + 20 + 250), results.Count);
 
             PmoResult last = results.LastOrDefault();
-            Assert.AreEqual(-2.7016m, Math.Round((decimal)last.Pmo, 4));
-            Assert.AreEqual(-2.3117m, Math.Round((decimal)last.Signal, 4));
+            Assert.AreEqual(-2.7016, Math.Round((double)last.Pmo, 4));
+            Assert.AreEqual(-2.3117, Math.Round((double)last.Signal, 4));
         }
 
         [TestMethod]

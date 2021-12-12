@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,8 +22,8 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<PmoResult> results = CalcPmoRocEma(quotes, timePeriods);
-            decimal smoothingConstant = 2m / smoothPeriods;
-            decimal? lastPmo = null;
+            double smoothingConstant = 2d / smoothPeriods;
+            double? lastPmo = null;
 
             // calculate PMO
             int startIndex = timePeriods + smoothPeriods;
@@ -39,11 +39,11 @@ namespace Skender.Stock.Indicators
                 }
                 else if (index == startIndex)
                 {
-                    decimal sumRocEma = 0;
+                    double? sumRocEma = 0;
                     for (int p = index - smoothPeriods; p < index; p++)
                     {
                         PmoResult d = results[p];
-                        sumRocEma += (decimal)d.RocEma;
+                        sumRocEma += d.RocEma;
                     }
                     pr.Pmo = sumRocEma / smoothPeriods;
                 }
@@ -79,8 +79,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
             // initialize
-            decimal smoothingMultiplier = 2m / timePeriods;
-            decimal? lastRocEma = null;
+            double smoothingMultiplier = 2d / timePeriods;
+            double? lastRocEma = null;
             List<RocResult> roc = GetRoc(quotes, 1).ToList();
             List<PmoResult> results = new();
 
@@ -102,11 +102,11 @@ namespace Skender.Stock.Indicators
                 }
                 else if (index == startIndex)
                 {
-                    decimal sumRoc = 0;
+                    double? sumRoc = 0;
                     for (int p = index - timePeriods; p < index; p++)
                     {
                         RocResult d = roc[p];
-                        sumRoc += (decimal)d.Roc;
+                        sumRoc += d.Roc;
                     }
                     result.RocEma = sumRoc / timePeriods;
                 }
@@ -126,8 +126,8 @@ namespace Skender.Stock.Indicators
             int smoothPeriods,
             int signalPeriods)
         {
-            decimal signalConstant = 2m / (signalPeriods + 1);
-            decimal? lastSignal = null;
+            double signalConstant = 2d / (signalPeriods + 1);
+            double? lastSignal = null;
 
             int startIndex = timePeriods + smoothPeriods + signalPeriods - 1;
 
@@ -142,11 +142,11 @@ namespace Skender.Stock.Indicators
                 }
                 else if (index == startIndex)
                 {
-                    decimal sumPmo = 0;
+                    double? sumPmo = 0;
                     for (int p = index - signalPeriods; p < index; p++)
                     {
                         PmoResult d = results[p];
-                        sumPmo += (decimal)d.Pmo;
+                        sumPmo += d.Pmo;
                     }
                     pr.Signal = sumPmo / signalPeriods;
                 }

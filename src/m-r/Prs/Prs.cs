@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,7 +43,7 @@ namespace Skender.Stock.Indicators
                 PrsResult r = new()
                 {
                     Date = ei.Date,
-                    Prs = (bi.Close == 0) ? null : ei.Close / bi.Close  // relative strength ratio
+                    Prs = (bi.Close == 0) ? null : (double)(ei.Close / bi.Close)  // relative strength ratio
                 };
                 results.Add(r);
 
@@ -54,8 +54,8 @@ namespace Skender.Stock.Indicators
 
                     if (bo.Close != 0 && eo.Close != 0)
                     {
-                        decimal pctB = (bi.Close - bo.Close) / bo.Close;
-                        decimal pctE = (ei.Close - eo.Close) / eo.Close;
+                        double pctB = (double)((bi.Close - bo.Close) / bo.Close);
+                        double pctE = (double)((ei.Close - eo.Close) / eo.Close);
 
                         r.PrsPercent = pctE - pctB;
                     }
@@ -64,7 +64,7 @@ namespace Skender.Stock.Indicators
                 // optional moving average of PRS
                 if (smaPeriods != null && index >= smaPeriods)
                 {
-                    decimal? sumRs = 0m;
+                    double? sumRs = 0;
                     for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         PrsResult d = results[p];
