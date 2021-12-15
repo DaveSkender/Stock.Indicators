@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,7 +25,7 @@ namespace Internal.Tests
 
             // sample value
             CciResult r = results[501];
-            Assert.AreEqual(-52.9946m, Math.Round((decimal)r.Cci, 4));
+            Assert.AreEqual(-52.9946, Math.Round((double)r.Cci, 4));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 19, results.Count);
 
             CciResult last = results.LastOrDefault();
-            Assert.AreEqual(-52.9946m, Math.Round((decimal)last.Cci, 4));
+            Assert.AreEqual(-52.9946, Math.Round((double)last.Cci, 4));
         }
 
         [TestMethod]

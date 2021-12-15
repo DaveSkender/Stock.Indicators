@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +14,7 @@ namespace Internal.Tests
         public void Standard()
         {
             int lookbackPeriods = 14;
-            decimal multiplier = 3;
+            double multiplier = 3;
 
             List<SuperTrendResult> results = quotes.GetSuperTrend(lookbackPeriods, multiplier)
                 .ToList();
@@ -81,7 +81,7 @@ namespace Internal.Tests
         public void Removed()
         {
             int lookbackPeriods = 14;
-            decimal multiplier = 3;
+            double multiplier = 3;
 
             List<SuperTrendResult> results =
                 quotes.GetSuperTrend(lookbackPeriods, multiplier)

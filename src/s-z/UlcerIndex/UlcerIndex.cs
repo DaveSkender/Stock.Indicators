@@ -53,18 +53,17 @@ namespace Skender.Stock.Indicators
                             }
                         }
 
-                        decimal? percentDrawdown = (maxClose == 0) ? null
-                            : 100 * (d.Close - maxClose) / maxClose;
+                        double? percentDrawdown = (maxClose == 0) ? null
+                            : 100 * (double)((d.Close - maxClose) / maxClose);
 
-                        sumSquared += (double?)(percentDrawdown * percentDrawdown);
+                        sumSquared += percentDrawdown * percentDrawdown;
                     }
 
                     result.UI = (sumSquared == null) ? null
-                        : (decimal)Math.Sqrt((double)sumSquared / lookbackPeriods);
+                        : Math.Sqrt((double)sumSquared / lookbackPeriods);
                 }
                 results.Add(result);
             }
-
 
             return results;
         }

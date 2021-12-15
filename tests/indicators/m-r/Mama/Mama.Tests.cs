@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,8 +13,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Standard()
         {
-            decimal fastLimit = 0.5m;
-            decimal slowLimit = 0.05m;
+            double fastLimit = 0.5;
+            double slowLimit = 0.05;
 
             List<MamaResult> results = quotes.GetMama(fastLimit, slowLimit)
                 .ToList();
@@ -66,8 +66,8 @@ namespace Internal.Tests
         [TestMethod]
         public void Removed()
         {
-            decimal fastLimit = 0.5m;
-            decimal slowLimit = 0.05m;
+            double fastLimit = 0.5;
+            double slowLimit = 0.05;
 
             List<MamaResult> results = quotes.GetMama(fastLimit, slowLimit)
                 .RemoveWarmupPeriods()
@@ -86,15 +86,15 @@ namespace Internal.Tests
         {
             // bad fast period (same as slow period)
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMama(quotes, 0.5m, 0.5m));
+                Indicator.GetMama(quotes, 0.5, 0.5));
 
             // bad fast period (cannot be 1 or more)
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMama(quotes, 1m, 0.5m));
+                Indicator.GetMama(quotes, 1, 0.5));
 
             // bad slow period
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetMama(quotes, 0.5m, 0m));
+                Indicator.GetMama(quotes, 0.5, 0));
 
             // insufficient quotes
             Assert.ThrowsException<BadQuotesException>(() =>

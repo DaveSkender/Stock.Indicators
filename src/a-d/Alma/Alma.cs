@@ -30,12 +30,12 @@ namespace Skender.Stock.Indicators
             double m = offset * (lookbackPeriods - 1);
             double s = lookbackPeriods / sigma;
 
-            decimal[] weight = new decimal[lookbackPeriods];
-            decimal norm = 0;
+            double[] weight = new double[lookbackPeriods];
+            double norm = 0;
 
             for (int i = 0; i < lookbackPeriods; i++)
             {
-                decimal wt = (decimal)Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
+                double wt = Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
                 weight[i] = wt;
                 norm += wt;
             }
@@ -53,17 +53,17 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriods)
                 {
-                    decimal weightedSum = 0m;
+                    double weightedSum = 0;
                     int n = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = quotesList[p];
-                        weightedSum += weight[n] * d.Close;
+                        weightedSum += weight[n] * (double)d.Close;
                         n++;
                     }
 
-                    r.Alma = weightedSum / norm;
+                    r.Alma = (decimal)(weightedSum / norm);
                 }
 
                 results.Add(r);

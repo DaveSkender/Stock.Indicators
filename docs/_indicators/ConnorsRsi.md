@@ -50,10 +50,10 @@ IEnumerable<ConnorsRsiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `RsiClose` | decimal | RSI(`R`) of the Close price.
-| `RsiStreak` | decimal | RSI(`S`) of the Streak.
-| `PercentRank` | decimal | Percentile rank of the period gain value.
-| `ConnorsRsi` | decimal | ConnorsRSI
+| `RsiClose` | double | RSI(`R`) of the Close price.
+| `RsiStreak` | double | RSI(`S`) of the Streak.
+| `PercentRank` | double | Percentile rank of the period gain value.
+| `ConnorsRsi` | double | ConnorsRSI
 
 ### Utilities
 

@@ -22,7 +22,7 @@ namespace Skender.Stock.Indicators
 
             // initialize
             List<SmmaResult> results = new(quotesList.Count);
-            decimal? prevValue = null;
+            double? prevValue = null;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -38,23 +38,24 @@ namespace Skender.Stock.Indicators
                 // calculate SMMA
                 if (index > lookbackPeriods)
                 {
-                    result.Smma = (prevValue * (lookbackPeriods - 1) + q.Close) / lookbackPeriods;
+                    result.Smma = (decimal)(prevValue * (lookbackPeriods - 1) + (double)q.Close)
+                                / lookbackPeriods;
                 }
 
                 // first SMMA calculated as simple SMA
                 else if (index == lookbackPeriods)
                 {
-                    decimal sumClose = 0m;
+                    double sumClose = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = quotesList[p];
-                        sumClose += d.Close;
+                        sumClose += (double)d.Close;
                     }
 
-                    result.Smma = sumClose / lookbackPeriods;
+                    result.Smma = (decimal)(sumClose / lookbackPeriods);
                 }
 
-                prevValue = result.Smma;
+                prevValue = (double?)result.Smma;
                 results.Add(result);
             }
 

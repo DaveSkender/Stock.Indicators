@@ -47,14 +47,14 @@ namespace Skender.Stock.Indicators
                 // calculate correlation
                 if (index >= lookbackPeriods)
                 {
-                    decimal[] dataA = new decimal[lookbackPeriods];
-                    decimal[] dataB = new decimal[lookbackPeriods];
+                    double[] dataA = new double[lookbackPeriods];
+                    double[] dataB = new double[lookbackPeriods];
                     int z = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        dataA[z] = quotesListA[p].Close;
-                        dataB[z] = quotesListB[p].Close;
+                        dataA[z] = (double)quotesListA[p].Close;
+                        dataB[z] = (double)quotesListB[p].Close;
 
                         z++;
                     }
@@ -86,21 +86,21 @@ namespace Skender.Stock.Indicators
         // calculate correlation
         private static void CalcCorrelation(
             this CorrResult r,
-            decimal[] dataA,
-            decimal[] dataB
+            double[] dataA,
+            double[] dataB
             )
         {
             int size = dataA.Length;
-            decimal sumA = 0m;
-            decimal sumB = 0m;
-            decimal sumA2 = 0m;
-            decimal sumB2 = 0m;
-            decimal sumAB = 0m;
+            double sumA = 0;
+            double sumB = 0;
+            double sumA2 = 0;
+            double sumB2 = 0;
+            double sumAB = 0;
 
             for (int i = 0; i < size; i++)
             {
-                decimal a = dataA[i];
-                decimal b = dataB[i];
+                double a = dataA[i];
+                double b = dataB[i];
 
                 sumA += a;
                 sumB += b;
@@ -109,11 +109,11 @@ namespace Skender.Stock.Indicators
                 sumAB += a * b;
             }
 
-            decimal avgA = sumA / size;
-            decimal avgB = sumB / size;
-            decimal avgA2 = sumA2 / size;
-            decimal avgB2 = sumB2 / size;
-            decimal avgAB = sumAB / size;
+            double avgA = sumA / size;
+            double avgB = sumB / size;
+            double avgA2 = sumA2 / size;
+            double avgB2 = sumB2 / size;
+            double avgAB = sumAB / size;
 
             r.VarianceA = avgA2 - avgA * avgA;
             r.VarianceB = avgB2 - avgB * avgB;
@@ -121,7 +121,7 @@ namespace Skender.Stock.Indicators
 
             double divisor = Math.Sqrt((double)(r.VarianceA * r.VarianceB));
 
-            r.Correlation = (divisor == 0) ? null : r.Covariance / (decimal)divisor;
+            r.Correlation = (divisor == 0) ? null : r.Covariance / divisor;
 
             r.RSquared = r.Correlation * r.Correlation;
         }

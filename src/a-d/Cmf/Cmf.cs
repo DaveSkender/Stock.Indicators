@@ -40,20 +40,20 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriods)
                 {
-                    decimal sumMfv = 0;
-                    decimal sumVol = 0;
+                    double sumMfv = 0;
+                    double sumVol = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote q = quotesList[p];
-                        sumVol += q.Volume;
+                        sumVol += (double)q.Volume;
 
                         AdlResult d = adlResults[p];
-                        sumMfv += d.MoneyFlowVolume;
+                        sumMfv += (double)d.MoneyFlowVolume;
                     }
 
-                    decimal avgMfv = sumMfv / lookbackPeriods;
-                    decimal avgVol = sumVol / lookbackPeriods;
+                    double avgMfv = sumMfv / lookbackPeriods;
+                    double avgVol = sumVol / lookbackPeriods;
 
                     if (avgVol != 0)
                     {

@@ -52,9 +52,9 @@ IEnumerable<PrsResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Prs` | decimal | Price Relative Strength compares `Eval` to `Base` histories
-| `PrsSma` | decimal | Moving Average (SMA) of PRS over `S` periods
-| `PrsPercent` | decimal | Percent change difference between `Eval` and `Base` over `N` periods
+| `Prs` | double | Price Relative Strength compares `Eval` to `Base` histories
+| `PrsSma` | double | Moving Average (SMA) of PRS over `S` periods
+| `PrsPercent` | double | Percent change difference between `Eval` and `Base` over `N` periods
 
 ### Utilities
 

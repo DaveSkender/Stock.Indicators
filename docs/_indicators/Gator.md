@@ -42,8 +42,8 @@ IEnumerable<GatorResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Upper` | decimal | Absolute value of Alligator `Jaw-Teeth`
-| `Lower` | decimal | Absolute value of Alligator `Lips-Teeth`
+| `Upper` | double | Absolute value of Alligator `Jaw-Teeth`
+| `Lower` | double | Absolute value of Alligator `Lips-Teeth`
 | `UpperIsExpanding` | boolean | Upper value is growing
 | `LowerIsExpanding` | boolean | Lower value is growing
 

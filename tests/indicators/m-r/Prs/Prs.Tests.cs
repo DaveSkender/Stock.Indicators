@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,19 +30,19 @@ namespace Internal.Tests
 
             // sample values
             PrsResult r1 = results[8];
-            Assert.AreEqual(1.108340m, Math.Round((decimal)r1.Prs, 6));
+            Assert.AreEqual(1.108340, Math.Round((double)r1.Prs, 6));
             Assert.AreEqual(null, r1.PrsSma);
             Assert.AreEqual(null, r1.PrsPercent);
 
             PrsResult r2 = results[249];
-            Assert.AreEqual(1.222373m, Math.Round((decimal)r2.Prs, 6));
-            Assert.AreEqual(1.275808m, Math.Round((decimal)r2.PrsSma, 6));
-            Assert.AreEqual(-0.023089m, Math.Round((decimal)r2.PrsPercent, 6));
+            Assert.AreEqual(1.222373, Math.Round((double)r2.Prs, 6));
+            Assert.AreEqual(1.275808, Math.Round((double)r2.PrsSma, 6));
+            Assert.AreEqual(-0.023089, Math.Round((double)r2.PrsPercent, 6));
 
             PrsResult r3 = results[501];
-            Assert.AreEqual(1.356817m, Math.Round((decimal)r3.Prs, 6));
-            Assert.AreEqual(1.343445m, Math.Round((decimal)r3.PrsSma, 6));
-            Assert.AreEqual(0.037082m, Math.Round((decimal)r3.PrsPercent, 6));
+            Assert.AreEqual(1.356817, Math.Round((double)r3.Prs, 6));
+            Assert.AreEqual(1.343445, Math.Round((double)r3.PrsSma, 6));
+            Assert.AreEqual(0.037082, Math.Round((double)r3.PrsPercent, 6));
         }
 
         [TestMethod]

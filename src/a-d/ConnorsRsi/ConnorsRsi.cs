@@ -18,7 +18,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
 
             // check parameter arguments
             ValidateConnorsRsi(bdList, rsiPeriods, streakPeriods, rankPeriods);
@@ -28,9 +28,9 @@ namespace Skender.Stock.Indicators
             int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             // RSI of streak
-            List<BasicData> bdStreak = results
+            List<BasicDouble> bdStreak = results
                 .Where(x => x.Streak != null)
-                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Streak })
+                .Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Streak })
                 .ToList();
 
             List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);
@@ -69,44 +69,44 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
-            List<BasicData> bdList, int rsiPeriods, int rankPeriods)
+            List<BasicDouble> bdList, int rsiPeriods, int rankPeriods)
         {
             // initialize
             List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods);
 
             int size = bdList.Count;
             List<ConnorsRsiResult> results = new(size);
-            decimal?[] gain = new decimal?[size];
+            double?[] gain = new double?[size];
 
-            decimal? lastClose = null;
-            decimal streak = 0;
+            double? lastClose = null;
+            int streak = 0;
 
             // compose interim results
             for (int i = 0; i < size; i++)
             {
-                BasicData h = bdList[i];
+                BasicDouble q = bdList[i];
                 int index = i + 1;
 
-                ConnorsRsiResult result = new()
+                ConnorsRsiResult r = new()
                 {
-                    Date = h.Date,
+                    Date = q.Date,
                     RsiClose = rsiResults[i].Rsi
                 };
+                results.Add(r);
 
                 // bypass for first record
                 if (lastClose == null)
                 {
-                    lastClose = h.Value;
-                    results.Add(result);
+                    lastClose = q.Value;
                     continue;
                 }
 
                 // streak of up or down
-                if (h.Value == lastClose)
+                if (q.Value == lastClose)
                 {
                     streak = 0;
                 }
-                else if (h.Value > lastClose)
+                else if (q.Value > lastClose)
                 {
                     if (streak >= 0)
                     {
@@ -129,13 +129,11 @@ namespace Skender.Stock.Indicators
                     }
                 }
 
-                result.Streak = streak;
+                r.Streak = streak;
 
                 // percentile rank
-                gain[i] = (lastClose == 0) ? null
-                    : (decimal)((lastClose <= 0) ? null : (h.Value - lastClose) / lastClose);
-
-                results.Add(result);
+                gain[i] = (lastClose <= 0) ? null
+                        : (q.Value - lastClose) / lastClose;
 
                 if (index > rankPeriods)
                 {
@@ -148,11 +146,10 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    result.PercentRank = 100m * qty / rankPeriods;
+                    r.PercentRank = 100 * qty / rankPeriods;
                 }
 
-
-                lastClose = h.Value;
+                lastClose = q.Value;
             }
 
             return results;
@@ -160,7 +157,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateConnorsRsi(
-            IEnumerable<BasicData> quotes,
+            IEnumerable<BasicDouble> quotes,
             int rsiPeriods,
             int streakPeriods,
             int rankPeriods)

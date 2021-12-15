@@ -51,8 +51,8 @@ IEnumerable<TsiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Tsi` | decimal | True Strength Index
-| `Signal` | decimal | Signal line (EMA of TSI)
+| `Tsi` | double | True Strength Index
+| `Signal` | double | Signal line (EMA of TSI)
 
 ### Utilities
 

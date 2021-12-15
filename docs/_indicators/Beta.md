@@ -57,11 +57,11 @@ IEnumerable<BetaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Beta` | decimal | Beta coefficient based on `N` lookback periods
-| `BetaUp` | decimal | Beta+ (Up Beta)
-| `BetaDown` | decimal | Beta- (Down Beta)
-| `Ratio` | decimal | Beta ratio is `BetaUp/BetaDown`
-| `Convexity` | decimal | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
+| `Beta` | double | Beta coefficient based on `N` lookback periods
+| `BetaUp` | double | Beta+ (Up Beta)
+| `BetaDown` | double | Beta- (Down Beta)
+| `Ratio` | double | Beta ratio is `BetaUp/BetaDown`
+| `Convexity` | double | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
 
 ### Utilities
 

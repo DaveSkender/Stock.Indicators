@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<SuperTrendResult> GetSuperTrend<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 10,
-            decimal multiplier = 3)
+            double multiplier = 3)
             where TQuote : IQuote
         {
 
@@ -27,8 +27,8 @@ namespace Skender.Stock.Indicators
             List<AtrResult> atrResults = GetAtr(quotes, lookbackPeriods).ToList();
 
             bool isBullish = true;
-            decimal? upperBand = null;
-            decimal? lowerBand = null;
+            double? upperBand = null;
+            double? lowerBand = null;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -43,18 +43,18 @@ namespace Skender.Stock.Indicators
                 if (i >= lookbackPeriods - 1)
                 {
 
-                    decimal mid = (q.High + q.Low) / 2;
-                    decimal atr = (decimal)atrResults[i].Atr;
-                    decimal prevClose = quotesList[i - 1].Close;
+                    double mid = (double)(q.High + q.Low) / 2;
+                    double atr = (double)atrResults[i].Atr;
+                    double prevClose = (double)quotesList[i - 1].Close;
 
                     // potential bands
-                    decimal upperEval = mid + multiplier * atr;
-                    decimal lowerEval = mid - multiplier * atr;
+                    double upperEval = mid + multiplier * atr;
+                    double lowerEval = mid - multiplier * atr;
 
                     // initial values
                     if (i == lookbackPeriods - 1)
                     {
-                        isBullish = (q.Close >= mid);
+                        isBullish = ((double)q.Close >= mid);
 
                         upperBand = upperEval;
                         lowerBand = lowerEval;
@@ -73,16 +73,16 @@ namespace Skender.Stock.Indicators
                     }
 
                     // supertrend
-                    if (q.Close <= ((isBullish) ? lowerBand : upperBand))
+                    if ((double)q.Close <= ((isBullish) ? lowerBand : upperBand))
                     {
-                        r.SuperTrend = upperBand;
-                        r.UpperBand = upperBand;
+                        r.SuperTrend = (decimal?)upperBand;
+                        r.UpperBand = (decimal?)upperBand;
                         isBullish = false;
                     }
                     else
                     {
-                        r.SuperTrend = lowerBand;
-                        r.LowerBand = lowerBand;
+                        r.SuperTrend = (decimal?)lowerBand;
+                        r.LowerBand = (decimal?)lowerBand;
                         isBullish = true;
                     }
                 }
@@ -112,7 +112,7 @@ namespace Skender.Stock.Indicators
         private static void ValidateSuperTrend<TQuote>(
             IEnumerable<TQuote> quotes,
             int lookbackPeriods,
-            decimal multiplier)
+            double multiplier)
             where TQuote : IQuote
         {
 
@@ -123,7 +123,7 @@ namespace Skender.Stock.Indicators
                     "Lookback periods must be greater than 1 for SuperTrend.");
             }
 
-            if (multiplier <= 0m)
+            if (multiplier <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
                     "Multiplier must be greater than 0 for SuperTrend.");

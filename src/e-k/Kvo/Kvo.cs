@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,18 +27,18 @@ namespace Skender.Stock.Indicators
             int size = quotesList.Count;
             List<KvoResult> results = new(size);
 
-            decimal[] hlc = new decimal[size];          // trend basis
-            decimal[] t = new decimal[size];            // trend direction
-            decimal[] dm = new decimal[size];           // daily measurement
-            decimal[] cm = new decimal[size];           // cumulative measurement
-            decimal?[] vf = new decimal?[size];         // volume force (VF)
-            decimal?[] vfFastEma = new decimal?[size];  // EMA of VF (short-term)
-            decimal?[] vfSlowEma = new decimal?[size];  // EMA of VP (long-term)
+            double[] hlc = new double[size];          // trend basis
+            double[] t = new double[size];            // trend direction
+            double[] dm = new double[size];           // daily measurement
+            double[] cm = new double[size];           // cumulative measurement
+            double?[] vf = new double?[size];         // volume force (VF)
+            double?[] vfFastEma = new double?[size];  // EMA of VF (short-term)
+            double?[] vfSlowEma = new double?[size];  // EMA of VP (long-term)
 
             // EMA multipliers
-            decimal kFast = 2m / (fastPeriods + 1);
-            decimal kSlow = 2m / (slowPeriods + 1);
-            decimal kSignal = 2m / (signalPeriods + 1);
+            double kFast = 2d / (fastPeriods + 1);
+            double kSlow = 2d / (slowPeriods + 1);
+            double kSignal = 2d / (signalPeriods + 1);
 
             // roll through quotes
             for (int i = 0; i < size; i++)
@@ -53,10 +53,10 @@ namespace Skender.Stock.Indicators
                 results.Add(r);
 
                 // trend basis comparator
-                hlc[i] = q.High + q.Low + q.Close;
+                hlc[i] = (double)(q.High + q.Low + q.Close);
 
                 // daily measurement
-                dm[i] = q.High - q.Low;
+                dm[i] = (double)(q.High - q.Low);
 
                 if (i <= 0)
                 {
@@ -78,8 +78,8 @@ namespace Skender.Stock.Indicators
 
                 // volume force (VF)
                 vf[i] = (dm[i] == cm[i] || q.Volume == 0) ? 0
-                    : (dm[i] == 0) ? q.Volume * 2 * t[i] * 100m
-                    : (cm[i] != 0) ? q.Volume * Math.Abs(2 * (dm[i] / cm[i] - 1)) * t[i] * 100m
+                    : (dm[i] == 0) ? (double)q.Volume * 2 * t[i] * 100d
+                    : (cm[i] != 0) ? (double)q.Volume * Math.Abs(2 * (dm[i] / cm[i] - 1)) * t[i] * 100d
                     : vf[i - 1];
 
                 // fast-period EMA of VF
@@ -89,7 +89,7 @@ namespace Skender.Stock.Indicators
                 }
                 else if (index == fastPeriods + 2)
                 {
-                    decimal? sum = 0m;
+                    double? sum = 0;
                     for (int p = 2; p <= i; p++)
                     {
                         sum += vf[p];
@@ -104,7 +104,7 @@ namespace Skender.Stock.Indicators
                 }
                 else if (index == slowPeriods + 2)
                 {
-                    decimal? sum = 0m;
+                    double? sum = 0;
                     for (int p = 2; p <= i; p++)
                     {
                         sum += vf[p];
@@ -125,7 +125,7 @@ namespace Skender.Stock.Indicators
                     }
                     else if (index == slowPeriods + signalPeriods + 1)
                     {
-                        decimal? sum = 0m;
+                        double? sum = 0;
                         for (int p = slowPeriods + 1; p <= i; p++)
                         {
                             sum += results[p].Oscillator;

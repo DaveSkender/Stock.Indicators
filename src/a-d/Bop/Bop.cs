@@ -25,9 +25,9 @@ namespace Skender.Stock.Indicators
             int size = quotesList.Count;
             List<BopResult> results = new(size);
 
-            decimal?[] raw = quotesList
+            double?[] raw = quotesList
                 .Select(x => (x.High != x.Low) ?
-                    (x.Close - x.Open) / (x.High - x.Low) : (decimal?)null)
+                    (double?)((x.Close - x.Open) / (x.High - x.Low)) : null)
                 .ToArray();
 
             // roll through quotes
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
 
                 if (i >= smoothPeriods - 1)
                 {
-                    decimal? sum = 0m;
+                    double? sum = 0;
                     for (int p = i - smoothPeriods + 1; p <= i; p++)
                     {
                         sum += raw[p];

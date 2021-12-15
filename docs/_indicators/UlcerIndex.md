@@ -46,7 +46,7 @@ IEnumerable<UlcerIndexResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `UI` | decimal | Ulcer Index
+| `UI` | double | Ulcer Index
 
 ### Utilities
 

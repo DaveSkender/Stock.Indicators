@@ -26,13 +26,17 @@ namespace Skender.Stock.Indicators
             startDate = (startDate == null) ? quotesList[0].Date : startDate;
             List<VwapResult> results = new(size);
 
-            decimal cumVolume = 0m;
-            decimal cumVolumeTP = 0m;
+            double? cumVolume = 0;
+            double? cumVolumeTP = 0;
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
                 TQuote q = quotesList[i];
+                double? v = (double?)q.Volume;
+                double? h = (double?)q.High;
+                double? l = (double?)q.Low;
+                double? c = (double?)q.Close;
 
                 VwapResult r = new()
                 {
@@ -41,10 +45,10 @@ namespace Skender.Stock.Indicators
 
                 if (q.Date >= startDate)
                 {
-                    cumVolume += q.Volume;
-                    cumVolumeTP += q.Volume * (q.High + q.Low + q.Close) / 3;
+                    cumVolume += v;
+                    cumVolumeTP += v * (h + l + c) / 3;
 
-                    r.Vwap = (cumVolume != 0) ? cumVolumeTP / cumVolume : null;
+                    r.Vwap = (cumVolume != 0) ? (decimal?)(cumVolumeTP / cumVolume) : null;
                 }
 
                 results.Add(r);

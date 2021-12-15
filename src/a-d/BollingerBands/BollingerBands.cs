@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<BollingerBandsResult> GetBollingerBands<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 20,
-            decimal standardDeviations = 2)
+            double standardDeviations = 2)
             where TQuote : IQuote
         {
 
@@ -39,29 +39,30 @@ namespace Skender.Stock.Indicators
                 if (index >= lookbackPeriods)
                 {
                     double[] periodClose = new double[lookbackPeriods];
-                    decimal sum = 0m;
+                    double sum = 0;
                     int n = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         TQuote d = quotesList[p];
-                        periodClose[n] = (double)d.Close;
-                        sum += d.Close;
+                        double close = (double)d.Close;
+                        periodClose[n] = close;
+                        sum += close;
                         n++;
                     }
 
-                    decimal periodAvg = sum / lookbackPeriods;
-                    decimal stdDev = (decimal)Functions.StdDev(periodClose);
+                    double periodAvg = sum / lookbackPeriods;
+                    double stdDev = Functions.StdDev(periodClose);
 
-                    r.Sma = periodAvg;
-                    r.UpperBand = periodAvg + standardDeviations * stdDev;
-                    r.LowerBand = periodAvg - standardDeviations * stdDev;
+                    r.Sma = (decimal)periodAvg;
+                    r.UpperBand = (decimal)(periodAvg + standardDeviations * stdDev);
+                    r.LowerBand = (decimal)(periodAvg - standardDeviations * stdDev);
 
                     r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                        : (q.Close - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                        : (double)((q.Close - r.LowerBand) / (r.UpperBand - r.LowerBand));
 
-                    r.ZScore = (stdDev == 0) ? null : (q.Close - r.Sma) / stdDev;
-                    r.Width = (r.Sma == 0) ? null : (r.UpperBand - r.LowerBand) / r.Sma;
+                    r.ZScore = (stdDev == 0) ? null : (double)(q.Close - r.Sma) / stdDev;
+                    r.Width = (periodAvg == 0) ? null : (double)(r.UpperBand - r.LowerBand) / periodAvg;
                 }
 
                 results.Add(r);
@@ -89,7 +90,7 @@ namespace Skender.Stock.Indicators
         private static void ValidateBollingerBands<TQuote>(
             IEnumerable<TQuote> quotes,
             int lookbackPeriods,
-            decimal standardDeviations)
+            double standardDeviations)
             where TQuote : IQuote
         {
 

@@ -63,24 +63,24 @@ namespace Skender.Stock.Indicators
                 if (index >= lookbackPeriods)
                 {
                     double[] periodValues = new double[lookbackPeriods];
-                    decimal sum = 0m;
+                    double sum = 0;
                     int n = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         BasicData d = bdList[p];
                         periodValues[n] = (double)d.Value;
-                        sum += d.Value;
+                        sum += (double)d.Value;
                         n++;
                     }
 
-                    decimal periodAvg = sum / lookbackPeriods;
+                    double periodAvg = sum / lookbackPeriods;
 
-                    result.StdDev = (decimal)Functions.StdDev(periodValues);
+                    result.StdDev = Functions.StdDev(periodValues);
                     result.Mean = periodAvg;
 
                     result.ZScore = (result.StdDev == 0) ? null
-                        : (bd.Value - periodAvg) / result.StdDev;
+                        : ((double)bd.Value - periodAvg) / result.StdDev;
                 }
 
                 results.Add(result);
@@ -88,10 +88,10 @@ namespace Skender.Stock.Indicators
                 // optional SMA
                 if (smaPeriods != null && index >= lookbackPeriods + smaPeriods - 1)
                 {
-                    decimal sumSma = 0m;
+                    double sumSma = 0;
                     for (int p = index - (int)smaPeriods; p < index; p++)
                     {
-                        sumSma += (decimal)results[p].StdDev;
+                        sumSma += (double)results[p].StdDev;
                     }
 
                     result.StdDevSma = sumSma / smaPeriods;

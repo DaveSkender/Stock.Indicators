@@ -129,5 +129,30 @@ namespace Skender.Stock.Indicators
                 : bdList;
         }
 
+        // convert to basic double
+        internal static List<BasicDouble> ConvertToBasicDouble<TQuote>(
+            this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
+            where TQuote : IQuote
+        {
+            // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
+            // convert to basic double precision format
+            IEnumerable<BasicDouble> basicDouble = element switch
+            {
+                CandlePart.Open => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Open }),
+                CandlePart.High => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.High }),
+                CandlePart.Low => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Low }),
+                CandlePart.Close => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Close }),
+                CandlePart.Volume => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Volume }),
+                _ => new List<BasicDouble>(),
+            };
+
+            List<BasicDouble> bdList = basicDouble.OrderBy(x => x.Date).ToList();
+
+            // validate
+            return bdList == null || bdList.Count == 0
+                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
+                : bdList;
+        }
+
     }
 }

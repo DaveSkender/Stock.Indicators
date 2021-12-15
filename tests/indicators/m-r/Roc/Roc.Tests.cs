@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,11 +25,11 @@ namespace Internal.Tests
 
             // sample values
             RocResult r1 = results[249];
-            Assert.AreEqual(2.4827m, Math.Round((decimal)r1.Roc, 4));
+            Assert.AreEqual(2.4827, Math.Round((double)r1.Roc, 4));
             Assert.AreEqual(null, r1.RocSma);
 
             RocResult r2 = results[501];
-            Assert.AreEqual(-8.2482m, Math.Round((decimal)r2.Roc, 4));
+            Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
             Assert.AreEqual(null, r2.RocSma);
         }
 
@@ -52,12 +52,12 @@ namespace Internal.Tests
 
             // sample values
             RocResult r1 = results[29];
-            Assert.AreEqual(3.2936m, Math.Round((decimal)r1.Roc, 4));
-            Assert.AreEqual(2.1558m, Math.Round((decimal)r1.RocSma, 4));
+            Assert.AreEqual(3.2936, Math.Round((double)r1.Roc, 4));
+            Assert.AreEqual(2.1558, Math.Round((double)r1.RocSma, 4));
 
             RocResult r2 = results[501];
-            Assert.AreEqual(-8.2482m, Math.Round((decimal)r2.Roc, 4));
-            Assert.AreEqual(-8.4828m, Math.Round((decimal)r2.RocSma, 4));
+            Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
+            Assert.AreEqual(-8.4828, Math.Round((double)r2.RocSma, 4));
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 20, results.Count);
 
             RocResult last = results.LastOrDefault();
-            Assert.AreEqual(-8.2482m, Math.Round((decimal)last.Roc, 4));
+            Assert.AreEqual(-8.2482, Math.Round((double)last.Roc, 4));
             Assert.AreEqual(null, last.RocSma);
         }
 

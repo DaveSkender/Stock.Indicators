@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,8 +11,8 @@ namespace Skender.Stock.Indicators
         /// 
         public static IEnumerable<MamaResult> GetMama<TQuote>(
             this IEnumerable<TQuote> quotes,
-            decimal fastLimit = 0.5m,
-            decimal slowLimit = 0.05m)
+            double fastLimit = 0.5,
+            double slowLimit = 0.05)
             where TQuote : IQuote
         {
 
@@ -107,14 +107,14 @@ namespace Skender.Stock.Indicators
                     ph[i] = (i1[i] != 0) ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
 
                     // change in phase
-                    decimal delta = Math.Max((decimal)(ph[i - 1] - ph[i]), 1m);
+                    double delta = Math.Max((ph[i - 1] - ph[i]), 1d);
 
                     // adaptive alpha value
-                    decimal alpha = Math.Max(fastLimit / delta, slowLimit);
+                    double alpha = Math.Max(fastLimit / delta, slowLimit);
 
                     // final indicators
-                    r.Mama = alpha * (decimal)pr[i] + (1m - alpha) * results[i - 1].Mama;
-                    r.Fama = 0.5m * alpha * r.Mama + (1m - 0.5m * alpha) * results[i - 1].Fama;
+                    r.Mama = (decimal)(alpha * pr[i] + (1d - alpha) * (double)results[i - 1].Mama);
+                    r.Fama = (decimal)(0.5d * alpha * (double)r.Mama + (1d - 0.5d * alpha) * (double)results[i - 1].Fama);
                 }
 
                 // initialization period
@@ -163,8 +163,8 @@ namespace Skender.Stock.Indicators
         // parameter validation
         private static void ValidateMama<TQuote>(
             IEnumerable<TQuote> quotes,
-            decimal fastLimit,
-            decimal slowLimit)
+            double fastLimit,
+            double slowLimit)
             where TQuote : IQuote
         {
 

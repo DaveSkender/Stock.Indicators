@@ -25,13 +25,14 @@ namespace Skender.Stock.Indicators
             List<ObvResult> results = new(quotesList.Count);
 
             decimal? prevClose = null;
-            decimal obv = 0;
+            double obv = 0;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
                 TQuote q = quotesList[i];
                 int index = i + 1;
+                double volume = (double)q.Volume;
 
                 if (prevClose == null || q.Close == prevClose)
                 {
@@ -39,11 +40,11 @@ namespace Skender.Stock.Indicators
                 }
                 else if (q.Close > prevClose)
                 {
-                    obv += q.Volume;
+                    obv += volume;
                 }
                 else if (q.Close < prevClose)
                 {
-                    obv -= q.Volume;
+                    obv -= volume;
                 }
 
                 ObvResult result = new()
@@ -58,7 +59,7 @@ namespace Skender.Stock.Indicators
                 // optional SMA
                 if (smaPeriods != null && index > smaPeriods)
                 {
-                    decimal sumSma = 0m;
+                    double sumSma = 0;
                     for (int p = index - (int)smaPeriods; p < index; p++)
                     {
                         sumSma += results[p].Obv;
@@ -82,11 +83,11 @@ namespace Skender.Stock.Indicators
               .Select(x => new Quote
               {
                   Date = x.Date,
-                  Open = x.Obv,
-                  High = x.Obv,
-                  Low = x.Obv,
-                  Close = x.Obv,
-                  Volume = x.Obv
+                  Open = (decimal)x.Obv,
+                  High = (decimal)x.Obv,
+                  Low = (decimal)x.Obv,
+                  Close = (decimal)x.Obv,
+                  Volume = (decimal)x.Obv
               })
               .ToList();
         }
