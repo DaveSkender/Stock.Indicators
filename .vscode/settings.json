@@ -18,6 +18,8 @@
 
     // editor settings
     "editor.codeLens": false,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
     "editor.formatOnPaste": true,
     "terminal.integrated.defaultProfile.windows": "Git Bash",
 
