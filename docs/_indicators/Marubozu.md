@@ -3,8 +3,6 @@ title: Marubozu (Preview)
 permalink: /indicators/Marubozu/
 layout: indicator
 type: candlestick-pattern
-redirect_from:
-  - /indicators/Patterns/Marubozu/
 ---
 
 # {{ page.title }}

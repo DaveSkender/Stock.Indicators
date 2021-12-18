@@ -26,7 +26,7 @@ You must have at least 115 periods of `quotes`. Since this uses a smoothing tech
 
 ### Internal parameters
 
-This indicator uses fixed interal parameters for the three moving averages of median price `(H+L)/2`.
+This indicator uses fixed internal parameters for the three moving averages of median price `(H+L)/2`.
 
 | SMMA | Lookback | Offset
 | -- |-- |--
