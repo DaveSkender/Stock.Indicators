@@ -16,23 +16,23 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
             ValidateFisherTransform(quotes, lookbackPeriods);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             double[] pr = new double[size]; // median price
             double[] xv = new double[size];  // price transform "value"
             List<FisherTransformResult> results = new(size);
 
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                QuoteD q = quotesList[i];
-                pr[i] = (q.High + q.Low) / 2;
+                BasicD q = bdList[i];
+                pr[i] = q.Value;
 
                 double minPrice = pr[i];
                 double maxPrice = pr[i];

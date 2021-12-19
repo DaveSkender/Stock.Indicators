@@ -212,6 +212,7 @@ namespace Internal.Tests
             List<BasicD> l = quotes.ConvertToBasic(CandlePart.Low);
             List<BasicD> c = quotes.ConvertToBasic(CandlePart.Close);
             List<BasicD> v = quotes.ConvertToBasic(CandlePart.Volume);
+            List<BasicD> x = quotes.ConvertToBasic(CandlePart.HL2);
 
             // assertions
 
@@ -224,6 +225,7 @@ namespace Internal.Tests
             BasicD rl = l[501];
             BasicD rc = c[501];
             BasicD rv = v[501];
+            BasicD rx = x[501];
 
             // proper last date
             DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
@@ -235,6 +237,7 @@ namespace Internal.Tests
             Assert.AreEqual(242.87, rl.Value);
             Assert.AreEqual(245.28, rc.Value);
             Assert.AreEqual(147031456, rv.Value);
+            Assert.AreEqual(244.205, rx.Value);
         }
 
 

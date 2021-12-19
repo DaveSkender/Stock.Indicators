@@ -9,7 +9,8 @@ namespace Skender.Stock.Indicators
         High,
         Low,
         Close,
-        Volume
+        Volume,
+        HL2
     }
 
     public enum EndType

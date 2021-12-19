@@ -15,13 +15,13 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
             ValidateHtTrendline(quotes);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<HtlResult> results = new(size);
 
             double[] pr = new double[size]; // price
@@ -47,8 +47,8 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                QuoteD q = quotesList[i];
-                pr[i] = (q.High + q.Low) / 2;
+                BasicD q = bdList[i];
+                pr[i] = q.Value;
 
                 HtlResult r = new()
                 {

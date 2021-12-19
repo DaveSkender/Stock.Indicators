@@ -17,13 +17,13 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
             ValidateMama(quotes, fastLimit, slowLimit);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<MamaResult> results = new(size);
 
             double sumPr = 0d;
@@ -50,8 +50,8 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                QuoteD q = quotesList[i];
-                pr[i] = (q.High + q.Low) / 2;
+                BasicD q = bdList[i];
+                pr[i] = q.Value;
 
                 MamaResult r = new()
                 {

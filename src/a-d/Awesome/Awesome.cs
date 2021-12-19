@@ -17,21 +17,21 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
             ValidateAwesome(quotes, fastPeriods, slowPeriods);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<AwesomeResult> results = new();
             double[] pr = new double[size]; // median price
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                QuoteD q = quotesList[i];
-                pr[i] = (q.High + q.Low) / 2;
+                BasicD q = bdList[i];
+                pr[i] = q.Value;
                 int index = i + 1;
 
                 AwesomeResult r = new()

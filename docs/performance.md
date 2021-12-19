@@ -21,11 +21,11 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |             GetAdl |    59.68 μs | 0.612 μs | 0.511 μs |
 |      GetAdlWithSma |    67.30 μs | 0.374 μs | 0.312 μs |
 |             GetAdx |   227.22 μs | 1.261 μs | 1.179 μs |
-|       GetAlligator |   169.23 μs | 0.986 μs | 0.874 μs |
+|       GetAlligator |   167.23 μs | 0.986 μs | 0.874 μs |
 |            GetAlma |    67.03 μs | 0.328 μs | 0.310 μs |
 |           GetAroon |   142.20 μs | 1.460 μs | 0.931 μs |
 |             GetAtr |   154.96 μs | 0.970 μs | 0.810 μs |
-|         GetAwesome |    75.39 μs | 0.325 μs | 0.289 μs |
+|         GetAwesome |    73.39 μs | 0.325 μs | 0.289 μs |
 |            GetBeta |   221.70 us | 1.780 us | 1.580 us |
 |          GetBetaUp |   247.50 us | 4.910 us | 5.050 us |
 |        GetBetaDown |   238.00 us | 4.040 us | 3.580 us |
@@ -46,7 +46,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |             GetEma |    56.83 μs | 0.394 μs | 0.350 μs |
 |            GetEpma |   100.15 μs | 0.331 μs | 0.276 μs |
 |             GetFcb |   347.82 μs | 2.644 μs | 2.473 μs |
-| GetFisherTransform |    95.40 μs | 0.474 μs | 0.420 μs |
+| GetFisherTransform |    89.40 μs | 0.474 μs | 0.420 μs |
 |      GetForceIndex |    59.93 μs | 0.317 μs | 0.296 μs |
 |         GetFractal |    95.72 μs | 0.244 μs | 0.190 μs |
 |           GetGator |   215.27 μs | 3.762 μs | 3.141 μs |

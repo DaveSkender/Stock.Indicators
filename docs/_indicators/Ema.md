@@ -46,6 +46,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more.
 | `CandlePart.Low` | Use `Low` price
 | `CandlePart.Close` | Use `Close` price (default)
 | `CandlePart.Volume` | Use `Volume`
+| `CandlePart.HL2` | Use `(High+Low)/2`
 
 ## Response
 
