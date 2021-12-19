@@ -13,6 +13,13 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
+  <param name="jawPeriods">Lookback periods for the Jaw line.</param>
+  <param name="jawOffset">Offset periods for the Jaw line.</param>
+  <param name="teethPeriods">Lookback periods for the Teeth line.</param>
+  <param name="teethOffset">Offset periods for the Teeth line.</param>
+  <param name="lipsPeriods">Lookback periods for the Lips line.</param>
+  <param name="lipsOffset">Offset periods for the Lips line.</param>
   <returns>Time series of Alligator values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>
