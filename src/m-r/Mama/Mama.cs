@@ -16,8 +16,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateMama(quotes, fastLimit, slowLimit);
@@ -50,8 +50,8 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
-                pr[i] = (double)(q.High + q.Low) / 2;
+                QuoteD q = quotesList[i];
+                pr[i] = (q.High + q.Low) / 2;
 
                 MamaResult r = new()
                 {

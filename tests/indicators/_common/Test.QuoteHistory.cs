@@ -93,7 +93,7 @@ namespace Internal.Tests
             IEnumerable<Quote> quotes = TestData.GetMismatch();
 
             // clean
-            List<Quote> h = quotes.Sort();
+            List<Quote> h = quotes.SortToList();
 
             // assertions
 
@@ -207,11 +207,11 @@ namespace Internal.Tests
         public void ConvertToBasic()
         {
             // compose basic data
-            List<BasicData> o = quotes.ConvertToBasic(CandlePart.Open);
-            List<BasicData> h = quotes.ConvertToBasic(CandlePart.High);
-            List<BasicData> l = quotes.ConvertToBasic(CandlePart.Low);
-            List<BasicData> c = quotes.ConvertToBasic(CandlePart.Close);
-            List<BasicData> v = quotes.ConvertToBasic(CandlePart.Volume);
+            List<BasicD> o = quotes.ConvertToBasic(CandlePart.Open);
+            List<BasicD> h = quotes.ConvertToBasic(CandlePart.High);
+            List<BasicD> l = quotes.ConvertToBasic(CandlePart.Low);
+            List<BasicD> c = quotes.ConvertToBasic(CandlePart.Close);
+            List<BasicD> v = quotes.ConvertToBasic(CandlePart.Volume);
 
             // assertions
 
@@ -219,21 +219,21 @@ namespace Internal.Tests
             Assert.AreEqual(502, c.Count);
 
             // samples
-            BasicData ro = o[501];
-            BasicData rh = h[501];
-            BasicData rl = l[501];
-            BasicData rc = c[501];
-            BasicData rv = v[501];
+            BasicD ro = o[501];
+            BasicD rh = h[501];
+            BasicD rl = l[501];
+            BasicD rc = c[501];
+            BasicD rv = v[501];
 
             // proper last date
             DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
             Assert.AreEqual(lastDate, rc.Date);
 
             // last values should be correct
-            Assert.AreEqual(244.92m, ro.Value);
-            Assert.AreEqual(245.54m, rh.Value);
-            Assert.AreEqual(242.87m, rl.Value);
-            Assert.AreEqual(245.28m, rc.Value);
+            Assert.AreEqual(244.92, ro.Value);
+            Assert.AreEqual(245.54, rh.Value);
+            Assert.AreEqual(242.87, rl.Value);
+            Assert.AreEqual(245.28, rc.Value);
             Assert.AreEqual(147031456, rv.Value);
         }
 

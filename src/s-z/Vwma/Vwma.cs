@@ -15,7 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateVwma(quotes, lookbackPeriods);
@@ -27,7 +28,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 VwmaResult result = new()
@@ -41,9 +42,9 @@ namespace Skender.Stock.Indicators
                     double? sumVl = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
-                        double? c = (double)d.Close;
-                        double? v = (double?)d.Volume;
+                        QuoteD d = quotesList[p];
+                        double? c = d.Close;
+                        double? v = d.Volume;
 
                         sumCl += c * v;
                         sumVl += v;

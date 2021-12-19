@@ -16,8 +16,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateRoc(quotes, lookbackPeriods, smaPeriods);
@@ -28,7 +28,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 RocResult result = new()
@@ -38,10 +38,10 @@ namespace Skender.Stock.Indicators
 
                 if (index > lookbackPeriods)
                 {
-                    TQuote back = quotesList[index - lookbackPeriods - 1];
+                    QuoteD back = quotesList[index - lookbackPeriods - 1];
 
                     result.Roc = (back.Close == 0) ? null
-                        : 100 * (double)((q.Close - back.Close) / back.Close);
+                        : 100d * (q.Close - back.Close) / back.Close;
                 }
 
                 results.Add(result);

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skender.Stock.Indicators
@@ -14,7 +14,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            List<TQuote> quotesList = quotes.SortToList();
 
             // check parameter arguments
             ValidateHeikinAshi(quotes);

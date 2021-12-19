@@ -16,8 +16,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateBollingerBands(quotes, lookbackPeriods, standardDeviations);
@@ -28,7 +28,8 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
+                decimal close = (decimal)q.Close;
                 int index = i + 1;
 
                 BollingerBandsResult r = new()
@@ -44,10 +45,9 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
-                        double close = (double)d.Close;
-                        periodClose[n] = close;
-                        sum += close;
+                        QuoteD d = quotesList[p];
+                        periodClose[n] = d.Close;
+                        sum += d.Close;
                         n++;
                     }
 
@@ -59,9 +59,9 @@ namespace Skender.Stock.Indicators
                     r.LowerBand = (decimal)(periodAvg - standardDeviations * stdDev);
 
                     r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                        : (double)((q.Close - r.LowerBand) / (r.UpperBand - r.LowerBand));
+                        : (double)((close - r.LowerBand) / (r.UpperBand - r.LowerBand));
 
-                    r.ZScore = (stdDev == 0) ? null : (double)(q.Close - r.Sma) / stdDev;
+                    r.ZScore = (stdDev == 0) ? null : (double)(close - r.Sma) / stdDev;
                     r.Width = (periodAvg == 0) ? null : (double)(r.UpperBand - r.LowerBand) / periodAvg;
                 }
 

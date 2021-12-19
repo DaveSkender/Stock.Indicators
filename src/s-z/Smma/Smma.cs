@@ -14,8 +14,8 @@ namespace Skender.Stock.Indicators
             int lookbackPeriods)
             where TQuote : IQuote
         {
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateSmma(quotes, lookbackPeriods);
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = quotesList[i];
                 int index = i + 1;
 
                 SmmaResult result = new()
@@ -38,7 +38,7 @@ namespace Skender.Stock.Indicators
                 // calculate SMMA
                 if (index > lookbackPeriods)
                 {
-                    result.Smma = (decimal)(prevValue * (lookbackPeriods - 1) + (double)q.Close)
+                    result.Smma = (decimal)(prevValue * (lookbackPeriods - 1) + q.Value)
                                 / lookbackPeriods;
                 }
 
@@ -48,8 +48,8 @@ namespace Skender.Stock.Indicators
                     double sumClose = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
-                        sumClose += (double)d.Close;
+                        BasicD d = quotesList[p];
+                        sumClose += d.Value;
                     }
 
                     result.Smma = (decimal)(sumClose / lookbackPeriods);

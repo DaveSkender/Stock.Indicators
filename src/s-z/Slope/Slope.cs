@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateSlope(quotes, lookbackPeriods);
@@ -28,7 +28,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 SlopeResult r = new()
@@ -50,10 +50,10 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    TQuote d = quotesList[p];
+                    QuoteD d = quotesList[p];
 
                     sumX += p + 1d;
-                    sumY += (double)d.Close;
+                    sumY += d.Close;
                 }
 
                 double avgX = sumX / lookbackPeriods;
@@ -66,10 +66,10 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    TQuote d = quotesList[p];
+                    QuoteD d = quotesList[p];
 
                     double devX = (p + 1d - avgX);
-                    double devY = ((double)d.Close - avgY);
+                    double devY = (d.Close - avgY);
 
                     sumSqX += devX * devX;
                     sumSqY += devY * devY;

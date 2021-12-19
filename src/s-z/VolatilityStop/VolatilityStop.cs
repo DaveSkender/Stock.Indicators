@@ -16,8 +16,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateVolatilityStop(quotes, lookbackPeriods, multiplier);
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
 
             for (int i = 0; i < lookbackPeriods; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 double close = (double)q.Close;
                 sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
                 results.Add(new VolatilityStopResult() { Date = q.Date });
@@ -42,7 +42,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = lookbackPeriods; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 double close = (double)q.Close;
 
                 // average true range × multiplier constant
@@ -68,7 +68,8 @@ namespace Skender.Stock.Indicators
                 }
 
                 // evaluate stop and reverse
-                if ((isLong && q.Close < r.Sar) || (!isLong && q.Close > r.Sar))
+                if ((isLong && (decimal?)q.Close < r.Sar)
+                || (!isLong && (decimal?)q.Close > r.Sar))
                 {
                     r.IsStop = true;
                     sic = close;

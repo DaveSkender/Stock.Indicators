@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             ValidateSma(quotes, lookbackPeriods);
 
             // initialize
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return bdList.CalcSma(lookbackPeriods);
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
             ValidateSma(quotes, lookbackPeriods);
 
             // initialize
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(candlePart);
+            List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
 
             // calculate
             return bdList.CalcSma(lookbackPeriods);
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
 
         // calculate
         private static IEnumerable<SmaResult> CalcSma(
-            this List<BasicDouble> bdList,
+            this List<BasicD> bdList,
             int lookbackPeriods)
         {
 
@@ -74,7 +74,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
-                BasicDouble q = bdList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 SmaResult result = new()
@@ -87,7 +87,7 @@ namespace Skender.Stock.Indicators
                     double sumSma = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        BasicDouble d = bdList[p];
+                        BasicD d = bdList[p];
                         sumSma += d.Value;
                     }
 

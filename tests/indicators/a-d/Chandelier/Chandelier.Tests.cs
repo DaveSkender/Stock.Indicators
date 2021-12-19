@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +16,7 @@ namespace Internal.Tests
             int lookbackPeriods = 22;
 
             List<ChandelierResult> longResult =
-                quotes.GetChandelier(lookbackPeriods, 3.0m)
+                quotes.GetChandelier(lookbackPeriods, 3)
                 .ToList();
 
             // assertions
@@ -35,7 +35,7 @@ namespace Internal.Tests
 
             // short
             List<ChandelierResult> shortResult =
-                Indicator.GetChandelier(quotes, lookbackPeriods, 3.0m, ChandelierType.Short)
+                Indicator.GetChandelier(quotes, lookbackPeriods, 3, ChandelierType.Short)
                 .ToList();
 
             ChandelierResult c = shortResult[501];
@@ -45,7 +45,7 @@ namespace Internal.Tests
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<ChandelierResult> r = Indicator.GetChandelier(badQuotes, 15, 2m);
+            IEnumerable<ChandelierResult> r = Indicator.GetChandelier(badQuotes, 15, 2);
             Assert.AreEqual(502, r.Count());
         }
 
@@ -53,7 +53,7 @@ namespace Internal.Tests
         public void Removed()
         {
             List<ChandelierResult> longResult =
-                quotes.GetChandelier(22, 3.0m)
+                quotes.GetChandelier(22, 3)
                     .RemoveWarmupPeriods()
                     .ToList();
 

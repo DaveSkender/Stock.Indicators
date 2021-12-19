@@ -17,40 +17,30 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
-
             // check parameter arguments
             ValidateStarcBands(quotes, smaPeriods, multiplier, atrPeriods);
 
             // initialize
-            List<StarcBandsResult> results = new(quotesList.Count);
-            List<SmaResult> smaResults = GetSma(quotes, smaPeriods).ToList();
             List<AtrResult> atrResults = GetAtr(quotes, atrPeriods).ToList();
+            List<StarcBandsResult> results = GetSma(quotes, smaPeriods)
+                .Select(x => new StarcBandsResult
+                {
+                    Date = x.Date,
+                    Centerline = x.Sma
+                })
+                .ToList();
+
             int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = lookbackPeriods - 1; i < results.Count; i++)
             {
-                TQuote q = quotesList[i];
-                int index = i + 1;
+                StarcBandsResult r = results[i];
 
-                StarcBandsResult result = new()
-                {
-                    Date = q.Date
-                };
+                AtrResult a = atrResults[i];
 
-                if (index >= lookbackPeriods)
-                {
-                    SmaResult s = smaResults[i];
-                    AtrResult a = atrResults[i];
-
-                    result.Centerline = s.Sma;
-                    result.UpperBand = s.Sma + multiplier * a.Atr;
-                    result.LowerBand = s.Sma - multiplier * a.Atr;
-                }
-
-                results.Add(result);
+                r.UpperBand = r.Centerline + multiplier * a.Atr;
+                r.LowerBand = r.Centerline - multiplier * a.Atr;
             }
 
             return results;

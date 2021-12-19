@@ -17,8 +17,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateKlinger(quotes, fastPeriods, slowPeriods, signalPeriods);
@@ -43,7 +43,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 KvoResult r = new()
@@ -53,10 +53,10 @@ namespace Skender.Stock.Indicators
                 results.Add(r);
 
                 // trend basis comparator
-                hlc[i] = (double)(q.High + q.Low + q.Close);
+                hlc[i] = q.High + q.Low + q.Close;
 
                 // daily measurement
-                dm[i] = (double)(q.High - q.Low);
+                dm[i] = q.High - q.Low;
 
                 if (i <= 0)
                 {
@@ -78,8 +78,8 @@ namespace Skender.Stock.Indicators
 
                 // volume force (VF)
                 vf[i] = (dm[i] == cm[i] || q.Volume == 0) ? 0
-                    : (dm[i] == 0) ? (double)q.Volume * 2 * t[i] * 100d
-                    : (cm[i] != 0) ? (double)q.Volume * Math.Abs(2 * (dm[i] / cm[i] - 1)) * t[i] * 100d
+                    : (dm[i] == 0) ? q.Volume * 2d * t[i] * 100d
+                    : (cm[i] != 0) ? q.Volume * Math.Abs(2d * (dm[i] / cm[i] - 1)) * t[i] * 100d
                     : vf[i - 1];
 
                 // fast-period EMA of VF

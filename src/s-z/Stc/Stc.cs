@@ -17,8 +17,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateStc(quotes, cyclePeriods, fastPeriods, slowPeriods);
@@ -42,7 +42,7 @@ namespace Skender.Stock.Indicators
 
             for (int i = 0; i < slowPeriods - 1; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = quotesList[i];
                 results.Add(new StcResult() { Date = q.Date });
             }
 

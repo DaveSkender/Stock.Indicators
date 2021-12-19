@@ -17,9 +17,9 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesListEval = quotesEval.Sort();
-            List<TQuote> quotesListMrkt = quotesMarket.Sort();
+            // convert quotes
+            List<QuoteD> quotesListEval = quotesEval.ConvertToList();
+            List<QuoteD> quotesListMrkt = quotesMarket.ConvertToList();
 
             // check parameter arguments
             ValidateBeta(quotesMarket, quotesEval, lookbackPeriods);
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesListEval.Count; i++)
             {
-                TQuote e = quotesListEval[i];
+                QuoteD e = quotesListEval[i];
 
                 BetaResult r = new()
                 {
@@ -97,14 +97,13 @@ namespace Skender.Stock.Indicators
 
 
         // calculate beta
-        private static void CalcBeta<TQuote>(
+        private static void CalcBeta(
             this BetaResult r,
             int index,
             int lookbackPeriods,
-            List<TQuote> quotesListMrkt,
-            List<TQuote> quotesListEval,
+            List<QuoteD> quotesListMrkt,
+            List<QuoteD> quotesListEval,
             BetaType type)
-            where TQuote : IQuote
         {
             // do not supply type==BetaType.All
             if (type is BetaType.All)
@@ -120,8 +119,8 @@ namespace Skender.Stock.Indicators
 
             for (int p = index - lookbackPeriods + 1; p <= index; p++)
             {
-                double a = (double)quotesListMrkt[p].Close;
-                double b = (double)quotesListEval[p].Close;
+                double a = quotesListMrkt[p].Close;
+                double b = quotesListEval[p].Close;
 
                 if (type is BetaType.Standard)
                 {
@@ -129,13 +128,13 @@ namespace Skender.Stock.Indicators
                     dataB.Add(b);
                 }
                 else if (type is BetaType.Down
-                    && a < (double)quotesListMrkt[p - 1].Close)
+                    && a < quotesListMrkt[p - 1].Close)
                 {
                     dataA.Add(a);
                     dataB.Add(b);
                 }
                 else if (type is BetaType.Up
-                    && a > (double)quotesListMrkt[p - 1].Close)
+                    && a > quotesListMrkt[p - 1].Close)
                 {
                     dataA.Add(a);
                     dataB.Add(b);

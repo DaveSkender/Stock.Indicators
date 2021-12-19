@@ -17,21 +17,21 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> historyBaseList = historyBase.Sort();
-            List<TQuote> historyEvalList = historyEval.Sort();
+            // convert quotes
+            List<QuoteD> quotesBaseList = historyBase.ConvertToList();
+            List<QuoteD> quotesEvalList = historyEval.ConvertToList();
 
             // check parameter arguments
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriods);
 
             // initialize
-            List<PrsResult> results = new(historyEvalList.Count);
+            List<PrsResult> results = new(quotesEvalList.Count);
 
             // roll through quotes
-            for (int i = 0; i < historyEvalList.Count; i++)
+            for (int i = 0; i < quotesEvalList.Count; i++)
             {
-                TQuote bi = historyBaseList[i];
-                TQuote ei = historyEvalList[i];
+                QuoteD bi = quotesBaseList[i];
+                QuoteD ei = quotesEvalList[i];
                 int index = i + 1;
 
                 if (ei.Date != bi.Date)
@@ -49,13 +49,13 @@ namespace Skender.Stock.Indicators
 
                 if (lookbackPeriods != null && index > lookbackPeriods)
                 {
-                    TQuote bo = historyBaseList[i - (int)lookbackPeriods];
-                    TQuote eo = historyEvalList[i - (int)lookbackPeriods];
+                    QuoteD bo = quotesBaseList[i - (int)lookbackPeriods];
+                    QuoteD eo = quotesEvalList[i - (int)lookbackPeriods];
 
                     if (bo.Close != 0 && eo.Close != 0)
                     {
-                        double pctB = (double)((bi.Close - bo.Close) / bo.Close);
-                        double pctE = (double)((ei.Close - eo.Close) / eo.Close);
+                        double pctB = (bi.Close - bo.Close) / bo.Close;
+                        double pctE = (ei.Close - eo.Close) / eo.Close;
 
                         r.PrsPercent = pctE - pctB;
                     }

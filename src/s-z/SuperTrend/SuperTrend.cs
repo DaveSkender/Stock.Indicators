@@ -16,8 +16,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateSuperTrend(quotes, lookbackPeriods, multiplier);
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
 
                 SuperTrendResult r = new()
                 {
@@ -43,9 +43,9 @@ namespace Skender.Stock.Indicators
                 if (i >= lookbackPeriods - 1)
                 {
 
-                    double mid = (double)(q.High + q.Low) / 2;
+                    double mid = (q.High + q.Low) / 2;
                     double atr = (double)atrResults[i].Atr;
-                    double prevClose = (double)quotesList[i - 1].Close;
+                    double prevClose = quotesList[i - 1].Close;
 
                     // potential bands
                     double upperEval = mid + multiplier * atr;
@@ -54,7 +54,7 @@ namespace Skender.Stock.Indicators
                     // initial values
                     if (i == lookbackPeriods - 1)
                     {
-                        isBullish = ((double)q.Close >= mid);
+                        isBullish = (q.Close >= mid);
 
                         upperBand = upperEval;
                         lowerBand = lowerEval;
@@ -73,7 +73,7 @@ namespace Skender.Stock.Indicators
                     }
 
                     // supertrend
-                    if ((double)q.Close <= ((isBullish) ? lowerBand : upperBand))
+                    if (q.Close <= ((isBullish) ? lowerBand : upperBand))
                     {
                         r.SuperTrend = (decimal?)upperBand;
                         r.UpperBand = (decimal?)upperBand;

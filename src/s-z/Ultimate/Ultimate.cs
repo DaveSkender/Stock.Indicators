@@ -17,8 +17,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateUltimate(quotes, shortPeriods, middlePeriods, longPeriods);
@@ -29,12 +29,12 @@ namespace Skender.Stock.Indicators
             double[] bp = new double[size]; // buying pressure
             double[] tr = new double[size]; // true range
 
-            decimal priorClose = 0;
+            double priorClose = 0;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 UltimateResult r = new()
@@ -45,8 +45,8 @@ namespace Skender.Stock.Indicators
 
                 if (i > 0)
                 {
-                    bp[i] = (double)(q.Close - Math.Min(q.Low, priorClose));
-                    tr[i] = (double)(Math.Max(q.High, priorClose) - Math.Min(q.Low, priorClose));
+                    bp[i] = q.Close - Math.Min(q.Low, priorClose);
+                    tr[i] = Math.Max(q.High, priorClose) - Math.Min(q.Low, priorClose);
                 }
 
                 if (index >= longPeriods + 1)
@@ -86,7 +86,7 @@ namespace Skender.Stock.Indicators
                     double? avg2 = (sumTR2 == 0) ? null : sumBP2 / sumTR2;
                     double? avg3 = (sumTR3 == 0) ? null : sumBP3 / sumTR3;
 
-                    r.Ultimate = (decimal?)(100 * (4d * avg1 + 2d * avg2 + avg3) / 7d);
+                    r.Ultimate = (decimal?)(100d * (4d * avg1 + 2d * avg2 + avg3) / 7d);
                 }
 
                 priorClose = q.Close;

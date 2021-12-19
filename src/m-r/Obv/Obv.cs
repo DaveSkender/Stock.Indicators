@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateObv(quotes, smaPeriods);
@@ -24,15 +24,14 @@ namespace Skender.Stock.Indicators
             // initialize
             List<ObvResult> results = new(quotesList.Count);
 
-            decimal? prevClose = null;
+            double? prevClose = null;
             double obv = 0;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
-                double volume = (double)q.Volume;
 
                 if (prevClose == null || q.Close == prevClose)
                 {
@@ -40,11 +39,11 @@ namespace Skender.Stock.Indicators
                 }
                 else if (q.Close > prevClose)
                 {
-                    obv += volume;
+                    obv += q.Volume;
                 }
                 else if (q.Close < prevClose)
                 {
-                    obv -= volume;
+                    obv -= q.Volume;
                 }
 
                 ObvResult result = new()

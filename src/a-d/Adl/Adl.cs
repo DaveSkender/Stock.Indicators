@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateAdl(quotes, smaPeriods);
@@ -28,11 +28,11 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
-                double mfm = (q.High == q.Low) ? 0 : (double)(((q.Close - q.Low) - (q.High - q.Close)) / (q.High - q.Low));
-                double mfv = mfm * (double)q.Volume;
+                double mfm = (q.High == q.Low) ? 0 : ((q.Close - q.Low) - (q.High - q.Close)) / (q.High - q.Low);
+                double mfv = mfm * q.Volume;
                 double adl = mfv + prevAdl;
 
                 AdlResult result = new()

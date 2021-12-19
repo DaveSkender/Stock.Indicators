@@ -13,8 +13,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateAlligator(quotes);
@@ -41,9 +41,9 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
-                pr[i] = (double)(q.High + q.Low) / 2;
+                pr[i] = (q.High + q.Low) / 2;
 
                 // only calculate jaw if the array index + offset is still in valid range
                 if (i + jawOffset < size)

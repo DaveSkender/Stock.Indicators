@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            List<TQuote> quotesList = quotes.Sort();
+            List<TQuote> quotesList = quotes.SortToList();
 
             // check parameter arguments
             ValidateVolSma(quotes, lookbackPeriods);

@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateFisherTransform(quotes, lookbackPeriods);
@@ -31,8 +31,8 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
-                pr[i] = (double)(q.High + q.Low) / 2;
+                QuoteD q = quotesList[i];
+                pr[i] = (q.High + q.Low) / 2;
 
                 double minPrice = pr[i];
                 double maxPrice = pr[i];

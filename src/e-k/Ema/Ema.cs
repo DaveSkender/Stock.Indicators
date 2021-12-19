@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes to basic format
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return bdList.CalcEma(lookbackPeriods);
@@ -34,7 +34,7 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes to basic format
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(candlePart);
+            List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
 
             // calculate
             return bdList.CalcEma(lookbackPeriods);
@@ -57,7 +57,7 @@ namespace Skender.Stock.Indicators
 
         // standard calculation
         private static List<EmaResult> CalcEma(
-            this List<BasicDouble> bdList, int lookbackPeriods)
+            this List<BasicD> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments
@@ -78,7 +78,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
-                BasicDouble h = bdList[i];
+                BasicD h = bdList[i];
                 int index = i + 1;
 
                 EmaResult result = new()
@@ -106,7 +106,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateEma(
-            List<BasicDouble> quotes,
+            List<BasicD> quotes,
             int lookbackPeriods)
         {
 

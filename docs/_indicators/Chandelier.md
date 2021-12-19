@@ -23,7 +23,7 @@ IEnumerable<ChandelierResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22.
-| `multiplier` | decimal | Multiplier number must be a positive value.  Default is 3.
+| `multiplier` | double | Multiplier number must be a positive value.  Default is 3.
 | `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.
 
 ### Historical quotes requirements
