@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,22 +17,30 @@ namespace Skender.Stock.Indicators
             // check parameter arguments
             ValidateGator(quotes);
 
-            // initialize
-            List<GatorResult> results = GetAlligator(quotes)
-                .Select(x => new GatorResult
-                {
-                    Date = x.Date,
+            // convert alligator to gator
+            return quotes
+                .GetAlligator()
+                .GetGator();
+        }
 
-                    Upper = ((x.Jaw - x.Teeth) is null) ? null :
+        public static IEnumerable<GatorResult> GetGator(
+            this IEnumerable<AlligatorResult> alligator)
+        {
+            List<GatorResult> results = alligator
+            .Select(x => new GatorResult
+            {
+                Date = x.Date,
+
+                Upper = ((x.Jaw - x.Teeth) is null) ? null :
                     (double)Math.Abs(x.Jaw.Value - x.Teeth.Value),
 
-                    Lower = ((x.Teeth - x.Lips) is null) ? null :
+                Lower = ((x.Teeth - x.Lips) is null) ? null :
                     -(double)Math.Abs(x.Teeth.Value - x.Lips.Value)
-                })
-                .ToList();
+            })
+            .ToList();
 
             // roll through quotes
-            for (int i = 13; i < results.Count; i++)
+            for (int i = 1; i < results.Count; i++)
             {
                 GatorResult r = results[i];
                 GatorResult p = results[i - 1];
@@ -44,7 +52,6 @@ namespace Skender.Stock.Indicators
 
             return results;
         }
-
 
         // remove recommended periods
         /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
