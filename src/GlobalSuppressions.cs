@@ -17,20 +17,6 @@ using System.Diagnostics.CodeAnalysis;
     "CA1716:Identifiers should not match keywords",
     Justification = "Making an exception",
     Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IQuoteDouble.Date")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Making an exception",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IQuoteFloat.Date")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Making an exception",
-    Scope = "member",
     Target = "~P:Skender.Stock.Indicators.IResult.Date")]
 
 // this can be removed after Microsoft publishes fix,

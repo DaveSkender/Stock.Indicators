@@ -17,24 +17,24 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateVolatilityStop(quotes, lookbackPeriods, multiplier);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<VolatilityStopResult> results = new(size);
             List<AtrResult> atrList = quotes.GetAtr(lookbackPeriods).ToList();
 
             // initial trend (guess)
-            double sic = (double)quotesList[0].Close;
-            bool isLong = ((double)quotesList[lookbackPeriods - 1].Close > sic);
+            double sic = (double)bdList[0].Value;
+            bool isLong = ((double)bdList[lookbackPeriods - 1].Value > sic);
 
             for (int i = 0; i < lookbackPeriods; i++)
             {
-                QuoteD q = quotesList[i];
-                double close = (double)q.Close;
+                BasicD q = bdList[i];
+                double close = (double)q.Value;
                 sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
                 results.Add(new VolatilityStopResult() { Date = q.Date });
             }
@@ -42,8 +42,8 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = lookbackPeriods; i < size; i++)
             {
-                QuoteD q = quotesList[i];
-                double close = (double)q.Close;
+                BasicD q = bdList[i];
+                double close = (double)q.Value;
 
                 // average true range × multiplier constant
                 double arc = (double)atrList[i - 1].Atr * multiplier;
@@ -68,8 +68,8 @@ namespace Skender.Stock.Indicators
                 }
 
                 // evaluate stop and reverse
-                if ((isLong && (decimal?)q.Close < r.Sar)
-                || (!isLong && (decimal?)q.Close > r.Sar))
+                if ((isLong && (decimal?)q.Value < r.Sar)
+                || (!isLong && (decimal?)q.Value > r.Sar))
                 {
                     r.IsStop = true;
                     sic = close;

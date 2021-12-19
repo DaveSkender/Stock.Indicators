@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
                 CciResult result = new()
                 {
                     Date = q.Date,
-                    Tp = (double?)(q.High + q.Low + q.Close) / 3
+                    Tp = (q.High + q.Low + q.Close) / 3
                 };
                 results.Add(result);
 

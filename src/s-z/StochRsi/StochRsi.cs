@@ -38,7 +38,9 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // get Stochastic of RSI
-            List<StochResult> stoResults = GetStoch(rsiQuotes, stochPeriods, signalPeriods, smoothPeriods).ToList();
+            List<StochResult> stoResults =
+                GetStoch(rsiQuotes, stochPeriods, signalPeriods, smoothPeriods)
+                .ToList();
 
             // compose
             for (int i = 0; i < rsiResults.Count; i++)

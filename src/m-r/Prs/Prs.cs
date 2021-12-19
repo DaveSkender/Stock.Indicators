@@ -18,20 +18,20 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesBaseList = historyBase.ConvertToList();
-            List<QuoteD> quotesEvalList = historyEval.ConvertToList();
+            List<BasicD> bdBaseList = historyBase.ConvertToBasic(CandlePart.Close);
+            List<BasicD> bdEvalList = historyEval.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriods);
 
             // initialize
-            List<PrsResult> results = new(quotesEvalList.Count);
+            List<PrsResult> results = new(bdEvalList.Count);
 
             // roll through quotes
-            for (int i = 0; i < quotesEvalList.Count; i++)
+            for (int i = 0; i < bdEvalList.Count; i++)
             {
-                QuoteD bi = quotesBaseList[i];
-                QuoteD ei = quotesEvalList[i];
+                BasicD bi = bdBaseList[i];
+                BasicD ei = bdEvalList[i];
                 int index = i + 1;
 
                 if (ei.Date != bi.Date)
@@ -43,19 +43,19 @@ namespace Skender.Stock.Indicators
                 PrsResult r = new()
                 {
                     Date = ei.Date,
-                    Prs = (bi.Close == 0) ? null : (double)(ei.Close / bi.Close)  // relative strength ratio
+                    Prs = (bi.Value == 0) ? null : (ei.Value / bi.Value)  // relative strength ratio
                 };
                 results.Add(r);
 
                 if (lookbackPeriods != null && index > lookbackPeriods)
                 {
-                    QuoteD bo = quotesBaseList[i - (int)lookbackPeriods];
-                    QuoteD eo = quotesEvalList[i - (int)lookbackPeriods];
+                    BasicD bo = bdBaseList[i - (int)lookbackPeriods];
+                    BasicD eo = bdEvalList[i - (int)lookbackPeriods];
 
-                    if (bo.Close != 0 && eo.Close != 0)
+                    if (bo.Value != 0 && eo.Value != 0)
                     {
-                        double pctB = (bi.Close - bo.Close) / bo.Close;
-                        double pctE = (ei.Close - eo.Close) / eo.Close;
+                        double pctB = (bi.Value - bo.Value) / bo.Value;
+                        double pctE = (ei.Value - eo.Value) / eo.Value;
 
                         r.PrsPercent = pctE - pctB;
                     }

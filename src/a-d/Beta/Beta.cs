@@ -18,22 +18,22 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesListEval = quotesEval.ConvertToList();
-            List<QuoteD> quotesListMrkt = quotesMarket.ConvertToList();
+            List<BasicD> bdListEval = quotesEval.ConvertToBasic(CandlePart.Close);
+            List<BasicD> bdListMrkt = quotesMarket.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateBeta(quotesMarket, quotesEval, lookbackPeriods);
 
             // initialize
-            List<BetaResult> results = new(quotesListEval.Count);
+            List<BetaResult> results = new(bdListEval.Count);
             bool calcSd = type is BetaType.All or BetaType.Standard;
             bool calcUp = type is BetaType.All or BetaType.Up;
             bool calcDn = type is BetaType.All or BetaType.Down;
 
             // roll through quotes
-            for (int i = 0; i < quotesListEval.Count; i++)
+            for (int i = 0; i < bdListEval.Count; i++)
             {
-                QuoteD e = quotesListEval[i];
+                BasicD e = bdListEval[i];
 
                 BetaResult r = new()
                 {
@@ -51,7 +51,7 @@ namespace Skender.Stock.Indicators
                 if (calcSd)
                 {
                     r.CalcBeta(
-                    i, lookbackPeriods, quotesListMrkt, quotesListEval, BetaType.Standard);
+                    i, lookbackPeriods, bdListMrkt, bdListEval, BetaType.Standard);
                 }
 
                 // calculate up/down betas
@@ -60,13 +60,13 @@ namespace Skender.Stock.Indicators
                     if (calcDn)
                     {
                         r.CalcBeta(
-                        i, lookbackPeriods, quotesListMrkt, quotesListEval, BetaType.Down);
+                        i, lookbackPeriods, bdListMrkt, bdListEval, BetaType.Down);
                     }
 
                     if (calcUp)
                     {
                         r.CalcBeta(
-                        i, lookbackPeriods, quotesListMrkt, quotesListEval, BetaType.Up);
+                        i, lookbackPeriods, bdListMrkt, bdListEval, BetaType.Up);
                     }
                 }
 
@@ -101,8 +101,8 @@ namespace Skender.Stock.Indicators
             this BetaResult r,
             int index,
             int lookbackPeriods,
-            List<QuoteD> quotesListMrkt,
-            List<QuoteD> quotesListEval,
+            List<BasicD> bdListMrkt,
+            List<BasicD> bdListEval,
             BetaType type)
         {
             // do not supply type==BetaType.All
@@ -119,8 +119,8 @@ namespace Skender.Stock.Indicators
 
             for (int p = index - lookbackPeriods + 1; p <= index; p++)
             {
-                double a = quotesListMrkt[p].Close;
-                double b = quotesListEval[p].Close;
+                double a = bdListMrkt[p].Value;
+                double b = bdListEval[p].Value;
 
                 if (type is BetaType.Standard)
                 {
@@ -128,13 +128,13 @@ namespace Skender.Stock.Indicators
                     dataB.Add(b);
                 }
                 else if (type is BetaType.Down
-                    && a < quotesListMrkt[p - 1].Close)
+                    && a < bdListMrkt[p - 1].Value)
                 {
                     dataA.Add(a);
                     dataB.Add(b);
                 }
                 else if (type is BetaType.Up
-                    && a > quotesListMrkt[p - 1].Close)
+                    && a > bdListMrkt[p - 1].Value)
                 {
                     dataA.Add(a);
                     dataB.Add(b);
@@ -169,8 +169,8 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateBeta<TQuote>(
-        IEnumerable<TQuote> historyMarket,
-        IEnumerable<TQuote> historyEval,
+        IEnumerable<TQuote> quotesMarket,
+        IEnumerable<TQuote> quotesEval,
         int lookbackPeriods)
         where TQuote : IQuote
         {
@@ -183,23 +183,23 @@ namespace Skender.Stock.Indicators
             }
 
             // check quotes
-            int qtyHistoryMarket = historyMarket.Count();
-            int minHistoryMarket = lookbackPeriods;
-            if (qtyHistoryMarket < minHistoryMarket)
+            int qtyQuotesMarket = quotesMarket.Count();
+            int minQuotesMarket = lookbackPeriods;
+            if (qtyQuotesMarket < minQuotesMarket)
             {
                 string message = "Insufficient quotes provided for Beta.  " +
                     string.Format(EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistoryMarket, minHistoryMarket);
+                    qtyQuotesMarket, minQuotesMarket);
 
-                throw new BadQuotesException(nameof(historyMarket), message);
+                throw new BadQuotesException(nameof(quotesMarket), message);
             }
 
-            int qtyHistoryEval = historyEval.Count();
-            if (qtyHistoryEval < qtyHistoryMarket)
+            int qtyHistoryEval = quotesEval.Count();
+            if (qtyHistoryEval < qtyQuotesMarket)
             {
                 throw new BadQuotesException(
-                    nameof(historyEval),
+                    nameof(quotesEval),
                     "Eval quotes should have at least as many records as Market quotes for Beta.");
             }
         }

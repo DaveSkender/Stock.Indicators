@@ -17,14 +17,14 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateTsi(quotes, lookbackPeriods, smoothPeriods, signalPeriods);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             double mult1 = 2d / (lookbackPeriods + 1);
             double mult2 = 2d / (smoothPeriods + 1);
             double multS = 2d / (signalPeriods + 1);
@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                QuoteD q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 TsiResult r = new()
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // price change
-                c[i] = q.Close - quotesList[i - 1].Close;
+                c[i] = q.Value - bdList[i - 1].Value;
                 a[i] = Math.Abs(c[i]);
 
                 // smoothing

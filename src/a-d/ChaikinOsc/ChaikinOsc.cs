@@ -31,12 +31,12 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // EMA of ADL
-            List<BasicD> adlBasicData = results
+            List<BasicD> bdAdl = results
                 .Select(x => new BasicD { Date = x.Date, Value = x.Adl })
                 .ToList();
 
-            List<EmaResult> adlEmaSlow = CalcEma(adlBasicData, slowPeriods);
-            List<EmaResult> adlEmaFast = CalcEma(adlBasicData, fastPeriods);
+            List<EmaResult> adlEmaSlow = CalcEma(bdAdl, slowPeriods);
+            List<EmaResult> adlEmaFast = CalcEma(bdAdl, fastPeriods);
 
             // add Oscillator
             for (int i = slowPeriods - 1; i < results.Count; i++)

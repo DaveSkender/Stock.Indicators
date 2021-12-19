@@ -17,19 +17,19 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateBollingerBands(quotes, lookbackPeriods, standardDeviations);
 
             // initialize
-            List<BollingerBandsResult> results = new(quotesList.Count);
+            List<BollingerBandsResult> results = new(bdList.Count);
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                QuoteD q = quotesList[i];
-                decimal close = (decimal)q.Close;
+                BasicD q = bdList[i];
+                decimal close = (decimal)q.Value;
                 int index = i + 1;
 
                 BollingerBandsResult r = new()
@@ -45,9 +45,9 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        QuoteD d = quotesList[p];
-                        periodClose[n] = d.Close;
-                        sum += d.Close;
+                        BasicD d = bdList[p];
+                        periodClose[n] = d.Value;
+                        sum += d.Value;
                         n++;
                     }
 

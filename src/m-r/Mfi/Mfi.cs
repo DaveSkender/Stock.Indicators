@@ -41,10 +41,10 @@ namespace Skender.Stock.Indicators
                 };
 
                 // true price
-                tp[i] = (double)(q.High + q.Low + q.Close) / 3;
+                tp[i] = (q.High + q.Low + q.Close) / 3;
 
                 // raw money flow
-                mf[i] = tp[i] * (double)q.Volume;
+                mf[i] = tp[i] * q.Volume;
 
                 // direction
                 if (prevTP == null || tp[i] == prevTP)

@@ -17,18 +17,18 @@ namespace Skender.Stock.Indicators
         {
 
             // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateRoc(quotes, lookbackPeriods, smaPeriods);
 
             // initialize
-            List<RocResult> results = new(quotesList.Count);
+            List<RocResult> results = new(bdList.Count);
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                QuoteD q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 RocResult result = new()
@@ -38,10 +38,10 @@ namespace Skender.Stock.Indicators
 
                 if (index > lookbackPeriods)
                 {
-                    QuoteD back = quotesList[index - lookbackPeriods - 1];
+                    BasicD back = bdList[index - lookbackPeriods - 1];
 
-                    result.Roc = (back.Close == 0) ? null
-                        : 100d * (q.Close - back.Close) / back.Close;
+                    result.Roc = (back.Value == 0) ? null
+                        : 100d * (q.Value - back.Value) / back.Value;
                 }
 
                 results.Add(result);
