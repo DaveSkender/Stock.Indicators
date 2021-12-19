@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateMfi(quotes, lookbackPeriods);
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes, to get preliminary data
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
 
                 MfiResult result = new()
                 {
@@ -41,10 +41,10 @@ namespace Skender.Stock.Indicators
                 };
 
                 // true price
-                tp[i] = (double)(q.High + q.Low + q.Close) / 3;
+                tp[i] = (q.High + q.Low + q.Close) / 3;
 
                 // raw money flow
-                mf[i] = tp[i] * (double)q.Volume;
+                mf[i] = tp[i] * q.Volume;
 
                 // direction
                 if (prevTP == null || tp[i] == prevTP)

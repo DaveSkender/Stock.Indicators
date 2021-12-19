@@ -36,8 +36,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateStoch(
@@ -51,7 +51,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 StochResult result = new()
@@ -66,21 +66,21 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote x = quotesList[p];
+                        QuoteD x = quotesList[p];
 
-                        if ((double?)x.High > highHigh)
+                        if (x.High > highHigh)
                         {
-                            highHigh = (double?)x.High;
+                            highHigh = x.High;
                         }
 
-                        if ((double?)x.Low < lowLow)
+                        if (x.Low < lowLow)
                         {
-                            lowLow = (double?)x.Low;
+                            lowLow = x.Low;
                         }
                     }
 
                     result.Oscillator = lowLow != highHigh
-                        ? 100 * (decimal?)(((double?)q.Close - lowLow) / (highHigh - lowLow))
+                        ? 100 * (decimal?)((q.Close - lowLow) / (highHigh - lowLow))
                         : 0;
                 }
                 results.Add(result);

@@ -15,20 +15,20 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateWma(quotes, lookbackPeriods);
 
             // initialize
-            List<WmaResult> results = new(quotesList.Count);
+            List<WmaResult> results = new(bdList.Count);
             double divisor = (lookbackPeriods * (lookbackPeriods + 1)) / 2d;
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 WmaResult result = new()
@@ -41,8 +41,8 @@ namespace Skender.Stock.Indicators
                     double wma = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
-                        wma += (double)d.Close * (lookbackPeriods - (index - p - 1)) / divisor;
+                        BasicD d = bdList[p];
+                        wma += (double)d.Value * (lookbackPeriods - (index - p - 1)) / divisor;
                     }
 
                     result.Wma = (decimal)wma;

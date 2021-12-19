@@ -12,13 +12,13 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<ChandelierResult> GetChandelier<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 22,
-            decimal multiplier = 3.0m,
+            double multiplier = 3,
             ChandelierType type = ChandelierType.Long)
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateChandelier(quotes, lookbackPeriods, multiplier);
@@ -30,7 +30,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 ChandelierResult result = new()
@@ -42,38 +42,38 @@ namespace Skender.Stock.Indicators
                 if (index >= lookbackPeriods)
                 {
 
-                    decimal atr = (decimal)atrResult[i].Atr;
+                    double? atr = (double?)atrResult[i].Atr;
 
                     switch (type)
                     {
                         case ChandelierType.Long:
 
-                            decimal maxHigh = 0;
+                            double maxHigh = 0;
                             for (int p = index - lookbackPeriods; p < index; p++)
                             {
-                                TQuote d = quotesList[p];
+                                QuoteD d = quotesList[p];
                                 if (d.High > maxHigh)
                                 {
                                     maxHigh = d.High;
                                 }
                             }
 
-                            result.ChandelierExit = maxHigh - atr * multiplier;
+                            result.ChandelierExit = (decimal?)(maxHigh - atr * multiplier);
                             break;
 
                         case ChandelierType.Short:
 
-                            decimal minLow = decimal.MaxValue;
+                            double minLow = double.MaxValue;
                             for (int p = index - lookbackPeriods; p < index; p++)
                             {
-                                TQuote d = quotesList[p];
+                                QuoteD d = quotesList[p];
                                 if (d.Low < minLow)
                                 {
                                     minLow = d.Low;
                                 }
                             }
 
-                            result.ChandelierExit = minLow + atr * multiplier;
+                            result.ChandelierExit = (decimal?)(minLow + atr * multiplier);
                             break;
 
                         default:
@@ -106,7 +106,7 @@ namespace Skender.Stock.Indicators
         private static void ValidateChandelier<TQuote>(
             IEnumerable<TQuote> quotes,
             int lookbackPeriods,
-            decimal multiplier)
+            double multiplier)
             where TQuote : IQuote
         {
 

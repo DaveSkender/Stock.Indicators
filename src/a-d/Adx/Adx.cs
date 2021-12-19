@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateAdx(quotes, lookbackPeriods);
@@ -25,8 +25,8 @@ namespace Skender.Stock.Indicators
             List<AdxResult> results = new(quotesList.Count);
             List<AtrResult> atr = GetAtr(quotes, lookbackPeriods).ToList(); // get True Range info
 
-            decimal prevHigh = 0;
-            decimal prevLow = 0;
+            double prevHigh = 0;
+            double prevLow = 0;
             double prevTrs = 0; // smoothed
             double prevPdm = 0;
             double prevMdm = 0;
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 AdxResult result = new()
@@ -60,10 +60,10 @@ namespace Skender.Stock.Indicators
                 double tr = (double)atr[i].Tr;
 
                 double pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
-                    (double)Math.Max(q.High - prevHigh, 0) : 0;
+                    Math.Max(q.High - prevHigh, 0) : 0;
 
                 double mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
-                    (double)Math.Max(prevLow - q.Low, 0) : 0;
+                    Math.Max(prevLow - q.Low, 0) : 0;
 
                 prevHigh = q.High;
                 prevLow = q.Low;

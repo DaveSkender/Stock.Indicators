@@ -16,21 +16,21 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesListA = quotesA.Sort();
-            List<TQuote> quotesListB = quotesB.Sort();
+            // convert quotes
+            List<BasicD> bdListA = quotesA.ConvertToBasic(CandlePart.Close);
+            List<BasicD> bdListB = quotesB.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateCorrelation(quotesA, quotesB, lookbackPeriods);
 
             // initialize
-            List<CorrResult> results = new(quotesListA.Count);
+            List<CorrResult> results = new(bdListA.Count);
 
             // roll through quotes
-            for (int i = 0; i < quotesListA.Count; i++)
+            for (int i = 0; i < bdListA.Count; i++)
             {
-                TQuote a = quotesListA[i];
-                TQuote b = quotesListB[i];
+                BasicD a = bdListA[i];
+                BasicD b = bdListB[i];
                 int index = i + 1;
 
                 if (a.Date != b.Date)
@@ -53,8 +53,8 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        dataA[z] = (double)quotesListA[p].Close;
-                        dataB[z] = (double)quotesListB[p].Close;
+                        dataA[z] = bdListA[p].Value;
+                        dataB[z] = bdListB[p].Value;
 
                         z++;
                     }

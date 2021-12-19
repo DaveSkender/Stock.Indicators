@@ -17,8 +17,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateConnorsRsi(bdList, rsiPeriods, streakPeriods, rankPeriods);
@@ -28,9 +28,9 @@ namespace Skender.Stock.Indicators
             int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
             // RSI of streak
-            List<BasicDouble> bdStreak = results
+            List<BasicD> bdStreak = results
                 .Where(x => x.Streak != null)
-                .Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Streak })
+                .Select(x => new BasicD { Date = x.Date, Value = (double)x.Streak })
                 .ToList();
 
             List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);
@@ -69,7 +69,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
-            List<BasicDouble> bdList, int rsiPeriods, int rankPeriods)
+            List<BasicD> bdList, int rsiPeriods, int rankPeriods)
         {
             // initialize
             List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods);
@@ -84,7 +84,7 @@ namespace Skender.Stock.Indicators
             // compose interim results
             for (int i = 0; i < size; i++)
             {
-                BasicDouble q = bdList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 ConnorsRsiResult r = new()
@@ -157,7 +157,7 @@ namespace Skender.Stock.Indicators
 
 
         private static void ValidateConnorsRsi(
-            IEnumerable<BasicDouble> quotes,
+            IEnumerable<BasicD> quotes,
             int rsiPeriods,
             int streakPeriods,
             int rankPeriods)

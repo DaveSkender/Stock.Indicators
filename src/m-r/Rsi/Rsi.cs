@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return CalcRsi(bdList, lookbackPeriods);
@@ -57,7 +57,7 @@ namespace Skender.Stock.Indicators
 
 
         // internals
-        private static List<RsiResult> CalcRsi(List<BasicDouble> bdList, int lookbackPeriods)
+        private static List<RsiResult> CalcRsi(List<BasicD> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments
@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
-                BasicDouble h = bdList[i];
+                BasicD h = bdList[i];
                 int index = i + 1;
 
                 RsiResult r = new()
@@ -130,7 +130,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateRsi(
-            List<BasicDouble> quotes,
+            List<BasicD> quotes,
             int lookbackPeriods)
         {
 

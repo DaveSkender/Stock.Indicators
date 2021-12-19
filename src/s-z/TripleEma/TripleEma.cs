@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateTema(bdList, lookbackPeriods);
@@ -25,16 +25,16 @@ namespace Skender.Stock.Indicators
             List<TemaResult> results = new(bdList.Count);
             List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriods);
 
-            List<BasicDouble> bd2 = emaN1
+            List<BasicD> bd2 = emaN1
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Ema })
+                .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
 
-            List<BasicDouble> bd3 = emaN2
+            List<BasicD> bd3 = emaN2
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Ema })
+                .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods);
@@ -81,7 +81,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateTema(
-            IEnumerable<BasicDouble> quotes,
+            IEnumerable<BasicD> quotes,
             int lookbackPeriods)
         {
 

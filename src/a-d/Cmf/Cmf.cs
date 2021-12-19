@@ -15,14 +15,14 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Volume);
 
             // check parameter arguments
             ValidateCmf(quotes, lookbackPeriods);
 
             // initialize
-            List<CmfResult> results = new(quotesList.Count);
+            List<CmfResult> results = new(bdList.Count);
             List<AdlResult> adlResults = GetAdl(quotes).ToList();
 
             // roll through quotes
@@ -45,8 +45,8 @@ namespace Skender.Stock.Indicators
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote q = quotesList[p];
-                        sumVol += (double)q.Volume;
+                        BasicD q = bdList[p];
+                        sumVol += q.Value;
 
                         AdlResult d = adlResults[p];
                         sumMfv += (double)d.MoneyFlowVolume;

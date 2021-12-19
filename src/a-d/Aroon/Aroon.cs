@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateAroon(quotes, lookbackPeriods);
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 AroonResult result = new()
@@ -38,14 +38,14 @@ namespace Skender.Stock.Indicators
                 // add aroons
                 if (index > lookbackPeriods)
                 {
-                    decimal lastHighPrice = 0;
-                    decimal lastLowPrice = decimal.MaxValue;
+                    double lastHighPrice = 0;
+                    double lastLowPrice = double.MaxValue;
                     int lastHighIndex = 0;
                     int lastLowIndex = 0;
 
                     for (int p = index - lookbackPeriods - 1; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
+                        QuoteD d = quotesList[p];
 
                         if (d.High > lastHighPrice)
                         {

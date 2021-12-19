@@ -15,19 +15,19 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateUlcer(quotes, lookbackPeriods);
 
             // initialize
-            List<UlcerIndexResult> results = new(quotesList.Count);
+            List<UlcerIndexResult> results = new(bdList.Count);
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 UlcerIndexResult result = new()
@@ -40,21 +40,21 @@ namespace Skender.Stock.Indicators
                     double? sumSquared = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
+                        BasicD d = bdList[p];
                         int dIndex = p + 1;
 
-                        decimal maxClose = 0;
+                        double maxClose = 0;
                         for (int s = index - lookbackPeriods; s < dIndex; s++)
                         {
-                            TQuote dd = quotesList[s];
-                            if (dd.Close > maxClose)
+                            BasicD dd = bdList[s];
+                            if (dd.Value > maxClose)
                             {
-                                maxClose = dd.Close;
+                                maxClose = dd.Value;
                             }
                         }
 
                         double? percentDrawdown = (maxClose == 0) ? null
-                            : 100 * (double)((d.Close - maxClose) / maxClose);
+                            : 100 * (double)((d.Value - maxClose) / maxClose);
 
                         sumSquared += percentDrawdown * percentDrawdown;
                     }

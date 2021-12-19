@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateVortex(quotes, lookbackPeriods);
@@ -29,14 +29,14 @@ namespace Skender.Stock.Indicators
             double[] pvm = new double[size];
             double[] nvm = new double[size];
 
-            decimal prevHigh = 0;
-            decimal prevLow = 0;
-            decimal prevClose = 0;
+            double prevHigh = 0;
+            double prevLow = 0;
+            double prevClose = 0;
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 VortexResult result = new()
@@ -55,12 +55,12 @@ namespace Skender.Stock.Indicators
                 }
 
                 // trend information
-                decimal highMinusPrevClose = Math.Abs(q.High - prevClose);
-                decimal lowMinusPrevClose = Math.Abs(q.Low - prevClose);
+                double highMinusPrevClose = Math.Abs(q.High - prevClose);
+                double lowMinusPrevClose = Math.Abs(q.Low - prevClose);
 
-                tr[i] = (double)Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
-                pvm[i] = (double)Math.Abs(q.High - prevLow);
-                nvm[i] = (double)Math.Abs(q.Low - prevHigh);
+                tr[i] = Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
+                pvm[i] = Math.Abs(q.High - prevLow);
+                nvm[i] = Math.Abs(q.Low - prevHigh);
 
                 prevHigh = q.High;
                 prevLow = q.Low;

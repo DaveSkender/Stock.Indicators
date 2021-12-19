@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
             // initialize
             List<SmaExtendedResult> results = GetSma(quotes, lookbackPeriods)
@@ -36,8 +36,8 @@ namespace Skender.Stock.Indicators
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    TQuote d = quotesList[p];
-                    double close = (double)d.Close;
+                    BasicD d = quotesList[p];
+                    double close = d.Value;
 
                     sumMad += Math.Abs(close - sma);
                     sumMse += (close - sma) * (close - sma);

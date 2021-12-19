@@ -19,8 +19,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateSmi(
@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 SmiResult r = new()
@@ -57,12 +57,12 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriods)
                 {
-                    decimal HH = decimal.MinValue;
-                    decimal LL = decimal.MaxValue;
+                    double HH = double.MinValue;
+                    double LL = double.MaxValue;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote x = quotesList[p];
+                        QuoteD x = quotesList[p];
 
                         if (x.High > HH)
                         {
@@ -75,8 +75,8 @@ namespace Skender.Stock.Indicators
                         }
                     }
 
-                    double sm = (double)(q.Close - 0.5m * (HH + LL));
-                    double hl = (double)(HH - LL);
+                    double sm = q.Close - 0.5d * (HH + LL);
+                    double hl = HH - LL;
 
                     // initialize last EMA values
                     if (index == lookbackPeriods)

@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateVwap(quotesList, startDate);
@@ -32,11 +32,11 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
-                double? v = (double?)q.Volume;
-                double? h = (double?)q.High;
-                double? l = (double?)q.Low;
-                double? c = (double?)q.Close;
+                QuoteD q = quotesList[i];
+                double? v = q.Volume;
+                double? h = q.High;
+                double? l = q.Low;
+                double? c = q.Close;
 
                 VwapResult r = new()
                 {
@@ -73,10 +73,9 @@ namespace Skender.Stock.Indicators
 
 
         // parameter validation
-        private static void ValidateVwap<TQuote>(
-            List<TQuote> quotesList,
+        private static void ValidateVwap(
+            List<QuoteD> quotesList,
             DateTime? startDate)
-            where TQuote : IQuote
         {
 
             // check quotes: done under Sort() for 0 length

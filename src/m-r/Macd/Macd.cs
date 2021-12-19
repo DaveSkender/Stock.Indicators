@@ -17,8 +17,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateMacd(quotes, fastPeriods, slowPeriods, signalPeriods);
@@ -28,13 +28,13 @@ namespace Skender.Stock.Indicators
             List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
 
             int size = bdList.Count;
-            List<BasicDouble> emaDiff = new();
+            List<BasicD> emaDiff = new();
             List<MacdResult> results = new(size);
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                BasicDouble h = bdList[i];
+                BasicD h = bdList[i];
                 EmaResult df = emaFast[i];
                 EmaResult ds = emaSlow[i];
 
@@ -52,7 +52,7 @@ namespace Skender.Stock.Indicators
                     result.Macd = (decimal)macd;
 
                     // temp data for interim EMA of macd
-                    BasicDouble diff = new()
+                    BasicD diff = new()
                     {
                         Date = h.Date,
                         Value = macd

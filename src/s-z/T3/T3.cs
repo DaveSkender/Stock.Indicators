@@ -16,14 +16,14 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateT3(quotes, lookbackPeriods, volumeFactor);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<T3Result> results = new(size);
 
             double k = 2d / (lookbackPeriods + 1);
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 T3Result r = new()
                 {
                     Date = q.Date
@@ -48,7 +48,7 @@ namespace Skender.Stock.Indicators
                 // first smoothing
                 if (i > lookbackPeriods - 1)
                 {
-                    e1 += k * ((double)q.Close - e1);
+                    e1 += k * (q.Value - e1);
 
                     // second smoothing
                     if (i > 2 * (lookbackPeriods - 1))
@@ -145,7 +145,7 @@ namespace Skender.Stock.Indicators
                 // first warmup
                 else
                 {
-                    sum1 += (double)q.Close;
+                    sum1 += (double)q.Value;
 
                     if (i == lookbackPeriods - 1)
                     {

@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicDouble> bdList = quotes.ConvertToBasicDouble(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateDema(bdList, lookbackPeriods);
@@ -25,9 +25,9 @@ namespace Skender.Stock.Indicators
             List<DemaResult> results = new(bdList.Count);
             List<EmaResult> emaN = CalcEma(bdList, lookbackPeriods);
 
-            List<BasicDouble> bd2 = emaN
+            List<BasicD> bd2 = emaN
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Ema })
+                .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
                 .ToList();  // note: ToList seems to be required when changing data
 
             List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
@@ -72,7 +72,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateDema(
-            IEnumerable<BasicDouble> quotes,
+            IEnumerable<BasicD> quotes,
             int lookbackPeriods)
         {
 

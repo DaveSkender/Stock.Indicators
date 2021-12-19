@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateChop(quotesList, lookbackPeriods);
@@ -44,8 +44,8 @@ namespace Skender.Stock.Indicators
 
                 if (i > 0)
                 {
-                    trueHigh[i] = (double)Math.Max(quotesList[i].High, quotesList[i - 1].Close);
-                    trueLow[i] = (double)Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
+                    trueHigh[i] = Math.Max(quotesList[i].High, quotesList[i - 1].Close);
+                    trueLow[i] = Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
                     trueRange[i] = trueHigh[i] - trueLow[i];
 
                     // calculate CHOP
@@ -94,11 +94,9 @@ namespace Skender.Stock.Indicators
 
 
         // parameter validation
-        private static void ValidateChop<TQuote>(
-            List<TQuote> quotes,
+        private static void ValidateChop(
+            List<QuoteD> quotes,
             int lookbackPeriods)
-            where TQuote : IQuote
-
         {
             // check parameter arguments
             if (lookbackPeriods <= 1)

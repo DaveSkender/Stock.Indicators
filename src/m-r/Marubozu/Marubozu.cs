@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +17,7 @@ namespace Skender.Stock.Indicators
             // check parameter arguments
             ValidateMarubozu(quotes, minBodyPercent);
 
-            // sort quotes
+            // convert quotes
             List<Candle> candles = quotes.ConvertToCandles();
 
             // initialize
