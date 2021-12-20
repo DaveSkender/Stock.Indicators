@@ -1,122 +1,110 @@
 ---
-title: Performance benchmarks for v1.15.0
+title: Performance benchmarks
 permalink: /performance/
 layout: default
-redirect_from:
- - /tests/performance
- - /tests/performance/
 ---
 
-# {{ page.title }}
+# {{ page.title }} for v1.20.1
 
 These are the execution times for the current indicators using two years of historical daily stock quotes (502 periods) with default or typical parameters.
 
 ``` bash
-BenchmarkDotNet=v0.13.0, OS=Windows 10.0.19043.1165 (21H1/May2021Update)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1348 (21H2)
 Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=5.0.303
-  [Host]     : .NET 5.0.9 (5.0.921.35908), X64 RyuJIT
-  DefaultJob : .NET 5.0.9 (5.0.921.35908), X64 RyuJIT
+.NET SDK=6.0.100
 ```
 
 ## indicators
 
-|             Method |        Mean |     Error |    StdDev |      Median |
-|------------------- |------------:|----------:|----------:|------------:|
-|             GetAdl |   142.97 μs |  0.497 μs |  0.388 μs |   142.94 μs |
-|      GetAdlWithSma |   381.47 μs |  3.150 μs |  3.093 μs |   380.48 μs |
-|             GetAdx |   751.34 μs |  2.972 μs |  2.482 μs |   750.57 μs |
-|       GetAlligator |   234.74 μs |  1.240 μs |  1.160 μs |   234.56 μs |
-|            GetAlma |   215.96 μs |  1.546 μs |  1.370 μs |   215.42 μs |
-|           GetAroon |   353.01 μs |  0.803 μs |  0.670 μs |   352.93 μs |
-|             GetAtr |   159.49 μs |  1.414 μs |  1.254 μs |   159.12 μs |
-|         GetAwesome |   330.95 μs |  1.490 μs |  1.321 μs |   331.14 μs |
-|            GetBeta |   959.70 μs |  2.365 μs |  1.975 μs |   959.47 μs |
-|  GetBollingerBands |   457.88 μs |  1.584 μs |  1.323 μs |   457.95 μs |
-|             GetBop |   282.34 μs |  1.319 μs |  1.030 μs |   282.14 μs |
-|             GetCci |   843.90 μs |  2.398 μs |  2.003 μs |   843.66 μs |
-|      GetChaikinOsc |   268.11 μs |  0.989 μs |  0.826 μs |   268.18 μs |
-|      GetChandelier |   368.09 μs |  3.612 μs |  2.820 μs |   367.56 μs |
-|            GetChop |   304.53 μs |  1.161 μs |  0.906 μs |   304.36 μs |
-|             GetCmf |   669.74 μs |  1.981 μs |  1.655 μs |   669.63 μs |
-|      GetConnorsRsi | 1,235.14 μs | 21.665 μs | 43.764 μs | 1,212.54 μs |
-|     GetCorrelation |   870.27 μs |  3.443 μs |  2.875 μs |   869.54 μs |
-|        GetDonchian |   340.71 μs |  3.841 μs |  3.207 μs |   339.06 μs |
-|       GetDoubleEma |   178.53 μs |  0.528 μs |  0.441 μs |   178.45 μs |
-|        GetElderRay |   165.20 μs |  0.599 μs |  0.500 μs |   165.24 μs |
-|             GetEma |   100.30 μs |  0.622 μs |  0.582 μs |   100.25 μs |
-|            GetEpma | 1,384.73 μs |  3.229 μs |  2.863 μs | 1,384.37 μs |
-|             GetFcb |   392.19 μs |  2.354 μs |  2.202 μs |   391.52 μs |
-| GetFisherTransform |   280.99 μs |  0.783 μs |  0.694 μs |   280.92 μs |
-|      GetForceIndex |   127.98 μs |  0.682 μs |  0.604 μs |   127.83 μs |
-|         GetFractal |   104.33 μs |  0.469 μs |  0.392 μs |   104.32 μs |
-|           GetGator |   285.22 μs |  1.183 μs |  0.923 μs |   284.83 μs |
-|      GetHeikinAshi |   180.60 μs |  4.060 μs | 11.046 μs |   175.51 μs |
-|             GetHma | 1,381.84 μs |  3.634 μs |  3.035 μs | 1,381.41 μs |
-|     GetHtTrendline |   174.17 μs |  1.182 μs |  1.048 μs |   173.99 μs |
-|           GetHurst | 5,577.92 μs | 21.799 μs | 20.390 μs | 5,567.51 μs |
-|        GetIchimoku |   938.48 μs |  3.479 μs |  3.084 μs |   938.72 μs |
-|            GetKama |   329.93 μs |  1.653 μs |  1.466 μs |   329.66 μs |
-|         GetKlinger |   494.76 μs |  1.875 μs |  1.565 μs |   494.16 μs |
-|         GetKeltner |   472.58 μs |  2.184 μs |  2.042 μs |   471.92 μs |
-|            GetMacd |   217.86 μs |  1.426 μs |  1.264 μs |   217.51 μs |
-|     GetMaEnvelopes |   148.26 μs |  0.713 μs |  0.632 μs |   148.01 μs |
-|            GetMama |   287.17 μs |  2.075 μs |  1.620 μs |   286.68 μs |
-|             GetMfi |   485.62 μs |  1.907 μs |  1.690 μs |   485.18 μs |
-|             GetObv |    62.31 μs |  0.372 μs |  0.330 μs |    62.31 μs |
-|      GetObvWithSma |   140.16 μs |  1.793 μs |  1.677 μs |   139.93 μs |
-|    GetParabolicSar |    94.90 μs |  0.533 μs |  0.472 μs |    94.89 μs |
-|     GetPivotPoints |    97.13 μs |  0.690 μs |  0.612 μs |    97.04 μs |
-|             GetPmo |   265.15 μs |  1.907 μs |  1.784 μs |   264.94 μs |
-|             GetPrs |   133.24 μs |  1.900 μs |  1.586 μs |         N/A |
-|      GetPrsWithSma |   205.19 μs |  1.452 μs |  1.287 μs |         N/A |
-|             GetPvo |   343.26 μs |  4.831 μs |  4.034 μs |   341.35 μs |
-|           GetRenko |    94.18 μs |  0.328 μs |  0.256 μs |    94.18 μs |
-|        GetRenkoAtr |   101.58 μs |  0.526 μs |  0.439 μs |   101.42 μs |
-|             GetRoc |    94.60 μs |  0.350 μs |  0.310 μs |    94.58 μs |
-|           GetRocWb |   200.73 μs |  0.623 μs |  0.552 μs |   200.64 μs |
-|      GetRocWithSma |   355.20 μs |  1.624 μs |  1.519 μs |   354.83 μs |
-|             GetRsi |   340.61 μs |  1.052 μs |  0.821 μs |   340.70 μs |
-|           GetSlope |   880.85 μs |  5.654 μs |  5.012 μs |   879.30 μs |
-|             GetSma |   107.26 μs |  0.363 μs |  0.303 μs |   107.21 μs |
-|     GetSmaExtended |   942.89 μs |  5.649 μs |  5.284 μs |   940.02 μs |
-|            GetSmma |    96.63 μs |  0.469 μs |  0.439 μs |    96.42 μs |
-|      GetStarcBands |   418.00 μs |  1.100 μs |  0.918 μs |   417.84 μs |
-|          GetStdDev |   296.16 μs |  0.870 μs |  0.726 μs |   296.26 μs |
-|   GetStdDevWithSma |   383.25 μs |  2.206 μs |  2.063 μs |   382.67 μs |
-|  GetStdDevChannels |   947.06 μs |  2.845 μs |  2.376 μs |   947.12 μs |
-|           GetStoch |   403.67 μs |  1.003 μs |  0.838 μs |   403.38 μs |
-|        GetStochRsi |   708.34 μs |  2.750 μs |  2.296 μs |   707.45 μs |
-|      GetSuperTrend |   301.10 μs |  0.886 μs |  0.692 μs |   301.20 μs |
-|       GetTripleEma |   260.73 μs |  0.781 μs |  0.692 μs |   260.85 μs |
-|            GetTrix |   319.06 μs |  0.923 μs |  0.771 μs |   319.08 μs |
-|     GetTrixWithSma |   374.94 μs |  0.969 μs |  0.757 μs |   375.28 μs |
-|             GetTsi |   371.20 μs |  1.001 μs |  0.836 μs |   371.11 μs |
-|              GetT3 |   464.78 μs |  0.754 μs |  0.668 μs |   464.94 μs |
-|      GetUlcerIndex | 1,513.72 μs | 20.189 μs | 19.828 μs | 1,502.68 μs |
-|        GetUltimate |   555.05 μs |  2.761 μs |  2.306 μs |   554.72 μs |
-|          GetVolSma |   120.00 μs |  0.459 μs |  0.430 μs |   119.86 μs |
-|          GetVortex |   282.67 μs |  0.636 μs |  0.564 μs |   282.51 μs |
-|            GetVwap |    98.52 μs |  0.734 μs |  0.573 μs |    98.41 μs |
-|       GetWilliamsR |   295.51 μs |  1.869 μs |  1.459 μs |   295.22 μs |
-|             GetWma |   734.43 μs |  4.447 μs |  3.942 μs |   733.00 μs |
-|          GetZigZag |   147.16 μs |  0.613 μs |  0.512 μs |   147.16 μs |
-
-## quotes functions (mostly internal)
-
-|          Method |         Mean |      Error |     StdDev |
-|---------------- |-------------:|-----------:|-----------:|
-|            Sort | 37,768.62 ns | 406.995 ns | 360.790 ns |
-|        Validate | 40,457.78 ns | 301.177 ns | 266.985 ns |
-|       Aggregate |     83.36 ns |   0.699 ns |   0.545 ns |
-|  ConvertToBasic | 42,362.26 ns | 144.200 ns | 120.414 ns |
-| ConvertToQuotes |  8,378.83 ns |  71.755 ns |  63.609 ns |
-
-## math functions (internal)
-
-| Method | Periods |        Mean |    Error |   StdDev |
-|------- |-------- |------------:|---------:|---------:|
-| StdDev |      20 |    36.84 ns | 0.194 ns | 0.172 ns |
-| StdDev |      50 |    95.47 ns | 0.306 ns | 0.256 ns |
-| StdDev |     250 |   530.23 ns | 1.303 ns | 1.088 ns |
-| StdDev |    1000 | 2,142.94 ns | 5.994 ns | 5.313 ns |
+|             Method |        Mean |    Error |   StdDev |
+|------------------- |------------:|---------:|---------:|
+|             GetAdl |    59.68 μs | 0.612 μs | 0.511 μs |
+|      GetAdlWithSma |    67.30 μs | 0.374 μs | 0.312 μs |
+|             GetAdx |   227.22 μs | 1.261 μs | 1.179 μs |
+|       GetAlligator |   167.23 μs | 0.986 μs | 0.874 μs |
+|            GetAlma |    67.03 μs | 0.328 μs | 0.310 μs |
+|           GetAroon |   142.20 μs | 1.460 μs | 0.931 μs |
+|             GetAtr |   154.96 μs | 0.970 μs | 0.810 μs |
+|         GetAwesome |    73.39 μs | 0.325 μs | 0.289 μs |
+|            GetBeta |   221.70 us | 1.780 us | 1.580 us |
+|          GetBetaUp |   247.50 us | 4.910 us | 5.050 us |
+|        GetBetaDown |   238.00 us | 4.040 us | 3.580 us |
+|         GetBetaAll |   510.90 us | 9.090 us | 8.500 us |
+|  GetBollingerBands |   234.42 μs | 2.059 μs | 1.926 μs |
+|             GetBop |    68.98 μs | 0.377 μs | 0.352 μs |
+|             GetCci |    84.67 μs | 0.498 μs | 0.465 μs |
+|      GetChaikinOsc |   120.65 μs | 0.722 μs | 0.603 μs |
+|      GetChandelier |   261.32 μs | 1.992 μs | 1.766 μs |
+|            GetChop |   123.77 μs | 2.411 μs | 2.476 μs |
+|             GetCmf |   127.10 μs | 1.330 μs | 1.179 μs |
+|      GetConnorsRsi |   241.61 μs | 1.411 μs | 1.178 μs |
+|     GetCorrelation |   161.66 μs | 0.403 μs | 0.336 μs |
+|        GetDonchian |   306.92 μs | 2.007 μs | 1.779 μs |
+|       GetDoubleEma |   100.55 μs | 0.709 μs | 0.592 μs |
+|             GetDpo |   148.78 μs | 0.998 μs | 0.833 μs |
+|        GetElderRay |   117.82 μs | 0.587 μs | 0.520 μs |
+|             GetEma |    56.83 μs | 0.394 μs | 0.350 μs |
+|            GetEpma |   100.15 μs | 0.331 μs | 0.276 μs |
+|             GetFcb |   347.82 μs | 2.644 μs | 2.473 μs |
+| GetFisherTransform |    89.40 μs | 0.474 μs | 0.420 μs |
+|      GetForceIndex |    59.93 μs | 0.317 μs | 0.296 μs |
+|         GetFractal |    95.72 μs | 0.244 μs | 0.190 μs |
+|           GetGator |   215.27 μs | 3.762 μs | 3.141 μs |
+|      GetHeikinAshi |   175.03 μs | 0.752 μs | 0.704 μs |
+|             GetHma |   272.68 μs | 2.637 μs | 2.338 μs |
+|     GetHtTrendline |   172.83 μs | 0.517 μs | 0.432 μs |
+|           GetHurst | 1,011.27 μs | 6.046 μs | 5.359 μs |
+|        GetIchimoku |   873.87 μs | 4.815 μs | 4.504 μs |
+|            GetKama |    73.26 μs | 0.215 μs | 0.179 μs |
+|         GetKlinger |    72.53 μs | 0.358 μs | 0.299 μs |
+|         GetKeltner |   380.42 μs | 1.897 μs | 1.682 μs |
+|            GetMacd |   143.73 μs | 0.983 μs | 0.821 μs |
+|     GetMaEnvelopes |    86.72 μs | 0.262 μs | 0.218 μs |
+|            GetMama |   139.66 μs | 0.942 μs | 0.787 μs |
+|        GetMarubozu |   121.28 μs | 0.531 μs | 0.471 μs |
+|             GetMfi |   170.07 μs | 1.090 μs | 0.910 μs |
+|             GetObv |    62.35 μs | 0.243 μs | 0.215 μs |
+|      GetObvWithSma |    68.61 μs | 0.340 μs | 0.284 μs |
+|    GetParabolicSar |    89.93 μs | 0.345 μs | 0.306 μs |
+|          GetPivots |   152.28 μs | 0.719 μs | 0.637 μs |
+|     GetPivotPoints |    89.46 μs | 1.640 μs | 1.454 μs |
+|             GetPmo |    72.27 μs | 0.722 μs | 0.640 μs |
+|             GetPrs |    99.20 μs | 0.969 μs | 0.859 μs |
+|      GetPrsWithSma |   104.46 μs | 0.530 μs | 0.443 μs |
+|             GetPvo |   202.49 μs | 0.312 μs | 0.292 μs |
+|           GetRenko |    94.08 μs | 0.379 μs | 0.336 μs |
+|        GetRenkoAtr |   106.52 μs | 0.576 μs | 0.539 μs |
+|             GetRoc |    51.75 μs | 0.234 μs | 0.208 μs |
+|           GetRocWb |    72.85 μs | 0.723 μs | 0.604 μs |
+|      GetRocWithSma |    64.66 μs | 0.605 μs | 0.537 μs |
+|   GetRollingPivots |   327.67 μs | 1.436 μs | 1.344 μs |
+|             GetRsi |    53.78 μs | 0.559 μs | 0.523 μs |
+|           GetSlope |    89.19 μs | 0.617 μs | 0.547 μs |
+|             GetSma |    83.13 μs | 0.216 μs | 0.202 μs |
+|     GetSmaExtended |   161.42 μs | 1.721 μs | 1.610 μs |
+|             GetSmi |    97.64 μs | 0.958 μs | 0.800 μs |
+|            GetSmma |    87.28 μs | 0.452 μs | 0.401 μs |
+|      GetStarcBands |   326.62 μs | 2.351 μs | 2.084 μs |
+|             GetStc |   350.88 μs | 3.121 μs | 2.767 μs |
+|          GetStdDev |    99.60 μs | 0.198 μs | 0.185 μs |
+|   GetStdDevWithSma |   108.41 μs | 0.873 μs | 0.774 μs |
+|  GetStdDevChannels |   132.02 μs | 0.365 μs | 0.305 μs |
+|           GetStoch |   190.20 μs | 2.084 μs | 1.949 μs |
+|       GetStochSMMA |   168.71 μs | 1.463 μs | 1.222 μs |
+|        GetStochRsi |   248.17 μs | 1.562 μs | 1.385 μs |
+|      GetSuperTrend |   250.22 μs | 1.499 μs | 1.329 μs |
+|       GetTripleEma |   145.27 μs | 0.634 μs | 0.593 μs |
+|            GetTrix |   184.90 μs | 3.073 μs | 2.724 μs |
+|     GetTrixWithSma |   240.74 μs | 2.872 μs | 2.687 μs |
+|             GetTsi |    59.69 μs | 0.749 μs | 0.626 μs |
+|              GetT3 |    68.81 μs | 0.475 μs | 0.421 μs |
+|      GetUlcerIndex |   236.90 μs | 0.593 μs | 0.555 μs |
+|        GetUltimate |   110.23 μs | 0.766 μs | 0.679 μs |
+|  GetVolatilityStop |   255.43 μs | 3.474 μs | 3.080 μs |
+|          GetVolSma |   158.92 μs | 1.231 μs | 1.152 μs |
+|          GetVortex |    72.22 μs | 0.549 μs | 0.487 μs |
+|            GetVwap |    73.41 μs | 0.248 μs | 0.207 μs |
+|            GetVwma |    88.79 μs | 0.417 μs | 0.390 μs |
+|       GetWilliamsR |   154.25 μs | 1.395 μs | 1.165 μs |
+|             GetWma |    68.90 μs | 0.380 μs | 0.317 μs |
+|          GetZigZag |   140.25 μs | 0.718 μs | 0.637 μs |

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,8 +29,8 @@ namespace Skender.Stock.Indicators
                 })
                 .ToList();
 
-            decimal k = 2m / (emaPeriods + 1);
-            decimal? lastEma = 0;
+            double k = 2d / (emaPeriods + 1);
+            double? lastEma = 0;
 
             for (int i = lookbackPeriods; i < lookbackPeriods + emaPeriods; i++)
             {
@@ -39,7 +39,7 @@ namespace Skender.Stock.Indicators
             lastEma /= emaPeriods;
 
             double?[] rocSq = results
-                .Select(x => (double?)(x.Roc * x.Roc))
+                .Select(x => (x.Roc * x.Roc))
                 .ToArray();
 
             // roll through quotes
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
 
                     if (sumSq is not null)
                     {
-                        decimal? rocDev = (decimal?)Math.Sqrt((double)sumSq / stdDevPeriods);
+                        double? rocDev = Math.Sqrt((double)sumSq / stdDevPeriods);
 
                         r.UpperBand = rocDev;
                         r.LowerBand = -rocDev;

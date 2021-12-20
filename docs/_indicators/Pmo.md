@@ -50,8 +50,8 @@ IEnumerable<PmoResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Pmo` | decimal | Price Momentum Oscillator
-| `Signal` | decimal | Signal line is EMA of PMO
+| `Pmo` | double | Price Momentum Oscillator
+| `Signal` | double | Signal line is EMA of PMO
 
 ### Utilities
 

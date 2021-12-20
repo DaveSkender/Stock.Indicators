@@ -20,7 +20,7 @@ namespace Skender.Stock.Indicators
         {
             // we cannot rely on date consistency when looking back, so we add an index and sort
 
-            List<TQuote> quotesList = quotes.Sort();
+            List<TQuote> quotesList = quotes.SortToList();
 
             // check for duplicates
             DateTime lastDate = DateTime.MinValue;
@@ -92,8 +92,8 @@ namespace Skender.Stock.Indicators
                     });
         }
 
-        // sort
-        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> quotes)
+        // sort quotes
+        internal static List<TQuote> SortToList<TQuote>(this IEnumerable<TQuote> quotes)
             where TQuote : IQuote
         {
             List<TQuote> quotesList = quotes.OrderBy(x => x.Date).ToList();
@@ -104,24 +104,48 @@ namespace Skender.Stock.Indicators
                 : quotesList;
         }
 
-        // convert to basic
-        internal static List<BasicData> ConvertToBasic<TQuote>(
+        internal static List<QuoteD> ConvertToList<TQuote>(
+            this IEnumerable<TQuote> quotes)
+            where TQuote : IQuote
+        {
+            List<QuoteD> quotesList = quotes
+                .Select(x => new QuoteD
+                {
+                    Date = x.Date,
+                    Open = (double)x.Open,
+                    High = (double)x.High,
+                    Low = (double)x.Low,
+                    Close = (double)x.Close,
+                    Volume = (double)x.Volume
+                })
+                .OrderBy(x => x.Date)
+                .ToList();
+
+            // validate
+            return quotesList == null || quotesList.Count == 0
+                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
+                : quotesList;
+        }
+
+        // convert to basic double
+        internal static List<BasicD> ConvertToBasic<TQuote>(
             this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
             where TQuote : IQuote
         {
             // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
-            // convert to basic data format
-            IEnumerable<BasicData> basicData = element switch
+            // convert to basic double precision format
+            IEnumerable<BasicD> basicDouble = element switch
             {
-                CandlePart.Open => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Open }),
-                CandlePart.High => quotes.Select(x => new BasicData { Date = x.Date, Value = x.High }),
-                CandlePart.Low => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Low }),
-                CandlePart.Close => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Close }),
-                CandlePart.Volume => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Volume }),
-                _ => new List<BasicData>(),
+                CandlePart.Open => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Open }),
+                CandlePart.High => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.High }),
+                CandlePart.Low => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Low }),
+                CandlePart.Close => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Close }),
+                CandlePart.Volume => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Volume }),
+                CandlePart.HL2 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.High + x.Low) / 2 }),
+                _ => new List<BasicD>(),
             };
 
-            List<BasicData> bdList = basicData.OrderBy(x => x.Date).ToList();
+            List<BasicD> bdList = basicDouble.OrderBy(x => x.Date).ToList();
 
             // validate
             return bdList == null || bdList.Count == 0

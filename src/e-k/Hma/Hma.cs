@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            List<TQuote> quotesList = quotes.SortToList();
 
             // check parameter arguments
             ValidateHma(quotes, lookbackPeriods);
@@ -60,7 +60,7 @@ namespace Skender.Stock.Indicators
                 .ToList();
 
             // calculate final HMA = WMA with period SQRT(n)
-            List<HmaResult> hmaResults = GetWma(synthHistory, sqN)
+            List<HmaResult> hmaResults = synthHistory.GetWma(sqN)
                 .Select(x => new HmaResult
                 {
                     Date = x.Date,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateMfi(quotes, lookbackPeriods);
@@ -24,16 +24,16 @@ namespace Skender.Stock.Indicators
             // initialize
             int size = quotesList.Count;
             List<MfiResult> results = new(size);
-            decimal[] tp = new decimal[size];  // true price
-            decimal[] mf = new decimal[size];  // raw MF value
+            double[] tp = new double[size];  // true price
+            double[] mf = new double[size];  // raw MF value
             int[] direction = new int[size];   // direction
 
-            decimal? prevTP = null;
+            double? prevTP = null;
 
             // roll through quotes, to get preliminary data
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
 
                 MfiResult result = new()
                 {
@@ -71,8 +71,8 @@ namespace Skender.Stock.Indicators
                 MfiResult r = results[i];
                 int index = i + 1;
 
-                decimal sumPosMFs = 0;
-                decimal sumNegMFs = 0;
+                double sumPosMFs = 0;
+                double sumNegMFs = 0;
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
@@ -94,7 +94,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // calculate MFI normally
-                decimal mfRatio = sumPosMFs / sumNegMFs;
+                decimal mfRatio = (decimal)(sumPosMFs / sumNegMFs);
 
                 r.Mfi = 100 - (100 / (1 + mfRatio));
             }

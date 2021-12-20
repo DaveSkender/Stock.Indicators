@@ -46,6 +46,7 @@ You must have at least `N` periods of `quotes`.
 | `CandlePart.Low` | Use `Low` price
 | `CandlePart.Close` | Use `Close` price (default)
 | `CandlePart.Volume` | Use `Volume`
+| `CandlePart.HL2` | Use `(High+Low)/2`
 
 ## Response
 
@@ -99,6 +100,6 @@ IEnumerable<SmaExtendedResult> results =
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average
-| `Mad` | decimal | Mean absolute deviation
-| `Mse` | decimal | Mean square error
-| `Mape` | decimal | Mean absolute percentage error
+| `Mad` | double | Mean absolute deviation
+| `Mse` | double | Mean square error
+| `Mape` | double | Mean absolute percentage error

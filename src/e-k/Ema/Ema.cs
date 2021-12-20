@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return bdList.CalcEma(lookbackPeriods);
@@ -33,8 +33,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(candlePart);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
 
             // calculate
             return bdList.CalcEma(lookbackPeriods);
@@ -57,7 +57,7 @@ namespace Skender.Stock.Indicators
 
         // standard calculation
         private static List<EmaResult> CalcEma(
-            this List<BasicData> bdList, int lookbackPeriods)
+            this List<BasicD> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments
@@ -66,8 +66,8 @@ namespace Skender.Stock.Indicators
             // initialize
             List<EmaResult> results = new(bdList.Count);
 
-            decimal k = 2 / (decimal)(lookbackPeriods + 1);
-            decimal lastEma = 0;
+            double k = 2d / (lookbackPeriods + 1);
+            double? lastEma = 0;
 
             for (int i = 0; i < lookbackPeriods; i++)
             {
@@ -78,7 +78,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
-                BasicData h = bdList[i];
+                BasicD h = bdList[i];
                 int index = i + 1;
 
                 EmaResult result = new()
@@ -88,12 +88,13 @@ namespace Skender.Stock.Indicators
 
                 if (index > lookbackPeriods)
                 {
-                    result.Ema = lastEma + k * (h.Value - lastEma);
-                    lastEma = (decimal)result.Ema;
+                    double? ema = (lastEma + k * (h.Value - lastEma));
+                    result.Ema = (decimal?)ema;
+                    lastEma = ema;
                 }
                 else if (index == lookbackPeriods)
                 {
-                    result.Ema = lastEma;
+                    result.Ema = (decimal?)lastEma;
                 }
 
                 results.Add(result);
@@ -105,7 +106,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateEma(
-            List<BasicData> quotes,
+            List<BasicD> quotes,
             int lookbackPeriods)
         {
 

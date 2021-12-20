@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Skender.Stock.Indicators" Version="1.19.2" />
+    <PackageReference Include="Skender.Stock.Indicators" Version="1.20.0" />
   </ItemGroup>
 
   <ItemGroup>

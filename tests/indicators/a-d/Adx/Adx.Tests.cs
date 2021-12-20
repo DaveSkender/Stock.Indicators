@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,31 +25,38 @@ namespace Internal.Tests
 
             // sample values
             AdxResult r1 = results[19];
-            Assert.AreEqual(21.0361m, Math.Round((decimal)r1.Pdi, 4));
-            Assert.AreEqual(25.0124m, Math.Round((decimal)r1.Mdi, 4));
+            Assert.AreEqual(21.0361, Math.Round((double)r1.Pdi, 4));
+            Assert.AreEqual(25.0124, Math.Round((double)r1.Mdi, 4));
             Assert.AreEqual(null, r1.Adx);
 
             AdxResult r2 = results[29];
-            Assert.AreEqual(37.9719m, Math.Round((decimal)r2.Pdi, 4));
-            Assert.AreEqual(14.1658m, Math.Round((decimal)r2.Mdi, 4));
-            Assert.AreEqual(19.7949m, Math.Round((decimal)r2.Adx, 4));
+            Assert.AreEqual(37.9719, Math.Round((double)r2.Pdi, 4));
+            Assert.AreEqual(14.1658, Math.Round((double)r2.Mdi, 4));
+            Assert.AreEqual(19.7949, Math.Round((double)r2.Adx, 4));
 
             AdxResult r3 = results[248];
-            Assert.AreEqual(32.3167m, Math.Round((decimal)r3.Pdi, 4));
-            Assert.AreEqual(18.2471m, Math.Round((decimal)r3.Mdi, 4));
-            Assert.AreEqual(30.5903m, Math.Round((decimal)r3.Adx, 4));
+            Assert.AreEqual(32.3167, Math.Round((double)r3.Pdi, 4));
+            Assert.AreEqual(18.2471, Math.Round((double)r3.Mdi, 4));
+            Assert.AreEqual(30.5903, Math.Round((double)r3.Adx, 4));
 
             AdxResult r4 = results[501];
-            Assert.AreEqual(17.7565m, Math.Round((decimal)r4.Pdi, 4));
-            Assert.AreEqual(31.1510m, Math.Round((decimal)r4.Mdi, 4));
-            Assert.AreEqual(34.2987m, Math.Round((decimal)r4.Adx, 4));
+            Assert.AreEqual(17.7565, Math.Round((double)r4.Pdi, 4));
+            Assert.AreEqual(31.1510, Math.Round((double)r4.Mdi, 4));
+            Assert.AreEqual(34.2987, Math.Round((double)r4.Adx, 4));
         }
 
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<AdxResult> r = Indicator.GetAdx(badQuotes, 20);
+            IEnumerable<AdxResult> r = badQuotes.GetAdx(20);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void BigData()
+        {
+            IEnumerable<AdxResult> r = bigQuotes.GetAdx(200);
+            Assert.AreEqual(1246, r.Count());
         }
 
         [TestMethod]
@@ -62,9 +69,9 @@ namespace Internal.Tests
             Assert.AreEqual(502 - (2 * 14 + 100), r.Count());
 
             AdxResult last = r.LastOrDefault();
-            Assert.AreEqual(17.7565m, Math.Round((decimal)last.Pdi, 4));
-            Assert.AreEqual(31.1510m, Math.Round((decimal)last.Mdi, 4));
-            Assert.AreEqual(34.2987m, Math.Round((decimal)last.Adx, 4));
+            Assert.AreEqual(17.7565, Math.Round((double)last.Pdi, 4));
+            Assert.AreEqual(31.1510, Math.Round((double)last.Mdi, 4));
+            Assert.AreEqual(34.2987, Math.Round((double)last.Adx, 4));
         }
 
         [TestMethod]

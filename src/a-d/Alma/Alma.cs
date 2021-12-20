@@ -17,33 +17,33 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateAlma(quotes, lookbackPeriods, offset, sigma);
 
             // initialize
-            List<AlmaResult> results = new(quotesList.Count);
+            List<AlmaResult> results = new(bdList.Count);
 
             // determine price weights
             double m = offset * (lookbackPeriods - 1);
             double s = lookbackPeriods / sigma;
 
-            decimal[] weight = new decimal[lookbackPeriods];
-            decimal norm = 0;
+            double[] weight = new double[lookbackPeriods];
+            double norm = 0;
 
             for (int i = 0; i < lookbackPeriods; i++)
             {
-                decimal wt = (decimal)Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
+                double wt = Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
                 weight[i] = wt;
                 norm += wt;
             }
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 AlmaResult r = new()
@@ -53,17 +53,17 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriods)
                 {
-                    decimal weightedSum = 0m;
+                    double weightedSum = 0;
                     int n = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
-                        weightedSum += weight[n] * d.Close;
+                        BasicD d = bdList[p];
+                        weightedSum += weight[n] * d.Value;
                         n++;
                     }
 
-                    r.Alma = weightedSum / norm;
+                    r.Alma = (decimal)(weightedSum / norm);
                 }
 
                 results.Add(r);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,20 +28,20 @@ namespace Internal.Tests
             Assert.IsNull(r1.Nvi);
 
             VortexResult r2 = results[14];
-            Assert.AreEqual(1.0460m, Math.Round((decimal)r2.Pvi, 4));
-            Assert.AreEqual(0.8119m, Math.Round((decimal)r2.Nvi, 4));
+            Assert.AreEqual(1.0460, Math.Round((double)r2.Pvi, 4));
+            Assert.AreEqual(0.8119, Math.Round((double)r2.Nvi, 4));
 
             VortexResult r3 = results[29];
-            Assert.AreEqual(1.1300m, Math.Round((decimal)r3.Pvi, 4));
-            Assert.AreEqual(0.7393m, Math.Round((decimal)r3.Nvi, 4));
+            Assert.AreEqual(1.1300, Math.Round((double)r3.Pvi, 4));
+            Assert.AreEqual(0.7393, Math.Round((double)r3.Nvi, 4));
 
             VortexResult r4 = results[249];
-            Assert.AreEqual(1.1558m, Math.Round((decimal)r4.Pvi, 4));
-            Assert.AreEqual(0.6634m, Math.Round((decimal)r4.Nvi, 4));
+            Assert.AreEqual(1.1558, Math.Round((double)r4.Pvi, 4));
+            Assert.AreEqual(0.6634, Math.Round((double)r4.Nvi, 4));
 
             VortexResult r5 = results[501];
-            Assert.AreEqual(0.8712m, Math.Round((decimal)r5.Pvi, 4));
-            Assert.AreEqual(1.1163m, Math.Round((decimal)r5.Nvi, 4));
+            Assert.AreEqual(0.8712, Math.Round((double)r5.Pvi, 4));
+            Assert.AreEqual(1.1163, Math.Round((double)r5.Nvi, 4));
         }
 
         [TestMethod]
@@ -62,8 +62,8 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 14, results.Count);
 
             VortexResult last = results.LastOrDefault();
-            Assert.AreEqual(0.8712m, Math.Round((decimal)last.Pvi, 4));
-            Assert.AreEqual(1.1163m, Math.Round((decimal)last.Nvi, 4));
+            Assert.AreEqual(0.8712, Math.Round((double)last.Pvi, 4));
+            Assert.AreEqual(1.1163, Math.Round((double)last.Nvi, 4));
         }
 
         [TestMethod]

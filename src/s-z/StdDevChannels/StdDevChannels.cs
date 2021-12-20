@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
             this IEnumerable<TQuote> quotes,
             int? lookbackPeriods = 20,
-            decimal standardDeviations = 2)
+            double standardDeviations = 2)
             where TQuote : IQuote
         {
 
@@ -37,6 +37,7 @@ namespace Skender.Stock.Indicators
             for (int w = size - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)
             {
                 SlopeResult s = slopeResults[w];
+                decimal? width = (decimal?)(standardDeviations * s.StdDev);
 
                 // add regression line (y = mx + b) and channels
                 for (int p = w - (int)lookbackPeriods + 1; p <= w; p++)
@@ -44,9 +45,7 @@ namespace Skender.Stock.Indicators
                     if (p >= 0)
                     {
                         StdDevChannelsResult d = results[p];
-                        d.Centerline = s.Slope * (p + 1) + s.Intercept;
-
-                        decimal width = standardDeviations * (decimal)s.StdDev;
+                        d.Centerline = (decimal?)(s.Slope * (p + 1) + s.Intercept);
                         d.UpperChannel = d.Centerline + width;
                         d.LowerChannel = d.Centerline - width;
 
@@ -77,7 +76,7 @@ namespace Skender.Stock.Indicators
         private static void ValidateStdDevChannels<TQuote>(
             IEnumerable<TQuote> quotes,
             int? lookbackPeriods,
-            decimal standardDeviations)
+            double standardDeviations)
             where TQuote : IQuote
         {
 

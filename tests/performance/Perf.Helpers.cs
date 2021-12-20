@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
 using Internal.Tests;
@@ -22,9 +22,15 @@ namespace Tests.Performance
         }
 
         [Benchmark]
-        public object Sort()
+        public object SortToList()
         {
-            return h.Sort();
+            return h.SortToList();
+        }
+
+        [Benchmark]
+        public object ConvertToList()
+        {
+            return h.ConvertToList();
         }
 
         [Benchmark]

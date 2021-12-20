@@ -26,9 +26,20 @@ namespace Skender.Stock.Indicators
     }
 
     [Serializable]
-    internal class BasicData
+    internal class QuoteD
     {
         internal DateTime Date { get; set; }
-        internal decimal Value { get; set; }
+        internal double Open { get; set; }
+        internal double High { get; set; }
+        internal double Low { get; set; }
+        internal double Close { get; set; }
+        internal double Volume { get; set; }
+    }
+
+    [Serializable]
+    internal class BasicD
+    {
+        internal DateTime Date { get; set; }
+        internal double Value { get; set; }
     }
 }

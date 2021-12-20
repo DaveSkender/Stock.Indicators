@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
                 EpmaResult r = new()
                 {
                     Date = s.Date,
-                    Epma = s.Slope * (i + 1) + s.Intercept
+                    Epma = (decimal?)(s.Slope * (i + 1) + s.Intercept)
                 };
 
                 results.Add(r);

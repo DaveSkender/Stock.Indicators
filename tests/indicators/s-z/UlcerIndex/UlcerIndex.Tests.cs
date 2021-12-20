@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,7 +25,7 @@ namespace Internal.Tests
 
             // sample value
             UlcerIndexResult r = results[501];
-            Assert.AreEqual(5.7255m, Math.Round((decimal)r.UI, 4));
+            Assert.AreEqual(5.7255, Math.Round((double)r.UI, 4));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 13, results.Count);
 
             UlcerIndexResult last = results.LastOrDefault();
-            Assert.AreEqual(5.7255m, Math.Round((decimal)last.UI, 4));
+            Assert.AreEqual(5.7255, Math.Round((double)last.UI, 4));
 
         }
 

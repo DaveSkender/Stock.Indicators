@@ -17,8 +17,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateUltimate(quotes, shortPeriods, middlePeriods, longPeriods);
@@ -26,15 +26,15 @@ namespace Skender.Stock.Indicators
             // initialize
             int size = quotesList.Count;
             List<UltimateResult> results = new(size);
-            decimal[] bp = new decimal[size]; // buying pressure
-            decimal[] tr = new decimal[size]; // true range
+            double[] bp = new double[size]; // buying pressure
+            double[] tr = new double[size]; // true range
 
-            decimal priorClose = 0;
+            double priorClose = 0;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 UltimateResult r = new()
@@ -51,13 +51,13 @@ namespace Skender.Stock.Indicators
 
                 if (index >= longPeriods + 1)
                 {
-                    decimal sumBP1 = 0m;
-                    decimal sumBP2 = 0m;
-                    decimal sumBP3 = 0m;
+                    double sumBP1 = 0;
+                    double sumBP2 = 0;
+                    double sumBP3 = 0;
 
-                    decimal sumTR1 = 0m;
-                    decimal sumTR2 = 0m;
-                    decimal sumTR3 = 0m;
+                    double sumTR1 = 0;
+                    double sumTR2 = 0;
+                    double sumTR3 = 0;
 
                     for (int p = index - longPeriods; p < index; p++)
                     {
@@ -82,11 +82,11 @@ namespace Skender.Stock.Indicators
                         sumTR3 += tr[p];
                     }
 
-                    decimal? avg1 = (sumTR1 == 0) ? null : sumBP1 / sumTR1;
-                    decimal? avg2 = (sumTR2 == 0) ? null : sumBP2 / sumTR2;
-                    decimal? avg3 = (sumTR3 == 0) ? null : sumBP3 / sumTR3;
+                    double? avg1 = (sumTR1 == 0) ? null : sumBP1 / sumTR1;
+                    double? avg2 = (sumTR2 == 0) ? null : sumBP2 / sumTR2;
+                    double? avg3 = (sumTR3 == 0) ? null : sumBP3 / sumTR3;
 
-                    r.Ultimate = 100 * (4m * avg1 + 2m * avg2 + avg3) / 7m;
+                    r.Ultimate = (decimal?)(100d * (4d * avg1 + 2d * avg2 + avg3) / 7d);
                 }
 
                 priorClose = q.Close;

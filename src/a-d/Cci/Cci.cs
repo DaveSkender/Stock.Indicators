@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateCci(quotes, lookbackPeriods);
@@ -27,7 +27,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 CciResult result = new()
@@ -40,25 +40,25 @@ namespace Skender.Stock.Indicators
                 if (index >= lookbackPeriods)
                 {
                     // average TP over lookback
-                    decimal avgTp = 0;
+                    double avgTp = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
-                        avgTp += (decimal)d.Tp;
+                        avgTp += (double)d.Tp;
                     }
                     avgTp /= lookbackPeriods;
 
                     // average Deviation over lookback
-                    decimal avgDv = 0;
+                    double avgDv = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
                         CciResult d = results[p];
-                        avgDv += Math.Abs(avgTp - (decimal)d.Tp);
+                        avgDv += Math.Abs(avgTp - (double)d.Tp);
                     }
                     avgDv /= lookbackPeriods;
 
                     result.Cci = (avgDv == 0) ? null
-                        : (result.Tp - avgTp) / ((decimal)0.015 * avgDv);
+                        : (result.Tp - avgTp) / (0.015 * avgDv);
                 }
             }
 

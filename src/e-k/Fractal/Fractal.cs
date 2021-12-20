@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,7 +33,7 @@ namespace Skender.Stock.Indicators
             ValidateFractal(quotes, Math.Min(leftSpan, rightSpan));
 
             // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            List<TQuote> quotesList = quotes.SortToList();
 
             // initialize
             List<FractalResult> results = new(quotesList.Count);

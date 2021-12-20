@@ -49,10 +49,10 @@ IEnumerable<ChaikinOscResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `MoneyFlowMultiplier` | decimal | Money Flow Multiplier
-| `MoneyFlowVolume` | decimal | Money Flow Volume
-| `Adl` | decimal | Accumulation Distribution Line (ADL)
-| `Oscillator` | decimal | Chaikin Oscillator
+| `MoneyFlowMultiplier` | double | Money Flow Multiplier
+| `MoneyFlowVolume` | double | Money Flow Volume
+| `Adl` | double | Accumulation Distribution Line (ADL)
+| `Oscillator` | double | Chaikin Oscillator
 
 :warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless, so use with caution.
 

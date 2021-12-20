@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,21 +32,21 @@ namespace Internal.Tests
             Assert.AreEqual(null, r1.StdDevSma);
 
             StdDevResult r2 = results[9];
-            Assert.AreEqual(0.5020m, Math.Round((decimal)r2.StdDev, 4));
-            Assert.AreEqual(214.0140m, Math.Round((decimal)r2.Mean, 4));
-            Assert.AreEqual(-0.525917m, Math.Round((decimal)r2.ZScore, 6));
+            Assert.AreEqual(0.5020, Math.Round((double)r2.StdDev, 4));
+            Assert.AreEqual(214.0140, Math.Round((double)r2.Mean, 4));
+            Assert.AreEqual(-0.525917, Math.Round((double)r2.ZScore, 6));
             Assert.AreEqual(null, r2.StdDevSma);
 
             StdDevResult r3 = results[249];
-            Assert.AreEqual(0.9827m, Math.Round((decimal)r3.StdDev, 4));
-            Assert.AreEqual(257.2200m, Math.Round((decimal)r3.Mean, 4));
-            Assert.AreEqual(0.783563m, Math.Round((decimal)r3.ZScore, 6));
+            Assert.AreEqual(0.9827, Math.Round((double)r3.StdDev, 4));
+            Assert.AreEqual(257.2200, Math.Round((double)r3.Mean, 4));
+            Assert.AreEqual(0.783563, Math.Round((double)r3.ZScore, 6));
             Assert.AreEqual(null, r3.StdDevSma);
 
             StdDevResult r4 = results[501];
-            Assert.AreEqual(5.4738m, Math.Round((decimal)r4.StdDev, 4));
-            Assert.AreEqual(242.4100m, Math.Round((decimal)r4.Mean, 4));
-            Assert.AreEqual(0.524312m, Math.Round((decimal)r4.ZScore, 6));
+            Assert.AreEqual(5.4738, Math.Round((double)r4.StdDev, 4));
+            Assert.AreEqual(242.4100, Math.Round((double)r4.Mean, 4));
+            Assert.AreEqual(0.524312, Math.Round((double)r4.ZScore, 6));
             Assert.AreEqual(null, r4.StdDevSma);
         }
 
@@ -68,21 +68,28 @@ namespace Internal.Tests
 
             // sample values
             StdDevResult r1 = results[19];
-            Assert.AreEqual(1.1642m, Math.Round((decimal)r1.StdDev, 4));
-            Assert.AreEqual(-0.065282m, Math.Round((decimal)r1.ZScore, 6));
-            Assert.AreEqual(1.1422m, Math.Round((decimal)r1.StdDevSma, 4));
+            Assert.AreEqual(1.1642, Math.Round((double)r1.StdDev, 4));
+            Assert.AreEqual(-0.065282, Math.Round((double)r1.ZScore, 6));
+            Assert.AreEqual(1.1422, Math.Round((double)r1.StdDevSma, 4));
 
             StdDevResult r2 = results[501];
-            Assert.AreEqual(5.4738m, Math.Round((decimal)r2.StdDev, 4));
-            Assert.AreEqual(0.524312m, Math.Round((decimal)r2.ZScore, 6));
-            Assert.AreEqual(7.6886m, Math.Round((decimal)r2.StdDevSma, 4));
+            Assert.AreEqual(5.4738, Math.Round((double)r2.StdDev, 4));
+            Assert.AreEqual(0.524312, Math.Round((double)r2.ZScore, 6));
+            Assert.AreEqual(7.6886, Math.Round((double)r2.StdDevSma, 4));
         }
 
         [TestMethod]
         public void BadData()
         {
-            IEnumerable<StdDevResult> r = Indicator.GetStdDev(badQuotes, 15, 3);
+            IEnumerable<StdDevResult> r = badQuotes.GetStdDev(15, 3);
             Assert.AreEqual(502, r.Count());
+        }
+
+        [TestMethod]
+        public void BigData()
+        {
+            IEnumerable<StdDevResult> r = bigQuotes.GetStdDev(200, 3);
+            Assert.AreEqual(1246, r.Count());
         }
 
         [TestMethod]
@@ -96,9 +103,9 @@ namespace Internal.Tests
             Assert.AreEqual(502 - 9, results.Count);
 
             StdDevResult last = results.LastOrDefault();
-            Assert.AreEqual(5.4738m, Math.Round((decimal)last.StdDev, 4));
-            Assert.AreEqual(242.4100m, Math.Round((decimal)last.Mean, 4));
-            Assert.AreEqual(0.524312m, Math.Round((decimal)last.ZScore, 6));
+            Assert.AreEqual(5.4738, Math.Round((double)last.StdDev, 4));
+            Assert.AreEqual(242.4100, Math.Round((double)last.Mean, 4));
+            Assert.AreEqual(0.524312, Math.Round((double)last.ZScore, 6));
             Assert.AreEqual(null, last.StdDevSma);
         }
 

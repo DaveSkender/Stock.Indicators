@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,14 +14,14 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
             ValidateHtTrendline(quotes);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<HtlResult> results = new(size);
 
             double[] pr = new double[size]; // price
@@ -47,8 +47,8 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
-                pr[i] = (double)(q.High + q.Low) / 2;
+                BasicD q = bdList[i];
+                pr[i] = q.Value;
 
                 HtlResult r = new()
                 {

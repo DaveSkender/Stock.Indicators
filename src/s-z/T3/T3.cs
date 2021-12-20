@@ -16,30 +16,30 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateT3(quotes, lookbackPeriods, volumeFactor);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<T3Result> results = new(size);
 
-            decimal k = 2 / (decimal)(lookbackPeriods + 1);
-            decimal a = (decimal)volumeFactor;
-            decimal c1 = -a * a * a;
-            decimal c2 = 3 * a * a + 3 * a * a * a;
-            decimal c3 = -6 * a * a - 3 * a - 3 * a * a * a;
-            decimal c4 = 1 + 3 * a + a * a * a + 3 * a * a;
+            double k = 2d / (lookbackPeriods + 1);
+            double a = volumeFactor;
+            double c1 = -a * a * a;
+            double c2 = 3 * a * a + 3 * a * a * a;
+            double c3 = -6 * a * a - 3 * a - 3 * a * a * a;
+            double c4 = 1 + 3 * a + a * a * a + 3 * a * a;
 
-            decimal e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0;
-            decimal sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0, sum6 = 0;
+            double e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0;
+            double sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0, sum6 = 0;
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 T3Result r = new()
                 {
                     Date = q.Date
@@ -48,7 +48,7 @@ namespace Skender.Stock.Indicators
                 // first smoothing
                 if (i > lookbackPeriods - 1)
                 {
-                    e1 += k * (q.Close - e1);
+                    e1 += k * (q.Value - e1);
 
                     // second smoothing
                     if (i > 2 * (lookbackPeriods - 1))
@@ -76,7 +76,7 @@ namespace Skender.Stock.Indicators
                                         e6 += k * (e5 - e6);
 
                                         // T3 moving average
-                                        r.T3 = c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3;
+                                        r.T3 = (decimal?)(c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3);
                                     }
 
                                     // sixth warmup
@@ -89,7 +89,7 @@ namespace Skender.Stock.Indicators
                                             e6 = sum6 / lookbackPeriods;
 
                                             // initial T3 moving average
-                                            r.T3 = c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3;
+                                            r.T3 = (decimal?)(c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3);
                                         }
                                     }
                                 }
@@ -145,7 +145,7 @@ namespace Skender.Stock.Indicators
                 // first warmup
                 else
                 {
-                    sum1 += q.Close;
+                    sum1 += (double)q.Value;
 
                     if (i == lookbackPeriods - 1)
                     {

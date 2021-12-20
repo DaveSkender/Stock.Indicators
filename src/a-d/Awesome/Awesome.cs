@@ -16,22 +16,22 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
             ValidateAwesome(quotes, fastPeriods, slowPeriods);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<AwesomeResult> results = new();
-            decimal[] pr = new decimal[size]; // median price
+            double[] pr = new double[size]; // median price
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
-                pr[i] = (q.High + q.Low) / 2;
+                BasicD q = bdList[i];
+                pr[i] = q.Value;
                 int index = i + 1;
 
                 AwesomeResult r = new()
@@ -41,8 +41,8 @@ namespace Skender.Stock.Indicators
 
                 if (index >= slowPeriods)
                 {
-                    decimal sumSlow = 0m;
-                    decimal sumFast = 0m;
+                    double sumSlow = 0;
+                    double sumFast = 0;
 
                     for (int p = index - slowPeriods; p < index; p++)
                     {

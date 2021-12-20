@@ -47,8 +47,8 @@ IEnumerable<FisherTransformResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Fisher` | decimal | Fisher Transform
-| `Trigger` | decimal | FT offset by one period
+| `Fisher` | double | Fisher Transform
+| `Trigger` | double | FT offset by one period
 
 ### Utilities
 

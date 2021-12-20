@@ -16,8 +16,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateTrix(bdList, lookbackPeriods);
@@ -28,16 +28,16 @@ namespace Skender.Stock.Indicators
 
             List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriods);
 
-            List<BasicData> bd2 = emaN1
+            List<BasicD> bd2 = emaN1
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
+                .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
 
-            List<BasicData> bd3 = emaN2
+            List<BasicD> bd3 = emaN2
                 .Where(x => x.Ema != null)
-                .Select(x => new BasicData { Date = x.Date, Value = (decimal)x.Ema })
+                .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
                 .ToList();
 
             List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods);
@@ -111,7 +111,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateTrix(
-            IEnumerable<BasicData> quotes,
+            IEnumerable<BasicD> quotes,
             int lookbackPeriods)
         {
 

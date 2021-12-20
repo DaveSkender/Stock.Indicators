@@ -16,8 +16,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert to basic data
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
 
         // internals
         private static List<StdDevResult> CalcStdDev(
-            List<BasicData> bdList, int lookbackPeriods, int? smaPeriods = null)
+            List<BasicD> bdList, int lookbackPeriods, int? smaPeriods = null)
         {
 
             // check parameter arguments
@@ -52,7 +52,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
-                BasicData bd = bdList[i];
+                BasicD bd = bdList[i];
                 int index = i + 1;
 
                 StdDevResult result = new()
@@ -63,20 +63,20 @@ namespace Skender.Stock.Indicators
                 if (index >= lookbackPeriods)
                 {
                     double[] periodValues = new double[lookbackPeriods];
-                    decimal sum = 0m;
+                    double sum = 0;
                     int n = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        BasicData d = bdList[p];
-                        periodValues[n] = (double)d.Value;
+                        BasicD d = bdList[p];
+                        periodValues[n] = d.Value;
                         sum += d.Value;
                         n++;
                     }
 
-                    decimal periodAvg = sum / lookbackPeriods;
+                    double periodAvg = sum / lookbackPeriods;
 
-                    result.StdDev = (decimal)Functions.StdDev(periodValues);
+                    result.StdDev = Functions.StdDev(periodValues);
                     result.Mean = periodAvg;
 
                     result.ZScore = (result.StdDev == 0) ? null
@@ -88,10 +88,10 @@ namespace Skender.Stock.Indicators
                 // optional SMA
                 if (smaPeriods != null && index >= lookbackPeriods + smaPeriods - 1)
                 {
-                    decimal sumSma = 0m;
+                    double sumSma = 0;
                     for (int p = index - (int)smaPeriods; p < index; p++)
                     {
-                        sumSma += (decimal)results[p].StdDev;
+                        sumSma += (double)results[p].StdDev;
                     }
 
                     result.StdDevSma = sumSma / smaPeriods;
@@ -104,7 +104,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateStdDev(
-            List<BasicData> quotes,
+            List<BasicD> quotes,
             int lookbackPeriods,
             int? smaPeriods)
         {

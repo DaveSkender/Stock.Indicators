@@ -19,7 +19,7 @@ namespace Skender.Stock.Indicators
             ValidateSma(quotes, lookbackPeriods);
 
             // initialize
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return bdList.CalcSma(lookbackPeriods);
@@ -40,7 +40,7 @@ namespace Skender.Stock.Indicators
             ValidateSma(quotes, lookbackPeriods);
 
             // initialize
-            List<BasicData> bdList = quotes.ConvertToBasic(candlePart);
+            List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
 
             // calculate
             return bdList.CalcSma(lookbackPeriods);
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
 
         // calculate
         private static IEnumerable<SmaResult> CalcSma(
-            this List<BasicData> bdList,
+            this List<BasicD> bdList,
             int lookbackPeriods)
         {
 
@@ -74,7 +74,7 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
-                BasicData q = bdList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 SmaResult result = new()
@@ -84,14 +84,14 @@ namespace Skender.Stock.Indicators
 
                 if (index >= lookbackPeriods)
                 {
-                    decimal sumSma = 0m;
+                    double sumSma = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        BasicData d = bdList[p];
+                        BasicD d = bdList[p];
                         sumSma += d.Value;
                     }
 
-                    result.Sma = sumSma / lookbackPeriods;
+                    result.Sma = (decimal)sumSma / lookbackPeriods;
                 }
 
                 results.Add(result);

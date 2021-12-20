@@ -15,20 +15,20 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateSlope(quotes, lookbackPeriods);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<SlopeResult> results = new(size);
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 SlopeResult r = new()
@@ -45,31 +45,31 @@ namespace Skender.Stock.Indicators
                 }
 
                 // get averages for period
-                decimal sumX = 0m;
-                decimal sumY = 0m;
+                double sumX = 0;
+                double sumY = 0;
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    TQuote d = quotesList[p];
+                    BasicD d = bdList[p];
 
-                    sumX += p + 1m;
-                    sumY += d.Close;
+                    sumX += p + 1d;
+                    sumY += d.Value;
                 }
 
-                decimal avgX = sumX / lookbackPeriods;
-                decimal avgY = sumY / lookbackPeriods;
+                double avgX = sumX / lookbackPeriods;
+                double avgY = sumY / lookbackPeriods;
 
                 // least squares method
-                decimal sumSqX = 0m;
-                decimal sumSqY = 0m;
-                decimal sumSqXY = 0m;
+                double sumSqX = 0;
+                double sumSqY = 0;
+                double sumSqXY = 0;
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    TQuote d = quotesList[p];
+                    BasicD d = bdList[p];
 
-                    decimal devX = (p + 1m - avgX);
-                    decimal devY = (d.Close - avgY);
+                    double devX = (p + 1d - avgX);
+                    double devY = (d.Value - avgY);
 
                     sumSqX += devX * devX;
                     sumSqY += devY * devY;
@@ -96,7 +96,7 @@ namespace Skender.Stock.Indicators
             for (int p = size - lookbackPeriods; p < size; p++)
             {
                 SlopeResult d = results[p];
-                d.Line = last.Slope * (p + 1) + last.Intercept;
+                d.Line = (decimal?)(last.Slope * (p + 1) + last.Intercept);
             }
 
             return results;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,21 +17,21 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateKama(quotes, erPeriods, fastPeriods, slowPeriods);
 
             // initialize
             List<KamaResult> results = new(quotesList.Count);
-            decimal scFast = 2m / (fastPeriods + 1);
-            decimal scSlow = 2m / (slowPeriods + 1);
+            double scFast = 2d / (fastPeriods + 1);
+            double scSlow = 2d / (slowPeriods + 1);
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = quotesList[i];
                 int index = i + 1;
 
                 KamaResult r = new()
@@ -42,41 +42,41 @@ namespace Skender.Stock.Indicators
                 if (index > erPeriods)
                 {
                     // ER period change
-                    decimal change = Math.Abs(q.Close - quotesList[i - erPeriods].Close);
+                    double change = Math.Abs(q.Value - quotesList[i - erPeriods].Value);
 
                     // volatility
-                    decimal sumPV = 0m;
+                    double sumPV = 0;
                     for (int p = i - erPeriods + 1; p <= i; p++)
                     {
-                        sumPV += Math.Abs(quotesList[p].Close - quotesList[p - 1].Close);
+                        sumPV += Math.Abs(quotesList[p].Value - quotesList[p - 1].Value);
                     }
 
                     if (sumPV != 0)
                     {
                         // efficiency ratio
-                        decimal er = change / sumPV;
+                        double er = change / sumPV;
                         r.ER = er;
 
                         // smoothing constant
-                        decimal sc = er * (scFast - scSlow) + scSlow;  // squared later
+                        double sc = er * (scFast - scSlow) + scSlow;  // squared later
 
                         // kama calculation
-                        decimal? pk = results[i - 1].Kama;  // prior KAMA
-                        r.Kama = pk + sc * sc * (q.Close - pk);
+                        double? pk = (double?)results[i - 1].Kama;  // prior KAMA
+                        r.Kama = (decimal?)(pk + sc * sc * (q.Value - pk));
                     }
 
                     // handle flatline case
                     else
                     {
                         r.ER = 0;
-                        r.Kama = q.Close;
+                        r.Kama = (decimal?)q.Value;
                     }
                 }
 
                 // initial value
                 else if (index == erPeriods)
                 {
-                    r.Kama = q.Close;
+                    r.Kama = (decimal?)q.Value;
                 }
 
                 results.Add(r);

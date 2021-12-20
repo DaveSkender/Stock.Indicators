@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,8 +17,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Volume);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Volume);
 
             // check parameter arguments
             ValidatePvo(quotes, fastPeriods, slowPeriods, signalPeriods);
@@ -28,13 +28,13 @@ namespace Skender.Stock.Indicators
             List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
 
             int size = bdList.Count;
-            List<BasicData> emaDiff = new();
+            List<BasicD> emaDiff = new();
             List<PvoResult> results = new(size);
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                BasicData h = bdList[i];
+                BasicD h = bdList[i];
                 EmaResult df = emaFast[i];
                 EmaResult ds = emaSlow[i];
 
@@ -46,16 +46,16 @@ namespace Skender.Stock.Indicators
                 if (df?.Ema != null && ds?.Ema != null)
                 {
 
-                    decimal? pvo = (ds.Ema != 0) ?
-                        100 * (df.Ema - ds.Ema) / ds.Ema : null;
+                    double? pvo = (ds.Ema != 0) ?
+                        100 * (double)((df.Ema - ds.Ema) / ds.Ema) : null;
 
-                    result.Pvo = pvo;
+                    result.Pvo = (decimal?)pvo;
 
                     // temp data for interim EMA of PVO
-                    BasicData diff = new()
+                    BasicD diff = new()
                     {
                         Date = h.Date,
-                        Value = (decimal)pvo
+                        Value = (double)pvo
                     };
 
                     emaDiff.Add(diff);

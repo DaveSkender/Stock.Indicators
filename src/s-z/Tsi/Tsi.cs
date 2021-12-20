@@ -17,37 +17,37 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateTsi(quotes, lookbackPeriods, smoothPeriods, signalPeriods);
 
             // initialize
-            int size = quotesList.Count;
-            decimal mult1 = 2m / (lookbackPeriods + 1);
-            decimal mult2 = 2m / (smoothPeriods + 1);
-            decimal multS = 2m / (signalPeriods + 1);
-            decimal? sumS = 0m;
+            int size = bdList.Count;
+            double mult1 = 2d / (lookbackPeriods + 1);
+            double mult2 = 2d / (smoothPeriods + 1);
+            double multS = 2d / (signalPeriods + 1);
+            double? sumS = 0;
 
             List<TsiResult> results = new(size);
 
-            decimal[] c = new decimal[size]; // price change
-            decimal[] cs1 = new decimal[size]; // smooth 1
-            decimal[] cs2 = new decimal[size]; // smooth 2
-            decimal sumC = 0m;
-            decimal sumC1 = 0m;
+            double[] c = new double[size]; // price change
+            double[] cs1 = new double[size]; // smooth 1
+            double[] cs2 = new double[size]; // smooth 2
+            double sumC = 0;
+            double sumC1 = 0;
 
-            decimal[] a = new decimal[size]; // abs of price change
-            decimal[] as1 = new decimal[size]; // smooth 1
-            decimal[] as2 = new decimal[size]; // smooth 2
-            decimal sumA = 0m;
-            decimal sumA1 = 0m;
+            double[] a = new double[size]; // abs of price change
+            double[] as1 = new double[size]; // smooth 1
+            double[] as2 = new double[size]; // smooth 2
+            double sumA = 0;
+            double sumA1 = 0;
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
 
                 TsiResult r = new()
@@ -63,7 +63,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // price change
-                c[i] = q.Close - quotesList[i - 1].Close;
+                c[i] = q.Value - bdList[i - 1].Value;
                 a[i] = Math.Abs(c[i]);
 
                 // smoothing
@@ -79,7 +79,7 @@ namespace Skender.Stock.Indicators
                         cs2[i] = (cs1[i] - cs2[i - 1]) * mult2 + cs2[i - 1];
                         as2[i] = (as1[i] - as2[i - 1]) * mult2 + as2[i - 1];
 
-                        r.Tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : null;
+                        r.Tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : null;
 
                         // signal line
                         if (signalPeriods > 0)

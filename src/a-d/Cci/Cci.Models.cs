@@ -1,11 +1,13 @@
-﻿using System;
+using System;
 
 namespace Skender.Stock.Indicators
 {
     [Serializable]
     public class CciResult : ResultBase
     {
-        internal decimal? Tp { get; set; }
-        public decimal? Cci { get; set; }
+        public double? Cci { get; set; }
+
+        // internal use only
+        internal double? Tp { get; set; }
     }
 }

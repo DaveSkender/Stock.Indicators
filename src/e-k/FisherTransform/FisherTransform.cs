@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,27 +15,27 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
             ValidateFisherTransform(quotes, lookbackPeriods);
 
             // initialize
-            int size = quotesList.Count;
-            decimal[] pr = new decimal[size]; // median price
+            int size = bdList.Count;
+            double[] pr = new double[size]; // median price
             double[] xv = new double[size];  // price transform "value"
             List<FisherTransformResult> results = new(size);
 
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                TQuote q = quotesList[i];
-                pr[i] = (q.High + q.Low) / 2m;
+                BasicD q = bdList[i];
+                pr[i] = q.Value;
 
-                decimal minPrice = pr[i];
-                decimal maxPrice = pr[i];
+                double minPrice = pr[i];
+                double maxPrice = pr[i];
 
                 for (int p = Math.Max(i - lookbackPeriods + 1, 0); p <= i; p++)
                 {
@@ -51,15 +51,15 @@ namespace Skender.Stock.Indicators
                 if (i > 0)
                 {
                     xv[i] = maxPrice != minPrice
-                        ? 0.33 * 2 * ((double)((pr[i] - minPrice) / (maxPrice - minPrice) - 0.5m))
+                        ? 0.33 * 2 * ((pr[i] - minPrice) / (maxPrice - minPrice) - 0.5)
                               + 0.67 * xv[i - 1]
                         : 0;
 
                     xv[i] = (xv[i] > 0.99) ? 0.999 : xv[i];
                     xv[i] = (xv[i] < -0.99) ? -0.999 : xv[i];
 
-                    r.Fisher = 0.5m * (decimal)Math.Log((1 + xv[i]) / (1 - xv[i]))
-                          + 0.5m * results[i - 1].Fisher;
+                    r.Fisher = 0.5 * Math.Log((1 + xv[i]) / (1 - xv[i]))
+                          + 0.5 * results[i - 1].Fisher;
 
                     r.Trigger = results[i - 1].Fisher;
                 }

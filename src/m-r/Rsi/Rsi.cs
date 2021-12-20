@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // convert quotes to basic format
-            List<BasicData> bdList = quotes.ConvertToBasic(CandlePart.Close);
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // calculate
             return CalcRsi(bdList, lookbackPeriods);
@@ -57,26 +57,26 @@ namespace Skender.Stock.Indicators
 
 
         // internals
-        private static List<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriods)
+        private static List<RsiResult> CalcRsi(List<BasicD> bdList, int lookbackPeriods)
         {
 
             // check parameter arguments
             ValidateRsi(bdList, lookbackPeriods);
 
             // initialize
-            decimal lastValue = bdList[0].Value;
-            decimal avgGain = 0m;
-            decimal avgLoss = 0m;
+            double lastValue = bdList[0].Value;
+            double avgGain = 0;
+            double avgLoss = 0;
 
             int size = bdList.Count;
             List<RsiResult> results = new(size);
-            decimal[] gain = new decimal[size]; // gain
-            decimal[] loss = new decimal[size]; // loss
+            double[] gain = new double[size]; // gain
+            double[] loss = new double[size]; // loss
 
             // roll through quotes
             for (int i = 0; i < bdList.Count; i++)
             {
-                BasicData h = bdList[i];
+                BasicD h = bdList[i];
                 int index = i + 1;
 
                 RsiResult r = new()
@@ -97,7 +97,7 @@ namespace Skender.Stock.Indicators
 
                     if (avgLoss > 0)
                     {
-                        decimal rs = avgGain / avgLoss;
+                        double rs = avgGain / avgLoss;
                         r.Rsi = 100 - (100 / (1 + rs));
                     }
                     else
@@ -109,8 +109,8 @@ namespace Skender.Stock.Indicators
                 // initialize average gain
                 else if (index == lookbackPeriods + 1)
                 {
-                    decimal sumGain = 0;
-                    decimal sumLoss = 0;
+                    double sumGain = 0;
+                    double sumLoss = 0;
 
                     for (int p = 1; p <= lookbackPeriods; p++)
                     {
@@ -130,7 +130,7 @@ namespace Skender.Stock.Indicators
 
         // parameter validation
         private static void ValidateRsi(
-            List<BasicData> quotes,
+            List<BasicD> quotes,
             int lookbackPeriods)
         {
 

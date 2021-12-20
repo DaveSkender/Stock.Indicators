@@ -12,46 +12,48 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<VolatilityStopResult> GetVolatilityStop<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 7,
-            decimal multiplier = 3m)
+            double multiplier = 3)
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateVolatilityStop(quotes, lookbackPeriods, multiplier);
 
             // initialize
-            int size = quotesList.Count;
+            int size = bdList.Count;
             List<VolatilityStopResult> results = new(size);
             List<AtrResult> atrList = quotes.GetAtr(lookbackPeriods).ToList();
 
             // initial trend (guess)
-            decimal sic = quotesList[0].Close;
-            bool isLong = (quotesList[lookbackPeriods - 1].Close > sic);
+            double sic = (double)bdList[0].Value;
+            bool isLong = ((double)bdList[lookbackPeriods - 1].Value > sic);
 
             for (int i = 0; i < lookbackPeriods; i++)
             {
-                TQuote q = quotesList[i];
-                sic = isLong ? Math.Max(sic, q.Close) : Math.Min(sic, q.Close);
+                BasicD q = bdList[i];
+                double close = (double)q.Value;
+                sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
                 results.Add(new VolatilityStopResult() { Date = q.Date });
             }
 
             // roll through quotes
             for (int i = lookbackPeriods; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
+                double close = (double)q.Value;
 
                 // average true range × multiplier constant
-                decimal arc = (decimal)atrList[i - 1].Atr * multiplier;
+                double arc = (double)atrList[i - 1].Atr * multiplier;
 
                 VolatilityStopResult r = new()
                 {
                     Date = q.Date,
 
                     // stop and reverse threshold
-                    Sar = isLong ? sic - arc : sic + arc
+                    Sar = (decimal?)(isLong ? sic - arc : sic + arc)
                 };
                 results.Add(r);
 
@@ -66,10 +68,11 @@ namespace Skender.Stock.Indicators
                 }
 
                 // evaluate stop and reverse
-                if ((isLong && q.Close < r.Sar) || (!isLong && q.Close > r.Sar))
+                if ((isLong && (decimal?)q.Value < r.Sar)
+                || (!isLong && (decimal?)q.Value > r.Sar))
                 {
                     r.IsStop = true;
-                    sic = q.Close;
+                    sic = close;
                     isLong = !isLong;
                 }
                 else
@@ -78,7 +81,7 @@ namespace Skender.Stock.Indicators
 
                     // significant close adjustment
                     // extreme favorable close while in trade
-                    sic = isLong ? Math.Max(sic, q.Close) : Math.Min(sic, q.Close);
+                    sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
                 }
             }
 
@@ -126,7 +129,7 @@ namespace Skender.Stock.Indicators
         private static void ValidateVolatilityStop<TQuote>(
             IEnumerable<TQuote> quotes,
             int lookbackPeriods,
-            decimal multiplier)
+            double multiplier)
             where TQuote : IQuote
         {
 

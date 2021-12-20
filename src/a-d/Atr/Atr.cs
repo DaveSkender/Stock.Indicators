@@ -16,7 +16,7 @@ namespace Skender.Stock.Indicators
         {
 
             // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            List<TQuote> quotesList = quotes.SortToList();
 
             // check parameter arguments
             ValidateAtr(quotes, lookbackPeriods);

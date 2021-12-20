@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,18 +31,18 @@ namespace Internal.Tests
 
             // sample value
             ConnorsRsiResult r1 = results1[501];
-            Assert.AreEqual(68.8087m, Math.Round((decimal)r1.RsiClose, 4));
-            Assert.AreEqual(67.4899m, Math.Round((decimal)r1.RsiStreak, 4));
-            Assert.AreEqual(88.0000m, Math.Round((decimal)r1.PercentRank, 4));
-            Assert.AreEqual(74.7662m, Math.Round((decimal)r1.ConnorsRsi, 4));
+            Assert.AreEqual(68.8087, Math.Round((double)r1.RsiClose, 4));
+            Assert.AreEqual(67.4899, Math.Round((double)r1.RsiStreak, 4));
+            Assert.AreEqual(88.0000, Math.Round((double)r1.PercentRank, 4));
+            Assert.AreEqual(74.7662, Math.Round((double)r1.ConnorsRsi, 4));
 
             // different parameters
             List<ConnorsRsiResult> results2 = quotes.GetConnorsRsi(14, 20, 10).ToList();
             ConnorsRsiResult r2 = results2[501];
-            Assert.AreEqual(42.0773m, Math.Round((decimal)r2.RsiClose, 4));
-            Assert.AreEqual(52.7386m, Math.Round((decimal)r2.RsiStreak, 4));
-            Assert.AreEqual(90.0000m, Math.Round((decimal)r2.PercentRank, 4));
-            Assert.AreEqual(61.6053m, Math.Round((decimal)r2.ConnorsRsi, 4));
+            Assert.AreEqual(42.0773, Math.Round((double)r2.RsiClose, 4));
+            Assert.AreEqual(52.7386, Math.Round((double)r2.RsiStreak, 4));
+            Assert.AreEqual(90.0000, Math.Round((double)r2.PercentRank, 4));
+            Assert.AreEqual(61.6053, Math.Round((double)r2.ConnorsRsi, 4));
         }
 
         [TestMethod]
@@ -71,10 +71,10 @@ namespace Internal.Tests
             Assert.AreEqual(502 - removePeriods + 1, results.Count);
 
             ConnorsRsiResult last = results.LastOrDefault();
-            Assert.AreEqual(68.8087m, Math.Round((decimal)last.RsiClose, 4));
-            Assert.AreEqual(67.4899m, Math.Round((decimal)last.RsiStreak, 4));
-            Assert.AreEqual(88.0000m, Math.Round((decimal)last.PercentRank, 4));
-            Assert.AreEqual(74.7662m, Math.Round((decimal)last.ConnorsRsi, 4));
+            Assert.AreEqual(68.8087, Math.Round((double)last.RsiClose, 4));
+            Assert.AreEqual(67.4899, Math.Round((double)last.RsiStreak, 4));
+            Assert.AreEqual(88.0000, Math.Round((double)last.PercentRank, 4));
+            Assert.AreEqual(74.7662, Math.Round((double)last.ConnorsRsi, 4));
         }
 
         [TestMethod]

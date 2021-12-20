@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 
 namespace Skender.Stock.Indicators
 {
     [Serializable]
     public class StdDevResult : ResultBase
     {
-        public decimal? StdDev { get; set; }
-        public decimal? Mean { get; set; }
-        public decimal? ZScore { get; set; }
-        public decimal? StdDevSma { get; set; }
+        public double? StdDev { get; set; }
+        public double? Mean { get; set; }
+        public double? ZScore { get; set; }
+        public double? StdDevSma { get; set; }
     }
 }

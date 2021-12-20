@@ -14,20 +14,20 @@ namespace Skender.Stock.Indicators
             int lookbackPeriods)
             where TQuote : IQuote
         {
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateSmma(quotes, lookbackPeriods);
 
             // initialize
             List<SmmaResult> results = new(quotesList.Count);
-            decimal? prevValue = null;
+            double? prevValue = null;
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = quotesList[i];
                 int index = i + 1;
 
                 SmmaResult result = new()
@@ -38,23 +38,24 @@ namespace Skender.Stock.Indicators
                 // calculate SMMA
                 if (index > lookbackPeriods)
                 {
-                    result.Smma = (prevValue * (lookbackPeriods - 1) + q.Close) / lookbackPeriods;
+                    result.Smma = (decimal)(prevValue * (lookbackPeriods - 1) + q.Value)
+                                / lookbackPeriods;
                 }
 
                 // first SMMA calculated as simple SMA
                 else if (index == lookbackPeriods)
                 {
-                    decimal sumClose = 0m;
+                    double sumClose = 0;
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
-                        sumClose += d.Close;
+                        BasicD d = quotesList[p];
+                        sumClose += d.Value;
                     }
 
-                    result.Smma = sumClose / lookbackPeriods;
+                    result.Smma = (decimal)(sumClose / lookbackPeriods);
                 }
 
-                prevValue = result.Smma;
+                prevValue = (double?)result.Smma;
                 results.Add(result);
             }
 

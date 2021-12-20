@@ -2,13 +2,13 @@ BY SUBMITTING A PULL REQUEST AND CHANGES TO THIS REPOSITORY YOU ARE ACKNOWLEDGIN
 
 PLEASE REMOVE EXPLANATORY TEXT AND UNNEEDED SECTIONS BEFORE CREATING PULL REQUEST.  CREATE A DRAFT PULL REQUEST IF YOU INTEND TO ADD MORE COMMITS.  REMOVE DRAFT STATUS AND REQUEST REVIEW FROM `DaveSkender` WHEN YOU ARE READY TO COMMIT CHANGES.
 
-## Description
+### Description
 
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation, context, and sources of information or recipes.
 
 Fixes #<!--(add issue number)-->
 
-## Checklist
+### Checklist
 
 - [ ] My code follows the existing style, code structure, and naming taxonomy
 - [ ] I have commented my code, particularly in hard-to-understand areas

@@ -5,11 +5,11 @@ namespace Skender.Stock.Indicators
     [Serializable]
     public class BetaResult : ResultBase
     {
-        public decimal? Beta { get; set; }
-        public decimal? BetaUp { get; set; }
-        public decimal? BetaDown { get; set; }
-        public decimal? Ratio { get; set; }
-        public decimal? Convexity { get; set; }
+        public double? Beta { get; set; }
+        public double? BetaUp { get; set; }
+        public double? BetaDown { get; set; }
+        public double? Ratio { get; set; }
+        public double? Convexity { get; set; }
     }
 
     public enum BetaType

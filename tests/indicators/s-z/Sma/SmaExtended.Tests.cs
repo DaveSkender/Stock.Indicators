@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,9 +26,9 @@ namespace Internal.Tests
             // sample value
             SmaExtendedResult r = results[501];
             Assert.AreEqual(251.86m, r.Sma);
-            Assert.AreEqual(9.45m, r.Mad);
-            Assert.AreEqual(119.2510m, Math.Round((decimal)r.Mse, 4));
-            Assert.AreEqual(0.037637m, Math.Round((decimal)r.Mape, 6));
+            Assert.AreEqual(9.450000, Math.Round((double)r.Mad, 6));
+            Assert.AreEqual(119.25102, Math.Round((double)r.Mse, 6));
+            Assert.AreEqual(0.037637, Math.Round((double)r.Mape, 6));
         }
 
         [TestMethod]

@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateVwap(quotesList, startDate);
@@ -26,13 +26,17 @@ namespace Skender.Stock.Indicators
             startDate = (startDate == null) ? quotesList[0].Date : startDate;
             List<VwapResult> results = new(size);
 
-            decimal cumVolume = 0m;
-            decimal cumVolumeTP = 0m;
+            double? cumVolume = 0;
+            double? cumVolumeTP = 0;
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
+                double? v = q.Volume;
+                double? h = q.High;
+                double? l = q.Low;
+                double? c = q.Close;
 
                 VwapResult r = new()
                 {
@@ -41,10 +45,10 @@ namespace Skender.Stock.Indicators
 
                 if (q.Date >= startDate)
                 {
-                    cumVolume += q.Volume;
-                    cumVolumeTP += q.Volume * (q.High + q.Low + q.Close) / 3;
+                    cumVolume += v;
+                    cumVolumeTP += v * (h + l + c) / 3;
 
-                    r.Vwap = (cumVolume != 0) ? cumVolumeTP / cumVolume : null;
+                    r.Vwap = (cumVolume != 0) ? (decimal?)(cumVolumeTP / cumVolume) : null;
                 }
 
                 results.Add(r);
@@ -69,10 +73,9 @@ namespace Skender.Stock.Indicators
 
 
         // parameter validation
-        private static void ValidateVwap<TQuote>(
-            List<TQuote> quotesList,
+        private static void ValidateVwap(
+            List<QuoteD> quotesList,
             DateTime? startDate)
-            where TQuote : IQuote
         {
 
             // check quotes: done under Sort() for 0 length

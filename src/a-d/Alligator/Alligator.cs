@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,29 +10,35 @@ namespace Skender.Stock.Indicators
         /// <include file='./info.xml' path='indicator/*' />
         /// 
         public static IEnumerable<AlligatorResult> GetAlligator<TQuote>(
-            this IEnumerable<TQuote> quotes)
+            this IEnumerable<TQuote> quotes,
+            int jawPeriods = 13,
+            int jawOffset = 8,
+            int teethPeriods = 8,
+            int teethOffset = 5,
+            int lipsPeriods = 5,
+            int lipsOffset = 3)
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
             // check parameter arguments
-            ValidateAlligator(quotes);
+            ValidateAlligator(
+                quotes,
+                jawPeriods,
+                jawOffset,
+                teethPeriods,
+                teethOffset,
+                lipsPeriods,
+                lipsOffset);
 
             // initialize
-            int size = quotesList.Count;
-            decimal[] pr = new decimal[size]; // median price
-
-            int jawLookback = 13;
-            int jawOffset = 8;
-            int teethLookback = 8;
-            int teethOffset = 5;
-            int lipsLookback = 5;
-            int lipsOffset = 3;
+            int size = bdList.Count;
+            double[] pr = new double[size]; // median price
 
             List<AlligatorResult> results =
-                quotesList
+                bdList
                 .Select(x => new AlligatorResult
                 {
                     Date = x.Date
@@ -41,9 +48,9 @@ namespace Skender.Stock.Indicators
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
                 int index = i + 1;
-                pr[i] = (q.High + q.Low) / 2;
+                pr[i] = q.Value;
 
                 // only calculate jaw if the array index + offset is still in valid range
                 if (i + jawOffset < size)
@@ -52,21 +59,21 @@ namespace Skender.Stock.Indicators
 
                     // calculate alligator's jaw
                     // first value: calculate SMA
-                    if (index == jawLookback)
+                    if (index == jawPeriods)
                     {
-                        decimal sumMedianPrice = 0m;
-                        for (int p = index - jawLookback; p < index; p++)
+                        double sumMedianPrice = 0;
+                        for (int p = index - jawPeriods; p < index; p++)
                         {
                             sumMedianPrice += pr[p];
                         }
 
-                        jawResult.Jaw = sumMedianPrice / jawLookback;
+                        jawResult.Jaw = (decimal)sumMedianPrice / jawPeriods;
                     }
                     // remaining values: SMMA
-                    else if (index > jawLookback)
+                    else if (index > jawPeriods)
                     {
-                        decimal? prevValue = results[i + jawOffset - 1].Jaw;
-                        jawResult.Jaw = (prevValue * (jawLookback - 1) + pr[i]) / jawLookback;
+                        double? prevValue = (double)results[i + jawOffset - 1].Jaw;
+                        jawResult.Jaw = (decimal)(prevValue * (jawPeriods - 1) + pr[i]) / jawPeriods;
                     }
                 }
 
@@ -77,21 +84,21 @@ namespace Skender.Stock.Indicators
 
                     // calculate alligator's teeth
                     // first value: calculate SMA
-                    if (index == teethLookback)
+                    if (index == teethPeriods)
                     {
-                        decimal sumMedianPrice = 0m;
-                        for (int p = index - teethLookback; p < index; p++)
+                        double sumMedianPrice = 0;
+                        for (int p = index - teethPeriods; p < index; p++)
                         {
                             sumMedianPrice += pr[p];
                         }
 
-                        teethResult.Teeth = sumMedianPrice / teethLookback;
+                        teethResult.Teeth = (decimal)sumMedianPrice / teethPeriods;
                     }
                     // remaining values: SMMA
-                    else if (index > teethLookback)
+                    else if (index > teethPeriods)
                     {
-                        decimal? prevValue = results[i + teethOffset - 1].Teeth;
-                        teethResult.Teeth = (prevValue * (teethLookback - 1) + pr[i]) / teethLookback;
+                        double? prevValue = (double)results[i + teethOffset - 1].Teeth;
+                        teethResult.Teeth = (decimal)(prevValue * (teethPeriods - 1) + pr[i]) / teethPeriods;
                     }
                 }
 
@@ -102,21 +109,21 @@ namespace Skender.Stock.Indicators
 
                     // calculate alligator's lips
                     // first value: calculate SMA
-                    if (index == lipsLookback)
+                    if (index == lipsPeriods)
                     {
-                        decimal sumMedianPrice = 0m;
-                        for (int p = index - lipsLookback; p < index; p++)
+                        double sumMedianPrice = 0;
+                        for (int p = index - lipsPeriods; p < index; p++)
                         {
                             sumMedianPrice += pr[p];
                         }
 
-                        lipsResult.Lips = sumMedianPrice / lipsLookback;
+                        lipsResult.Lips = (decimal)sumMedianPrice / lipsPeriods;
                     }
                     // remaining values: SMMA
-                    else if (index > lipsLookback)
+                    else if (index > lipsPeriods)
                     {
-                        decimal? prevValue = results[i + lipsOffset - 1].Lips;
-                        lipsResult.Lips = (prevValue * (lipsLookback - 1) + pr[i]) / lipsLookback;
+                        double? prevValue = (double)results[i + lipsOffset - 1].Lips;
+                        lipsResult.Lips = (decimal)(prevValue * (lipsPeriods - 1) + pr[i]) / lipsPeriods;
                     }
                 }
             }
@@ -131,21 +138,77 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<AlligatorResult> RemoveWarmupPeriods(
             this IEnumerable<AlligatorResult> results)
         {
-            int removePeriods = 265;
+            int removePeriods = results
+              .ToList()
+              .FindIndex(x => x.Jaw != null) + 251;
+
             return results.Remove(removePeriods);
         }
 
 
         private static void ValidateAlligator<TQuote>(
-            IEnumerable<TQuote> quotes)
+            IEnumerable<TQuote> quotes,
+            int jawPeriods,
+            int jawOffset,
+            int teethPeriods,
+            int teethOffset,
+            int lipsPeriods,
+            int lipsOffset)
             where TQuote : IQuote
         {
+            // check parameter arguments
+            if (jawPeriods <= teethPeriods)
+            {
+                throw new ArgumentOutOfRangeException(nameof(jawPeriods), jawPeriods,
+                    "Jaw lookback periods must be greater than Teeth lookback periods for Alligator.");
+            }
+
+            if (teethPeriods <= lipsPeriods)
+            {
+                throw new ArgumentOutOfRangeException(nameof(teethPeriods), teethPeriods,
+                    "Teeth lookback periods must be greater than Lips lookback periods for Alligator.");
+            }
+
+            if (lipsPeriods <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(lipsPeriods), lipsPeriods,
+                    "Lips lookback periods must be greater than 0 for Alligator.");
+            }
+
+            if (jawOffset <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(jawOffset), jawOffset,
+                    "Jaw offset periods must be greater than 0 for Alligator.");
+            }
+
+            if (teethOffset <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(teethOffset), teethOffset,
+                    "Jaw offset periods must be greater than 0 for Alligator.");
+            }
+
+            if (lipsOffset <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(lipsOffset), lipsOffset,
+                    "Jaw offset periods must be greater than 0 for Alligator.");
+            }
+
+            if (jawPeriods + jawOffset <= teethPeriods + teethOffset)
+            {
+                throw new ArgumentOutOfRangeException(nameof(jawPeriods), jawPeriods,
+                    "Jaw lookback + offset are too small for Alligator.");
+            }
+
+            if (teethPeriods + teethOffset <= lipsPeriods + lipsOffset)
+            {
+                throw new ArgumentOutOfRangeException(nameof(teethPeriods), teethPeriods,
+                    "Teeth lookback + offset are too small for Alligator.");
+            }
+
             // check quotes
             int qtyHistory = quotes.Count();
-
-            // static values for traditional Williams Alligator with max lookback of 13
-            int minHistory = 115;
-            int recHistory = 265;
+            int minHistory = jawPeriods + jawOffset + 100;
+            int recHistory = jawPeriods + jawOffset + 250;
 
             if (qtyHistory < minHistory)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,15 +24,15 @@ namespace Internal.Tests
 
             // sample values
             AdlResult r1 = results[249];
-            Assert.AreEqual(0.7778m, Math.Round(r1.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(36433792.89m, Math.Round(r1.MoneyFlowVolume, 2));
-            Assert.AreEqual(3266400865.74m, Math.Round(r1.Adl, 2));
+            Assert.AreEqual(0.7778, Math.Round(r1.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(36433792.89, Math.Round(r1.MoneyFlowVolume, 2));
+            Assert.AreEqual(3266400865.74, Math.Round(r1.Adl, 2));
             Assert.AreEqual(null, r1.AdlSma);
 
             AdlResult r2 = results[501];
-            Assert.AreEqual(0.8052m, Math.Round(r2.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(r2.MoneyFlowVolume, 2));
-            Assert.AreEqual(3439986548.42m, Math.Round(r2.Adl, 2));
+            Assert.AreEqual(0.8052, Math.Round(r2.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25, Math.Round(r2.MoneyFlowVolume, 2));
+            Assert.AreEqual(3439986548.42, Math.Round(r2.Adl, 2));
             Assert.AreEqual(null, r2.AdlSma);
         }
 
@@ -60,6 +60,13 @@ namespace Internal.Tests
         }
 
         [TestMethod]
+        public void BigData()
+        {
+            IEnumerable<AdlResult> r = Indicator.GetAdl(bigQuotes);
+            Assert.AreEqual(1246, r.Count());
+        }
+
+        [TestMethod]
         public void WithSma()
         {
 
@@ -73,10 +80,10 @@ namespace Internal.Tests
 
             // sample value
             AdlResult r = results[501];
-            Assert.AreEqual(0.8052m, Math.Round(r.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25m, Math.Round(r.MoneyFlowVolume, 2));
-            Assert.AreEqual(3439986548.42m, Math.Round(r.Adl, 2));
-            Assert.AreEqual(3595352721.16m, Math.Round((decimal)r.AdlSma, 2));
+            Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
+            Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
+            Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
+            Assert.AreEqual(3595352721.16, Math.Round((double)r.AdlSma, 2));
         }
 
         [TestMethod]

@@ -33,8 +33,8 @@ IEnumerable<StochResult> results =
 | `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
 | `signalPeriods` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
 | `smoothPeriods` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
-| `kFactor` | int | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
-| `dFactor` | int | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
+| `kFactor` | decimal | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
+| `dFactor` | decimal | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
 | `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Historical quotes requirements

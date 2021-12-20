@@ -15,23 +15,23 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateChop(quotesList, lookbackPeriods);
 
             // initialize
-            decimal sum;
-            decimal high;
-            decimal low;
-            decimal range;
+            double sum;
+            double high;
+            double low;
+            double range;
 
             int size = quotesList.Count;
             List<ChopResult> results = new(size);
-            decimal[] trueHigh = new decimal[size];
-            decimal[] trueLow = new decimal[size];
-            decimal[] trueRange = new decimal[size];
+            double[] trueHigh = new double[size];
+            double[] trueLow = new double[size];
+            double[] trueRange = new double[size];
 
             // roll through quotes
             for (int i = 0; i < quotesList.Count; i++)
@@ -70,7 +70,7 @@ namespace Skender.Stock.Indicators
                         // calculate CHOP
                         if (range != 0)
                         {
-                            r.Chop = (decimal)(100 * (Math.Log((double)(sum / range)) / Math.Log(lookbackPeriods)));
+                            r.Chop = (decimal)(100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods)));
                         }
                     }
                 }
@@ -94,11 +94,9 @@ namespace Skender.Stock.Indicators
 
 
         // parameter validation
-        private static void ValidateChop<TQuote>(
-            List<TQuote> quotes,
+        private static void ValidateChop(
+            List<QuoteD> quotes,
             int lookbackPeriods)
-            where TQuote : IQuote
-
         {
             // check parameter arguments
             if (lookbackPeriods <= 1)

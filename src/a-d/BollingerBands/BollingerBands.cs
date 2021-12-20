@@ -12,23 +12,24 @@ namespace Skender.Stock.Indicators
         public static IEnumerable<BollingerBandsResult> GetBollingerBands<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 20,
-            decimal standardDeviations = 2)
+            double standardDeviations = 2)
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
             // check parameter arguments
             ValidateBollingerBands(quotes, lookbackPeriods, standardDeviations);
 
             // initialize
-            List<BollingerBandsResult> results = new(quotesList.Count);
+            List<BollingerBandsResult> results = new(bdList.Count);
 
             // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < bdList.Count; i++)
             {
-                TQuote q = quotesList[i];
+                BasicD q = bdList[i];
+                decimal close = (decimal)q.Value;
                 int index = i + 1;
 
                 BollingerBandsResult r = new()
@@ -39,29 +40,29 @@ namespace Skender.Stock.Indicators
                 if (index >= lookbackPeriods)
                 {
                     double[] periodClose = new double[lookbackPeriods];
-                    decimal sum = 0m;
+                    double sum = 0;
                     int n = 0;
 
                     for (int p = index - lookbackPeriods; p < index; p++)
                     {
-                        TQuote d = quotesList[p];
-                        periodClose[n] = (double)d.Close;
-                        sum += d.Close;
+                        BasicD d = bdList[p];
+                        periodClose[n] = d.Value;
+                        sum += d.Value;
                         n++;
                     }
 
-                    decimal periodAvg = sum / lookbackPeriods;
-                    decimal stdDev = (decimal)Functions.StdDev(periodClose);
+                    double periodAvg = sum / lookbackPeriods;
+                    double stdDev = Functions.StdDev(periodClose);
 
-                    r.Sma = periodAvg;
-                    r.UpperBand = periodAvg + standardDeviations * stdDev;
-                    r.LowerBand = periodAvg - standardDeviations * stdDev;
+                    r.Sma = (decimal)periodAvg;
+                    r.UpperBand = (decimal)(periodAvg + standardDeviations * stdDev);
+                    r.LowerBand = (decimal)(periodAvg - standardDeviations * stdDev);
 
                     r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                        : (q.Close - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                        : (double)((close - r.LowerBand) / (r.UpperBand - r.LowerBand));
 
-                    r.ZScore = (stdDev == 0) ? null : (q.Close - r.Sma) / stdDev;
-                    r.Width = (r.Sma == 0) ? null : (r.UpperBand - r.LowerBand) / r.Sma;
+                    r.ZScore = (stdDev == 0) ? null : (double)(close - r.Sma) / stdDev;
+                    r.Width = (periodAvg == 0) ? null : (double)(r.UpperBand - r.LowerBand) / periodAvg;
                 }
 
                 results.Add(r);
@@ -89,7 +90,7 @@ namespace Skender.Stock.Indicators
         private static void ValidateBollingerBands<TQuote>(
             IEnumerable<TQuote> quotes,
             int lookbackPeriods,
-            decimal standardDeviations)
+            double standardDeviations)
             where TQuote : IQuote
         {
 

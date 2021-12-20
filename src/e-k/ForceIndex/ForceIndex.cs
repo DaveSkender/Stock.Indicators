@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,8 +15,8 @@ namespace Skender.Stock.Indicators
             where TQuote : IQuote
         {
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
+            // convert quotes
+            List<QuoteD> quotesList = quotes.ConvertToList();
 
             // check parameter arguments
             ValidateForceIndex(quotes, lookbackPeriods);
@@ -24,13 +24,13 @@ namespace Skender.Stock.Indicators
             // initialize
             int size = quotesList.Count;
             List<ForceIndexResult> results = new(size);
-            decimal? prevClose = null, prevFI = null;
-            decimal k = 2m / (lookbackPeriods + 1), sumRawFI = 0m;
+            double? prevClose = null, prevFI = null, sumRawFI = 0;
+            double k = 2d / (lookbackPeriods + 1);
 
             // roll through quotes
             for (int i = 0; i < size; i++)
             {
-                TQuote q = quotesList[i];
+                QuoteD q = quotesList[i];
                 int index = i + 1;
 
                 ForceIndexResult r = new()
@@ -47,7 +47,7 @@ namespace Skender.Stock.Indicators
                 }
 
                 // raw Force Index
-                decimal? rawFI = q.Volume * (q.Close - prevClose);
+                double? rawFI = q.Volume * (q.Close - prevClose);
                 prevClose = q.Close;
 
                 // calculate EMA
@@ -59,7 +59,7 @@ namespace Skender.Stock.Indicators
                 // initialization period
                 else
                 {
-                    sumRawFI += (decimal)rawFI;
+                    sumRawFI += rawFI;
 
                     // first EMA value
                     if (index == lookbackPeriods + 1)
