@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 using Internal.Tests;
@@ -535,6 +536,7 @@ namespace Tests.Performance
         }
 
         [Benchmark]
+        [Obsolete("Use GetVol() instead.")]
         public object GetVolSma()
         {
             return h.GetVolSma(14);
