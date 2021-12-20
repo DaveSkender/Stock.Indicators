@@ -3,8 +3,6 @@ title: Relative Strength Index (RSI)
 permalink: /indicators/Rsi/
 type: oscillator
 layout: indicator
-redirect_from:
- - /Indicators/Rsi/
 ---
 
 # {{ page.title }}
