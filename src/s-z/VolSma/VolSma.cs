@@ -7,9 +7,10 @@ namespace Skender.Stock.Indicators
     public static partial class Indicator
     {
         // SIMPLE MOVING AVERAGE of VOLUME
-        // DO NOT USE - WILL BE DEPRECATED AT END OF 2021
         /// <include file='./info.xml' path='indicator/*' />
-        /// 
+        ///
+        [Obsolete("Use GetSma() with CandlePart.Volume instead."
+                + "It will be removed in versions released after 2021.")]
         public static IEnumerable<VolSmaResult> GetVolSma<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods)
@@ -41,11 +42,6 @@ namespace Skender.Stock.Indicators
                     Volume = q.Volume
                 });
             }
-
-            string msg = "WARNING! This indicator will be replaced by GetSma() "
-                       + "and removed at the end of 2021 in future versions. "
-                       + "Please migrate your scripts now.";
-            Console.WriteLine(msg);
 
             return results;
         }
