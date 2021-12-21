@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Skender.Stock.Indicators
 {
@@ -38,6 +38,7 @@ namespace Skender.Stock.Indicators
         Camarilla = 1,
         Demark = 2,
         Fibonacci = 3,
-        Woodie = 4
+        Woodie = 4,
+        ChartIQ = 5
     }
 }
