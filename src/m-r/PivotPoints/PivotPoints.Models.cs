@@ -38,7 +38,6 @@ namespace Skender.Stock.Indicators
         Camarilla = 1,
         Demark = 2,
         Fibonacci = 3,
-        Woodie = 4,
-        ChartIQ = 5
+        Woodie = 4
     }
 }

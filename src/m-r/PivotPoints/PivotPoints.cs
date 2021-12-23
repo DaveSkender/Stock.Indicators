@@ -126,8 +126,10 @@ namespace Skender.Stock.Indicators
                 PP = pp,
                 S1 = pp * 2 - high,
                 S2 = pp - (high - low),
+                S3 = low - 2 * (high - pp),
                 R1 = pp * 2 - low,
-                R2 = pp + (high - low)
+                R2 = pp + (high - low),
+                R3 = high + 2 * (pp - low)
             };
         }
 
@@ -212,24 +214,6 @@ namespace Skender.Stock.Indicators
             };
         }
 
-        internal static TPivotPoint GetPivotChartIQ<TPivotPoint>(
-            decimal currentOpen, decimal high, decimal low, decimal close)
-            where TPivotPoint : IPivotPoint, new()
-        {
-            decimal pp = (high + low + close) / 3;
-
-            return new TPivotPoint
-            {
-                PP = pp,
-                R4 = (2 * pp) - high,
-                S4 = pp - (high - low),
-                S3 = pp - 2 * (high - low),
-                R1 = (2 * pp) - low,
-                R2 = pp + (high - low),
-                R3 = pp + 2 * (high - low),
-            };
-        }
-
 
         // pivot type lookup
         internal static TPivotPoint GetPivotPoint<TPivotPoint>(
@@ -243,7 +227,6 @@ namespace Skender.Stock.Indicators
                 PivotPointType.Demark => GetPivotPointDemark<TPivotPoint>(open, high, low, close),
                 PivotPointType.Fibonacci => GetPivotPointFibonacci<TPivotPoint>(high, low, close),
                 PivotPointType.Woodie => GetPivotPointWoodie<TPivotPoint>(open, high, low),
-                PivotPointType.ChartIQ => GetPivotChartIQ<TPivotPoint>(open, high, low),
 
                 _ => default
             };
