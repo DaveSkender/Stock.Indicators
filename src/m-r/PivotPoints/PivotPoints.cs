@@ -227,7 +227,6 @@ namespace Skender.Stock.Indicators
                 PivotPointType.Demark => GetPivotPointDemark<TPivotPoint>(open, high, low, close),
                 PivotPointType.Fibonacci => GetPivotPointFibonacci<TPivotPoint>(high, low, close),
                 PivotPointType.Woodie => GetPivotPointWoodie<TPivotPoint>(open, high, low),
-
                 _ => default
             };
         }
