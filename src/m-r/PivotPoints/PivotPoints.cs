@@ -126,8 +126,10 @@ namespace Skender.Stock.Indicators
                 PP = pp,
                 S1 = pp * 2 - high,
                 S2 = pp - (high - low),
+                S3 = low - 2 * (high - pp),
                 R1 = pp * 2 - low,
-                R2 = pp + (high - low)
+                R2 = pp + (high - low),
+                R3 = high + 2 * (pp - low)
             };
         }
 
