@@ -20,7 +20,7 @@ We are not accepting things that should be done in your own wrapper code:
 - Personal customizations and preferences
 - Modified or augmented outputs that are not instrinsic
 
-If you have general interest in contributing, but are not sure where to start, please [contact us](#contact-info) and we can help to find work in an area of your intests.
+If you have general interest in contributing, but are not sure where to start, please [contact us](#contact-info) and we can help to find work in an area of interest.
 
 ## Reporting bugs and feature requests
 
