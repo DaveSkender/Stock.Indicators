@@ -17,6 +17,6 @@ internal class Candle : Quote
     internal decimal LowerWickPct => (Size != 0) ? LowerWick / Size : 1m;
 
     // directional info
-    internal bool IsBullish => (Close > Open);
-    internal bool IsBearish => (Close < Open);
+    internal bool IsBullish => Close > Open;
+    internal bool IsBearish => Close < Open;
 }

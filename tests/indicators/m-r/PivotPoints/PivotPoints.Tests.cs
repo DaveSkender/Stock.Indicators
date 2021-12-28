@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class PivotPoints : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
@@ -247,7 +246,6 @@ public class PivotPoints : TestBase
         Assert.AreEqual(null, r6.R2);
         Assert.AreEqual(null, r6.S3);
         Assert.AreEqual(null, r6.S4);
-
 
         // special Demark case: test close = open
         PivotPointsResult d1 = Indicator.GetPivotPointDemark<PivotPointsResult>(125, 200, 100, 125);

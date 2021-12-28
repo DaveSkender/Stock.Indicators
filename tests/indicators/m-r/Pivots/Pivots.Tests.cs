@@ -6,18 +6,17 @@ namespace Internal.Tests;
 [TestClass]
 public class Pivots : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
         List<PivotsResult> results = quotes.GetPivots(4, 4, 20, EndType.HighLow)
             .ToList();
 
-        //foreach (PivotsResult r in results)
-        //{
+        // foreach (PivotsResult r in results)
+        // {
         //    Console.WriteLine($"{r.Date:d},{r.HighPoint:N2},{r.HighTrend},{r.HighLine:N4},"
         //                     + $"{r.LowPoint:N2},{r.LowTrend},{r.LowLine:N4}");
-        //}
+        // }
 
         // assertions
 
@@ -95,7 +94,6 @@ public class Pivots : TestBase
         Assert.AreEqual(null, r498.LowTrend);
         Assert.AreEqual(null, r498.LowLine);
     }
-
 
     [TestMethod]
     public void BadData()

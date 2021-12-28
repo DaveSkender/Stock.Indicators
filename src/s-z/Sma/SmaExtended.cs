@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -54,7 +53,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />

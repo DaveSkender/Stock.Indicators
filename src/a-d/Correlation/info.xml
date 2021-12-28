@@ -10,8 +10,8 @@
     </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="quotesA">Historical price quotes for comparison.</param>
-  <param name="quotesB">Historical price quotes for comparison.</param>
+  <param name="quotesA">Historical price quotes A for comparison.</param>
+  <param name="quotesB">Historical price quotes B for comparison.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <returns>
     Time series of Correlation Coefficient values.

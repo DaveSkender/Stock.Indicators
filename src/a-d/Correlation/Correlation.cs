@@ -11,7 +11,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdListA = quotesA.ConvertToBasic(CandlePart.Close);
         List<BasicD> bdListB = quotesB.ConvertToBasic(CandlePart.Close);
@@ -64,7 +63,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -78,13 +76,11 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // calculate correlation
     private static void CalcCorrelation(
         this CorrResult r,
         double[] dataA,
-        double[] dataB
-        )
+        double[] dataB)
     {
         int size = dataA.Length;
         double sumA = 0;
@@ -111,9 +107,9 @@ public static partial class Indicator
         double avgB2 = sumB2 / size;
         double avgAB = sumAB / size;
 
-        r.VarianceA = avgA2 - avgA * avgA;
-        r.VarianceB = avgB2 - avgB * avgB;
-        r.Covariance = avgAB - avgA * avgB;
+        r.VarianceA = avgA2 - (avgA * avgA);
+        r.VarianceB = avgB2 - (avgB * avgB);
+        r.Covariance = avgAB - (avgA * avgB);
 
         double divisor = Math.Sqrt((double)(r.VarianceA * r.VarianceB));
 
@@ -122,7 +118,6 @@ public static partial class Indicator
         r.RSquared = r.Correlation * r.Correlation;
     }
 
-
     // parameter validation
     private static void ValidateCorrelation<TQuote>(
         IEnumerable<TQuote> quotesA,
@@ -130,7 +125,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -144,9 +138,10 @@ public static partial class Indicator
         if (qtyHistoryA < minHistoryA)
         {
             string message = "Insufficient quotes provided for Correlation.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistoryA, minHistoryA);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistoryA, minHistoryA);
 
             throw new BadQuotesException(nameof(quotesA), message);
         }

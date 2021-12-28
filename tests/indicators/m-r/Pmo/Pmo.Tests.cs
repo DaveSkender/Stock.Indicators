@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Pmo : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<PmoResult> results = quotes.GetPmo(35, 20, 10).ToList();
 
         // assertions

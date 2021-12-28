@@ -11,7 +11,6 @@ public static partial class Indicator
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -95,7 +94,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -109,7 +107,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // internals
     internal static TPivotPoint GetPivotPointStandard<TPivotPoint>(
         decimal high, decimal low, decimal close)
@@ -120,12 +117,12 @@ public static partial class Indicator
         return new TPivotPoint
         {
             PP = pp,
-            S1 = pp * 2 - high,
+            S1 = (pp * 2) - high,
             S2 = pp - (high - low),
-            S3 = low - 2 * (high - pp),
-            R1 = pp * 2 - low,
+            S3 = low - (2 * (high - pp)),
+            R1 = (pp * 2) - low,
             R2 = pp + (high - low),
-            R3 = high + 2 * (pp - low)
+            R3 = high + (2 * (pp - low))
         };
     }
 
@@ -136,14 +133,14 @@ public static partial class Indicator
         return new TPivotPoint
         {
             PP = close,
-            S1 = close - (1.1m / 12) * (high - low),
-            S2 = close - (1.1m / 6) * (high - low),
-            S3 = close - (1.1m / 4) * (high - low),
-            S4 = close - (1.1m / 2) * (high - low),
-            R1 = close + (1.1m / 12) * (high - low),
-            R2 = close + (1.1m / 6) * (high - low),
-            R3 = close + (1.1m / 4) * (high - low),
-            R4 = close + (1.1m / 2) * (high - low)
+            S1 = close - (1.1m / 12 * (high - low)),
+            S2 = close - (1.1m / 6 * (high - low)),
+            S3 = close - (1.1m / 4 * (high - low)),
+            S4 = close - (1.1m / 2 * (high - low)),
+            R1 = close + (1.1m / 12 * (high - low)),
+            R2 = close + (1.1m / 6 * (high - low)),
+            R3 = close + (1.1m / 4 * (high - low)),
+            R4 = close + (1.1m / 2 * (high - low))
         };
     }
 
@@ -155,22 +152,22 @@ public static partial class Indicator
 
         if (close < open)
         {
-            x = high + 2 * low + close;
+            x = high + (2 * low) + close;
         }
         else if (close > open)
         {
-            x = 2 * high + low + close;
+            x = (2 * high) + low + close;
         }
         else if (close == open)
         {
-            x = high + low + 2 * close;
+            x = high + low + (2 * close);
         }
 
         return new TPivotPoint
         {
             PP = x / 4,
-            S1 = x / 2 - high,
-            R1 = x / 2 - low
+            S1 = (x / 2) - high,
+            R1 = (x / 2) - low
         };
     }
 
@@ -183,12 +180,12 @@ public static partial class Indicator
         return new TPivotPoint
         {
             PP = pp,
-            S1 = pp - 0.382m * (high - low),
-            S2 = pp - 0.618m * (high - low),
-            S3 = pp - 1.000m * (high - low),
-            R1 = pp + 0.382m * (high - low),
-            R2 = pp + 0.618m * (high - low),
-            R3 = pp + 1.000m * (high - low)
+            S1 = pp - (0.382m * (high - low)),
+            S2 = pp - (0.618m * (high - low)),
+            S3 = pp - (1.000m * (high - low)),
+            R1 = pp + (0.382m * (high - low)),
+            R2 = pp + (0.618m * (high - low)),
+            R3 = pp + (1.000m * (high - low))
         };
     }
 
@@ -196,20 +193,19 @@ public static partial class Indicator
         decimal currentOpen, decimal high, decimal low)
         where TPivotPoint : IPivotPoint, new()
     {
-        decimal pp = (high + low + 2 * currentOpen) / 4;
+        decimal pp = (high + low + (2 * currentOpen)) / 4;
 
         return new TPivotPoint
         {
             PP = pp,
-            S1 = pp * 2 - high,
+            S1 = (pp * 2) - high,
             S2 = pp - high + low,
-            S3 = low - 2 * (high - pp),
-            R1 = pp * 2 - low,
+            S3 = low - (2 * (high - pp)),
+            R1 = (pp * 2) - low,
             R2 = pp + high - low,
-            R3 = high + 2 * (pp - low),
+            R3 = high + (2 * (pp - low)),
         };
     }
-
 
     // pivot type lookup
     internal static TPivotPoint GetPivotPoint<TPivotPoint>(
@@ -246,7 +242,6 @@ public static partial class Indicator
         PeriodSize windowSize)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         int qtyWindows = windowSize switch
         {
@@ -271,10 +266,11 @@ public static partial class Indicator
         if (qtyWindows < 2)
         {
             string message = "Insufficient quotes provided for Pivot Points.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} {1} windows of quotes when at least 2 are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} {1} windows of quotes when at least 2 are required.  "
                 + "This can be from either not enough quotes or insufficiently detailed Date values.",
-                qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));
+                    qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));
 
             throw new BadQuotesException(nameof(quotes), message);
         }

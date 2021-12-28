@@ -11,7 +11,6 @@ public static partial class Indicator
         double multiplier = 3)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -25,7 +24,7 @@ public static partial class Indicator
 
         // initial trend (guess)
         double sic = (double)bdList[0].Value;
-        bool isLong = ((double)bdList[lookbackPeriods - 1].Value > sic);
+        bool isLong = (double)bdList[lookbackPeriods - 1].Value > sic;
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
@@ -104,7 +103,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -120,7 +118,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateVolatilityStop<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -128,7 +125,6 @@ public static partial class Indicator
         double multiplier)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -148,8 +144,9 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Volatility Stop.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least N+250 data points prior to the intended "
                 + "usage date for better precision.", qtyHistory, minHistory);

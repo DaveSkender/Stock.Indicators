@@ -11,7 +11,6 @@ public static partial class Indicator
         EndType endType = EndType.Close)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -73,7 +72,7 @@ public static partial class Indicator
                         Low = l,
                         Close = brickClose,
                         Volume = v / absQty,
-                        IsUp = (newBrickQty > 0)
+                        IsUp = newBrickQty > 0
                     };
                     results.Add(result);
                     o = brickClose;
@@ -106,7 +105,6 @@ public static partial class Indicator
           .ToList();
     }
 
-
     // calculate brick size
     private static int GetNewBricks<TQuote>(
         EndType endType,
@@ -135,14 +133,12 @@ public static partial class Indicator
         }
     }
 
-
     // parameter validation
     private static void ValidateRenko<TQuote>(
         IEnumerable<TQuote> quotes,
         decimal brickSize)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (brickSize <= 0)
         {
@@ -156,9 +152,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Renko Chart.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

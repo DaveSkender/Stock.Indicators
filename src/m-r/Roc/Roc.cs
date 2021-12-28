@@ -11,7 +11,6 @@ public static partial class Indicator
         int? smaPeriods = null)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -58,7 +57,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -72,7 +70,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateRoc<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -80,7 +77,6 @@ public static partial class Indicator
         int? smaPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -100,9 +96,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for ROC.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

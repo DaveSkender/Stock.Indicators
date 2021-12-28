@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class SmaExtended : TestBase
 {
-
     [TestMethod]
     public void Extended()
     {
-
         List<SmaExtendedResult> results = quotes.GetSmaExtended(20).ToList();
 
         // assertions

@@ -11,7 +11,6 @@ public static partial class Indicator
         int slowPeriods = 34)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
@@ -60,7 +59,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -74,7 +72,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateAwesome<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -82,7 +79,6 @@ public static partial class Indicator
         int slowPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (fastPeriods <= 0)
         {
@@ -102,9 +98,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Awesome Oscillator.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

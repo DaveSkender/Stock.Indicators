@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class BollingerBands : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<BollingerBandsResult> results =
             quotes.GetBollingerBands(20, 2)
             .ToList();
@@ -26,7 +24,6 @@ public class BollingerBands : TestBase
         Assert.AreEqual(483, results.Where(x => x.PercentB != null).Count());
         Assert.AreEqual(483, results.Where(x => x.ZScore != null).Count());
         Assert.AreEqual(483, results.Where(x => x.Width != null).Count());
-
 
         // sample values
         BollingerBandsResult r1 = results[249];

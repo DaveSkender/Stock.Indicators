@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class QuoteHistory : TestBase
 {
-
     [TestMethod]
     public void Validate()
     {
@@ -236,7 +235,6 @@ public class QuoteHistory : TestBase
         Assert.AreEqual(147031456, rv.Value);
         Assert.AreEqual(244.205, rx.Value);
     }
-
 
     /* BAD QUOTES EXCEPTIONS */
     [TestMethod]

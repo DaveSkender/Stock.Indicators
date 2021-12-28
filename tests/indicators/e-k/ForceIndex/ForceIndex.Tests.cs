@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class ForceIndex : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {

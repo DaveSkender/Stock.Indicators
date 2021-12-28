@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class UlcerIndex : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
@@ -44,7 +43,6 @@ public class UlcerIndex : TestBase
 
         UlcerIndexResult last = results.LastOrDefault();
         Assert.AreEqual(5.7255, Math.Round((double)last.UI, 4));
-
     }
 
     [TestMethod]

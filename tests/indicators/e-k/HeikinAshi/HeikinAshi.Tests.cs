@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class HeikinAshi : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<HeikinAshiResult> results = quotes.GetHeikinAshi().ToList();
 
         // assertions

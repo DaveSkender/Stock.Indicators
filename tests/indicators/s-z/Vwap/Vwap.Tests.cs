@@ -13,7 +13,6 @@ public class Vwap : TestBase
     [TestMethod]
     public void Standard()
     {
-
         List<VwapResult> results = intraday.GetVwap()
             .ToList();
 

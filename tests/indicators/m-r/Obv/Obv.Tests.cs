@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Obv : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<ObvResult> results = quotes.GetObv().ToList();
 
         // assertions
@@ -32,7 +30,6 @@ public class Obv : TestBase
     [TestMethod]
     public void WithSma()
     {
-
         List<ObvResult> results = Indicator.GetObv(quotes, 20).ToList();
 
         // assertions

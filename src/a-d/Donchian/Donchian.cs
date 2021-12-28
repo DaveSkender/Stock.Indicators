@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods = 20)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -64,7 +63,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -78,14 +76,12 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateDonchian<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -99,9 +95,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Donchian Channel.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

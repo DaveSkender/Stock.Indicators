@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Tsi : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<TsiResult> results = quotes.GetTsi(25, 13, 7).ToList();
 
         // assertions

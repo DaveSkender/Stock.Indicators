@@ -12,7 +12,6 @@ public static partial class Indicator
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -34,7 +33,6 @@ public static partial class Indicator
 
             if (i >= windowPeriods + offsetPeriods)
             {
-
                 // window values
                 int s = i - windowPeriods - offsetPeriods;
                 TQuote hi = quotesList[s];
@@ -67,9 +65,9 @@ public static partial class Indicator
 
             results.Add(r);
         }
+
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -84,7 +82,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateRollingPivots<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -92,7 +89,6 @@ public static partial class Indicator
         int offsetPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (windowPeriods <= 0)
         {
@@ -112,9 +108,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Rolling Pivot Points.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class MaEnvelopes : TestBase
 {
-
     [TestMethod]
     public void Alma()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(10, 2.5, MaType.ALMA)
             .ToList();
@@ -42,7 +40,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Dema()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.DEMA)
             .ToList();
@@ -74,7 +71,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Epma()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.EPMA)
             .ToList();
@@ -106,7 +102,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Ema()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.EMA)
             .ToList();
@@ -138,7 +133,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Hma()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.HMA)
             .ToList();
@@ -165,7 +159,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Sma()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.SMA)
             .ToList();
@@ -197,7 +190,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Smma()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.SMMA)
             .ToList();
@@ -229,7 +221,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Tema()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.TEMA)
             .ToList();
@@ -261,7 +252,6 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void Wma()
     {
-
         List<MaEnvelopeResult> results =
             quotes.GetMaEnvelopes(20, 2.5, MaType.WMA)
             .ToList();
@@ -312,7 +302,6 @@ public class MaEnvelopes : TestBase
         IEnumerable<MaEnvelopeResult> w = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.WMA);
         Assert.AreEqual(502, w.Count());
     }
-
 
     [TestMethod]
     public void Exceptions()

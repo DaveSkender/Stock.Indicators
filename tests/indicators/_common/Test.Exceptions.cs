@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class ExceptionTests : TestBase
 {
-
     // bad quotes exceptions
     [TestMethod]
     [ExpectedException(typeof(BadQuotesException), "Bad quotes without message.")]

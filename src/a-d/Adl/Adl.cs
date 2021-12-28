@@ -10,7 +10,6 @@ public static partial class Indicator
         int? smaPeriods = null)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -27,7 +26,7 @@ public static partial class Indicator
             QuoteD q = quotesList[i];
             int index = i + 1;
 
-            double mfm = (q.High == q.Low) ? 0 : ((q.Close - q.Low) - (q.High - q.Close)) / (q.High - q.Low);
+            double mfm = (q.High == q.Low) ? 0 : (q.Close - q.Low - (q.High - q.Close)) / (q.High - q.Low);
             double mfv = mfm * q.Volume;
             double adl = mfv + prevAdl;
 
@@ -58,7 +57,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // convert to quotes
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
     ///
@@ -78,14 +76,12 @@ public static partial class Indicator
           .ToList();
     }
 
-
     // parameter validation
     private static void ValidateAdl<TQuote>(
         IEnumerable<TQuote> quotes,
         int? smaPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (smaPeriods is not null and <= 0)
         {
@@ -98,7 +94,8 @@ public static partial class Indicator
         int minHistory = 2;
         if (qtyHistory < minHistory)
         {
-            string message = string.Format(EnglishCulture,
+            string message = string.Format(
+                EnglishCulture,
                 "Insufficient quotes provided for Accumulation/Distribution Line.  " +
                 "You provided {0} periods of quotes when at least {1} are required.",
                 qtyHistory, minHistory);

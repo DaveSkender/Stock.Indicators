@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class Cmf : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {

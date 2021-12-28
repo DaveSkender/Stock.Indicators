@@ -10,7 +10,6 @@ public static partial class Indicator
         DateTime? startDate = null)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -53,7 +52,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -67,13 +65,11 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateVwap(
         List<QuoteD> quotesList,
         DateTime? startDate)
     {
-
         // check quotes: done under Sort() for 0 length
 
         // check parameter arguments (intentionally after quotes check)

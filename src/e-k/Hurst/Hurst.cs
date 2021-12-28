@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods = 100)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -43,7 +42,7 @@ public static partial class Indicator
                     // compile return values
                     if (bdList[p - 1].Value != 0)
                     {
-                        values[x] = bdList[p].Value / bdList[p - 1].Value - 1;
+                        values[x] = (bdList[p].Value / bdList[p - 1].Value) - 1;
                     }
 
                     x++;
@@ -52,6 +51,7 @@ public static partial class Indicator
                 // calculate hurst exponent
                 result.HurstExponent = CalcHurst(values);
             }
+
             results.Add(result);
         }
 
@@ -95,7 +95,7 @@ public static partial class Indicator
 
             // starting index position used to skip
             // observations to enforce same-sized chunks
-            int index = totalSize - chunkSize * chunkQty;
+            int index = totalSize - (chunkSize * chunkQty);
 
             // analyze chunks in set
             for (int chunkNum = 1; chunkNum <= chunkQty; chunkNum++)
@@ -106,6 +106,7 @@ public static partial class Indicator
                 {
                     sum += values[i];
                 }
+
                 double chunkMean = sum / chunkSize;
 
                 // chunk mean diff
@@ -150,7 +151,6 @@ public static partial class Indicator
         return Functions.Slope(logSize, logRs);
     }
 
-
     // convert to quotes
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
     ///
@@ -170,7 +170,6 @@ public static partial class Indicator
           .ToList();
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -184,14 +183,12 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateHurst<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods < 100)
         {
@@ -205,9 +202,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Hurst Exponent.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

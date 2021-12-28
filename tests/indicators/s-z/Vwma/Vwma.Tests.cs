@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class Vwma : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {

@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods = 14)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -78,7 +77,6 @@ public static partial class Indicator
                 continue;
             }
 
-
             // smoothed true range and directional movement
             double trs;
             double pdm;
@@ -124,7 +122,7 @@ public static partial class Indicator
 
             if (index > 2 * lookbackPeriods)
             {
-                adx = (prevAdx * (lookbackPeriods - 1) + dx) / lookbackPeriods;
+                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
                 result.Adx = adx;
                 prevAdx = adx;
             }
@@ -143,12 +141,10 @@ public static partial class Indicator
             {
                 sumDx += dx;
             }
-
         }
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -160,9 +156,8 @@ public static partial class Indicator
             .ToList()
             .FindIndex(x => x.Pdi != null);
 
-        return results.Remove(2 * n + 100);
+        return results.Remove((2 * n) + 100);
     }
-
 
     // parameter validation
     private static void ValidateAdx<TQuote>(
@@ -170,7 +165,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -180,12 +174,13 @@ public static partial class Indicator
 
         // check quotes
         int qtyHistory = quotes.Count();
-        int minHistory = 2 * lookbackPeriods + 100;
+        int minHistory = (2 * lookbackPeriods) + 100;
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for ADX.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least 2×N+250 data points prior to the intended "
                 + "usage date for better precision.", qtyHistory, minHistory);

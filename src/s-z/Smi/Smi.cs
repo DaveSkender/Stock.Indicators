@@ -10,11 +10,9 @@ public static partial class Indicator
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
-        int signalPeriods = 3
-        )
+        int signalPeriods = 3)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -53,26 +51,26 @@ public static partial class Indicator
 
             if (index >= lookbackPeriods)
             {
-                double HH = double.MinValue;
-                double LL = double.MaxValue;
+                double hH = double.MinValue;
+                double lL = double.MaxValue;
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
                     QuoteD x = quotesList[p];
 
-                    if (x.High > HH)
+                    if (x.High > hH)
                     {
-                        HH = x.High;
+                        hH = x.High;
                     }
 
-                    if (x.Low < LL)
+                    if (x.Low < lL)
                     {
-                        LL = x.Low;
+                        lL = x.Low;
                     }
                 }
 
-                double sm = q.Close - 0.5d * (HH + LL);
-                double hl = HH - LL;
+                double sm = q.Close - (0.5d * (hH + lL));
+                double hl = hH - lL;
 
                 // initialize last EMA values
                 if (index == lookbackPeriods)
@@ -84,12 +82,12 @@ public static partial class Indicator
                 }
 
                 // first smoothing
-                double smEma1 = lastSmEma1 + k1 * (sm - lastSmEma1);
-                double hlEma1 = lastHlEma1 + k1 * (hl - lastHlEma1);
+                double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
+                double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
 
                 // second smoothing
-                double smEma2 = lastSmEma2 + k2 * (smEma1 - lastSmEma2);
-                double hlEma2 = lastHlEma2 + k2 * (hlEma1 - lastHlEma2);
+                double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
+                double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
 
                 // stochastic momentum index
                 double smi = 100 * (smEma2 / (0.5 * hlEma2));
@@ -102,7 +100,7 @@ public static partial class Indicator
                 }
 
                 // signal line
-                double signal = (lastSignal + kS * (smi - lastSignal));
+                double signal = lastSignal + (kS * (smi - lastSignal));
                 r.Signal = (decimal)signal;
 
                 // carryover values
@@ -112,12 +110,12 @@ public static partial class Indicator
                 lastHlEma2 = hlEma2;
                 lastSignal = signal;
             }
+
             results.Add(r);
         }
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -132,7 +130,6 @@ public static partial class Indicator
         return results.Remove(removePeriods + 2 + 100);
     }
 
-
     // parameter validation
     private static void ValidateSmi<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -142,7 +139,6 @@ public static partial class Indicator
         int signalPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -174,9 +170,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for SMI.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

@@ -11,7 +11,6 @@ public static partial class Indicator
         double volumeFactor = 0.7)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -25,9 +24,9 @@ public static partial class Indicator
         double k = 2d / (lookbackPeriods + 1);
         double a = volumeFactor;
         double c1 = -a * a * a;
-        double c2 = 3 * a * a + 3 * a * a * a;
-        double c3 = -6 * a * a - 3 * a - 3 * a * a * a;
-        double c4 = 1 + 3 * a + a * a * a + 3 * a * a;
+        double c2 = (3 * a * a) + (3 * a * a * a);
+        double c3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
+        double c4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
 
         double e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0;
         double sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0, sum6 = 0;
@@ -72,7 +71,7 @@ public static partial class Indicator
                                     e6 += k * (e5 - e6);
 
                                     // T3 moving average
-                                    r.T3 = (decimal?)(c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3);
+                                    r.T3 = (decimal?)((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3));
                                 }
 
                                 // sixth warmup
@@ -85,7 +84,7 @@ public static partial class Indicator
                                         e6 = sum6 / lookbackPeriods;
 
                                         // initial T3 moving average
-                                        r.T3 = (decimal?)(c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3);
+                                        r.T3 = (decimal?)((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3));
                                     }
                                 }
                             }
@@ -155,7 +154,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -169,7 +167,6 @@ public static partial class Indicator
         return results.Remove(n6 + 250);
     }
 
-
     // parameter validation
     private static void ValidateT3<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -177,7 +174,6 @@ public static partial class Indicator
         double volumeFactor)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -193,16 +189,17 @@ public static partial class Indicator
 
         // check quotes
         int qtyHistory = quotes.Count();
-        int minHistory = 6 * (lookbackPeriods - 1) + 100;
+        int minHistory = (6 * (lookbackPeriods - 1)) + 100;
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for T3.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, 6 * (lookbackPeriods - 1) + 250);
+                    qtyHistory, minHistory, lookbackPeriods, (6 * (lookbackPeriods - 1)) + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

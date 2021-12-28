@@ -12,7 +12,6 @@ public static partial class Indicator
         ChandelierType type = ChandelierType.Long)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -37,7 +36,6 @@ public static partial class Indicator
             // add exit values
             if (index >= lookbackPeriods)
             {
-
                 double? atr = (double?)atrResult[i].Atr;
 
                 switch (type)
@@ -54,7 +52,7 @@ public static partial class Indicator
                             }
                         }
 
-                        result.ChandelierExit = (decimal?)(maxHigh - atr * multiplier);
+                        result.ChandelierExit = (decimal?)(maxHigh - (atr * multiplier));
                         break;
 
                     case ChandelierType.Short:
@@ -69,7 +67,7 @@ public static partial class Indicator
                             }
                         }
 
-                        result.ChandelierExit = (decimal?)(minLow + atr * multiplier);
+                        result.ChandelierExit = (decimal?)(minLow + (atr * multiplier));
                         break;
 
                     default:
@@ -82,7 +80,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -97,7 +94,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateChandelier<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -105,7 +101,6 @@ public static partial class Indicator
         double multiplier)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -125,9 +120,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Chandelier Exit.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

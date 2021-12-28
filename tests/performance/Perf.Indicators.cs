@@ -18,15 +18,16 @@ public class IndicatorPerformance
         h = TestData.GetDefault();
     }
 
-    [GlobalSetup(Targets = new[] {
-            nameof(GetBeta),
-            nameof(GetBetaUp),
-            nameof(GetBetaDown),
-            nameof(GetBetaAll),
-            nameof(GetCorrelation),
-            nameof(GetPrs),
-            nameof(GetPrsWithSma)
-        })]
+    [GlobalSetup(Targets = new[]
+    {
+        nameof(GetBeta),
+        nameof(GetBetaUp),
+        nameof(GetBetaDown),
+        nameof(GetBetaAll),
+        nameof(GetCorrelation),
+        nameof(GetPrs),
+        nameof(GetPrsWithSma)
+    })]
     public void SetupCompare()
     {
         h = TestData.GetDefault();

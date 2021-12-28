@@ -41,14 +41,12 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateMarubozu<TQuote>(
         IEnumerable<TQuote> quotes,
         double minBodyPercent)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (minBodyPercent > 1)
         {
@@ -68,9 +66,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Marubozu.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

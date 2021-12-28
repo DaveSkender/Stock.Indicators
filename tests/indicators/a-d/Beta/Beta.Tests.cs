@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Beta : TestBase
 {
-
     [TestMethod]
     public void All()
     {
-
         List<BetaResult> results = Indicator
             .GetBeta(quotes, otherQuotes, 20, BetaType.All)
             .ToList();
@@ -57,7 +55,6 @@ public class Beta : TestBase
     [TestMethod]
     public void Standard()
     {
-
         List<BetaResult> results = Indicator
             .GetBeta(quotes, otherQuotes, 20, BetaType.Standard)
             .ToList();
@@ -77,7 +74,6 @@ public class Beta : TestBase
     [TestMethod]
     public void Up()
     {
-
         List<BetaResult> results = Indicator
             .GetBeta(quotes, otherQuotes, 20, BetaType.Up)
             .ToList();
@@ -97,7 +93,6 @@ public class Beta : TestBase
     [TestMethod]
     public void Down()
     {
-
         List<BetaResult> results = Indicator
             .GetBeta(quotes, otherQuotes, 20, BetaType.Down)
             .ToList();

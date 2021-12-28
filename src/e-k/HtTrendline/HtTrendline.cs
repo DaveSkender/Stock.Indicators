@@ -9,7 +9,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
@@ -53,33 +52,33 @@ public static partial class Indicator
 
             if (i > 5)
             {
-                double adj = (0.075 * pd[i - 1] + 0.54);
+                double adj = (0.075 * pd[i - 1]) + 0.54;
 
                 // smooth and detrender
-                sp[i] = (4 * pr[i] + 3 * pr[i - 1] + 2 * pr[i - 2] + pr[i - 3]) / 10;
-                dt[i] = (0.0962 * sp[i] + 0.5769 * sp[i - 2] - 0.5769 * sp[i - 4] - 0.0962 * sp[i - 6]) * adj;
+                sp[i] = ((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10;
+                dt[i] = ((0.0962 * sp[i]) + (0.5769 * sp[i - 2]) - (0.5769 * sp[i - 4]) - (0.0962 * sp[i - 6])) * adj;
 
                 // in-phase and quadrature
-                q1[i] = (0.0962 * dt[i] + 0.5769 * dt[i - 2] - 0.5769 * dt[i - 4] - 0.0962 * dt[i - 6]) * adj;
+                q1[i] = ((0.0962 * dt[i]) + (0.5769 * dt[i - 2]) - (0.5769 * dt[i - 4]) - (0.0962 * dt[i - 6])) * adj;
                 i1[i] = dt[i - 3];
 
                 // advance the phases by 90 degrees
-                jI = (0.0962 * i1[i] + 0.5769 * i1[i - 2] - 0.5769 * i1[i - 4] - 0.0962 * i1[i - 6]) * adj;
-                jQ = (0.0962 * q1[i] + 0.5769 * q1[i - 2] - 0.5769 * q1[i - 4] - 0.0962 * q1[i - 6]) * adj;
+                jI = ((0.0962 * i1[i]) + (0.5769 * i1[i - 2]) - (0.5769 * i1[i - 4]) - (0.0962 * i1[i - 6])) * adj;
+                jQ = ((0.0962 * q1[i]) + (0.5769 * q1[i - 2]) - (0.5769 * q1[i - 4]) - (0.0962 * q1[i - 6])) * adj;
 
                 // phasor addition for 3-bar averaging
                 i2[i] = i1[i] - jQ;
                 q2[i] = q1[i] + jI;
 
-                i2[i] = 0.2 * i2[i] + 0.8 * i2[i - 1];  // smoothing it
-                q2[i] = 0.2 * q2[i] + 0.8 * q2[i - 1];
+                i2[i] = (0.2 * i2[i]) + (0.8 * i2[i - 1]);  // smoothing it
+                q2[i] = (0.2 * q2[i]) + (0.8 * q2[i - 1]);
 
                 // homodyne discriminator
-                re[i] = i2[i] * i2[i - 1] + q2[i] * q2[i - 1];
-                im[i] = i2[i] * q2[i - 1] - q2[i] * i2[i - 1];
+                re[i] = (i2[i] * i2[i - 1]) + (q2[i] * q2[i - 1]);
+                im[i] = (i2[i] * q2[i - 1]) - (q2[i] * i2[i - 1]);
 
-                re[i] = 0.2 * re[i] + 0.8 * re[i - 1];  // smoothing it
-                im[i] = 0.2 * im[i] + 0.8 * im[i - 1];
+                re[i] = (0.2 * re[i]) + (0.8 * re[i - 1]);  // smoothing it
+                im[i] = (0.2 * im[i]) + (0.8 * im[i - 1]);
 
                 // calculate period
                 if (im[i] != 0 && re[i] != 0)
@@ -94,8 +93,8 @@ public static partial class Indicator
                 pd[i] = (pd[i] > 50d) ? 50d : pd[i];
 
                 // smooth the period
-                pd[i] = 0.2 * pd[i] + 0.8 * pd[i - 1];
-                sd[i] = 0.33 * pd[i] + 0.67 * sd[i - 1];
+                pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
+                sd[i] = (0.33 * pd[i]) + (0.67 * sd[i - 1]);
 
                 // smooth dominant cycle period
                 int dcPeriods = (int)(sd[i] + 0.5);
@@ -118,10 +117,10 @@ public static partial class Indicator
 
                 // final indicators
                 r.Trendline = i >= 11 // 12th bar
-                    ? (decimal)(4 * it[i] + 3 * it[i - 1] + 2 * it[i - 2] + it[i - 3]) / 10m
+                    ? (decimal)((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10m
                     : (decimal)pr[i];
 
-                r.SmoothPrice = (decimal)(4 * pr[i] + 3 * pr[i - 1] + 2 * pr[i - 2] + pr[i - 3]) / 10m;
+                r.SmoothPrice = (decimal)((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10m;
             }
 
             // initialization period
@@ -151,7 +150,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -161,22 +159,21 @@ public static partial class Indicator
         return results.Remove(100);
     }
 
-
     // parameter validation
     private static void ValidateHtTrendline<TQuote>(
         IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = 100;
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for HTL.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

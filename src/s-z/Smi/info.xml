@@ -35,11 +35,11 @@
       <list type="table">
         <item>
           <term>Smi</term>
-          <description>Stochastic Momentum Index</description>
+          <description>Stochastic Momentum Index.</description>
         </item>
         <item>
           <term>Signal</term>
-          <description>Exponential moving average (EMA) of SMI</description>
+          <description>Exponential moving average (EMA) of SMI.</description>
         </item>
       </list>
     </remarks>

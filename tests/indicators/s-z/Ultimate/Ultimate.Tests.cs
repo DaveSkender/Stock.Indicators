@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Ultimate : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<UltimateResult> results = quotes.GetUltimate(7, 14, 28)
             .ToList();
 

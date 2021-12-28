@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class WilliamsR : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<WilliamsResult> results = quotes.GetWilliamsR(14)
             .ToList();
 

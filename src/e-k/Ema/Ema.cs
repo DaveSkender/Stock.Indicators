@@ -10,14 +10,12 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // calculate
         return bdList.CalcEma(lookbackPeriods);
     }
-
 
     // EXPONENTIAL MOVING AVERAGE (on specified OHLCV part)
     /// <include file='./info.xml' path='indicator/type[@name="Custom"]/*' />
@@ -28,14 +26,12 @@ public static partial class Indicator
         CandlePart candlePart)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
 
         // calculate
         return bdList.CalcEma(lookbackPeriods);
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -50,12 +46,10 @@ public static partial class Indicator
         return results.Remove(n + 100);
     }
 
-
     // standard calculation
     private static List<EmaResult> CalcEma(
         this List<BasicD> bdList, int lookbackPeriods)
     {
-
         // check parameter arguments
         ValidateEma(bdList, lookbackPeriods);
 
@@ -69,6 +63,7 @@ public static partial class Indicator
         {
             lastEma += bdList[i].Value;
         }
+
         lastEma /= lookbackPeriods;
 
         // roll through quotes
@@ -84,7 +79,7 @@ public static partial class Indicator
 
             if (index > lookbackPeriods)
             {
-                double? ema = (lastEma + k * (h.Value - lastEma));
+                double? ema = lastEma + (k * (h.Value - lastEma));
                 result.Ema = (decimal?)ema;
                 lastEma = ema;
             }
@@ -99,13 +94,11 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateEma(
         List<BasicD> quotes,
         int lookbackPeriods)
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -119,12 +112,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for EMA.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

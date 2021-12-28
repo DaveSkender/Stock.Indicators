@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -54,7 +53,7 @@ public static partial class Indicator
             double highMinusPrevClose = Math.Abs(q.High - prevClose);
             double lowMinusPrevClose = Math.Abs(q.Low - prevClose);
 
-            tr[i] = Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
+            tr[i] = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
             pvm[i] = Math.Abs(q.High - prevLow);
             nvm[i] = Math.Abs(q.Low - prevHigh);
 
@@ -65,7 +64,6 @@ public static partial class Indicator
             // vortex indicator
             if (index > lookbackPeriods)
             {
-
                 double sumTr = 0;
                 double sumPvm = 0;
                 double sumNvm = 0;
@@ -90,7 +88,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -104,14 +101,12 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateVortex<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -125,9 +120,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for VI.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

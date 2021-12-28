@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Sma : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<SmaResult> results = quotes.GetSma(20)
             .ToList();
 
@@ -33,7 +31,6 @@ public class Sma : TestBase
     [TestMethod]
     public void OpenCandlePart()
     {
-
         List<SmaResult> results = quotes.GetSma(20, CandlePart.Open)
             .ToList();
 

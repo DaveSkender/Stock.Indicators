@@ -12,7 +12,6 @@ public static partial class Indicator
         int atrPeriods = 10)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidateStarcBands(quotes, smaPeriods, multiplier, atrPeriods);
 
@@ -35,13 +34,12 @@ public static partial class Indicator
 
             AtrResult a = atrResults[i];
 
-            r.UpperBand = r.Centerline + multiplier * a.Atr;
-            r.LowerBand = r.Centerline - multiplier * a.Atr;
+            r.UpperBand = r.Centerline + (multiplier * a.Atr);
+            r.LowerBand = r.Centerline - (multiplier * a.Atr);
         }
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -56,7 +54,6 @@ public static partial class Indicator
         return results.Remove(n + 150);
     }
 
-
     // parameter validation
     private static void ValidateStarcBands<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -65,7 +62,6 @@ public static partial class Indicator
         int atrPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (smaPeriods <= 1)
         {
@@ -92,12 +88,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for STARC Bands.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, atrPeriods + 150);
+                    qtyHistory, minHistory, lookbackPeriods, atrPeriods + 150);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

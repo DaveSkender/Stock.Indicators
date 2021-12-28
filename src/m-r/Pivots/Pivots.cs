@@ -13,7 +13,6 @@ public static partial class Indicator
         EndType endType = EndType.HighLow)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidatePivots(quotes, leftSpan, rightSpan, maxTrendPeriods);
 
@@ -70,7 +69,7 @@ public static partial class Indicator
                     for (int t = (int)lastHighIndex + 1; t <= i; t++)
                     {
                         results[t].HighTrend = trend;
-                        results[t].HighLine = r.HighPoint + incr * (t - i);
+                        results[t].HighLine = r.HighPoint + (incr * (t - i));
                     }
                 }
 
@@ -97,7 +96,7 @@ public static partial class Indicator
                     for (int t = (int)lastLowIndex + 1; t <= i; t++)
                     {
                         results[t].LowTrend = trend;
-                        results[t].LowLine = r.LowPoint + incr * (t - i);
+                        results[t].LowLine = r.LowPoint + (incr * (t - i));
                     }
                 }
 
@@ -119,7 +118,6 @@ public static partial class Indicator
         string caller = "Pivots")
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (rightSpan < 2)
         {
@@ -145,9 +143,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = $"Insufficient quotes provided for {caller}.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

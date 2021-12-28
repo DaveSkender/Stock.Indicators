@@ -11,7 +11,6 @@ public static partial class Indicator
         EndType endType = EndType.Close)
         where TQuote : IQuote
     {
-
         // initialize
         IEnumerable<AtrResult> atrResults = quotes.GetAtr(atrPeriods);
         decimal? brickSize = atrResults.LastOrDefault().Atr;

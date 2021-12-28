@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class Alma : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
@@ -54,7 +53,6 @@ public class Alma : TestBase
     [TestMethod]
     public void Removed()
     {
-
         List<AlmaResult> results = quotes.GetAlma(10, 0.85, 6)
             .RemoveWarmupPeriods()
             .ToList();

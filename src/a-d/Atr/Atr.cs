@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods = 14)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -42,14 +41,14 @@ public static partial class Indicator
                 lowMinusPrevClose = Math.Abs(q.Low - prevClose);
             }
 
-            decimal tr = Math.Max((q.High - q.Low), Math.Max(highMinusPrevClose, lowMinusPrevClose));
+            decimal tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
             result.Tr = tr;
 
             if (index > lookbackPeriods)
             {
                 // calculate ATR
-                result.Atr = (prevAtr * (lookbackPeriods - 1) + tr) / lookbackPeriods;
-                result.Atrp = (q.Close == 0) ? null : (result.Atr / q.Close) * 100;
+                result.Atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
+                result.Atrp = (q.Close == 0) ? null : result.Atr / q.Close * 100;
                 prevAtr = (decimal)result.Atr;
             }
             else if (index == lookbackPeriods)
@@ -57,7 +56,7 @@ public static partial class Indicator
                 // initialize ATR
                 sumTr += tr;
                 result.Atr = sumTr / lookbackPeriods;
-                result.Atrp = (q.Close == 0) ? null : (result.Atr / q.Close) * 100;
+                result.Atrp = (q.Close == 0) ? null : result.Atr / q.Close * 100;
                 prevAtr = (decimal)result.Atr;
             }
             else
@@ -73,7 +72,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -87,14 +85,12 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateAtr<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -108,8 +104,9 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for ATR.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least N+250 data points prior to the intended "
                 + "usage date for better precision.", qtyHistory, minHistory);

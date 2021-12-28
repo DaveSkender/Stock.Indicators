@@ -9,7 +9,6 @@ namespace Tests.Performance;
 [MarkdownExporterAttribute.GitHub]
 public class InternalsPerformance
 {
-
     // standard deviation
 
     private double[] values;
@@ -30,5 +29,4 @@ public class InternalsPerformance
     {
         return Functions.StdDev(values);
     }
-
 }

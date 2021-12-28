@@ -34,7 +34,7 @@ public static partial class Indicator
             // calculate SMMA
             if (index > lookbackPeriods)
             {
-                result.Smma = (decimal)(prevValue * (lookbackPeriods - 1) + q.Value)
+                result.Smma = (decimal)((prevValue * (lookbackPeriods - 1)) + q.Value)
                             / lookbackPeriods;
             }
 
@@ -58,7 +58,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -71,7 +70,6 @@ public static partial class Indicator
 
         return results.Remove(n + 100);
     }
-
 
     // parameter validation
     private static void ValidateSmma<TQuote>(
@@ -93,12 +91,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for SMMA.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

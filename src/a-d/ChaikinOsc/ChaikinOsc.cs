@@ -11,7 +11,6 @@ public static partial class Indicator
         int slowPeriods = 10)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidateChaikinOsc(quotes, fastPeriods, slowPeriods);
 
@@ -48,7 +47,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -62,7 +60,6 @@ public static partial class Indicator
         return results.Remove(s + 100);
     }
 
-
     // parameter validation
     private static void ValidateChaikinOsc<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -70,7 +67,6 @@ public static partial class Indicator
         int slowPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (fastPeriods <= 0)
         {
@@ -90,12 +86,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Chaikin Oscillator.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for a slow period of {2}, "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, slowPeriods, slowPeriods + 250);
+                    qtyHistory, minHistory, slowPeriods, slowPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

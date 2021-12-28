@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Bop : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<BopResult> results = quotes.GetBop(14).ToList();
 
         // assertions

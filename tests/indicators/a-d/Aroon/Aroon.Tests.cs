@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class Aroon : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {

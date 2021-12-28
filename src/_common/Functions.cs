@@ -29,6 +29,7 @@ internal static class Functions
 
             sd = Math.Sqrt(sumSq / n);
         }
+
         return sd;
     }
 
@@ -59,8 +60,8 @@ internal static class Functions
 
         for (int i = 0; i < size; i++)
         {
-            double devX = (x[i] - avgX);
-            double devY = (y[i] - avgY);
+            double devX = x[i] - avgX;
+            double devY = y[i] - avgY;
 
             sumSqX += devX * devX;
             sumSqY += devY * devY;
@@ -108,8 +109,8 @@ internal static class Functions
     {
         // source: https://stackoverflow.com/a/30205131/4496145
 
-        n = Math.Abs(n); //make sure it is positive.
-        n -= (int)n;     //remove the integer part of the number.
+        n = Math.Abs(n); // make sure it is positive.
+        n -= (int)n;     // remove the integer part of the number.
         int decimalPlaces = 0;
         while (n > 0)
         {
@@ -117,6 +118,7 @@ internal static class Functions
             n *= 10;
             n -= (int)n;
         }
+
         return decimalPlaces;
     }
 }

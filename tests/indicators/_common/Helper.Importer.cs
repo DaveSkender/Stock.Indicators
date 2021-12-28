@@ -62,11 +62,9 @@ internal static class Importer
     }
 }
 
-
 // IMPORT TEST DATA
 internal class TestData
 {
-
     // DEFAULT: S&P 500 ~2 years of daily data
     internal static IEnumerable<Quote> GetDefault(int days = 502)
     {

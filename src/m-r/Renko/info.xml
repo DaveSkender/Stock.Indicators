@@ -13,7 +13,7 @@
     </summary>
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
-    <param name="brickSize">Fixed brick size ($)</param>
+    <param name="brickSize">Fixed brick size ($).</param>
     <param name="endType">End type.  See documentation.</param>
     <returns>Time series of Renko Chart candlestick values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>

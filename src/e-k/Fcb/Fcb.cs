@@ -10,7 +10,6 @@ public static partial class Indicator
         int windowSpan = 2)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidateFcb(quotes, windowSpan);
 
@@ -31,7 +30,7 @@ public static partial class Indicator
                 Date = f.Date
             };
 
-            if (index >= 2 * windowSpan + 1)
+            if (index >= (2 * windowSpan) + 1)
             {
                 FractalResult fp = fractals[i - windowSpan];
 
@@ -48,7 +47,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -62,14 +60,12 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateFcb<TQuote>(
         IEnumerable<TQuote> quotes,
         int windowSpan)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (windowSpan < 2)
         {
@@ -79,13 +75,14 @@ public static partial class Indicator
 
         // check quotes
         int qtyHistory = quotes.Count();
-        int minHistory = 2 * windowSpan + 1;
+        int minHistory = (2 * windowSpan) + 1;
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for FCB.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

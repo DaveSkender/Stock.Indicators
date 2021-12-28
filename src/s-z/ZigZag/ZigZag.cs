@@ -11,7 +11,6 @@ public static partial class Indicator
         decimal percentChange = 5)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -101,7 +100,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // internals
     private static ZigZagPoint EvaluateNextPoint<TQuote>(
         List<TQuote> quotesList,
@@ -111,7 +109,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // initialize
-        bool trendUp = (lastPoint.PointType == "L");
+        bool trendUp = lastPoint.PointType == "L";
 
         // candidate
         ZigZagPoint extremePoint = new()
@@ -170,7 +168,7 @@ public static partial class Indicator
             if (index == quotesList.Count)
             {
                 extremePoint.Index = index;
-                extremePoint.Value = (trendUp) ? eval.High : eval.Low;
+                extremePoint.Value = trendUp ? eval.High : eval.Low;
                 extremePoint.PointType = null;
             }
         }
@@ -178,11 +176,10 @@ public static partial class Indicator
         return extremePoint;
     }
 
-
     private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> quotesList,
-        ZigZagPoint lastPoint, ZigZagPoint nextPoint) where TQuote : IQuote
+        ZigZagPoint lastPoint, ZigZagPoint nextPoint)
+        where TQuote : IQuote
     {
-
         if (nextPoint.Index != lastPoint.Index)
         {
             decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
@@ -197,7 +194,7 @@ public static partial class Indicator
                 {
                     Date = q.Date,
                     ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
-                        lastPoint.Value + increment * (index - lastPoint.Index) : null,
+                        lastPoint.Value + (increment * (index - lastPoint.Index)) : null,
                     PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
                 };
 
@@ -210,7 +207,6 @@ public static partial class Indicator
         lastPoint.Value = nextPoint.Value;
         lastPoint.PointType = nextPoint.PointType;
     }
-
 
     private static void DrawRetraceLine(
         List<ZigZagResult> results,
@@ -243,9 +239,9 @@ public static partial class Indicator
 
         // nothing to draw cases
         if (
-            lastDirection == "U"    // first line skipped, single line
-         || priorPoint.Index == 1   // first line skipped, normal case
-         || nextPoint.Index == priorPoint.Index)  // no span
+            lastDirection == "U" // first line skipped, single line
+         || priorPoint.Index == 1 // first line skipped, normal case
+         || nextPoint.Index == priorPoint.Index) // no span
         {
             return;
         }
@@ -254,7 +250,6 @@ public static partial class Indicator
         decimal increment = (nextPoint.Value - priorPoint.Value) / (nextPoint.Index - priorPoint.Index);
 
         // add new line segment
-        //foreach (ZigZagResult r in period)
         for (int i = priorPoint.Index - 1; i < nextPoint.Index; i++)
         {
             ZigZagResult r = results[i];
@@ -263,17 +258,16 @@ public static partial class Indicator
             // high line
             if (lastDirection == "L")
             {
-                r.RetraceHigh = priorPoint.Value + increment * (index - priorPoint.Index);
+                r.RetraceHigh = priorPoint.Value + (increment * (index - priorPoint.Index));
             }
 
             // low line
             else if (lastDirection == "H")
             {
-                r.RetraceLow = priorPoint.Value + increment * (index - priorPoint.Index);
+                r.RetraceLow = priorPoint.Value + (increment * (index - priorPoint.Index));
             }
         }
     }
-
 
     private static ZigZagEval GetZigZagEval<TQuote>(
         EndType endType,
@@ -308,14 +302,12 @@ public static partial class Indicator
         return eval;
     }
 
-
     // parameter validation
     private static void ValidateZigZag<TQuote>(
         IEnumerable<TQuote> quotes,
         decimal percentChange)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (percentChange <= 0)
         {
@@ -329,9 +321,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for ZIGZAG.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

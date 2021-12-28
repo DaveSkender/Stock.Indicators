@@ -12,7 +12,6 @@ public static partial class Indicator
         int longPeriods = 28)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -82,7 +81,7 @@ public static partial class Indicator
                 double? avg2 = (sumTR2 == 0) ? null : sumBP2 / sumTR2;
                 double? avg3 = (sumTR3 == 0) ? null : sumBP3 / sumTR3;
 
-                r.Ultimate = (decimal?)(100d * (4d * avg1 + 2d * avg2 + avg3) / 7d);
+                r.Ultimate = (decimal?)(100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d);
             }
 
             priorClose = q.Close;
@@ -90,7 +89,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -105,7 +103,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateUltimate<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -114,7 +111,6 @@ public static partial class Indicator
         int longPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (shortPeriods <= 0 || middleAverage <= 0 || longPeriods <= 0)
         {
@@ -134,9 +130,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Ultimate.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

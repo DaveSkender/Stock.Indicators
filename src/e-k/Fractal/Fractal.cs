@@ -24,7 +24,6 @@ public static partial class Indicator
         EndType endType = EndType.HighLow)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidateFractal(quotes, Math.Min(leftSpan, rightSpan));
 
@@ -104,14 +103,12 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateFractal<TQuote>(
         IEnumerable<TQuote> quotes,
         int windowSpan)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (windowSpan < 2)
         {
@@ -121,13 +118,14 @@ public static partial class Indicator
 
         // check quotes
         int qtyHistory = quotes.Count();
-        int minHistory = 2 * windowSpan + 1;
+        int minHistory = (2 * windowSpan) + 1;
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Fractal.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

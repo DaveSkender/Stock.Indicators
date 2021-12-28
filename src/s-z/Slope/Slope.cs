@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -64,8 +63,8 @@ public static partial class Indicator
             {
                 BasicD d = bdList[p];
 
-                double devX = (p + 1d - avgX);
-                double devY = (d.Value - avgY);
+                double devX = p + 1d - avgX;
+                double devY = d.Value - avgY;
 
                 sumSqX += devX * devX;
                 sumSqY += devY * devY;
@@ -73,7 +72,7 @@ public static partial class Indicator
             }
 
             r.Slope = sumSqXY / sumSqX;
-            r.Intercept = avgY - r.Slope * avgX;
+            r.Intercept = avgY - (r.Slope * avgX);
 
             // calculate Standard Deviation and R-Squared
             double stdDevX = Math.Sqrt((double)sumSqX / lookbackPeriods);
@@ -82,8 +81,8 @@ public static partial class Indicator
 
             if (stdDevX * stdDevY != 0)
             {
-                double R = ((double)sumSqXY / (stdDevX * stdDevY)) / lookbackPeriods;
-                r.RSquared = R * R;
+                double arrr = (double)sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
+                r.RSquared = arrr * arrr;
             }
         }
 
@@ -92,12 +91,11 @@ public static partial class Indicator
         for (int p = size - lookbackPeriods; p < size; p++)
         {
             SlopeResult d = results[p];
-            d.Line = (decimal?)(last.Slope * (p + 1) + last.Intercept);
+            d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
         }
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -112,14 +110,12 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateSlope<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -133,9 +129,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Slope/Linear Regression.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

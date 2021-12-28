@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods = 10)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
@@ -22,7 +21,6 @@ public static partial class Indicator
         double[] pr = new double[size]; // median price
         double[] xv = new double[size];  // price transform "value"
         List<FisherTransformResult> results = new(size);
-
 
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
@@ -47,15 +45,15 @@ public static partial class Indicator
             if (i > 0)
             {
                 xv[i] = maxPrice != minPrice
-                    ? 0.33 * 2 * ((pr[i] - minPrice) / (maxPrice - minPrice) - 0.5)
-                          + 0.67 * xv[i - 1]
+                    ? (0.33 * 2 * (((pr[i] - minPrice) / (maxPrice - minPrice)) - 0.5))
+                          + (0.67 * xv[i - 1])
                     : 0;
 
                 xv[i] = (xv[i] > 0.99) ? 0.999 : xv[i];
                 xv[i] = (xv[i] < -0.99) ? -0.999 : xv[i];
 
-                r.Fisher = 0.5 * Math.Log((1 + xv[i]) / (1 - xv[i]))
-                      + 0.5 * results[i - 1].Fisher;
+                r.Fisher = (0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
+                      + (0.5 * results[i - 1].Fisher);
 
                 r.Trigger = results[i - 1].Fisher;
             }
@@ -71,14 +69,12 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateFisherTransform<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -92,12 +88,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Fisher Transform.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 15);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 15);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

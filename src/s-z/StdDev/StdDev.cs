@@ -11,14 +11,12 @@ public static partial class Indicator
         int? smaPeriods = null)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // calculate
         return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -33,12 +31,10 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // internals
     private static List<StdDevResult> CalcStdDev(
         List<BasicD> bdList, int lookbackPeriods, int? smaPeriods = null)
     {
-
         // check parameter arguments
         ValidateStdDev(bdList, lookbackPeriods, smaPeriods);
 
@@ -97,14 +93,12 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateStdDev(
         List<BasicD> quotes,
         int lookbackPeriods,
         int? smaPeriods)
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -124,9 +118,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Standard Deviation.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

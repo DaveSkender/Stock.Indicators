@@ -16,5 +16,5 @@ public enum PivotTrend
     HH, // higher high
     LH, // lower high
     HL, // higher low
-    LL  // lower low
+    LL // lower low
 }

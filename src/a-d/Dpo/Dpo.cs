@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -19,7 +18,7 @@ public static partial class Indicator
 
         // initialize
         int size = quotesList.Count;
-        int offset = lookbackPeriods / 2 + 1;
+        int offset = (lookbackPeriods / 2) + 1;
         List<SmaResult> sma = quotes.GetSma(lookbackPeriods).ToList();
         List<DpoResult> results = new(size);
 
@@ -45,7 +44,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // convert to quotes
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
     ///
@@ -66,14 +64,12 @@ public static partial class Indicator
           .ToList();
     }
 
-
     // parameter validation
     private static void ValidateDpo<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -86,7 +82,8 @@ public static partial class Indicator
         int minHistory = lookbackPeriods;
         if (qtyHistory < minHistory)
         {
-            string message = string.Format(EnglishCulture,
+            string message = string.Format(
+                EnglishCulture,
                 "Insufficient quotes provided for Detrended Price Oscillator.  " +
                 "You provided {0} periods of quotes when at least {1} are required.",
                 qtyHistory, minHistory);

@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class FisherTransform : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<FisherTransformResult> results = quotes.GetFisherTransform(10)
             .ToList();
 
@@ -52,7 +50,6 @@ public class FisherTransform : TestBase
         Assert.AreEqual(-1.2876, Math.Round(results[501].Fisher.Value, 4));
         Assert.AreEqual(-2.0071, Math.Round(results[501].Trigger.Value, 4));
     }
-
 
     [TestMethod]
     public void BadData()

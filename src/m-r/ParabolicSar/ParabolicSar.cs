@@ -26,7 +26,6 @@ public static partial class Indicator
         decimal initialFactor)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -64,7 +63,7 @@ public static partial class Indicator
             if (isRising)
             {
                 decimal sar =
-                    priorSar + accelerationFactor * (extremePoint - priorSar);
+                    priorSar + (accelerationFactor * (extremePoint - priorSar));
 
                 // SAR cannot be higher than last two lows
                 if (i >= 2)
@@ -110,7 +109,7 @@ public static partial class Indicator
             else
             {
                 decimal sar
-                    = priorSar - accelerationFactor * (priorSar - extremePoint);
+                    = priorSar - (accelerationFactor * (priorSar - extremePoint));
 
                 // SAR cannot be lower than last two highs
                 if (i >= 2)
@@ -175,7 +174,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -189,7 +187,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateParabolicSar<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -198,7 +195,6 @@ public static partial class Indicator
         decimal initialFactor)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (accelerationStep <= 0)
         {
@@ -214,7 +210,8 @@ public static partial class Indicator
 
         if (accelerationStep > maxAccelerationFactor)
         {
-            string message = string.Format(EnglishCulture,
+            string message = string.Format(
+                EnglishCulture,
                 "Acceleration Step must be smaller than provided Max Accleration Factor ({0}) for Parabolic SAR.",
                 maxAccelerationFactor);
 
@@ -233,9 +230,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Parabolic SAR.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class T3 : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<T3Result> results = quotes.GetT3(5, 0.7).ToList();
 
         // assertions
@@ -55,7 +53,7 @@ public class T3 : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (6 * (5 - 1) + 250), results.Count);
+        Assert.AreEqual(502 - ((6 * (5 - 1)) + 250), results.Count);
 
         T3Result last = results.LastOrDefault();
         Assert.AreEqual(238.9308m, Math.Round((decimal)last.T3, 4));
@@ -74,6 +72,6 @@ public class T3 : TestBase
 
         // insufficient quotes
         Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetT3(TestData.GetDefault(6 * (5 - 1) + 99), 5));
+            Indicator.GetT3(TestData.GetDefault((6 * (5 - 1)) + 99), 5));
     }
 }

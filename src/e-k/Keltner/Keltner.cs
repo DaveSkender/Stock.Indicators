@@ -12,7 +12,6 @@ public static partial class Indicator
         int atrPeriods = 10)
         where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -41,8 +40,8 @@ public static partial class Indicator
                 EmaResult ema = emaResults[i];
                 AtrResult atr = atrResults[i];
 
-                result.UpperBand = ema.Ema + multiplier * atr.Atr;
-                result.LowerBand = ema.Ema - multiplier * atr.Atr;
+                result.UpperBand = ema.Ema + (multiplier * atr.Atr);
+                result.LowerBand = ema.Ema - (multiplier * atr.Atr);
                 result.Centerline = ema.Ema;
                 result.Width = (result.Centerline == 0) ? null
                     : (result.UpperBand - result.LowerBand) / result.Centerline;
@@ -53,7 +52,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -68,7 +66,6 @@ public static partial class Indicator
         return results.Remove(Math.Max(2 * n, n + 100));
     }
 
-
     // parameter validation
     private static void ValidateKeltner<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -77,7 +74,6 @@ public static partial class Indicator
         int atrPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (emaPeriods <= 1)
         {
@@ -104,12 +100,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Keltner Channel.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

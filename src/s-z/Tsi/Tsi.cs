@@ -12,7 +12,6 @@ public static partial class Indicator
         int signalPeriods = 7)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -66,14 +65,14 @@ public static partial class Indicator
             if (index > lookbackPeriods + 1)
             {
                 // first smoothing
-                cs1[i] = (c[i] - cs1[i - 1]) * mult1 + cs1[i - 1];
-                as1[i] = (a[i] - as1[i - 1]) * mult1 + as1[i - 1];
+                cs1[i] = ((c[i] - cs1[i - 1]) * mult1) + cs1[i - 1];
+                as1[i] = ((a[i] - as1[i - 1]) * mult1) + as1[i - 1];
 
                 // second smoothing
                 if (index > lookbackPeriods + smoothPeriods)
                 {
-                    cs2[i] = (cs1[i] - cs2[i - 1]) * mult2 + cs2[i - 1];
-                    as2[i] = (as1[i] - as2[i - 1]) * mult2 + as2[i - 1];
+                    cs2[i] = ((cs1[i] - cs2[i - 1]) * mult2) + cs2[i - 1];
+                    as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
 
                     r.Tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : null;
 
@@ -82,7 +81,7 @@ public static partial class Indicator
                     {
                         if (index >= lookbackPeriods + smoothPeriods + signalPeriods)
                         {
-                            r.Signal = (r.Tsi - results[i - 1].Signal) * multS
+                            r.Signal = ((r.Tsi - results[i - 1].Signal) * multS)
                                      + results[i - 1].Signal;
                         }
 
@@ -134,9 +133,9 @@ public static partial class Indicator
                 }
             }
         }
+
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -151,7 +150,6 @@ public static partial class Indicator
         return results.Remove(nm + 250);
     }
 
-
     // parameter validation
     private static void ValidateTsi<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -160,7 +158,6 @@ public static partial class Indicator
         int signalPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -186,13 +183,14 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for TSI.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a double smoothing technique, for an N+M period of {2}, "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods + smoothPeriods,
-                lookbackPeriods + smoothPeriods + 250);
+                    qtyHistory, minHistory, lookbackPeriods + smoothPeriods,
+                    lookbackPeriods + smoothPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

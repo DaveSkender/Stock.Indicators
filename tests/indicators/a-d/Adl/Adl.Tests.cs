@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Adl : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<AdlResult> results = quotes.GetAdl().ToList();
 
         // assertions
@@ -66,7 +64,6 @@ public class Adl : TestBase
     [TestMethod]
     public void WithSma()
     {
-
         List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
 
         // assertions

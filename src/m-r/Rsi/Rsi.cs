@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods = 14)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -51,11 +50,9 @@ public static partial class Indicator
         return results.Remove(10 * n);
     }
 
-
     // internals
     private static List<RsiResult> CalcRsi(List<BasicD> bdList, int lookbackPeriods)
     {
-
         // check parameter arguments
         ValidateRsi(bdList, lookbackPeriods);
 
@@ -88,8 +85,8 @@ public static partial class Indicator
             // calculate RSI
             if (index > lookbackPeriods + 1)
             {
-                avgGain = (avgGain * (lookbackPeriods - 1) + gain[i]) / lookbackPeriods;
-                avgLoss = (avgLoss * (lookbackPeriods - 1) + loss[i]) / lookbackPeriods;
+                avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
+                avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
 
                 if (avgLoss > 0)
                 {
@@ -113,6 +110,7 @@ public static partial class Indicator
                     sumGain += gain[p];
                     sumLoss += loss[p];
                 }
+
                 avgGain = sumGain / lookbackPeriods;
                 avgLoss = sumLoss / lookbackPeriods;
 
@@ -123,13 +121,11 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateRsi(
         List<BasicD> quotes,
         int lookbackPeriods)
     {
-
         // check parameter arguments
         if (lookbackPeriods < 1)
         {
@@ -143,12 +139,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for RSI.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least {2} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, Math.Max(10 * lookbackPeriods, minHistory));
+                    qtyHistory, minHistory, Math.Max(10 * lookbackPeriods, minHistory));
 
             throw new BadQuotesException(nameof(quotes), message);
         }

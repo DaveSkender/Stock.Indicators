@@ -11,7 +11,6 @@ public static partial class Indicator
         double multiplier = 3)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -38,19 +37,18 @@ public static partial class Indicator
 
             if (i >= lookbackPeriods - 1)
             {
-
                 double mid = (q.High + q.Low) / 2;
                 double atr = (double)atrResults[i].Atr;
                 double prevClose = quotesList[i - 1].Close;
 
                 // potential bands
-                double upperEval = mid + multiplier * atr;
-                double lowerEval = mid - multiplier * atr;
+                double upperEval = mid + (multiplier * atr);
+                double lowerEval = mid - (multiplier * atr);
 
                 // initial values
                 if (i == lookbackPeriods - 1)
                 {
-                    isBullish = (q.Close >= mid);
+                    isBullish = q.Close >= mid;
 
                     upperBand = upperEval;
                     lowerBand = lowerEval;
@@ -69,7 +67,7 @@ public static partial class Indicator
                 }
 
                 // supertrend
-                if (q.Close <= ((isBullish) ? lowerBand : upperBand))
+                if (q.Close <= (isBullish ? lowerBand : upperBand))
                 {
                     r.SuperTrend = (decimal?)upperBand;
                     r.UpperBand = (decimal?)upperBand;
@@ -89,7 +87,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -103,7 +100,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateSuperTrend<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -111,7 +107,6 @@ public static partial class Indicator
         double multiplier)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -131,8 +126,9 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for SuperTrend.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least N+250 data points prior to the intended "
                 + "usage date for better precision.", qtyHistory, minHistory);

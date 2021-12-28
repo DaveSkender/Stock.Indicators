@@ -7,5 +7,5 @@ public class SlopeResult : ResultBase
     public double? Intercept { get; set; }
     public double? StdDev { get; set; }
     public double? RSquared { get; set; }
-    public decimal? Line { get; set; }         // last line segment only
+    public decimal? Line { get; set; } // last line segment only
 }

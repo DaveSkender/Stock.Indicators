@@ -12,7 +12,6 @@ public static partial class Indicator
         int signalPeriods = 10)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidatePmo(quotes, timePeriods, smoothPeriods, signalPeriods);
 
@@ -31,7 +30,7 @@ public static partial class Indicator
 
             if (index > startIndex)
             {
-                pr.Pmo = (pr.RocEma - lastPmo) * smoothingConstant + lastPmo;
+                pr.Pmo = ((pr.RocEma - lastPmo) * smoothingConstant) + lastPmo;
             }
             else if (index == startIndex)
             {
@@ -41,6 +40,7 @@ public static partial class Indicator
                     PmoResult d = results[p];
                     sumRocEma += d.RocEma;
                 }
+
                 pr.Pmo = sumRocEma / smoothPeriods;
             }
 
@@ -52,7 +52,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -66,7 +65,6 @@ public static partial class Indicator
 
         return results.Remove(ts + 250);
     }
-
 
     // internals
     private static List<PmoResult> CalcPmoRocEma<TQuote>(
@@ -94,7 +92,7 @@ public static partial class Indicator
 
             if (index > startIndex)
             {
-                result.RocEma = r.Roc * smoothingMultiplier + lastRocEma * (1 - smoothingMultiplier);
+                result.RocEma = (r.Roc * smoothingMultiplier) + (lastRocEma * (1 - smoothingMultiplier));
             }
             else if (index == startIndex)
             {
@@ -104,6 +102,7 @@ public static partial class Indicator
                     RocResult d = roc[p];
                     sumRoc += d.Roc;
                 }
+
                 result.RocEma = sumRoc / timePeriods;
             }
 
@@ -114,7 +113,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     private static void CalcPmoSignal(
         List<PmoResult> results,
@@ -134,7 +132,7 @@ public static partial class Indicator
 
             if (index > startIndex)
             {
-                pr.Signal = (pr.Pmo - lastSignal) * signalConstant + lastSignal;
+                pr.Signal = ((pr.Pmo - lastSignal) * signalConstant) + lastSignal;
             }
             else if (index == startIndex)
             {
@@ -144,13 +142,13 @@ public static partial class Indicator
                     PmoResult d = results[p];
                     sumPmo += d.Pmo;
                 }
+
                 pr.Signal = sumPmo / signalPeriods;
             }
 
             lastSignal = pr.Signal;
         }
     }
-
 
     // parameter validation
     private static void ValidatePmo<TQuote>(
@@ -160,7 +158,6 @@ public static partial class Indicator
         int signalPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (timePeriods <= 1)
         {
@@ -186,12 +183,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for PMO.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a several smoothing operations, "
                 + "we recommend you use at least {2} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, minHistory + 250);
+                    qtyHistory, minHistory, minHistory + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

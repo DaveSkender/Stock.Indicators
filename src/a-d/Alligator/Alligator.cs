@@ -15,7 +15,6 @@ public static partial class Indicator
         int lipsOffset = 3)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
@@ -65,11 +64,12 @@ public static partial class Indicator
 
                     jawResult.Jaw = (decimal)sumMedianPrice / jawPeriods;
                 }
+
                 // remaining values: SMMA
                 else if (index > jawPeriods)
                 {
                     double? prevValue = (double)results[i + jawOffset - 1].Jaw;
-                    jawResult.Jaw = (decimal)(prevValue * (jawPeriods - 1) + pr[i]) / jawPeriods;
+                    jawResult.Jaw = (decimal)((prevValue * (jawPeriods - 1)) + pr[i]) / jawPeriods;
                 }
             }
 
@@ -90,11 +90,12 @@ public static partial class Indicator
 
                     teethResult.Teeth = (decimal)sumMedianPrice / teethPeriods;
                 }
+
                 // remaining values: SMMA
                 else if (index > teethPeriods)
                 {
                     double? prevValue = (double)results[i + teethOffset - 1].Teeth;
-                    teethResult.Teeth = (decimal)(prevValue * (teethPeriods - 1) + pr[i]) / teethPeriods;
+                    teethResult.Teeth = (decimal)((prevValue * (teethPeriods - 1)) + pr[i]) / teethPeriods;
                 }
             }
 
@@ -115,18 +116,18 @@ public static partial class Indicator
 
                     lipsResult.Lips = (decimal)sumMedianPrice / lipsPeriods;
                 }
+
                 // remaining values: SMMA
                 else if (index > lipsPeriods)
                 {
                     double? prevValue = (double)results[i + lipsOffset - 1].Lips;
-                    lipsResult.Lips = (decimal)(prevValue * (lipsPeriods - 1) + pr[i]) / lipsPeriods;
+                    lipsResult.Lips = (decimal)((prevValue * (lipsPeriods - 1)) + pr[i]) / lipsPeriods;
                 }
             }
         }
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -140,7 +141,6 @@ public static partial class Indicator
 
         return results.Remove(removePeriods);
     }
-
 
     private static void ValidateAlligator<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -209,12 +209,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Williams Alligator.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least {2} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, recHistory);
+                    qtyHistory, minHistory, recHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

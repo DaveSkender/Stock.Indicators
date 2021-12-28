@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class FunctionsTests : TestBase
 {
-
     private readonly double[] closePrice = longishQuotes
         .Select(x => (double)x.Close)
         .ToArray();
-
 
     [TestMethod]
     public void StdDev()

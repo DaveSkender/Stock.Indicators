@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class TripleEma : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
@@ -45,7 +44,7 @@ public class TripleEma : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (3 * 20 + 100), results.Count);
+        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TemaResult last = results.LastOrDefault();
         Assert.AreEqual(238.7690m, Math.Round((decimal)last.Tema, 4));

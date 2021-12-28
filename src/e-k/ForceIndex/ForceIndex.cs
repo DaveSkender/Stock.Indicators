@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -49,7 +48,7 @@ public static partial class Indicator
             // calculate EMA
             if (index > lookbackPeriods + 1)
             {
-                r.ForceIndex = prevFI + k * (rawFI - prevFI);
+                r.ForceIndex = prevFI + (k * (rawFI - prevFI));
             }
 
             // initialization period
@@ -70,7 +69,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -84,14 +82,12 @@ public static partial class Indicator
         return results.Remove(n + 100);
     }
 
-
     // parameter validation
     private static void ValidateForceIndex<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -105,12 +101,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Force Index.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
+                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

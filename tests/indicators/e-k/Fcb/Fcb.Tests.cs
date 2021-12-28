@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Fcb : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<FcbResult> results = quotes.GetFcb(2).ToList();
 
         // assertions

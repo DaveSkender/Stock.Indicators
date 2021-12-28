@@ -10,7 +10,6 @@ public static partial class Indicator
         int? smaPeriods = null)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -67,7 +66,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // convert to quotes
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
     ///
@@ -87,14 +85,12 @@ public static partial class Indicator
           .ToList();
     }
 
-
     // parameter validation
     private static void ValidateObv<TQuote>(
         IEnumerable<TQuote> quotes,
         int? smaPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (smaPeriods is not null and <= 0)
         {
@@ -108,9 +104,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for On-balance Volume.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Smi : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<SmiResult> results = quotes.GetSmi(14, 20, 5, 3)
             .ToList();
 
@@ -55,7 +53,6 @@ public class Smi : TestBase
     [TestMethod]
     public void NoSignal()
     {
-
         List<SmiResult> results = quotes.GetSmi(5, 20, 20, 1)
             .ToList();
 
@@ -70,7 +67,6 @@ public class Smi : TestBase
     [TestMethod]
     public void SmallPeriods()
     {
-
         List<SmiResult> results = quotes.GetSmi(1, 1, 1, 5)
             .ToList();
 
@@ -98,7 +94,6 @@ public class Smi : TestBase
     [TestMethod]
     public void Removed()
     {
-
         List<SmiResult> results = quotes.GetSmi(14, 20, 5, 3)
                 .RemoveWarmupPeriods()
                 .ToList();

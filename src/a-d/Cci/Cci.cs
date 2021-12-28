@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods = 20)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -42,6 +41,7 @@ public static partial class Indicator
                     CciResult d = results[p];
                     avgTp += (double)d.Tp;
                 }
+
                 avgTp /= lookbackPeriods;
 
                 // average Deviation over lookback
@@ -51,6 +51,7 @@ public static partial class Indicator
                     CciResult d = results[p];
                     avgDv += Math.Abs(avgTp - (double)d.Tp);
                 }
+
                 avgDv /= lookbackPeriods;
 
                 result.Cci = (avgDv == 0) ? null
@@ -60,7 +61,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -75,14 +75,12 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateCci<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -96,9 +94,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Commodity Channel Index.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

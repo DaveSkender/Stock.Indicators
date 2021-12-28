@@ -49,7 +49,6 @@ public static partial class Indicator
     int chikouOffset)
     where TQuote : IQuote
     {
-
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
@@ -64,8 +63,9 @@ public static partial class Indicator
 
         // initialize
         List<IchimokuResult> results = new(quotesList.Count);
-        int senkouStartPeriod = Math.Max(2 * senkouOffset,
-                                Math.Max(tenkanPeriods, kijunPeriods)) - 1;
+        int senkouStartPeriod = Math.Max(
+            2 * senkouOffset,
+            Math.Max(tenkanPeriods, kijunPeriods)) - 1;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
@@ -108,7 +108,6 @@ public static partial class Indicator
         return results;
     }
 
-
     private static void CalcIchimokuTenkanSen<TQuote>(
         int i, List<TQuote> quotesList, IchimokuResult result, int tenkanPeriods)
         where TQuote : IQuote
@@ -136,7 +135,6 @@ public static partial class Indicator
             result.TenkanSen = (min + max) / 2;
         }
     }
-
 
     private static void CalcIchimokuKijunSen<TQuote>(
         int i,
@@ -168,7 +166,6 @@ public static partial class Indicator
             result.KijunSen = (min + max) / 2;
         }
     }
-
 
     private static void CalcIchimokuSenkouB<TQuote>(
         int i,
@@ -203,7 +200,6 @@ public static partial class Indicator
         }
     }
 
-
     private static void ValidateIchimoku<TQuote>(
         IEnumerable<TQuote> quotes,
         int tenkanPeriods,
@@ -213,7 +209,6 @@ public static partial class Indicator
         int chikouOffset)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (tenkanPeriods <= 0)
         {
@@ -241,16 +236,20 @@ public static partial class Indicator
 
         // check quotes
         int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(tenkanPeriods,
-                         Math.Max(kijunPeriods,
-                         Math.Max(senkouBPeriods,
-                         Math.Max(senkouOffset, chikouOffset))));
+        int minHistory = Math.Max(
+            tenkanPeriods,
+            Math.Max(
+                             kijunPeriods,
+                             Math.Max(
+                             senkouBPeriods,
+                             Math.Max(senkouOffset, chikouOffset))));
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Ichimoku Cloud.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

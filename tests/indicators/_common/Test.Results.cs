@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class Results : TestBase
 {
-
     [TestMethod]
     public void Find()
     {
@@ -19,7 +18,6 @@ public class Results : TestBase
         EmaResult r = emaResults.Find(findDate);
         Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
     }
-
 
     [TestMethod]
     public void Remove()
@@ -48,7 +46,6 @@ public class Results : TestBase
     {
         // bad remove period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAdx(14).RemoveWarmupPeriods(-1)); ;
+            quotes.GetAdx(14).RemoveWarmupPeriods(-1));
     }
-
 }

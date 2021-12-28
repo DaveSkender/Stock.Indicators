@@ -9,7 +9,6 @@ public class Smma : TestBase
     [TestMethod]
     public void Standard()
     {
-
         List<SmmaResult> results = quotes.GetSmma(20).ToList();
 
         // assertions

@@ -35,11 +35,10 @@ internal class MyGenericQuote : IQuote
     public decimal CloseValue { get; set; }
 }
 
-
 [TestClass]
 public class PublicClassTests
 {
-    internal static readonly CultureInfo englishCulture = new("en-US", false);
+    internal static readonly CultureInfo EnglishCulture = new("en-US", false);
 
     [TestMethod]
     public void ValidateHistory()
@@ -247,7 +246,7 @@ public class PublicClassTests
         Assert.IsTrue(myIndicatorResults.Any());
 
         // find specific date
-        DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
+        DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
 
         MyIndicator i = myIndicatorResults.Find(findDate);
         Assert.AreEqual(12345, i.Id);
@@ -255,7 +254,4 @@ public class PublicClassTests
         EmaResult r = emaResults.Find(findDate);
         Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
     }
-
-
-
 }

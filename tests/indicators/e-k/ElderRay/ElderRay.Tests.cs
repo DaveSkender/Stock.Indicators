@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class ElderRay : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<ElderRayResult> results = quotes.GetElderRay(13).ToList();
 
         // assertions

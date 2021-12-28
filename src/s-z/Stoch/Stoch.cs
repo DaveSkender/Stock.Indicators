@@ -31,7 +31,6 @@ public static partial class Indicator
         MaType movingAverageType)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -79,9 +78,9 @@ public static partial class Indicator
                     ? 100 * (decimal?)((q.Close - lowLow) / (highHigh - lowLow))
                     : 0;
             }
+
             results.Add(result);
         }
-
 
         // smooth the oscillator
         if (smoothPeriods > 1)
@@ -89,7 +88,6 @@ public static partial class Indicator
             results = SmoothOscillator(
                 results, size, lookbackPeriods, smoothPeriods, movingAverageType);
         }
-
 
         // signal (%D) and %J
         int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
@@ -125,7 +123,7 @@ public static partial class Indicator
             {
                 s = (s == null) ? (double?)results[i].Oscillator : s; // reset if null
 
-                s = (s * (signalPeriods - 1) + (double?)results[i].Oscillator) / signalPeriods;
+                s = ((s * (signalPeriods - 1)) + (double?)results[i].Oscillator) / signalPeriods;
                 r.Signal = (decimal?)s;
             }
 
@@ -135,7 +133,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -150,7 +147,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // internals
     private static List<StochResult> SmoothOscillator(
         List<StochResult> results,
@@ -159,7 +155,6 @@ public static partial class Indicator
         int smoothPeriods,
         MaType movingAverageType)
     {
-
         // temporarily store interim smoothed oscillator
         double?[] smooth = new double?[size]; // smoothed value
 
@@ -189,7 +184,7 @@ public static partial class Indicator
             {
                 k = (k == null) ? (double?)results[i].Oscillator : k; // reset if null
 
-                k = (k * (smoothPeriods - 1) + (double?)results[i].Oscillator) / smoothPeriods;
+                k = ((k * (smoothPeriods - 1)) + (double?)results[i].Oscillator) / smoothPeriods;
                 smooth[i] = k;
             }
         }
@@ -207,7 +202,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateStoch<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -219,7 +213,6 @@ public static partial class Indicator
         MaType movingAverageType)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -263,9 +256,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Stochastic.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

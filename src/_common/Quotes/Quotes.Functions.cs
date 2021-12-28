@@ -59,7 +59,6 @@ public static class HistoricalQuotes
         TimeSpan timeSpan)
         where TQuote : IQuote
     {
-
         // handle no quotes scenario
         if (quotes == null || !quotes.Any())
         {
@@ -148,5 +147,4 @@ public static class HistoricalQuotes
             ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
             : bdList;
     }
-
 }

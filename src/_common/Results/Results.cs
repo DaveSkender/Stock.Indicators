@@ -13,12 +13,10 @@ public class ResultBase : IResult
     public DateTime Date { get; set; }
 }
 
-
 // HELPER FUNCTIONS
 
 public static partial class Indicator
 {
-
     // FIND by DATE
     /// <include file='./info.xml' path='info/type[@name="Find"]/*' />
     ///
@@ -29,7 +27,6 @@ public static partial class Indicator
     {
         return results.FirstOrDefault(x => x.Date == lookupDate);
     }
-
 
     // REMOVE SPECIFIC PERIODS extension
     /// <include file='./info.xml' path='info/type[@name="PruneSpecific"]/*' />
@@ -44,7 +41,6 @@ public static partial class Indicator
                 "If specified, the Remove Periods value must be greater than or equal to 0.")
             : results.Remove(removePeriods);
     }
-
 
     // REMOVE RESULTS
     private static List<TResult> Remove<TResult>(

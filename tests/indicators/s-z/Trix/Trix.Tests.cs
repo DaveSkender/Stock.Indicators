@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Trix : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<TrixResult> results = quotes.GetTrix(20, 5).ToList();
 
         // assertions
@@ -54,7 +52,7 @@ public class Trix : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (3 * 20 + 250), results.Count);
+        Assert.AreEqual(502 - ((3 * 20) + 250), results.Count);
 
         TrixResult last = results.LastOrDefault();
         Assert.AreEqual(263.3216m, Math.Round((decimal)last.Ema3, 4));

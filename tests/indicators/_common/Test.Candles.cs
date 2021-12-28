@@ -78,5 +78,4 @@ public class Candles : TestBase
         Assert.IsTrue(r501.IsBullish);
         Assert.IsFalse(r501.IsBearish);
     }
-
 }

@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Fractal : TestBase
 {
-
     [TestMethod]
     public void StandardSpan2()
     {
-
         List<FractalResult> results = quotes.GetFractal(2, EndType.HighLow).ToList();
 
         // assertions
@@ -50,7 +48,6 @@ public class Fractal : TestBase
     [TestMethod]
     public void StandardSpan4()
     {
-
         List<FractalResult> results = quotes.GetFractal(4, EndType.HighLow).ToList();
 
         // assertions

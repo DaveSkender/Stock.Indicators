@@ -11,7 +11,6 @@ public static partial class Indicator
         double standardDeviations = 2)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -51,8 +50,8 @@ public static partial class Indicator
                 double stdDev = Functions.StdDev(periodClose);
 
                 r.Sma = (decimal)periodAvg;
-                r.UpperBand = (decimal)(periodAvg + standardDeviations * stdDev);
-                r.LowerBand = (decimal)(periodAvg - standardDeviations * stdDev);
+                r.UpperBand = (decimal)(periodAvg + (standardDeviations * stdDev));
+                r.LowerBand = (decimal)(periodAvg - (standardDeviations * stdDev));
 
                 r.PercentB = (r.UpperBand == r.LowerBand) ? null
                     : (double)((close - r.LowerBand) / (r.UpperBand - r.LowerBand));
@@ -67,7 +66,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -81,7 +79,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateBollingerBands<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -89,7 +86,6 @@ public static partial class Indicator
         double standardDeviations)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -109,9 +105,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Bollinger Bands.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

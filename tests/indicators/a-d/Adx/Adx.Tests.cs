@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class Adx : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
@@ -63,7 +62,7 @@ public class Adx : TestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (2 * 14 + 100), r.Count());
+        Assert.AreEqual(502 - ((2 * 14) + 100), r.Count());
 
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, Math.Round((double)last.Pdi, 4));

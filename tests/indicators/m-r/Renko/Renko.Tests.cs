@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Renko : TestBase
 {
-
     [TestMethod]
     public void StandardClose()
     {
-
         List<RenkoResult> results = quotes
             .GetRenko(2.5m, EndType.Close)
             .ToList();
@@ -57,7 +55,6 @@ public class Renko : TestBase
     [TestMethod]
     public void StandardHighLow()
     {
-
         List<RenkoResult> results = quotes
             .GetRenko(2.5m, EndType.HighLow)
             .ToList();
@@ -104,7 +101,6 @@ public class Renko : TestBase
     [TestMethod]
     public void Atr()
     {
-
         List<RenkoResult> results = quotes
             .GetRenkoAtr(14, EndType.Close)
             .ToList();

@@ -9,7 +9,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidateGator(quotes);
 
@@ -58,7 +57,6 @@ public static partial class Indicator
         return results.Remove(150);
     }
 
-
     // parameter validation
     private static void ValidateGator<TQuote>(
         IEnumerable<TQuote> quotes)
@@ -74,12 +72,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Gator Oscillator.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least {2} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, recHistory);
+                    qtyHistory, minHistory, recHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

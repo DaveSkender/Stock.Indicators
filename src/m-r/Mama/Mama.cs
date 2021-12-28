@@ -11,7 +11,6 @@ public static partial class Indicator
         double slowLimit = 0.05)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
@@ -56,33 +55,33 @@ public static partial class Indicator
 
             if (i > 5)
             {
-                double adj = (0.075 * pd[i - 1] + 0.54);
+                double adj = (0.075 * pd[i - 1]) + 0.54;
 
                 // smooth and detrender
-                sm[i] = (4 * pr[i] + 3 * pr[i - 1] + 2 * pr[i - 2] + pr[i - 3]) / 10;
-                dt[i] = (0.0962 * sm[i] + 0.5769 * sm[i - 2] - 0.5769 * sm[i - 4] - 0.0962 * sm[i - 6]) * adj;
+                sm[i] = ((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10;
+                dt[i] = ((0.0962 * sm[i]) + (0.5769 * sm[i - 2]) - (0.5769 * sm[i - 4]) - (0.0962 * sm[i - 6])) * adj;
 
                 // in-phase and quadrature
-                q1[i] = (0.0962 * dt[i] + 0.5769 * dt[i - 2] - 0.5769 * dt[i - 4] - 0.0962 * dt[i - 6]) * adj;
+                q1[i] = ((0.0962 * dt[i]) + (0.5769 * dt[i - 2]) - (0.5769 * dt[i - 4]) - (0.0962 * dt[i - 6])) * adj;
                 i1[i] = dt[i - 3];
 
                 // advance the phases by 90 degrees
-                jI = (0.0962 * i1[i] + 0.5769 * i1[i - 2] - 0.5769 * i1[i - 4] - 0.0962 * i1[i - 6]) * adj;
-                jQ = (0.0962 * q1[i] + 0.5769 * q1[i - 2] - 0.5769 * q1[i - 4] - 0.0962 * q1[i - 6]) * adj;
+                jI = ((0.0962 * i1[i]) + (0.5769 * i1[i - 2]) - (0.5769 * i1[i - 4]) - (0.0962 * i1[i - 6])) * adj;
+                jQ = ((0.0962 * q1[i]) + (0.5769 * q1[i - 2]) - (0.5769 * q1[i - 4]) - (0.0962 * q1[i - 6])) * adj;
 
                 // phasor addition for 3-bar averaging
                 i2[i] = i1[i] - jQ;
                 q2[i] = q1[i] + jI;
 
-                i2[i] = 0.2 * i2[i] + 0.8 * i2[i - 1];  // smoothing it
-                q2[i] = 0.2 * q2[i] + 0.8 * q2[i - 1];
+                i2[i] = (0.2 * i2[i]) + (0.8 * i2[i - 1]);  // smoothing it
+                q2[i] = (0.2 * q2[i]) + (0.8 * q2[i - 1]);
 
                 // homodyne discriminator
-                re[i] = i2[i] * i2[i - 1] + q2[i] * q2[i - 1];
-                im[i] = i2[i] * q2[i - 1] - q2[i] * i2[i - 1];
+                re[i] = (i2[i] * i2[i - 1]) + (q2[i] * q2[i - 1]);
+                im[i] = (i2[i] * q2[i - 1]) - (q2[i] * i2[i - 1]);
 
-                re[i] = 0.2 * re[i] + 0.8 * re[i - 1];  // smoothing it
-                im[i] = 0.2 * im[i] + 0.8 * im[i - 1];
+                re[i] = (0.2 * re[i]) + (0.8 * re[i - 1]);  // smoothing it
+                im[i] = (0.2 * im[i]) + (0.8 * im[i - 1]);
 
                 // calculate period
                 if (im[i] != 0 && re[i] != 0)
@@ -97,20 +96,20 @@ public static partial class Indicator
                 pd[i] = (pd[i] > 50d) ? 50d : pd[i];
 
                 // smooth the period
-                pd[i] = 0.2 * pd[i] + 0.8 * pd[i - 1];
+                pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
 
                 // determine phase position
                 ph[i] = (i1[i] != 0) ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
 
                 // change in phase
-                double delta = Math.Max((ph[i - 1] - ph[i]), 1d);
+                double delta = Math.Max(ph[i - 1] - ph[i], 1d);
 
                 // adaptive alpha value
                 double alpha = Math.Max(fastLimit / delta, slowLimit);
 
                 // final indicators
-                r.Mama = (decimal)(alpha * pr[i] + (1d - alpha) * (double)results[i - 1].Mama);
-                r.Fama = (decimal)(0.5d * alpha * (double)r.Mama + (1d - 0.5d * alpha) * (double)results[i - 1].Fama);
+                r.Mama = (decimal)((alpha * pr[i]) + ((1d - alpha) * (double)results[i - 1].Mama));
+                r.Fama = (decimal)((0.5d * alpha * (double)r.Mama) + ((1d - (0.5d * alpha)) * (double)results[i - 1].Fama));
             }
 
             // initialization period
@@ -145,7 +144,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -155,7 +153,6 @@ public static partial class Indicator
         return results.Remove(50);
     }
 
-
     // parameter validation
     private static void ValidateMama<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -163,7 +160,6 @@ public static partial class Indicator
         double slowLimit)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (fastLimit <= slowLimit || fastLimit >= 1)
         {
@@ -183,9 +179,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for MAMA.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

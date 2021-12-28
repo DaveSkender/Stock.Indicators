@@ -9,7 +9,7 @@ public class SmaResult : ResultBase
 [Serializable]
 public class SmaExtendedResult : SmaResult
 {
-    public double? Mad { get; set; }  // mean absolute deviation
-    public double? Mse { get; set; }  // mean square error
+    public double? Mad { get; set; } // mean absolute deviation
+    public double? Mse { get; set; } // mean square error
     public double? Mape { get; set; } // mean absolute percentage error
 }

@@ -6,7 +6,6 @@ namespace Internal.Tests;
 [TestClass]
 public class DoubleEma : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
@@ -46,7 +45,7 @@ public class DoubleEma : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (2 * 20 + 100), results.Count);
+        Assert.AreEqual(502 - ((2 * 20) + 100), results.Count);
 
         DemaResult last = results.LastOrDefault();
         Assert.AreEqual(241.1677m, Math.Round((decimal)last.Dema, 4));

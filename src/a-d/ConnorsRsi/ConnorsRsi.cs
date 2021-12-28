@@ -12,7 +12,6 @@ public static partial class Indicator
         int rankPeriods = 100)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -48,7 +47,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -61,7 +59,6 @@ public static partial class Indicator
 
         return results.Remove(n);
     }
-
 
     // parameter validation
     private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
@@ -151,14 +148,12 @@ public static partial class Indicator
         return results;
     }
 
-
     private static void ValidateConnorsRsi(
         IEnumerable<BasicD> quotes,
         int rsiPeriods,
         int streakPeriods,
         int rankPeriods)
     {
-
         // check parameter arguments
         if (rsiPeriods <= 1)
         {
@@ -184,8 +179,9 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for ConnorsRsi.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least N+150 data points prior to the intended "
                 + "usage date for better precision.", qtyHistory, minHistory);

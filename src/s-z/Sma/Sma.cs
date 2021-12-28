@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidateSma(quotes, lookbackPeriods);
 
@@ -21,7 +20,6 @@ public static partial class Indicator
         return bdList.CalcSma(lookbackPeriods);
     }
 
-
     // SIMPLE MOVING AVERAGE (on specified OHLCV part)
     /// <include file='./info.xml' path='indicator/type[@name="Custom"]/*' />
     ///
@@ -31,7 +29,6 @@ public static partial class Indicator
         CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         ValidateSma(quotes, lookbackPeriods);
 
@@ -41,7 +38,6 @@ public static partial class Indicator
         // calculate
         return bdList.CalcSma(lookbackPeriods);
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -56,13 +52,11 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // calculate
     private static IEnumerable<SmaResult> CalcSma(
         this List<BasicD> bdList,
         int lookbackPeriods)
     {
-
         // note: pre-validated
         // initialize
         List<SmaResult> results = new(bdList.Count);
@@ -96,14 +90,12 @@ public static partial class Indicator
         return results;
     }
 
-
     // parameter validation
     private static void ValidateSma<TQuote>(
         IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -117,9 +109,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for SMA.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

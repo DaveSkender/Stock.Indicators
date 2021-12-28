@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Awesome : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<AwesomeResult> results = quotes.GetAwesome(5, 34)
             .ToList();
 

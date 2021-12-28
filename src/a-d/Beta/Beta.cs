@@ -12,7 +12,6 @@ public static partial class Indicator
         BetaType type = BetaType.Standard)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdListEval = quotesEval.ConvertToBasic(CandlePart.Close);
         List<BasicD> bdListMrkt = quotesMarket.ConvertToBasic(CandlePart.Close);
@@ -77,7 +76,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -90,7 +88,6 @@ public static partial class Indicator
 
         return results.Remove(removePeriods);
     }
-
 
     // calculate beta
     private static void CalcBeta(
@@ -170,7 +167,6 @@ public static partial class Indicator
     int lookbackPeriods)
     where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -184,9 +180,10 @@ public static partial class Indicator
         if (qtyQuotesMarket < minQuotesMarket)
         {
             string message = "Insufficient quotes provided for Beta.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyQuotesMarket, minQuotesMarket);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyQuotesMarket, minQuotesMarket);
 
             throw new BadQuotesException(nameof(quotesMarket), message);
         }
@@ -200,4 +197,3 @@ public static partial class Indicator
         }
     }
 }
-

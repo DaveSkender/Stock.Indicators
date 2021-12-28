@@ -6,9 +6,8 @@ namespace Internal.Tests;
 [TestClass]
 public class Stoch : TestBase
 {
-
     [TestMethod]
-    public void Standard()  // Slow
+    public void Standard() // Slow
     {
         int lookbackPeriods = 14;
         int signalPeriods = 3;
@@ -54,9 +53,8 @@ public class Stoch : TestBase
     }
 
     [TestMethod]
-    public void Extended()  // with extra parameteres
+    public void Extended() // with extra parameteres
     {
-
         List<StochResult> results =
             quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA)
             .ToList();

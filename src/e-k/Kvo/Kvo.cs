@@ -12,7 +12,6 @@ public static partial class Indicator
         int signalPeriods = 13)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<QuoteD> quotesList = quotes.ConvertToList();
 
@@ -75,13 +74,13 @@ public static partial class Indicator
             // volume force (VF)
             vf[i] = (dm[i] == cm[i] || q.Volume == 0) ? 0
                 : (dm[i] == 0) ? q.Volume * 2d * t[i] * 100d
-                : (cm[i] != 0) ? q.Volume * Math.Abs(2d * (dm[i] / cm[i] - 1)) * t[i] * 100d
+                : (cm[i] != 0) ? q.Volume * Math.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d
                 : vf[i - 1];
 
             // fast-period EMA of VF
             if (index > fastPeriods + 2)
             {
-                vfFastEma[i] = vf[i] * kFast + vfFastEma[i - 1] * (1 - kFast);
+                vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
             }
             else if (index == fastPeriods + 2)
             {
@@ -90,13 +89,14 @@ public static partial class Indicator
                 {
                     sum += vf[p];
                 }
+
                 vfFastEma[i] = sum / fastPeriods;
             }
 
             // slow-period EMA of VF
             if (index > slowPeriods + 2)
             {
-                vfSlowEma[i] = vf[i] * kSlow + vfSlowEma[i - 1] * (1 - kSlow);
+                vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
             else if (index == slowPeriods + 2)
             {
@@ -105,6 +105,7 @@ public static partial class Indicator
                 {
                     sum += vf[p];
                 }
+
                 vfSlowEma[i] = sum / slowPeriods;
             }
 
@@ -116,8 +117,8 @@ public static partial class Indicator
                 // Signal
                 if (index > slowPeriods + signalPeriods + 1)
                 {
-                    r.Signal = r.Oscillator * kSignal
-                        + results[i - 1].Signal * (1 - kSignal);
+                    r.Signal = (r.Oscillator * kSignal)
+                        + (results[i - 1].Signal * (1 - kSignal));
                 }
                 else if (index == slowPeriods + signalPeriods + 1)
                 {
@@ -126,6 +127,7 @@ public static partial class Indicator
                     {
                         sum += results[p].Oscillator;
                     }
+
                     r.Signal = sum / signalPeriods;
                 }
             }
@@ -133,7 +135,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -148,7 +149,6 @@ public static partial class Indicator
         return results.Remove(l + 150);
     }
 
-
     // parameter validation
     private static void ValidateKlinger<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -157,7 +157,6 @@ public static partial class Indicator
         int signalPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (fastPeriods <= 2)
         {
@@ -183,12 +182,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Klinger Oscillator.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, slowPeriods, slowPeriods + 150);
+                    qtyHistory, minHistory, slowPeriods, slowPeriods + 150);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

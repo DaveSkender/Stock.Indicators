@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Cci : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<CciResult> results = quotes.GetCci(20).ToList();
 
         // assertions

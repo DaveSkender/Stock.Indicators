@@ -12,7 +12,6 @@ public static partial class Indicator
         int signalPeriods = 9)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -43,7 +42,6 @@ public static partial class Indicator
 
             if (df?.Ema != null && ds?.Ema != null)
             {
-
                 double macd = (double)(df.Ema - ds.Ema);
                 result.Macd = (decimal)macd;
 
@@ -75,7 +73,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -89,7 +86,6 @@ public static partial class Indicator
         return results.Remove(n + 250);
     }
 
-
     // parameter validation
     private static void ValidateMacd<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -98,7 +94,6 @@ public static partial class Indicator
         int signalPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (fastPeriods <= 0)
         {
@@ -124,8 +119,9 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for MACD.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, "
                 + "we recommend you use at least {2} data points prior to the intended "
                 + "usage date for better precision.", qtyHistory, minHistory, slowPeriods + 250);

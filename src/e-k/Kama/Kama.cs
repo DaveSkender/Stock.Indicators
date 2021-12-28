@@ -12,7 +12,6 @@ public static partial class Indicator
         int slowPeriods = 30)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -54,11 +53,11 @@ public static partial class Indicator
                     r.ER = er;
 
                     // smoothing constant
-                    double sc = er * (scFast - scSlow) + scSlow;  // squared later
+                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
                     double? pk = (double?)results[i - 1].Kama;  // prior KAMA
-                    r.Kama = (decimal?)(pk + sc * sc * (q.Value - pk));
+                    r.Kama = (decimal?)(pk + (sc * sc * (q.Value - pk)));
                 }
 
                 // handle flatline case
@@ -81,7 +80,6 @@ public static partial class Indicator
         return results;
     }
 
-
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
@@ -95,7 +93,6 @@ public static partial class Indicator
         return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
     }
 
-
     // parameter validation
     private static void ValidateKama<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -104,7 +101,6 @@ public static partial class Indicator
         int slowPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (erPeriods <= 0)
         {
@@ -130,12 +126,13 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for KAMA.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for an ER period of {2}, "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, erPeriods, 10 * erPeriods);
+                    qtyHistory, minHistory, erPeriods, 10 * erPeriods);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

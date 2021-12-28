@@ -11,7 +11,6 @@ public static partial class Indicator
         double standardDeviations = 2)
         where TQuote : IQuote
     {
-
         // assume whole quotes when lookback is null
         if (lookbackPeriods is null)
         {
@@ -41,18 +40,17 @@ public static partial class Indicator
                 if (p >= 0)
                 {
                     StdDevChannelsResult d = results[p];
-                    d.Centerline = (decimal?)(s.Slope * (p + 1) + s.Intercept);
+                    d.Centerline = (decimal?)((s.Slope * (p + 1)) + s.Intercept);
                     d.UpperChannel = d.Centerline + width;
                     d.LowerChannel = d.Centerline - width;
 
-                    d.BreakPoint = (p == w - lookbackPeriods + 1);
+                    d.BreakPoint = p == w - lookbackPeriods + 1;
                 }
             }
         }
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -67,7 +65,6 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-
     // parameter validation
     private static void ValidateStdDevChannels<TQuote>(
         IEnumerable<TQuote> quotes,
@@ -75,7 +72,6 @@ public static partial class Indicator
         double standardDeviations)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
@@ -95,9 +91,10 @@ public static partial class Indicator
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Standard Deviation Channels.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

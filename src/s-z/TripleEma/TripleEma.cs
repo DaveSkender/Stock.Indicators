@@ -10,7 +10,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
@@ -46,12 +45,12 @@ public static partial class Indicator
                 Date = e1.Date
             };
 
-            if (index >= 3 * lookbackPeriods - 2)
+            if (index >= (3 * lookbackPeriods) - 2)
             {
                 EmaResult e2 = emaN2[index - lookbackPeriods];
-                EmaResult e3 = emaN3[index - 2 * lookbackPeriods + 1];
+                EmaResult e3 = emaN3[index - (2 * lookbackPeriods) + 1];
 
-                result.Tema = 3 * e1.Ema - 3 * e2.Ema + e3.Ema;
+                result.Tema = (3 * e1.Ema) - (3 * e2.Ema) + e3.Ema;
             }
 
             results.Add(result);
@@ -59,7 +58,6 @@ public static partial class Indicator
 
         return results;
     }
-
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
@@ -74,13 +72,11 @@ public static partial class Indicator
         return results.Remove(n3 + 100);
     }
 
-
     // parameter validation
     private static void ValidateTema(
         IEnumerable<BasicD> quotes,
         int lookbackPeriods)
     {
-
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
@@ -90,16 +86,17 @@ public static partial class Indicator
 
         // check quotes
         int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(4 * lookbackPeriods, 3 * lookbackPeriods + 100);
+        int minHistory = Math.Max(4 * lookbackPeriods, (3 * lookbackPeriods) + 100);
         if (qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for TEMA.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.  "
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.  "
                 + "Since this uses a smoothing technique, for {2} lookback periods "
                 + "we recommend you use at least {3} data points prior to the intended "
                 + "usage date for better precision.",
-                qtyHistory, minHistory, lookbackPeriods, 3 * lookbackPeriods + 250);
+                    qtyHistory, minHistory, lookbackPeriods, (3 * lookbackPeriods) + 250);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

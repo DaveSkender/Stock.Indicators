@@ -7,11 +7,9 @@ namespace Internal.Tests;
 [TestClass]
 public class ZigZag : TestBase
 {
-
     [TestMethod]
     public void StandardClose()
     {
-
         List<ZigZagResult> results =
             quotes.GetZigZag(EndType.Close, 3)
             .ToList();
@@ -67,7 +65,6 @@ public class ZigZag : TestBase
     [TestMethod]
     public void StandardHighLow()
     {
-
         List<ZigZagResult> results =
             quotes.GetZigZag(EndType.HighLow, 3)
             .ToList();

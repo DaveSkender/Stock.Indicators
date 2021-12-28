@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class Klinger : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<KvoResult> results =
             quotes.GetKvo(34, 55, 13)
             .ToList();

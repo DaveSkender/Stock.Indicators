@@ -12,7 +12,6 @@ public static partial class Indicator
         int? smaPeriods = null)
         where TQuote : IQuote
     {
-
         // convert quotes
         List<BasicD> bdBaseList = historyBase.ConvertToBasic(CandlePart.Close);
         List<BasicD> bdEvalList = historyEval.ConvertToBasic(CandlePart.Close);
@@ -39,7 +38,7 @@ public static partial class Indicator
             PrsResult r = new()
             {
                 Date = ei.Date,
-                Prs = (bi.Value == 0) ? null : (ei.Value / bi.Value)  // relative strength ratio
+                Prs = (bi.Value == 0) ? null : (ei.Value / bi.Value) // relative strength ratio
             };
             results.Add(r);
 
@@ -66,13 +65,13 @@ public static partial class Indicator
                     PrsResult d = results[p];
                     sumRs += d.Prs;
                 }
+
                 r.PrsSma = sumRs / smaPeriods;
             }
         }
 
         return results;
     }
-
 
     // parameter validation
     private static void ValidatePriceRelative<TQuote>(
@@ -82,7 +81,6 @@ public static partial class Indicator
         int? smaPeriods)
         where TQuote : IQuote
     {
-
         // check parameter arguments
         if (lookbackPeriods is not null and <= 0)
         {
@@ -104,9 +102,10 @@ public static partial class Indicator
         if (minHistory != null && qtyHistoryEval < minHistory)
         {
             string message = "Insufficient quotes provided for Price Relative Strength.  " +
-                string.Format(EnglishCulture,
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistoryEval, minHistory);
+                string.Format(
+                    EnglishCulture,
+                    "You provided {0} periods of quotes when at least {1} are required.",
+                    qtyHistoryEval, minHistory);
 
             throw new BadQuotesException(nameof(historyEval), message);
         }

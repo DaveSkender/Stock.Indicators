@@ -6,11 +6,9 @@ namespace Internal.Tests;
 [TestClass]
 public class HtTrendline : TestBase
 {
-
     [TestMethod]
     public void Standard()
     {
-
         List<HtlResult> results = quotes.GetHtTrendline().ToList();
 
         // assertions
