@@ -7,9 +7,6 @@ trim_trailing_whitespace = true
 [*.md]
 max_line_length = 150
 
-[*.csproj]
-indent_size = 2
-
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
 max_line_length = 150
