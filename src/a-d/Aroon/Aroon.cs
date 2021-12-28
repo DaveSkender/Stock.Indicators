@@ -1,117 +1,109 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+public static partial class Indicator
 {
-    public static partial class Indicator
+    // AROON OSCILLATOR
+    /// <include file='./info.xml' path='indicator/*' />
+    ///
+    public static IEnumerable<AroonResult> GetAroon<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods = 25)
+        where TQuote : IQuote
     {
-        // AROON OSCILLATOR
-        /// <include file='./info.xml' path='indicator/*' />
-        /// 
-        public static IEnumerable<AroonResult> GetAroon<TQuote>(
-            this IEnumerable<TQuote> quotes,
-            int lookbackPeriods = 25)
-            where TQuote : IQuote
+        // convert quotes
+        List<QuoteD> quotesList = quotes.ConvertToList();
+
+        // check parameter arguments
+        ValidateAroon(quotes, lookbackPeriods);
+
+        // initialize
+        List<AroonResult> results = new(quotesList.Count);
+
+        // roll through quotes
+        for (int i = 0; i < quotesList.Count; i++)
         {
+            QuoteD q = quotesList[i];
+            int index = i + 1;
 
-            // convert quotes
-            List<QuoteD> quotesList = quotes.ConvertToList();
-
-            // check parameter arguments
-            ValidateAroon(quotes, lookbackPeriods);
-
-            // initialize
-            List<AroonResult> results = new(quotesList.Count);
-
-            // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            AroonResult result = new()
             {
-                QuoteD q = quotesList[i];
-                int index = i + 1;
+                Date = q.Date
+            };
 
-                AroonResult result = new()
+            // add aroons
+            if (index > lookbackPeriods)
+            {
+                double lastHighPrice = 0;
+                double lastLowPrice = double.MaxValue;
+                int lastHighIndex = 0;
+                int lastLowIndex = 0;
+
+                for (int p = index - lookbackPeriods - 1; p < index; p++)
                 {
-                    Date = q.Date
-                };
+                    QuoteD d = quotesList[p];
 
-                // add aroons
-                if (index > lookbackPeriods)
-                {
-                    double lastHighPrice = 0;
-                    double lastLowPrice = double.MaxValue;
-                    int lastHighIndex = 0;
-                    int lastLowIndex = 0;
-
-                    for (int p = index - lookbackPeriods - 1; p < index; p++)
+                    if (d.High > lastHighPrice)
                     {
-                        QuoteD d = quotesList[p];
-
-                        if (d.High > lastHighPrice)
-                        {
-                            lastHighPrice = d.High;
-                            lastHighIndex = p + 1;
-                        }
-
-                        if (d.Low < lastLowPrice)
-                        {
-                            lastLowPrice = d.Low;
-                            lastLowIndex = p + 1;
-                        }
+                        lastHighPrice = d.High;
+                        lastHighIndex = p + 1;
                     }
 
-                    result.AroonUp = 100 * (decimal)(lookbackPeriods - (index - lastHighIndex)) / lookbackPeriods;
-                    result.AroonDown = 100 * (decimal)(lookbackPeriods - (index - lastLowIndex)) / lookbackPeriods;
-                    result.Oscillator = result.AroonUp - result.AroonDown;
+                    if (d.Low < lastLowPrice)
+                    {
+                        lastLowPrice = d.Low;
+                        lastLowIndex = p + 1;
+                    }
                 }
 
-                results.Add(result);
+                result.AroonUp = 100 * (decimal)(lookbackPeriods - (index - lastHighIndex)) / lookbackPeriods;
+                result.AroonDown = 100 * (decimal)(lookbackPeriods - (index - lastLowIndex)) / lookbackPeriods;
+                result.Oscillator = result.AroonUp - result.AroonDown;
             }
 
-            return results;
+            results.Add(result);
         }
 
+        return results;
+    }
 
-        // remove recommended periods
-        /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-        ///
-        public static IEnumerable<AroonResult> RemoveWarmupPeriods(
-            this IEnumerable<AroonResult> results)
+    // remove recommended periods
+    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+    ///
+    public static IEnumerable<AroonResult> RemoveWarmupPeriods(
+        this IEnumerable<AroonResult> results)
+    {
+        int removePeriods = results
+            .ToList()
+            .FindIndex(x => x.Oscillator != null);
+
+        return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    private static void ValidateAroon<TQuote>(
+        IEnumerable<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
         {
-            int removePeriods = results
-                .ToList()
-                .FindIndex(x => x.Oscillator != null);
-
-            return results.Remove(removePeriods);
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Aroon.");
         }
 
-
-        // parameter validation
-        private static void ValidateAroon<TQuote>(
-            IEnumerable<TQuote> quotes,
-            int lookbackPeriods)
-            where TQuote : IQuote
+        // check quotes
+        int qtyHistory = quotes.Count();
+        int minHistory = lookbackPeriods;
+        if (qtyHistory < minHistory)
         {
-
-            // check parameter arguments
-            if (lookbackPeriods <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                    "Lookback periods must be greater than 0 for Aroon.");
-            }
-
-            // check quotes
-            int qtyHistory = quotes.Count();
-            int minHistory = lookbackPeriods;
-            if (qtyHistory < minHistory)
-            {
-                string message = "Insufficient quotes provided for Aroon.  " +
-                    string.Format(EnglishCulture,
+            string message = "Insufficient quotes provided for Aroon.  " +
+                string.Format(
+                    EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistory, minHistory);
 
-                throw new BadQuotesException(nameof(quotes), message);
-            }
+            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

@@ -1,11 +1,8 @@
-using System;
+namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class VwmaResult : ResultBase
 {
-    [Serializable]
-    public class VwmaResult : ResultBase
-    {
-        public decimal Volume { get; set; }   // for reference only
-        public decimal? Vwma { get; set; }  // simple moving average of volume
-    }
+    public decimal Volume { get; set; } // for reference only
+    public decimal? Vwma { get; set; } // simple moving average of volume
 }

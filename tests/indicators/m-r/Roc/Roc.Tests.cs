@@ -1,101 +1,96 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests
+namespace Internal.Tests;
+
+[TestClass]
+public class Roc : TestBase
 {
-    [TestClass]
-    public class Roc : TestBase
+    [TestMethod]
+    public void Standard()
     {
+        List<RocResult> results = quotes.GetRoc(20).ToList();
 
-        [TestMethod]
-        public void Standard()
-        {
-            List<RocResult> results = quotes.GetRoc(20).ToList();
+        // assertions
 
-            // assertions
+        // proper quantities
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(false, results.Any(x => x.RocSma != null));
 
-            // proper quantities
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
-            Assert.AreEqual(false, results.Any(x => x.RocSma != null));
+        // sample values
+        RocResult r1 = results[249];
+        Assert.AreEqual(2.4827, Math.Round((double)r1.Roc, 4));
+        Assert.AreEqual(null, r1.RocSma);
 
-            // sample values
-            RocResult r1 = results[249];
-            Assert.AreEqual(2.4827, Math.Round((double)r1.Roc, 4));
-            Assert.AreEqual(null, r1.RocSma);
+        RocResult r2 = results[501];
+        Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
+        Assert.AreEqual(null, r2.RocSma);
+    }
 
-            RocResult r2 = results[501];
-            Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
-            Assert.AreEqual(null, r2.RocSma);
-        }
+    [TestMethod]
+    public void WithSma()
+    {
+        int lookbackPeriods = 20;
+        int smaPeriods = 5;
 
-        [TestMethod]
-        public void WithSma()
-        {
-            int lookbackPeriods = 20;
-            int smaPeriods = 5;
+        List<RocResult> results = Indicator.GetRoc(quotes, lookbackPeriods, smaPeriods)
+            .ToList();
 
-            List<RocResult> results = Indicator.GetRoc(quotes, lookbackPeriods, smaPeriods)
-                .ToList();
+        // assertions
 
-            // assertions
+        // proper quantities
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(478, results.Where(x => x.RocSma != null).Count());
 
-            // proper quantities
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
-            Assert.AreEqual(478, results.Where(x => x.RocSma != null).Count());
+        // sample values
+        RocResult r1 = results[29];
+        Assert.AreEqual(3.2936, Math.Round((double)r1.Roc, 4));
+        Assert.AreEqual(2.1558, Math.Round((double)r1.RocSma, 4));
 
-            // sample values
-            RocResult r1 = results[29];
-            Assert.AreEqual(3.2936, Math.Round((double)r1.Roc, 4));
-            Assert.AreEqual(2.1558, Math.Round((double)r1.RocSma, 4));
+        RocResult r2 = results[501];
+        Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
+        Assert.AreEqual(-8.4828, Math.Round((double)r2.RocSma, 4));
+    }
 
-            RocResult r2 = results[501];
-            Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
-            Assert.AreEqual(-8.4828, Math.Round((double)r2.RocSma, 4));
-        }
+    [TestMethod]
+    public void BadData()
+    {
+        IEnumerable<RocResult> r = Indicator.GetRoc(badQuotes, 35, 2);
+        Assert.AreEqual(502, r.Count());
+    }
 
-        [TestMethod]
-        public void BadData()
-        {
-            IEnumerable<RocResult> r = Indicator.GetRoc(badQuotes, 35, 2);
-            Assert.AreEqual(502, r.Count());
-        }
+    [TestMethod]
+    public void Removed()
+    {
+        List<RocResult> results = quotes.GetRoc(20)
+            .RemoveWarmupPeriods()
+            .ToList();
 
-        [TestMethod]
-        public void Removed()
-        {
-            List<RocResult> results = quotes.GetRoc(20)
-                .RemoveWarmupPeriods()
-                .ToList();
+        // assertions
+        Assert.AreEqual(502 - 20, results.Count);
 
-            // assertions
-            Assert.AreEqual(502 - 20, results.Count);
+        RocResult last = results.LastOrDefault();
+        Assert.AreEqual(-8.2482, Math.Round((double)last.Roc, 4));
+        Assert.AreEqual(null, last.RocSma);
+    }
 
-            RocResult last = results.LastOrDefault();
-            Assert.AreEqual(-8.2482, Math.Round((double)last.Roc, 4));
-            Assert.AreEqual(null, last.RocSma);
-        }
+    [TestMethod]
+    public void Exceptions()
+    {
+        // bad lookback period
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            Indicator.GetRoc(quotes, 0));
 
-        [TestMethod]
-        public void Exceptions()
-        {
-            // bad lookback period
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRoc(quotes, 0));
+        // bad SMA period
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            Indicator.GetRoc(quotes, 14, 0));
 
-            // bad SMA period
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetRoc(quotes, 14, 0));
-
-            // insufficient quotes
-            Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetRoc(TestData.GetDefault(10), 10));
-        }
+        // insufficient quotes
+        Assert.ThrowsException<BadQuotesException>(() =>
+            Indicator.GetRoc(TestData.GetDefault(10), 10));
     }
 }

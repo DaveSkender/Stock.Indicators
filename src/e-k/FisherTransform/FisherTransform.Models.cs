@@ -1,12 +1,8 @@
-using System;
+namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class FisherTransformResult : ResultBase
 {
-    [Serializable]
-    public class FisherTransformResult : ResultBase
-    {
-        public double? Fisher { get; set; }
-        public double? Trigger { get; set; }
-    }
-
+    public double? Fisher { get; set; }
+    public double? Trigger { get; set; }
 }

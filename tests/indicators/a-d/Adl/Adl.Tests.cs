@@ -1,101 +1,94 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests
+namespace Internal.Tests;
+
+[TestClass]
+public class Adl : TestBase
 {
-    [TestClass]
-    public class Adl : TestBase
+    [TestMethod]
+    public void Standard()
     {
+        List<AdlResult> results = quotes.GetAdl().ToList();
 
-        [TestMethod]
-        public void Standard()
-        {
+        // assertions
 
-            List<AdlResult> results = quotes.GetAdl().ToList();
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(502, results.Where(x => x.AdlSma == null).Count());
 
-            // assertions
+        // sample values
+        AdlResult r1 = results[249];
+        Assert.AreEqual(0.7778, Math.Round(r1.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(36433792.89, Math.Round(r1.MoneyFlowVolume, 2));
+        Assert.AreEqual(3266400865.74, Math.Round(r1.Adl, 2));
+        Assert.AreEqual(null, r1.AdlSma);
 
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502, results.Where(x => x.AdlSma == null).Count());
+        AdlResult r2 = results[501];
+        Assert.AreEqual(0.8052, Math.Round(r2.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, Math.Round(r2.MoneyFlowVolume, 2));
+        Assert.AreEqual(3439986548.42, Math.Round(r2.Adl, 2));
+        Assert.AreEqual(null, r2.AdlSma);
+    }
 
-            // sample values
-            AdlResult r1 = results[249];
-            Assert.AreEqual(0.7778, Math.Round(r1.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(36433792.89, Math.Round(r1.MoneyFlowVolume, 2));
-            Assert.AreEqual(3266400865.74, Math.Round(r1.Adl, 2));
-            Assert.AreEqual(null, r1.AdlSma);
+    [TestMethod]
+    public void ConvertToQuotes()
+    {
+        List<Quote> newQuotes = quotes.GetAdl()
+            .ConvertToQuotes()
+            .ToList();
 
-            AdlResult r2 = results[501];
-            Assert.AreEqual(0.8052, Math.Round(r2.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25, Math.Round(r2.MoneyFlowVolume, 2));
-            Assert.AreEqual(3439986548.42, Math.Round(r2.Adl, 2));
-            Assert.AreEqual(null, r2.AdlSma);
-        }
+        Assert.AreEqual(502, newQuotes.Count);
 
-        [TestMethod]
-        public void ConvertToQuotes()
-        {
-            List<Quote> newQuotes = quotes.GetAdl()
-                .ConvertToQuotes()
-                .ToList();
+        Quote q1 = newQuotes[249];
+        Assert.AreEqual(3266400865.74m, Math.Round(q1.Close, 2));
 
-            Assert.AreEqual(502, newQuotes.Count);
+        Quote q2 = newQuotes[501];
+        Assert.AreEqual(3439986548.42m, Math.Round(q2.Close, 2));
+    }
 
-            Quote q1 = newQuotes[249];
-            Assert.AreEqual(3266400865.74m, Math.Round(q1.Close, 2));
+    [TestMethod]
+    public void BadData()
+    {
+        IEnumerable<AdlResult> r = Indicator.GetAdl(badQuotes);
+        Assert.AreEqual(502, r.Count());
+    }
 
-            Quote q2 = newQuotes[501];
-            Assert.AreEqual(3439986548.42m, Math.Round(q2.Close, 2));
-        }
+    [TestMethod]
+    public void BigData()
+    {
+        IEnumerable<AdlResult> r = Indicator.GetAdl(bigQuotes);
+        Assert.AreEqual(1246, r.Count());
+    }
 
-        [TestMethod]
-        public void BadData()
-        {
-            IEnumerable<AdlResult> r = Indicator.GetAdl(badQuotes);
-            Assert.AreEqual(502, r.Count());
-        }
+    [TestMethod]
+    public void WithSma()
+    {
+        List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
 
-        [TestMethod]
-        public void BigData()
-        {
-            IEnumerable<AdlResult> r = Indicator.GetAdl(bigQuotes);
-            Assert.AreEqual(1246, r.Count());
-        }
+        // assertions
 
-        [TestMethod]
-        public void WithSma()
-        {
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(483, results.Where(x => x.AdlSma != null).Count());
 
-            List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
+        // sample value
+        AdlResult r = results[501];
+        Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
+        Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
+        Assert.AreEqual(3595352721.16, Math.Round((double)r.AdlSma, 2));
+    }
 
-            // assertions
+    [TestMethod]
+    public void Exceptions()
+    {
+        // bad SMA period
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            Indicator.GetAdl(quotes, 0));
 
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(483, results.Where(x => x.AdlSma != null).Count());
-
-            // sample value
-            AdlResult r = results[501];
-            Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
-            Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
-            Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
-            Assert.AreEqual(3595352721.16, Math.Round((double)r.AdlSma, 2));
-        }
-
-        [TestMethod]
-        public void Exceptions()
-        {
-            // bad SMA period
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetAdl(quotes, 0));
-
-            // insufficient quotes
-            Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetAdl(TestData.GetDefault(1)));
-        }
+        // insufficient quotes
+        Assert.ThrowsException<BadQuotesException>(() =>
+            Indicator.GetAdl(TestData.GetDefault(1)));
     }
 }

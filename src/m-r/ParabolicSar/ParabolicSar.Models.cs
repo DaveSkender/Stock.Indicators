@@ -1,11 +1,8 @@
-﻿using System;
+﻿namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class ParabolicSarResult : ResultBase
 {
-    [Serializable]
-    public class ParabolicSarResult : ResultBase
-    {
-        public decimal? Sar { get; set; }
-        public bool? IsReversal { get; set; }
-    }
+    public decimal? Sar { get; set; }
+    public bool? IsReversal { get; set; }
 }

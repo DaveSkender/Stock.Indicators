@@ -1,98 +1,93 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests
+namespace Internal.Tests;
+
+[TestClass]
+public class Ema : TestBase
 {
-    [TestClass]
-    public class Ema : TestBase
+    [TestMethod]
+    public void Standard()
     {
+        List<EmaResult> results = quotes.GetEma(20)
+            .ToList();
 
-        [TestMethod]
-        public void Standard()
-        {
-            List<EmaResult> results = quotes.GetEma(20)
-                .ToList();
+        // assertions
 
-            // assertions
+        // proper quantities
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
 
-            // proper quantities
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+        // sample values
+        EmaResult r29 = results[29];
+        Assert.AreEqual(216.6228m, Math.Round((decimal)r29.Ema, 4));
 
-            // sample values
-            EmaResult r29 = results[29];
-            Assert.AreEqual(216.6228m, Math.Round((decimal)r29.Ema, 4));
+        EmaResult r249 = results[249];
+        Assert.AreEqual(255.3873m, Math.Round((decimal)r249.Ema, 4));
 
-            EmaResult r249 = results[249];
-            Assert.AreEqual(255.3873m, Math.Round((decimal)r249.Ema, 4));
+        EmaResult r501 = results[501];
+        Assert.AreEqual(249.3519m, Math.Round((decimal)r501.Ema, 4));
+    }
 
-            EmaResult r501 = results[501];
-            Assert.AreEqual(249.3519m, Math.Round((decimal)r501.Ema, 4));
-        }
+    [TestMethod]
+    public void Custom()
+    {
+        List<EmaResult> results = quotes.GetEma(20, CandlePart.Open)
+            .ToList();
 
-        [TestMethod]
-        public void Custom()
-        {
-            List<EmaResult> results = quotes.GetEma(20, CandlePart.Open)
-                .ToList();
+        // assertions
 
-            // assertions
+        // proper quantities
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
 
-            // proper quantities
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+        // sample values
+        EmaResult r29 = results[29];
+        Assert.AreEqual(216.2643m, Math.Round((decimal)r29.Ema, 4));
 
-            // sample values
-            EmaResult r29 = results[29];
-            Assert.AreEqual(216.2643m, Math.Round((decimal)r29.Ema, 4));
+        EmaResult r249 = results[249];
+        Assert.AreEqual(255.4875m, Math.Round((decimal)r249.Ema, 4));
 
-            EmaResult r249 = results[249];
-            Assert.AreEqual(255.4875m, Math.Round((decimal)r249.Ema, 4));
+        EmaResult r501 = results[501];
+        Assert.AreEqual(249.9157m, Math.Round((decimal)r501.Ema, 4));
+    }
 
-            EmaResult r501 = results[501];
-            Assert.AreEqual(249.9157m, Math.Round((decimal)r501.Ema, 4));
-        }
+    [TestMethod]
+    public void BadData()
+    {
+        IEnumerable<EmaResult> r = Indicator.GetEma(badQuotes, 15);
+        Assert.AreEqual(502, r.Count());
+    }
 
-        [TestMethod]
-        public void BadData()
-        {
-            IEnumerable<EmaResult> r = Indicator.GetEma(badQuotes, 15);
-            Assert.AreEqual(502, r.Count());
-        }
+    [TestMethod]
+    public void Removed()
+    {
+        List<EmaResult> results = quotes.GetEma(20)
+            .RemoveWarmupPeriods()
+            .ToList();
 
-        [TestMethod]
-        public void Removed()
-        {
-            List<EmaResult> results = quotes.GetEma(20)
-                .RemoveWarmupPeriods()
-                .ToList();
+        // assertions
+        Assert.AreEqual(502 - (20 + 100), results.Count);
 
-            // assertions
-            Assert.AreEqual(502 - (20 + 100), results.Count);
+        EmaResult last = results.LastOrDefault();
+        Assert.AreEqual(249.3519m, Math.Round((decimal)last.Ema, 4));
+    }
 
-            EmaResult last = results.LastOrDefault();
-            Assert.AreEqual(249.3519m, Math.Round((decimal)last.Ema, 4));
-        }
+    [TestMethod]
+    public void Exceptions()
+    {
+        // bad lookback period
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            Indicator.GetEma(quotes, 0));
 
-        [TestMethod]
-        public void Exceptions()
-        {
-            // bad lookback period
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetEma(quotes, 0));
+        // insufficient quotes for N+100
+        Assert.ThrowsException<BadQuotesException>(() =>
+            Indicator.GetEma(TestData.GetDefault(129), 30));
 
-            // insufficient quotes for N+100
-            Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetEma(TestData.GetDefault(129), 30));
-
-            // insufficient quotes for 2×N
-            Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetEma(TestData.GetDefault(499), 250));
-        }
+        // insufficient quotes for 2×N
+        Assert.ThrowsException<BadQuotesException>(() =>
+            Indicator.GetEma(TestData.GetDefault(499), 250));
     }
 }

@@ -1,79 +1,70 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+// RESULT MODELS
+
+public interface IResult
 {
-    // RESULT MODELS
+    public DateTime Date { get; }
+}
 
-    public interface IResult
+[Serializable]
+public class ResultBase : IResult
+{
+    public DateTime Date { get; set; }
+}
+
+// HELPER FUNCTIONS
+
+public static partial class Indicator
+{
+    // FIND by DATE
+    /// <include file='./info.xml' path='info/type[@name="Find"]/*' />
+    ///
+    public static TResult Find<TResult>(
+        this IEnumerable<TResult> results,
+        DateTime lookupDate)
+        where TResult : IResult
     {
-        public DateTime Date { get; }
+        return results.FirstOrDefault(x => x.Date == lookupDate);
     }
 
-    [Serializable]
-    public class ResultBase : IResult
+    // REMOVE SPECIFIC PERIODS extension
+    /// <include file='./info.xml' path='info/type[@name="PruneSpecific"]/*' />
+    ///
+    public static IEnumerable<TResult> RemoveWarmupPeriods<TResult>(
+        this IEnumerable<TResult> results,
+        int removePeriods)
+        where TResult : IResult
     {
-        public DateTime Date { get; set; }
+        return removePeriods < 0
+            ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
+                "If specified, the Remove Periods value must be greater than or equal to 0.")
+            : results.Remove(removePeriods);
     }
 
-
-    // HELPER FUNCTIONS
-
-    public static partial class Indicator
+    // REMOVE RESULTS
+    private static List<TResult> Remove<TResult>(
+        this IEnumerable<TResult> results,
+        int removePeriods)
+        where TResult : IResult
     {
+        List<TResult> resultsList = results.ToList();
 
-        // FIND by DATE
-        /// <include file='./info.xml' path='info/type[@name="Find"]/*' />
-        /// 
-        public static TResult Find<TResult>(
-            this IEnumerable<TResult> results,
-            DateTime lookupDate)
-            where TResult : IResult
+        if (resultsList.Count <= removePeriods)
         {
-            return results.FirstOrDefault(x => x.Date == lookupDate);
+            return new List<TResult>();
         }
-
-
-        // REMOVE SPECIFIC PERIODS extension
-        /// <include file='./info.xml' path='info/type[@name="PruneSpecific"]/*' />
-        /// 
-        public static IEnumerable<TResult> RemoveWarmupPeriods<TResult>(
-            this IEnumerable<TResult> results,
-            int removePeriods)
-            where TResult : IResult
+        else
         {
-            return removePeriods < 0
-                ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
-                    "If specified, the Remove Periods value must be greater than or equal to 0.")
-                : results.Remove(removePeriods);
-        }
-
-
-        // REMOVE RESULTS
-        private static List<TResult> Remove<TResult>(
-            this IEnumerable<TResult> results,
-            int removePeriods)
-            where TResult : IResult
-        {
-            List<TResult> resultsList = results.ToList();
-
-            if (resultsList.Count <= removePeriods)
+            if (removePeriods > 0)
             {
-                return new List<TResult>();
-            }
-            else
-            {
-                if (removePeriods > 0)
+                for (int i = 0; i < removePeriods; i++)
                 {
-                    for (int i = 0; i < removePeriods; i++)
-                    {
-                        resultsList.RemoveAt(0);
-                    }
+                    resultsList.RemoveAt(0);
                 }
-
-                return resultsList;
             }
+
+            return resultsList;
         }
     }
 }

@@ -25,7 +25,7 @@
     </summary>
     <typeparam name="TResult">Any result type.</typeparam>
     <param name="results">Indicator results to evaluate.</param>
-    <param name="lookupDate">Exact date to lookup</param>
+    <param name="lookupDate">Exact date to lookup.</param>
     <returns>First indicator result on the date specified.</returns>
   </type>
   <type name="Prune">

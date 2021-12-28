@@ -1,13 +1,10 @@
-using System;
+namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class CciResult : ResultBase
 {
-    [Serializable]
-    public class CciResult : ResultBase
-    {
-        public double? Cci { get; set; }
+    public double? Cci { get; set; }
 
-        // internal use only
-        internal double? Tp { get; set; }
-    }
+    // internal use only
+    internal double? Tp { get; set; }
 }

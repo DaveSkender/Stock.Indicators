@@ -1,10 +1,7 @@
-﻿using System;
+﻿namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class UltimateResult : ResultBase
 {
-    [Serializable]
-    public class UltimateResult : ResultBase
-    {
-        public decimal? Ultimate { get; set; }
-    }
+    public decimal? Ultimate { get; set; }
 }

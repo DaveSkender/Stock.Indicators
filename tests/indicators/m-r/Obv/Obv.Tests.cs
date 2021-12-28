@@ -1,96 +1,89 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests
+namespace Internal.Tests;
+
+[TestClass]
+public class Obv : TestBase
 {
-    [TestClass]
-    public class Obv : TestBase
+    [TestMethod]
+    public void Standard()
     {
+        List<ObvResult> results = quotes.GetObv().ToList();
 
-        [TestMethod]
-        public void Standard()
-        {
+        // assertions
 
-            List<ObvResult> results = quotes.GetObv().ToList();
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(502, results.Where(x => x.ObvSma == null).Count());
 
-            // assertions
+        // sample values
+        ObvResult r1 = results[249];
+        Assert.AreEqual(1780918888, r1.Obv);
+        Assert.AreEqual(null, r1.ObvSma);
 
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(502, results.Where(x => x.ObvSma == null).Count());
+        ObvResult r2 = results[501];
+        Assert.AreEqual(539843504, r2.Obv);
+        Assert.AreEqual(null, r2.ObvSma);
+    }
 
-            // sample values
-            ObvResult r1 = results[249];
-            Assert.AreEqual(1780918888, r1.Obv);
-            Assert.AreEqual(null, r1.ObvSma);
+    [TestMethod]
+    public void WithSma()
+    {
+        List<ObvResult> results = Indicator.GetObv(quotes, 20).ToList();
 
-            ObvResult r2 = results[501];
-            Assert.AreEqual(539843504, r2.Obv);
-            Assert.AreEqual(null, r2.ObvSma);
-        }
+        // assertions
 
-        [TestMethod]
-        public void WithSma()
-        {
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(482, results.Where(x => x.ObvSma != null).Count());
 
-            List<ObvResult> results = Indicator.GetObv(quotes, 20).ToList();
+        // sample values
+        ObvResult r1 = results[501];
+        Assert.AreEqual(539843504, r1.Obv);
+        Assert.AreEqual(1016208844.40, r1.ObvSma);
+    }
 
-            // assertions
+    [TestMethod]
+    public void ConvertToQuotes()
+    {
+        List<Quote> newQuotes = quotes.GetObv()
+            .ConvertToQuotes()
+            .ToList();
 
-            // should always be the same number of results as there is quotes
-            Assert.AreEqual(502, results.Count);
-            Assert.AreEqual(482, results.Where(x => x.ObvSma != null).Count());
+        // assertions
+        Assert.AreEqual(502, newQuotes.Count);
 
-            // sample values
-            ObvResult r1 = results[501];
-            Assert.AreEqual(539843504, r1.Obv);
-            Assert.AreEqual(1016208844.40, r1.ObvSma);
-        }
+        Quote q1 = newQuotes[249];
+        Assert.AreEqual(1780918888m, q1.Close);
 
-        [TestMethod]
-        public void ConvertToQuotes()
-        {
-            List<Quote> newQuotes = quotes.GetObv()
-                .ConvertToQuotes()
-                .ToList();
+        Quote q2 = newQuotes[501];
+        Assert.AreEqual(539843504m, q2.Close);
+    }
 
-            // assertions
-            Assert.AreEqual(502, newQuotes.Count);
+    [TestMethod]
+    public void BadData()
+    {
+        IEnumerable<ObvResult> r = badQuotes.GetObv();
+        Assert.AreEqual(502, r.Count());
+    }
 
-            Quote q1 = newQuotes[249];
-            Assert.AreEqual(1780918888m, q1.Close);
+    [TestMethod]
+    public void BigData()
+    {
+        IEnumerable<ObvResult> r = bigQuotes.GetObv();
+        Assert.AreEqual(1246, r.Count());
+    }
 
-            Quote q2 = newQuotes[501];
-            Assert.AreEqual(539843504m, q2.Close);
-        }
+    [TestMethod]
+    public void Exceptions()
+    {
+        // bad SMA period
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            Indicator.GetObv(quotes, 0));
 
-        [TestMethod]
-        public void BadData()
-        {
-            IEnumerable<ObvResult> r = badQuotes.GetObv();
-            Assert.AreEqual(502, r.Count());
-        }
-
-        [TestMethod]
-        public void BigData()
-        {
-            IEnumerable<ObvResult> r = bigQuotes.GetObv();
-            Assert.AreEqual(1246, r.Count());
-        }
-
-        [TestMethod]
-        public void Exceptions()
-        {
-            // bad SMA period
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetObv(quotes, 0));
-
-            // insufficient quotes
-            Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetObv(TestData.GetDefault(1)));
-        }
+        // insufficient quotes
+        Assert.ThrowsException<BadQuotesException>(() =>
+            Indicator.GetObv(TestData.GetDefault(1)));
     }
 }
