@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Internal.Tests;
 using Skender.Stock.Indicators;
 

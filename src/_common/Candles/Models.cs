@@ -1,5 +1,3 @@
-using System;
-
 namespace Skender.Stock.Indicators
 {
     // CANDLESTICK MODELS

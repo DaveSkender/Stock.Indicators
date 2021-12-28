@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Skender.Stock.Indicators
 {
     public static class Candlesticks

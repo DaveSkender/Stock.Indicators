@@ -1,5 +1,3 @@
-using System;
-
 namespace Skender.Stock.Indicators
 {
     internal static class Functions

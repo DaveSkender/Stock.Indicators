@@ -1,5 +1,3 @@
-using System;
-
 namespace Skender.Stock.Indicators
 {
     /// <include file='./info.xml' path='indicator/type[@name="Results"]/*' />

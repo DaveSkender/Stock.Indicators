@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 using Internal.Tests;
 using Skender.Stock.Indicators;

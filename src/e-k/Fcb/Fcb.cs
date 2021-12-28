@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators
 {
     public static partial class Indicator
     {
