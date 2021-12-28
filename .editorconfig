@@ -1,41 +1,41 @@
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.md]
+max_line_length = 150
+
+[*.csproj]
+indent_size = 2
+
+[*.{cs,csx,vb,vbx}]
+indent_size = 4
+max_line_length = 150
+
 [*.cs]
+
+# IDE0161 Convert to file-scoped namespace
 csharp_style_namespace_declarations=file_scoped:warning
-
-# SA1208: Using directive sorting
-dotnet_sort_system_directives_first = true
-
-# SA1000: Keywords should be spaced correctly
-dotnet_diagnostic.SA1000.severity = silent
-
-# SA1633: File should have header
-dotnet_diagnostic.SA1633.severity = silent
-
-# SA1601: Partial elements should be documented
-dotnet_diagnostic.SA1601.severity = silent
-
-# SA1514: Element documentation header should be preceded by blank line
-dotnet_diagnostic.SA1514.severity = silent
-
-# SA1600: Elements should be documented
-dotnet_diagnostic.SA1600.severity = none
-
-# SA1516: Elements should be separated by blank line
-dotnet_diagnostic.SA1516.severity = silent
-
-# SA1512: Single-line comments should not be followed by blank line
-dotnet_diagnostic.SA1512.severity = silent
 
 # CA1051: Do not declare visible instance fields
 dotnet_diagnostic.CA1051.severity = silent
 
-# SA1202: Elements should be ordered by access
-dotnet_diagnostic.SA1202.severity = silent
-
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity = none
 
-# SA1117: Parameters should be on same line or separate lines
-dotnet_diagnostic.SA1117.severity = none
+# CA1720: Identifier contains type name
+dotnet_diagnostic.CA1720.severity = silent
+dotnet_diagnostic.IDE0090.severity= suggestion
+dotnet_diagnostic.SA1413.severity = silent
+dotnet_diagnostic.SA1200.severity = silent
+
+# SA0001: XML comment analysis disabled
+dotnet_diagnostic.SA0001.severity = none
+
+# SA1000: Keywords should be spaced correctly
+dotnet_diagnostic.SA1000.severity = silent
 
 # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1101.severity = none
@@ -43,23 +43,41 @@ dotnet_diagnostic.SA1101.severity = none
 # SA1108: Block statements should not contain embedded comments
 dotnet_diagnostic.SA1108.severity = silent
 
+# SA1117: Parameters should be on same line or separate lines
+dotnet_diagnostic.SA1117.severity = none
+
 # SA1118: Parameter should not span multiple lines
 dotnet_diagnostic.SA1118.severity = silent
 csharp_using_directive_placement  = inside_namespace:silent
 
-# CA1720: Identifier contains type name
-dotnet_diagnostic.CA1720.severity = silent
-dotnet_diagnostic.IDE0090.severity=suggestion
-dotnet_diagnostic.SA1413.severity=silent
-dotnet_diagnostic.SA1200.severity=silent
+# SA1202: Elements should be ordered by access
+dotnet_diagnostic.SA1202.severity = silent
+
+# SA1208: Using directive sorting
+dotnet_sort_system_directives_first = true
+
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity = silent
+
+# SA1514: Element documentation header should be preceded by blank line
+dotnet_diagnostic.SA1514.severity = silent
+
+# SA1516: Elements should be separated by blank line
+dotnet_diagnostic.SA1516.severity = silent
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = silent
 
 # SA1602: Enumeration items should be documented
 dotnet_diagnostic.SA1602.severity = silent
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
 
 [*.{cs,vb}]
 dotnet_style_namespace_match_folder=false:suggestion
 dotnet_style_allow_multiple_blank_lines_experimental=false:silent
 dotnet_style_allow_statement_immediately_after_block_experimental=false:silent
-
-# SA0001: XML comment analysis disabled
-dotnet_diagnostic.SA0001.severity = none
