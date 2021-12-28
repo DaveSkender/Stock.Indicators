@@ -1,5 +1,8 @@
 [*.cs]
-csharp_style_namespace_declarations=file_scoped:silent
+csharp_style_namespace_declarations=file_scoped:warning
+
+# SA1208: Using directive sorting
+dotnet_sort_system_directives_first = true
 
 # SA1000: Keywords should be spaced correctly
 dotnet_diagnostic.SA1000.severity = silent
@@ -42,7 +45,7 @@ dotnet_diagnostic.SA1108.severity = silent
 
 # SA1118: Parameter should not span multiple lines
 dotnet_diagnostic.SA1118.severity = silent
-csharp_using_directive_placement=inside_namespace:silent
+csharp_using_directive_placement  = inside_namespace:silent
 
 # CA1720: Identifier contains type name
 dotnet_diagnostic.CA1720.severity = silent
