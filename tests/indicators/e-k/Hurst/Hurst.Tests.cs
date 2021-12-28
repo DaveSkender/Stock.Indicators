@@ -1,78 +1,77 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests
+namespace Internal.Tests;
+
+[TestClass]
+public class Hurst : TestBase
 {
-    [TestClass]
-    public class Hurst : TestBase
+
+    [TestMethod]
+    public void StandardLong()
     {
+        List<HurstResult> results = longestQuotes
+            .GetHurst(longestQuotes.Count() - 1)
+            .ToList();
 
-        [TestMethod]
-        public void StandardLong()
-        {
-            List<HurstResult> results = longestQuotes
-                .GetHurst(longestQuotes.Count() - 1)
-                .ToList();
+        // assertions
 
-            // assertions
+        // proper quantities
+        Assert.AreEqual(15821, results.Count);
+        Assert.AreEqual(1, results.Count(x => x.HurstExponent != null));
 
-            // proper quantities
-            Assert.AreEqual(15821, results.Count);
-            Assert.AreEqual(1, results.Count(x => x.HurstExponent != null));
+        // sample value
+        HurstResult r15820 = results[15820];
+        Assert.AreEqual(0.483563m, Math.Round((decimal)r15820.HurstExponent, 6));
+    }
 
-            // sample value
-            HurstResult r15820 = results[15820];
-            Assert.AreEqual(0.483563m, Math.Round((decimal)r15820.HurstExponent, 6));
-        }
+    [TestMethod]
+    public void ConvertToQuotes()
+    {
+        List<Quote> newQuotes = longestQuotes
+            .GetHurst(longestQuotes.Count() - 1)
+            .ConvertToQuotes()
+            .ToList();
 
-        [TestMethod]
-        public void ConvertToQuotes()
-        {
-            List<Quote> newQuotes = longestQuotes
-                .GetHurst(longestQuotes.Count() - 1)
-                .ConvertToQuotes()
-                .ToList();
+        Assert.AreEqual(1, newQuotes.Count);
 
-            Assert.AreEqual(1, newQuotes.Count);
+        Quote q = newQuotes.LastOrDefault();
+        Assert.AreEqual(0.483563m, Math.Round(q.Open, 6));
+        Assert.AreEqual(0.483563m, Math.Round(q.High, 6));
+        Assert.AreEqual(0.483563m, Math.Round(q.Low, 6));
+        Assert.AreEqual(0.483563m, Math.Round(q.Close, 6));
+    }
 
-            Quote q = newQuotes.LastOrDefault();
-            Assert.AreEqual(0.483563m, Math.Round(q.Open, 6));
-            Assert.AreEqual(0.483563m, Math.Round(q.High, 6));
-            Assert.AreEqual(0.483563m, Math.Round(q.Low, 6));
-            Assert.AreEqual(0.483563m, Math.Round(q.Close, 6));
-        }
+    [TestMethod]
+    public void BadData()
+    {
+        IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);
+        Assert.AreEqual(502, r.Count());
+    }
 
-        [TestMethod]
-        public void BadData()
-        {
-            IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);
-            Assert.AreEqual(502, r.Count());
-        }
+    [TestMethod]
+    public void Removed()
+    {
+        List<HurstResult> results = longestQuotes.GetHurst(longestQuotes.Count() - 1)
+            .RemoveWarmupPeriods()
+            .ToList();
 
-        [TestMethod]
-        public void Removed()
-        {
-            List<HurstResult> results = longestQuotes.GetHurst(longestQuotes.Count() - 1)
-                .RemoveWarmupPeriods()
-                .ToList();
+        // assertions
+        Assert.AreEqual(1, results.Count);
 
-            // assertions
-            Assert.AreEqual(1, results.Count);
+        HurstResult last = results.LastOrDefault();
+        Assert.AreEqual(0.483563m, Math.Round((decimal)last.HurstExponent, 6));
+    }
 
-            HurstResult last = results.LastOrDefault();
-            Assert.AreEqual(0.483563m, Math.Round((decimal)last.HurstExponent, 6));
-        }
+    [TestMethod]
+    public void Exceptions()
+    {
+        // bad lookback period
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            Indicator.GetHurst(quotes, 99));
 
-        [TestMethod]
-        public void Exceptions()
-        {
-            // bad lookback period
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                Indicator.GetHurst(quotes, 99));
-
-            // insufficient quotes
-            Assert.ThrowsException<BadQuotesException>(() =>
-                Indicator.GetHurst(TestData.GetDefault(499), 500));
-        }
+        // insufficient quotes
+        Assert.ThrowsException<BadQuotesException>(() =>
+            Indicator.GetHurst(TestData.GetDefault(499), 500));
     }
 }

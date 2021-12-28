@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class HmaResult : ResultBase
 {
-    [Serializable]
-    public class HmaResult : ResultBase
-    {
-        public decimal? Hma { get; set; }
-    }
+    public decimal? Hma { get; set; }
 }

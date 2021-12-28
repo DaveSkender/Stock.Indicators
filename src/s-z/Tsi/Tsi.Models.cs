@@ -1,9 +1,8 @@
-namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class TsiResult : ResultBase
 {
-    [Serializable]
-    public class TsiResult : ResultBase
-    {
-        public double? Tsi { get; set; }
-        public double? Signal { get; set; }
-    }
+    public double? Tsi { get; set; }
+    public double? Signal { get; set; }
 }

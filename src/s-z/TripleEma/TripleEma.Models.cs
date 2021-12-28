@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class TemaResult : ResultBase
 {
-    [Serializable]
-    public class TemaResult : ResultBase
-    {
-        public decimal? Tema { get; set; }
-    }
+    public decimal? Tema { get; set; }
 }

@@ -1,9 +1,8 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class FcbResult : ResultBase
 {
-    [Serializable]
-    public class FcbResult : ResultBase
-    {
-        public decimal? UpperBand { get; set; }
-        public decimal? LowerBand { get; set; }
-    }
+    public decimal? UpperBand { get; set; }
+    public decimal? LowerBand { get; set; }
 }

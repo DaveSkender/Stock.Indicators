@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class AlmaResult : ResultBase
 {
-    [Serializable]
-    public class AlmaResult : ResultBase
-    {
-        public decimal? Alma { get; set; }
-    }
+    public decimal? Alma { get; set; }
 }

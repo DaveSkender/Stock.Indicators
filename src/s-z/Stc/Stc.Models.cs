@@ -1,8 +1,7 @@
-namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class StcResult : ResultBase
 {
-    [Serializable]
-    public class StcResult : ResultBase
-    {
-        public decimal? Stc { get; set; }
-    }
+    public decimal? Stc { get; set; }
 }

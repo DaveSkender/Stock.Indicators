@@ -1,8 +1,7 @@
-namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class RsiResult : ResultBase
 {
-    [Serializable]
-    public class RsiResult : ResultBase
-    {
-        public double? Rsi { get; set; }
-    }
+    public double? Rsi { get; set; }
 }

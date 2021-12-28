@@ -1,8 +1,7 @@
-namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class BopResult : ResultBase
 {
-    [Serializable]
-    public class BopResult : ResultBase
-    {
-        public double? Bop { get; set; }
-    }
+    public double? Bop { get; set; }
 }

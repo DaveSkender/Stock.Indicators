@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class EpmaResult : ResultBase
 {
-    [Serializable]
-    public class EpmaResult : ResultBase
-    {
-        public decimal? Epma { get; set; }
-    }
+    public decimal? Epma { get; set; }
 }

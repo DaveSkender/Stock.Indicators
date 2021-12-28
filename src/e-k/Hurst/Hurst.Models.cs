@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class HurstResult : ResultBase
 {
-    [Serializable]
-    public class HurstResult : ResultBase
-    {
-        public double? HurstExponent { get; set; }
-    }
+    public double? HurstExponent { get; set; }
 }

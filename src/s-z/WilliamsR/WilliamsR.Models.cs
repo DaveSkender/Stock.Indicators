@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class WilliamsResult : ResultBase
 {
-    [Serializable]
-    public class WilliamsResult : ResultBase
-    {
-        public decimal? WilliamsR { get; set; }
-    }
+    public decimal? WilliamsR { get; set; }
 }

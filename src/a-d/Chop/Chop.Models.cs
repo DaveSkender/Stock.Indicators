@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class ChopResult : ResultBase
 {
-    [Serializable]
-    public class ChopResult : ResultBase
-    {
-        public decimal? Chop { get; set; }
-    }
+    public decimal? Chop { get; set; }
 }

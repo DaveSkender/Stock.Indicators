@@ -1,8 +1,7 @@
-﻿namespace Skender.Stock.Indicators
+﻿namespace Skender.Stock.Indicators;
+
+[Serializable]
+public class MfiResult : ResultBase
 {
-    [Serializable]
-    public class MfiResult : ResultBase
-    {
-        public decimal? Mfi { get; set; }
-    }
+    public decimal? Mfi { get; set; }
 }
