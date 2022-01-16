@@ -12,6 +12,7 @@ indent_size = 4
 max_line_length = 150
 
 [*.cs]
+csharp_indent_block_contents = true
 
 # IDE0161 Convert to file-scoped namespace
 csharp_style_namespace_declarations=file_scoped:warning
@@ -27,6 +28,9 @@ dotnet_diagnostic.CA1720.severity = silent
 dotnet_diagnostic.IDE0090.severity= suggestion
 dotnet_diagnostic.SA1413.severity = silent
 dotnet_diagnostic.SA1200.severity = silent
+
+# CS1591 Missing XML comment for publicly visible type
+dotnet_diagnostic.CS1591.severity = none
 
 # SA0001: XML comment analysis disabled
 dotnet_diagnostic.SA0001.severity = none
@@ -45,7 +49,7 @@ dotnet_diagnostic.SA1117.severity = none
 
 # SA1118: Parameter should not span multiple lines
 dotnet_diagnostic.SA1118.severity = silent
-csharp_using_directive_placement  = inside_namespace:silent
+csharp_using_directive_placement  = outside_namespace:warning
 
 # SA1202: Elements should be ordered by access
 dotnet_diagnostic.SA1202.severity = silent
@@ -73,6 +77,17 @@ dotnet_diagnostic.SA1602.severity = silent
 
 # SA1633: File should have header
 dotnet_diagnostic.SA1633.severity = none
+
+# Misc IDE
+dotnet_diagnostic.IDE0055.severity=suggestion
+dotnet_diagnostic.IDE0059.severity=suggestion
+dotnet_diagnostic.IDE0060.severity=suggestion
+dotnet_diagnostic.IDE0062.severity=suggestion
+dotnet_diagnostic.IDE0063.severity=suggestion
+dotnet_diagnostic.IDE0065.severity=suggestion
+dotnet_diagnostic.IDE0066.severity=suggestion
+dotnet_diagnostic.IDE0071.severity=suggestion
+dotnet_diagnostic.IDE0047.severity=suggestion
 
 [*.{cs,vb}]
 dotnet_style_namespace_match_folder=false:suggestion

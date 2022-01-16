@@ -68,8 +68,8 @@ public static partial class Indicator
                 // remaining values: SMMA
                 else if (index > jawPeriods)
                 {
-                    double? prevValue = (double)results[i + jawOffset - 1].Jaw;
-                    jawResult.Jaw = (decimal)((prevValue * (jawPeriods - 1)) + pr[i]) / jawPeriods;
+                    double? prevValue = (double?)results[i + jawOffset - 1].Jaw;
+                    jawResult.Jaw = (decimal?)((prevValue * (jawPeriods - 1)) + pr[i]) / jawPeriods;
                 }
             }
 
@@ -88,14 +88,14 @@ public static partial class Indicator
                         sumMedianPrice += pr[p];
                     }
 
-                    teethResult.Teeth = (decimal)sumMedianPrice / teethPeriods;
+                    teethResult.Teeth = (decimal?)sumMedianPrice / teethPeriods;
                 }
 
                 // remaining values: SMMA
                 else if (index > teethPeriods)
                 {
-                    double? prevValue = (double)results[i + teethOffset - 1].Teeth;
-                    teethResult.Teeth = (decimal)((prevValue * (teethPeriods - 1)) + pr[i]) / teethPeriods;
+                    double? prevValue = (double?)results[i + teethOffset - 1].Teeth;
+                    teethResult.Teeth = (decimal?)((prevValue * (teethPeriods - 1)) + pr[i]) / teethPeriods;
                 }
             }
 
@@ -120,8 +120,8 @@ public static partial class Indicator
                 // remaining values: SMMA
                 else if (index > lipsPeriods)
                 {
-                    double? prevValue = (double)results[i + lipsOffset - 1].Lips;
-                    lipsResult.Lips = (decimal)((prevValue * (lipsPeriods - 1)) + pr[i]) / lipsPeriods;
+                    double? prevValue = (double?)results[i + lipsOffset - 1].Lips;
+                    lipsResult.Lips = (decimal?)((prevValue * (lipsPeriods - 1)) + pr[i]) / lipsPeriods;
                 }
             }
         }

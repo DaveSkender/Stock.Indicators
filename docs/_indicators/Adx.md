@@ -10,12 +10,12 @@ layout: indicator
 Created by J. Welles Wilder, the [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/270 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Adx.png)
+![image]({{site.baseurl}}/assets/charts/AdIndex.png)
 
 ```csharp
 // usage
 IEnumerable<AdxResult> results =
-  quotes.GetAdx(lookbackPeriods);  
+  quotes.GetAdx(lookbackPeriods);
 ```
 
 ## Parameters
