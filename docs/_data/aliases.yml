@@ -31,7 +31,7 @@
   type: price-characteristic
 
 - title: ROC with Bands
-  permalink: /indicators/Roc/
+  permalink: /indicators/Roc/#roc-with-bands
   type: oscillator
 
 - title: SuperTrend
