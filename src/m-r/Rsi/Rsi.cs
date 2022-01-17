@@ -57,12 +57,17 @@ public static partial class Indicator
         ValidateRsi(bdList, lookbackPeriods);
 
         // initialize
+        int size = bdList.Count;
+        List<RsiResult> results = new(size);
+        if (size == 0)
+        {
+            return results;
+        }
+
         double lastValue = bdList[0].Value;
         double avgGain = 0;
         double avgLoss = 0;
 
-        int size = bdList.Count;
-        List<RsiResult> results = new(size);
         double[] gain = new double[size]; // gain
         double[] loss = new double[size]; // loss
 
@@ -136,7 +141,7 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count;
         int minHistory = lookbackPeriods + 100;
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for RSI.  " +
                 string.Format(

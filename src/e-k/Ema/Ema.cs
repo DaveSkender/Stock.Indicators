@@ -59,8 +59,9 @@ public static partial class Indicator
 
         double k = 2d / (lookbackPeriods + 1);
         double? lastEma = 0;
+        int initPeriods = Math.Min(lookbackPeriods, length);
 
-        for (int i = 0; i < Math.Min(lookbackPeriods, length); i++)
+        for (int i = 0; i < initPeriods; i++)
         {
             lastEma += bdList[i].Value;
         }

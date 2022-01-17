@@ -135,7 +135,7 @@ public static partial class Indicator
         // check quotes
         int qtyHistoryA = quotesA.Count();
         int minHistoryA = lookbackPeriods;
-        if (qtyHistoryA < minHistoryA)
+        if (config.UseBadQuotesException && qtyHistoryA < minHistoryA)
         {
             string message = "Insufficient quotes provided for Correlation.  " +
                 string.Format(
@@ -147,11 +147,10 @@ public static partial class Indicator
         }
 
         int qtyHistoryB = quotesB.Count();
-        if (qtyHistoryB != qtyHistoryA)
+        if (qtyHistoryB < qtyHistoryA)
         {
             throw new BadQuotesException(
-                nameof(quotesB),
-                "B quotes should have at least as many records as A quotes for Correlation.");
+                nameof(quotesB), "A and B quotes should match for Correlation.");
         }
     }
 }

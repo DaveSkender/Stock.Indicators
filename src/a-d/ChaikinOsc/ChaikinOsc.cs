@@ -83,15 +83,15 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = Math.Max(2 * slowPeriods, slowPeriods + 100);
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Chaikin Oscillator.  " +
                 string.Format(
                     EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for a slow period of {2}, "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
+                    + "Since this uses a smoothing technique, for a slow period of {2}, "
+                    + "we recommend you use at least {3} data points prior to the intended "
+                    + "usage date for better precision.",
                     qtyHistory, minHistory, slowPeriods, slowPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);

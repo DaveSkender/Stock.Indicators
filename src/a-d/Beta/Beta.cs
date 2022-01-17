@@ -177,7 +177,7 @@ public static partial class Indicator
         // check quotes
         int qtyQuotesMarket = quotesMarket.Count();
         int minQuotesMarket = lookbackPeriods;
-        if (qtyQuotesMarket < minQuotesMarket)
+        if (config.UseBadQuotesException && qtyQuotesMarket < minQuotesMarket)
         {
             string message = "Insufficient quotes provided for Beta.  " +
                 string.Format(

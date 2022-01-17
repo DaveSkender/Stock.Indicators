@@ -176,15 +176,16 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = Math.Max(rsiPeriods + 100, Math.Max(streakPeriods, rankPeriods + 2));
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for ConnorsRsi.  " +
                 string.Format(
                     EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least N+150 data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory);
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least N+150 data points prior to the intended "
+                    + "usage date for better precision.",
+                    qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }
