@@ -175,15 +175,15 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = (2 * lookbackPeriods) + 100;
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for ADX.  " +
                 string.Format(
                     EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least 2×N+250 data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory);
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least 2×N+250 data points prior to the intended "
+                    + "usage date for better precision.", qtyHistory, minHistory);
 
             throw new BadQuotesException(nameof(quotes), message);
         }

@@ -54,12 +54,13 @@ public static partial class Indicator
         ValidateEma(bdList, lookbackPeriods);
 
         // initialize
-        List<EmaResult> results = new(bdList.Count);
+        int length = bdList.Count;
+        List<EmaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
         double? lastEma = 0;
 
-        for (int i = 0; i < lookbackPeriods; i++)
+        for (int i = 0; i < Math.Min(lookbackPeriods, length); i++)
         {
             lastEma += bdList[i].Value;
         }
@@ -76,6 +77,7 @@ public static partial class Indicator
             {
                 Date = h.Date
             };
+            results.Add(result);
 
             if (index > lookbackPeriods)
             {
@@ -87,8 +89,6 @@ public static partial class Indicator
             {
                 result.Ema = (decimal?)lastEma;
             }
-
-            results.Add(result);
         }
 
         return results;
@@ -109,7 +109,7 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count;
         int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for EMA.  " +
                 string.Format(

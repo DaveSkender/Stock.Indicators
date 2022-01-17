@@ -21,4 +21,7 @@ public static partial class Indicator
 
     private static readonly DayOfWeek EnglishFirstDayOfWeek
         = EnglishCulture.DateTimeFormat.FirstDayOfWeek;
+
+    // global settings
+    private static IndicatorConfig config = new();
 }
