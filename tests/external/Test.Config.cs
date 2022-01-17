@@ -10,14 +10,15 @@ public class ConfigTests
     [TestMethod]
     public void UseBadQuoteExceptionOff()
     {
-        IEnumerable<Quote> quotes = TestData.GetDefault(1);
-        IEnumerable<Quote> other = TestData.GetCompare(1);
-
+        // update global configs
         Indicator.UseConfig(
             new IndicatorConfig
             {
                 UseBadQuotesException = false
             });
+
+        IEnumerable<Quote> quotes = TestData.GetDefault(1);
+        IEnumerable<Quote> other = TestData.GetCompare(1);
 
         IEnumerable<AdlResult> adl = quotes.GetAdl(5);
         Assert.AreEqual(1, adl.Count());
@@ -87,39 +88,5 @@ public class ConfigTests
 
         IEnumerable<SmaResult> sma = quotes.GetSma(5);
         Assert.AreEqual(1, sma.Count());
-    }
-
-    [TestMethod]
-    public void UseBadQuoteExceptionDefaultOn()
-    {
-        IEnumerable<Quote> quotes = TestData.GetDefault(1);
-        IEnumerable<Quote> other = TestData.GetCompare(1);
-
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAdl(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAdx(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAlligator());
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAlma(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAroon(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAtr(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAwesome(1, 2));
-        Assert.ThrowsException<BadQuotesException>(() => Indicator.GetBeta(quotes, other, 5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetBollingerBands(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetBop(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetCci(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetChaikinOsc(3, 5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetChandelier(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetChop(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetCmf(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetConnorsRsi());
-        Assert.ThrowsException<BadQuotesException>(() => Indicator.GetCorrelation(quotes, other, 5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetDonchian(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetDoubleEma(5));
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetDpo(5));
-
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetEma(5));
-
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetRsi(5));
-
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetSma(5));
     }
 }
