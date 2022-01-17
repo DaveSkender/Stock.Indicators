@@ -23,5 +23,6 @@ public static partial class Indicator
         = EnglishCulture.DateTimeFormat.FirstDayOfWeek;
 
     // global settings
+    [ThreadStatic]
     private static IndicatorConfig config = new();
 }

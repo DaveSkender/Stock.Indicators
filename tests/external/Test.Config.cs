@@ -95,12 +95,6 @@ public class ConfigTests
         IEnumerable<Quote> quotes = TestData.GetDefault(1);
         IEnumerable<Quote> other = TestData.GetCompare(1);
 
-        Indicator.UseConfig(
-        new IndicatorConfig
-        {
-            UseBadQuotesException = true
-        });
-
         Assert.ThrowsException<BadQuotesException>(() => quotes.GetAdl(5));
         Assert.ThrowsException<BadQuotesException>(() => quotes.GetAdx(5));
         Assert.ThrowsException<BadQuotesException>(() => quotes.GetAlligator());
