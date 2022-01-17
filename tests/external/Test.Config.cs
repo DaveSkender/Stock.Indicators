@@ -19,7 +19,7 @@ public class ConfigTests
                 UseBadQuotesException = false
             });
 
-        IEnumerable<AdlResult> adl = quotes.GetAdl();
+        IEnumerable<AdlResult> adl = quotes.GetAdl(5);
         Assert.AreEqual(1, adl.Count());
 
         IEnumerable<AdxResult> adx = quotes.GetAdx(5);
@@ -95,7 +95,13 @@ public class ConfigTests
         IEnumerable<Quote> quotes = TestData.GetDefault(1);
         IEnumerable<Quote> other = TestData.GetCompare(1);
 
-        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAdl());
+        Indicator.UseConfig(
+        new IndicatorConfig
+        {
+            UseBadQuotesException = true
+        });
+
+        Assert.ThrowsException<BadQuotesException>(() => quotes.GetAdl(5));
         Assert.ThrowsException<BadQuotesException>(() => quotes.GetAdx(5));
         Assert.ThrowsException<BadQuotesException>(() => quotes.GetAlligator());
         Assert.ThrowsException<BadQuotesException>(() => quotes.GetAlma(5));
