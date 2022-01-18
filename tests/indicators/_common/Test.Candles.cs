@@ -12,7 +12,7 @@ public class Candles : TestBase
         IEnumerable<Quote> quotes = TestData.GetMismatch();
 
         // sort
-        List<Candle> candles = quotes.ConvertToCandles();
+        List<CandleResult> candles = quotes.ConvertToCandleResults();
 
         // assertions
 
@@ -36,7 +36,7 @@ public class Candles : TestBase
     public void CandleValues()
     {
         // sort
-        List<Candle> candles = quotes.ConvertToCandles();
+        List<CandleResult> candles = quotes.ConvertToCandleResults();
 
         // assertions
 
@@ -44,38 +44,38 @@ public class Candles : TestBase
         Assert.AreEqual(502, candles.Count);
 
         // sample values
-        Candle r0 = candles[0];
-        Assert.AreEqual(212.8m, r0.Close);
-        Assert.AreEqual(1.83m, r0.Size);
-        Assert.AreEqual(0.19m, r0.Body);
-        Assert.AreEqual(0.55m, r0.UpperWick);
-        Assert.AreEqual(1.09m, r0.LowerWick);
-        Assert.AreEqual(0.10383m, Math.Round(r0.BodyPct, 5));
-        Assert.AreEqual(0.30055m, Math.Round(r0.UpperWickPct, 5));
-        Assert.AreEqual(0.59563m, Math.Round(r0.LowerWickPct, 5));
-        Assert.IsTrue(r0.IsBullish);
-        Assert.IsFalse(r0.IsBearish);
+        CandleResult r0 = candles[0];
+        Assert.AreEqual(212.8m, r0.Candle.Close);
+        Assert.AreEqual(1.83m, r0.Candle.Size);
+        Assert.AreEqual(0.19m, r0.Candle.Body);
+        Assert.AreEqual(0.55m, r0.Candle.UpperWick);
+        Assert.AreEqual(1.09m, r0.Candle.LowerWick);
+        Assert.AreEqual(0.10383m, Math.Round(r0.Candle.BodyPct, 5));
+        Assert.AreEqual(0.30055m, Math.Round(r0.Candle.UpperWickPct, 5));
+        Assert.AreEqual(0.59563m, Math.Round(r0.Candle.LowerWickPct, 5));
+        Assert.IsTrue(r0.Candle.IsBullish);
+        Assert.IsFalse(r0.Candle.IsBearish);
 
-        Candle r351 = candles[351];
-        Assert.AreEqual(1.24m, r351.Size);
-        Assert.AreEqual(0m, r351.Body);
-        Assert.AreEqual(0.69m, r351.UpperWick);
-        Assert.AreEqual(0.55m, r351.LowerWick);
-        Assert.AreEqual(0m, Math.Round(r351.BodyPct, 5));
-        Assert.AreEqual(0.55645m, Math.Round(r351.UpperWickPct, 5));
-        Assert.AreEqual(0.44355m, Math.Round(r351.LowerWickPct, 5));
-        Assert.IsFalse(r351.IsBullish);
-        Assert.IsFalse(r351.IsBearish);
+        CandleResult r351 = candles[351];
+        Assert.AreEqual(1.24m, r351.Candle.Size);
+        Assert.AreEqual(0m, r351.Candle.Body);
+        Assert.AreEqual(0.69m, r351.Candle.UpperWick);
+        Assert.AreEqual(0.55m, r351.Candle.LowerWick);
+        Assert.AreEqual(0m, Math.Round(r351.Candle.BodyPct, 5));
+        Assert.AreEqual(0.55645m, Math.Round(r351.Candle.UpperWickPct, 5));
+        Assert.AreEqual(0.44355m, Math.Round(r351.Candle.LowerWickPct, 5));
+        Assert.IsFalse(r351.Candle.IsBullish);
+        Assert.IsFalse(r351.Candle.IsBearish);
 
-        Candle r501 = candles[501];
-        Assert.AreEqual(2.67m, r501.Size);
-        Assert.AreEqual(0.36m, r501.Body);
-        Assert.AreEqual(0.26m, r501.UpperWick);
-        Assert.AreEqual(2.05m, r501.LowerWick);
-        Assert.AreEqual(0.13483m, Math.Round(r501.BodyPct, 5));
-        Assert.AreEqual(0.09738m, Math.Round(r501.UpperWickPct, 5));
-        Assert.AreEqual(0.76779m, Math.Round(r501.LowerWickPct, 5));
-        Assert.IsTrue(r501.IsBullish);
-        Assert.IsFalse(r501.IsBearish);
+        CandleResult r501 = candles[501];
+        Assert.AreEqual(2.67m, r501.Candle.Size);
+        Assert.AreEqual(0.36m, r501.Candle.Body);
+        Assert.AreEqual(0.26m, r501.Candle.UpperWick);
+        Assert.AreEqual(2.05m, r501.Candle.LowerWick);
+        Assert.AreEqual(0.13483m, Math.Round(r501.Candle.BodyPct, 5));
+        Assert.AreEqual(0.09738m, Math.Round(r501.Candle.UpperWickPct, 5));
+        Assert.AreEqual(0.76779m, Math.Round(r501.Candle.LowerWickPct, 5));
+        Assert.IsTrue(r501.Candle.IsBullish);
+        Assert.IsFalse(r501.Candle.IsBearish);
     }
 }

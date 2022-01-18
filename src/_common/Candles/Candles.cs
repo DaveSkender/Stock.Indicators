@@ -2,19 +2,33 @@ namespace Skender.Stock.Indicators;
 
 public static class Candlesticks
 {
+    public static IEnumerable<CandleResult> Condense(
+        this IEnumerable<CandleResult> candleResults)
+    {
+        return candleResults
+            .Where(candle => candle.Signal != Signal.None)
+            .ToList();
+    }
+
     // convert/sort quotes into candles
-    internal static List<Candle> ConvertToCandles<TQuote>(
+    internal static List<CandleResult> ConvertToCandleResults<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        List<Candle> candlesList = quotes
-            .Select(x => new Candle
+        List<CandleResult> candlesList = quotes
+            .Select(x => new CandleResult
             {
                 Date = x.Date,
-                Open = x.Open,
-                High = x.High,
-                Low = x.Low,
-                Close = x.Close
+                Signal = Signal.None,
+                Candle = new Candle
+                {
+                    Date = x.Date,
+                    Open = x.Open,
+                    High = x.High,
+                    Low = x.Low,
+                    Close = x.Close,
+                    Volume = x.Volume
+                }
             })
             .OrderBy(x => x.Date)
             .ToList();
