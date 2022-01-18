@@ -39,7 +39,8 @@ IEnumerable<CandleResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The candlestick pattern is indicated on dates where `Signal` is `Signal.BullSignal` or `Signal.BearSignal`.  There is no intrinsic confirmation available for this pattern.
+- The candlestick pattern is indicated on dates where `Signal` is `Signal.BullSignal` or `Signal.BearSignal`.
+- There is no intrinsic basis or confirmation signal information provided for this pattern.
 
 {% include candle-result.md %}
 
