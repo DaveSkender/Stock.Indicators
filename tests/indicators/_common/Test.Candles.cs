@@ -50,9 +50,9 @@ public class Candles : TestBase
         Assert.AreEqual(0.19m, r0.Candle.Body);
         Assert.AreEqual(0.55m, r0.Candle.UpperWick);
         Assert.AreEqual(1.09m, r0.Candle.LowerWick);
-        Assert.AreEqual(0.10383m, Math.Round(r0.Candle.BodyPct, 5));
-        Assert.AreEqual(0.30055m, Math.Round(r0.Candle.UpperWickPct, 5));
-        Assert.AreEqual(0.59563m, Math.Round(r0.Candle.LowerWickPct, 5));
+        Assert.AreEqual(0.10383, Math.Round(r0.Candle.BodyPct, 5));
+        Assert.AreEqual(0.30055, Math.Round(r0.Candle.UpperWickPct, 5));
+        Assert.AreEqual(0.59563, Math.Round(r0.Candle.LowerWickPct, 5));
         Assert.IsTrue(r0.Candle.IsBullish);
         Assert.IsFalse(r0.Candle.IsBearish);
 
@@ -61,9 +61,9 @@ public class Candles : TestBase
         Assert.AreEqual(0m, r351.Candle.Body);
         Assert.AreEqual(0.69m, r351.Candle.UpperWick);
         Assert.AreEqual(0.55m, r351.Candle.LowerWick);
-        Assert.AreEqual(0m, Math.Round(r351.Candle.BodyPct, 5));
-        Assert.AreEqual(0.55645m, Math.Round(r351.Candle.UpperWickPct, 5));
-        Assert.AreEqual(0.44355m, Math.Round(r351.Candle.LowerWickPct, 5));
+        Assert.AreEqual(0, Math.Round(r351.Candle.BodyPct, 5));
+        Assert.AreEqual(0.55645, Math.Round(r351.Candle.UpperWickPct, 5));
+        Assert.AreEqual(0.44355, Math.Round(r351.Candle.LowerWickPct, 5));
         Assert.IsFalse(r351.Candle.IsBullish);
         Assert.IsFalse(r351.Candle.IsBearish);
 
@@ -72,9 +72,9 @@ public class Candles : TestBase
         Assert.AreEqual(0.36m, r501.Candle.Body);
         Assert.AreEqual(0.26m, r501.Candle.UpperWick);
         Assert.AreEqual(2.05m, r501.Candle.LowerWick);
-        Assert.AreEqual(0.13483m, Math.Round(r501.Candle.BodyPct, 5));
-        Assert.AreEqual(0.09738m, Math.Round(r501.Candle.UpperWickPct, 5));
-        Assert.AreEqual(0.76779m, Math.Round(r501.Candle.LowerWickPct, 5));
+        Assert.AreEqual(0.13483, Math.Round(r501.Candle.BodyPct, 5));
+        Assert.AreEqual(0.09738, Math.Round(r501.Candle.UpperWickPct, 5));
+        Assert.AreEqual(0.76779, Math.Round(r501.Candle.LowerWickPct, 5));
         Assert.IsTrue(r501.Candle.IsBullish);
         Assert.IsFalse(r501.Candle.IsBearish);
     }
