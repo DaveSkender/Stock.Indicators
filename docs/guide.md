@@ -15,6 +15,7 @@ redirect_from:
 - [Using custom quote classes](#using-custom-quote-classes)
 - [Using derived results classes](#using-derived-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
+- [Candlestick patterns](#candlestick-patterns)
 - [Utilities and Helper functions]({{site.baseurl}}/utilities/#content)
 - [Contributing guidelines]({{site.github.repository_url}}/blob/main/docs/contributing.md#readme)
 
@@ -279,6 +280,48 @@ List<Quote> obvQuotes = obvResults
 // calculate RSI of OBV
 IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
 ```
+
+## Candlestick patterns
+
+[Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern) are a unique form of indicator and have a common output model.
+
+{% include candle-result.md %}
+
+### Signal
+
+When a candlestick pattern is recognized, it produces a signal.  In some cases, an intrinsic confirmation is also available.  In cases where previous bars were used to identify a pattern, they are indicates as the basis for the signal.  This `enum` can also be referenced as the shown `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
+
+| type | int | description
+|-- |--: |--
+| `Signal.BullConfirmed` | 200 | Confirmation of a prior bull signal
+| `Signal.BullSignal` | 100 | Matching bullish pattern
+| `Signal.BullBasis` | 10 | Bars supporting a bullish signal
+| `Signal.None` | 0 | No match
+| `Signal.BearBasis` | -10 | Bars supporting a bearish signal
+| `Signal.BearSignal` | -100 | Matching bearish pattern
+| `Signal.BearConfirmed` | -200 | Confirmation of a prior bear signal
+
+### Candle
+
+The `Candle` class is an extended version of `Quote`, and contains additional properties.
+
+| name | type | notes
+| -- |-- |--
+| `Date` | DateTime | Date
+| `Open` | decimal | Open price
+| `High` | decimal | High price
+| `Low` | decimal | Low price
+| `Close` | decimal | Close price
+| `Volume` | decimal | Volume
+| `Size` | decimal | `High-Low`
+| `Body` | decimal | `|Open-Close|` ($)
+| `UpperWick` | decimal | Upper wick size ($)
+| `LowerWick` | decimal | Lower wick size ($)
+| `BodyPct` | double | `Body/Size`
+| `UpperWickPct` | double | `UpperWick/Size`
+| `LowerWickPct` | double | `Lowerwick/Size`
+| `IsBullish` | bool | `Close>Open` direction
+| `IsBearish` | bool | `Close<Open` direction
 
 ## Utilities
 

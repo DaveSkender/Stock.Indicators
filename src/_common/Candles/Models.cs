@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CANDLESTICK MODELS
 
 [Serializable]
-internal class Candle : Quote
+public class Candle : Quote
 {
     // raw sizes
     internal decimal Size => High - Low;
@@ -12,11 +12,19 @@ internal class Candle : Quote
     internal decimal LowerWick => (Open > Close ? Close : Open) - Low;
 
     // percent sizes
-    internal decimal BodyPct => (Size != 0) ? Body / Size : 1m;
-    internal decimal UpperWickPct => (Size != 0) ? UpperWick / Size : 1m;
-    internal decimal LowerWickPct => (Size != 0) ? LowerWick / Size : 1m;
+    internal double BodyPct => (Size != 0) ? (double)(Body / Size) : 1;
+    internal double UpperWickPct => (Size != 0) ? (double)(UpperWick / Size) : 1;
+    internal double LowerWickPct => (Size != 0) ? (double)(LowerWick / Size) : 1;
 
     // directional info
     internal bool IsBullish => Close > Open;
     internal bool IsBearish => Close < Open;
+}
+
+[Serializable]
+public class CandleResult : ResultBase
+{
+    public decimal? Price { get; set; }
+    public Signal Signal { get; set; }
+    public Candle Candle { get; set; }
 }
