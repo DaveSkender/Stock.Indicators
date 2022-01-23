@@ -24,7 +24,7 @@
     "terminal.integrated.defaultProfile.windows": "Git Bash",
 
     // language settings
-    "dotnet-test-explorer.testProjectPath": "**/*Tests*.csproj",
+    "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
     "scss.validate": false, // false-positives on SCSS files with Jekyll front matter
 
     // markdown settings

@@ -7,368 +7,366 @@ namespace External.Other;
 [TestClass]
 public class Convergence : TestBase
 {
-    private static readonly int[] ConvergeQuantities =
-    new int[] { 5, 20, 30, 50, 75, 100, 120, 150, 200, 250, 350, 500, 600, 700, 800, 900, 1000 };
+    private static readonly int[] QuotesQuantities =
+    new int[] { 5, 14, 28, 40, 50, 75, 100, 120, 150, 200, 250, 350, 500, 600, 700, 800, 900, 1000 };
 
     [TestMethod]
     public void Adx()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(128 + qty);
-            IEnumerable<AdxResult> r = h.GetAdx();
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<AdxResult> r = quotes.GetAdx(14);
 
             AdxResult l = r.LastOrDefault();
             Console.WriteLine(
-                "ADX on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Adx);
+                "ADX(14) on {0:d} with {1,4} historical quotes: {2:N8}",
+                l.Date, quotes.Count(), l.Adx);
         }
     }
 
     [TestMethod]
     public void Atr()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(115 + qty);
-            IEnumerable<AtrResult> r = Indicator.GetAtr(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<AtrResult> r = quotes.GetAtr(14);
 
             AtrResult l = r.LastOrDefault();
             Console.WriteLine(
-                "ATR on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Atr);
+                "ATR(14) on {0:d} with {1,4} periods: {2:N8}",
+                l.Date, quotes.Count(), l.Atr);
         }
     }
 
     [TestMethod]
     public void ChaikinOsc()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(110 + qty);
-            IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<ChaikinOscResult> r = quotes.GetChaikinOsc();
 
             ChaikinOscResult l = r.LastOrDefault();
             Console.WriteLine(
                 "CHAIKIN OSC on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Oscillator);
+                l.Date, quotes.Count(), l.Oscillator);
         }
     }
 
     [TestMethod]
     public void ConnorsRsi()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(103 + qty);
-            IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(h, 3, 2, 10);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<ConnorsRsiResult> r = quotes.GetConnorsRsi(3, 2, 10);
 
             ConnorsRsiResult l = r.LastOrDefault();
             Console.WriteLine(
                 "CRSI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.ConnorsRsi);
+                l.Date, quotes.Count(), l.ConnorsRsi);
         }
     }
 
     [TestMethod]
     public void DoubleEma()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
-            IEnumerable<DemaResult> r = Indicator.GetDoubleEma(h, 15);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<DemaResult> r = quotes.GetDoubleEma(15);
 
             DemaResult l = r.LastOrDefault();
             Console.WriteLine(
-                "DEMA on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Dema);
+                "DEMA(15) on {0:d} with {1,4} periods: {2:N8}",
+                l.Date, quotes.Count(), l.Dema);
         }
     }
 
     [TestMethod]
     public void Ema()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(115 + qty);
-            IEnumerable<EmaResult> r = Indicator.GetEma(h, 15);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<EmaResult> r = quotes.GetEma(15);
 
             EmaResult l = r.LastOrDefault();
             Console.WriteLine(
-                "EMA on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Ema);
+                "EMA(15) on {0:d} with {1,4} periods: {2:N8}",
+                l.Date, quotes.Count(), l.Ema);
         }
     }
 
     [TestMethod]
     public void FisherTransform()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(5 + qty);
-            IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(h, 10);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<FisherTransformResult> r = quotes.GetFisherTransform(10);
 
             FisherTransformResult l = r.LastOrDefault();
             Console.WriteLine(
-                "FT on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Fisher);
+                "FT(10) on {0:d} with {1,4} periods: {2:N8}",
+                l.Date, quotes.Count(), l.Fisher);
         }
     }
 
     [TestMethod]
     public void HtTrendline()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(100 + qty);
-            IEnumerable<HtlResult> r = Indicator.GetHtTrendline(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<HtlResult> r = quotes.GetHtTrendline();
 
             HtlResult l = r.LastOrDefault();
             Console.WriteLine(
                 "HTL on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Trendline);
+                l.Date, quotes.Count(), l.Trendline);
         }
     }
 
     [TestMethod]
     public void Kama()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(105 + qty);
-            IEnumerable<KamaResult> r = Indicator.GetKama(h, 10);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<KamaResult> r = quotes.GetKama(10);
 
             KamaResult l = r.LastOrDefault();
             Console.WriteLine(
-                "KAMA on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Kama);
+                "KAMA(10) on {0:d} with {1,4} periods: {2:N8}",
+                l.Date, quotes.Count(), l.Kama);
         }
     }
 
     [TestMethod]
     public void Keltner()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(200 + qty);
-            IEnumerable<KeltnerResult> r = Indicator.GetKeltner(h, 100);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<KeltnerResult> r = quotes.GetKeltner(100);
 
             KeltnerResult l = r.LastOrDefault();
             Console.WriteLine(
                 "KC-UP on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.UpperBand);
+                l.Date, quotes.Count(), l.UpperBand);
         }
     }
 
     [TestMethod]
     public void Macd()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
-            IEnumerable<MacdResult> r = Indicator.GetMacd(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(15 + qty);
+            IEnumerable<MacdResult> r = quotes.GetMacd();
 
             MacdResult l = r.LastOrDefault();
             Console.WriteLine(
                 "MACD on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Macd);
+                l.Date, quotes.Count(), l.Macd);
         }
     }
 
     [TestMethod]
     public void Mama()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(50 + qty);
-            IEnumerable<MamaResult> r = Indicator.GetMama(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<MamaResult> r = quotes.GetMama();
 
             MamaResult l = r.LastOrDefault();
             Console.WriteLine(
                 "MAMA on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Mama);
+                l.Date, quotes.Count(), l.Mama);
         }
     }
 
     [TestMethod]
     public void Pmo()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
-            IEnumerable<PmoResult> r = Indicator.GetPmo(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<PmoResult> r = quotes.GetPmo();
 
             PmoResult l = r.LastOrDefault();
             Console.WriteLine(
                 "PMO on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Pmo);
+                l.Date, quotes.Count(), l.Pmo);
         }
     }
 
     [TestMethod]
     public void Pvo()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(130 + qty);
-            IEnumerable<PvoResult> r = Indicator.GetPvo(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<PvoResult> r = quotes.GetPvo();
 
             PvoResult l = r.LastOrDefault();
             Console.WriteLine(
                 "PVO on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Pvo);
+                l.Date, quotes.Count(), l.Pvo);
         }
     }
 
     [TestMethod]
     public void Rsi()
     {
-        int lookbackPeriods = 14;
-
-        foreach (int qty in ConvergeQuantities.Where(q => q > 100 - lookbackPeriods))
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(lookbackPeriods + qty);
-            IEnumerable<RsiResult> r = Indicator.GetRsi(h, lookbackPeriods);
+            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<RsiResult> r = quotes.GetRsi(14);
 
             RsiResult l = r.LastOrDefault();
             Console.WriteLine(
-                "RSI({0}) on {1:d} with {2,4} periods: {3:N8}",
-                lookbackPeriods, l.Date, h.Count(), l.Rsi);
+                "RSI(14) on {0:d} with {1,4} periods: {2:N8}",
+                l.Date, quotes.Count(), l.Rsi);
         }
     }
 
     [TestMethod]
     public void Smi()
     {
-        foreach (int qty in ConvergeQuantities.Where(x => x <= 502))
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetDefault(110 + qty);
-            IEnumerable<SmiResult> r = h.GetSmi(14, 20, 5, 3);
+            IEnumerable<Quote> quotes = TestData.GetDefault(10 + qty);
+            IEnumerable<SmiResult> r = quotes.GetSmi(14, 20, 5, 3);
 
             SmiResult l = r.LastOrDefault();
             Console.WriteLine(
                 "SMI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Smi);
+                l.Date, quotes.Count(), l.Smi);
         }
     }
 
     [TestMethod]
     public void Smma()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(110 + qty);
-            IEnumerable<SmmaResult> r = Indicator.GetSmma(h, 15);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<SmmaResult> r = quotes.GetSmma(15);
 
             SmmaResult l = r.LastOrDefault();
             Console.WriteLine(
                 "SMMA(15) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Smma);
+                l.Date, quotes.Count(), l.Smma);
         }
     }
 
     [TestMethod]
     public void StarcBands()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(200 + qty);
-            IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(h, 100);
+            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<StarcBandsResult> r = quotes.GetStarcBands(20);
 
             StarcBandsResult l = r.LastOrDefault();
             Console.WriteLine(
                 "STARC UPPER on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.UpperBand);
+                l.Date, quotes.Count(), l.UpperBand);
         }
     }
 
     [TestMethod]
     public void StochRsi()
     {
-        foreach (int qty in ConvergeQuantities.Where(x => x <= 502))
+        foreach (int qty in QuotesQuantities.Where(x => x <= 502))
         {
-            IEnumerable<Quote> h = TestData.GetDefault(110 + qty);
-            IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(h, 14, 14, 3, 1);
+            IEnumerable<Quote> quotes = TestData.GetDefault(10 + qty);
+            IEnumerable<StochRsiResult> r = quotes.GetStochRsi(14, 14, 3, 1);
 
             StochRsiResult l = r.LastOrDefault();
             Console.WriteLine(
                 "SRSI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.StochRsi);
+                l.Date, quotes.Count(), l.StochRsi);
         }
     }
 
     [TestMethod]
     public void T3()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish((6 * 20) + 100 + qty);
-            IEnumerable<T3Result> r = Indicator.GetT3(h, 20);
+            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<T3Result> r = quotes.GetT3(20);
 
             T3Result l = r.LastOrDefault();
             Console.WriteLine(
                 "T3 on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.T3);
+                l.Date, quotes.Count(), l.T3);
         }
     }
 
     [TestMethod]
     public void TripleEma()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(145 + qty);
-            IEnumerable<TemaResult> r = Indicator.GetTripleEma(h, 15);
+            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<TemaResult> r = quotes.GetTripleEma(15);
 
             TemaResult l = r.LastOrDefault();
             Console.WriteLine(
                 "TEMA on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Tema);
+                l.Date, quotes.Count(), l.Tema);
         }
     }
 
     [TestMethod]
     public void Trix()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(140 + qty);
-            IEnumerable<TrixResult> r = Indicator.GetTrix(h, 15);
+            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<TrixResult> r = quotes.GetTrix(15);
 
             TrixResult l = r.LastOrDefault();
             Console.WriteLine(
                 "TRIX on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Trix);
+                l.Date, quotes.Count(), l.Trix);
         }
     }
 
     [TestMethod]
     public void Tsi()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(135 + qty);
-            IEnumerable<TsiResult> r = Indicator.GetTsi(h);
+            IEnumerable<Quote> quotes = TestData.GetLongish(20 + qty);
+            IEnumerable<TsiResult> r = quotes.GetTsi();
 
             TsiResult l = r.LastOrDefault();
             Console.WriteLine(
                 "TSI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Tsi);
+                l.Date, quotes.Count(), l.Tsi);
         }
     }
 
     [TestMethod]
     public void Vortex()
     {
-        foreach (int qty in ConvergeQuantities)
+        foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> h = TestData.GetLongish(15 + qty);
-            IEnumerable<VortexResult> r = Indicator.GetVortex(h, 14);
+            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<VortexResult> r = quotes.GetVortex(14);
 
             VortexResult l = r.LastOrDefault();
             Console.WriteLine(
                 "VI+ on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, h.Count(), l.Pvi);
+                l.Date, quotes.Count(), l.Pvi);
         }
     }
 }
