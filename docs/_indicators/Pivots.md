@@ -15,7 +15,7 @@ Pivots is an extended version of [Williams Fractal](../Fractal#content) that inc
 ```csharp
 // usage
 IEnumerable<PivotsResult> results =
-  quotes.GetPivots(leftSpan, rightSpan, maxTrendPeriods, endType);  
+  quotes.GetPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
 ```
 
 ## Parameters
@@ -31,7 +31,7 @@ The total evaluation window size is `L+R+1`.
 
 ### Historical quotes requirements
 
-You must have at least `L+R+1` periods of `quotes`; however, more is typically provided since this is a chartable candlestick pattern.
+You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

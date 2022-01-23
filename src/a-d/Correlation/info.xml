@@ -18,5 +18,5 @@
     R², Variance, and Covariance are also included.
   </returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+  <exception cref="InvalidQuotesException">Invalid quotes provided.</exception>
 </indicator>

@@ -59,6 +59,16 @@ public class Klinger : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<KvoResult> r0 = noquotes.GetKvo();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<KvoResult> r1 = onequote.GetKvo();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<KvoResult> results =
@@ -88,9 +98,5 @@ public class Klinger : TestBase
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetKvo(quotes, 34, 55, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetKvo(TestData.GetDefault(154), 33, 55));
     }
 }

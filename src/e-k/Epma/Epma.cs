@@ -11,17 +11,17 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateEpma(quotes, lookbackPeriods);
+        ValidateEpma(lookbackPeriods);
 
         // initialize
         List<SlopeResult> slopeResults = GetSlope(quotes, lookbackPeriods)
             .ToList();
 
-        int size = slopeResults.Count;
-        List<EpmaResult> results = new(size);
+        int length = slopeResults.Count;
+        List<EpmaResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             SlopeResult s = slopeResults[i];
 
@@ -51,30 +51,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateEpma<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateEpma(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Epma.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Epma.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

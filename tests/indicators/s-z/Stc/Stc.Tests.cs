@@ -54,6 +54,16 @@ public class Stc : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<StcResult> r0 = noquotes.GetStc();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<StcResult> r1 = onequote.GetStc();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int cyclePeriods = 9;
@@ -86,13 +96,5 @@ public class Stc : TestBase
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetStc(quotes, -1, 12, 26));
-
-        // insufficient quotes 2×(S+P)
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStc(TestData.GetDefault(409), 5, 12, 200));
-
-        // insufficient quotes S+P+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStc(TestData.GetDefault(134), 9, 12, 26));
     }
 }

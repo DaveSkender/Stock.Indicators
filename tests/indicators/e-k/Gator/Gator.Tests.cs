@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -85,6 +85,16 @@ public class Gator : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<GatorResult> r0 = noquotes.GetGator();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<GatorResult> r1 = onequote.GetGator();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<GatorResult> results = quotes.GetGator()
@@ -99,13 +109,5 @@ public class Gator : TestBase
         Assert.AreEqual(-9.2399, Math.Round(last.Lower.Value, 4));
         Assert.IsTrue(last.UpperIsExpanding);
         Assert.IsTrue(last.LowerIsExpanding);
-    }
-
-    [TestMethod]
-    public void Exceptions()
-    {
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetGator(TestData.GetDefault(114)));
     }
 }

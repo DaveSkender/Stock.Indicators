@@ -51,6 +51,16 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<CorrResult> r0 = noquotes.GetCorrelation(noquotes, 10);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<CorrResult> r1 = onequote.GetCorrelation(onequote, 10);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<CorrResult> results =
@@ -73,19 +83,13 @@ public class Correlation : TestBase
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetCorrelation(quotes, otherQuotes, 0));
 
-        // insufficient quotes
-        IEnumerable<Quote> h1 = TestData.GetDefault(29);
-        IEnumerable<Quote> h2 = TestData.GetCompare(29);
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetCorrelation(h1, h2, 30));
-
         // bad eval quotes
         IEnumerable<Quote> eval = TestData.GetCompare(300);
-        Assert.ThrowsException<BadQuotesException>(() =>
+        Assert.ThrowsException<InvalidQuotesException>(() =>
             Indicator.GetCorrelation(quotes, eval, 30));
 
         // mismatched quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
+        Assert.ThrowsException<InvalidQuotesException>(() =>
             Indicator.GetCorrelation(mismatchQuotes, otherQuotes, 20));
     }
 }

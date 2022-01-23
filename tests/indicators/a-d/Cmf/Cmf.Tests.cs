@@ -49,6 +49,16 @@ public class Cmf : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<CmfResult> r0 = noquotes.GetCmf();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<CmfResult> r1 = onequote.GetCmf();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<CmfResult> results = quotes.GetCmf(20)
@@ -70,9 +80,5 @@ public class Cmf : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetCmf(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetCmf(TestData.GetDefault(20), 20));
     }
 }

@@ -166,6 +166,16 @@ public class Stoch : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<StochResult> r0 = noquotes.GetStoch();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<StochResult> r1 = onequote.GetStoch();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int lookbackPeriods = 14;
@@ -212,9 +222,5 @@ public class Stoch : TestBase
         // bad MA type
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStoch(TestData.GetDefault(32), 30, 3, 3));
     }
 }

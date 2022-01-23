@@ -46,6 +46,16 @@ public class Chandeleir : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ChandelierResult> r0 = noquotes.GetChandelier();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ChandelierResult> r1 = onequote.GetChandelier();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<ChandelierResult> longResult =
@@ -70,9 +80,5 @@ public class Chandeleir : TestBase
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetChandelier(quotes, 25, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetChandelier(TestData.GetDefault(30), 30));
     }
 }

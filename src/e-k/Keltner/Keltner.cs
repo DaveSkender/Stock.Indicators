@@ -16,7 +16,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateKeltner(quotes, emaPeriods, multiplier, atrPeriods);
+        ValidateKeltner(emaPeriods, multiplier, atrPeriods);
 
         // initialize
         List<KeltnerResult> results = new(quotesList.Count);
@@ -67,12 +67,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateKeltner<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateKeltner(
         int emaPeriods,
         decimal multiplier,
         int atrPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (emaPeriods <= 1)
@@ -91,24 +89,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
                 "Multiplier must be greater than 0 for Keltner Channel.");
-        }
-
-        // check quotes
-        int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Keltner Channel.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

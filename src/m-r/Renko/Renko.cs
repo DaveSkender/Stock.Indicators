@@ -15,23 +15,32 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateRenko(quotes, brickSize);
+        ValidateRenko(brickSize);
 
         // initialize
-        int size = quotesList.Count;
-        List<RenkoResult> results = new(size);
+        int length = quotesList.Count;
+        List<RenkoResult> results = new(length);
+        TQuote q0;
+
+        if (length == 0)
+        {
+            return results;
+        }
+        else
+        {
+            q0 = quotesList[0];
+        }
 
         int brickIndex = 1;
         int decimals = brickSize.GetDecimalPlaces();
-        TQuote init = quotesList[0];
 
-        decimal o = Math.Round(init.Close, Math.Max(decimals - 1, 0));
-        decimal h = init.Close;
-        decimal l = init.Close;
-        decimal v = init.Close;
+        decimal o = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
+        decimal h = q0.Close;
+        decimal l = q0.Close;
+        decimal v = q0.Close;
 
         // roll through quotes
-        for (int i = 1; i < size; i++)
+        for (int i = 1; i < length; i++)
         {
             TQuote q = quotesList[i];
 
@@ -134,30 +143,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateRenko<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateRenko(
         decimal brickSize)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (brickSize <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(brickSize), brickSize,
                 "Brick size must be greater than 0 for Renko Charts.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 2;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Renko Chart.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

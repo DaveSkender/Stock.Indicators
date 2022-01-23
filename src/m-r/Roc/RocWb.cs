@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateRocWb(quotes, lookbackPeriods, emaPeriods, stdDevPeriods);
+        ValidateRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         // initialize
         List<RocWbResult> results = GetRoc(quotes, lookbackPeriods)
@@ -27,19 +27,26 @@ public static partial class Indicator
         double k = 2d / (emaPeriods + 1);
         double? lastEma = 0;
 
-        for (int i = lookbackPeriods; i < lookbackPeriods + emaPeriods; i++)
-        {
-            lastEma += results[i].Roc;
-        }
+        int length = results.Count;
 
-        lastEma /= emaPeriods;
+        if (length > lookbackPeriods)
+        {
+            int initPeriods = Math.Min(lookbackPeriods + emaPeriods, length);
+
+            for (int i = lookbackPeriods; i < initPeriods; i++)
+            {
+                lastEma += results[i].Roc;
+            }
+
+            lastEma /= emaPeriods;
+        }
 
         double?[] rocSq = results
             .Select(x => x.Roc * x.Roc)
             .ToArray();
 
         // roll through quotes
-        for (int i = lookbackPeriods; i < results.Count; i++)
+        for (int i = lookbackPeriods; i < length; i++)
         {
             RocWbResult r = results[i];
             int index = i + 1;
@@ -91,12 +98,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateRocWb<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateRocWb(
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -115,20 +120,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(stdDevPeriods), stdDevPeriods,
                 "Standard Deviation periods must be greater than 0 and not more than lookback period for ROC with Bands.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for ROC with Bands.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

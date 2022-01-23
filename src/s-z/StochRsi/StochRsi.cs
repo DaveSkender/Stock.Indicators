@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateStochRsi(quotes, rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        ValidateStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // initialize
         List<RsiResult> rsiResults = GetRsi(quotes, rsiPeriods).ToList();
@@ -76,13 +76,11 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateStochRsi<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateStochRsi(
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (rsiPeriods <= 0)
@@ -107,23 +105,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
                 "Smooth periods must be greater than 0 for Stochastic RSI.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(rsiPeriods + stochPeriods + smoothPeriods, rsiPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Stochastic RSI.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, Math.Max(10 * rsiPeriods, minHistory));
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

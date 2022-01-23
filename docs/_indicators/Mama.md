@@ -15,7 +15,7 @@ Created by John Ehlers, the [MAMA](http://mesasoftware.com/papers/MAMA.pdf) indi
 ```csharp
 // usage
 IEnumerable<MamaResult> results =
-  quotes.GetMama(fastLimit, slowLimit);  
+  quotes.GetMama(fastLimit, slowLimit);
 ```
 
 ## Parameters
@@ -27,7 +27,7 @@ IEnumerable<MamaResult> results =
 
 ### Historical quotes requirements
 
-Since this indicator has a warmup period, you must have at least `50` periods of `quotes`.
+You must have at least `50` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

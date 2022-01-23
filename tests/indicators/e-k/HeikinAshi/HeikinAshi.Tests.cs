@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -52,10 +52,12 @@ public class HeikinAshi : TestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void NoQuotes()
     {
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetHeikinAshi(TestData.GetDefault(1)));
+        IEnumerable<HeikinAshiResult> r0 = noquotes.GetHeikinAshi();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<HeikinAshiResult> r1 = onequote.GetHeikinAshi();
+        Assert.AreEqual(1, r1.Count());
     }
 }

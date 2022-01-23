@@ -16,7 +16,7 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 ```csharp
 // usage
 IEnumerable<BopResult> results =
-  quotes.GetBop(smoothPeriods);  
+  quotes.GetBop(smoothPeriods);
 ```
 
 ## Parameters
@@ -27,7 +27,7 @@ IEnumerable<BopResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotes`.
+You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

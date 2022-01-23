@@ -17,5 +17,4 @@
   <param name="pointType">Pivot Point type.</param>
   <returns>Time series of Rolling Pivot Points values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

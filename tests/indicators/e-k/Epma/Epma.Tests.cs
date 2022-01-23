@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -43,6 +43,16 @@ public class Epma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<EpmaResult> r0 = noquotes.GetEpma(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<EpmaResult> r1 = onequote.GetEpma(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<EpmaResult> results = quotes.GetEpma(20)
@@ -62,9 +72,5 @@ public class Epma : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetEpma(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetEpma(TestData.GetDefault(9), 10));
     }
 }

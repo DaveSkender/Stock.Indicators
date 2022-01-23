@@ -30,7 +30,7 @@ public static partial class Indicator
 
             if (a.Date != b.Date)
             {
-                throw new BadQuotesException(nameof(quotesA), a.Date,
+                throw new InvalidQuotesException(nameof(quotesA), a.Date,
                     "Date sequence does not match.  Correlation requires matching dates in provided histories.");
             }
 
@@ -82,14 +82,14 @@ public static partial class Indicator
         double[] dataA,
         double[] dataB)
     {
-        int size = dataA.Length;
+        int length = dataA.Length;
         double sumA = 0;
         double sumB = 0;
         double sumA2 = 0;
         double sumB2 = 0;
         double sumAB = 0;
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             double a = dataA[i];
             double b = dataB[i];
@@ -101,11 +101,11 @@ public static partial class Indicator
             sumAB += a * b;
         }
 
-        double avgA = sumA / size;
-        double avgB = sumB / size;
-        double avgA2 = sumA2 / size;
-        double avgB2 = sumB2 / size;
-        double avgAB = sumAB / size;
+        double avgA = sumA / length;
+        double avgB = sumB / length;
+        double avgA2 = sumA2 / length;
+        double avgB2 = sumB2 / length;
+        double avgAB = sumAB / length;
 
         r.VarianceA = avgA2 - (avgA * avgA);
         r.VarianceB = avgB2 - (avgB * avgB);
@@ -133,23 +133,9 @@ public static partial class Indicator
         }
 
         // check quotes
-        int qtyHistoryA = quotesA.Count();
-        int minHistoryA = lookbackPeriods;
-        if (qtyHistoryA < minHistoryA)
+        if (quotesA.Count() != quotesB.Count())
         {
-            string message = "Insufficient quotes provided for Correlation.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistoryA, minHistoryA);
-
-            throw new BadQuotesException(nameof(quotesA), message);
-        }
-
-        int qtyHistoryB = quotesB.Count();
-        if (qtyHistoryB != qtyHistoryA)
-        {
-            throw new BadQuotesException(
+            throw new InvalidQuotesException(
                 nameof(quotesB),
                 "B quotes should have at least as many records as A quotes for Correlation.");
         }

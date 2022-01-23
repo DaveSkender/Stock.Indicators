@@ -15,7 +15,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateBollingerBands(quotes, lookbackPeriods, standardDeviations);
+        ValidateBollingerBands(lookbackPeriods, standardDeviations);
 
         // initialize
         List<BollingerBandsResult> results = new(bdList.Count);
@@ -80,11 +80,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateBollingerBands<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateBollingerBands(
         int lookbackPeriods,
         double standardDeviations)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
@@ -97,20 +95,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(standardDeviations), standardDeviations,
                 "Standard Deviations must be greater than 0 for Bollinger Bands.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Bollinger Bands.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

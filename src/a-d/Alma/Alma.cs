@@ -16,7 +16,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateAlma(quotes, lookbackPeriods, offset, sigma);
+        ValidateAlma(lookbackPeriods, offset, sigma);
 
         // initialize
         List<AlmaResult> results = new(bdList.Count);
@@ -81,12 +81,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateAlma<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateAlma(
         int lookbackPeriods,
         double offset,
         double sigma)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
@@ -105,20 +103,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(sigma), sigma,
                 "Sigma must be greater than 0 for ALMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for ALMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

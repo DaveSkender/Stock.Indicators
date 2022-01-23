@@ -16,7 +16,7 @@ layout: indicator
 ```csharp
 // usage
 IEnumerable<BetaResult> results =
-  Indicator.GetBeta(quotesMarket, quotesEval, lookbackPeriods, type);  
+  Indicator.GetBeta(quotesMarket, quotesEval, lookbackPeriods, type);
 ```
 
 ## Parameters
@@ -30,7 +30,7 @@ IEnumerable<BetaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of quotes.  You must have at least the same matching date elements of `quotesMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+You must have at least `N` periods of quotes to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 #### BetaType options
 

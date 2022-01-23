@@ -14,8 +14,8 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 
 ```csharp
 // usage
-IEnumerable<TsiResult> results = 
-  quotes.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);  
+IEnumerable<TsiResult> results =
+  quotes.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<TsiResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+M+100` periods of `quotes`.  Since this uses a two EMA smoothing techniques, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
+You must have at least `N+M+100` periods of `quotes` to cover the convergence periods.  Since this uses a two EMA smoothing techniques, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
@@ -44,7 +44,7 @@ IEnumerable<TsiResult>
 - The first `N+M-1` periods will have `null` values since there's not enough data to calculate.
 - `Signal` will be `null` for all periods if `signalPeriods=0`.
 
-:warning: **Warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+:hourglass: **Convergence Warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### TsiResult
 

@@ -26,7 +26,7 @@ public static class HistoricalQuotes
 
             if (lastDate == q.Date)
             {
-                throw new BadQuotesException(
+                throw new InvalidQuotesException(
                     string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
             }
 
@@ -91,19 +91,14 @@ public static class HistoricalQuotes
     internal static List<TQuote> SortToList<TQuote>(this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        List<TQuote> quotesList = quotes.OrderBy(x => x.Date).ToList();
-
-        // validate
-        return quotesList == null || quotesList.Count == 0
-            ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-            : quotesList;
+        return quotes.OrderBy(x => x.Date).ToList();
     }
 
     internal static List<QuoteD> ConvertToList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        List<QuoteD> quotesList = quotes
+        return quotes
             .Select(x => new QuoteD
             {
                 Date = x.Date,
@@ -115,11 +110,6 @@ public static class HistoricalQuotes
             })
             .OrderBy(x => x.Date)
             .ToList();
-
-        // validate
-        return quotesList == null || quotesList.Count == 0
-            ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-            : quotesList;
     }
 
     // convert to basic double
@@ -140,11 +130,6 @@ public static class HistoricalQuotes
             _ => new List<BasicD>(),
         };
 
-        List<BasicD> bdList = basicDouble.OrderBy(x => x.Date).ToList();
-
-        // validate
-        return bdList == null || bdList.Count == 0
-            ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-            : bdList;
+        return basicDouble.OrderBy(x => x.Date).ToList();
     }
 }

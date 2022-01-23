@@ -14,7 +14,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateAtr(quotes, lookbackPeriods);
+        ValidateAtr(lookbackPeriods);
 
         // initialize
         List<AtrResult> results = new(quotesList.Count);
@@ -86,32 +86,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateAtr<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateAtr(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 1 for Average True Range.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for ATR.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least N+250 data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

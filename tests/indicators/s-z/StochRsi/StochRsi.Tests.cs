@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -88,6 +88,16 @@ public class StochRsi : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<StochRsiResult> r0 = noquotes.GetStochRsi(10, 20, 3);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<StochRsiResult> r1 = onequote.GetStochRsi(8, 13, 2);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int rsiPeriods = 14;
@@ -127,9 +137,5 @@ public class StochRsi : TestBase
         // bad STO smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetStochRsi(quotes, 14, 14, 3, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStochRsi(TestData.GetDefault(129), 30, 30, 5, 5));
     }
 }

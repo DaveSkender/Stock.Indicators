@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -62,6 +62,16 @@ public class StarcBands : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<StarcBandsResult> r0 = noquotes.GetStarcBands();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<StarcBandsResult> r1 = onequote.GetStarcBands();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int smaPeriods = 20;
@@ -97,13 +107,5 @@ public class StarcBands : TestBase
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetStarcBands(quotes, 20, 0, 10));
-
-        // insufficient quotes 120
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStarcBands(TestData.GetDefault(119), 120, 2, 10));
-
-        // insufficient quotes 250
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStarcBands(TestData.GetDefault(249), 20, 2, 150));
     }
 }

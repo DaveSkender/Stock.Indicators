@@ -31,7 +31,7 @@ public static partial class Indicator
 
             if (ei.Date != bi.Date)
             {
-                throw new BadQuotesException(nameof(historyEval), ei.Date,
+                throw new InvalidQuotesException(nameof(historyEval), ei.Date,
                     "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
             }
 
@@ -107,12 +107,12 @@ public static partial class Indicator
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryEval, minHistory);
 
-            throw new BadQuotesException(nameof(historyEval), message);
+            throw new InvalidQuotesException(nameof(historyEval), message);
         }
 
         if (qtyHistoryBase != qtyHistoryEval)
         {
-            throw new BadQuotesException(
+            throw new InvalidQuotesException(
                 nameof(historyBase),
                 "Base quotes should have at least as many records as Eval quotes for PRS.");
         }

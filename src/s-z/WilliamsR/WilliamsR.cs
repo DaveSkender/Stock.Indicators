@@ -11,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateWilliam(quotes, lookbackPeriods);
+        ValidateWilliam(lookbackPeriods);
 
         // convert Stochastic to William %R
         return GetStoch(quotes, lookbackPeriods, 1, 1) // fast variant
@@ -37,30 +37,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateWilliam<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateWilliam(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for William %R.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for William %R.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

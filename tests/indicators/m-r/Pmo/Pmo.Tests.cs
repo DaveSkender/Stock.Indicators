@@ -37,6 +37,16 @@ public class Pmo : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<PmoResult> r0 = noquotes.GetPmo();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<PmoResult> r1 = onequote.GetPmo();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<PmoResult> results = quotes.GetPmo(35, 20, 10)
@@ -65,9 +75,5 @@ public class Pmo : TestBase
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetPmo(quotes, 5, 5, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPmo(TestData.GetDefault(54), 35, 20, 10));
     }
 }

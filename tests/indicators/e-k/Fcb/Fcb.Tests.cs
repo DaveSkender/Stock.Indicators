@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -53,6 +53,16 @@ public class Fcb : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<FcbResult> r0 = noquotes.GetFcb();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<FcbResult> r1 = onequote.GetFcb();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<FcbResult> results = quotes.GetFcb(2)
@@ -73,9 +83,5 @@ public class Fcb : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetFcb(quotes, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetFcb(TestData.GetDefault(60), 30));
     }
 }

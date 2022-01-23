@@ -238,15 +238,7 @@ public class QuoteHistory : TestBase
 
     /* BAD QUOTES EXCEPTIONS */
     [TestMethod]
-    [ExpectedException(typeof(BadQuotesException), "No historical quotes.")]
-    public void NoHistory()
-    {
-        List<Quote> badHistory = new();
-        badHistory.Validate();
-    }
-
-    [TestMethod]
-    [ExpectedException(typeof(BadQuotesException), "Duplicate date found.")]
+    [ExpectedException(typeof(InvalidQuotesException), "Duplicate date found.")]
     public void DuplicateHistory()
     {
         List<Quote> badHistory = new()
@@ -259,14 +251,6 @@ public class QuoteHistory : TestBase
         };
 
         badHistory.Validate();
-    }
-
-    [TestMethod]
-    [ExpectedException(typeof(BadQuotesException), "No historical basic data.")]
-    public void NoBasicData()
-    {
-        List<Quote> h = new();
-        h.ConvertToBasic();
     }
 
     [TestMethod]

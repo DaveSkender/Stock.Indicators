@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateAdl(quotes, smaPeriods);
+        ValidateAdl(smaPeriods);
 
         // initialize
         List<AdlResult> results = new(quotesList.Count);
@@ -77,30 +77,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateAdl<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateAdl(
         int? smaPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (smaPeriods is not null and <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
                 "SMA periods must be greater than 0 for ADL.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 2;
-        if (qtyHistory < minHistory)
-        {
-            string message = string.Format(
-                EnglishCulture,
-                "Insufficient quotes provided for Accumulation/Distribution Line.  " +
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

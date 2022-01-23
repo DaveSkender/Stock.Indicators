@@ -14,7 +14,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateHma(quotes, lookbackPeriods);
+        ValidateHma(lookbackPeriods);
 
         // initialize
         List<Quote> synthHistory = new();
@@ -84,30 +84,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateHma<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateHma(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 1 for HMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + (int)Math.Sqrt(lookbackPeriods) - 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for HMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

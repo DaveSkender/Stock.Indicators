@@ -14,7 +14,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateDema(bdList, lookbackPeriods);
+        ValidateDema(lookbackPeriods);
 
         // initialize
         List<DemaResult> results = new(bdList.Count);
@@ -65,7 +65,6 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateDema(
-        IEnumerable<BasicD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -73,23 +72,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for DEMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(3 * lookbackPeriods, (2 * lookbackPeriods) + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for DEMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, (2 * lookbackPeriods) + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

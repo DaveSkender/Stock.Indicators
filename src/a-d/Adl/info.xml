@@ -14,5 +14,4 @@
   <param name="smaPeriods">Optional.  Number of periods in the moving average of ADL.</param>
   <returns>Time series of ADL values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

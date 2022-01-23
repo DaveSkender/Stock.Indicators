@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -46,6 +46,16 @@ public class T3 : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<T3Result> r0 = noquotes.GetT3();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<T3Result> r1 = onequote.GetT3();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<T3Result> results = quotes.GetT3(5, 0.7)
@@ -69,9 +79,5 @@ public class T3 : TestBase
         // bad volume factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetT3(quotes, 25, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetT3(TestData.GetDefault((6 * (5 - 1)) + 99), 5));
     }
 }

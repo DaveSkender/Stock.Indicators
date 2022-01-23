@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -34,6 +34,16 @@ public class Hma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<HmaResult> r0 = noquotes.GetHma(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<HmaResult> r1 = onequote.GetHma(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<HmaResult> results = quotes.GetHma(20)
@@ -53,9 +63,5 @@ public class Hma : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetHma(1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetHma(TestData.GetDefault(10), 9));
     }
 }

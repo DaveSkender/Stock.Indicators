@@ -15,18 +15,25 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateVolatilityStop(quotes, lookbackPeriods, multiplier);
+        ValidateVolatilityStop(lookbackPeriods, multiplier);
 
         // initialize
-        int size = bdList.Count;
-        List<VolatilityStopResult> results = new(size);
+        int length = bdList.Count;
+        List<VolatilityStopResult> results = new(length);
+
+        if (length == 0)
+        {
+            return results;
+        }
+
         List<AtrResult> atrList = quotes.GetAtr(lookbackPeriods).ToList();
 
         // initial trend (guess)
+        int initPeriods = Math.Min(length, lookbackPeriods);
         double sic = (double)bdList[0].Value;
-        bool isLong = (double)bdList[lookbackPeriods - 1].Value > sic;
+        bool isLong = (double)bdList[initPeriods - 1].Value > sic;
 
-        for (int i = 0; i < lookbackPeriods; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
             BasicD q = bdList[i];
             double close = (double)q.Value;
@@ -35,7 +42,7 @@ public static partial class Indicator
         }
 
         // roll through quotes
-        for (int i = lookbackPeriods; i < size; i++)
+        for (int i = lookbackPeriods; i < length; i++)
         {
             BasicD q = bdList[i];
             double close = (double)q.Value;
@@ -119,11 +126,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateVolatilityStop<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateVolatilityStop(
         int lookbackPeriods,
         double multiplier)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
@@ -136,22 +141,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
                 "ATR Multiplier must be greater than 0 for Volatility Stop.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Volatility Stop.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least N+250 data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

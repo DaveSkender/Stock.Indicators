@@ -34,6 +34,16 @@ public class SmaExtended : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<SmaExtendedResult> r0 = noquotes.GetSmaExtended(6);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<SmaExtendedResult> r1 = onequote.GetSmaExtended(6);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<SmaExtendedResult> results = quotes.GetSmaExtended(20)
@@ -51,9 +61,5 @@ public class SmaExtended : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetSmaExtended(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetSmaExtended(TestData.GetDefault(9), 10));
     }
 }

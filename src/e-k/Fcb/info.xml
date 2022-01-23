@@ -14,5 +14,4 @@
   <param name="windowSpan">Number of span periods in the evaluation window.</param>
   <returns>Time series of Fractal Chaos Band and Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

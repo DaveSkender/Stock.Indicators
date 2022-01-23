@@ -16,7 +16,7 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 ```csharp
 // usage
 IEnumerable<AwesomeResult> results =
-  quotes.GetAwesome(fastPeriods, slowPeriods);  
+  quotes.GetAwesome(fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<AwesomeResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `S` periods of `quotes`.
+You must have at least `S` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

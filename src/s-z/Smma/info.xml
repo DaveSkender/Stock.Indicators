@@ -15,6 +15,5 @@
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
     <returns>Time series of SMMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
 </indicator>

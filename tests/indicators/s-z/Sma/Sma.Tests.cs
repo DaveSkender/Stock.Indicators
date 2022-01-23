@@ -83,6 +83,16 @@ public class Sma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<SmaResult> r0 = noquotes.GetSma(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<SmaResult> r1 = onequote.GetSma(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<SmaResult> results = quotes.GetSma(20)
@@ -100,9 +110,5 @@ public class Sma : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetSma(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetSma(TestData.GetDefault(9), 10));
     }
 }

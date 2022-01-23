@@ -16,5 +16,4 @@
   <param name="rankPeriods">Number of periods for the percentile ranking.</param>
   <returns>Time series of ConnorsRSI, RSI, Streak RSI, and Percent Rank values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

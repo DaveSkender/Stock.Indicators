@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -51,6 +51,16 @@ public class Alma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<AlmaResult> r0 = noquotes.GetAlma();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<AlmaResult> r1 = onequote.GetAlma();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<AlmaResult> results = quotes.GetAlma(10, 0.85, 6)
@@ -78,9 +88,5 @@ public class Alma : TestBase
         // bad sigma
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAlma(quotes, 10, 0.5, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetAlma(TestData.GetDefault(10), 11, 0.5));
     }
 }

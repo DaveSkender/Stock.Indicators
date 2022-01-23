@@ -8,23 +8,23 @@ public class ExceptionTests : TestBase
 {
     // bad quotes exceptions
     [TestMethod]
-    [ExpectedException(typeof(BadQuotesException), "Bad quotes without message.")]
+    [ExpectedException(typeof(InvalidQuotesException), "Bad quotes without message.")]
     public void BadHistory()
     {
-        throw new BadQuotesException();
+        throw new InvalidQuotesException();
     }
 
     [TestMethod]
-    [ExpectedException(typeof(BadQuotesException), "Bad quotes with message.")]
+    [ExpectedException(typeof(InvalidQuotesException), "Bad quotes with message.")]
     public void BadHistoryWithMessage()
     {
-        throw new BadQuotesException("This is a quotes exception.");
+        throw new InvalidQuotesException("This is a quotes exception.");
     }
 
     [TestMethod]
-    [ExpectedException(typeof(BadQuotesException), "Bad quotes with inner Exception.")]
+    [ExpectedException(typeof(InvalidQuotesException), "Bad quotes with inner Exception.")]
     public void BadHistoryWithInner()
     {
-        throw new BadQuotesException("This has an inner Exception.", new ArgumentException());
+        throw new InvalidQuotesException("This has an inner Exception.", new ArgumentException());
     }
 }

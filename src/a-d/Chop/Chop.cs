@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateChop(quotesList, lookbackPeriods);
+        ValidateChop(lookbackPeriods);
 
         // initialize
         double sum;
@@ -22,11 +22,11 @@ public static partial class Indicator
         double low;
         double range;
 
-        int size = quotesList.Count;
-        List<ChopResult> results = new(size);
-        double[] trueHigh = new double[size];
-        double[] trueLow = new double[size];
-        double[] trueRange = new double[size];
+        int length = quotesList.Count;
+        List<ChopResult> results = new(length);
+        double[] trueHigh = new double[length];
+        double[] trueLow = new double[length];
+        double[] trueRange = new double[length];
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
@@ -89,7 +89,6 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateChop(
-        List<QuoteD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -97,20 +96,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 1 for CHOP.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count;
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for CHOP.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

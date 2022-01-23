@@ -16,7 +16,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateConnorsRsi(bdList, rsiPeriods, streakPeriods, rankPeriods);
+        ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         // initialize
         List<ConnorsRsiResult> results = CalcConnorsRsiBaseline(bdList, rsiPeriods, rankPeriods);
@@ -67,15 +67,15 @@ public static partial class Indicator
         // initialize
         List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods);
 
-        int size = bdList.Count;
-        List<ConnorsRsiResult> results = new(size);
-        double?[] gain = new double?[size];
+        int length = bdList.Count;
+        List<ConnorsRsiResult> results = new(length);
+        double?[] gain = new double?[length];
 
         double? lastClose = null;
         int streak = 0;
 
         // compose interim results
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             int index = i + 1;
@@ -149,7 +149,6 @@ public static partial class Indicator
     }
 
     private static void ValidateConnorsRsi(
-        IEnumerable<BasicD> quotes,
         int rsiPeriods,
         int streakPeriods,
         int rankPeriods)
@@ -171,22 +170,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(rankPeriods), rankPeriods,
                 "Percent Rank periods must be greater than 1 for ConnorsRsi.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(rsiPeriods + 100, Math.Max(streakPeriods, rankPeriods + 2));
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for ConnorsRsi.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least N+150 data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

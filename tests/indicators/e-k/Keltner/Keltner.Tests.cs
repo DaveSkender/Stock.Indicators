@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -51,6 +51,16 @@ public class Keltner : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<KeltnerResult> r0 = noquotes.GetKeltner();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<KeltnerResult> r1 = onequote.GetKeltner();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int emaPeriods = 20;
@@ -87,13 +97,5 @@ public class Keltner : TestBase
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetKeltner(quotes, 20, 0, 10));
-
-        // insufficient quotes for N+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetKeltner(TestData.GetDefault(119), 20, 2, 10));
-
-        // insufficient quotes for 2×N
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetKeltner(TestData.GetDefault(499), 20, 2, 250));
     }
 }

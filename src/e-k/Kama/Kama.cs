@@ -16,7 +16,7 @@ public static partial class Indicator
         List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateKama(quotes, erPeriods, fastPeriods, slowPeriods);
+        ValidateKama(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
         List<KamaResult> results = new(quotesList.Count);
@@ -94,12 +94,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateKama<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateKama(
         int erPeriods,
         int fastPeriods,
         int slowPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (erPeriods <= 0)
@@ -118,23 +116,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
                 "Slow EMA periods must be greater than Fast EMA period for KAMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(6 * erPeriods, erPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for KAMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for an ER period of {2}, "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, erPeriods, 10 * erPeriods);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

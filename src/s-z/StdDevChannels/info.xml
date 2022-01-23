@@ -15,5 +15,4 @@
   <param name="standardDeviations">Width of bands. Number of Standard Deviations from the regression line.</param>
   <returns>Time series of Standard Deviation Channels values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

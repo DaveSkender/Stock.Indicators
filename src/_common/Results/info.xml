@@ -12,7 +12,6 @@
     </summary>
     <param name="results">Indicator results to evaluate.</param>
     <returns>Time series of historical quote values.</returns>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
   <type name="Find">
     <summary>

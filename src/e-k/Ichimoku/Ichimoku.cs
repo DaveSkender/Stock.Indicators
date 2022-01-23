@@ -54,7 +54,6 @@ public static partial class Indicator
 
         // check parameter arguments
         ValidateIchimoku(
-            quotes,
             tenkanPeriods,
             kijunPeriods,
             senkouBPeriods,
@@ -200,14 +199,12 @@ public static partial class Indicator
         }
     }
 
-    private static void ValidateIchimoku<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateIchimoku(
         int tenkanPeriods,
         int kijunPeriods,
         int senkouBPeriods,
         int senkouOffset,
         int chikouOffset)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (tenkanPeriods <= 0)
@@ -232,26 +229,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(senkouOffset), senkouOffset,
                 "Senkou and Chikou offset periods must be non-negative for Ichimoku Cloud.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(
-            tenkanPeriods,
-            Math.Max(
-                             kijunPeriods,
-                             Math.Max(
-                             senkouBPeriods,
-                             Math.Max(senkouOffset, chikouOffset))));
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Ichimoku Cloud.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

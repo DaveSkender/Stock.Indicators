@@ -167,21 +167,25 @@ public class Beta : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<BetaResult> r0 = Indicator.GetBeta(noquotes, noquotes, 5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<BetaResult> r1 = Indicator.GetBeta(onequote, onequote, 5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetBeta(quotes, otherQuotes, 0));
 
-        // insufficient quotes
-        IEnumerable<Quote> h1 = TestData.GetDefault(29);
-        IEnumerable<Quote> h2 = TestData.GetCompare(29);
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetBeta(h1, h2, 30));
-
         // bad evaluation quotes
         IEnumerable<Quote> eval = TestData.GetCompare(300);
-        Assert.ThrowsException<BadQuotesException>(() =>
+        Assert.ThrowsException<InvalidQuotesException>(() =>
             Indicator.GetBeta(quotes, eval, 30));
     }
 }

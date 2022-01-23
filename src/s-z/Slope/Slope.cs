@@ -14,14 +14,14 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateSlope(quotes, lookbackPeriods);
+        ValidateSlope(lookbackPeriods);
 
         // initialize
-        int size = bdList.Count;
-        List<SlopeResult> results = new(size);
+        int length = bdList.Count;
+        List<SlopeResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             int index = i + 1;
@@ -87,11 +87,14 @@ public static partial class Indicator
         }
 
         // add last Line (y = mx + b)
-        SlopeResult last = results.LastOrDefault();
-        for (int p = size - lookbackPeriods; p < size; p++)
+        if (length >= lookbackPeriods)
         {
-            SlopeResult d = results[p];
-            d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
+            SlopeResult last = results.LastOrDefault();
+            for (int p = length - lookbackPeriods; p < length; p++)
+            {
+                SlopeResult d = results[p];
+                d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
+            }
         }
 
         return results;
@@ -111,30 +114,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateSlope<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateSlope(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Slope/Linear Regression.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Slope/Linear Regression.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

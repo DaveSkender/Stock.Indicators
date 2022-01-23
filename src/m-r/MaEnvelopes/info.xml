@@ -16,5 +16,4 @@
   <param name="movingAverageType">Moving average type (e.g. EMA, HMA, TEMA, etc.).</param>
   <returns>Time series of MA Envelopes values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

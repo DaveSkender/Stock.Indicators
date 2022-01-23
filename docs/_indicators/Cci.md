@@ -15,7 +15,7 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 ```csharp
 // usage
 IEnumerable<CciResult> results =
-  quotes.GetCci(lookbackPeriods);  
+  quotes.GetCci(lookbackPeriods);
 ```
 
 ## Parameters
@@ -26,7 +26,7 @@ IEnumerable<CciResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `quotes`.
+You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

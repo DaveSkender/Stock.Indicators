@@ -90,6 +90,16 @@ public class ParabolicSar : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ParabolicSarResult> r0 = noquotes.GetParabolicSar();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ParabolicSarResult> r1 = onequote.GetParabolicSar();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         decimal acclerationStep = 0.02m;
@@ -122,9 +132,5 @@ public class ParabolicSar : TestBase
         // step larger than factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetParabolicSar(quotes, 6, 2));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetParabolicSar(TestData.GetDefault(1), 0.02m, 0.2m));
     }
 }

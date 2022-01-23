@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -55,6 +55,16 @@ public class Chop : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ChopResult> r0 = noquotes.GetChop();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ChopResult> r1 = onequote.GetChop();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<ChopResult> results = quotes.GetChop(14)
@@ -74,9 +84,5 @@ public class Chop : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetChop(quotes, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetChop(TestData.GetDefault(30), 30));
     }
 }

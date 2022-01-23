@@ -31,7 +31,7 @@ IEnumerable<AlligatorResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `JP+JO+100` periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least `JP+JO+250` data points prior to the intended usage date for better precision.
+You must have at least `JP+JO+100` periods of `quotes` to cover the convergence periods. Since this uses a smoothing technique, we recommend you use at least `JP+JO+250` data points prior to the intended usage date for better precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

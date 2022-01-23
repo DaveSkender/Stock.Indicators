@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -39,6 +39,16 @@ public class Marubozu : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<MarubozuResult> r0 = noquotes.GetMarubozu();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<MarubozuResult> r1 = onequote.GetMarubozu();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad minimum body percent values
@@ -47,9 +57,5 @@ public class Marubozu : TestBase
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetMarubozu(quotes, 1.001));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetMarubozu(TestData.GetDefault(0)));
     }
 }

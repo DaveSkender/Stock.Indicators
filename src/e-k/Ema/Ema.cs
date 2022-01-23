@@ -51,15 +51,17 @@ public static partial class Indicator
         this List<BasicD> bdList, int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateEma(bdList, lookbackPeriods);
+        ValidateEma(lookbackPeriods);
 
         // initialize
-        List<EmaResult> results = new(bdList.Count);
+        int length = bdList.Count;
+        List<EmaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
         double? lastEma = 0;
+        int initPeriods = Math.Min(lookbackPeriods, length);
 
-        for (int i = 0; i < lookbackPeriods; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
             lastEma += bdList[i].Value;
         }
@@ -67,7 +69,7 @@ public static partial class Indicator
         lastEma /= lookbackPeriods;
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD h = bdList[i];
             int index = i + 1;
@@ -96,7 +98,6 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateEma(
-        List<BasicD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -104,23 +105,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for EMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count;
-        int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for EMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

@@ -19,7 +19,7 @@ IEnumerable<ObvResult> results =
 
 // usage with optional overlay SMA of OBV (shown above)
 IEnumerable<ObvResult> results =
-  quotes.GetObv(smaPeriods);  
+  quotes.GetObv(smaPeriods);
 ```
 
 ## Parameters
@@ -30,7 +30,7 @@ IEnumerable<ObvResult> results =
 
 ### Historical quotes requirements
 
-You must have at least two historical quotes; however, since this is a trendline, more is recommended.
+You must have at least two historical quotes to cover the warmup periods; however, since this is a trendline, more is recommended.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

@@ -16,18 +16,18 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Volume);
 
         // check parameter arguments
-        ValidatePvo(quotes, fastPeriods, slowPeriods, signalPeriods);
+        ValidatePvo(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         List<EmaResult> emaFast = CalcEma(bdList, fastPeriods);
         List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
 
-        int size = bdList.Count;
+        int length = bdList.Count;
         List<BasicD> emaDiff = new();
-        List<PvoResult> results = new(size);
+        List<PvoResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD h = bdList[i];
             EmaResult df = emaFast[i];
@@ -61,7 +61,7 @@ public static partial class Indicator
         // add signal and histogram to result
         List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
 
-        for (int d = slowPeriods - 1; d < size; d++)
+        for (int d = slowPeriods - 1; d < length; d++)
         {
             PvoResult r = results[d];
             EmaResult ds = emaSignal[d + 1 - slowPeriods];
@@ -87,12 +87,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidatePvo<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidatePvo(
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (fastPeriods <= 0)
@@ -111,22 +109,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
                 "Slow periods must be greater than the fast period for PVO.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(2 * (slowPeriods + signalPeriods), slowPeriods + signalPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for PVO.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory, slowPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

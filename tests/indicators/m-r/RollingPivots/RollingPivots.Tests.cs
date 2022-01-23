@@ -396,6 +396,16 @@ public class RollingPivots : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<RollingPivotsResult> r0 = noquotes.GetRollingPivots(5, 2);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<RollingPivotsResult> r1 = onequote.GetRollingPivots(5, 2);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int windowPeriods = 11;
@@ -432,9 +442,5 @@ public class RollingPivots : TestBase
         // bad offset period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetRollingPivots(quotes, 10, -1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetRollingPivots(TestData.GetDefault(19), 10, 10));
     }
 }

@@ -60,6 +60,16 @@ public class Mama : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<MamaResult> r0 = noquotes.GetMama();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<MamaResult> r1 = onequote.GetMama();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         double fastLimit = 0.5;
@@ -91,9 +101,5 @@ public class Mama : TestBase
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetMama(quotes, 0.5, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetMama(TestData.GetDefault(49)));
     }
 }
