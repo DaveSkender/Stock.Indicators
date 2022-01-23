@@ -172,11 +172,8 @@ public class Renko : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<RenkoResult> r0 = noquotes.GetRenko(2);
+        IEnumerable<RenkoResult> r0 = noquotes.GetRenko(0.01m);
         Assert.AreEqual(0, r0.Count());
-
-        IEnumerable<RenkoResult> r1 = onequote.GetRenko(3);
-        Assert.AreEqual(1, r1.Count());
     }
 
     [TestMethod]

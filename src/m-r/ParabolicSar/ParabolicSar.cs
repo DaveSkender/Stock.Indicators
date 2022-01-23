@@ -34,16 +34,26 @@ public static partial class Indicator
             accelerationStep, maxAccelerationFactor, initialFactor);
 
         // initialize
-        List<ParabolicSarResult> results = new(quotesList.Count);
-        TQuote first = quotesList[0];
+        int length = quotesList.Count;
+        List<ParabolicSarResult> results = new(length);
+        TQuote q0;
+
+        if (length == 0)
+        {
+            return results;
+        }
+        else
+        {
+            q0 = quotesList[0];
+        }
 
         decimal accelerationFactor = initialFactor;
-        decimal extremePoint = first.High;
-        decimal priorSar = first.Low;
+        decimal extremePoint = q0.High;
+        decimal priorSar = q0.Low;
         bool isRising = true;  // initial guess
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 

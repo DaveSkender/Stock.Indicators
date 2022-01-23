@@ -54,12 +54,14 @@ public static partial class Indicator
         ValidateEma(lookbackPeriods);
 
         // initialize
-        List<EmaResult> results = new(bdList.Count);
+        int length = bdList.Count;
+        List<EmaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
         double? lastEma = 0;
+        int initPeriods = Math.Min(lookbackPeriods, length);
 
-        for (int i = 0; i < lookbackPeriods; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
             lastEma += bdList[i].Value;
         }
@@ -67,7 +69,7 @@ public static partial class Indicator
         lastEma /= lookbackPeriods;
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD h = bdList[i];
             int index = i + 1;

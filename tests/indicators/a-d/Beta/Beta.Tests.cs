@@ -183,12 +183,6 @@ public class Beta : TestBase
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetBeta(quotes, otherQuotes, 0));
 
-        // insufficient quotes
-        IEnumerable<Quote> h1 = TestData.GetDefault(29);
-        IEnumerable<Quote> h2 = TestData.GetCompare(29);
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetBeta(h1, h2, 30));
-
         // bad evaluation quotes
         IEnumerable<Quote> eval = TestData.GetCompare(300);
         Assert.ThrowsException<InvalidQuotesException>(() =>

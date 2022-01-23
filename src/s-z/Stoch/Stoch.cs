@@ -40,11 +40,11 @@ public static partial class Indicator
             kFactor, dFactor, movingAverageType);
 
         // initialize
-        int size = quotesList.Count;
-        List<StochResult> results = new(size);
+        int length = quotesList.Count;
+        List<StochResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;
@@ -86,14 +86,20 @@ public static partial class Indicator
         if (smoothPeriods > 1)
         {
             results = SmoothOscillator(
-                results, size, lookbackPeriods, smoothPeriods, movingAverageType);
+                results, length, lookbackPeriods, smoothPeriods, movingAverageType);
+        }
+
+        // handle insufficient length
+        if (length < lookbackPeriods - 1)
+        {
+            return results;
         }
 
         // signal (%D) and %J
         int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
         double? s = (double?)results[lookbackPeriods - 1].Oscillator;
 
-        for (int i = lookbackPeriods - 1; i < size; i++)
+        for (int i = lookbackPeriods - 1; i < length; i++)
         {
             StochResult r = results[i];
             int index = i + 1;

@@ -18,15 +18,22 @@ public static partial class Indicator
         ValidateVolatilityStop(lookbackPeriods, multiplier);
 
         // initialize
-        int size = bdList.Count;
-        List<VolatilityStopResult> results = new(size);
+        int length = bdList.Count;
+        List<VolatilityStopResult> results = new(length);
+
+        if (length == 0)
+        {
+            return results;
+        }
+
         List<AtrResult> atrList = quotes.GetAtr(lookbackPeriods).ToList();
 
         // initial trend (guess)
+        int initPeriods = Math.Min(length, lookbackPeriods);
         double sic = (double)bdList[0].Value;
-        bool isLong = (double)bdList[lookbackPeriods - 1].Value > sic;
+        bool isLong = (double)bdList[initPeriods - 1].Value > sic;
 
-        for (int i = 0; i < lookbackPeriods; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
             BasicD q = bdList[i];
             double close = (double)q.Value;
@@ -35,7 +42,7 @@ public static partial class Indicator
         }
 
         // roll through quotes
-        for (int i = lookbackPeriods; i < size; i++)
+        for (int i = lookbackPeriods; i < length; i++)
         {
             BasicD q = bdList[i];
             double close = (double)q.Value;

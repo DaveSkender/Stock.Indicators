@@ -33,9 +33,11 @@ public static partial class Indicator
 
         // initialize results
         // to ensure same length as original quotes
-        List<StcResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        int initPeriods = Math.Min(slowPeriods - 1, length);
+        List<StcResult> results = new(length);
 
-        for (int i = 0; i < slowPeriods - 1; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
             BasicD q = quotesList[i];
             results.Add(new StcResult() { Date = q.Date });

@@ -27,19 +27,26 @@ public static partial class Indicator
         double k = 2d / (emaPeriods + 1);
         double? lastEma = 0;
 
-        for (int i = lookbackPeriods; i < lookbackPeriods + emaPeriods; i++)
-        {
-            lastEma += results[i].Roc;
-        }
+        int length = results.Count;
 
-        lastEma /= emaPeriods;
+        if (length > lookbackPeriods)
+        {
+            int initPeriods = Math.Min(lookbackPeriods + emaPeriods, length);
+
+            for (int i = lookbackPeriods; i < initPeriods; i++)
+            {
+                lastEma += results[i].Roc;
+            }
+
+            lastEma /= emaPeriods;
+        }
 
         double?[] rocSq = results
             .Select(x => x.Roc * x.Roc)
             .ToArray();
 
         // roll through quotes
-        for (int i = lookbackPeriods; i < results.Count; i++)
+        for (int i = lookbackPeriods; i < length; i++)
         {
             RocWbResult r = results[i];
             int index = i + 1;

@@ -175,21 +175,7 @@ public static partial class Indicator
         }
 
         // check quotes
-        int qtyQuotesMarket = quotesMarket.Count();
-        int minQuotesMarket = lookbackPeriods;
-        if (qtyQuotesMarket < minQuotesMarket)
-        {
-            string message = "Insufficient quotes provided for Beta.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyQuotesMarket, minQuotesMarket);
-
-            throw new InvalidQuotesException(nameof(quotesMarket), message);
-        }
-
-        int qtyHistoryEval = quotesEval.Count();
-        if (qtyHistoryEval < qtyQuotesMarket)
+        if (quotesEval.Count() < quotesMarket.Count())
         {
             throw new InvalidQuotesException(
                 nameof(quotesEval),

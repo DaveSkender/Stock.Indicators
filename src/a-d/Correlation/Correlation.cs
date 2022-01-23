@@ -133,21 +133,7 @@ public static partial class Indicator
         }
 
         // check quotes
-        int qtyHistoryA = quotesA.Count();
-        int minHistoryA = lookbackPeriods;
-        if (qtyHistoryA < minHistoryA)
-        {
-            string message = "Insufficient quotes provided for Correlation.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistoryA, minHistoryA);
-
-            throw new InvalidQuotesException(nameof(quotesA), message);
-        }
-
-        int qtyHistoryB = quotesB.Count();
-        if (qtyHistoryB != qtyHistoryA)
+        if (quotesA.Count() != quotesB.Count())
         {
             throw new InvalidQuotesException(
                 nameof(quotesB),

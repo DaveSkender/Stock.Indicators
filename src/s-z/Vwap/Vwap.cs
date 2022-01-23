@@ -17,15 +17,21 @@ public static partial class Indicator
         ValidateVwap(quotesList, startDate);
 
         // initialize
-        int size = quotesList.Count;
+        int length = quotesList.Count;
+        List<VwapResult> results = new(length);
+
+        if (length == 0)
+        {
+            return results;
+        }
+
         startDate = (startDate == null) ? quotesList[0].Date : startDate;
-        List<VwapResult> results = new(size);
 
         double? cumVolume = 0;
         double? cumVolumeTP = 0;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             double? v = q.Volume;
@@ -70,7 +76,11 @@ public static partial class Indicator
         List<QuoteD> quotesList,
         DateTime? startDate)
     {
-        // check quotes: done under Sort() for 0 length
+        // nothing to do for 0 length
+        if (quotesList.Count == 0)
+        {
+            return;
+        }
 
         // check parameter arguments (intentionally after quotes check)
         if (startDate < quotesList[0].Date)

@@ -17,11 +17,11 @@ public static partial class Indicator
         ValidateSlope(lookbackPeriods);
 
         // initialize
-        int size = bdList.Count;
-        List<SlopeResult> results = new(size);
+        int length = bdList.Count;
+        List<SlopeResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             int index = i + 1;
@@ -87,11 +87,14 @@ public static partial class Indicator
         }
 
         // add last Line (y = mx + b)
-        SlopeResult last = results.LastOrDefault();
-        for (int p = size - lookbackPeriods; p < size; p++)
+        if (length >= lookbackPeriods)
         {
-            SlopeResult d = results[p];
-            d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
+            SlopeResult last = results.LastOrDefault();
+            for (int p = length - lookbackPeriods; p < length; p++)
+            {
+                SlopeResult d = results[p];
+                d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
+            }
         }
 
         return results;

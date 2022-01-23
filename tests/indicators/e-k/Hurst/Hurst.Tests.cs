@@ -51,10 +51,10 @@ public class Hurst : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<HurstResult> r0 = noquotes.GetHurst(10);
+        IEnumerable<HurstResult> r0 = noquotes.GetHurst();
         Assert.AreEqual(0, r0.Count());
 
-        IEnumerable<HurstResult> r1 = onequote.GetHurst(10);
+        IEnumerable<HurstResult> r1 = onequote.GetHurst();
         Assert.AreEqual(1, r1.Count());
     }
 

@@ -15,10 +15,20 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // initialize
-        List<PivotPointsResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        List<PivotPointsResult> results = new(length);
         PivotPointsResult windowPoint = new();
+        TQuote h0;
 
-        TQuote h0 = quotesList[0];
+        if (length == 0)
+        {
+            return results;
+        }
+        else
+        {
+            h0 = quotesList[0];
+        }
+
         int windowId = GetWindowNumber(h0.Date, windowSize);
         int windowEval;
         bool firstWindow = true;
@@ -29,7 +39,7 @@ public static partial class Indicator
         decimal windowClose = h0.Close;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 

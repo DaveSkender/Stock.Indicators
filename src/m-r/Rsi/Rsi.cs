@@ -57,14 +57,23 @@ public static partial class Indicator
         ValidateRsi(lookbackPeriods);
 
         // initialize
-        double lastValue = bdList[0].Value;
+        int length = bdList.Count;
         double avgGain = 0;
         double avgLoss = 0;
 
-        int size = bdList.Count;
-        List<RsiResult> results = new(size);
-        double[] gain = new double[size]; // gain
-        double[] loss = new double[size]; // loss
+        List<RsiResult> results = new(length);
+        double[] gain = new double[length]; // gain
+        double[] loss = new double[length]; // loss
+        double lastValue;
+
+        if (length == 0)
+        {
+            return results;
+        }
+        else
+        {
+            lastValue = bdList[0].Value;
+        }
 
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
