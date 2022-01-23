@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -37,6 +37,16 @@ public class TripleEma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        var r0 = noquotes.GetTripleEma(5);
+        Assert.AreEqual(0, r0.Count());
+
+        var r1 = onequote.GetTripleEma(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<TemaResult> results = quotes.GetTripleEma(20)
@@ -56,13 +66,5 @@ public class TripleEma : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetTripleEma(quotes, 0));
-
-        // insufficient quotes for 3*N+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetTripleEma(TestData.GetDefault(189), 30));
-
-        // insufficient quotes for 4×N
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetTripleEma(TestData.GetLongish(999), 250));
     }
 }

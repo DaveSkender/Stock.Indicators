@@ -44,6 +44,16 @@ public class Awesome : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<AwesomeResult> r0 = noquotes.GetAwesome();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<AwesomeResult> r1 = onequote.GetAwesome();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<AwesomeResult> results = quotes.GetAwesome(5, 34)
@@ -68,9 +78,5 @@ public class Awesome : TestBase
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAwesome(quotes, 25, 25));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetAwesome(TestData.GetDefault(33), 5, 34));
     }
 }

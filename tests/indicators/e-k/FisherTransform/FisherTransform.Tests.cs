@@ -59,14 +59,20 @@ public class FisherTransform : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<FisherTransformResult> r0 = noquotes.GetFisherTransform();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<FisherTransformResult> r1 = onequote.GetFisherTransform();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetFisherTransform(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetFisherTransform(TestData.GetDefault(9), 10));
     }
 }

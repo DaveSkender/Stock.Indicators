@@ -64,6 +64,16 @@ public class Roc : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<RocResult> r0 = noquotes.GetRoc(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<RocResult> r1 = onequote.GetRoc(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<RocResult> results = quotes.GetRoc(20)
@@ -88,9 +98,5 @@ public class Roc : TestBase
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetRoc(quotes, 14, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetRoc(TestData.GetDefault(10), 10));
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -35,6 +35,16 @@ public class WilliamsR : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<WilliamsResult> r0 = noquotes.GetWilliamsR();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<WilliamsResult> r1 = onequote.GetWilliamsR();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<WilliamsResult> results = quotes.GetWilliamsR(14)
@@ -54,9 +64,5 @@ public class WilliamsR : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetWilliamsR(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetWilliamsR(TestData.GetDefault(29), 30));
     }
 }

@@ -32,6 +32,25 @@ public class Adl : TestBase
     }
 
     [TestMethod]
+    public void WithSma()
+    {
+        List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
+
+        // assertions
+
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(483, results.Where(x => x.AdlSma != null).Count());
+
+        // sample value
+        AdlResult r = results[501];
+        Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
+        Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
+        Assert.AreEqual(3595352721.16, Math.Round((double)r.AdlSma, 2));
+    }
+
+    [TestMethod]
     public void ConvertToQuotes()
     {
         List<Quote> newQuotes = quotes.GetAdl()
@@ -62,22 +81,13 @@ public class Adl : TestBase
     }
 
     [TestMethod]
-    public void WithSma()
+    public void NoQuotes()
     {
-        List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
+        IEnumerable<AdlResult> r0 = noquotes.GetAdl();
+        Assert.AreEqual(0, r0.Count());
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.AdlSma != null).Count());
-
-        // sample value
-        AdlResult r = results[501];
-        Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
-        Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
-        Assert.AreEqual(3595352721.16, Math.Round((double)r.AdlSma, 2));
+        IEnumerable<AdlResult> r1 = onequote.GetAdl();
+        Assert.AreEqual(1, r1.Count());
     }
 
     [TestMethod]
@@ -86,9 +96,5 @@ public class Adl : TestBase
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAdl(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetAdl(TestData.GetDefault(1)));
     }
 }

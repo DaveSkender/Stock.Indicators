@@ -48,6 +48,16 @@ public class Vortex : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<VortexResult> r0 = noquotes.GetVortex(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<VortexResult> r1 = onequote.GetVortex(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<VortexResult> results = quotes.GetVortex(14)
@@ -68,9 +78,5 @@ public class Vortex : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetVortex(quotes, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetVortex(TestData.GetDefault(30), 30));
     }
 }

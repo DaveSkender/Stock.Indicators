@@ -51,6 +51,16 @@ public class BollingerBands : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<BollingerBandsResult> r0 = noquotes.GetBollingerBands();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<BollingerBandsResult> r1 = onequote.GetBollingerBands();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<BollingerBandsResult> results =
@@ -80,9 +90,5 @@ public class BollingerBands : TestBase
         // bad standard deviation
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetBollingerBands(quotes, 2, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetBollingerBands(TestData.GetDefault(29), 30, 2));
     }
 }

@@ -79,6 +79,16 @@ public class RocWb : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<RocWbResult> r0 = noquotes.GetRocWb(5, 3, 2);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<RocWbResult> r1 = onequote.GetRocWb(5, 3, 2);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<RocWbResult> results = quotes.GetRocWb(20, 3, 20)
@@ -109,9 +119,5 @@ public class RocWb : TestBase
         // bad STDDEV period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetRocWb(quotes, 15, 3, 16));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetRocWb(TestData.GetDefault(10), 10, 2, 10));
     }
 }

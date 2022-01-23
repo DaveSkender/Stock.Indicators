@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -43,6 +43,16 @@ public class Bop : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<BopResult> r0 = noquotes.GetBop();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<BopResult> r1 = onequote.GetBop();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<BopResult> results = quotes.GetBop(14)
@@ -62,9 +72,5 @@ public class Bop : TestBase
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetBop(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetBop(TestData.GetDefault(24), 25));
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -80,10 +80,12 @@ public class HtTrendline : TestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void NoQuotes()
     {
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetHtTrendline(TestData.GetDefault(99)));
+        IEnumerable<HtlResult> r0 = noquotes.GetHtTrendline();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<HtlResult> r1 = onequote.GetHtTrendline();
+        Assert.AreEqual(1, r1.Count());
     }
 }

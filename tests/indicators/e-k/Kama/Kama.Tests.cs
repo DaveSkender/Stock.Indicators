@@ -62,6 +62,16 @@ public class Kama : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<KamaResult> r0 = noquotes.GetKama();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<KamaResult> r1 = onequote.GetKama();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int erPeriods = 10;
@@ -94,9 +104,5 @@ public class Kama : TestBase
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetKama(quotes, 10, 5, 5));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetKama(TestData.GetDefault(109), 10, 2, 20));
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -53,6 +53,16 @@ public class Atr : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<AtrResult> r0 = noquotes.GetAtr();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<AtrResult> r1 = onequote.GetAtr();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<AtrResult> results = quotes.GetAtr(14)
@@ -74,9 +84,5 @@ public class Atr : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAtr(quotes, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetAtr(TestData.GetDefault(129), 30));
     }
 }

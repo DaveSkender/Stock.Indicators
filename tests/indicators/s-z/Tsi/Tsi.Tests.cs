@@ -60,6 +60,16 @@ public class Tsi : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<TsiResult> r0 = noquotes.GetTsi();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<TsiResult> r1 = onequote.GetTsi();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<TsiResult> results = quotes.GetTsi(25, 13, 7)
@@ -88,9 +98,5 @@ public class Tsi : TestBase
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetTsi(quotes, 25, 13, -1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetTsi(TestData.GetDefault(137), 25, 13, 7));
     }
 }

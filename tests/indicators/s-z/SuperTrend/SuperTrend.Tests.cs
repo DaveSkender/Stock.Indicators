@@ -74,6 +74,16 @@ public class SuperTrend : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<SuperTrendResult> r0 = noquotes.GetSuperTrend();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<SuperTrendResult> r1 = onequote.GetSuperTrend();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int lookbackPeriods = 14;
@@ -103,9 +113,5 @@ public class SuperTrend : TestBase
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetSuperTrend(quotes, 7, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetSuperTrend(TestData.GetDefault(129), 30));
     }
 }

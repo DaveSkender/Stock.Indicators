@@ -401,6 +401,16 @@ public class PivotPoints : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<PivotPointsResult> r0 = noquotes.GetPivotPoints(PeriodSize.Week);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<PivotPointsResult> r1 = onequote.GetPivotPoints(PeriodSize.Week);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         PeriodSize periodSize = PeriodSize.Month;
@@ -423,33 +433,5 @@ public class PivotPoints : TestBase
         Assert.AreEqual(284.3867m, Math.Round((decimal)last.R2, 4));
         Assert.AreEqual(294.3833m, Math.Round((decimal)last.R3, 4));
         Assert.AreEqual(null, last.R4);
-    }
-
-    [TestMethod]
-    public void Exceptions()
-    {
-        // insufficient quotes - month
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPivotPoints(TestData.GetDefault(18), PeriodSize.Month));
-
-        // insufficient quotes - week
-        IEnumerable<Quote> w = TestData.GetDefault(5)
-            .OrderBy(x => x.Date).Take(4);
-
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPivotPoints(w, PeriodSize.Week));
-
-        // insufficient quotes - day
-        IEnumerable<Quote> d = TestData.GetIntraday(250);
-
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPivotPoints(d, PeriodSize.Day));
-
-        // insufficient quotes - hour
-        IEnumerable<Quote> h = TestData.GetIntraday(30)
-            .OrderBy(x => x.Date).Take(29);
-
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPivotPoints(h, PeriodSize.OneHour));
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -55,6 +55,16 @@ public class Aroon : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<AroonResult> r0 = noquotes.GetAroon();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<AroonResult> r1 = onequote.GetAroon();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<AroonResult> results = quotes.GetAroon(25)
@@ -76,9 +86,5 @@ public class Aroon : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAroon(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetAroon(TestData.GetDefault(29), 30));
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -62,6 +62,16 @@ public class Donchian : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<DonchianResult> r0 = noquotes.GetDonchian();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<DonchianResult> r1 = onequote.GetDonchian();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<DonchianResult> results = quotes.GetDonchian(20)
@@ -84,9 +94,5 @@ public class Donchian : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetDonchian(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetDonchian(TestData.GetDefault(30), 30));
     }
 }

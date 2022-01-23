@@ -55,6 +55,16 @@ public class Alligator : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<AlligatorResult> r0 = noquotes.GetAlligator();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<AlligatorResult> r1 = onequote.GetAlligator();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         IEnumerable<AlligatorResult> r = quotes.GetAlligator(13, 8)
@@ -102,9 +112,5 @@ public class Alligator : TestBase
         // bad teeth + offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 8, 5, 7, 7));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetAlligator(TestData.GetDefault(120)));
     }
 }

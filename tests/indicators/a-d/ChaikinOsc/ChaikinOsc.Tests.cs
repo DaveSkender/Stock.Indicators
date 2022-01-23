@@ -38,6 +38,16 @@ public class ChaikinOsc : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ChaikinOscResult> r0 = noquotes.GetChaikinOsc();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ChaikinOscResult> r1 = onequote.GetChaikinOsc();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int fastPeriods = 3;
@@ -67,13 +77,5 @@ public class ChaikinOsc : TestBase
         // bad slow lookback
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetChaikinOsc(quotes, 10, 5));
-
-        // insufficient quotes S+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetChaikinOsc(TestData.GetDefault(109), 3, 10));
-
-        // insufficient quotes 2×S
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetChaikinOsc(TestData.GetDefault(499), 3, 250));
     }
 }

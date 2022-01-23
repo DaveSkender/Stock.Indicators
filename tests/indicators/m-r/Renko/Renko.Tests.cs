@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -170,14 +170,20 @@ public class Renko : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<RenkoResult> r0 = noquotes.GetRenko(2);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<RenkoResult> r1 = onequote.GetRenko(3);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad arguments
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetRenko(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetRenko(TestData.GetDefault(1), 2.5m));
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -58,6 +58,16 @@ public class Mfi : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        var r0 = noquotes.GetMfi();
+        Assert.AreEqual(0, r0.Count());
+
+        var r1 = onequote.GetMfi();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int lookbackPeriods = 14;
@@ -78,9 +88,5 @@ public class Mfi : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetMfi(quotes, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetMfi(TestData.GetDefault(14), 14));
     }
 }

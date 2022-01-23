@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -45,6 +45,16 @@ public class Trix : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<TrixResult> r0 = noquotes.GetTrix(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<TrixResult> r1 = onequote.GetTrix(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<TrixResult> results = quotes.GetTrix(20, 5)
@@ -66,13 +76,5 @@ public class Trix : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetTrix(quotes, 0));
-
-        // insufficient quotes for 3*N+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetTrix(TestData.GetDefault(189), 30));
-
-        // insufficient quotes for 4×N
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetTrix(TestData.GetLongish(999), 250));
     }
 }

@@ -75,6 +75,16 @@ public class VolatilityStop : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<VolatilityStopResult> r0 = noquotes.GetVolatilityStop();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<VolatilityStopResult> r1 = onequote.GetVolatilityStop();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<VolatilityStopResult> results =
@@ -100,9 +110,5 @@ public class VolatilityStop : TestBase
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetVolatilityStop(quotes, 20, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetVolatilityStop(TestData.GetDefault(114), 15));
     }
 }

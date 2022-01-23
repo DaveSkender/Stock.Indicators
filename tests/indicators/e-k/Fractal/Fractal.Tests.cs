@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -92,14 +92,20 @@ public class Fractal : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<FractalResult> r0 = noquotes.GetFractal();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<FractalResult> r1 = onequote.GetFractal();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad window span
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetFractal(quotes, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetFractal(TestData.GetDefault(10), 5));
     }
 }

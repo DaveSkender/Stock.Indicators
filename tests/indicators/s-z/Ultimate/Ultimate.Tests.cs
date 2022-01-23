@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -38,6 +38,16 @@ public class Ultimate : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<UltimateResult> r0 = noquotes.GetUltimate();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<UltimateResult> r1 = onequote.GetUltimate();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<UltimateResult> results = quotes.GetUltimate(7, 14, 28)
@@ -65,9 +75,5 @@ public class Ultimate : TestBase
         // bad long period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetUltimate(quotes, 7, 14, 11));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetUltimate(TestData.GetDefault(28), 7, 14, 28));
     }
 }
