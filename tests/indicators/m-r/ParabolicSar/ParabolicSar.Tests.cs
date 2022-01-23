@@ -132,5 +132,9 @@ public class ParabolicSar : TestBase
         // step larger than factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetParabolicSar(quotes, 6, 2));
+
+        // insufficient initial factor
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            quotes.GetParabolicSar(0.02m, 0.5m, 0));
     }
 }
