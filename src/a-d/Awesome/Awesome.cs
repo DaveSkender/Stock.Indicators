@@ -15,7 +15,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
         // check parameter arguments
-        ValidateAwesome(quotes, fastPeriods, slowPeriods);
+        ValidateAwesome(fastPeriods, slowPeriods);
 
         // initialize
         int size = bdList.Count;
@@ -73,11 +73,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateAwesome<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateAwesome(
         int fastPeriods,
         int slowPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (fastPeriods <= 0)
@@ -90,20 +88,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
                 "Slow periods must be larger than Fast Periods for Awesome Oscillator.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = slowPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Awesome Oscillator.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

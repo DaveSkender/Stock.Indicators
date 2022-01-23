@@ -14,7 +14,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateTema(bdList, lookbackPeriods);
+        ValidateTema(lookbackPeriods);
 
         // initialize
         List<TemaResult> results = new(bdList.Count);
@@ -74,7 +74,6 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateTema(
-        IEnumerable<BasicD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -82,23 +81,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for TEMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(4 * lookbackPeriods, (3 * lookbackPeriods) + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for TEMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, (3 * lookbackPeriods) + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

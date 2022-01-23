@@ -15,7 +15,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateZigZag(quotes, percentChange);
+        ValidateZigZag(percentChange);
 
         // initialize
         List<ZigZagResult> results = new(quotesList.Count);
@@ -303,30 +303,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateZigZag<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateZigZag(
         decimal percentChange)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (percentChange <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(percentChange), percentChange,
                 "Percent change must be greater than 0 for ZIGZAG.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 2;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for ZIGZAG.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

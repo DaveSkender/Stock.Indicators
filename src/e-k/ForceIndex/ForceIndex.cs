@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateForceIndex(quotes, lookbackPeriods);
+        ValidateForceIndex(lookbackPeriods);
 
         // initialize
         int size = quotesList.Count;
@@ -83,33 +83,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateForceIndex<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateForceIndex(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Force Index.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Force Index.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

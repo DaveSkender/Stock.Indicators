@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateMfi(quotes, lookbackPeriods);
+        ValidateMfi(lookbackPeriods);
 
         // initialize
         int size = quotesList.Count;
@@ -111,30 +111,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateMfi<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateMfi(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 1 for MFI.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Money Flow Index.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

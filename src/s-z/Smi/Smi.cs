@@ -18,7 +18,6 @@ public static partial class Indicator
 
         // check parameter arguments
         ValidateSmi(
-            quotes,
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
@@ -131,13 +130,11 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateSmi<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateSmi(
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -162,20 +159,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
                 "Signal periods must be greater than 0 for SMI.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for SMI.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

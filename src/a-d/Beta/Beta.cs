@@ -185,13 +185,13 @@ public static partial class Indicator
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyQuotesMarket, minQuotesMarket);
 
-            throw new BadQuotesException(nameof(quotesMarket), message);
+            throw new InvalidQuotesException(nameof(quotesMarket), message);
         }
 
         int qtyHistoryEval = quotesEval.Count();
         if (qtyHistoryEval < qtyQuotesMarket)
         {
-            throw new BadQuotesException(
+            throw new InvalidQuotesException(
                 nameof(quotesEval),
                 "Eval quotes should have at least as many records as Market quotes for Beta.");
         }

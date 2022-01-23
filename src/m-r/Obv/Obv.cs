@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateObv(quotes, smaPeriods);
+        ValidateObv(smaPeriods);
 
         // initialize
         List<ObvResult> results = new(quotesList.Count);
@@ -86,30 +86,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateObv<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateObv(
         int? smaPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (smaPeriods is not null and <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
                 "SMA periods must be greater than 0 for OBV.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 2;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for On-balance Volume.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

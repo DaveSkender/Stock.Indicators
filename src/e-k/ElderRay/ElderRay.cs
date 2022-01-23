@@ -14,7 +14,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateElderRay(quotes, lookbackPeriods);
+        ValidateElderRay(lookbackPeriods);
 
         // initialize with EMA
         List<ElderRayResult> results = GetEma(quotes, lookbackPeriods)
@@ -52,33 +52,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateElderRay<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateElderRay(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Elder-ray Index.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Elder-ray Index.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

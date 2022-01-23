@@ -14,7 +14,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Volume);
 
         // check parameter arguments
-        ValidateCmf(quotes, lookbackPeriods);
+        ValidateCmf(lookbackPeriods);
 
         // initialize
         List<CmfResult> results = new(bdList.Count);
@@ -76,30 +76,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateCmf<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateCmf(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Chaikin Money Flow.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Chaikin Money Flow.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

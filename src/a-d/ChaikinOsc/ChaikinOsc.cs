@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateChaikinOsc(quotes, fastPeriods, slowPeriods);
+        ValidateChaikinOsc(fastPeriods, slowPeriods);
 
         // money flow
         List<ChaikinOscResult> results = GetAdl(quotes)
@@ -61,11 +61,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateChaikinOsc<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateChaikinOsc(
         int fastPeriods,
         int slowPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (fastPeriods <= 0)
@@ -78,23 +76,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
                 "Slow lookback periods must be greater than Fast lookback period for Chaikin Oscillator.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(2 * slowPeriods, slowPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Chaikin Oscillator.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for a slow period of {2}, "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, slowPeriods, slowPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

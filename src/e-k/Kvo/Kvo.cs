@@ -16,7 +16,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateKlinger(quotes, fastPeriods, slowPeriods, signalPeriods);
+        ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         int size = quotesList.Count;
@@ -150,12 +150,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateKlinger<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateKlinger(
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (fastPeriods <= 2)
@@ -174,23 +172,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
                 "Signal Periods must be greater than 0 for Klinger Oscillator.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = slowPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Klinger Oscillator.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, slowPeriods, slowPeriods + 150);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

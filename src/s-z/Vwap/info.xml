@@ -14,5 +14,4 @@
   <param name="startDate">Optional anchor date.  If not provided, the first date in quotes is used.</param>
   <returns>Time series of VWAP values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

@@ -31,7 +31,7 @@ public static partial class Indicator
 
         // check parameter arguments
         ValidateParabolicSar(
-            quotes, accelerationStep, maxAccelerationFactor, initialFactor);
+            accelerationStep, maxAccelerationFactor, initialFactor);
 
         // initialize
         List<ParabolicSarResult> results = new(quotesList.Count);
@@ -188,12 +188,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateParabolicSar<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateParabolicSar(
         decimal accelerationStep,
         decimal maxAccelerationFactor,
         decimal initialFactor)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (accelerationStep <= 0)
@@ -222,20 +220,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(initialFactor), initialFactor,
                 "Initial Step must be greater than 0 and less than Max Acceleration Factor for Parabolic SAR.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 2;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Parabolic SAR.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

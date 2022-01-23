@@ -16,7 +16,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateMacd(quotes, fastPeriods, slowPeriods, signalPeriods);
+        ValidateMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         List<EmaResult> emaFast = CalcEma(bdList, fastPeriods);
@@ -87,12 +87,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateMacd<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateMacd(
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (fastPeriods <= 0)
@@ -111,22 +109,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
                 "Slow periods must be greater than the fast period for MACD.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(2 * (slowPeriods + signalPeriods), slowPeriods + signalPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for MACD.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory, slowPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

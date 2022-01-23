@@ -20,7 +20,6 @@ public static partial class Indicator
 
         // check parameter arguments
         ValidateAlligator(
-            quotes,
             jawPeriods,
             jawOffset,
             teethPeriods,
@@ -142,15 +141,13 @@ public static partial class Indicator
         return results.Remove(removePeriods);
     }
 
-    private static void ValidateAlligator<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateAlligator(
         int jawPeriods,
         int jawOffset,
         int teethPeriods,
         int teethOffset,
         int lipsPeriods,
         int lipsOffset)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (jawPeriods <= teethPeriods)
@@ -199,25 +196,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(teethPeriods), teethPeriods,
                 "Teeth lookback + offset are too small for Alligator.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = jawPeriods + jawOffset + 100;
-        int recHistory = jawPeriods + jawOffset + 250;
-
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Williams Alligator.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, recHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

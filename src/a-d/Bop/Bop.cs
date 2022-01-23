@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateBop(quotes, smoothPeriods);
+        ValidateBop(smoothPeriods);
 
         // initialize
         int size = quotesList.Count;
@@ -64,30 +64,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateBop<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateBop(
         int smoothPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (smoothPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
                 "Smoothing periods must be greater than 0 for BOP.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = smoothPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for BOP.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

@@ -14,5 +14,4 @@
   <param name="minBodyPercent">Optional.  Minimum candle body size as decimalized percentage.</param>
   <returns>Time series of Marubozu values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

@@ -15,7 +15,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateRenko(quotes, brickSize);
+        ValidateRenko(brickSize);
 
         // initialize
         int size = quotesList.Count;
@@ -134,30 +134,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateRenko<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateRenko(
         decimal brickSize)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (brickSize <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(brickSize), brickSize,
                 "Brick size must be greater than 0 for Renko Charts.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 2;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Renko Chart.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

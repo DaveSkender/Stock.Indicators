@@ -12,9 +12,6 @@ public static partial class Indicator
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
-        // check parameter arguments
-        ValidateHtTrendline(quotes);
-
         // initialize
         int size = bdList.Count;
         List<HtlResult> results = new(size);
@@ -157,25 +154,5 @@ public static partial class Indicator
         this IEnumerable<HtlResult> results)
     {
         return results.Remove(100);
-    }
-
-    // parameter validation
-    private static void ValidateHtTrendline<TQuote>(
-        IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for HTL.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
-        }
     }
 }

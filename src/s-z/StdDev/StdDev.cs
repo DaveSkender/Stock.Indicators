@@ -36,7 +36,7 @@ public static partial class Indicator
         List<BasicD> bdList, int lookbackPeriods, int? smaPeriods = null)
     {
         // check parameter arguments
-        ValidateStdDev(bdList, lookbackPeriods, smaPeriods);
+        ValidateStdDev(lookbackPeriods, smaPeriods);
 
         // initialize
         List<StdDevResult> results = new(bdList.Count);
@@ -95,7 +95,6 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateStdDev(
-        List<BasicD> quotes,
         int lookbackPeriods,
         int? smaPeriods)
     {
@@ -110,20 +109,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
                 "SMA periods must be greater than 0 for Standard Deviation.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count;
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Standard Deviation.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

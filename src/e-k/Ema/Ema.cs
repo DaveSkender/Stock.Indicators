@@ -51,7 +51,7 @@ public static partial class Indicator
         this List<BasicD> bdList, int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateEma(bdList, lookbackPeriods);
+        ValidateEma(lookbackPeriods);
 
         // initialize
         List<EmaResult> results = new(bdList.Count);
@@ -96,7 +96,6 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateEma(
-        List<BasicD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -104,23 +103,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for EMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count;
-        int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for EMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

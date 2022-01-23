@@ -15,7 +15,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateSuperTrend(quotes, lookbackPeriods, multiplier);
+        ValidateSuperTrend(lookbackPeriods, multiplier);
 
         // initialize
         List<SuperTrendResult> results = new(quotesList.Count);
@@ -101,11 +101,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateSuperTrend<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateSuperTrend(
         int lookbackPeriods,
         double multiplier)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
@@ -118,22 +116,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
                 "Multiplier must be greater than 0 for SuperTrend.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for SuperTrend.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least N+250 data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidatePivots(quotes, leftSpan, rightSpan, maxTrendPeriods);
+        ValidatePivots(leftSpan, rightSpan, maxTrendPeriods);
 
         // initialize
 
@@ -110,13 +110,11 @@ public static partial class Indicator
     }
 
     // parameter validation
-    internal static void ValidatePivots<TQuote>(
-        IEnumerable<TQuote> quotes,
+    internal static void ValidatePivots(
         int leftSpan,
         int rightSpan,
         int maxTrendPeriods,
         string caller = "Pivots")
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (rightSpan < 2)
@@ -135,20 +133,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(leftSpan), leftSpan,
                 $"Lookback periods must be greater than the Left window span for {caller}.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = leftSpan + rightSpan + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = $"Insufficient quotes provided for {caller}.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

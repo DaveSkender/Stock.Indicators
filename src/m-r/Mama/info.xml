@@ -15,5 +15,4 @@
   <param name="slowLimit">Slow limit threshold.</param>
   <returns>Time series of MAMA values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

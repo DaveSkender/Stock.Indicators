@@ -36,7 +36,7 @@ public static partial class Indicator
 
         // check parameter arguments
         ValidateStoch(
-            quotes, lookbackPeriods, signalPeriods, smoothPeriods,
+            lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
         // initialize
@@ -203,15 +203,13 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateStoch<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateStoch(
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
         decimal kFactor,
         decimal dFactor,
         MaType movingAverageType)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -248,20 +246,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
                 "Stochastic only supports SMA and SMMA moving average types.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + smoothPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Stochastic.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

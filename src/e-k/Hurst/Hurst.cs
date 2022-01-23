@@ -14,7 +14,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateHurst(quotes, lookbackPeriods);
+        ValidateHurst(lookbackPeriods);
 
         // initialize
         int size = bdList.Count;
@@ -184,30 +184,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateHurst<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateHurst(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods < 100)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be at least 100 for Hurst Exponent.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Hurst Exponent.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

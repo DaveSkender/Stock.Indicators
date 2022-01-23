@@ -54,7 +54,7 @@ public static partial class Indicator
     private static List<RsiResult> CalcRsi(List<BasicD> bdList, int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateRsi(bdList, lookbackPeriods);
+        ValidateRsi(lookbackPeriods);
 
         // initialize
         double lastValue = bdList[0].Value;
@@ -123,7 +123,6 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateRsi(
-        List<BasicD> quotes,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -131,23 +130,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for RSI.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count;
-        int minHistory = lookbackPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for RSI.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, Math.Max(10 * lookbackPeriods, minHistory));
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

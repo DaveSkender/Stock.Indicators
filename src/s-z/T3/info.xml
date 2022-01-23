@@ -15,5 +15,4 @@
   <param name="volumeFactor">Size of the Volume Factor.</param>
   <returns>Time series of T3 values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

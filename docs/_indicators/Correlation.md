@@ -16,7 +16,7 @@ layout: indicator
 ```csharp
 // usage
 IEnumerable<CorrResult> results =
-  quotesA.GetCorr(quotesB, lookbackPeriods);  
+  quotesA.GetCorr(quotesB, lookbackPeriods);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<CorrResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods for both versions of `quotes`.  Mismatch histories will produce a `BadQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
+You must have at least `N` periods for both versions of `quotes`.  Mismatch histories will produce a `InvalidQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
 `quotesA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
@@ -70,6 +70,6 @@ IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
 IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
 
 // calculate 20-period Correlation
-IEnumerable<CorrResult> results 
+IEnumerable<CorrResult> results
   = historySPX.GetCorr(historyTSLA,20);
 ```

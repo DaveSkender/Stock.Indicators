@@ -30,7 +30,7 @@ public static partial class Indicator
 
             if (a.Date != b.Date)
             {
-                throw new BadQuotesException(nameof(quotesA), a.Date,
+                throw new InvalidQuotesException(nameof(quotesA), a.Date,
                     "Date sequence does not match.  Correlation requires matching dates in provided histories.");
             }
 
@@ -143,13 +143,13 @@ public static partial class Indicator
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryA, minHistoryA);
 
-            throw new BadQuotesException(nameof(quotesA), message);
+            throw new InvalidQuotesException(nameof(quotesA), message);
         }
 
         int qtyHistoryB = quotesB.Count();
         if (qtyHistoryB != qtyHistoryA)
         {
-            throw new BadQuotesException(
+            throw new InvalidQuotesException(
                 nameof(quotesB),
                 "B quotes should have at least as many records as A quotes for Correlation.");
         }

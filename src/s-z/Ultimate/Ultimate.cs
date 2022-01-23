@@ -16,7 +16,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateUltimate(quotes, shortPeriods, middlePeriods, longPeriods);
+        ValidateUltimate(shortPeriods, middlePeriods, longPeriods);
 
         // initialize
         int size = quotesList.Count;
@@ -104,12 +104,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateUltimate<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateUltimate(
         int shortPeriods,
         int middleAverage,
         int longPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (shortPeriods <= 0 || middleAverage <= 0 || longPeriods <= 0)
@@ -122,20 +120,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(middleAverage), middleAverage,
                 "Average periods must be increasingly larger than each other for Ultimate Oscillator.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = longPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Ultimate.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

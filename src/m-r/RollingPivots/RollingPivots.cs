@@ -16,7 +16,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateRollingPivots(quotes, windowPeriods, offsetPeriods);
+        ValidateRollingPivots(windowPeriods, offsetPeriods);
 
         // initialize
         List<RollingPivotsResult> results = new(quotesList.Count);
@@ -83,11 +83,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateRollingPivots<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateRollingPivots(
         int windowPeriods,
         int offsetPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (windowPeriods <= 0)
@@ -100,20 +98,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(offsetPeriods), offsetPeriods,
                 "Offset periods must be greater than or equal to 0 for Rolling Pivot Points.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = windowPeriods + offsetPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Rolling Pivot Points.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

@@ -11,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateFcb(quotes, windowSpan);
+        ValidateFcb(windowSpan);
 
         // initialize
         List<FractalResult> fractals = GetFractal(quotes, windowSpan).ToList();
@@ -61,30 +61,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateFcb<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateFcb(
         int windowSpan)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (windowSpan < 2)
         {
             throw new ArgumentOutOfRangeException(nameof(windowSpan), windowSpan,
                 "Window span must be at least 2 for FCB.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = (2 * windowSpan) + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for FCB.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

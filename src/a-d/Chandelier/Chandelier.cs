@@ -16,7 +16,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateChandelier(quotes, lookbackPeriods, multiplier);
+        ValidateChandelier(lookbackPeriods, multiplier);
 
         // initialize
         List<ChandelierResult> results = new(quotesList.Count);
@@ -95,11 +95,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateChandelier<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateChandelier(
         int lookbackPeriods,
         double multiplier)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -112,20 +110,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
                 "Multiplier must be greater than 0 for Chandelier Exit.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Chandelier Exit.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

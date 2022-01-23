@@ -16,7 +16,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateTsi(quotes, lookbackPeriods, smoothPeriods, signalPeriods);
+        ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
         int size = bdList.Count;
@@ -151,12 +151,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateTsi<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateTsi(
         int lookbackPeriods,
         int smoothPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -175,24 +173,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
                 "Signal periods must be greater than or equal to 0 for TSI.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + smoothPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for TSI.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a double smoothing technique, for an N+M period of {2}, "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods + smoothPeriods,
-                    lookbackPeriods + smoothPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }
