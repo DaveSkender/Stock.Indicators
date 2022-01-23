@@ -239,11 +239,11 @@ public static partial class Indicator
         int minHistory = Math.Max(
             tenkanPeriods,
             Math.Max(
-                             kijunPeriods,
-                             Math.Max(
-                             senkouBPeriods,
-                             Math.Max(senkouOffset, chikouOffset))));
-        if (qtyHistory < minHistory)
+                kijunPeriods,
+                Math.Max(
+                senkouBPeriods,
+                Math.Max(senkouOffset, chikouOffset))));
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Ichimoku Cloud.  " +
                 string.Format(

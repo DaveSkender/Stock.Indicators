@@ -87,7 +87,7 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = 2;
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Heikin-Ashi.  " +
                 string.Format(

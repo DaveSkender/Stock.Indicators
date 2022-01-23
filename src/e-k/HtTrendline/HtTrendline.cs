@@ -167,7 +167,7 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = 100;
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for HTL.  " +
                 string.Format(

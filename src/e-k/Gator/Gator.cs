@@ -69,15 +69,15 @@ public static partial class Indicator
         int minHistory = 115;
         int recHistory = 265;
 
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Gator Oscillator.  " +
                 string.Format(
                     EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.",
+                    + "Since this uses a smoothing technique, "
+                    + "we recommend you use at least {2} data points prior to the intended "
+                    + "usage date for better precision.",
                     qtyHistory, minHistory, recHistory);
 
             throw new BadQuotesException(nameof(quotes), message);

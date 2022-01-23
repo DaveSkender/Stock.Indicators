@@ -87,11 +87,14 @@ public static partial class Indicator
         }
 
         // add last Line (y = mx + b)
-        SlopeResult last = results.LastOrDefault();
-        for (int p = size - lookbackPeriods; p < size; p++)
+        if (size >= lookbackPeriods)
         {
-            SlopeResult d = results[p];
-            d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
+            SlopeResult last = results.LastOrDefault();
+            for (int p = size - lookbackPeriods; p < size; p++)
+            {
+                SlopeResult d = results[p];
+                d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
+            }
         }
 
         return results;
@@ -126,7 +129,7 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Slope/Linear Regression.  " +
                 string.Format(

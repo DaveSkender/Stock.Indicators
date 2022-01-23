@@ -99,7 +99,7 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = lookbackPeriods + (int)Math.Sqrt(lookbackPeriods) - 1;
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for HMA.  " +
                 string.Format(

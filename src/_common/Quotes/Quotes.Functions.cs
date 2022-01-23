@@ -140,11 +140,6 @@ public static class HistoricalQuotes
             _ => new List<BasicD>(),
         };
 
-        List<BasicD> bdList = basicDouble.OrderBy(x => x.Date).ToList();
-
-        // validate
-        return bdList == null || bdList.Count == 0
-            ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-            : bdList;
+        return basicDouble.OrderBy(x => x.Date).ToList();
     }
 }

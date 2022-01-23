@@ -67,15 +67,15 @@ public static partial class Indicator
         // check quotes
         int qtyHistory = quotes.Count();
         int minHistory = Math.Max(2 * lookbackPeriods, lookbackPeriods + 100);
-        if (qtyHistory < minHistory)
+        if (config.UseBadQuotesException && qtyHistory < minHistory)
         {
             string message = "Insufficient quotes provided for Elder-ray Index.  " +
                 string.Format(
                     EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
+                    + "Since this uses a smoothing technique, for {2} lookback periods "
+                    + "we recommend you use at least {3} data points prior to the intended "
+                    + "usage date for better precision.",
                     qtyHistory, minHistory, lookbackPeriods, lookbackPeriods + 250);
 
             throw new BadQuotesException(nameof(quotes), message);

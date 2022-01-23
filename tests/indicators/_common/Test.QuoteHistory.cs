@@ -262,14 +262,6 @@ public class QuoteHistory : TestBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(BadQuotesException), "No historical basic data.")]
-    public void NoBasicData()
-    {
-        List<Quote> h = new();
-        h.ConvertToBasic();
-    }
-
-    [TestMethod]
     [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad aggregation size.")]
     public void BadAggregationSize()
     {

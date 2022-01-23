@@ -80,13 +80,64 @@ public class ConfigTests
         IEnumerable<DpoResult> dpo = quotes.GetDpo(5);
         Assert.AreEqual(1, dpo.Count());
 
+        IEnumerable<ElderRayResult> eray = quotes.GetElderRay(5);
+        Assert.AreEqual(1, eray.Count());
+
         IEnumerable<EmaResult> ema = quotes.GetEma(5);
         Assert.AreEqual(1, ema.Count());
+
+        IEnumerable<EpmaResult> epma = quotes.GetEpma(5);
+        Assert.AreEqual(1, epma.Count());
+
+        IEnumerable<FcbResult> fcb = quotes.GetFcb(3);
+        Assert.AreEqual(1, fcb.Count());
+
+        IEnumerable<FisherTransformResult> ft = quotes.GetFisherTransform(5);
+        Assert.AreEqual(1, ft.Count());
+
+        IEnumerable<ForceIndexResult> fi = quotes.GetForceIndex(5);
+        Assert.AreEqual(1, fi.Count());
+
+        IEnumerable<FractalResult> fr = quotes.GetFractal();
+        Assert.AreEqual(1, fr.Count());
+
+        IEnumerable<GatorResult> gator = quotes.GetGator();
+        Assert.AreEqual(1, gator.Count());
+
+        IEnumerable<HeikinAshiResult> hka = quotes.GetHeikinAshi();
+        Assert.AreEqual(1, hka.Count());
+
+        IEnumerable<HmaResult> hma = quotes.GetHma(5);
+        Assert.AreEqual(1, hma.Count());
+
+        IEnumerable<HtlResult> ht = quotes.GetHtTrendline();
+        Assert.AreEqual(1, ht.Count());
+
+        IEnumerable<HurstResult> hurst = quotes.GetHurst(100);
+        Assert.AreEqual(1, hurst.Count());
+
+        IEnumerable<IchimokuResult> ichi = quotes.GetIchimoku();
+        Assert.AreEqual(1, ichi.Count());
+
+        IEnumerable<KamaResult> kama = quotes.GetKama();
+        Assert.AreEqual(1, kama.Count());
+
+        IEnumerable<KeltnerResult> kt = quotes.GetKeltner();
+        Assert.AreEqual(1, kt.Count());
+
+        IEnumerable<KvoResult> kvo = quotes.GetKvo();
+        Assert.AreEqual(1, kvo.Count());
 
         IEnumerable<RsiResult> rsi = quotes.GetRsi(5);
         Assert.AreEqual(1, rsi.Count());
 
+        IEnumerable<SlopeResult> slope = quotes.GetSlope(5);
+        Assert.AreEqual(1, slope.Count());
+
         IEnumerable<SmaResult> sma = quotes.GetSma(5);
         Assert.AreEqual(1, sma.Count());
+
+        IEnumerable<WmaResult> wma = quotes.GetWma(5);
+        Assert.AreEqual(1, wma.Count());
     }
 }
