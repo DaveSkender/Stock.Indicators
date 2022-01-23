@@ -9,43 +9,64 @@ public class Marubozu : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<MarubozuResult> results = quotes.GetMarubozu(0.95).ToList();
+        List<CandleResult> results = quotes.GetMarubozu(0.95).ToList();
 
         // assertions
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(6, results.Where(x => x.Marubozu != null).Count());
+        Assert.AreEqual(6, results.Where(x => x.Signal != Signal.None).Count());
 
         // sample values
-        MarubozuResult r31 = results[31];
-        Assert.AreEqual(null, r31.Marubozu);
-        Assert.AreEqual(false, r31.IsBullish);
+        CandleResult r31 = results[31];
+        Assert.AreEqual(null, r31.Price);
+        Assert.AreEqual(0, (int)r31.Signal);
 
-        MarubozuResult r32 = results[32];
-        Assert.AreEqual(222.10m, r32.Marubozu);
-        Assert.AreEqual(true, r32.IsBullish);
+        CandleResult r32 = results[32];
+        Assert.AreEqual(222.10m, r32.Price);
+        Assert.AreEqual(Signal.BullSignal, r32.Signal);
 
-        MarubozuResult r277 = results[277];
-        Assert.AreEqual(248.13m, r277.Marubozu);
-        Assert.AreEqual(false, r277.IsBullish);
+        CandleResult r33 = results[33];
+        Assert.AreEqual(null, r33.Price);
+        Assert.AreEqual(Signal.None, r33.Signal);
+
+        CandleResult r34 = results[34];
+        Assert.AreEqual(null, r34.Price);
+        Assert.AreEqual(Signal.None, r34.Signal);
+
+        CandleResult r274 = results[274];
+        Assert.AreEqual(null, r274.Price);
+        Assert.AreEqual(Signal.None, r274.Signal);
+
+        CandleResult r277 = results[277];
+        Assert.AreEqual(248.13m, r277.Price);
+        Assert.AreEqual(Signal.BearSignal, r277.Signal);
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<MarubozuResult> r = Indicator.GetMarubozu(badQuotes);
+        IEnumerable<CandleResult> r = badQuotes.GetMarubozu();
         Assert.AreEqual(502, r.Count());
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<MarubozuResult> r0 = noquotes.GetMarubozu();
+        IEnumerable<CandleResult> r0 = noquotes.GetMarubozu();
         Assert.AreEqual(0, r0.Count());
 
-        IEnumerable<MarubozuResult> r1 = onequote.GetMarubozu();
+        IEnumerable<CandleResult> r1 = onequote.GetMarubozu();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<CandleResult> r =
+            quotes.GetMarubozu(0.95).Condense();
+
+        Assert.AreEqual(6, r.Count());
     }
 
     [TestMethod]

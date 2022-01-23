@@ -5,7 +5,7 @@ public static partial class Indicator
     // MARUBOZU
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<MarubozuResult> GetMarubozu<TQuote>(
+    public static IEnumerable<CandleResult> GetMarubozu<TQuote>(
         this IEnumerable<TQuote> quotes,
         double minBodyPercent = 0.95)
         where TQuote : IQuote
@@ -13,28 +13,20 @@ public static partial class Indicator
         // check parameter arguments
         ValidateMarubozu(minBodyPercent);
 
-        // convert quotes
-        List<Candle> candles = quotes.ConvertToCandles();
-
         // initialize
-        int size = candles.Count;
-        List<MarubozuResult> results = new(size);
+        List<CandleResult> results = quotes.ConvertToCandleResults();
+        int length = results.Count;
 
         // roll through candles
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
-            Candle c = candles[i];
+            CandleResult r = results[i];
 
-            MarubozuResult result = new()
+            // check for current signal
+            if (r.Candle.BodyPct >= minBodyPercent)
             {
-                Date = c.Date,
-                IsBullish = c.IsBullish
-            };
-            results.Add(result);
-
-            if (c.BodyPct >= (decimal)minBodyPercent)
-            {
-                result.Marubozu = c.Close;
+                r.Price = r.Candle.Close;
+                r.Signal = r.Candle.IsBullish ? Signal.BullSignal : Signal.BearSignal;
             }
         }
 

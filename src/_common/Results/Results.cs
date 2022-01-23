@@ -8,7 +8,7 @@ public interface IResult
 }
 
 [Serializable]
-public class ResultBase : IResult
+public abstract class ResultBase : IResult
 {
     public DateTime Date { get; set; }
 }
