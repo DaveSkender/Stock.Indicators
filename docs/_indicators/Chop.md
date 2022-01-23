@@ -14,7 +14,7 @@ Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppine
 ```csharp
 // usage
 IEnumerable<ChopResult> results =
-  quotes.GetChop(lookbackPeriods);  
+  quotes.GetChop(lookbackPeriods);
 ```
 
 ## Parameters
@@ -25,7 +25,7 @@ IEnumerable<ChopResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `quotes`.
+You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

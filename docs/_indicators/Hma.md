@@ -15,7 +15,7 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 ```csharp
 // usage
 IEnumerable<HmaResult> results =
-  quotes.GetHma(lookbackPeriods);  
+  quotes.GetHma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -26,7 +26,7 @@ IEnumerable<HmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+(integer of SQRT(N))-1` periods of `quotes`.
+You must have at least `N+(integer of SQRT(N))-1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

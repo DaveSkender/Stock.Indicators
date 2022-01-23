@@ -15,7 +15,7 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 ```csharp
 // usage
 IEnumerable<UltimateResult> results =
-  quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);  
+  quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<UltimateResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `L+1` periods of `quotes`.
+You must have at least `L+1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

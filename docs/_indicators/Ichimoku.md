@@ -42,7 +42,7 @@ See overloads usage above to determine which parameters are relevant for each.  
 
 ### Historical quotes requirements
 
-You must have at least the greater of `T`,`K`, `S`, and offset periods for `quotes`; though, given the leading and lagging nature, we recommend notably more.
+You must have at least the greater of `T`,`K`, `S`, and offset periods for `quotes` to cover the warmup periods; though, given the leading and lagging nature, we recommend notably more.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
