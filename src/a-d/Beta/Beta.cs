@@ -98,11 +98,7 @@ public static partial class Indicator
         List<BasicD> bdListEval,
         BetaType type)
     {
-        // do not supply type==BetaType.All
-        if (type is BetaType.All)
-        {
-            return;
-        }
+        // note: BetaType.All is ineligible for this method
 
         // initialize
         CorrResult c = new();
