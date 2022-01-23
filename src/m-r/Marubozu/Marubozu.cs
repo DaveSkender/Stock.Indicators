@@ -15,10 +15,10 @@ public static partial class Indicator
 
         // initialize
         List<CandleResult> results = quotes.ConvertToCandleResults();
-        int size = results.Count;
+        int length = results.Count;
 
         // roll through candles
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             CandleResult r = results[i];
 

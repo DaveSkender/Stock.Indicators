@@ -50,12 +50,13 @@ public class Marubozu : TestBase
         Assert.AreEqual(502, r.Count());
     }
 
+    [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<MarubozuResult> r0 = noquotes.GetMarubozu();
+        IEnumerable<CandleResult> r0 = noquotes.GetMarubozu();
         Assert.AreEqual(0, r0.Count());
 
-        IEnumerable<MarubozuResult> r1 = onequote.GetMarubozu();
+        IEnumerable<CandleResult> r1 = onequote.GetMarubozu();
         Assert.AreEqual(1, r1.Count());
     }
 
@@ -67,7 +68,7 @@ public class Marubozu : TestBase
 
         Assert.AreEqual(6, r.Count());
     }
-    
+
     [TestMethod]
     public void Exceptions()
     {
