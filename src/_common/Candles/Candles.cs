@@ -34,8 +34,6 @@ public static class Candlesticks
             .ToList();
 
         // validate
-        return candlesList == null || candlesList.Count == 0
-            ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-            : candlesList;
+        return candlesList;
     }
 }

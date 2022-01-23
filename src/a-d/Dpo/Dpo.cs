@@ -14,16 +14,16 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateDpo(quotes, lookbackPeriods);
+        ValidateDpo(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
+        int length = quotesList.Count;
         int offset = (lookbackPeriods / 2) + 1;
         List<SmaResult> sma = quotes.GetSma(lookbackPeriods).ToList();
-        List<DpoResult> results = new(size);
+        List<DpoResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 
@@ -33,7 +33,7 @@ public static partial class Indicator
             };
             results.Add(r);
 
-            if (i >= lookbackPeriods - offset - 1 && i < size - offset)
+            if (i >= lookbackPeriods - offset - 1 && i < length - offset)
             {
                 SmaResult s = sma[i + offset];
                 r.Sma = s.Sma;
@@ -65,30 +65,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateDpo<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateDpo(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for DPO.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = string.Format(
-                EnglishCulture,
-                "Insufficient quotes provided for Detrended Price Oscillator.  " +
-                "You provided {0} periods of quotes when at least {1} are required.",
-                qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

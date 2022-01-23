@@ -114,6 +114,16 @@ public class StdDevChannels : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<StdDevChannelsResult> r0 = noquotes.GetStdDevChannels();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<StdDevChannelsResult> r1 = onequote.GetStdDevChannels();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int lookbackPeriods = 20;
@@ -143,9 +153,5 @@ public class StdDevChannels : TestBase
         // bad standard deviations
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetStdDevChannels(quotes, 20, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStdDevChannels(TestData.GetDefault(19), 20, 2));
     }
 }

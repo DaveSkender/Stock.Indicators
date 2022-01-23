@@ -15,7 +15,7 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 ```csharp
 // usage
 IEnumerable<ForceIndexResult> results =
-  quotes.GetForceIndex(lookbackPeriods);  
+  quotes.GetForceIndex(lookbackPeriods);
 ```
 
 ## Parameters
@@ -26,7 +26,7 @@ IEnumerable<ForceIndexResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
+You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique for EMA, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

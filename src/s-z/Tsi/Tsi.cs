@@ -16,31 +16,31 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateTsi(quotes, lookbackPeriods, smoothPeriods, signalPeriods);
+        ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        int size = bdList.Count;
+        int length = bdList.Count;
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
         double? sumS = 0;
 
-        List<TsiResult> results = new(size);
+        List<TsiResult> results = new(length);
 
-        double[] c = new double[size]; // price change
-        double[] cs1 = new double[size]; // smooth 1
-        double[] cs2 = new double[size]; // smooth 2
+        double[] c = new double[length]; // price change
+        double[] cs1 = new double[length]; // smooth 1
+        double[] cs2 = new double[length]; // smooth 2
         double sumC = 0;
         double sumC1 = 0;
 
-        double[] a = new double[size]; // abs of price change
-        double[] as1 = new double[size]; // smooth 1
-        double[] as2 = new double[size]; // smooth 2
+        double[] a = new double[length]; // abs of price change
+        double[] as1 = new double[length]; // smooth 1
+        double[] as2 = new double[length]; // smooth 2
         double sumA = 0;
         double sumA1 = 0;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             int index = i + 1;
@@ -151,12 +151,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateTsi<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateTsi(
         int lookbackPeriods,
         int smoothPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -175,24 +173,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
                 "Signal periods must be greater than or equal to 0 for TSI.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + smoothPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for TSI.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a double smoothing technique, for an N+M period of {2}, "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods + smoothPeriods,
-                    lookbackPeriods + smoothPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

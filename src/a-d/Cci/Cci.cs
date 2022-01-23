@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateCci(quotes, lookbackPeriods);
+        ValidateCci(lookbackPeriods);
 
         // initialize
         List<CciResult> results = new(quotesList.Count);
@@ -76,30 +76,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateCci<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateCci(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Commodity Channel Index.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Commodity Channel Index.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

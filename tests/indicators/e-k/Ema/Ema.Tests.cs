@@ -62,6 +62,16 @@ public class Ema : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<EmaResult> r0 = noquotes.GetEma(10);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<EmaResult> r1 = onequote.GetEma(10);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<EmaResult> results = quotes.GetEma(20)
@@ -81,13 +91,5 @@ public class Ema : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetEma(quotes, 0));
-
-        // insufficient quotes for N+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetEma(TestData.GetDefault(129), 30));
-
-        // insufficient quotes for 2×N
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetEma(TestData.GetDefault(499), 250));
     }
 }

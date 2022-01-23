@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidatePmo(quotes, timePeriods, smoothPeriods, signalPeriods);
+        ValidatePmo(timePeriods, smoothPeriods, signalPeriods);
 
         // initialize
         List<PmoResult> results = CalcPmoRocEma(quotes, timePeriods);
@@ -151,12 +151,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidatePmo<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidatePmo(
         int timePeriods,
         int smoothPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (timePeriods <= 1)
@@ -175,23 +173,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
                 "Signal periods must be greater than 0 for PMO.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(timePeriods + smoothPeriods, Math.Max(2 * timePeriods, timePeriods + 100));
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for PMO.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a several smoothing operations, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, minHistory + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

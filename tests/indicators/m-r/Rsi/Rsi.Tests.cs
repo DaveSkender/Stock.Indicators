@@ -70,6 +70,16 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<RsiResult> r0 = noquotes.GetRsi();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<RsiResult> r1 = onequote.GetRsi();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void ConvertToQuotes()
     {
         // exclude nulls case
@@ -110,9 +120,5 @@ public class Rsi : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetRsi(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetRsi(TestData.GetDefault(129), 30));
     }
 }

@@ -58,6 +58,16 @@ public class Slope : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<SlopeResult> r0 = noquotes.GetSlope(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<SlopeResult> r1 = onequote.GetSlope(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<SlopeResult> results = quotes.GetSlope(20)
@@ -81,9 +91,5 @@ public class Slope : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetSlope(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetSlope(TestData.GetDefault(29), 30));
     }
 }

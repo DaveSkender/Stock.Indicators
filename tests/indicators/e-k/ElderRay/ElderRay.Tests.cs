@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -59,6 +59,16 @@ public class ElderRay : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ElderRayResult> r0 = noquotes.GetElderRay();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ElderRayResult> r1 = onequote.GetElderRay();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<ElderRayResult> results = quotes.GetElderRay(13)
@@ -80,13 +90,5 @@ public class ElderRay : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetElderRay(quotes, 0));
-
-        // insufficient quotes for N+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetElderRay(TestData.GetDefault(129), 30));
-
-        // insufficient quotes for 2×N
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetElderRay(TestData.GetDefault(499), 250));
     }
 }

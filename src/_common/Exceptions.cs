@@ -5,7 +5,10 @@ using System.Runtime.Serialization;
 
 namespace Skender.Stock.Indicators;
 
-[Serializable]
+[Obsolete("Using less than recommended quote history no longer throws an exception.  "
+    + "As good practice, use .RemoveWarmupPeriods() to exclude data for warmup "
+    + "and convergence related periods.  See documentation for more info.")]
+[ExcludeFromCodeCoverage]
 public class BadQuotesException : ArgumentOutOfRangeException
 {
     public BadQuotesException()
@@ -36,6 +39,41 @@ public class BadQuotesException : ArgumentOutOfRangeException
     // exception propagates from a remoting server to the client.
     [ExcludeFromCodeCoverage] // TODO: how do you test this?
     protected BadQuotesException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
+}
+
+public class InvalidQuotesException : ArgumentOutOfRangeException
+{
+    public InvalidQuotesException()
+    {
+    }
+
+    public InvalidQuotesException(string? paramName)
+        : base(paramName)
+    {
+    }
+
+    public InvalidQuotesException(string? message, Exception? innerException)
+        : base(message, innerException)
+    {
+    }
+
+    public InvalidQuotesException(string? paramName, string? message)
+        : base(paramName, message)
+    {
+    }
+
+    public InvalidQuotesException(string? paramName, object? actualValue, string? message)
+        : base(paramName, actualValue, message)
+    {
+    }
+
+    // A constructor is needed for serialization when an
+    // exception propagates from a remoting server to the client.
+    [ExcludeFromCodeCoverage]
+    protected InvalidQuotesException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -103,6 +103,16 @@ public class Pivots : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<PivotsResult> r0 = noquotes.GetPivots();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<PivotsResult> r1 = onequote.GetPivots();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad left span
@@ -116,9 +126,5 @@ public class Pivots : TestBase
         // bad lookback window
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetPivots(quotes, 20, 10, 20, EndType.Close));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPivots(TestData.GetDefault(10), 5, 5));
     }
 }

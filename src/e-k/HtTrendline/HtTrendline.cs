@@ -12,35 +12,32 @@ public static partial class Indicator
         // convert quotes
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.HL2);
 
-        // check parameter arguments
-        ValidateHtTrendline(quotes);
-
         // initialize
-        int size = bdList.Count;
-        List<HtlResult> results = new(size);
+        int length = bdList.Count;
+        List<HtlResult> results = new(length);
 
-        double[] pr = new double[size]; // price
-        double[] sp = new double[size]; // smooth price
-        double[] dt = new double[size]; // detrender
-        double[] pd = new double[size]; // period
+        double[] pr = new double[length]; // price
+        double[] sp = new double[length]; // smooth price
+        double[] dt = new double[length]; // detrender
+        double[] pd = new double[length]; // period
 
-        double[] q1 = new double[size]; // quadrature
-        double[] i1 = new double[size]; // in-phase
+        double[] q1 = new double[length]; // quadrature
+        double[] i1 = new double[length]; // in-phase
 
         double jI;
         double jQ;
 
-        double[] q2 = new double[size]; // adj. quadrature
-        double[] i2 = new double[size]; // adj. in-phase
+        double[] q2 = new double[length]; // adj. quadrature
+        double[] i2 = new double[length]; // adj. in-phase
 
-        double[] re = new double[size];
-        double[] im = new double[size];
+        double[] re = new double[length];
+        double[] im = new double[length];
 
-        double[] sd = new double[size]; // smooth period
-        double[] it = new double[size]; // instantaneous trend (raw)
+        double[] sd = new double[length]; // smooth period
+        double[] it = new double[length]; // instantaneous trend (raw)
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             pr[i] = q.Value;
@@ -157,25 +154,5 @@ public static partial class Indicator
         this IEnumerable<HtlResult> results)
     {
         return results.Remove(100);
-    }
-
-    // parameter validation
-    private static void ValidateHtTrendline<TQuote>(
-        IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for HTL.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
-        }
     }
 }

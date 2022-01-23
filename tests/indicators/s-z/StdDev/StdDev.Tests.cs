@@ -89,6 +89,16 @@ public class StdDev : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<StdDevResult> r0 = noquotes.GetStdDev(10);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<StdDevResult> r1 = onequote.GetStdDev(10);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<StdDevResult> results = quotes.GetStdDev(10)
@@ -115,9 +125,5 @@ public class StdDev : TestBase
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetStdDev(quotes, 14, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetStdDev(TestData.GetDefault(29), 30));
     }
 }

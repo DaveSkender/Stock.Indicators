@@ -92,6 +92,16 @@ public class Smi : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<SmiResult> r0 = noquotes.GetSmi(5, 5, 2);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<SmiResult> r1 = onequote.GetSmi(5, 3, 3);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<SmiResult> results = quotes.GetSmi(14, 20, 5, 3)
@@ -124,9 +134,5 @@ public class Smi : TestBase
         // bad signal
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetSmi(9, 3, 1, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetSmi(TestData.GetDefault(129), 30, 3, 3, 3));
     }
 }

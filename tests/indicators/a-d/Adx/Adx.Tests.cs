@@ -56,6 +56,16 @@ public class Adx : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<AdxResult> r0 = noquotes.GetAdx(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<AdxResult> r1 = onequote.GetAdx(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         IEnumerable<AdxResult> r = quotes.GetAdx(14)
@@ -76,9 +86,5 @@ public class Adx : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAdx(quotes, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetAdx(TestData.GetDefault(159), 30));
     }
 }

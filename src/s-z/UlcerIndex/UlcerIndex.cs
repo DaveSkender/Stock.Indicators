@@ -14,7 +14,7 @@ public static partial class Indicator
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateUlcer(quotes, lookbackPeriods);
+        ValidateUlcer(lookbackPeriods);
 
         // initialize
         List<UlcerIndexResult> results = new(bdList.Count);
@@ -78,30 +78,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateUlcer<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateUlcer(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Ulcer Index.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Ulcer Index.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

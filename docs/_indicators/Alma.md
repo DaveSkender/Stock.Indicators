@@ -15,7 +15,7 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA]({{site.github.repos
 ```csharp
 // usage
 IEnumerable<AlmaResult> results =
-  quotes.GetAlma(lookbackPeriods, offset, sigma);  
+  quotes.GetAlma(lookbackPeriods, offset, sigma);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<AlmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotes`.
+You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

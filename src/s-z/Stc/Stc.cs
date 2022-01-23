@@ -16,7 +16,7 @@ public static partial class Indicator
         List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
 
         // check parameter arguments
-        ValidateStc(quotes, cyclePeriods, fastPeriods, slowPeriods);
+        ValidateStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // get stochastic of macd
         IEnumerable<StochResult> stochMacd = quotes
@@ -33,9 +33,11 @@ public static partial class Indicator
 
         // initialize results
         // to ensure same length as original quotes
-        List<StcResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        int initPeriods = Math.Min(slowPeriods - 1, length);
+        List<StcResult> results = new(length);
 
-        for (int i = 0; i < slowPeriods - 1; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
             BasicD q = quotesList[i];
             results.Add(new StcResult() { Date = q.Date });
@@ -68,12 +70,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateStc<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateStc(
         int cyclePeriods,
         int fastPeriods,
         int slowPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (cyclePeriods < 0)
@@ -92,22 +92,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
                 "Slow periods must be greater than the fast period for STC.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(2 * (slowPeriods + cyclePeriods), slowPeriods + cyclePeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for STC.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least {2} data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory, slowPeriods + 250);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -61,6 +61,16 @@ public class Pvo : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<PvoResult> r0 = noquotes.GetPvo();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<PvoResult> r1 = onequote.GetPvo();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int fastPeriods = 12;
@@ -95,13 +105,5 @@ public class Pvo : TestBase
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetPvo(quotes, 12, 26, -1));
-
-        // insufficient quotes 2×(S+P)
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPvo(TestData.GetDefault(409), 12, 200, 5));
-
-        // insufficient quotes S+P+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetPvo(TestData.GetDefault(134), 12, 26, 9));
     }
 }

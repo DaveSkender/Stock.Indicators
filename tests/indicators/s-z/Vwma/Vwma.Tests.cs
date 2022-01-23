@@ -38,6 +38,16 @@ public class Vwma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<VwmaResult> r0 = noquotes.GetVwma(4);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<VwmaResult> r1 = onequote.GetVwma(4);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<VwmaResult> results = quotes.GetVwma(10)
@@ -57,9 +67,5 @@ public class Vwma : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetVwma(0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetVwma(TestData.GetDefault(9), 10));
     }
 }

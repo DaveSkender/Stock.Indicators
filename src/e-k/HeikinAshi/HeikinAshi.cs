@@ -12,9 +12,6 @@ public static partial class Indicator
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
-        // check parameter arguments
-        ValidateHeikinAshi(quotes);
-
         // initialize
         List<HeikinAshiResult> results = new(quotesList.Count);
 
@@ -77,25 +74,5 @@ public static partial class Indicator
               Volume = x.Volume
           })
           .ToList();
-    }
-
-    // parameter validation
-    private static void ValidateHeikinAshi<TQuote>(
-        IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 2;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Heikin-Ashi.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
-        }
     }
 }

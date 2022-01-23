@@ -36,6 +36,16 @@ public class ForceIndex : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ForceIndexResult> r0 = noquotes.GetForceIndex(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ForceIndexResult> r1 = onequote.GetForceIndex(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<ForceIndexResult> results = quotes.GetForceIndex(13)
@@ -55,13 +65,5 @@ public class ForceIndex : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetForceIndex(quotes, 0));
-
-        // insufficient quotes for N+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetForceIndex(TestData.GetDefault(129), 30));
-
-        // insufficient quotes for 2×N
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetForceIndex(TestData.GetDefault(499), 250));
     }
 }

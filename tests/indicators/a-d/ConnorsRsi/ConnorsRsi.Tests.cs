@@ -49,6 +49,16 @@ public class ConnorsRsi : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ConnorsRsiResult> r0 = noquotes.GetConnorsRsi();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ConnorsRsiResult> r1 = onequote.GetConnorsRsi();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int rsiPeriods = 3;
@@ -87,9 +97,5 @@ public class ConnorsRsi : TestBase
         // bad Rank period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetConnorsRsi(quotes, 3, 2, 1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetConnorsRsi(TestData.GetDefault(102), 3, 2, 100));
     }
 }

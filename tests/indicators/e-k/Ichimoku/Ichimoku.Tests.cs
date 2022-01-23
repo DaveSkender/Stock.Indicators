@@ -73,6 +73,16 @@ public class Ichimoku : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<IchimokuResult> r0 = noquotes.GetIchimoku();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<IchimokuResult> r1 = onequote.GetIchimoku();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad signal period
@@ -96,9 +106,5 @@ public class Ichimoku : TestBase
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetIchimoku(quotes, 9, 26, 52, 12, -1));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetIchimoku(TestData.GetDefault(51), 9, 26, 52));
     }
 }

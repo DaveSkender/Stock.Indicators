@@ -76,14 +76,20 @@ public class Obv : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ObvResult> r0 = noquotes.GetObv();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ObvResult> r1 = onequote.GetObv();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetObv(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetObv(TestData.GetDefault(1)));
     }
 }

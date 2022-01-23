@@ -49,6 +49,16 @@ public class Prs : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<PrsResult> r0 = noquotes.GetPrs(noquotes);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<PrsResult> r1 = onequote.GetPrs(onequote);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
@@ -60,15 +70,15 @@ public class Prs : TestBase
             Indicator.GetPrs(quotes, otherQuotes, 14, 0));
 
         // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
+        Assert.ThrowsException<InvalidQuotesException>(() =>
             Indicator.GetPrs(quotes, TestData.GetCompare(13), 14));
 
         // insufficient eval quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
+        Assert.ThrowsException<InvalidQuotesException>(() =>
             Indicator.GetPrs(quotes, TestData.GetCompare(300), 14));
 
         // mismatch quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
+        Assert.ThrowsException<InvalidQuotesException>(() =>
             Indicator.GetPrs(mismatchQuotes, otherQuotes, 14));
     }
 }

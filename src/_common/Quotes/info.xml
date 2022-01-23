@@ -13,7 +13,7 @@
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
     <returns>Time series of historical quote values.</returns>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
+    <exception cref="InvalidQuotesException">Validation check failed.</exception>
   </type>
   <type name="Aggregate">
     <summary>

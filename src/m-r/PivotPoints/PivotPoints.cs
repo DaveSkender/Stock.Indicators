@@ -14,14 +14,21 @@ public static partial class Indicator
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();
 
-        // check parameter arguments
-        ValidatePivotPoints(quotes, windowSize);
-
         // initialize
-        List<PivotPointsResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        List<PivotPointsResult> results = new(length);
         PivotPointsResult windowPoint = new();
+        TQuote h0;
 
-        TQuote h0 = quotesList[0];
+        if (length == 0)
+        {
+            return results;
+        }
+        else
+        {
+            h0 = quotesList[0];
+        }
+
         int windowId = GetWindowNumber(h0.Date, windowSize);
         int windowEval;
         bool firstWindow = true;
@@ -32,7 +39,7 @@ public static partial class Indicator
         decimal windowClose = h0.Close;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 
@@ -234,45 +241,5 @@ public static partial class Indicator
             PeriodSize.OneHour => d.Hour,
             _ => 0
         };
-    }
-
-    // parameter validation
-    private static void ValidatePivotPoints<TQuote>(
-        IEnumerable<TQuote> quotes,
-        PeriodSize windowSize)
-        where TQuote : IQuote
-    {
-        // check parameter arguments
-        int qtyWindows = windowSize switch
-        {
-            PeriodSize.Month => quotes
-                .Select(x => x.Date.Month).Distinct().Count(),
-
-            PeriodSize.Week => quotes
-                .Select(x => EnglishCalendar
-                .GetWeekOfYear(x.Date, EnglishCalendarWeekRule, EnglishFirstDayOfWeek))
-                .Distinct().Count(),
-
-            PeriodSize.Day => quotes
-                .Select(x => x.Date.Day).Distinct().Count(),
-
-            PeriodSize.OneHour => quotes
-            .Select(x => x.Date.Hour).Distinct().Count(),
-
-            _ => 0
-        };
-
-        // check quotes
-        if (qtyWindows < 2)
-        {
-            string message = "Insufficient quotes provided for Pivot Points.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} {1} windows of quotes when at least 2 are required.  "
-                + "This can be from either not enough quotes or insufficiently detailed Date values.",
-                    qtyWindows, Enum.GetName(typeof(PeriodSize), windowSize));
-
-            throw new BadQuotesException(nameof(quotes), message);
-        }
     }
 }

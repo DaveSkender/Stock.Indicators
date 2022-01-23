@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -73,6 +73,16 @@ public class Vwap : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<VwapResult> r0 = noquotes.GetVwap();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<VwapResult> r1 = onequote.GetVwap();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         // no start date
@@ -110,9 +120,5 @@ public class Vwap : TestBase
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetVwap(quotes, startDate));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetVwap(TestData.GetDefault(0)));
     }
 }

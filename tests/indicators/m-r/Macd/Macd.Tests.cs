@@ -57,6 +57,16 @@ public class Macd : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<MacdResult> r0 = noquotes.GetMacd();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<MacdResult> r1 = onequote.GetMacd();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int fastPeriods = 12;
@@ -91,13 +101,5 @@ public class Macd : TestBase
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetMacd(quotes, 12, 26, -1));
-
-        // insufficient quotes 2×(S+P)
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetMacd(TestData.GetDefault(409), 12, 200, 5));
-
-        // insufficient quotes S+P+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetMacd(TestData.GetDefault(134), 12, 26, 9));
     }
 }

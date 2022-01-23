@@ -32,6 +32,16 @@ public class UlcerIndex : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<UlcerIndexResult> r0 = noquotes.GetUlcerIndex();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<UlcerIndexResult> r1 = onequote.GetUlcerIndex();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<UlcerIndexResult> results = quotes.GetUlcerIndex(14)
@@ -51,9 +61,5 @@ public class UlcerIndex : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetUlcerIndex(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetUlcerIndex(TestData.GetDefault(29), 30));
     }
 }

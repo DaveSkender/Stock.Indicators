@@ -14,14 +14,14 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateVwma(quotes, lookbackPeriods);
+        ValidateVwma(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<VwmaResult> results = new(size);
+        int length = quotesList.Count;
+        List<VwmaResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;
@@ -68,30 +68,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateVwma<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateVwma(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Vwma.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Vwma.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

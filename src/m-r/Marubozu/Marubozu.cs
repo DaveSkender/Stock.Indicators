@@ -11,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateMarubozu(quotes, minBodyPercent);
+        ValidateMarubozu(minBodyPercent);
 
         // initialize
         List<CandleResult> results = quotes.ConvertToCandleResults();
@@ -34,10 +34,8 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateMarubozu<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateMarubozu(
         double minBodyPercent)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (minBodyPercent > 1)
@@ -50,20 +48,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(minBodyPercent), minBodyPercent,
                 "Minimum Body Percent must at least 0.8 (80%) for Marubozu and is usually greater than 0.9 (90%).");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Marubozu.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

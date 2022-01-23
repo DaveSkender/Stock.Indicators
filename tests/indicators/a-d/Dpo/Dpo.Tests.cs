@@ -76,14 +76,20 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<DpoResult> r0 = noquotes.GetDpo(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<DpoResult> r1 = onequote.GetDpo(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetDpo(0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetDpo(TestData.GetDefault(10), 11));
     }
 }

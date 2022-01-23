@@ -161,6 +161,16 @@ public class ZigZag : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<ZigZagResult> r0 = noquotes.GetZigZag();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<ZigZagResult> r1 = onequote.GetZigZag();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void SchrodingerScenario()
     {
         string json = File.ReadAllText("./s-z/ZigZag/data.schrodinger.json");
@@ -185,9 +195,5 @@ public class ZigZag : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetZigZag(quotes, EndType.Close, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetZigZag(TestData.GetDefault(1)));
     }
 }

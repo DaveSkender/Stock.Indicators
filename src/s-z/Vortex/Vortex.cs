@@ -14,22 +14,22 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateVortex(quotes, lookbackPeriods);
+        ValidateVortex(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<VortexResult> results = new(size);
+        int length = quotesList.Count;
+        List<VortexResult> results = new(length);
 
-        double[] tr = new double[size];
-        double[] pvm = new double[size];
-        double[] nvm = new double[size];
+        double[] tr = new double[length];
+        double[] pvm = new double[length];
+        double[] nvm = new double[length];
 
         double prevHigh = 0;
         double prevLow = 0;
         double prevClose = 0;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;
@@ -102,30 +102,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateVortex<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateVortex(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 1 for VI.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for VI.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

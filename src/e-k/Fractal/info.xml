@@ -17,7 +17,6 @@
     <param name="endType">Determines use of Close or High/Low wicks for points.</param>
     <returns>Time series of Williams Fractal Bull/Bear values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
 
   <type name="alt">
@@ -36,7 +35,6 @@
     <param name="endType">Determines use of Close or High/Low wicks for points.</param>
     <returns>Time series of Williams Fractal Bull/Bear values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
 
 </indicator>

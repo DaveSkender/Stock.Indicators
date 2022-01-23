@@ -16,19 +16,19 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateKlinger(quotes, fastPeriods, slowPeriods, signalPeriods);
+        ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<KvoResult> results = new(size);
+        int length = quotesList.Count;
+        List<KvoResult> results = new(length);
 
-        double[] hlc = new double[size];          // trend basis
-        double[] t = new double[size];            // trend direction
-        double[] dm = new double[size];           // daily measurement
-        double[] cm = new double[size];           // cumulative measurement
-        double?[] vf = new double?[size];         // volume force (VF)
-        double?[] vfFastEma = new double?[size];  // EMA of VF (short-term)
-        double?[] vfSlowEma = new double?[size];  // EMA of VP (long-term)
+        double[] hlc = new double[length];          // trend basis
+        double[] t = new double[length];            // trend direction
+        double[] dm = new double[length];           // daily measurement
+        double[] cm = new double[length];           // cumulative measurement
+        double?[] vf = new double?[length];         // volume force (VF)
+        double?[] vfFastEma = new double?[length];  // EMA of VF (short-term)
+        double?[] vfSlowEma = new double?[length];  // EMA of VP (long-term)
 
         // EMA multipliers
         double kFast = 2d / (fastPeriods + 1);
@@ -36,7 +36,7 @@ public static partial class Indicator
         double kSignal = 2d / (signalPeriods + 1);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;
@@ -150,12 +150,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateKlinger<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateKlinger(
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (fastPeriods <= 2)
@@ -174,23 +172,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
                 "Signal Periods must be greater than 0 for Klinger Oscillator.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = slowPeriods + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Klinger Oscillator.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, slowPeriods, slowPeriods + 150);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

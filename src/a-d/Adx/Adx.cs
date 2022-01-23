@@ -14,7 +14,7 @@ public static partial class Indicator
         List<QuoteD> quotesList = quotes.ConvertToList();
 
         // check parameter arguments
-        ValidateAdx(quotes, lookbackPeriods);
+        ValidateAdx(lookbackPeriods);
 
         // initialize
         List<AdxResult> results = new(quotesList.Count);
@@ -160,32 +160,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateAdx<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateAdx(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 1 for ADX.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = (2 * lookbackPeriods) + 100;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for ADX.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, "
-                + "we recommend you use at least 2×N+250 data points prior to the intended "
-                + "usage date for better precision.", qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

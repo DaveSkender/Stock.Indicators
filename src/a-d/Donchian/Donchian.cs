@@ -14,7 +14,7 @@ public static partial class Indicator
         List<TQuote> quotesList = quotes.SortToList();
 
         // check parameter arguments
-        ValidateDonchian(quotes, lookbackPeriods);
+        ValidateDonchian(lookbackPeriods);
 
         // initialize
         List<DonchianResult> results = new(quotesList.Count);
@@ -77,30 +77,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateDonchian<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateDonchian(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Donchian Channel.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods + 1;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Donchian Channel.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

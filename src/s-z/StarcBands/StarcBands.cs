@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateStarcBands(quotes, smaPeriods, multiplier, atrPeriods);
+        ValidateStarcBands(smaPeriods, multiplier, atrPeriods);
 
         // initialize
         List<AtrResult> atrResults = GetAtr(quotes, atrPeriods).ToList();
@@ -55,12 +55,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateStarcBands<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateStarcBands(
         int smaPeriods,
         decimal multiplier,
         int atrPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (smaPeriods <= 1)
@@ -79,24 +77,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
                 "Multiplier must be greater than 0 for STARC Bands.");
-        }
-
-        // check quotes
-        int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
-        int qtyHistory = quotes.Count();
-        int minHistory = Math.Max(lookbackPeriods, atrPeriods + 100);
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for STARC Bands.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                + "Since this uses a smoothing technique, for {2} lookback periods "
-                + "we recommend you use at least {3} data points prior to the intended "
-                + "usage date for better precision.",
-                    qtyHistory, minHistory, lookbackPeriods, atrPeriods + 150);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

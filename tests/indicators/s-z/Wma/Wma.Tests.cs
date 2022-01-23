@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -34,6 +34,16 @@ public class Wma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<WmaResult> r0 = noquotes.GetWma(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<WmaResult> r1 = onequote.GetWma(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<WmaResult> results = quotes.GetWma(20)
@@ -53,9 +63,5 @@ public class Wma : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetWma(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetWma(TestData.GetDefault(9), 10));
     }
 }

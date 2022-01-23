@@ -11,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateSma(quotes, lookbackPeriods);
+        ValidateSma(lookbackPeriods);
 
         // initialize
         List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
@@ -30,7 +30,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateSma(quotes, lookbackPeriods);
+        ValidateSma(lookbackPeriods);
 
         // initialize
         List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
@@ -91,30 +91,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateSma<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateSma(
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for SMA.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for SMA.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

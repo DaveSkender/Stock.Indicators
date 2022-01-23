@@ -31,6 +31,16 @@ public class Cci : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<CciResult> r0 = noquotes.GetCci();
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<CciResult> r1 = onequote.GetCci();
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<CciResult> results = quotes.GetCci(20)
@@ -50,9 +60,5 @@ public class Cci : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetCci(quotes, 0));
-
-        // insufficient quotes
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetCci(TestData.GetDefault(30), 30));
     }
 }

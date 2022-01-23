@@ -15,7 +15,7 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ```csharp
 // usage
 IEnumerable<ChandelierResult> results =
-  quotes.GetChandelier(lookbackPeriods, multiplier, type);  
+  quotes.GetChandelier(lookbackPeriods, multiplier, type);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<ChandelierResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `quotes`.
+You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

@@ -18,18 +18,18 @@ public static partial class Indicator
         }
 
         // check parameter arguments
-        ValidateStdDevChannels(quotes, lookbackPeriods, standardDeviations);
+        ValidateStdDevChannels(lookbackPeriods, standardDeviations);
 
         // initialize
         List<SlopeResult> slopeResults = GetSlope(quotes, (int)lookbackPeriods).ToList();
 
-        int size = slopeResults.Count;
+        int length = slopeResults.Count;
         List<StdDevChannelsResult> results = slopeResults
             .Select(x => new StdDevChannelsResult { Date = x.Date })
             .ToList();
 
         // roll through quotes in reverse
-        for (int w = size - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)
+        for (int w = length - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)
         {
             SlopeResult s = slopeResults[w];
             decimal? width = (decimal?)(standardDeviations * s.StdDev);
@@ -66,11 +66,9 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateStdDevChannels<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static void ValidateStdDevChannels(
         int? lookbackPeriods,
         double standardDeviations)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
@@ -83,20 +81,6 @@ public static partial class Indicator
         {
             throw new ArgumentOutOfRangeException(nameof(standardDeviations), standardDeviations,
                 "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
-        }
-
-        // check quotes
-        int qtyHistory = quotes.Count();
-        int minHistory = (int)lookbackPeriods;
-        if (qtyHistory < minHistory)
-        {
-            string message = "Insufficient quotes provided for Standard Deviation Channels.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistory, minHistory);
-
-            throw new BadQuotesException(nameof(quotes), message);
         }
     }
 }

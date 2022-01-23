@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -38,6 +38,16 @@ public class Smma : TestBase
     }
 
     [TestMethod]
+    public void NoQuotes()
+    {
+        IEnumerable<SmmaResult> r0 = noquotes.GetSmma(5);
+        Assert.AreEqual(0, r0.Count());
+
+        IEnumerable<SmmaResult> r1 = onequote.GetSmma(5);
+        Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<SmmaResult> results = quotes.GetSmma(20)
@@ -55,13 +65,5 @@ public class Smma : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetSmma(quotes, 0));
-
-        // insufficient quotes for N+100
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetSmma(TestData.GetDefault(129), 30));
-
-        // insufficient quotes for 2×N
-        Assert.ThrowsException<BadQuotesException>(() =>
-            Indicator.GetSmma(TestData.GetDefault(499), 250));
     }
 }
