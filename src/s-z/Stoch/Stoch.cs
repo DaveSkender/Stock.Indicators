@@ -156,19 +156,19 @@ public static partial class Indicator
     // internals
     private static List<StochResult> SmoothOscillator(
         List<StochResult> results,
-        int size,
+        int length,
         int lookbackPeriods,
         int smoothPeriods,
         MaType movingAverageType)
     {
         // temporarily store interim smoothed oscillator
-        double?[] smooth = new double?[size]; // smoothed value
+        double?[] smooth = new double?[length]; // smoothed value
 
         if (movingAverageType is MaType.SMA)
         {
             int smoothIndex = lookbackPeriods + smoothPeriods - 2;
 
-            for (int i = smoothIndex; i < size; i++)
+            for (int i = smoothIndex; i < length; i++)
             {
                 int index = i + 1;
 
@@ -186,7 +186,7 @@ public static partial class Indicator
             // initialize with unsmoothed value
             double? k = (double?)results[lookbackPeriods - 1].Oscillator;
 
-            for (int i = lookbackPeriods - 1; i < size; i++)
+            for (int i = lookbackPeriods - 1; i < length; i++)
             {
                 k = (k == null) ? (double?)results[i].Oscillator : k; // reset if null
 
@@ -200,7 +200,7 @@ public static partial class Indicator
         }
 
         // replace oscillator
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             results[i].Oscillator = (smooth[i] != null) ? (decimal?)smooth[i] : null;
         }

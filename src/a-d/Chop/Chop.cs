@@ -22,11 +22,11 @@ public static partial class Indicator
         double low;
         double range;
 
-        int size = quotesList.Count;
-        List<ChopResult> results = new(size);
-        double[] trueHigh = new double[size];
-        double[] trueLow = new double[size];
-        double[] trueRange = new double[size];
+        int length = quotesList.Count;
+        List<ChopResult> results = new(length);
+        double[] trueHigh = new double[length];
+        double[] trueLow = new double[length];
+        double[] trueRange = new double[length];
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)

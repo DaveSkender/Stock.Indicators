@@ -15,12 +15,12 @@ public static partial class Indicator
 
         // initialize
         List<FractalResult> fractals = GetFractal(quotes, windowSpan).ToList();
-        int size = fractals.Count;
-        List<FcbResult> results = new(size);
+        int length = fractals.Count;
+        List<FcbResult> results = new(length);
         decimal? upperLine = null, lowerLine = null;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             int index = i + 1;
             FractalResult f = fractals[i];

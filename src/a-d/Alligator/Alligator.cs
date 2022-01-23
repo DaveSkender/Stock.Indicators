@@ -28,8 +28,8 @@ public static partial class Indicator
             lipsOffset);
 
         // initialize
-        int size = bdList.Count;
-        double[] pr = new double[size]; // median price
+        int length = bdList.Count;
+        double[] pr = new double[length]; // median price
 
         List<AlligatorResult> results =
             bdList
@@ -40,14 +40,14 @@ public static partial class Indicator
             .ToList();
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             int index = i + 1;
             pr[i] = q.Value;
 
             // only calculate jaw if the array index + offset is still in valid range
-            if (i + jawOffset < size)
+            if (i + jawOffset < length)
             {
                 AlligatorResult jawResult = results[i + jawOffset];
 
@@ -73,7 +73,7 @@ public static partial class Indicator
             }
 
             // only calculate teeth if the array index + offset is still in valid range
-            if (i + teethOffset < size)
+            if (i + teethOffset < length)
             {
                 AlligatorResult teethResult = results[i + teethOffset];
 
@@ -99,7 +99,7 @@ public static partial class Indicator
             }
 
             // only calculate lips if the array index + offset is still in valid range
-            if (i + lipsOffset < size)
+            if (i + lipsOffset < length)
             {
                 AlligatorResult lipsResult = results[i + lipsOffset];
 

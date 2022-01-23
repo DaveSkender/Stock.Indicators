@@ -17,19 +17,19 @@ public static partial class Indicator
         ValidateVortex(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<VortexResult> results = new(size);
+        int length = quotesList.Count;
+        List<VortexResult> results = new(length);
 
-        double[] tr = new double[size];
-        double[] pvm = new double[size];
-        double[] nvm = new double[size];
+        double[] tr = new double[length];
+        double[] pvm = new double[length];
+        double[] nvm = new double[length];
 
         double prevHigh = 0;
         double prevLow = 0;
         double prevClose = 0;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;

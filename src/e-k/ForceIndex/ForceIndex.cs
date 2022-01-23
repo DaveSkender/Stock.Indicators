@@ -17,13 +17,13 @@ public static partial class Indicator
         ValidateForceIndex(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<ForceIndexResult> results = new(size);
+        int length = quotesList.Count;
+        List<ForceIndexResult> results = new(length);
         double? prevClose = null, prevFI = null, sumRawFI = 0;
         double k = 2d / (lookbackPeriods + 1);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;

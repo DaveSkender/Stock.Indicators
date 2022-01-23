@@ -24,8 +24,8 @@ public static partial class Indicator
             signalPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<SmiResult> results = new(size);
+        int length = quotesList.Count;
+        List<SmiResult> results = new(length);
 
         double k1 = 2d / (firstSmoothPeriods + 1);
         double k2 = 2d / (secondSmoothPeriods + 1);
@@ -38,7 +38,7 @@ public static partial class Indicator
         double lastSignal = 0;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;

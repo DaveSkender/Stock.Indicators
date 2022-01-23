@@ -17,11 +17,11 @@ public static partial class Indicator
         ValidateHurst(lookbackPeriods);
 
         // initialize
-        int size = bdList.Count;
-        List<HurstResult> results = new(size);
+        int length = bdList.Count;
+        List<HurstResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             int index = i + 1;
             BasicD q = bdList[i];

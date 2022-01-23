@@ -19,16 +19,16 @@ public static partial class Indicator
         ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<KvoResult> results = new(size);
+        int length = quotesList.Count;
+        List<KvoResult> results = new(length);
 
-        double[] hlc = new double[size];          // trend basis
-        double[] t = new double[size];            // trend direction
-        double[] dm = new double[size];           // daily measurement
-        double[] cm = new double[size];           // cumulative measurement
-        double?[] vf = new double?[size];         // volume force (VF)
-        double?[] vfFastEma = new double?[size];  // EMA of VF (short-term)
-        double?[] vfSlowEma = new double?[size];  // EMA of VP (long-term)
+        double[] hlc = new double[length];          // trend basis
+        double[] t = new double[length];            // trend direction
+        double[] dm = new double[length];           // daily measurement
+        double[] cm = new double[length];           // cumulative measurement
+        double?[] vf = new double?[length];         // volume force (VF)
+        double?[] vfFastEma = new double?[length];  // EMA of VF (short-term)
+        double?[] vfSlowEma = new double?[length];  // EMA of VP (long-term)
 
         // EMA multipliers
         double kFast = 2d / (fastPeriods + 1);
@@ -36,7 +36,7 @@ public static partial class Indicator
         double kSignal = 2d / (signalPeriods + 1);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;

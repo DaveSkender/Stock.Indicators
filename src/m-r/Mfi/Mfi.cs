@@ -17,11 +17,11 @@ public static partial class Indicator
         ValidateMfi(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<MfiResult> results = new(size);
-        double[] tp = new double[size];  // true price
-        double[] mf = new double[size];  // raw MF value
-        int[] direction = new int[size];   // direction
+        int length = quotesList.Count;
+        List<MfiResult> results = new(length);
+        double[] tp = new double[length];  // true price
+        double[] mf = new double[length];  // raw MF value
+        int[] direction = new int[length];   // direction
 
         double? prevTP = null;
 

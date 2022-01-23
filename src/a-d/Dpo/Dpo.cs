@@ -17,13 +17,13 @@ public static partial class Indicator
         ValidateDpo(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
+        int length = quotesList.Count;
         int offset = (lookbackPeriods / 2) + 1;
         List<SmaResult> sma = quotes.GetSma(lookbackPeriods).ToList();
-        List<DpoResult> results = new(size);
+        List<DpoResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 
@@ -33,7 +33,7 @@ public static partial class Indicator
             };
             results.Add(r);
 
-            if (i >= lookbackPeriods - offset - 1 && i < size - offset)
+            if (i >= lookbackPeriods - offset - 1 && i < length - offset)
             {
                 SmaResult s = sma[i + offset];
                 r.Sma = s.Sma;

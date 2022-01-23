@@ -22,12 +22,12 @@ public static partial class Indicator
         List<EmaResult> emaFast = CalcEma(bdList, fastPeriods);
         List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
 
-        int size = bdList.Count;
+        int length = bdList.Count;
         List<BasicD> emaDiff = new();
-        List<MacdResult> results = new(size);
+        List<MacdResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD h = bdList[i];
             EmaResult df = emaFast[i];
@@ -61,7 +61,7 @@ public static partial class Indicator
         // add signal and histogram to result
         List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
 
-        for (int d = slowPeriods - 1; d < size; d++)
+        for (int d = slowPeriods - 1; d < length; d++)
         {
             MacdResult r = results[d];
             EmaResult ds = emaSignal[d + 1 - slowPeriods];

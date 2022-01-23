@@ -17,11 +17,11 @@ public static partial class Indicator
         List<SlopeResult> slopeResults = GetSlope(quotes, lookbackPeriods)
             .ToList();
 
-        int size = slopeResults.Count;
-        List<EpmaResult> results = new(size);
+        int length = slopeResults.Count;
+        List<EpmaResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             SlopeResult s = slopeResults[i];
 

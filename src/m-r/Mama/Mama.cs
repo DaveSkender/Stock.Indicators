@@ -18,32 +18,32 @@ public static partial class Indicator
         ValidateMama(fastLimit, slowLimit);
 
         // initialize
-        int size = bdList.Count;
-        List<MamaResult> results = new(size);
+        int length = bdList.Count;
+        List<MamaResult> results = new(length);
 
         double sumPr = 0d;
 
-        double[] pr = new double[size]; // price
-        double[] sm = new double[size]; // smooth
-        double[] dt = new double[size]; // detrender
-        double[] pd = new double[size]; // period
+        double[] pr = new double[length]; // price
+        double[] sm = new double[length]; // smooth
+        double[] dt = new double[length]; // detrender
+        double[] pd = new double[length]; // period
 
-        double[] q1 = new double[size]; // quadrature
-        double[] i1 = new double[size]; // in-phase
+        double[] q1 = new double[length]; // quadrature
+        double[] i1 = new double[length]; // in-phase
 
         double jI;
         double jQ;
 
-        double[] q2 = new double[size]; // adj. quadrature
-        double[] i2 = new double[size]; // adj. in-phase
+        double[] q2 = new double[length]; // adj. quadrature
+        double[] i2 = new double[length]; // adj. in-phase
 
-        double[] re = new double[size];
-        double[] im = new double[size];
+        double[] re = new double[length];
+        double[] im = new double[length];
 
-        double[] ph = new double[size]; // phase
+        double[] ph = new double[length]; // phase
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             pr[i] = q.Value;

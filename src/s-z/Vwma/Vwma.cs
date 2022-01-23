@@ -17,11 +17,11 @@ public static partial class Indicator
         ValidateVwma(lookbackPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<VwmaResult> results = new(size);
+        int length = quotesList.Count;
+        List<VwmaResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;

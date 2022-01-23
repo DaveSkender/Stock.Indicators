@@ -19,28 +19,28 @@ public static partial class Indicator
         ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        int size = bdList.Count;
+        int length = bdList.Count;
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
         double? sumS = 0;
 
-        List<TsiResult> results = new(size);
+        List<TsiResult> results = new(length);
 
-        double[] c = new double[size]; // price change
-        double[] cs1 = new double[size]; // smooth 1
-        double[] cs2 = new double[size]; // smooth 2
+        double[] c = new double[length]; // price change
+        double[] cs1 = new double[length]; // smooth 1
+        double[] cs2 = new double[length]; // smooth 2
         double sumC = 0;
         double sumC1 = 0;
 
-        double[] a = new double[size]; // abs of price change
-        double[] as1 = new double[size]; // smooth 1
-        double[] as2 = new double[size]; // smooth 2
+        double[] a = new double[length]; // abs of price change
+        double[] as1 = new double[length]; // smooth 1
+        double[] as2 = new double[length]; // smooth 2
         double sumA = 0;
         double sumA1 = 0;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             int index = i + 1;

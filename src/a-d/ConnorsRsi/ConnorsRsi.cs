@@ -67,15 +67,15 @@ public static partial class Indicator
         // initialize
         List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods);
 
-        int size = bdList.Count;
-        List<ConnorsRsiResult> results = new(size);
-        double?[] gain = new double?[size];
+        int length = bdList.Count;
+        List<ConnorsRsiResult> results = new(length);
+        double?[] gain = new double?[length];
 
         double? lastClose = null;
         int streak = 0;
 
         // compose interim results
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             int index = i + 1;

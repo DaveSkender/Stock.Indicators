@@ -17,10 +17,10 @@ public static partial class Indicator
         ValidateFisherTransform(lookbackPeriods);
 
         // initialize
-        int size = bdList.Count;
-        double[] pr = new double[size]; // median price
-        double[] xv = new double[size];  // price transform "value"
-        List<FisherTransformResult> results = new(size);
+        int length = bdList.Count;
+        double[] pr = new double[length]; // median price
+        double[] xv = new double[length];  // price transform "value"
+        List<FisherTransformResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)

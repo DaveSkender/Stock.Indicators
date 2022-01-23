@@ -18,12 +18,12 @@ public static partial class Indicator
         ValidateAwesome(fastPeriods, slowPeriods);
 
         // initialize
-        int size = bdList.Count;
+        int length = bdList.Count;
         List<AwesomeResult> results = new();
-        double[] pr = new double[size]; // median price
+        double[] pr = new double[length]; // median price
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             pr[i] = q.Value;

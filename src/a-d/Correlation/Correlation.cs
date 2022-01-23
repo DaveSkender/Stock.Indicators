@@ -82,14 +82,14 @@ public static partial class Indicator
         double[] dataA,
         double[] dataB)
     {
-        int size = dataA.Length;
+        int length = dataA.Length;
         double sumA = 0;
         double sumB = 0;
         double sumA2 = 0;
         double sumB2 = 0;
         double sumAB = 0;
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             double a = dataA[i];
             double b = dataB[i];
@@ -101,11 +101,11 @@ public static partial class Indicator
             sumAB += a * b;
         }
 
-        double avgA = sumA / size;
-        double avgB = sumB / size;
-        double avgA2 = sumA2 / size;
-        double avgB2 = sumB2 / size;
-        double avgAB = sumAB / size;
+        double avgA = sumA / length;
+        double avgB = sumB / length;
+        double avgA2 = sumA2 / length;
+        double avgB2 = sumB2 / length;
+        double avgAB = sumAB / length;
 
         r.VarianceA = avgA2 - (avgA * avgA);
         r.VarianceB = avgB2 - (avgB * avgB);

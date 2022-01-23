@@ -18,8 +18,8 @@ public static partial class Indicator
         ValidateT3(lookbackPeriods, volumeFactor);
 
         // initialize
-        int size = bdList.Count;
-        List<T3Result> results = new(size);
+        int length = bdList.Count;
+        List<T3Result> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
         double a = volumeFactor;
@@ -32,7 +32,7 @@ public static partial class Indicator
         double sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0, sum6 = 0;
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BasicD q = bdList[i];
             T3Result r = new()

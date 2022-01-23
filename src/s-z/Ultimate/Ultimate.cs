@@ -19,10 +19,10 @@ public static partial class Indicator
         ValidateUltimate(shortPeriods, middlePeriods, longPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<UltimateResult> results = new(size);
-        double[] bp = new double[size]; // buying pressure
-        double[] tr = new double[size]; // true range
+        int length = quotesList.Count;
+        List<UltimateResult> results = new(length);
+        double[] bp = new double[length]; // buying pressure
+        double[] tr = new double[length]; // true range
 
         double priorClose = 0;
 

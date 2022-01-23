@@ -17,8 +17,8 @@ public static partial class Indicator
         ValidateBop(smoothPeriods);
 
         // initialize
-        int size = quotesList.Count;
-        List<BopResult> results = new(size);
+        int length = quotesList.Count;
+        List<BopResult> results = new(length);
 
         double?[] raw = quotesList
             .Select(x => (x.High != x.Low) ?
@@ -26,7 +26,7 @@ public static partial class Indicator
             .ToArray();
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
             BopResult r = new()
             {
