@@ -34,7 +34,7 @@ IEnumerable<Quote> validatedQuotes = quotes.Validate();
 IEnumerable<TQuote> minuteBarQuotes = GetHistoryFromFeed("MSFT");
 
 // aggregate into larger bars
-IEnumerable<Quote> dayBarQuotes = 
+IEnumerable<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(PeriodSize.Day);
 ```
 
@@ -42,7 +42,7 @@ An alternate version of this utility is provided where you can use any native `T
 
 ```csharp
 // alternate usage
-IEnumerable<Quote> dayBarQuotes = 
+IEnumerable<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(TimeSpan timeSpan);
 ```
 
@@ -64,13 +64,28 @@ IEnumerable<Quote> dayBarQuotes =
 
 ## Utilities for indicator results
 
+### Condense
+
+`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+
+```csharp
+// example: only show Marubozu signals
+IEnumerable<CandleResult> results
+  = quotes.GetMarubozu(..)
+    .Condense();
+```
+
+Currently, `.Condense()` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue]({{site.github.repository_url}}/issues).
+
+:warning: WARNING! In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
+
 ### Convert to quotes
 
 `results.ConvertToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators]({{site.baseurl}}/guide/#generating-indicator-of-indicators).
 
 ```csharp
 // example: an RSI of Renko bricks
-IEnumerable<RsiResult> results 
+IEnumerable<RsiResult> results
   = quotes.GetRenko(..)
     .ConvertToQuotes()
     .GetRsi(14);
@@ -78,7 +93,7 @@ IEnumerable<RsiResult> results
 
 Currently, `.ConvertToQuotes` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue]({{site.github.repository_url}}/issues).
 
-:warning: WARNING! In many cases, `.ConvertToQuotes` will remove any `null` results -- this will produce fewer historical `quotes` than were originally provided.
+:warning: WARNING! In many cases, `.ConvertToQuotes` will remove any `null` results -- this will produce fewer records than are in `quotes`.
 
 ### Find indicator result by date
 
@@ -103,12 +118,12 @@ An alternative `.RemoveWarmupPeriods(removePeriods)` is also provided if you wan
 
 ```csharp
 // auto remove recommended warmup periods
-IEnumerable<AdxResult> results = 
+IEnumerable<AdxResult> results =
   quotes.GetAdx(14)
     .RemoveWarmupPeriods();
 
 // remove user-specific quantity of periods
-IEnumerable<AdxResult> results = 
+IEnumerable<AdxResult> results =
   quotes.GetAdx(14)
     .RemoveWarmupPeriods(50);
 ```

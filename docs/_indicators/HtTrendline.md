@@ -20,7 +20,7 @@ IEnumerable<HtlResult> results =
 
 ## Historical quotes requirements
 
-Since this indicator has a warmup period, you must have at least `100` periods of `quotes`.
+You must have at least `100` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

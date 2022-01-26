@@ -12,7 +12,6 @@
     </summary>
     <param name="results">Indicator results to evaluate.</param>
     <returns>Time series of historical quote values.</returns>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
   <type name="Find">
     <summary>
@@ -25,7 +24,7 @@
     </summary>
     <typeparam name="TResult">Any result type.</typeparam>
     <param name="results">Indicator results to evaluate.</param>
-    <param name="lookupDate">Exact date to lookup</param>
+    <param name="lookupDate">Exact date to lookup.</param>
     <returns>First indicator result on the date specified.</returns>
   </type>
   <type name="Prune">

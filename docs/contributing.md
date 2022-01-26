@@ -20,7 +20,7 @@ We are not accepting things that should be done in your own wrapper code:
 - Personal customizations and preferences
 - Modified or augmented outputs that are not instrinsic
 
-If you have general interest in contributing, but are not sure where to start, please [contact us](#contact-info) and we can help to find work in an area of your intests.
+If you have general interest in contributing, but are not sure where to start, please [contact us](#contact-info) and we can help to find work in an area of interest.
 
 ## Reporting bugs and feature requests
 
@@ -28,7 +28,7 @@ If you are reporting a bug or suspect a problem, please [submit an Issue](https:
 
 ## Project management
 
-- Planned work is managed in [the backlog](https://github.com/DaveSkender/Stock.Indicators/projects/1).
+- Planned work is managed in [the backlog](https://github.com/users/DaveSkender/projects/1).
 - Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
 - Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area for general ideation and help/usage questions.
 

@@ -3,6 +3,8 @@ title: Simple Moving Average (SMA)
 permalink: /indicators/Sma/
 type: moving-average
 layout: indicator
+redirect_from:
+ - /indicators/VolSma/
 ---
 
 # {{ page.title }}
@@ -31,7 +33,7 @@ IEnumerable<SmaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotes`.
+You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
@@ -44,6 +46,7 @@ You must have at least `N` periods of `quotes`.
 | `CandlePart.Low` | Use `Low` price
 | `CandlePart.Close` | Use `Close` price (default)
 | `CandlePart.Volume` | Use `Volume`
+| `CandlePart.HL2` | Use `(High+Low)/2`
 
 ## Response
 
@@ -88,7 +91,7 @@ An extended variant of this indicator includes additional analysis.
 ```csharp
 // usage
 IEnumerable<SmaExtendedResult> results =
-  quotes.GetSmaExtended(lookbackPeriods);  
+  quotes.GetSmaExtended(lookbackPeriods);
 ```
 
 ### SmaExtendedResult

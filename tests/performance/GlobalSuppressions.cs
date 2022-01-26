@@ -6,28 +6,13 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
-    "Design",
-    "CA1051:Do not declare visible instance fields",
+    "Performance",
+    "CA1822:Mark members as static",
     Justification = "Required for BenchmarkDotNet")]
 
 [assembly: SuppressMessage(
-    "Style",
-    "IDE0058:Expression value is never used",
-    Justification = "Not worth refactoring for tests.")]
-
-[assembly: SuppressMessage(
-    "StyleCop.CSharp.DocumentationRules",
-    "SA1600:Elements should be documented",
-    Justification = "Not documenting unit test projects.")]
-
-[assembly: SuppressMessage(
-    "Performance",
-    "CA1822:Mark members as static",
-    Justification = "Tests are excluded when static, for some reason")]
-
-// this can be removed after Microsoft publishes fix,
-// see https://github.com/dotnet/roslyn/issues/55014
-[assembly: SuppressMessage(
-    "Style",
-    "IDE0130:Namespace does not match folder structure",
-    Justification = "Microsoft bug, not real")]
+    "StyleCop.CSharp.MaintainabilityRules",
+    "SA1401:Fields should be private",
+    Justification = "Required for BenchmarkDotNet",
+    Scope = "member",
+    Target = "~F:Tests.Performance.InternalsPerformance.Periods")]

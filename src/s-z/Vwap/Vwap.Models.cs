@@ -1,10 +1,7 @@
-﻿using System;
+﻿namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class VwapResult : ResultBase
 {
-    [Serializable]
-    public class VwapResult : ResultBase
-    {
-        public decimal? Vwap { get; set; }
-    }
+    public decimal? Vwap { get; set; }
 }

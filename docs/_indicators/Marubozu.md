@@ -3,8 +3,6 @@ title: Marubozu (Preview)
 permalink: /indicators/Marubozu/
 layout: indicator
 type: candlestick-pattern
-redirect_from:
-  - /indicators/Patterns/Marubozu/
 ---
 
 # {{ page.title }}
@@ -16,7 +14,7 @@ redirect_from:
 
 ```csharp
 // usage
-IEnumerable<MarubozuResult> results =
+IEnumerable<CandleResult> results =
   quotes.GetMarubozu(minBodyPercent);
 ```
 
@@ -28,31 +26,27 @@ IEnumerable<MarubozuResult> results =
 
 ### Historical quotes requirements
 
-You must have at least one historical quote.
+You must have at least one historical quote; however, more is typically provided since this is a chartable candlestick pattern.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
 ```csharp
-IEnumerable<MarubozuResult>
+IEnumerable<CandleResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The candlestick pattern is indicated on dates when `Marubozu` has a non-null value.
+- The candlestick pattern is indicated on dates where `Signal` is `Signal.BullSignal` or `Signal.BearSignal`.
+- There is no intrinsic basis or confirmation signal information provided for this pattern.
 
-### MarubozuResult
-
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Marubozu` | decimal | Indicates a Marubozu candle `Close` price; otherwise `null`
-| `IsBullish` | bool | Direction of the candle
+{% include candle-result.md %}
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
@@ -65,5 +59,5 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<MarubozuResult> results = quotes.GetMarubozu();
+IEnumerable<CandleResult> results = quotes.GetMarubozu();
 ```

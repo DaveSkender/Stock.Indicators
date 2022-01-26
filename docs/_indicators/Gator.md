@@ -16,11 +16,16 @@ Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams 
 // usage
 IEnumerable<GatorResult> results =
   quotes.GetGator();
+
+// with custom Alligator configuration
+IEnumerable<GatorResult> results = quotes
+  .GetAlligator([see Alligator docs])
+  .GetGator();
 ```
 
 ## Historical quotes requirements
 
-You must have at least 115 periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least 265 data points prior to the intended usage date for better precision.
+If using default settings, you must have at least 121 periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](../Alligator#historical-quotes-requirements) for historical quotes requirements.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

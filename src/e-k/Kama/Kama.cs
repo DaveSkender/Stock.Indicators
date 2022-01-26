@@ -1,148 +1,121 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+public static partial class Indicator
 {
-    public static partial class Indicator
+    // KAUFMAN's ADAPTIVE MOVING AVERAGE
+    /// <include file='./info.xml' path='indicator/*' />
+    ///
+    public static IEnumerable<KamaResult> GetKama<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int erPeriods = 10,
+        int fastPeriods = 2,
+        int slowPeriods = 30)
+        where TQuote : IQuote
     {
-        // KAUFMAN's ADAPTIVE MOVING AVERAGE
-        /// <include file='./info.xml' path='indicator/*' />
-        /// 
-        public static IEnumerable<KamaResult> GetKama<TQuote>(
-            this IEnumerable<TQuote> quotes,
-            int erPeriods = 10,
-            int fastPeriods = 2,
-            int slowPeriods = 30)
-            where TQuote : IQuote
+        // convert quotes
+        List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
+
+        // check parameter arguments
+        ValidateKama(erPeriods, fastPeriods, slowPeriods);
+
+        // initialize
+        List<KamaResult> results = new(quotesList.Count);
+        double scFast = 2d / (fastPeriods + 1);
+        double scSlow = 2d / (slowPeriods + 1);
+
+        // roll through quotes
+        for (int i = 0; i < quotesList.Count; i++)
         {
+            BasicD q = quotesList[i];
+            int index = i + 1;
 
-            // sort quotes
-            List<TQuote> quotesList = quotes.Sort();
-
-            // check parameter arguments
-            ValidateKama(quotes, erPeriods, fastPeriods, slowPeriods);
-
-            // initialize
-            List<KamaResult> results = new(quotesList.Count);
-            double scFast = 2d / (fastPeriods + 1);
-            double scSlow = 2d / (slowPeriods + 1);
-
-            // roll through quotes
-            for (int i = 0; i < quotesList.Count; i++)
+            KamaResult r = new()
             {
-                TQuote q = quotesList[i];
-                int index = i + 1;
+                Date = q.Date
+            };
 
-                KamaResult r = new()
+            if (index > erPeriods)
+            {
+                // ER period change
+                double change = Math.Abs(q.Value - quotesList[i - erPeriods].Value);
+
+                // volatility
+                double sumPV = 0;
+                for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    Date = q.Date
-                };
-
-                if (index > erPeriods)
-                {
-                    // ER period change
-                    double change = (double)Math.Abs(q.Close - quotesList[i - erPeriods].Close);
-
-                    // volatility
-                    double sumPV = 0;
-                    for (int p = i - erPeriods + 1; p <= i; p++)
-                    {
-                        sumPV += (double)Math.Abs(quotesList[p].Close - quotesList[p - 1].Close);
-                    }
-
-                    if (sumPV != 0)
-                    {
-                        // efficiency ratio
-                        double er = change / sumPV;
-                        r.ER = er;
-
-                        // smoothing constant
-                        decimal sc = (decimal)(er * (scFast - scSlow) + scSlow);  // squared later
-
-                        // kama calculation
-                        decimal? pk = results[i - 1].Kama;  // prior KAMA
-                        r.Kama = pk + sc * sc * (q.Close - pk);
-                    }
-
-                    // handle flatline case
-                    else
-                    {
-                        r.ER = 0;
-                        r.Kama = q.Close;
-                    }
+                    sumPV += Math.Abs(quotesList[p].Value - quotesList[p - 1].Value);
                 }
 
-                // initial value
-                else if (index == erPeriods)
+                if (sumPV != 0)
                 {
-                    r.Kama = q.Close;
+                    // efficiency ratio
+                    double er = change / sumPV;
+                    r.ER = er;
+
+                    // smoothing constant
+                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
+
+                    // kama calculation
+                    double? pk = (double?)results[i - 1].Kama;  // prior KAMA
+                    r.Kama = (decimal?)(pk + (sc * sc * (q.Value - pk)));
                 }
 
-                results.Add(r);
+                // handle flatline case
+                else
+                {
+                    r.ER = 0;
+                    r.Kama = (decimal?)q.Value;
+                }
             }
 
-            return results;
+            // initial value
+            else if (index == erPeriods)
+            {
+                r.Kama = (decimal?)q.Value;
+            }
+
+            results.Add(r);
         }
 
+        return results;
+    }
 
-        // remove recommended periods
-        /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-        ///
-        public static IEnumerable<KamaResult> RemoveWarmupPeriods(
-            this IEnumerable<KamaResult> results)
+    // remove recommended periods
+    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+    ///
+    public static IEnumerable<KamaResult> RemoveWarmupPeriods(
+        this IEnumerable<KamaResult> results)
+    {
+        int erPeriods = results
+            .ToList()
+            .FindIndex(x => x.ER != null);
+
+        return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
+    }
+
+    // parameter validation
+    private static void ValidateKama(
+        int erPeriods,
+        int fastPeriods,
+        int slowPeriods)
+    {
+        // check parameter arguments
+        if (erPeriods <= 0)
         {
-            int erPeriods = results
-                .ToList()
-                .FindIndex(x => x.ER != null);
-
-            return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
+            throw new ArgumentOutOfRangeException(nameof(erPeriods), erPeriods,
+                "Efficiency Ratio periods must be greater than 0 for KAMA.");
         }
 
-
-        // parameter validation
-        private static void ValidateKama<TQuote>(
-            IEnumerable<TQuote> quotes,
-            int erPeriods,
-            int fastPeriods,
-            int slowPeriods)
-            where TQuote : IQuote
+        if (fastPeriods <= 0)
         {
+            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
+                "Fast EMA periods must be greater than 0 for KAMA.");
+        }
 
-            // check parameter arguments
-            if (erPeriods <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(erPeriods), erPeriods,
-                    "Efficiency Ratio periods must be greater than 0 for KAMA.");
-            }
-
-            if (fastPeriods <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                    "Fast EMA periods must be greater than 0 for KAMA.");
-            }
-
-            if (slowPeriods <= fastPeriods)
-            {
-                throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                    "Slow EMA periods must be greater than Fast EMA period for KAMA.");
-            }
-
-            // check quotes
-            int qtyHistory = quotes.Count();
-            int minHistory = Math.Max(6 * erPeriods, erPeriods + 100);
-            if (qtyHistory < minHistory)
-            {
-                string message = "Insufficient quotes provided for KAMA.  " +
-                    string.Format(EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.  "
-                    + "Since this uses a smoothing technique, for an ER period of {2}, "
-                    + "we recommend you use at least {3} data points prior to the intended "
-                    + "usage date for better precision.",
-                    qtyHistory, minHistory, erPeriods, 10 * erPeriods);
-
-                throw new BadQuotesException(nameof(quotes), message);
-            }
+        if (slowPeriods <= fastPeriods)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                "Slow EMA periods must be greater than Fast EMA period for KAMA.");
         }
     }
 }

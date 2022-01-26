@@ -15,7 +15,7 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ```csharp
 // usage
 IEnumerable<KamaResult> results =
-  quotes.GetKama(erPeriods, fastPeriods, slowPeriods);  
+  quotes.GetKama(erPeriods, fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<KamaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
+You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

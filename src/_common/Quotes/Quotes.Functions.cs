@@ -1,158 +1,135 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading;
 
-namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators;
+
+// HISTORICAL QUOTES FUNCTIONS (GENERAL)
+
+public static class HistoricalQuotes
 {
-    // HISTORICAL QUOTES FUNCTIONS (GENERAL)
+    private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-    public static class HistoricalQuotes
+    // validation
+    /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
+    ///
+    public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
     {
-        private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
+        // we cannot rely on date consistency when looking back, so we add an index and sort
 
-        // validation
-        /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
-        /// 
-        public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> quotes)
-            where TQuote : IQuote
+        List<TQuote> quotesList = quotes.SortToList();
+
+        // check for duplicates
+        DateTime lastDate = DateTime.MinValue;
+        for (int i = 0; i < quotesList.Count; i++)
         {
-            // we cannot rely on date consistency when looking back, so we add an index and sort
+            TQuote q = quotesList[i];
 
-            List<TQuote> quotesList = quotes.Sort();
-
-            // check for duplicates
-            DateTime lastDate = DateTime.MinValue;
-            for (int i = 0; i < quotesList.Count; i++)
+            if (lastDate == q.Date)
             {
-                TQuote q = quotesList[i];
+                throw new InvalidQuotesException(
+                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
+            }
 
-                if (lastDate == q.Date)
+            lastDate = q.Date;
+        }
+
+        return quotesList;
+    }
+
+    // aggregation (quantization)
+    /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />
+    ///
+    public static IEnumerable<Quote> Aggregate<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        PeriodSize newSize)
+        where TQuote : IQuote
+    {
+        // parameter conversion
+        TimeSpan newTimeSpan = newSize.ToTimeSpan();
+
+        // convert
+        return quotes.Aggregate(newTimeSpan);
+    }
+
+    // aggregation (quantization) using TimeSpan
+    /// <include file='./info.xml' path='info/type[@name="AggregateTimeSpan"]/*' />
+    ///
+    public static IEnumerable<Quote> Aggregate<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        TimeSpan timeSpan)
+        where TQuote : IQuote
+    {
+        // handle no quotes scenario
+        if (quotes == null || !quotes.Any())
+        {
+            return new List<Quote>();
+        }
+
+        if (timeSpan <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(timeSpan), timeSpan,
+                "Historical quotes Aggregation must use a new size value " +
+                "that is greater than zero (0).");
+        }
+
+        // return aggregation
+        return quotes
+                .OrderBy(x => x.Date)
+                .GroupBy(x => x.Date.RoundDown(timeSpan))
+                .Select(x => new Quote
                 {
-                    throw new BadQuotesException(
-                        string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
-                }
+                    Date = x.Key,
+                    Open = x.First().Open,
+                    High = x.Max(t => t.High),
+                    Low = x.Min(t => t.Low),
+                    Close = x.Last().Close,
+                    Volume = x.Sum(t => t.Volume)
+                });
+    }
 
-                lastDate = q.Date;
-            }
+    // sort quotes
+    internal static List<TQuote> SortToList<TQuote>(this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
+    {
+        return quotes.OrderBy(x => x.Date).ToList();
+    }
 
-            return quotesList;
-        }
-
-        // aggregation (quantization)
-        /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />
-        /// 
-        public static IEnumerable<Quote> Aggregate<TQuote>(
-            this IEnumerable<TQuote> quotes,
-            PeriodSize newSize)
-            where TQuote : IQuote
-        {
-            // parameter conversion
-            TimeSpan newTimeSpan = newSize.ToTimeSpan();
-
-            // convert
-            return quotes.Aggregate(newTimeSpan);
-        }
-
-        // aggregation (quantization) using TimeSpan
-        /// <include file='./info.xml' path='info/type[@name="AggregateTimeSpan"]/*' />
-        /// 
-        public static IEnumerable<Quote> Aggregate<TQuote>(
-            this IEnumerable<TQuote> quotes,
-            TimeSpan timeSpan)
-            where TQuote : IQuote
-        {
-
-            // handle no quotes scenario
-            if (quotes == null || !quotes.Any())
+    internal static List<QuoteD> ConvertToList<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
+    {
+        return quotes
+            .Select(x => new QuoteD
             {
-                return new List<Quote>();
-            }
+                Date = x.Date,
+                Open = (double)x.Open,
+                High = (double)x.High,
+                Low = (double)x.Low,
+                Close = (double)x.Close,
+                Volume = (double)x.Volume
+            })
+            .OrderBy(x => x.Date)
+            .ToList();
+    }
 
-            if (timeSpan <= TimeSpan.Zero)
-            {
-                throw new ArgumentOutOfRangeException(nameof(timeSpan), timeSpan,
-                    "Historical quotes Aggregation must use a new size value " +
-                    "that is greater than zero (0).");
-            }
-
-            // return aggregation
-            return quotes
-                    .OrderBy(x => x.Date)
-                    .GroupBy(x => x.Date.RoundDown(timeSpan))
-                    .Select(x => new Quote
-                    {
-                        Date = x.Key,
-                        Open = x.First().Open,
-                        High = x.Max(t => t.High),
-                        Low = x.Min(t => t.Low),
-                        Close = x.Last().Close,
-                        Volume = x.Sum(t => t.Volume)
-                    });
-        }
-
-        // sort
-        internal static List<TQuote> Sort<TQuote>(this IEnumerable<TQuote> quotes)
-            where TQuote : IQuote
+    // convert to basic double
+    internal static List<BasicD> ConvertToBasic<TQuote>(
+        this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
+        where TQuote : IQuote
+    {
+        // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
+        // convert to basic double precision format
+        IEnumerable<BasicD> basicDouble = element switch
         {
-            List<TQuote> quotesList = quotes.OrderBy(x => x.Date).ToList();
+            CandlePart.Open => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Open }),
+            CandlePart.High => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.High }),
+            CandlePart.Low => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Low }),
+            CandlePart.Close => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Close }),
+            CandlePart.Volume => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Volume }),
+            CandlePart.HL2 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.High + x.Low) / 2 }),
+            _ => new List<BasicD>(),
+        };
 
-            // validate
-            return quotesList == null || quotesList.Count == 0
-                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-                : quotesList;
-        }
-
-        // convert to basic
-        internal static List<BasicData> ConvertToBasic<TQuote>(
-            this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
-            where TQuote : IQuote
-        {
-            // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
-            // convert to basic data format
-            IEnumerable<BasicData> basicData = element switch
-            {
-                CandlePart.Open => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Open }),
-                CandlePart.High => quotes.Select(x => new BasicData { Date = x.Date, Value = x.High }),
-                CandlePart.Low => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Low }),
-                CandlePart.Close => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Close }),
-                CandlePart.Volume => quotes.Select(x => new BasicData { Date = x.Date, Value = x.Volume }),
-                _ => new List<BasicData>(),
-            };
-
-            List<BasicData> bdList = basicData.OrderBy(x => x.Date).ToList();
-
-            // validate
-            return bdList == null || bdList.Count == 0
-                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-                : bdList;
-        }
-
-        // convert to basic double
-        internal static List<BasicDouble> ConvertToBasicDouble<TQuote>(
-            this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
-            where TQuote : IQuote
-        {
-            // elements represents the targeted OHLCV parts, so use "O" to return <Open> as base data, etc.
-            // convert to basic double precision format
-            IEnumerable<BasicDouble> basicDouble = element switch
-            {
-                CandlePart.Open => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Open }),
-                CandlePart.High => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.High }),
-                CandlePart.Low => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Low }),
-                CandlePart.Close => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Close }),
-                CandlePart.Volume => quotes.Select(x => new BasicDouble { Date = x.Date, Value = (double)x.Volume }),
-                _ => new List<BasicDouble>(),
-            };
-
-            List<BasicDouble> bdList = basicDouble.OrderBy(x => x.Date).ToList();
-
-            // validate
-            return bdList == null || bdList.Count == 0
-                ? throw new BadQuotesException(nameof(quotes), "No historical quotes provided.")
-                : bdList;
-        }
-
+        return basicDouble.OrderBy(x => x.Date).ToList();
     }
 }

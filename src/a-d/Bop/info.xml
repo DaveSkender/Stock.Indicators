@@ -14,5 +14,4 @@
   <param name="smoothPeriods">Number of periods for smoothing.</param>
   <returns>Time series of BOP values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

@@ -39,7 +39,7 @@ IEnumerable<StochResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+S` periods of `quotes`.
+You must have at least `N+S` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

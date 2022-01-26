@@ -19,7 +19,6 @@
     <param name="signalPeriods">Number of periods in the EMA of SMI.</param>
     <returns>Time series of Stochastic Momentum Index values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
 
   <type name="Results">
@@ -35,11 +34,11 @@
       <list type="table">
         <item>
           <term>Smi</term>
-          <description>Stochastic Momentum Index</description>
+          <description>Stochastic Momentum Index.</description>
         </item>
         <item>
           <term>Signal</term>
-          <description>Exponential moving average (EMA) of SMI</description>
+          <description>Exponential moving average (EMA) of SMI.</description>
         </item>
       </list>
     </remarks>

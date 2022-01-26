@@ -16,5 +16,4 @@
   <param name="signalPeriods">Number of periods in the TSI SMA signal line.</param>
   <returns>Time series of TSI values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

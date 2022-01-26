@@ -16,7 +16,7 @@ It can indicate a buy/sell signal or a trailing stop when the trend changes.
 ```csharp
 // usage
 IEnumerable<SuperTrendResult> results =
-  quotes.GetSuperTrend(lookbackPeriods, multiplier);  
+  quotes.GetSuperTrend(lookbackPeriods, multiplier);
 ```
 
 ## Parameters
@@ -28,7 +28,7 @@ IEnumerable<SuperTrendResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+100` periods of `quotes`.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
+You must have at least `N+100` periods of `quotes` to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` periods prior to the intended usage date for optimal precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

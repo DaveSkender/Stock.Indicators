@@ -15,5 +15,4 @@
   <param name="signalPeriods">Optional.  Number of periods for a TRIX SMA signal line.</param>
   <returns>Time series of TRIX values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

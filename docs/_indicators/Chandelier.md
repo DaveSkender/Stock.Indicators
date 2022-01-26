@@ -15,7 +15,7 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ```csharp
 // usage
 IEnumerable<ChandelierResult> results =
-  quotes.GetChandelier(lookbackPeriods, multiplier, type);  
+  quotes.GetChandelier(lookbackPeriods, multiplier, type);
 ```
 
 ## Parameters
@@ -23,12 +23,12 @@ IEnumerable<ChandelierResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22.
-| `multiplier` | decimal | Multiplier number must be a positive value.  Default is 3.
+| `multiplier` | double | Multiplier number must be a positive value.  Default is 3.
 | `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.
 
 ### Historical quotes requirements
 
-You must have at least `N+1` periods of `quotes`.
+You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

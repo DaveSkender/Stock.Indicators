@@ -1,51 +1,62 @@
-namespace Skender.Stock.Indicators
+namespace Skender.Stock.Indicators;
+
+// SHARED ENUMERATIONS
+// note: indicator unique ENUMS specified in indicator models
+
+public enum CandlePart
 {
-    // SHARED ENUMERATIONS
-    // note: indicator unique ENUMS specified in indicator models
+    Open,
+    High,
+    Low,
+    Close,
+    Volume,
+    HL2
+}
 
-    public enum CandlePart
-    {
-        Open,
-        High,
-        Low,
-        Close,
-        Volume
-    }
+public enum EndType
+{
+    Close = 0,
+    HighLow = 1
+}
 
-    public enum EndType
-    {
-        Close = 0,
-        HighLow = 1
-    }
+public enum MaType
+{
+    ALMA,
+    DEMA,
+    EPMA,
+    EMA,
+    HMA,
+    KAMA,
+    MAMA,
+    SMA,
+    SMMA,
+    TEMA,
+    WMA
+}
 
-    public enum MaType
-    {
-        ALMA,
-        DEMA,
-        EPMA,
-        EMA,
-        HMA,
-        KAMA,
-        MAMA,
-        SMA,
-        SMMA,
-        TEMA,
-        WMA
-    }
+public enum PeriodSize
+{
+    Month,
+    Week,
+    Day,
+    FourHours,
+    TwoHours,
+    OneHour,
+    ThirtyMinutes,
+    FifteenMinutes,
+    FiveMinutes,
+    ThreeMinutes,
+    TwoMinutes,
+    OneMinute
+}
 
-    public enum PeriodSize
-    {
-        Month,
-        Week,
-        Day,
-        FourHours,
-        TwoHours,
-        OneHour,
-        ThirtyMinutes,
-        FifteenMinutes,
-        FiveMinutes,
-        ThreeMinutes,
-        TwoMinutes,
-        OneMinute
-    }
+public enum Signal
+{
+    BullConfirmed = 200,
+    BullSignal = 100,
+    BullBasis = 10,
+    None = 0,
+    BearBasis = -10,
+    BearSignal = -100,
+    BearConfirmed = -200
 }

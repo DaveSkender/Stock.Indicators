@@ -1,11 +1,8 @@
-using System;
+namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class VortexResult : ResultBase
 {
-    [Serializable]
-    public class VortexResult : ResultBase
-    {
-        public double? Pvi { get; set; }
-        public double? Nvi { get; set; }
-    }
+    public double? Pvi { get; set; }
+    public double? Nvi { get; set; }
 }

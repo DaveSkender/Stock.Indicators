@@ -1,10 +1,7 @@
-﻿using System;
+﻿namespace Skender.Stock.Indicators;
 
-namespace Skender.Stock.Indicators
+[Serializable]
+public class DemaResult : ResultBase
 {
-    [Serializable]
-    public class DemaResult : ResultBase
-    {
-        public decimal? Dema { get; set; }
-    }
+    public decimal? Dema { get; set; }
 }

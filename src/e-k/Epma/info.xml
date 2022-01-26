@@ -12,7 +12,6 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-  <returns>Time series of Endpoint Moving Average values</returns>
+  <returns>Time series of Endpoint Moving Average values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
 </indicator>

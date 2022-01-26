@@ -19,7 +19,6 @@
     <param name="smoothPeriods">Smoothing period for the %K Oscillator.  Use 3 for Slow or 1 for Fast.</param>
     <returns>Time series of Stochastic Oscillator values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
 
   <type name="Extended">
@@ -42,7 +41,6 @@
     <param name="movingAverageType">Type of moving average to use.  Default is MaType.SMA.  See docs for instructions and options.</param>
     <returns>Time series of Stochastic Oscillator values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-    <exception cref="BadQuotesException">Insufficient quotes provided.</exception>
   </type>
 
   <type name="Results">
@@ -59,11 +57,11 @@
       <list type="table">
         <item>
           <term>Oscillator</term>
-          <description>%K Oscillator over prior lookback periods</description>
+          <description>%K Oscillator over prior lookback periods.</description>
         </item>
         <item>
           <term>Signal</term>
-          <description>%D Simple moving average of %K Oscillator</description>
+          <description>%D Simple moving average of %K Oscillator.</description>
         </item>
         <item>
           <term>PercentJ</term>
@@ -76,15 +74,15 @@
       <list type="table">
         <item>
           <term>K</term>
-          <description>Same as Oscillator</description>
+          <description>Same as Oscillator.</description>
         </item>
         <item>
           <term>D</term>
-          <description>Same as Signal</description>
+          <description>Same as Signal.</description>
         </item>
         <item>
           <term>J</term>
-          <description>Same as PercentJ</description>
+          <description>Same as PercentJ.</description>
         </item>
       </list>
     </remarks>
