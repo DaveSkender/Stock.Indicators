@@ -118,13 +118,15 @@ public static partial class Indicator
 
             // calculate ADX
             double dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
-            double adx, adxr;
-            double priorAdx = i >= lookbackPeriods ? results.ElementAtOrDefault(i - lookbackPeriods).Adx.GetValueOrDefault() : 0;
+            double adx;
 
             if (index > 2 * lookbackPeriods)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
                 result.Adx = adx;
+
+                double priorAdx = i >= lookbackPeriods ? results.ElementAtOrDefault(i - lookbackPeriods).Adx.GetValueOrDefault() : 0;
+                result.Adxr = (adx + priorAdx) / 2;
                 prevAdx = adx;
             }
 
@@ -142,9 +144,6 @@ public static partial class Indicator
             {
                 sumDx += dx;
             }
-
-            adxr = (adx + priorAdx) / 2;
-            result.Adxr = adxr;
         }
 
         return results;
