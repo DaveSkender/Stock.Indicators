@@ -127,7 +127,7 @@ public static partial class Indicator
 
                 double? priorAdx = results[index - lookbackPeriods].Adx;
 
-                result.Adxr = (priorAdx == 0) ? null : (adx + priorAdx) / 2;
+                result.Adxr = (adx + priorAdx) / 2;
                 prevAdx = adx;
             }
 
