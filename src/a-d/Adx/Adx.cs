@@ -125,8 +125,9 @@ public static partial class Indicator
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
                 result.Adx = adx;
 
-                double priorAdx = i >= lookbackPeriods ? results.ElementAtOrDefault(i - lookbackPeriods).Adx.GetValueOrDefault() : 0;
-                result.Adxr = (adx + priorAdx) / 2;
+                double priorAdx = results.ElementAtOrDefault(index - lookbackPeriods).Adx.GetValueOrDefault();
+
+                result.Adxr = (priorAdx == 0) ? null : (adx + priorAdx) / 2;
                 prevAdx = adx;
             }
 
