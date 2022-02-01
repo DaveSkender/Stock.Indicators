@@ -20,25 +20,32 @@ public class Adx : TestBase
         Assert.AreEqual(475, results.Where(x => x.Adx != null).Count());
 
         // sample values
-        AdxResult r1 = results[19];
-        Assert.AreEqual(21.0361, Math.Round((double)r1.Pdi, 4));
-        Assert.AreEqual(25.0124, Math.Round((double)r1.Mdi, 4));
-        Assert.AreEqual(null, r1.Adx);
+        AdxResult r19 = results[19];
+        Assert.AreEqual(21.0361, Math.Round((double)r19.Pdi, 4));
+        Assert.AreEqual(25.0124, Math.Round((double)r19.Mdi, 4));
+        Assert.AreEqual(null, r19.Adx);
 
-        AdxResult r2 = results[29];
-        Assert.AreEqual(37.9719, Math.Round((double)r2.Pdi, 4));
-        Assert.AreEqual(14.1658, Math.Round((double)r2.Mdi, 4));
-        Assert.AreEqual(19.7949, Math.Round((double)r2.Adx, 4));
+        AdxResult r29 = results[29];
+        Assert.AreEqual(37.9719, Math.Round((double)r29.Pdi, 4));
+        Assert.AreEqual(14.1658, Math.Round((double)r29.Mdi, 4));
+        Assert.AreEqual(19.7949, Math.Round((double)r29.Adx, 4));
 
-        AdxResult r3 = results[248];
-        Assert.AreEqual(32.3167, Math.Round((double)r3.Pdi, 4));
-        Assert.AreEqual(18.2471, Math.Round((double)r3.Mdi, 4));
-        Assert.AreEqual(30.5903, Math.Round((double)r3.Adx, 4));
+        AdxResult r39 = results[39];
+        Assert.IsNull(r29.Adxr);
 
-        AdxResult r4 = results[501];
-        Assert.AreEqual(17.7565, Math.Round((double)r4.Pdi, 4));
-        Assert.AreEqual(31.1510, Math.Round((double)r4.Mdi, 4));
-        Assert.AreEqual(34.2987, Math.Round((double)r4.Adx, 4));
+        AdxResult r40 = results[40];
+        Assert.AreEqual(29.1062, Math.Round((double)r40.Adxr, 4));
+
+        AdxResult r248 = results[248];
+        Assert.AreEqual(32.3167, Math.Round((double)r248.Pdi, 4));
+        Assert.AreEqual(18.2471, Math.Round((double)r248.Mdi, 4));
+        Assert.AreEqual(30.5903, Math.Round((double)r248.Adx, 4));
+        Assert.AreEqual(29.1252, Math.Round((double)r248.Adxr, 4));
+
+        AdxResult r501 = results[501];
+        Assert.AreEqual(17.7565, Math.Round((double)r501.Pdi, 4));
+        Assert.AreEqual(31.1510, Math.Round((double)r501.Mdi, 4));
+        Assert.AreEqual(34.2987, Math.Round((double)r501.Adx, 4));
     }
 
     [TestMethod]
