@@ -51,6 +51,7 @@ IEnumerable<AdxResult>
 | `Pdi` | double | Plus Directional Index (+DI) for `N` lookback periods
 | `Mdi` | double | Minus Directional Index (-DI) for `N` lookback periods
 | `Adx` | double | Average Directional Index (ADX) for `N` lookback periods
+| `Adxr` | double | Average Directional Index Rating (ADXR) for `N` lookback periods
 
 ### Utilities
 
