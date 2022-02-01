@@ -18,6 +18,7 @@ public class Adx : TestBase
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(475, results.Where(x => x.Adx != null).Count());
+        Assert.AreEqual(462, results.Where(x => x.Adxr != null).Count());
 
         // sample values
         AdxResult r19 = results[19];
