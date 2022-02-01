@@ -124,9 +124,7 @@ public static partial class Indicator
             if (index > 2 * lookbackPeriods)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
-                adxr = (adx + priorAdx) / 2;
                 result.Adx = adx;
-                result.Adxr = adxr;
                 prevAdx = adx;
             }
 
@@ -135,9 +133,7 @@ public static partial class Indicator
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;
-                adxr = (adx + priorAdx) / 2;
                 result.Adx = adx;
-                result.Adxr = adxr;
                 prevAdx = adx;
             }
 
@@ -146,6 +142,9 @@ public static partial class Indicator
             {
                 sumDx += dx;
             }
+
+            adxr = (adx + priorAdx) / 2;
+            result.Adxr = adxr;
         }
 
         return results;
