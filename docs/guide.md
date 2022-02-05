@@ -303,7 +303,7 @@ When a candlestick pattern is recognized, it produces a signal.  In some cases, 
 
 ### Candle
 
-The `Candle` class is an extended version of `Quote`, and contains additional properties.
+The `Candle` class is an extended version of `Quote`, and contains additional calculated properties.
 
 | name | type | notes
 | -- |-- |--
@@ -314,9 +314,9 @@ The `Candle` class is an extended version of `Quote`, and contains additional pr
 | `Close` | decimal | Close price
 | `Volume` | decimal | Volume
 | `Size` | decimal | `High-Low`
-| `Body` | decimal | `|Open-Close|` ($)
-| `UpperWick` | decimal | Upper wick size ($)
-| `LowerWick` | decimal | Lower wick size ($)
+| `Body` | decimal | `|Open-Close|`
+| `UpperWick` | decimal | Upper wick size
+| `LowerWick` | decimal | Lower wick size
 | `BodyPct` | double | `Body/Size`
 | `UpperWickPct` | double | `UpperWick/Size`
 | `LowerWickPct` | double | `Lowerwick/Size`
