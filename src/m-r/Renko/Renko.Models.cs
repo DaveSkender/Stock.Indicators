@@ -1,7 +1,7 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class RenkoResult : ResultBase
+public class RenkoResult : ResultBase, IQuote
 {
     public decimal Open { get; set; }
     public decimal High { get; set; }

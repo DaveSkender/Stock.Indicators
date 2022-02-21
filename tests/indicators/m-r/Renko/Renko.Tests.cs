@@ -163,6 +163,14 @@ public class Renko : TestBase
     }
 
     [TestMethod]
+    public void UseAsQuotes()
+    {
+        IEnumerable<RenkoResult> renkoQuotes = quotes.GetRenko(0.5m);
+        IEnumerable<SmaResult> renkoSma = renkoQuotes.GetSma(5);
+        Assert.AreEqual(1124, renkoSma.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<RenkoResult> r = badQuotes.GetRenko(100m);
