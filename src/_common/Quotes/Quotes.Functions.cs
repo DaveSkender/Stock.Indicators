@@ -132,4 +132,15 @@ public static class HistoricalQuotes
 
         return basicDouble.OrderBy(x => x.Date).ToList();
     }
+
+    // convert to basic double
+    internal static List<BasicD> ConvertToBasic<TQuote>(
+    this IEnumerable<TQuote> quotes)
+    where TQuote : IBasic
+    {
+        // convert to basic double precision format
+        IEnumerable<BasicD> basicDouble = quotes.Select(x => new BasicD { Date = x.Time, Value = (double)x.Value });
+
+        return basicDouble.OrderBy(x => x.Date).ToList();
+    }
 }

@@ -2,6 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE MODELS
 
+public interface IBasic
+{
+    public DateTime Time { get; set; }
+    public double Value { get; set; }
+}
+
+public class Basic : IBasic
+{
+    DateTime IBasic.Time { get; set; }
+    double IBasic.Value { get; set; }
+}
+
 public interface IQuote
 {
     public DateTime Date { get; }
