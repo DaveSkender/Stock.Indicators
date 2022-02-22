@@ -103,7 +103,7 @@ There are many places to get stock market data.  Check with your brokerage or ot
 
 Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).
 
-:warning: IMPORTANT! Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
+:warning: IMPORTANT! Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.  See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
 
 For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occassionally, even more is required for optimal precision.
 
@@ -303,7 +303,7 @@ When a candlestick pattern is recognized, it produces a signal.  In some cases, 
 
 ### Candle
 
-The `Candle` class is an extended version of `Quote`, and contains additional properties.
+The `Candle` class is an extended version of `Quote`, and contains additional calculated properties.
 
 | name | type | notes
 | -- |-- |--
@@ -314,9 +314,9 @@ The `Candle` class is an extended version of `Quote`, and contains additional pr
 | `Close` | decimal | Close price
 | `Volume` | decimal | Volume
 | `Size` | decimal | `High-Low`
-| `Body` | decimal | `|Open-Close|` ($)
-| `UpperWick` | decimal | Upper wick size ($)
-| `LowerWick` | decimal | Lower wick size ($)
+| `Body` | decimal | `|Open-Close|`
+| `UpperWick` | decimal | Upper wick size
+| `LowerWick` | decimal | Lower wick size
 | `BodyPct` | double | `Body/Size`
 | `UpperWickPct` | double | `UpperWick/Size`
 | `LowerWickPct` | double | `Lowerwick/Size`

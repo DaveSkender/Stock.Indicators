@@ -45,6 +45,14 @@ public class HeikinAshi : TestBase
     }
 
     [TestMethod]
+    public void UseAsQuotes()
+    {
+        IEnumerable<HeikinAshiResult> haQuotes = quotes.GetHeikinAshi();
+        IEnumerable<SmaResult> haSma = haQuotes.GetSma(5);
+        Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(badQuotes);

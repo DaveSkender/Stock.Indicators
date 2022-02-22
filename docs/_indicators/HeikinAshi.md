@@ -36,6 +36,12 @@ IEnumerable<HeikinAshiResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first period will have `null` values since there's not enough data to calculate.
+- `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.  In other words, you can use it as base quotes for other indicators. Example:
+
+  ```csharp
+  var haQuotes = quotes.GetHeikinAshi();
+  var haRsi = haQuotes.GetRsi(14);
+  ```
 
 ### HeikinAshiResult
 

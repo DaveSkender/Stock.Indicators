@@ -43,6 +43,8 @@ See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicator
 
 The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 
+See also [Stock Indicators for Python](https://daveskender.github.io/Stock.Indicators.Python/), a PyPI wrapper for this library.
+
 ## License
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
