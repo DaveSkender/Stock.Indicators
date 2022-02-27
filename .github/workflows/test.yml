@@ -43,7 +43,7 @@ jobs:
         run: |
           BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer \
             --assume-extension \
-            --http-status-ignore "403,999" \
+            --http-status-ignore "403,429,999" \
             --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000" \
             _site
 
