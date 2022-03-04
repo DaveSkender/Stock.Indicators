@@ -434,4 +434,12 @@ public class PivotPoints : TestBase
         Assert.AreEqual(294.3833m, Math.Round((decimal)last.R3, 4));
         Assert.AreEqual(null, last.R4);
     }
+
+    [TestMethod]
+    public void Exceptions()
+    {
+        // bad window size
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            quotes.GetPivotPoints(PeriodSize.ThreeMinutes));
+    }
 }
