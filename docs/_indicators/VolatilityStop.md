@@ -72,5 +72,5 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate VolatilityStop(20,2.5)
 IEnumerable<VolatilityStopResult> results
-  = quotes.VolatilityStop(20,2.5m);
+  = quotes.VolatilityStop(20,2.5);
 ```
