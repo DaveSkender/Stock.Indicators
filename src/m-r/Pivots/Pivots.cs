@@ -1,4 +1,5 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
+#nullable disable
 
 public static partial class Indicator
 {

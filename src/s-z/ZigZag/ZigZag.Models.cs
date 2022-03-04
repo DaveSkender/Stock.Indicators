@@ -1,4 +1,5 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
+#nullable disable
 
 [Serializable]
 public class ZigZagResult : ResultBase
