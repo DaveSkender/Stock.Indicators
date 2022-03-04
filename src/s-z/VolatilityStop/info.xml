@@ -13,6 +13,6 @@
   <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <param name="multiplier">ATR offset amount.</param>
-  <returns>Time series of Parabolic SAR values.</returns>
+  <returns>Time series of Volatility Stop values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </indicator>
