@@ -31,7 +31,8 @@ public static partial class Indicator
 
         int windowId = GetWindowNumber(h0.Date, windowSize);
 
-        if(windowId == 0){
+        if (windowId == 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
                 "Invalid Window Size for Pivot Points.  See documentation for valid PeriodSize options.");
         }
