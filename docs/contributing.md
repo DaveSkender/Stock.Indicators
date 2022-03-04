@@ -108,6 +108,7 @@ If you want to contribute administratively, do code reviews, or provide general 
 
 ## Standards and design guidelines
 
+- [Guiding principles for this project](https://github.com/DaveSkender/Stock.Indicators/discussions/648)
 - [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
 - [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
