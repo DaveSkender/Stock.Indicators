@@ -1,4 +1,5 @@
 namespace Skender.Stock.Indicators;
+#nullable disable
 
 // CANDLESTICK MODELS
 
