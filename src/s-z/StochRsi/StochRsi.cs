@@ -63,19 +63,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<StochRsiResult> RemoveWarmupPeriods(
-        this IEnumerable<StochRsiResult> results)
-    {
-        int n = results
-            .ToList()
-            .FindIndex(x => x.StochRsi != null) + 2;
-
-        return results.Remove(n + 100);
-    }
-
     // parameter validation
     private static void ValidateStochRsi(
         int rsiPeriods,
