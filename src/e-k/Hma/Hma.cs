@@ -70,19 +70,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<HmaResult> RemoveWarmupPeriods(
-        this IEnumerable<HmaResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Hma != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     private static void ValidateHma(
         int lookbackPeriods)

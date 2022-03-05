@@ -145,15 +145,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<MamaResult> RemoveWarmupPeriods(
-        this IEnumerable<MamaResult> results)
-    {
-        return results.Remove(50);
-    }
-
     // parameter validation
     private static void ValidateMama(
         double fastLimit,

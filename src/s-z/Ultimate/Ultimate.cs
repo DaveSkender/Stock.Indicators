@@ -90,19 +90,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<UltimateResult> RemoveWarmupPeriods(
-        this IEnumerable<UltimateResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Ultimate != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     private static void ValidateUltimate(
         int shortPeriods,

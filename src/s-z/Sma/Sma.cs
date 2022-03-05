@@ -39,20 +39,7 @@ public static partial class Indicator
         return bdList.CalcSma(lookbackPeriods);
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<SmaResult> RemoveWarmupPeriods(
-        this IEnumerable<SmaResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Sma != null);
-
-        return results.Remove(removePeriods);
-    }
-
-    // calculate
+    // internals
     private static IEnumerable<SmaResult> CalcSma(
         this List<BasicD> bdList,
         int lookbackPeriods)

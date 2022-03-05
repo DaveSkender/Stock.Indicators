@@ -80,19 +80,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<KamaResult> RemoveWarmupPeriods(
-        this IEnumerable<KamaResult> results)
-    {
-        int erPeriods = results
-            .ToList()
-            .FindIndex(x => x.ER != null);
-
-        return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
-    }
-
     // parameter validation
     private static void ValidateKama(
         int erPeriods,

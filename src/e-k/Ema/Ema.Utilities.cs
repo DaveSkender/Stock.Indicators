@@ -1,0 +1,17 @@
+namespace Skender.Stock.Indicators;
+
+public static partial class Indicator
+{
+    // remove recommended periods
+    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
+    ///
+    public static IEnumerable<EmaResult> RemoveWarmupPeriods(
+        this IEnumerable<EmaResult> results)
+    {
+        int n = results
+          .ToList()
+          .FindIndex(x => x.Ema != null) + 1;
+
+        return results.Remove(n + 100);
+    }
+}
