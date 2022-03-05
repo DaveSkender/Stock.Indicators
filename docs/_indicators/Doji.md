@@ -1,28 +1,28 @@
 ---
-title: Marubozu (Preview)
-permalink: /indicators/Marubozu/
+title: Doji (Preview)
+permalink: /indicators/Doji/
 layout: indicator
 type: candlestick-pattern
 ---
 
 # {{ page.title }}
 
-[Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single candlestick pattern that has no wicks, representing consistent directional movement.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/512 "Community discussion about this indicator")
+[Doji](https://en.wikipedia.org/wiki/Doji) is a single candlestick pattern where open and close price are virtually identical, representing market indecision.
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/734 "Community discussion about this indicator")
 
-  <img src="{{site.baseurl}}/assets/charts/Marubozu.png" alt="drawing" height="150" />
+  <img src="{{site.baseurl}}/assets/charts/Doji.png" alt="drawing" height="150" />
 
 ```csharp
 // usage
 IEnumerable<CandleResult> results =
-  quotes.GetMarubozu(minBodyPercent);
+  quotes.GetDoji(maxPriceChangePercent);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `minBodyPercent` | double | Optional.  Minimum body size as a decimalized percent of total candle size.  Must be between 0.8 and 1, if specified.  Default is 0.95 (95%).
+| `maxPriceChangePercent` | double | Optional.  Maximum absolute decimalized percent difference in open and close price.  Must be between 0 and 0.005, if specified.  Default is 0.001 (0.1%).
 
 ### Historical quotes requirements
 
@@ -39,7 +39,7 @@ IEnumerable<CandleResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The candlestick pattern is indicated on dates where `Signal` is `Signal.BullSignal` or `Signal.BearSignal`.
+- The candlestick pattern is indicated on dates where `Signal` is `Signal.Neutral`.
 - `Price` is `Close` price; however, all OHLC elements are included in the `Candle` properties.
 - There is no intrinsic basis or confirmation signal provided for this pattern.
 
@@ -60,5 +60,5 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate
-IEnumerable<CandleResult> results = quotes.GetMarubozu();
+IEnumerable<CandleResult> results = quotes.GetDoji();
 ```
