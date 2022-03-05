@@ -50,6 +50,7 @@ IEnumerable<Quote> dayBarQuotes =
 
 #### PeriodSize options (for newSize)
 
+- `PeriodSize.Month`
 - `PeriodSize.Week`
 - `PeriodSize.Day`
 - `PeriodSize.FourHours`
