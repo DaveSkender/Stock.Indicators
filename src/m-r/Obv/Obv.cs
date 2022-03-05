@@ -66,25 +66,6 @@ public static partial class Indicator
         return results;
     }
 
-    // convert to quotes
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
-    ///
-    public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<ObvResult> results)
-    {
-        return results
-          .Select(x => new Quote
-          {
-              Date = x.Date,
-              Open = (decimal)x.Obv,
-              High = (decimal)x.Obv,
-              Low = (decimal)x.Obv,
-              Close = (decimal)x.Obv,
-              Volume = (decimal)x.Obv
-          })
-          .ToList();
-    }
-
     // parameter validation
     private static void ValidateObv(
         int? smaPeriods)

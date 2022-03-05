@@ -41,13 +41,13 @@ public static partial class Indicator
     /// <include file='./info.xml' path='indicator/type[@name="Full"]/*' />
     ///
     public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
-    this IEnumerable<TQuote> quotes,
-    int tenkanPeriods,
-    int kijunPeriods,
-    int senkouBPeriods,
-    int senkouOffset,
-    int chikouOffset)
-    where TQuote : IQuote
+        this IEnumerable<TQuote> quotes,
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int senkouOffset,
+        int chikouOffset)
+        where TQuote : IQuote
     {
         // sort quotes
         List<TQuote> quotesList = quotes.SortToList();

@@ -116,19 +116,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<SmiResult> RemoveWarmupPeriods(
-        this IEnumerable<SmiResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Smi != null);
-
-        return results.Remove(removePeriods + 2 + 100);
-    }
-
     // parameter validation
     private static void ValidateSmi(
         int lookbackPeriods,

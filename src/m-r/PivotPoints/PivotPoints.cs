@@ -1,4 +1,5 @@
 namespace Skender.Stock.Indicators;
+#nullable disable
 
 public static partial class Indicator
 {
@@ -34,7 +35,10 @@ public static partial class Indicator
         if (windowId == 0)
         {
             throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
-                "Invalid Window Size for Pivot Points.  See documentation for valid PeriodSize options.");
+                string.Format(
+                    EnglishCulture,
+                    "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
+                    Enum.GetName(typeof(PeriodSize), windowSize)));
         }
 
         int windowEval;
