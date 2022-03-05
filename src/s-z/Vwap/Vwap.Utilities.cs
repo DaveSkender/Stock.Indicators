@@ -5,13 +5,13 @@ public static partial class Indicator
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///
-    public static IEnumerable<PvoResult> RemoveWarmupPeriods(
-        this IEnumerable<PvoResult> results)
+    public static IEnumerable<VwapResult> RemoveWarmupPeriods(
+        this IEnumerable<VwapResult> results)
     {
-        int n = results
+        int removePeriods = results
             .ToList()
-            .FindIndex(x => x.Signal != null) + 2;
+            .FindIndex(x => x.Vwap != null);
 
-        return results.Remove(n + 250);
+        return results.Remove(removePeriods);
     }
 }
