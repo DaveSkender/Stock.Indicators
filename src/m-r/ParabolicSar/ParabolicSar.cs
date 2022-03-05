@@ -185,19 +185,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<ParabolicSarResult> RemoveWarmupPeriods(
-        this IEnumerable<ParabolicSarResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Sar != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     private static void ValidateParabolicSar(
         decimal accelerationStep,
