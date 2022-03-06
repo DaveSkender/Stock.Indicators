@@ -20,7 +20,7 @@ public static class Candlesticks
             {
                 Date = x.Date,
                 Signal = Signal.None,
-                Candle = new Candle
+                Candle = new CandleProperties
                 {
                     Date = x.Date,
                     Open = x.Open,
