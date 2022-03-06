@@ -55,6 +55,7 @@ public enum Signal
     BullConfirmed = 200,
     BullSignal = 100,
     BullBasis = 10,
+    Neutral = 1,
     None = 0,
     BearBasis = -10,
     BearSignal = -100,
