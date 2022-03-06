@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 // CANDLESTICK MODELS
 
 [Serializable]
-public class Candle : Quote
+public class CandleProperties : Quote
 {
     // raw sizes
     internal decimal Size => High - Low;
@@ -27,5 +27,5 @@ public class CandleResult : ResultBase
 {
     public decimal? Price { get; set; }
     public Signal Signal { get; set; }
-    public Candle Candle { get; set; }
+    public CandleProperties Candle { get; set; }
 }

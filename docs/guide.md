@@ -266,7 +266,7 @@ When a candlestick pattern is recognized, it produces a signal.  In some cases, 
 
 ### Candle
 
-The `Candle` class is an extended version of `Quote`, and contains additional calculated properties.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.
 
 | name | type | notes
 | -- |-- |--
