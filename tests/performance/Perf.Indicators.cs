@@ -163,6 +163,12 @@ public class IndicatorPerformance
     }
 
     [Benchmark]
+    public object GetDoji()
+    {
+        return h.GetDoji();
+    }
+
+    [Benchmark]
     public object GetDonchian()
     {
         return h.GetDonchian();

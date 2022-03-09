@@ -84,7 +84,7 @@ More examples available:
 
 ## Historical quotes
 
-You must provide historical price quotes to the library in the standard [OHLCV](https://acronyms.thefreedictionary.com/OHLCV) `IEnumerable<Quote>` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+You must provide historical price quotes to the library in the standard [OHLCV](https://acronyms.thefreedictionary.com/OHLCV) `IEnumerable<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 | name | type | notes
 | -- |-- |--
@@ -103,9 +103,11 @@ There are many places to get stock market data.  Check with your brokerage or ot
 
 Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).
 
-:warning: IMPORTANT! Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.  See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
+:warning: IMPORTANT! Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
 
 For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occassionally, even more is required for optimal precision.
+
+See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
 
 ### Using custom quote classes
 
@@ -167,7 +169,7 @@ For more information on explicit interfaces, refer to the [C# Programming Guide]
 
 ## Using derived results classes
 
-The indicator result (e.g. `EmaResult`) classes can be extended in your code.  Here's an example of how you'd set that up:
+The indicator result (e.g. `EmaResult`) classes can be extended in your code.  There are many ways to do this.  Here's one example:
 
 ```csharp
 // your custom derived class
@@ -200,47 +202,7 @@ public void MyClass(){
   MyEma r = myEmaResults.FirstOrDefault();
 
   // use your custom quote data
-  Console.WriteLine("On {0}, EMA was {1} for my EMA ID {2}.",
-                     r.Date, r.Ema, r.MyId);
-}
-```
-
-### Using nested results classes
-
-If you prefer nested classes, here's an alternative method for customizing your results:
-
-```csharp
-// your custom nested class
-public class MyEma
-{
-  public int MyId { get; set; }
-  public EmaResult Result { get; set; }
-}
-
-public void MyClass(){
-
-  // fetch historical quotes from your feed (your method)
-  IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-  // compute indicator
-  INumerable<EmaResult> emaResults = quotes.GetEma(14);
-
-  // convert to my Ema class list [using LINQ]
-  List<MyEma> myEmaResults = emaResults
-    .Select(result => new MyEma
-      {
-        MyId = 123,
-        Result = result
-      })
-    .ToList();
-
-  // randomly selecting first record from the
-  // collection here for the example
-  MyEma r = myEmaResults.FirstOrDefault();
-
-  // use your custom quote data
-  Console.WriteLine("On {0}, EMA was {1} for my EMA ID {2}.",
-                     r.Result.Date, r.Result.Ema, r.MyId);
+  Console.WriteLine($"On {r.Date}, EMA was {r.Ema} for my EMA ID {r.MyId}.");
 }
 ```
 
@@ -289,13 +251,14 @@ IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
 
 ### Signal
 
-When a candlestick pattern is recognized, it produces a signal.  In some cases, an intrinsic confirmation is also available.  In cases where previous bars were used to identify a pattern, they are indicates as the basis for the signal.  This `enum` can also be referenced as the shown `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
+When a candlestick pattern is recognized, it produces a signal.  In some cases, an intrinsic confirmation is also available.  In cases where previous bars were used to identify a pattern, they are indicates as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
 
 | type | int | description
 |-- |--: |--
 | `Signal.BullConfirmed` | 200 | Confirmation of a prior bull signal
 | `Signal.BullSignal` | 100 | Matching bullish pattern
 | `Signal.BullBasis` | 10 | Bars supporting a bullish signal
+| `Signal.Neutral` | 1 | Matching for non-directional patterns
 | `Signal.None` | 0 | No match
 | `Signal.BearBasis` | -10 | Bars supporting a bearish signal
 | `Signal.BearSignal` | -100 | Matching bearish pattern
@@ -303,7 +266,7 @@ When a candlestick pattern is recognized, it produces a signal.  In some cases, 
 
 ### Candle
 
-The `Candle` class is an extended version of `Quote`, and contains additional calculated properties.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.
 
 | name | type | notes
 | -- |-- |--

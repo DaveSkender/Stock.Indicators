@@ -76,19 +76,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<BetaResult> RemoveWarmupPeriods(
-        this IEnumerable<BetaResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Beta != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // calculate beta
     private static void CalcBeta(
         this BetaResult r,

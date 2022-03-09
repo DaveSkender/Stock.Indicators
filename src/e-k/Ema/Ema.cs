@@ -33,19 +33,6 @@ public static partial class Indicator
         return bdList.CalcEma(lookbackPeriods);
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<EmaResult> RemoveWarmupPeriods(
-        this IEnumerable<EmaResult> results)
-    {
-        int n = results
-          .ToList()
-          .FindIndex(x => x.Ema != null) + 1;
-
-        return results.Remove(n + 100);
-    }
-
     // standard calculation
     private static List<EmaResult> CalcEma(
         this List<BasicD> bdList, int lookbackPeriods)

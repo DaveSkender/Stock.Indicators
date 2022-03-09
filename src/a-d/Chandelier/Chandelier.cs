@@ -81,19 +81,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<ChandelierResult> RemoveWarmupPeriods(
-        this IEnumerable<ChandelierResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.ChandelierExit != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     private static void ValidateChandelier(
         int lookbackPeriods,

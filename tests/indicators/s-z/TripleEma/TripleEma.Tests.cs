@@ -39,10 +39,10 @@ public class TripleEma : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        var r0 = noquotes.GetTripleEma(5);
+        IEnumerable<TemaResult> r0 = noquotes.GetTripleEma(5);
         Assert.AreEqual(0, r0.Count());
 
-        var r1 = onequote.GetTripleEma(5);
+        IEnumerable<TemaResult> r1 = onequote.GetTripleEma(5);
         Assert.AreEqual(1, r1.Count());
     }
 

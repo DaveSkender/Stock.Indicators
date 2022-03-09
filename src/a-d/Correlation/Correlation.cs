@@ -63,19 +63,6 @@ public static partial class Indicator
         return results;
     }
 
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<CorrResult> RemoveWarmupPeriods(
-        this IEnumerable<CorrResult> results)
-    {
-        int removePeriods = results
-          .ToList()
-          .FindIndex(x => x.Correlation != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // calculate correlation
     private static void CalcCorrelation(
         this CorrResult r,

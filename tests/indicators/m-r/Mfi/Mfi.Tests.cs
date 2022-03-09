@@ -60,10 +60,10 @@ public class Mfi : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        var r0 = noquotes.GetMfi();
+        IEnumerable<MfiResult> r0 = noquotes.GetMfi();
         Assert.AreEqual(0, r0.Count());
 
-        var r1 = onequote.GetMfi();
+        IEnumerable<MfiResult> r1 = onequote.GetMfi();
         Assert.AreEqual(1, r1.Count());
     }
 

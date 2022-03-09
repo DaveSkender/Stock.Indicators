@@ -7,10 +7,10 @@ type: candlestick-pattern
 
 # {{ page.title }}
 
-[Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a candlestick pattern that has no wicks, representing consistent directional movement.
+[Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single candlestick pattern that has no wicks, representing consistent directional movement.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/512 "Community discussion about this indicator")
 
-  <img src="{{site.baseurl}}/assets/charts/Marubozu.png" alt="drawing" height="150" />
+![image]({{site.baseurl}}/assets/charts/Marubozu.png)
 
 ```csharp
 // usage
@@ -40,7 +40,8 @@ IEnumerable<CandleResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The candlestick pattern is indicated on dates where `Signal` is `Signal.BullSignal` or `Signal.BearSignal`.
-- There is no intrinsic basis or confirmation signal information provided for this pattern.
+- `Price` is `Close` price; however, all OHLC elements are included in the `Candle` properties.
+- There is no intrinsic basis or confirmation signal provided for this pattern.
 
 {% include candle-result.md %}
 

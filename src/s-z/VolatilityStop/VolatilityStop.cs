@@ -1,4 +1,5 @@
 namespace Skender.Stock.Indicators;
+#nullable disable
 
 public static partial class Indicator
 {
@@ -108,21 +109,6 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<VolatilityStopResult> RemoveWarmupPeriods(
-        this IEnumerable<VolatilityStopResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Sar != null);
-
-        removePeriods = Math.Max(100, removePeriods);
-
-        return results.Remove(removePeriods);
     }
 
     // parameter validation

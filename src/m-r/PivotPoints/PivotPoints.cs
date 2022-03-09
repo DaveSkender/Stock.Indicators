@@ -1,4 +1,5 @@
 namespace Skender.Stock.Indicators;
+#nullable disable
 
 public static partial class Indicator
 {
@@ -30,6 +31,16 @@ public static partial class Indicator
         }
 
         int windowId = GetWindowNumber(h0.Date, windowSize);
+
+        if (windowId == 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
+                string.Format(
+                    EnglishCulture,
+                    "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
+                    Enum.GetName(typeof(PeriodSize), windowSize)));
+        }
+
         int windowEval;
         bool firstWindow = true;
 

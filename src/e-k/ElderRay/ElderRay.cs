@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    // ElderRay
+    // ELDER-RAY
     /// <include file='./info.xml' path='indicator/*' />
     ///
     public static IEnumerable<ElderRayResult> GetElderRay<TQuote>(
@@ -36,19 +36,6 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<ElderRayResult> RemoveWarmupPeriods(
-        this IEnumerable<ElderRayResult> results)
-    {
-        int n = results
-          .ToList()
-          .FindIndex(x => x.BullPower != null) + 1;
-
-        return results.Remove(n + 100);
     }
 
     // parameter validation

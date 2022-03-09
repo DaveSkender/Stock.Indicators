@@ -46,7 +46,7 @@
 
     <ImplicitUsings>enable</ImplicitUsings>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
 
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
