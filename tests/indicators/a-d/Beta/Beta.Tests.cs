@@ -36,6 +36,8 @@ public class Beta : TestBase
         Assert.AreEqual(0.3292, Math.Round((double)r20.BetaDown, 4));
         Assert.AreEqual(5.4693, Math.Round((double)r20.Ratio, 4));
         Assert.AreEqual(2.1652, Math.Round((double)r20.Convexity, 4));
+        Assert.AreEqual(-0.010678, Math.Round((double)r20.ReturnsEval, 6));
+        Assert.AreEqual(0.000419, Math.Round((double)r20.ReturnsMrkt, 6));
 
         BetaResult r249 = results[249];
         Assert.AreEqual(1.9200, Math.Round((double)r249.Beta, 4));

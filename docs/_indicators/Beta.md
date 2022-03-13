@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one stock responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
+[Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/268 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Beta.png)
@@ -62,6 +62,10 @@ IEnumerable<BetaResult>
 | `BetaDown` | double | Beta- (Down Beta)
 | `Ratio` | double | Beta ratio is `BetaUp/BetaDown`
 | `Convexity` | double | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
+| `ReturnsEval` | double | Returns of evaluated quotes (`R`)
+| `ReturnsMrkt` | double | Returns of market quotes (`Rm`)
+
+**Tip:** [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
 
 ### Utilities
 

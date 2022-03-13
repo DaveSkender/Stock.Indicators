@@ -58,7 +58,9 @@ public static partial class Indicator
 
             BetaResult r = new()
             {
-                Date = q.Date
+                Date = q.Date,
+                ReturnsEval = evalReturns[i],
+                ReturnsMrkt = mrktReturns[i]
             };
             results.Add(r);
 
