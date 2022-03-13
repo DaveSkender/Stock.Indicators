@@ -65,7 +65,10 @@ IEnumerable<BetaResult>
 | `ReturnsEval` | double | Returns of evaluated quotes (`R`)
 | `ReturnsMrkt` | double | Returns of market quotes (`Rm`)
 
-**Tip:** [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
+### Pro tips
+
+- Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have daily bars, use the [quotes.Aggregate(PeriodSize.Monthly)]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
+- [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
 
 ### Utilities
 
