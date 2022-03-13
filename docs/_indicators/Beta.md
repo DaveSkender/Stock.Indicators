@@ -25,7 +25,7 @@ IEnumerable<BetaResult> results =
 | -- |-- |--
 | `quotesMarket` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
 | `quotesEval` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below.
 
 ### Historical quotes requirements
@@ -75,10 +75,10 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
-IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
+IEnumerable<Quote> quotesSPX = GetHistoryFromFeed("SPX");
+IEnumerable<Quote> quotesTSLA = GetHistoryFromFeed("TSLA");
 
 // calculate 20-period Beta coefficient
 IEnumerable<BetaResult> results =
-  Indicator.GetBeta(historySPX,historyTSLA,20);
+  Indicator.GetBeta(quotesSPX,quotesTSLA,20);
 ```

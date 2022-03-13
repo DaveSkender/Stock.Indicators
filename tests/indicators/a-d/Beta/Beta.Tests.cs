@@ -18,38 +18,38 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
         Assert.AreEqual(482, results.Where(x => x.BetaUp != null).Count());
         Assert.AreEqual(482, results.Where(x => x.BetaDown != null).Count());
 
         // sample values
         BetaResult r19 = results[19];
-        Assert.AreEqual(7.5476, Math.Round((double)r19.Beta, 4));
+        Assert.IsNull(r19.Beta);
         Assert.IsNull(r19.BetaUp);
         Assert.IsNull(r19.BetaDown);
         Assert.IsNull(r19.Ratio);
         Assert.IsNull(r19.Convexity);
 
         BetaResult r20 = results[20];
-        Assert.AreEqual(6.7488, Math.Round((double)r20.Beta, 4));
-        Assert.AreEqual(8.2407, Math.Round((double)r20.BetaUp, 4));
-        Assert.AreEqual(5.9296, Math.Round((double)r20.BetaDown, 4));
-        Assert.AreEqual(1.3898, Math.Round((double)r20.Ratio, 4));
-        Assert.AreEqual(5.3415, Math.Round((double)r20.Convexity, 4));
+        Assert.AreEqual(1.5139, Math.Round((double)r20.Beta, 4));
+        Assert.AreEqual(1.8007, Math.Round((double)r20.BetaUp, 4));
+        Assert.AreEqual(0.3292, Math.Round((double)r20.BetaDown, 4));
+        Assert.AreEqual(5.4693, Math.Round((double)r20.Ratio, 4));
+        Assert.AreEqual(2.1652, Math.Round((double)r20.Convexity, 4));
 
         BetaResult r249 = results[249];
-        Assert.AreEqual(3.5528, Math.Round((double)r249.Beta, 4));
-        Assert.AreEqual(3.1061, Math.Round((double)r249.BetaUp, 4));
-        Assert.AreEqual(4.0684, Math.Round((double)r249.BetaDown, 4));
-        Assert.AreEqual(0.7635, Math.Round((double)r249.Ratio, 4));
-        Assert.AreEqual(0.9260, Math.Round((double)r249.Convexity, 4));
+        Assert.AreEqual(1.9200, Math.Round((double)r249.Beta, 4));
+        Assert.AreEqual(-1.2289, Math.Round((double)r249.BetaUp, 4));
+        Assert.AreEqual(-0.3956, Math.Round((double)r249.BetaDown, 4));
+        Assert.AreEqual(3.1066, Math.Round((double)r249.Ratio, 4));
+        Assert.AreEqual(0.6944, Math.Round((double)r249.Convexity, 4));
 
         BetaResult r501 = results[501];
-        Assert.AreEqual(1.6759, Math.Round((double)r501.Beta, 4));
-        Assert.AreEqual(1.2838, Math.Round((double)r501.BetaUp, 4));
-        Assert.AreEqual(2.1034, Math.Round((double)r501.BetaDown, 4));
-        Assert.AreEqual(0.6104, Math.Round((double)r501.Ratio, 4));
-        Assert.AreEqual(0.6717, Math.Round((double)r501.Convexity, 4));
+        Assert.AreEqual(1.5123, Math.Round((double)r501.Beta, 4));
+        Assert.AreEqual(2.0721, Math.Round((double)r501.BetaUp, 4));
+        Assert.AreEqual(1.5908, Math.Round((double)r501.BetaDown, 4));
+        Assert.AreEqual(1.3026, Math.Round((double)r501.Ratio, 4));
+        Assert.AreEqual(0.2316, Math.Round((double)r501.Convexity, 4));
     }
 
     [TestMethod]
@@ -64,11 +64,11 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
 
         // sample value
         BetaResult r = results[501];
-        Assert.AreEqual(1.6759, Math.Round((double)r.Beta, 4));
+        Assert.AreEqual(1.5123, Math.Round((double)r.Beta, 4));
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class Beta : TestBase
 
         // sample value
         BetaResult r = results[501];
-        Assert.AreEqual(1.2838, Math.Round((double)r.BetaUp, 4));
+        Assert.AreEqual(2.0721, Math.Round((double)r.BetaUp, 4));
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class Beta : TestBase
 
         // sample value
         BetaResult r = results[501];
-        Assert.AreEqual(2.1034, Math.Round((double)r.BetaDown, 4));
+        Assert.AreEqual(1.5908, Math.Round((double)r.BetaDown, 4));
     }
 
     [TestMethod]
@@ -134,6 +134,30 @@ public class Beta : TestBase
     }
 
     [TestMethod]
+    public void BetaMsft()
+    {
+        // should produce 0.91 for 5-yr monthly values
+        // multiple reputable sites show this number
+        /*
+          https://finance.yahoo.com/quote/MSFT
+          https://www.zacks.com/stock/chart/MSFT/fundamental/beta
+          https://www.nasdaq.com/market-activity/stocks/msft
+        */
+
+        IEnumerable<Quote> evalQuotes = TestData.GetMsft();
+        IEnumerable<Quote> mktQuotes = TestData.GetSpx();
+
+        List<BetaResult> results = Indicator
+            .GetBeta(
+                mktQuotes.Aggregate(PeriodSize.Month),
+                evalQuotes.Aggregate(PeriodSize.Month),
+                60, BetaType.Standard)
+            .ToList();
+
+        Assert.AreEqual(0.91, Math.Round((double)results[385].Beta, 2));
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<BetaResult> results = Indicator.GetBeta(quotes, otherQuotes, 20)
@@ -141,10 +165,10 @@ public class Beta : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.AreEqual(502 - 20, results.Count);
 
         BetaResult last = results.LastOrDefault();
-        Assert.AreEqual(1.6759, Math.Round((double)last.Beta, 4));
+        Assert.AreEqual(1.5123, Math.Round((double)last.Beta, 4));
     }
 
     [TestMethod]
@@ -159,7 +183,7 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Beta != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
 
         // sample value
         BetaResult r = results[501];
