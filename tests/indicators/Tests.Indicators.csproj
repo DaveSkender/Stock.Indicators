@@ -32,18 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="a-d\Dpo\Dpo.Data.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\data.ethusdt.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\data.issue632.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="s-z\ZigZag\data.schrodinger.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="_common\data\bad.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -71,13 +59,32 @@
     <None Update="_common\data\mismatch.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="_common\data\msft.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="_common\data\penny.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="s-z\ZigZag\zigzag.csv">
+    <None Update="_common\data\spx.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="_common\data\toobig.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+
+    <None Update="a-d\Dpo\Dpo.Data.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="s-z\ZigZag\data.ethusdt.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="s-z\ZigZag\data.issue632.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="s-z\ZigZag\data.schrodinger.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="s-z\ZigZag\zigzag.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
