@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one stock responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
+[Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/268 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Beta.png)
@@ -25,7 +25,7 @@ IEnumerable<BetaResult> results =
 | -- |-- |--
 | `quotesMarket` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
 | `quotesEval` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
+| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below.
 
 ### Historical quotes requirements
@@ -62,6 +62,8 @@ IEnumerable<BetaResult>
 | `BetaDown` | double | Beta- (Down Beta)
 | `Ratio` | double | Beta ratio is `BetaUp/BetaDown`
 | `Convexity` | double | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
+| `ReturnsEval` | double | Returns of evaluated quotes (`R`)
+| `ReturnsMrkt` | double | Returns of market quotes (`Rm`)
 
 ### Utilities
 
@@ -71,14 +73,19 @@ IEnumerable<BetaResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Pro tips
+
+- Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have daily bars, use the [quotes.Aggregate(PeriodSize.Monthly)]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
+- [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
+
 ## Example
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
-IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
+IEnumerable<Quote> quotesSPX = GetHistoryFromFeed("SPX");
+IEnumerable<Quote> quotesTSLA = GetHistoryFromFeed("TSLA");
 
 // calculate 20-period Beta coefficient
 IEnumerable<BetaResult> results =
-  Indicator.GetBeta(historySPX,historyTSLA,20);
+  Indicator.GetBeta(quotesSPX,quotesTSLA,20);
 ```

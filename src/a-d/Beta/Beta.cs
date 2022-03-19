@@ -13,56 +13,80 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdListEval = quotesEval.ConvertToBasic(CandlePart.Close);
-        List<BasicD> bdListMrkt = quotesMarket.ConvertToBasic(CandlePart.Close);
+        List<TQuote>? evalQuotesList = quotesEval.SortToList();
+        List<TQuote>? mrktQuotesList = quotesMarket.SortToList();
 
         // check parameter arguments
-        ValidateBeta(quotesMarket, quotesEval, lookbackPeriods);
+        ValidateBeta(mrktQuotesList, evalQuotesList, lookbackPeriods);
 
         // initialize
-        List<BetaResult> results = new(bdListEval.Count);
+        int size = evalQuotesList.Count;
+        List<BetaResult> results = new(size);
+
         bool calcSd = type is BetaType.All or BetaType.Standard;
         bool calcUp = type is BetaType.All or BetaType.Up;
         bool calcDn = type is BetaType.All or BetaType.Down;
 
-        // roll through quotes
-        for (int i = 0; i < bdListEval.Count; i++)
+        // convert quotes to returns
+        double[] evalReturns = new double[size];
+        double[] mrktReturns = new double[size];
+        decimal? prevE = 0;
+        decimal? prevM = 0;
+
+        for (int i = 0; i < size; i++)
         {
-            BasicD e = bdListEval[i];
+            TQuote? e = evalQuotesList[i];
+            TQuote? m = mrktQuotesList[i];
+
+            if (e.Date != m.Date)
+            {
+                throw new InvalidQuotesException(nameof(quotesEval), e.Date,
+                    "Date sequence does not match.  Beta requires matching dates in provided quotes.");
+            }
+
+            evalReturns[i] = (double)(prevE != 0 ? (e.Close / prevE) - 1m : 0);
+            mrktReturns[i] = (double)(prevM != 0 ? (m.Close / prevM) - 1m : 0);
+
+            prevE = e.Close;
+            prevM = m.Close;
+        }
+
+        // roll through quotes
+        for (int i = 0; i < size; i++)
+        {
+            TQuote? q = evalQuotesList[i];
 
             BetaResult r = new()
             {
-                Date = e.Date
+                Date = q.Date,
+                ReturnsEval = evalReturns[i],
+                ReturnsMrkt = mrktReturns[i]
             };
             results.Add(r);
 
             // skip warmup periods
-            if (i < lookbackPeriods - 1)
+            if (i < lookbackPeriods)
             {
                 continue;
             }
 
-            // calculate standard beta
+            // calculate beta variants
             if (calcSd)
             {
                 r.CalcBeta(
-                i, lookbackPeriods, bdListMrkt, bdListEval, BetaType.Standard);
+                i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Standard);
             }
 
-            // calculate up/down betas
-            if (i >= lookbackPeriods)
+            if (calcDn)
             {
-                if (calcDn)
-                {
-                    r.CalcBeta(
-                    i, lookbackPeriods, bdListMrkt, bdListEval, BetaType.Down);
-                }
+                r.CalcBeta(
+                i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Down);
+            }
 
-                if (calcUp)
-                {
-                    r.CalcBeta(
-                    i, lookbackPeriods, bdListMrkt, bdListEval, BetaType.Up);
-                }
+            if (calcUp)
+            {
+                r.CalcBeta(
+                i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Up);
             }
 
             // ratio and convexity
@@ -79,10 +103,10 @@ public static partial class Indicator
     // calculate beta
     private static void CalcBeta(
         this BetaResult r,
-        int index,
+        int i,
         int lookbackPeriods,
-        List<BasicD> bdListMrkt,
-        List<BasicD> bdListEval,
+        double[] mrktReturns,
+        double[] evalReturns,
         BetaType type)
     {
         // note: BetaType.All is ineligible for this method
@@ -93,24 +117,22 @@ public static partial class Indicator
         List<double> dataA = new(lookbackPeriods);
         List<double> dataB = new(lookbackPeriods);
 
-        for (int p = index - lookbackPeriods + 1; p <= index; p++)
+        for (int p = i - lookbackPeriods + 1; p <= i; p++)
         {
-            double a = bdListMrkt[p].Value;
-            double b = bdListEval[p].Value;
+            double a = mrktReturns[p];
+            double b = evalReturns[p];
 
             if (type is BetaType.Standard)
             {
                 dataA.Add(a);
                 dataB.Add(b);
             }
-            else if (type is BetaType.Down
-                && a < bdListMrkt[p - 1].Value)
+            else if (type is BetaType.Down && a < 0)
             {
                 dataA.Add(a);
                 dataB.Add(b);
             }
-            else if (type is BetaType.Up
-                && a > bdListMrkt[p - 1].Value)
+            else if (type is BetaType.Up && a > 0)
             {
                 dataA.Add(a);
                 dataB.Add(b);
@@ -145,10 +167,10 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateBeta<TQuote>(
-    IEnumerable<TQuote> quotesMarket,
-    IEnumerable<TQuote> quotesEval,
-    int lookbackPeriods)
-    where TQuote : IQuote
+        List<TQuote> quotesMarket,
+        List<TQuote> quotesEval,
+        int lookbackPeriods)
+        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -158,11 +180,11 @@ public static partial class Indicator
         }
 
         // check quotes
-        if (quotesEval.Count() < quotesMarket.Count())
+        if (quotesEval.Count != quotesMarket.Count)
         {
             throw new InvalidQuotesException(
                 nameof(quotesEval),
-                "Eval quotes should have at least as many records as Market quotes for Beta.");
+                "Eval quotes should have the same number of Market quotes for Beta.");
         }
     }
 }

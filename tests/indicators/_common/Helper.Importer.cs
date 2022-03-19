@@ -179,4 +179,26 @@ internal class TestData
             .Select(v => Importer.QuoteFromCsv(v))
             .ToList();
     }
+
+    // SPX, 30 years, daily
+    internal static IEnumerable<Quote> GetSpx(int days = 8111)
+    {
+        return File.ReadAllLines("_common/data/spx.csv")
+            .Skip(1)
+            .Select(v => Importer.QuoteFromCsv(v))
+            .OrderByDescending(x => x.Date)
+            .Take(days)
+            .ToList();
+    }
+
+    // MSFT, 30 years, daily
+    internal static IEnumerable<Quote> GetMsft(int days = 8111)
+    {
+        return File.ReadAllLines("_common/data/msft.csv")
+            .Skip(1)
+            .Select(v => Importer.QuoteFromCsv(v))
+            .OrderByDescending(x => x.Date)
+            .Take(days)
+            .ToList();
+    }
 }

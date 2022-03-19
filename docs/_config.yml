@@ -22,7 +22,7 @@ google_analytics: G-7602GXEZ0R
 exclude: [
   "*.json",
   "*.lock",
-  "*.yml", 
+  "*.yml",
   "*.pptx",
   ".offline",
   "contributing.md",

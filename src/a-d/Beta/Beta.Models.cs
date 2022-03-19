@@ -8,6 +8,8 @@ public class BetaResult : ResultBase
     public double? BetaDown { get; set; }
     public double? Ratio { get; set; }
     public double? Convexity { get; set; }
+    public double? ReturnsEval { get; set; }
+    public double? ReturnsMrkt { get; set; }
 }
 
 public enum BetaType

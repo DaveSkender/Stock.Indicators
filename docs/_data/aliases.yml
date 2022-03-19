@@ -6,6 +6,10 @@
   permalink: /indicators/StdDev/
   type: price-characteristic
 
+- title: Hurst Exponent
+  permalink: /indicators/Hurst/
+  type: price-trend
+
 - title: KDJ Index
   permalink: /indicators/Stoch/
   type: oscillator
