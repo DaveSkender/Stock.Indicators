@@ -5,8 +5,4 @@ extraction:
   csharp:
     index:
       solution: "Stock.Indicators.sln"
-      all_solutions: false
-      buildless: false
-      build_command:
-      - "dotnet restore"
-      - "dotnet build"
+      buildless: true
