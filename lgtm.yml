@@ -1,0 +1,8 @@
+path_classifiers:
+  docs: "**/docs"
+  test: "**/tests"
+extraction:
+  csharp:
+    index:
+      solution: "Stock.Indicators.sln"
+      buildless: true
