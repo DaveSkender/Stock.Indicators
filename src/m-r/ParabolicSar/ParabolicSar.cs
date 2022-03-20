@@ -108,10 +108,12 @@ public static partial class Indicator
                     if (q.High > extremePoint)
                     {
                         extremePoint = q.High;
+
+                        decimal nextFactor = accelerationFactor + accelerationStep;
+
+                        // do not exceed max allowed
                         accelerationFactor =
-                            Math.Min(
-                                accelerationFactor += accelerationStep,
-                                maxAccelerationFactor);
+                            Math.Min(nextFactor, maxAccelerationFactor);
                     }
                 }
             }
@@ -153,10 +155,12 @@ public static partial class Indicator
                     if (q.Low < extremePoint)
                     {
                         extremePoint = q.Low;
+
+                        decimal nextFactor = accelerationFactor + accelerationStep;
+
+                        // do not exceed max allowed
                         accelerationFactor =
-                            Math.Min(
-                                accelerationFactor += accelerationStep,
-                                maxAccelerationFactor);
+                            Math.Min(nextFactor, maxAccelerationFactor);
                     }
                 }
             }
