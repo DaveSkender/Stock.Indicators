@@ -39,7 +39,7 @@ public static partial class Indicator
                 Date = h.Date
             };
 
-            if (df?.Ema != null && ds?.Ema != null)
+            if (df.Ema != null && ds.Ema != null)
             {
                 double? pvo = (ds.Ema != 0) ?
                     100 * (double)((df.Ema - ds.Ema) / ds.Ema) : null;
