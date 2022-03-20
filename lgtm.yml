@@ -6,6 +6,4 @@ extraction:
     index:
       all_solutions: false
       solution: "Stock.Indicators.sln"
-      buildless: true
-      include:
-        - src
+      buildless: false
