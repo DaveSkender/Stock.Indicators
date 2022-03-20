@@ -1,0 +1,19 @@
+path_classifiers:
+  docs:
+    - exclude: docs
+  test:
+    - tests
+    - exclude: tests/performance
+  library:
+    - src
+extraction:
+  csharp:
+    index:
+      all_solutions: false
+      solution:
+        - Stock.Indicators.sln
+      dotnet:
+        version: "6.0.201"
+      build_command:
+        - dotnet restore
+        - dotnet build
