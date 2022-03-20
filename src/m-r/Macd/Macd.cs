@@ -40,7 +40,7 @@ public static partial class Indicator
                 SlowEma = ds.Ema
             };
 
-            if (df?.Ema != null && ds?.Ema != null)
+            if (df.Ema != null && ds.Ema != null)
             {
                 double macd = (double)(df.Ema - ds.Ema);
                 result.Macd = (decimal)macd;
