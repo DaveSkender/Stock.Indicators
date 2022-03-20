@@ -4,5 +4,6 @@ path_classifiers:
 extraction:
   csharp:
     index:
+      all_solutions: false
       solution: "Stock.Indicators.sln"
       buildless: true
