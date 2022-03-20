@@ -9,4 +9,4 @@ extraction:
     index:
       all_solutions: false
       solution: "Stock.Indicators.sln"
-      buildless: false
+      buildless: true
