@@ -83,6 +83,27 @@ public class ParabolicSar : TestBase
     }
 
     [TestMethod]
+    public void InsufficientQuotes()
+    {
+        decimal acclerationStep = 0.02m;
+        decimal maxAccelerationFactor = 0.2m;
+
+        IEnumerable<Quote> insufficientQuotes = TestData.GetDefault()
+            .OrderBy(x => x.Date)
+            .Take(10);
+
+        List<ParabolicSarResult> results =
+            insufficientQuotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
+                .ToList();
+
+        // assertions
+
+        // proper quantities
+        Assert.AreEqual(10, results.Count);
+        Assert.AreEqual(0, results.Where(x => x.Sar != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(badQuotes);
