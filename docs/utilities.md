@@ -101,9 +101,6 @@ Currently, `.ConvertToQuotes` is only available on a select few indicators.  If 
 `results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
 
 ```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
 // calculate indicator series
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 
@@ -114,8 +111,7 @@ SmaResult result = results.Find(lookupDate);
 
 ### Remove warmup periods
 
-`results.RemoveWarmupPeriods()` will remove the recommended initial warmup periods from indicator results.
-An alternative `.RemoveWarmupPeriods(removePeriods)` is also provided if you want to customize the pruning amount.
+`results.RemoveWarmupPeriods()` will remove the recommended initial warmup periods from indicator results.  An alternative `.RemoveWarmupPeriods(removePeriods)` is also provided if you want to customize the pruning amount.
 
 ```csharp
 // auto remove recommended warmup periods
