@@ -97,7 +97,7 @@ You must provide historical price quotes to the library in the standard [OHLCV](
 
 ### Where can I get historical quote data?
 
-There are many places to get stock market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data]({{site.github.repository_url}}/discussions/579) for ideas.
+There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data]({{site.github.repository_url}}/discussions/579) for ideas.
 
 ### How much historical quote data do I need?
 
@@ -111,7 +111,7 @@ See [discussion on warmup and convergence]({{site.github.repository_url}}/discus
 
 ### Using custom quote classes
 
-If you would like to use your own custom `MyCustomQuote` _quote_ class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
+If you would like to use your own custom `MyCustomQuote` class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -143,8 +143,7 @@ IEnumerable<SmaResult> results = myQuotes.GetSma(20);
 
 #### Using custom quote property names
 
-If you have a model that has different properties names, but the same meaning, you only need to map them.
-Suppose your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
+If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
 
 ```csharp
 public class MyCustomQuote : IQuote
