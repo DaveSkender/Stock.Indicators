@@ -4,7 +4,7 @@
 
   <type name="Main">
     <summary>
-      Simple Moving Average (SMA) is the average of Close price over a lookback window.
+      Simple Moving Average (SMA) of the Close price or any other specified OHLCV element.
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Sma/#content">documentation</see>
@@ -14,23 +14,7 @@
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <returns>Time series of SMA values.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  </type>
-
-  <type name="Custom">
-    <summary>
-      Simple Moving Average (SMA) is the average with user specification of which OHLCV element to use.
-      <para>
-        See
-        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Sma/#content">documentation</see>
-        for more information.
-      </para>
-    </summary>
-    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-    <param name="quotes">Historical price quotes.</param>
-    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <param name="candlePart">Selected OHLCV part.</param>
+    <param name="candlePart">Optional. Selected OHLCV part. Defaults to Close price.</param>
     <returns>Time series of SMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
