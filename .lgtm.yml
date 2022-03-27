@@ -4,8 +4,6 @@ path_classifiers:
   test:
     - tests
     - exclude: tests/performance
-  library:
-    - src
 extraction:
   csharp:
     index:
