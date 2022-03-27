@@ -2,26 +2,8 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    // SIMPLE MOVING AVERAGE (on CLOSE price)
+    // SIMPLE MOVING AVERAGE
     /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
-    ///
-    public static IEnumerable<SmaResult> GetSma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        // check parameter arguments
-        ValidateSma(lookbackPeriods);
-
-        // initialize
-        List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
-
-        // calculate
-        return bdList.CalcSma(lookbackPeriods);
-    }
-
-    // SIMPLE MOVING AVERAGE (on specified OHLCV part)
-    /// <include file='./info.xml' path='indicator/type[@name="Custom"]/*' />
     ///
     public static IEnumerable<SmaResult> GetSma<TQuote>(
         this IEnumerable<TQuote> quotes,
