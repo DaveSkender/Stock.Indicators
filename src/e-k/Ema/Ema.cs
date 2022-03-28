@@ -2,28 +2,13 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    // EXPONENTIAL MOVING AVERAGE (on CLOSE price)
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
-    ///
-    public static IEnumerable<EmaResult> GetEma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
-
-        // calculate
-        return bdList.CalcEma(lookbackPeriods);
-    }
-
-    // EXPONENTIAL MOVING AVERAGE (on specified OHLCV part)
-    /// <include file='./info.xml' path='indicator/type[@name="Custom"]/*' />
+    // EXPONENTIAL MOVING AVERAGE
+    /// <include file='./info.xml' path='indicator/*' />
     ///
     public static IEnumerable<EmaResult> GetEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        CandlePart candlePart)
+        CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote
     {
         // convert quotes
