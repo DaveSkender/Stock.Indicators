@@ -18,7 +18,7 @@ public static partial class Indicator
 
         // initialize
         List<WmaResult> results = new(bdList.Count);
-        double divisor = lookbackPeriods * (lookbackPeriods + 1) / 2d;
+        double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
