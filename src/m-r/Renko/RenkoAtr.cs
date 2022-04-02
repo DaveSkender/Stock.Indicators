@@ -13,10 +13,12 @@ public static partial class Indicator
     {
         // initialize
         IEnumerable<AtrResult> atrResults = quotes.GetAtr(atrPeriods);
-        decimal? brickSize = atrResults.LastOrDefault()?.Atr;
 
-        return brickSize is null or 0 ?
+        decimal? atr = atrResults.LastOrDefault()?.Atr;
+        decimal brickSize = (atr == null) ? 0 : (decimal)atr;
+
+        return brickSize is 0 ?
             new List<RenkoResult>()
-          : quotes.GetRenko((decimal)brickSize, endType);
+          : quotes.GetRenko(brickSize, endType);
     }
 }
