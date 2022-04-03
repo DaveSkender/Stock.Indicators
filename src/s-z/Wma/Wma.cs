@@ -7,11 +7,12 @@ public static partial class Indicator
     ///
     public static IEnumerable<WmaResult> GetWma<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
+        int lookbackPeriods,
+        CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
+        List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
 
         // check parameter arguments
         ValidateWma(lookbackPeriods);
