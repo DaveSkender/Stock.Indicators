@@ -76,7 +76,9 @@ public static partial class HistoricalQuotes
             CandlePart.Close => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Close }),
             CandlePart.Volume => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Volume }),
             CandlePart.HL2 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.High + x.Low) / 2 }),
-            _ => new List<BasicD>(),
+            CandlePart.HLC3 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.High + x.Low + x.Close) / 3 }),
+            CandlePart.OHLC4 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.Open + x.High + x.Low + x.Close) / 4 }),
+            _ => new List<BasicD>()
         };
 
         return basicDouble.OrderBy(x => x.Date).ToList();
