@@ -50,7 +50,7 @@ public static partial class Indicator
                 BasicD diff = new()
                 {
                     Date = h.Date,
-                    Value = (double)pvo
+                    Value = pvo == null ? 0 : (double)pvo
                 };
 
                 emaDiff.Add(diff);

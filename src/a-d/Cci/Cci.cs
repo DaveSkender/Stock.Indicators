@@ -18,18 +18,20 @@ public static partial class Indicator
         ValidateCci(lookbackPeriods);
 
         // initialize
-        List<CciResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        List<CciResult> results = new(length);
+        double[] tp = new double[length];
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
             int index = i + 1;
+            tp[i] = (q.High + q.Low + q.Close) / 3d;
 
             CciResult result = new()
             {
-                Date = q.Date,
-                Tp = (q.High + q.Low + q.Close) / 3
+                Date = q.Date
             };
             results.Add(result);
 
@@ -39,8 +41,7 @@ public static partial class Indicator
                 double avgTp = 0;
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    CciResult d = results[p];
-                    avgTp += (double)d.Tp;
+                    avgTp += tp[p];
                 }
 
                 avgTp /= lookbackPeriods;
@@ -49,14 +50,13 @@ public static partial class Indicator
                 double avgDv = 0;
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    CciResult d = results[p];
-                    avgDv += Math.Abs(avgTp - (double)d.Tp);
+                    avgDv += Math.Abs(avgTp - tp[p]);
                 }
 
                 avgDv /= lookbackPeriods;
 
                 result.Cci = (avgDv == 0) ? null
-                    : (result.Tp - avgTp) / (0.015 * avgDv);
+                    : (tp[i] - avgTp) / (0.015 * avgDv);
             }
         }
 
