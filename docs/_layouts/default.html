@@ -62,7 +62,9 @@
     {{ content }}
   </main>
   
+  {% if site.github.source.branch == 'main' %}
   <p>This site is open source. {% github_edit_link "Improve this page" %}</p>
+  {% endif %}
 </body>
 
 </html>
