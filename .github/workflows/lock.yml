@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: "0 4 * * *"
 
+concurrency:
+  group: lock
+
 jobs:
   lock:
     runs-on: ubuntu-latest
