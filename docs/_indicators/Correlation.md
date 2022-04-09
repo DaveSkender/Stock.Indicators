@@ -1,6 +1,6 @@
 ---
 title: Correlation Coefficient
-description: Correlation Coefficient and R-Squared (Coefficient of Determination)
+description: Pearson Correlation Coefficient and R-Squared (Coefficient of Determination)
 permalink: /indicators/Correlation/
 type: numerical-analysis
 layout: indicator
@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
+Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear correlatation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/259 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Correlation.png)

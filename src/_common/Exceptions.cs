@@ -6,8 +6,7 @@ using System.Runtime.Serialization;
 namespace Skender.Stock.Indicators;
 
 [Obsolete("Using less than recommended quote history no longer throws an exception.  "
-    + "As good practice, use .RemoveWarmupPeriods() to exclude data for warmup "
-    + "and convergence related periods.  See documentation for more info.")]
+    + "See https://github.com/DaveSkender/Stock.Indicators/pull/685 for more info.")]
 [ExcludeFromCodeCoverage]
 public class BadQuotesException : ArgumentOutOfRangeException
 {

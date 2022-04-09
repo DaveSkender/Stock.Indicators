@@ -12,7 +12,7 @@ layout: indicator
 
 ![image]({{site.baseurl}}/assets/charts/Ema.png)
 
-EMA is shown as the solid line above.  [Double EMA](../DoubleEma#content) (dashed line) and [Triple EMA](../TripleEma#content) (dotted line) are also shown here for comparison.
+See also related [Double EMA](../DoubleEma#content) (dashed line) and [Triple EMA](../TripleEma#content).
 
 ```csharp
 // usage (with Close price)
