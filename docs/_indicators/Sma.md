@@ -1,5 +1,6 @@
 ---
 title: Simple Moving Average (SMA)
+description: Simple moving average.  Extended to include mean absolute deviation, mean square error, and mean absolute percentage error
 permalink: /indicators/Sma/
 type: moving-average
 layout: indicator
