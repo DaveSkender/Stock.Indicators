@@ -14,10 +14,6 @@
   permalink: /indicators/Stoch/
   type: oscillator
 
-- title: Modified Moving Average (MMA)
-  permalink: /indicators/Smma/
-  type: moving-average
-
 - title: Least Squares Moving Average (LSMA)
   permalink: /indicators/Epma/
   type: moving-average
@@ -28,15 +24,19 @@
 
 - title: Mean absolute deviation
   permalink: /indicators/Sma/
-  type: price-characteristic
+  type: numerical-analysis
 
 - title: Mean square error
   permalink: /indicators/Sma/
-  type: price-characteristic
+  type: numerical-analysis
 
 - title: Mean absolute percentage error
   permalink: /indicators/Sma/
-  type: price-characteristic
+  type: numerical-analysis
+
+- title: Modified Moving Average (MMA)
+  permalink: /indicators/Smma/
+  type: moving-average
 
 - title: Momentum Oscillator
   permalink: /indicators/Roc/
