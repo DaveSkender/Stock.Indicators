@@ -28,15 +28,15 @@
 
 - title: Mean absolute deviation
   permalink: /indicators/Sma/
-  type: price-characteristic
+  type: numerical-analysis
 
 - title: Mean square error
   permalink: /indicators/Sma/
-  type: price-characteristic
+  type: numerical-analysis
 
 - title: Mean absolute percentage error
   permalink: /indicators/Sma/
-  type: price-characteristic
+  type: numerical-analysis
 
 - title: Momentum Oscillator
   permalink: /indicators/Roc/
