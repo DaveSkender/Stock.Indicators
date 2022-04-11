@@ -65,3 +65,7 @@
 - title: SuperTrend
   permalink: /indicators/SuperTrend/
   type: stop-and-reverse
+
+- title: Z-Score
+  permalink: /indicators/StdDev/
+  type: numerical-analysis
