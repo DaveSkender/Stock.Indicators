@@ -7,18 +7,19 @@ public static partial class Indicator
     ///
     public static IEnumerable<WmaResult> GetWma<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
+        int lookbackPeriods,
+        CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
+        List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
 
         // check parameter arguments
         ValidateWma(lookbackPeriods);
 
         // initialize
         List<WmaResult> results = new(bdList.Count);
-        double divisor = lookbackPeriods * (lookbackPeriods + 1) / 2d;
+        double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)

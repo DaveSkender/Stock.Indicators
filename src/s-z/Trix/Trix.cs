@@ -53,7 +53,6 @@ public static partial class Indicator
 
             if (index >= (3 * lookbackPeriods) - 2)
             {
-                EmaResult e2 = emaN2[index - lookbackPeriods];
                 EmaResult e3 = emaN3[index - (2 * lookbackPeriods) + 1];
 
                 result.Ema3 = e3.Ema;

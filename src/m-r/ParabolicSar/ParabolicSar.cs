@@ -110,7 +110,7 @@ public static partial class Indicator
                         extremePoint = q.High;
                         accelerationFactor =
                             Math.Min(
-                                accelerationFactor += accelerationStep,
+                                accelerationFactor + accelerationStep,
                                 maxAccelerationFactor);
                     }
                 }
@@ -155,7 +155,7 @@ public static partial class Indicator
                         extremePoint = q.Low;
                         accelerationFactor =
                             Math.Min(
-                                accelerationFactor += accelerationStep,
+                                accelerationFactor + accelerationStep,
                                 maxAccelerationFactor);
                     }
                 }
@@ -164,22 +164,21 @@ public static partial class Indicator
             priorSar = (decimal)r.Sar;
         }
 
-        // remove first trend to reversal, since it is an invalid guess
+        // remove first trendline since it is an invalid guess
         ParabolicSarResult firstReversal = results
             .Where(x => x.IsReversal == true)
             .OrderBy(x => x.Date)
             .FirstOrDefault();
 
-        if (firstReversal != null)
-        {
-            int cutIndex = results.IndexOf(firstReversal);
+        int cutIndex = (firstReversal != null)
+            ? results.IndexOf(firstReversal)
+            : length - 1;
 
-            for (int d = 0; d <= cutIndex; d++)
-            {
-                ParabolicSarResult r = results[d];
-                r.Sar = null;
-                r.IsReversal = null;
-            }
+        for (int d = 0; d <= cutIndex; d++)
+        {
+            ParabolicSarResult r = results[d];
+            r.Sar = null;
+            r.IsReversal = null;
         }
 
         return results;

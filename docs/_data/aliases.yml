@@ -14,9 +14,29 @@
   permalink: /indicators/Stoch/
   type: oscillator
 
+- title: Modified Moving Average (MMA)
+  permalink: /indicators/Smma/
+  type: moving-average
+
 - title: Least Squares Moving Average (LSMA)
   permalink: /indicators/Epma/
   type: moving-average
+
+- title: Linear Regression (best-fit line)
+  permalink: /indicators/Slope/
+  type: numerical-analysis
+
+- title: Mean absolute deviation
+  permalink: /indicators/Sma/
+  type: price-characteristic
+
+- title: Mean square error
+  permalink: /indicators/Sma/
+  type: price-characteristic
+
+- title: Mean absolute percentage error
+  permalink: /indicators/Sma/
+  type: price-characteristic
 
 - title: Momentum Oscillator
   permalink: /indicators/Roc/
@@ -37,6 +57,10 @@
 - title: ROC with Bands
   permalink: /indicators/Roc/
   type: oscillator
+
+- title: Running Moving Average (RMA)
+  permalink: /indicators/Smma/
+  type: moving-average
 
 - title: SuperTrend
   permalink: /indicators/SuperTrend/
