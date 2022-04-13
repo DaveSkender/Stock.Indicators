@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Patrick G. Mulloy, the [Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) is an extra smoothed EMA of the Close price over a lookback window.
+Created by Patrick G. Mulloy, the [Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) is a faster smoothed EMA of the Close price over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/DoubleEma.png)
