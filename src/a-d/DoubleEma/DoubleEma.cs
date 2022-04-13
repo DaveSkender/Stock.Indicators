@@ -24,7 +24,7 @@ public static partial class Indicator
         List<BasicD> bd2 = emaN
             .Where(x => x.Ema != null)
             .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
-            .ToList();  // note: ToList seems to be required when changing data
+            .ToList();
 
         List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
 
