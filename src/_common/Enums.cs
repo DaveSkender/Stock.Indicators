@@ -12,6 +12,8 @@ public enum CandlePart
     Volume,
     HL2,
     HLC3,
+    OC2,
+    OHL3,
     OHLC4
 }
 

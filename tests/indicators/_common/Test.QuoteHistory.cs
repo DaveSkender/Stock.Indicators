@@ -243,7 +243,11 @@ public class QuoteHistory : TestBase
         List<BasicD> l = quotes.ConvertToBasic(CandlePart.Low);
         List<BasicD> c = quotes.ConvertToBasic(CandlePart.Close);
         List<BasicD> v = quotes.ConvertToBasic(CandlePart.Volume);
-        List<BasicD> x = quotes.ConvertToBasic(CandlePart.HL2);
+        List<BasicD> hl = quotes.ConvertToBasic(CandlePart.HL2);
+        List<BasicD> hlc = quotes.ConvertToBasic(CandlePart.HLC3);
+        List<BasicD> oc = quotes.ConvertToBasic(CandlePart.OC2);
+        List<BasicD> ohl = quotes.ConvertToBasic(CandlePart.OHL3);
+        List<BasicD> ohlc = quotes.ConvertToBasic(CandlePart.OHLC4);
 
         // assertions
 
@@ -256,7 +260,11 @@ public class QuoteHistory : TestBase
         BasicD rl = l[501];
         BasicD rc = c[501];
         BasicD rv = v[501];
-        BasicD rx = x[501];
+        BasicD rhl = hl[501];
+        BasicD rhlc = hlc[501];
+        BasicD roc = oc[501];
+        BasicD rohl = ohl[501];
+        BasicD rohlc = ohlc[501];
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
@@ -268,7 +276,11 @@ public class QuoteHistory : TestBase
         Assert.AreEqual(242.87, rl.Value);
         Assert.AreEqual(245.28, rc.Value);
         Assert.AreEqual(147031456, rv.Value);
-        Assert.AreEqual(244.205, rx.Value);
+        Assert.AreEqual(244.205, rhl.Value);
+        Assert.AreEqual(244.5633, Math.Round(rhlc.Value, 4));
+        Assert.AreEqual(245.1, roc.Value);
+        Assert.AreEqual(244.4433, Math.Round(rohl.Value, 4));
+        Assert.AreEqual(244.6525, rohlc.Value);
     }
 
     /* BAD QUOTES EXCEPTIONS */

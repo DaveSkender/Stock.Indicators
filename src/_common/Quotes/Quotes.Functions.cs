@@ -37,7 +37,8 @@ public static partial class HistoricalQuotes
     }
 
     // sort quotes
-    internal static List<TQuote> SortToList<TQuote>(this IEnumerable<TQuote> quotes)
+    internal static List<TQuote> SortToList<TQuote>(
+        this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
         return quotes.OrderBy(x => x.Date).ToList();
@@ -77,6 +78,8 @@ public static partial class HistoricalQuotes
             CandlePart.Volume => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)x.Volume }),
             CandlePart.HL2 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.High + x.Low) / 2 }),
             CandlePart.HLC3 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.High + x.Low + x.Close) / 3 }),
+            CandlePart.OC2 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.Open + x.Close) / 2 }),
+            CandlePart.OHL3 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.Open + x.High + x.Low) / 3 }),
             CandlePart.OHLC4 => quotes.Select(x => new BasicD { Date = x.Date, Value = (double)(x.Open + x.High + x.Low + x.Close) / 4 }),
             _ => new List<BasicD>()
         };
