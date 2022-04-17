@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> quotesList = quotes.ToBasicD(CandlePart.Close);
+        List<Price> quotesList = quotes.ToPrice(CandlePart.Close);
 
         // check parameter arguments
         ValidateSmma(lookbackPeriods);
@@ -24,7 +24,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
         {
-            BasicD q = quotesList[i];
+            Price q = quotesList[i];
             int index = i + 1;
 
             SmmaResult result = new()
@@ -45,7 +45,7 @@ public static partial class Indicator
                 double sumClose = 0;
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    BasicD d = quotesList[p];
+                    Price d = quotesList[p];
                     sumClose += d.Value;
                 }
 

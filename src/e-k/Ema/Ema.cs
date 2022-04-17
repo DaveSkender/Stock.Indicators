@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(candlePart);
+        List<Price> bdList = quotes.ToPrice(candlePart);
 
         // calculate
         return bdList.CalcEma(lookbackPeriods);
@@ -20,7 +20,7 @@ public static partial class Indicator
 
     // standard calculation
     private static List<EmaResult> CalcEma(
-        this List<BasicD> bdList, int lookbackPeriods)
+        this List<Price> bdList, int lookbackPeriods)
     {
         // check parameter arguments
         ValidateEma(lookbackPeriods);
@@ -43,7 +43,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicD h = bdList[i];
+            Price h = bdList[i];
             int index = i + 1;
 
             EmaResult result = new()

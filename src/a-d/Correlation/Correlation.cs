@@ -12,8 +12,8 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdListA = quotesA.ToBasicD(CandlePart.Close);
-        List<BasicD> bdListB = quotesB.ToBasicD(CandlePart.Close);
+        List<Price> bdListA = quotesA.ToPrice(CandlePart.Close);
+        List<Price> bdListB = quotesB.ToPrice(CandlePart.Close);
 
         // check parameter arguments
         ValidateCorrelation(quotesA, quotesB, lookbackPeriods);
@@ -24,8 +24,8 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdListA.Count; i++)
         {
-            BasicD a = bdListA[i];
-            BasicD b = bdListB[i];
+            Price a = bdListA[i];
+            Price b = bdListB[i];
             int index = i + 1;
 
             if (a.Date != b.Date)

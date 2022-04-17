@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
+        List<Price> bdList = quotes.ToPrice(CandlePart.Close);
 
         // check parameter arguments
         ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
@@ -42,7 +42,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicD q = bdList[i];
+            Price q = bdList[i];
             int index = i + 1;
 
             TsiResult r = new()

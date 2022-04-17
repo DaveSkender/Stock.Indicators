@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Skender.Stock.Indicators;
 
 // QUOTE MODELS
@@ -34,9 +36,23 @@ internal class QuoteD
     internal double Volume { get; set; }
 }
 
-[Serializable]
-internal class BasicD
+[SuppressMessage(
+    "Performance",
+    "CA1815:Override equals and operator equals on value types",
+    Justification = "Not ready to add.")]
+public struct Price
 {
-    internal DateTime Date { get; set; }
-    internal double Value { get; set; }
+    public Price(DateTime date, double value)
+    {
+        Date = date;
+        Value = value;
+    }
+
+    public DateTime Date { get; internal set; }
+    public double Value { get; internal set; }
+
+    public override string ToString()
+    {
+        return $"{Date} | {Value}";
+    }
 }

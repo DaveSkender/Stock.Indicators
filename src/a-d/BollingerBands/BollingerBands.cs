@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
+        List<Price> bdList = quotes.ToPrice(CandlePart.Close);
 
         // check parameter arguments
         ValidateBollingerBands(lookbackPeriods, standardDeviations);
@@ -23,7 +23,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            BasicD q = bdList[i];
+            Price q = bdList[i];
             decimal close = (decimal)q.Value;
             int index = i + 1;
 
@@ -40,7 +40,7 @@ public static partial class Indicator
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    BasicD d = bdList[p];
+                    Price d = bdList[p];
                     periodClose[n] = d.Value;
                     sum += d.Value;
                     n++;

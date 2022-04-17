@@ -238,16 +238,16 @@ public class QuoteHistory : TestBase
     public void ToBasicD()
     {
         // compose basic data
-        List<BasicD> o = quotes.ToBasicD(CandlePart.Open);
-        List<BasicD> h = quotes.ToBasicD(CandlePart.High);
-        List<BasicD> l = quotes.ToBasicD(CandlePart.Low);
-        List<BasicD> c = quotes.ToBasicD(CandlePart.Close);
-        List<BasicD> v = quotes.ToBasicD(CandlePart.Volume);
-        List<BasicD> hl = quotes.ToBasicD(CandlePart.HL2);
-        List<BasicD> hlc = quotes.ToBasicD(CandlePart.HLC3);
-        List<BasicD> oc = quotes.ToBasicD(CandlePart.OC2);
-        List<BasicD> ohl = quotes.ToBasicD(CandlePart.OHL3);
-        List<BasicD> ohlc = quotes.ToBasicD(CandlePart.OHLC4);
+        List<Price> o = quotes.ToPrice(CandlePart.Open);
+        List<Price> h = quotes.ToPrice(CandlePart.High);
+        List<Price> l = quotes.ToPrice(CandlePart.Low);
+        List<Price> c = quotes.ToPrice(CandlePart.Close);
+        List<Price> v = quotes.ToPrice(CandlePart.Volume);
+        List<Price> hl = quotes.ToPrice(CandlePart.HL2);
+        List<Price> hlc = quotes.ToPrice(CandlePart.HLC3);
+        List<Price> oc = quotes.ToPrice(CandlePart.OC2);
+        List<Price> ohl = quotes.ToPrice(CandlePart.OHL3);
+        List<Price> ohlc = quotes.ToPrice(CandlePart.OHLC4);
 
         // assertions
 
@@ -255,16 +255,16 @@ public class QuoteHistory : TestBase
         Assert.AreEqual(502, c.Count);
 
         // samples
-        BasicD ro = o[501];
-        BasicD rh = h[501];
-        BasicD rl = l[501];
-        BasicD rc = c[501];
-        BasicD rv = v[501];
-        BasicD rhl = hl[501];
-        BasicD rhlc = hlc[501];
-        BasicD roc = oc[501];
-        BasicD rohl = ohl[501];
-        BasicD rohlc = ohlc[501];
+        Price ro = o[501];
+        Price rh = h[501];
+        Price rl = l[501];
+        Price rc = c[501];
+        Price rv = v[501];
+        Price rhl = hl[501];
+        Price rhlc = hlc[501];
+        Price roc = oc[501];
+        Price rohl = ohl[501];
+        Price rohlc = ohlc[501];
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);

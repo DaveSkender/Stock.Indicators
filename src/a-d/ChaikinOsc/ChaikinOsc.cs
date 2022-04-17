@@ -27,8 +27,8 @@ public static partial class Indicator
             .ToList();
 
         // EMA of ADL
-        List<BasicD> bdAdl = results
-            .Select(x => new BasicD { Date = x.Date, Value = x.Adl })
+        List<Price> bdAdl = results
+            .Select(x => new Price { Date = x.Date, Value = x.Adl })
             .ToList();
 
         List<EmaResult> adlEmaSlow = CalcEma(bdAdl, slowPeriods);
