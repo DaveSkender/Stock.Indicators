@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<QuoteD> quotesList = quotes.ConvertToList();
+        List<QuoteD> quotesList = quotes.ToQuoteD();
 
         // check parameter arguments
         ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);

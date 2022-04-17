@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
+        List<BasicD> bdList = quotes.ToBasicD(candlePart);
 
         // calculate
         return bdList.CalcEma(lookbackPeriods);

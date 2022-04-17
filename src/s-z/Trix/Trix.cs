@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
+        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
 
         // check parameter arguments
         ValidateTrix(lookbackPeriods);

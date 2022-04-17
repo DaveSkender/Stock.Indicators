@@ -15,7 +15,7 @@ public static partial class Indicator
         ValidateSma(lookbackPeriods);
 
         // initialize
-        List<BasicD> bdList = quotes.ConvertToBasic(candlePart);
+        List<BasicD> bdList = quotes.ToBasicD(candlePart);
 
         // calculate
         return bdList.CalcSma(lookbackPeriods);

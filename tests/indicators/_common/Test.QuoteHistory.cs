@@ -238,16 +238,16 @@ public class QuoteHistory : TestBase
     public void ConvertToBasic()
     {
         // compose basic data
-        List<BasicD> o = quotes.ConvertToBasic(CandlePart.Open);
-        List<BasicD> h = quotes.ConvertToBasic(CandlePart.High);
-        List<BasicD> l = quotes.ConvertToBasic(CandlePart.Low);
-        List<BasicD> c = quotes.ConvertToBasic(CandlePart.Close);
-        List<BasicD> v = quotes.ConvertToBasic(CandlePart.Volume);
-        List<BasicD> hl = quotes.ConvertToBasic(CandlePart.HL2);
-        List<BasicD> hlc = quotes.ConvertToBasic(CandlePart.HLC3);
-        List<BasicD> oc = quotes.ConvertToBasic(CandlePart.OC2);
-        List<BasicD> ohl = quotes.ConvertToBasic(CandlePart.OHL3);
-        List<BasicD> ohlc = quotes.ConvertToBasic(CandlePart.OHLC4);
+        List<BasicD> o = quotes.ToBasicD(CandlePart.Open);
+        List<BasicD> h = quotes.ToBasicD(CandlePart.High);
+        List<BasicD> l = quotes.ToBasicD(CandlePart.Low);
+        List<BasicD> c = quotes.ToBasicD(CandlePart.Close);
+        List<BasicD> v = quotes.ToBasicD(CandlePart.Volume);
+        List<BasicD> hl = quotes.ToBasicD(CandlePart.HL2);
+        List<BasicD> hlc = quotes.ToBasicD(CandlePart.HLC3);
+        List<BasicD> oc = quotes.ToBasicD(CandlePart.OC2);
+        List<BasicD> ohl = quotes.ToBasicD(CandlePart.OHL3);
+        List<BasicD> ohlc = quotes.ToBasicD(CandlePart.OHLC4);
 
         // assertions
 

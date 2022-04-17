@@ -28,7 +28,7 @@ public class HelperPerformance
     [Benchmark]
     public object ConvertToList()
     {
-        return h.ConvertToList();
+        return h.ToQuoteD();
     }
 
     [Benchmark]
@@ -52,7 +52,7 @@ public class HelperPerformance
     [Benchmark]
     public object ConvertToBasic()
     {
-        return h.ConvertToBasic();
+        return h.ToBasicD();
     }
 
     [Benchmark]
