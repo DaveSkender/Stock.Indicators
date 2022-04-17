@@ -235,7 +235,7 @@ public class QuoteHistory : TestBase
     }
 
     [TestMethod]
-    public void ConvertToBasic()
+    public void ToBasicD()
     {
         // compose basic data
         List<BasicD> o = quotes.ToBasicD(CandlePart.Open);
