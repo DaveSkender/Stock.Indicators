@@ -15,7 +15,7 @@ layout: indicator
 ```csharp
 // usage
 IEnumerable<MaEnvelopeResult> results =
-  quotes.GetSmaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);  
+  quotes.GetSmaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 ```
 
 ## Parameters
@@ -39,13 +39,13 @@ These are the supported moving average types:
 | type | description
 |-- |--
 | `MaType.ALMA` | [Arnaud Legoux Moving Average](../Alma#content)
-| `MaType.DEMA` | [Double Exponential Moving Average](../DoubleEma#content)
+| `MaType.DEMA` | [Double Exponential Moving Average](../Dema#content)
 | `MaType.EPMA` | [Endpoint Moving Average](../Epma#content)
 | `MaType.EMA` | [Exponential Moving Average](../Ema#content)
 | `MaType.HMA` | [Hull Moving Average](../Hma#content)
 | `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
 | `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
-| `MaType.TEMA` | [Triple Exponential Moving Average](../TripleEma#content)
+| `MaType.TEMA` | [Triple Exponential Moving Average](../Tema#content)
 | `MaType.WMA` | [Weighted Moving Average](../Wma#content)
 
 :warning: For ALMA, default values are used for `offset` and `sigma`.
@@ -88,6 +88,6 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA envelopes with 2.5% offset
-IEnumerable<MaEnvelopeResult> results = 
+IEnumerable<MaEnvelopeResult> results =
     quotes.GetMaEnvelopes(20,2.5,MaType.SMA);
 ```

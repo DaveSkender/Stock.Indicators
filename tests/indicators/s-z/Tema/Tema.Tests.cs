@@ -4,12 +4,12 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class TripleEma : TestBase
+public class Tema : TestBase
 {
     [TestMethod]
     public void Standard()
     {
-        List<TemaResult> results = quotes.GetTripleEma(20).ToList();
+        List<TemaResult> results = quotes.GetTema(20).ToList();
 
         // assertions
 
@@ -32,24 +32,24 @@ public class TripleEma : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<TemaResult> r = Indicator.GetTripleEma(badQuotes, 15);
+        IEnumerable<TemaResult> r = Indicator.GetTema(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<TemaResult> r0 = noquotes.GetTripleEma(5);
+        IEnumerable<TemaResult> r0 = noquotes.GetTema(5);
         Assert.AreEqual(0, r0.Count());
 
-        IEnumerable<TemaResult> r1 = onequote.GetTripleEma(5);
+        IEnumerable<TemaResult> r1 = onequote.GetTema(5);
         Assert.AreEqual(1, r1.Count());
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<TemaResult> results = quotes.GetTripleEma(20)
+        List<TemaResult> results = quotes.GetTema(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -65,6 +65,6 @@ public class TripleEma : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetTripleEma(quotes, 0));
+            Indicator.GetTema(quotes, 0));
     }
 }

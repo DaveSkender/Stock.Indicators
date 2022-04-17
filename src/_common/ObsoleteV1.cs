@@ -3,10 +3,34 @@ using System.Runtime.Serialization;
 
 namespace Skender.Stock.Indicators;
 
-// RENAMED IN v1.23.0 - .ConvertToQuotes()
-[ExcludeFromCodeCoverage]
+// RENAMED IN v1.23.0 - GetDoubleEma, GetTripleEma
 public static partial class Indicator
 {
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename 'GetDoubleEma(..)' to 'GetDema(..)' to fix.")]
+    public static IEnumerable<DemaResult> GetDoubleEma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+    {
+        return quotes.GetDema(lookbackPeriods);
+    }
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename 'GetTripleEma(..)' to 'GetTema(..)' to fix.")]
+    public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+    {
+        return quotes.GetTema(lookbackPeriods);
+    }
+}
+
+// RENAMED IN v1.23.0 - .ConvertToQuotes()
+public static partial class Indicator
+{
+    [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<AdlResult> results)
@@ -14,6 +38,7 @@ public static partial class Indicator
         return results.ToQuotes();
     }
 
+    [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<DpoResult> results)
@@ -21,6 +46,7 @@ public static partial class Indicator
         return results.ToQuotes();
     }
 
+    [ExcludeFromCodeCoverage]
     [Obsolete("'ConvertToQuotes()' is not needed for Heikin-Ashi.  Results can now be used directly as a replacement for IEnumerable<TQuote>.")]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<HeikinAshiResult> results)
@@ -38,6 +64,7 @@ public static partial class Indicator
           .ToList();
     }
 
+    [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<HurstResult> results)
@@ -45,6 +72,7 @@ public static partial class Indicator
         return results.ToQuotes();
     }
 
+    [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<ObvResult> results)
@@ -52,6 +80,7 @@ public static partial class Indicator
         return results.ToQuotes();
     }
 
+    [ExcludeFromCodeCoverage]
     [Obsolete("'ConvertToQuotes()' is not needed for Renko.  Results can now be used directly as a replacement for IEnumerable<TQuote>.")]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<RenkoResult> results)
@@ -69,6 +98,7 @@ public static partial class Indicator
           .ToList();
     }
 
+    [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<RsiResult> results)
@@ -78,9 +108,9 @@ public static partial class Indicator
 }
 
 // REMOVED in v1.21.0
+[ExcludeFromCodeCoverage]
 [Obsolete("Using less than recommended quote history no longer throws an exception.  "
         + "See https://github.com/DaveSkender/Stock.Indicators/pull/685 for more info.")]
-[ExcludeFromCodeCoverage]
 public class BadQuotesException : ArgumentOutOfRangeException
 {
     public BadQuotesException()
