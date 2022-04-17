@@ -277,8 +277,8 @@ h5 {
 }
 
 // FOOTER / EDIT PAGE
-footer {
-  // text-align: right;
+.footer {
+  margin-top: 3rem;
   font-size: 0.9rem;
 
   .footer-body {
@@ -297,8 +297,4 @@ footer {
       }
     }
   }
-}
-
-footer hr {
-  margin-top: 5rem;
 }
