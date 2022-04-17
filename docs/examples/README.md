@@ -1,7 +1,7 @@
 ---
 title: Example usage code
 permalink: /examples/
-layout: default
+layout: page
 ---
 
 # {{ page.title }}
