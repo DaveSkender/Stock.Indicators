@@ -4,7 +4,7 @@ permalink: /indicators/Dema/
 type: moving-average
 layout: indicator
 redirect_from:
- - /indicators/Dema/
+ - /indicators/DoubleEma/
 ---
 
 # {{ page.title }}

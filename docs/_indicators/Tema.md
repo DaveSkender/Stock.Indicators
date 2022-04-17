@@ -4,7 +4,7 @@ permalink: /indicators/Tema/
 type: moving-average
 layout: indicator
 redirect_from:
- - /indicators/Tema/
+ - /indicators/TripleEma/
 ---
 
 # {{ page.title }}
