@@ -28,7 +28,7 @@ steps:
       updateAssemblyInfo: true
 
   - task: UseDotNet@2
-    displayName: "use .NET SDK 6.0.x"
+    displayName: "use .NET SDK 7.0.x"
     inputs:
       version: 7.0.x
       includePreviewVersions: true
