@@ -80,11 +80,11 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void ToQuotes()
     {
         // exclude nulls case
         List<Quote> results = quotes.GetRsi(14)
-            .ConvertToQuotes()
+            .ToQuotes()
             .ToList();
 
         // assertions

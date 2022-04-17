@@ -45,10 +45,10 @@ public class Obv : TestBase
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void ToQuotes()
     {
         List<Quote> newQuotes = quotes.GetObv()
-            .ConvertToQuotes()
+            .ToQuotes()
             .ToList();
 
         // assertions

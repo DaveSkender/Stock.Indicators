@@ -5,7 +5,7 @@ public static partial class Indicator
     // convert to quotes
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
     ///
-    public static IEnumerable<Quote> ConvertToQuotes(
+    public static IEnumerable<Quote> ToQuotes(
         this IEnumerable<ObvResult> results)
     {
         return results

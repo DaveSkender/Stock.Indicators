@@ -56,7 +56,7 @@ IEnumerable<HeikinAshiResult>
 
 ### Utilities
 
-- [.ConvertToQuotes()]({{site.baseurl}}/utilities#convert-to-quotes)
+- [.ToQuotes()]({{site.baseurl}}/utilities#convert-to-quotes)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 

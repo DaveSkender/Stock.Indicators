@@ -61,7 +61,7 @@ public class HelperPerformance
         return h.ConvertToCandleResults();
     }
 
-    [GlobalSetup(Targets = new[] { nameof(ConvertToQuotes) })]
+    [GlobalSetup(Targets = new[] { nameof(ToQuotes) })]
     public void SetupQuotes()
     {
         h = TestData.GetDefault();
@@ -69,8 +69,8 @@ public class HelperPerformance
     }
 
     [Benchmark]
-    public object ConvertToQuotes()
+    public object ToQuotes()
     {
-        return obv.ConvertToQuotes();
+        return obv.ToQuotes();
     }
 }

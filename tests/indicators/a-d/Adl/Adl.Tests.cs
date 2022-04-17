@@ -51,10 +51,10 @@ public class Adl : TestBase
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void ToQuotes()
     {
         List<Quote> newQuotes = quotes.GetAdl()
-            .ConvertToQuotes()
+            .ToQuotes()
             .ToList();
 
         Assert.AreEqual(502, newQuotes.Count);

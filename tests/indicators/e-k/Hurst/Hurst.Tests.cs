@@ -25,11 +25,11 @@ public class Hurst : TestBase
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void ToQuotes()
     {
         List<Quote> newQuotes = longestQuotes
             .GetHurst(longestQuotes.Count() - 1)
-            .ConvertToQuotes()
+            .ToQuotes()
             .ToList();
 
         Assert.AreEqual(1, newQuotes.Count);

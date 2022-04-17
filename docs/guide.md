@@ -217,13 +217,13 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate RSI of OBV
 IEnumerable<RsiResult> results
   = quotes.GetObv()
-    .ConvertToQuotes()
+    .ToQuotes()
     .GetRsi(14);
 ```
 
-See [.ConvertToQuotes()]({{site.baseurl}}/utilities/#convert-to-quotes) for more information.
+See [.ToQuotes()]({{site.baseurl}}/utilities/#convert-to-quotes) for more information.
 
-When `.ConvertToQuotes()` is not available for an indicator, a workaround is to convert yourself.
+When `.ToQuotes()` is not available for an indicator, a workaround is to convert yourself.
 
 ```csharp
 // calculate OBV
