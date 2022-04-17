@@ -1,5 +1,6 @@
 ---
 title: Stock Indicators for .NET
+permalink: /
 layout: page
 ---
 
