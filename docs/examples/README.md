@@ -1,7 +1,8 @@
 ---
 title: Example usage code
 permalink: /examples/
-layout: default
+relative_path: examples/README.md
+layout: page
 ---
 
 # {{ page.title }}

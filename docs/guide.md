@@ -1,7 +1,8 @@
 ---
 title: Guide and Pro tips
 permalink: /guide/
-layout: default
+relative_path: guide.md
+layout: page
 redirect_from:
  - /docs/GUIDE.html
 ---
