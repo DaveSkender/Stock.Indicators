@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<Price> quotesList = quotes.ToPrice(CandlePart.Close);
+        List<SimplePrice> quotesList = quotes.ToPrice(CandlePart.Close);
 
         // initialize
         List<SmaExtendedResult> results = GetSma(quotes, lookbackPeriods)
@@ -32,7 +32,7 @@ public static partial class Indicator
 
             for (int p = index - lookbackPeriods; p < index; p++)
             {
-                Price d = quotesList[p];
+                SimplePrice d = quotesList[p];
                 double close = d.Value;
 
                 sumMad += Math.Abs(close - sma);

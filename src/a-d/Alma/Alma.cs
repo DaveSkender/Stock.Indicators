@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<Price> bdList = quotes.ToPrice(CandlePart.Close);
+        List<SimplePrice> bdList = quotes.ToPrice(CandlePart.Close);
 
         // check parameter arguments
         ValidateAlma(lookbackPeriods, offset, sigma);
@@ -38,7 +38,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            Price q = bdList[i];
+            SimplePrice q = bdList[i];
             int index = i + 1;
 
             AlmaResult r = new()
@@ -53,7 +53,7 @@ public static partial class Indicator
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    Price d = bdList[p];
+                    SimplePrice d = bdList[p];
                     weightedSum += weight[n] * d.Value;
                     n++;
                 }

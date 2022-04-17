@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<Price> bdList = quotes.ToPrice(CandlePart.Close);
+        List<SimplePrice> bdList = quotes.ToPrice(CandlePart.Close);
 
         // check parameter arguments
         ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
@@ -24,9 +24,9 @@ public static partial class Indicator
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
         // RSI of streak
-        List<Price> bdStreak = results
+        List<SimplePrice> bdStreak = results
             .Where(x => x.Streak != null)
-            .Select(x => new Price { Date = x.Date, Value = (double)x.Streak })
+            .Select(x => new SimplePrice { Date = x.Date, Value = (double)x.Streak })
             .ToList();
 
         List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);
@@ -50,7 +50,7 @@ public static partial class Indicator
 
     // parameter validation
     private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
-        List<Price> bdList, int rsiPeriods, int rankPeriods)
+        List<SimplePrice> bdList, int rsiPeriods, int rankPeriods)
     {
         // initialize
         List<RsiResult> rsiResults = CalcRsi(bdList, rsiPeriods);
@@ -65,7 +65,7 @@ public static partial class Indicator
         // compose interim results
         for (int i = 0; i < length; i++)
         {
-            Price q = bdList[i];
+            SimplePrice q = bdList[i];
             int index = i + 1;
 
             ConnorsRsiResult r = new()

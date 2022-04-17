@@ -10,7 +10,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<Price> bdList = quotes.ToPrice(CandlePart.HL2);
+        List<SimplePrice> bdList = quotes.ToPrice(CandlePart.HL2);
 
         // initialize
         int length = bdList.Count;
@@ -39,7 +39,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            Price q = bdList[i];
+            SimplePrice q = bdList[i];
             pr[i] = q.Value;
 
             HtlResult r = new()

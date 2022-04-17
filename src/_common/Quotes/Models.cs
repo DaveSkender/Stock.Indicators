@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Skender.Stock.Indicators;
 
 // QUOTE MODELS
@@ -36,13 +34,9 @@ internal class QuoteD
     internal double Volume { get; set; }
 }
 
-[SuppressMessage(
-    "Performance",
-    "CA1815:Override equals and operator equals on value types",
-    Justification = "Not ready to add.")]
-public struct Price
+public struct SimplePrice : IEquatable<SimplePrice>
 {
-    public Price(DateTime date, double value)
+    public SimplePrice(DateTime date, double value)
     {
         Date = date;
         Value = value;
@@ -51,8 +45,33 @@ public struct Price
     public DateTime Date { get; internal set; }
     public double Value { get; internal set; }
 
+    public static bool operator ==(SimplePrice left, SimplePrice right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(SimplePrice left, SimplePrice right)
+    {
+        return !(left == right);
+    }
+
     public override string ToString()
     {
         return $"{Date} | {Value}";
+    }
+
+    public override int GetHashCode()
+    {
+        return (int)(Date.Ticks * (int)Value);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is SimplePrice price && Equals(price);
+    }
+
+    public bool Equals(SimplePrice other)
+    {
+        return Date == other.Date && Value == other.Value;
     }
 }

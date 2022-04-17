@@ -11,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<Price> bdList = quotes.ToPrice(CandlePart.Volume);
+        List<SimplePrice> bdList = quotes.ToPrice(CandlePart.Volume);
 
         // check parameter arguments
         ValidateCmf(lookbackPeriods);
@@ -40,7 +40,7 @@ public static partial class Indicator
 
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    Price q = bdList[p];
+                    SimplePrice q = bdList[p];
                     sumVol += q.Value;
 
                     AdlResult d = adlResults[p];
