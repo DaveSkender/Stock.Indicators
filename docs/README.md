@@ -47,7 +47,7 @@ See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicator
 - .NET Core 3.1
 - .NET Standard 2.1, 2.0
 
-The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe. A [Stock Indicators for Python](https://daveskender.github.io/Stock.Indicators.Python) PyPI package is also available.
+The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 
 ## License
 
