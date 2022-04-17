@@ -1,7 +1,7 @@
 ---
 title: Performance benchmarks
 permalink: /performance/
-layout: default
+layout: page
 ---
 
 # {{ page.title }} for v1.23.0
