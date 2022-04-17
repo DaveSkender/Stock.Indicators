@@ -20,253 +20,281 @@ $color-rouge: #f8f8f8; // code block backgrounds
 $mobile-breakpoint: 376px;
 
 @mixin mobile {
-    @media screen and (max-width: #{$mobile-breakpoint}) {
-        @content;
-    }
+  @media screen and (max-width: #{$mobile-breakpoint}) {
+    @content;
+  }
 }
 
+// HEADER
+
 .page-header {
-    padding: 10px;
-    background-color: $color-primary;
-    background-image: linear-gradient(120deg, $color-primary, $color-primary-dark);
+  padding: 10px;
+  background-color: $color-primary;
+  background-image: linear-gradient(120deg, $color-primary, $color-primary-dark);
 }
 
 .project-name {
-    color: $color-primary-light;
-    font-size: 2rem;
-    margin: 0;
+  color: $color-primary-light;
+  font-size: 2rem;
+  margin: 0;
 
-    // adjust for screen size
-    @include small {
-        font-size: 1.5rem;
+  // adjust for screen size
+  @include small {
+    font-size: 1.5rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: unset;
+
+    &:hover {
+      color: $color-primary-hover;
     }
-
-    a {
-        text-decoration: none;
-        color: unset;
-
-        &:hover {
-            color: $color-primary-hover;
-        }
-    }
+  }
 }
 
 .project-tagline {
-    font-size: 1rem;
-    margin-bottom: 12px;
-    margin-top: 0;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  margin-top: 0;
 
-    // adjust for screen size
-    @include small {
-        font-size: 0.9rem;
-    }
+  // adjust for screen size
+  @include small {
+    font-size: 0.9rem;
+  }
 }
 
+// BUTTONS
 .btn {
-    @include small {
-        display: inline-block;
-        width: auto;
-        padding: 0.6rem 0.9rem;
+  @include small {
+    display: inline-block;
+    width: auto;
+    padding: 0.6rem 0.9rem;
 
-        + .btn {
-            margin-top: 0;
-            margin-left: 0;
-        }
+    + .btn {
+      margin-top: 0;
+      margin-left: 0;
     }
+  }
 }
 
 .if-large {
-    display: inline;
+  display: inline;
 
-    @include small {
-        display: none;
-    }
+  @include small {
+    display: none;
+  }
 }
 
 .not-mobile {
-    @include mobile {
-        display: none;
-    }
+  @include mobile {
+    display: none;
+  }
 }
 
+// TYPOGRAPHY
+
 h1 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 h2 {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 h3 {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 h4 {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 h5 {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .main-content {
-    padding-top: 0;
+  padding-top: 0;
 
-    // base fonts
-    color: $color-body-font;
+  // base fonts
+  color: $color-body-font;
 
-    // headers
-    h1,
-    h2,
-    h3,
-    h4,
-    h5 {
-        color: $color-accent;
+  // headers
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    color: $color-accent;
+  }
+
+  h1 {
+    margin-top: 0;
+    padding-top: 32px;
+  }
+
+  // paragraphs
+  // p { }
+
+  // links
+  a {
+    text-decoration: none;
+    color: #1565c0;
+
+    &:hover {
+      text-decoration: underline;
+      color: #1e88e5;
     }
+  }
 
-    h1 {
-        margin-top: 0;
-        padding-top: 32px;
+  // lists
+  ul,
+  ol {
+    li {
+      padding-bottom: 6px;
     }
+  }
 
-    // paragraphs
-    // p { }
+  // tables
+  // td, th { }
 
-    // links
-    a {
-        text-decoration: none;
-        color: #1565c0;
+  td {
+    vertical-align: top;
+  }
 
-        &:hover {
-            text-decoration: underline;
-            color: #1e88e5;
-        }
-    }
+  // code blocks
+  .highlight {
+    color: $color-code;
+    background-color: $color-rouge;
+  }
 
-    // lists
-    ul,
-    ol {
-        li {
-            padding-bottom: 6px;
-        }
-    }
+  .highlighter-rouge {
+    background-color: $color-rouge;
+  }
 
-    // tables
-    // td, th { }
-
-    td {
-        vertical-align: top;
-    }
-
-    // code blocks
-    .highlight {
-        color: $color-code;
-        background-color: $color-rouge;
-    }
-
-    .highlighter-rouge {
-        background-color: $color-rouge;
-    }
-
-    pre {
-        color: $color-code;
-        background-color: $color-rouge;
-
-        code {
-            color: $color-code;
-        }
-    }
+  pre {
+    color: $color-code;
+    background-color: $color-rouge;
 
     code {
-        // baseline font color
-        color: $color-code;
-
-        // comments
-        .c,
-        .c1,
-        .go {
-            color: $color-accent;
-        }
-
-        // normal text and objects/types
-        // and namespaces
-        .n,
-        .nb,
-        .nn,
-        .gp {
-            color: $color-code;
-        }
-
-        // parentheses and brackets
-        .p {
-            color: #616161;
-        }
-
-        // base declarations (using, public, etc)
-        .k {
-            font-weight: normal;
-            color: #1565c0;
-        }
-
-        // base types (int, decimal, etc)
-        .kt {
-            font-weight: normal;
-            color: #1565c0;
-        }
-
-        // normal commandline
-        .nv,
-        .nx {
-            color: $color-code;
-        }
-
-        // normal functions/classes
-        .nc,
-        .nf {
-            font-weight: normal;
-            color: #b71c1c;
-        }
-
-        // string and constant values
-        .s,
-        .m {
-            color: #d32f2f;
-        }
+      color: $color-code;
     }
+  }
+
+  code {
+    // baseline font color
+    color: $color-code;
+
+    // comments
+    .c,
+    .c1,
+    .go {
+      color: $color-accent;
+    }
+
+    // normal text and objects/types
+    // and namespaces
+    .n,
+    .nb,
+    .nn,
+    .gp {
+      color: $color-code;
+    }
+
+    // parentheses and brackets
+    .p {
+      color: #616161;
+    }
+
+    // base declarations (using, public, etc)
+    .k {
+      font-weight: normal;
+      color: #1565c0;
+    }
+
+    // base types (int, decimal, etc)
+    .kt {
+      font-weight: normal;
+      color: #1565c0;
+    }
+
+    // normal commandline
+    .nv,
+    .nx {
+      color: $color-code;
+    }
+
+    // normal functions/classes
+    .nc,
+    .nf {
+      font-weight: normal;
+      color: #b71c1c;
+    }
+
+    // string and constant values
+    .s,
+    .m {
+      color: #d32f2f;
+    }
+  }
 }
 
-// cyclotron (prev/next indicator nav)
-.cyclotron {
-    font-size: 2.4rem;
-    font-weight: bold;
-    line-height: 0.8;
-    float: right;
-
-    a {
-        &:hover {
-            text-decoration: none;
-        }
-    }
-    // .prev { }
-    .next {
-        padding-left: 1rem;
-    }
-}
-
-// contributors display
+// CONTRIBUTORS
 
 .d-inline-block {
-    display: inline-block !important;
+  display: inline-block !important;
 }
 
 .list-style-none {
-    padding: 0 !important;
-    margin: 0 !important;
-    list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
 
-    li {
-        &::before {
-            display: none !important;
-        }
+  li {
+    &::before {
+      display: none !important;
     }
+  }
 }
 
 .circle {
-    border-radius: 50%;
+  border-radius: 50%;
+}
+
+// CYCLOTRON (prev/next indicator nav)
+.cyclotron {
+  font-size: 2.4rem;
+  font-weight: bold;
+  line-height: 0.8;
+  float: right;
+
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  // .prev { }
+  .next {
+    padding-left: 1rem;
+  }
+}
+
+// FOOTER / EDIT PAGE
+.footer {
+  margin-top: 3rem;
+  font-size: 0.9rem;
+
+  .footer-body {
+    font-size: 0.8rem;
+
+    .btn {
+      background-color: $color-primary;
+      color: $color-primary-light;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+
+      &:hover {
+        background-color: $color-primary-hover;
+        text-decoration: none;
+      }
+    }
+  }
 }

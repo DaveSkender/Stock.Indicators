@@ -1,7 +1,8 @@
 ---
 title: Performance benchmarks
 permalink: /performance/
-layout: default
+relative_path: performance.md
+layout: page
 ---
 
 # {{ page.title }} for v1.23.1
