@@ -12,7 +12,7 @@ public class Candles : TestBase
         IEnumerable<Quote> quotes = TestData.GetMismatch();
 
         // sort
-        List<CandleResult> candles = quotes.ConvertToCandleResults();
+        List<CandleResult> candles = quotes.ToCandleResults();
 
         // assertions
 
@@ -36,7 +36,7 @@ public class Candles : TestBase
     public void CandleValues()
     {
         // sort
-        List<CandleResult> candles = quotes.ConvertToCandleResults();
+        List<CandleResult> candles = quotes.ToCandleResults();
 
         // assertions
 

@@ -58,7 +58,7 @@ public class HelperPerformance
     [Benchmark]
     public object ConvertToCandles()
     {
-        return h.ConvertToCandleResults();
+        return h.ToCandleResults();
     }
 
     [GlobalSetup(Targets = new[] { nameof(ToQuotes) })]
