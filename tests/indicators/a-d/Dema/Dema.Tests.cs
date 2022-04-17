@@ -4,12 +4,12 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class DoubleEma : TestBase
+public class Dema : TestBase
 {
     [TestMethod]
     public void Standard()
     {
-        List<DemaResult> results = quotes.GetDoubleEma(20)
+        List<DemaResult> results = quotes.GetDema(20)
             .ToList();
 
         // assertions
@@ -33,24 +33,24 @@ public class DoubleEma : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<DemaResult> r = Indicator.GetDoubleEma(badQuotes, 15);
+        IEnumerable<DemaResult> r = Indicator.GetDema(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<DemaResult> r0 = noquotes.GetDoubleEma(5);
+        IEnumerable<DemaResult> r0 = noquotes.GetDema(5);
         Assert.AreEqual(0, r0.Count());
 
-        IEnumerable<DemaResult> r1 = onequote.GetDoubleEma(5);
+        IEnumerable<DemaResult> r1 = onequote.GetDema(5);
         Assert.AreEqual(1, r1.Count());
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<DemaResult> results = quotes.GetDoubleEma(20)
+        List<DemaResult> results = quotes.GetDema(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -66,6 +66,6 @@ public class DoubleEma : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetDoubleEma(quotes, 0));
+            Indicator.GetDema(quotes, 0));
     }
 }

@@ -63,7 +63,7 @@ public static partial class Indicator
         decimal offsetRatio)
         where TQuote : IQuote
     {
-        return quotes.GetDoubleEma(lookbackPeriods)
+        return quotes.GetDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -159,7 +159,7 @@ public static partial class Indicator
         decimal offsetRatio)
         where TQuote : IQuote
     {
-        return quotes.GetTripleEma(lookbackPeriods)
+        return quotes.GetTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,

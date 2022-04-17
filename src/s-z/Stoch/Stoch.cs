@@ -32,7 +32,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<QuoteD> quotesList = quotes.ConvertToList();
+        List<QuoteD> quotesList = quotes.ToQuoteD();
 
         // check parameter arguments
         ValidateStoch(
@@ -189,7 +189,7 @@ public static partial class Indicator
         // replace oscillator
         for (int i = 0; i < length; i++)
         {
-            results[i].Oscillator = (smooth[i] != null) ? (decimal?)smooth[i] : null;
+            results[i].Oscillator = (decimal?)((smooth[i] != null) ? smooth[i] : null);
         }
 
         return results;

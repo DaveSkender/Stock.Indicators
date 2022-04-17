@@ -12,8 +12,8 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdListA = quotesA.ConvertToBasic(CandlePart.Close);
-        List<BasicD> bdListB = quotesB.ConvertToBasic(CandlePart.Close);
+        List<BasicD> bdListA = quotesA.ToBasicD(CandlePart.Close);
+        List<BasicD> bdListB = quotesB.ToBasicD(CandlePart.Close);
 
         // check parameter arguments
         ValidateCorrelation(quotesA, quotesB, lookbackPeriods);

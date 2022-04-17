@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> quotesList = quotes.ConvertToBasic(CandlePart.Close);
+        List<BasicD> quotesList = quotes.ToBasicD(CandlePart.Close);
 
         // check parameter arguments
         ValidateKama(erPeriods, fastPeriods, slowPeriods);

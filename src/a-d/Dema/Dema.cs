@@ -3,55 +3,46 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    // TRIPLE EXPONENTIAL MOVING AVERAGE
+    // DOUBLE EXPONENTIAL MOVING AVERAGE (DEMA)
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
+    public static IEnumerable<DemaResult> GetDema<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ConvertToBasic(CandlePart.Close);
+        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
 
         // check parameter arguments
-        ValidateTema(lookbackPeriods);
+        ValidateDema(lookbackPeriods);
 
         // initialize
-        List<TemaResult> results = new(bdList.Count);
-        List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriods);
+        List<DemaResult> results = new(bdList.Count);
+        List<EmaResult> emaN = CalcEma(bdList, lookbackPeriods);
 
-        List<BasicD> bd2 = emaN1
+        List<BasicD> bd2 = emaN
             .Where(x => x.Ema != null)
             .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
             .ToList();
 
         List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
 
-        List<BasicD> bd3 = emaN2
-            .Where(x => x.Ema != null)
-            .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
-            .ToList();
-
-        List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods);
-
         // compose final results
-        for (int i = 0; i < emaN1.Count; i++)
+        for (int i = 0; i < emaN.Count; i++)
         {
-            EmaResult e1 = emaN1[i];
+            EmaResult e1 = emaN[i];
             int index = i + 1;
 
-            TemaResult result = new()
+            DemaResult result = new()
             {
                 Date = e1.Date
             };
 
-            if (index >= (3 * lookbackPeriods) - 2)
+            if (index >= (2 * lookbackPeriods) - 1)
             {
                 EmaResult e2 = emaN2[index - lookbackPeriods];
-                EmaResult e3 = emaN3[index - (2 * lookbackPeriods) + 1];
-
-                result.Tema = (3 * e1.Ema) - (3 * e2.Ema) + e3.Ema;
+                result.Dema = (2 * e1.Ema) - e2.Ema;
             }
 
             results.Add(result);
@@ -61,14 +52,14 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateTema(
+    private static void ValidateDema(
         int lookbackPeriods)
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for TEMA.");
+                "Lookback periods must be greater than 0 for DEMA.");
         }
     }
 }

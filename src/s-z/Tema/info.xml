@@ -2,16 +2,16 @@
 
 <indicator>
   <summary>
-    Double Exponential Moving Average (DEMA) of the Close price.
+    Triple Exponential Moving Average (TEMA) of the Close price.  Note: TEMA is often confused with the alternative TRIX oscillator.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/DoubleEma/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Tema/#content">documentation</see>
       for more information.
     </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-  <returns>Time series of Double EMA values.</returns>
+  <returns>Time series of Triple EMA values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </indicator>

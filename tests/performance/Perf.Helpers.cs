@@ -26,9 +26,9 @@ public class HelperPerformance
     }
 
     [Benchmark]
-    public object ConvertToList()
+    public object ToListQuoteD()
     {
-        return h.ConvertToList();
+        return h.ToQuoteD();
     }
 
     [Benchmark]
@@ -50,18 +50,18 @@ public class HelperPerformance
     }
 
     [Benchmark]
-    public object ConvertToBasic()
+    public object ToBasicD()
     {
-        return h.ConvertToBasic();
+        return h.ToBasicD();
     }
 
     [Benchmark]
-    public object ConvertToCandles()
+    public object ToCandleResults()
     {
-        return h.ConvertToCandleResults();
+        return h.ToCandleResults();
     }
 
-    [GlobalSetup(Targets = new[] { nameof(ConvertToQuotes) })]
+    [GlobalSetup(Targets = new[] { nameof(ToQuotes) })]
     public void SetupQuotes()
     {
         h = TestData.GetDefault();
@@ -69,8 +69,8 @@ public class HelperPerformance
     }
 
     [Benchmark]
-    public object ConvertToQuotes()
+    public object ToQuotes()
     {
-        return obv.ConvertToQuotes();
+        return obv.ToQuotes();
     }
 }

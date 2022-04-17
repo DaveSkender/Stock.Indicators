@@ -14,7 +14,7 @@ public static partial class Indicator
         ValidateMarubozu(minBodyPercent);
 
         // initialize
-        List<CandleResult> results = quotes.ConvertToCandleResults();
+        List<CandleResult> results = quotes.ToCandleResults();
         int length = results.Count;
 
         // roll through candles

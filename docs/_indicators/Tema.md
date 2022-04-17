@@ -1,8 +1,10 @@
 ---
 title: Triple Exponential Moving Average (TEMA)
-permalink: /indicators/TripleEma/
+permalink: /indicators/Tema/
 type: moving-average
 layout: indicator
+redirect_from:
+ - /indicators/TripleEma/
 ---
 
 # {{ page.title }}
@@ -11,14 +13,14 @@ Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en
 Note: TEMA is often confused with the alternative [TRIX](../Trix#content) oscillator.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/TripleEma.png)
+![image]({{site.baseurl}}/assets/charts/Tema.png)
 
-TEMA is shown as the dotted line above.  [EMA](../Ema#content) (solid line) and [Double EMA](../DoubleEma#content) (dashed line) are also shown here for comparison.
+TEMA is shown as the dotted line above.  [EMA](../Ema#content) (solid line) and [Double EMA](../Dema#content) (dashed line) are also shown here for comparison.
 
 ```csharp
 // usage
 IEnumerable<TemaResult> results =
-  quotes.GetTripleEma(lookbackPeriods);
+  quotes.GetTema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -68,5 +70,5 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period TEMA
-IEnumerable<TemaResult> results = quotes.GetTripleEma(20);
+IEnumerable<TemaResult> results = quotes.GetTema(20);
 ```

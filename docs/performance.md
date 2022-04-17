@@ -40,7 +40,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |      GetConnorsRsi |   241.61 μs | 1.411 μs | 1.178 μs |
 |     GetCorrelation |   161.66 μs | 0.403 μs | 0.336 μs |
 |        GetDonchian |   306.92 μs | 2.007 μs | 1.779 μs |
-|       GetDoubleEma |   100.55 μs | 0.709 μs | 0.592 μs |
+|       GetDema |   100.55 μs | 0.709 μs | 0.592 μs |
 |             GetDpo |   148.78 μs | 0.998 μs | 0.833 μs |
 |        GetElderRay |   117.82 μs | 0.587 μs | 0.520 μs |
 |             GetEma |    56.83 μs | 0.394 μs | 0.350 μs |
@@ -93,7 +93,7 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 |       GetStochSMMA |   168.71 μs | 1.463 μs | 1.222 μs |
 |        GetStochRsi |   248.17 μs | 1.562 μs | 1.385 μs |
 |      GetSuperTrend |   250.22 μs | 1.499 μs | 1.329 μs |
-|       GetTripleEma |   145.27 μs | 0.634 μs | 0.593 μs |
+|       GetTema |   145.27 μs | 0.634 μs | 0.593 μs |
 |            GetTrix |   184.90 μs | 3.073 μs | 2.724 μs |
 |     GetTrixWithSma |   240.74 μs | 2.872 μs | 2.687 μs |
 |             GetTsi |    59.69 μs | 0.749 μs | 0.626 μs |

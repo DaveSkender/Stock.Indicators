@@ -71,12 +71,12 @@ public class Convergence : TestBase
     }
 
     [TestMethod]
-    public void DoubleEma()
+    public void Dema()
     {
         foreach (int qty in QuotesQuantities)
         {
             IEnumerable<Quote> quotes = TestData.GetLongish(qty);
-            IEnumerable<DemaResult> r = quotes.GetDoubleEma(15);
+            IEnumerable<DemaResult> r = quotes.GetDema(15);
 
             DemaResult l = r.LastOrDefault();
             Console.WriteLine(
@@ -311,12 +311,12 @@ public class Convergence : TestBase
     }
 
     [TestMethod]
-    public void TripleEma()
+    public void Tema()
     {
         foreach (int qty in QuotesQuantities)
         {
             IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
-            IEnumerable<TemaResult> r = quotes.GetTripleEma(15);
+            IEnumerable<TemaResult> r = quotes.GetTema(15);
 
             TemaResult l = r.LastOrDefault();
             Console.WriteLine(

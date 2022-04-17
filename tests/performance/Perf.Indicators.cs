@@ -163,6 +163,12 @@ public class IndicatorPerformance
     }
 
     [Benchmark]
+    public object GetDema()
+    {
+        return h.GetDema(14);
+    }
+
+    [Benchmark]
     public object GetDoji()
     {
         return h.GetDoji();
@@ -172,12 +178,6 @@ public class IndicatorPerformance
     public object GetDonchian()
     {
         return h.GetDonchian();
-    }
-
-    [Benchmark]
-    public object GetDoubleEma()
-    {
-        return h.GetDoubleEma(14);
     }
 
     [Benchmark]
@@ -493,9 +493,9 @@ public class IndicatorPerformance
     }
 
     [Benchmark]
-    public object GetTripleEma()
+    public object GetTema()
     {
-        return h.GetTripleEma(14);
+        return h.GetTema(14);
     }
 
     [Benchmark]

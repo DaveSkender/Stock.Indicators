@@ -1,8 +1,10 @@
 ---
 title: Double Exponential Moving Average (DEMA)
-permalink: /indicators/DoubleEma/
+permalink: /indicators/Dema/
 type: moving-average
 layout: indicator
+redirect_from:
+ - /indicators/DoubleEma/
 ---
 
 # {{ page.title }}
@@ -10,14 +12,14 @@ layout: indicator
 Created by Patrick G. Mulloy, the [Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) is a faster smoothed EMA of the Close price over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/DoubleEma.png)
+![image]({{site.baseurl}}/assets/charts/Dema.png)
 
-DEMA is shown as the dashed line above.  [EMA](../Ema#content) (solid line) and [Triple EMA](../TripleEma#content) (dotted line) are also shown here for comparison.
+DEMA is shown as the dashed line above.  [EMA](../Ema#content) (solid line) and [Triple EMA](../Tema#content) (dotted line) are also shown here for comparison.
 
 ```csharp
 // usage
 IEnumerable<DemaResult> results =
-  quotes.GetDoubleEma(lookbackPeriods);
+  quotes.GetDema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -67,5 +69,5 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate 20-period DEMA
-IEnumerable<DemaResult> results = quotes.GetDoubleEma(20);
+IEnumerable<DemaResult> results = quotes.GetDema(20);
 ```

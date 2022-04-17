@@ -44,7 +44,7 @@ public static partial class HistoricalQuotes
         return quotes.OrderBy(x => x.Date).ToList();
     }
 
-    internal static List<QuoteD> ConvertToList<TQuote>(
+    internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
@@ -63,7 +63,7 @@ public static partial class HistoricalQuotes
     }
 
     // convert to basic double
-    internal static List<BasicD> ConvertToBasic<TQuote>(
+    internal static List<BasicD> ToBasicD<TQuote>(
         this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
         where TQuote : IQuote
     {

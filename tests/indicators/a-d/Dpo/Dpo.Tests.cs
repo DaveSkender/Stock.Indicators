@@ -56,10 +56,10 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void ToQuotes()
     {
         List<Quote> newQuotes = quotes.GetDpo(14)
-            .ConvertToQuotes()
+            .ToQuotes()
             .ToList();
 
         Assert.AreEqual(489, newQuotes.Count);

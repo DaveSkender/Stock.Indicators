@@ -12,7 +12,7 @@ layout: indicator
 
 ![image]({{site.baseurl}}/assets/charts/Ema.png)
 
-See also related [Double EMA](../DoubleEma#content) (dashed line) and [Triple EMA](../TripleEma#content).
+See also related [Double EMA](../Dema#content) (dashed line) and [Triple EMA](../Tema#content).
 
 ```csharp
 // usage (with Close price)

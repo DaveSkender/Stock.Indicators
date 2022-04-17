@@ -145,24 +145,6 @@ public class Renko : TestBase
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
-    {
-        List<Quote> newQuotes = quotes.GetRenko(2.5m)
-            .ConvertToQuotes()
-            .ToList();
-
-        // assertions
-        Assert.AreEqual(154, newQuotes.Count);
-
-        Quote q = newQuotes[153];
-        Assert.AreEqual(240.5m, q.Open);
-        Assert.AreEqual(243.68m, q.High);
-        Assert.AreEqual(234.52m, q.Low);
-        Assert.AreEqual(243m, q.Close);
-        Assert.AreEqual(189794032m, q.Volume);
-    }
-
-    [TestMethod]
     public void UseAsQuotes()
     {
         IEnumerable<RenkoResult> renkoQuotes = quotes.GetRenko(0.5m);

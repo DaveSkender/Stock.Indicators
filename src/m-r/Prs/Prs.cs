@@ -13,8 +13,8 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdBaseList = historyBase.ConvertToBasic(CandlePart.Close);
-        List<BasicD> bdEvalList = historyEval.ConvertToBasic(CandlePart.Close);
+        List<BasicD> bdBaseList = historyBase.ToBasicD(CandlePart.Close);
+        List<BasicD> bdEvalList = historyEval.ToBasicD(CandlePart.Close);
 
         // check parameter arguments
         ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriods);
