@@ -1,7 +1,7 @@
 ---
 title: Custom Indicators
 permalink: /custom-indicators/
-layout: default
+layout: page
 ---
 
 # Custom Indicators
