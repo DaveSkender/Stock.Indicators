@@ -1,6 +1,7 @@
 ---
 title: Performance benchmarks
 permalink: /performance/
+relative_path: performance.md
 layout: page
 ---
 

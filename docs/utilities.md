@@ -1,6 +1,7 @@
 ---
 title: Utilities and Helpers
 permalink: /utilities/
+relative_path: utilities.md
 layout: page
 redirect_from:
  - /docs/UTILITIES.html

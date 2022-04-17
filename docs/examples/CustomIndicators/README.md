@@ -1,6 +1,7 @@
 ---
 title: Custom Indicators
 permalink: /custom-indicators/
+relative_path: examples/CustomIndicators/README.md
 layout: page
 ---
 

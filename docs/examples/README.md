@@ -1,6 +1,7 @@
 ---
 title: Example usage code
 permalink: /examples/
+relative_path: examples/README.md
 layout: page
 ---
 
