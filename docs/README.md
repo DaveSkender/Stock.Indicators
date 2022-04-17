@@ -37,7 +37,7 @@ See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicator
 
 ## Frameworks targeted
 
-- .NET 6.0, 5.0
+- .NET 7.0, 6.0, 5.0
 - .NET Core 3.1
 - .NET Standard 2.1, 2.0
 
