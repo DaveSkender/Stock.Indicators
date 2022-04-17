@@ -11,7 +11,7 @@ extraction:
       solution:
         - Stock.Indicators.sln
       dotnet:
-        version: "7.0.x"
+        version: "7.0.100-preview.3.22179.4"
       build_command:
         - dotnet restore
         - dotnet build
