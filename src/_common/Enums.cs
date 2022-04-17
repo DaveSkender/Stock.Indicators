@@ -10,7 +10,11 @@ public enum CandlePart
     Low,
     Close,
     Volume,
-    HL2
+    HL2,
+    HLC3,
+    OC2,
+    OHL3,
+    OHLC4
 }
 
 public enum EndType
