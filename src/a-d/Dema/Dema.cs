@@ -34,7 +34,7 @@ public static partial class Indicator
         lastEma1 /= lookbackPeriods;
         lastEma2 = lastEma1;
 
-        // compose final results
+        // roll through quotes
         for (int i = 0; i < length; i++)
         {
             BaseQuote q = bdList[i];

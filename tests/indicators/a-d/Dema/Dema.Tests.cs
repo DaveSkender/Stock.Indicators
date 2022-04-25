@@ -68,7 +68,7 @@ public class Dema : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetDema(0));
     }
 }
