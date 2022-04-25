@@ -18,40 +18,48 @@ public static partial class Indicator
         ValidateTema(lookbackPeriods);
 
         // initialize
-        List<TemaResult> results = new(bdList.Count);
-        List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriods);
+        int length = bdList.Count;
+        List<TemaResult> results = new(length);
 
-        List<BaseQuote> bd2 = emaN1
-            .Where(x => x.Ema != null)
-            .Select(x => new BaseQuote { Date = x.Date, Value = (double)x.Ema })
-            .ToList();
+        double k = 2d / (lookbackPeriods + 1);
+        double? lastEma1 = 0;
+        double? lastEma2;
+        double? lastEma3;
+        int initPeriods = Math.Min(lookbackPeriods, length);
 
-        List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
-
-        List<BaseQuote> bd3 = emaN2
-            .Where(x => x.Ema != null)
-            .Select(x => new BaseQuote { Date = x.Date, Value = (double)x.Ema })
-            .ToList();
-
-        List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods);
-
-        // compose final results
-        for (int i = 0; i < emaN1.Count; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
-            EmaResult e1 = emaN1[i];
-            int index = i + 1;
+            lastEma1 += bdList[i].Value;
+        }
+
+        lastEma1 /= lookbackPeriods;
+        lastEma2 = lastEma3 = lastEma1;
+
+        // roll through quotes
+        for (int i = 0; i < length; i++)
+        {
+            BaseQuote q = bdList[i];
 
             TemaResult result = new()
             {
-                Date = e1.Date
+                Date = q.Date
             };
 
-            if (index >= (3 * lookbackPeriods) - 2)
+            if (i > lookbackPeriods - 1)
             {
-                EmaResult e2 = emaN2[index - lookbackPeriods];
-                EmaResult e3 = emaN3[index - (2 * lookbackPeriods) + 1];
+                double? ema1 = lastEma1 + (k * (q.Value - lastEma1));
+                double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
+                double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
-                result.Tema = (3 * e1.Ema) - (3 * e2.Ema) + e3.Ema;
+                result.Tema = (decimal?)((3 * ema1) - (3 * ema2) + ema3);
+
+                lastEma1 = ema1;
+                lastEma2 = ema2;
+                lastEma3 = ema3;
+            }
+            else if (i == lookbackPeriods - 1)
+            {
+                result.Tema = (decimal?)((3 * lastEma1) - (3 * lastEma2) + lastEma3);
             }
 
             results.Add(result);

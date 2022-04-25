@@ -16,17 +16,20 @@ public class Tema : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(445, results.Where(x => x.Tema != null).Count());
+        Assert.AreEqual(483, results.Where(x => x.Tema != null).Count());
 
         // sample values
-        TemaResult r1 = results[67];
-        Assert.AreEqual(222.9105m, Math.Round((decimal)r1.Tema, 4));
+        TemaResult r25 = results[25];
+        Assert.AreEqual(216.1441m, Math.Round((decimal)r25.Tema, 4));
 
-        TemaResult r2 = results[249];
-        Assert.AreEqual(258.6208m, Math.Round((decimal)r2.Tema, 4));
+        TemaResult r67 = results[67];
+        Assert.AreEqual(222.9562m, Math.Round((decimal)r67.Tema, 4));
 
-        TemaResult r3 = results[501];
-        Assert.AreEqual(238.7690m, Math.Round((decimal)r3.Tema, 4));
+        TemaResult r249 = results[249];
+        Assert.AreEqual(258.6208m, Math.Round((decimal)r249.Tema, 4));
+
+        TemaResult r501 = results[501];
+        Assert.AreEqual(238.7690m, Math.Round((decimal)r501.Tema, 4));
     }
 
     [TestMethod]
