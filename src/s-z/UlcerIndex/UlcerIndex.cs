@@ -11,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
 
         // check parameter arguments
         ValidateUlcer(lookbackPeriods);
@@ -22,7 +22,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            BasicD q = bdList[i];
+            BaseQuote q = bdList[i];
             int index = i + 1;
 
             UlcerIndexResult result = new()
@@ -35,13 +35,13 @@ public static partial class Indicator
                 double? sumSquared = 0;
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    BasicD d = bdList[p];
+                    BaseQuote d = bdList[p];
                     int dIndex = p + 1;
 
                     double maxClose = 0;
                     for (int s = index - lookbackPeriods; s < dIndex; s++)
                     {
-                        BasicD dd = bdList[s];
+                        BaseQuote dd = bdList[s];
                         if (dd.Value > maxClose)
                         {
                             maxClose = dd.Value;

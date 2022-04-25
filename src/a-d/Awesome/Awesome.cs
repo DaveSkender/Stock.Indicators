@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.HL2);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.HL2);
 
         // check parameter arguments
         ValidateAwesome(fastPeriods, slowPeriods);
@@ -25,7 +25,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicD q = bdList[i];
+            BaseQuote q = bdList[i];
             pr[i] = q.Value;
             int index = i + 1;
 

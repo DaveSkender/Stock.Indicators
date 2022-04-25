@@ -234,55 +234,6 @@ public class QuoteHistory : TestBase
         Assert.AreEqual(3173255968m, r23.Volume);
     }
 
-    [TestMethod]
-    public void ToBasicD()
-    {
-        // compose basic data
-        List<BasicD> o = quotes.ToBasicD(CandlePart.Open);
-        List<BasicD> h = quotes.ToBasicD(CandlePart.High);
-        List<BasicD> l = quotes.ToBasicD(CandlePart.Low);
-        List<BasicD> c = quotes.ToBasicD(CandlePart.Close);
-        List<BasicD> v = quotes.ToBasicD(CandlePart.Volume);
-        List<BasicD> hl = quotes.ToBasicD(CandlePart.HL2);
-        List<BasicD> hlc = quotes.ToBasicD(CandlePart.HLC3);
-        List<BasicD> oc = quotes.ToBasicD(CandlePart.OC2);
-        List<BasicD> ohl = quotes.ToBasicD(CandlePart.OHL3);
-        List<BasicD> ohlc = quotes.ToBasicD(CandlePart.OHLC4);
-
-        // assertions
-
-        // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, c.Count);
-
-        // samples
-        BasicD ro = o[501];
-        BasicD rh = h[501];
-        BasicD rl = l[501];
-        BasicD rc = c[501];
-        BasicD rv = v[501];
-        BasicD rhl = hl[501];
-        BasicD rhlc = hlc[501];
-        BasicD roc = oc[501];
-        BasicD rohl = ohl[501];
-        BasicD rohlc = ohlc[501];
-
-        // proper last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, rc.Date);
-
-        // last values should be correct
-        Assert.AreEqual(244.92, ro.Value);
-        Assert.AreEqual(245.54, rh.Value);
-        Assert.AreEqual(242.87, rl.Value);
-        Assert.AreEqual(245.28, rc.Value);
-        Assert.AreEqual(147031456, rv.Value);
-        Assert.AreEqual(244.205, rhl.Value);
-        Assert.AreEqual(244.5633, Math.Round(rhlc.Value, 4));
-        Assert.AreEqual(245.1, roc.Value);
-        Assert.AreEqual(244.4433, Math.Round(rohl.Value, 4));
-        Assert.AreEqual(244.6525, rohlc.Value);
-    }
-
     /* BAD QUOTES EXCEPTIONS */
     [TestMethod]
     [ExpectedException(typeof(InvalidQuotesException), "Duplicate date found.")]

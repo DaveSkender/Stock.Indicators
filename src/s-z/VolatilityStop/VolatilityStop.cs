@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
 
         // check parameter arguments
         ValidateVolatilityStop(lookbackPeriods, multiplier);
@@ -36,7 +36,7 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            BasicD q = bdList[i];
+            BaseQuote q = bdList[i];
             double close = (double)q.Value;
             sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
             results.Add(new VolatilityStopResult() { Date = q.Date });
@@ -45,7 +45,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = lookbackPeriods; i < length; i++)
         {
-            BasicD q = bdList[i];
+            BaseQuote q = bdList[i];
             double close = (double)q.Value;
 
             // average true range × multiplier constant
