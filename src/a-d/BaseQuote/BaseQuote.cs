@@ -6,10 +6,10 @@ public static partial class Indicator
     /// <include file='./info.xml' path='indicator/*' />
     ///
     public static IEnumerable<BaseQuote> GetBaseQuote<TQuote>(
-        this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
+        this IEnumerable<TQuote> quotes, CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote
     {
-        return quotes.ToBaseQuote(element);
+        return quotes.ToBaseQuote(candlePart);
     }
 
     // convert to basic double

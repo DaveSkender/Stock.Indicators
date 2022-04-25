@@ -42,6 +42,30 @@
   permalink: /indicators/Roc/
   type: price-characteristic
 
+- title: Momentum Oscillator
+  permalink: /indicators/Roc/
+  type: price-characteristic
+
+- title: HL2
+  permalink: /indicators/BaseQuote/
+  type: price-transform
+
+- title: HLC3
+  permalink: /indicators/BaseQuote/
+  type: price-transform
+
+- title: OC2
+  permalink: /indicators/BaseQuote/
+  type: price-transform
+
+- title: OHL3
+  permalink: /indicators/BaseQuote/
+  type: price-transform
+
+- title: OHLC4
+  permalink: /indicators/BaseQuote/
+  type: price-transform
+
 - title: Price Channels
   permalink: /indicators/Donchian/
   type: price-channel
