@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
 
         // check parameter arguments
         ValidateDema(lookbackPeriods);
@@ -21,9 +21,9 @@ public static partial class Indicator
         List<DemaResult> results = new(bdList.Count);
         List<EmaResult> emaN = CalcEma(bdList, lookbackPeriods);
 
-        List<BasicD> bd2 = emaN
+        List<BaseQuote> bd2 = emaN
             .Where(x => x.Ema != null)
-            .Select(x => new BasicD { Date = x.Date, Value = (double)x.Ema })
+            .Select(x => new BaseQuote { Date = x.Date, Value = (double)x.Ema })
             .ToList();
 
         List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);

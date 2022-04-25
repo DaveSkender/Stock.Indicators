@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
 
         // check parameter arguments
         ValidateHurst(lookbackPeriods);
@@ -25,7 +25,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             int index = i + 1;
-            BasicD q = bdList[i];
+            BaseQuote q = bdList[i];
 
             HurstResult result = new()
             {

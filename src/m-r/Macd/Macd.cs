@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
 
         // check parameter arguments
         ValidateMacd(fastPeriods, slowPeriods, signalPeriods);
@@ -23,13 +23,13 @@ public static partial class Indicator
         List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
 
         int length = bdList.Count;
-        List<BasicD> emaDiff = new();
+        List<BaseQuote> emaDiff = new();
         List<MacdResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicD h = bdList[i];
+            BaseQuote h = bdList[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
@@ -46,7 +46,7 @@ public static partial class Indicator
                 result.Macd = (decimal)macd;
 
                 // temp data for interim EMA of macd
-                BasicD diff = new()
+                BaseQuote diff = new()
                 {
                     Date = h.Date,
                     Value = macd

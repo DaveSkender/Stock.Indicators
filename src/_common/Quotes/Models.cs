@@ -33,10 +33,3 @@ internal class QuoteD
     internal double Close { get; set; }
     internal double Volume { get; set; }
 }
-
-[Serializable]
-internal class BasicD
-{
-    internal DateTime Date { get; set; }
-    internal double Value { get; set; }
-}

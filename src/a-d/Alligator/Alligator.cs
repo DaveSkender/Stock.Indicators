@@ -16,7 +16,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicD> bdList = quotes.ToBasicD(CandlePart.HL2);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.HL2);
 
         // check parameter arguments
         ValidateAlligator(
@@ -42,7 +42,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicD q = bdList[i];
+            BaseQuote q = bdList[i];
             int index = i + 1;
             pr[i] = q.Value;
 
