@@ -7,7 +7,7 @@ layout: page
 
 # {{ page.title }}
 
-To help you get started, here is are a few simple .NET 6.0 C# projects that you can review as a complete minimal working examples.
+To help you get started, here are a few minimalist .NET 6.0 C# projects that you can review.  They are complete working examples.
 
 - `ConsoleApp` is a minimalize example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
@@ -18,7 +18,7 @@ For more information on how to use this library overall, see the [Guide and Pro 
 
 To run the sample projects:
 
-1. [Download](Skender.Stock.Indicators-Examples.zip) the ZIP file and extract contents
+1. [Download the ZIP file](Skender.Stock.Indicators-Examples.zip) and extract consents
 2. Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
 3. Review the code in the `Program.cs` file
 4. Run the `ConsoleApp` by any one of the following methods:

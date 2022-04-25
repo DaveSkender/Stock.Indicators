@@ -41,7 +41,7 @@ IEnumerable<KamaResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first `N-1` periods will have `null` values since there's not enough data to calculate.
+- The first `E-1` periods will have `null` values since there's not enough data to calculate.
 
 :hourglass: **Convergence Warning**: The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
@@ -53,7 +53,7 @@ IEnumerable<KamaResult>
 | `ER`   | double | Efficiency Ratio is the fractal efficiency of price changes
 | `Kama` | decimal | Kaufman's adaptive moving average
 
-More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` periods. ER would be zero if prices are unchanged over the `erPeriods` periods.
+More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` window. ER would be zero if prices are unchanged over the `erPeriods` window.
 
 ### Utilities
 

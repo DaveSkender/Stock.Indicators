@@ -10,7 +10,7 @@ layout: indicator
 Returns a basic quote transform.
 
 ```csharp
-// usage (with Close price)
+// usage
 IEnumerable<BaseQuote> results =
   quotes.GetBaseQuote(candlePart);
 ```
