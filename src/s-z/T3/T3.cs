@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<SimplePrice> bdList = quotes.ToPrice(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
 
         // check parameter arguments
         ValidateT3(lookbackPeriods, volumeFactor);
@@ -34,7 +34,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            SimplePrice q = bdList[i];
+            BaseQuote q = bdList[i];
             T3Result r = new()
             {
                 Date = q.Date

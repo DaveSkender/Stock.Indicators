@@ -12,14 +12,14 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<SimplePrice> bdList = quotes.ToPrice(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
 
         // calculate
         return CalcRsi(bdList, lookbackPeriods);
     }
 
     // internals
-    private static List<RsiResult> CalcRsi(List<SimplePrice> bdList, int lookbackPeriods)
+    private static List<RsiResult> CalcRsi(List<BaseQuote> bdList, int lookbackPeriods)
     {
         // check parameter arguments
         ValidateRsi(lookbackPeriods);
@@ -46,7 +46,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            SimplePrice h = bdList[i];
+            BaseQuote h = bdList[i];
             int index = i + 1;
 
             RsiResult r = new()

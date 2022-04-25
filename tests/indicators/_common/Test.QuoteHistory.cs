@@ -234,55 +234,6 @@ public class QuoteHistory : TestBase
         Assert.AreEqual(3173255968m, r23.Volume);
     }
 
-    [TestMethod]
-    public void ToBasicD()
-    {
-        // compose basic data
-        List<SimplePrice> o = quotes.ToPrice(CandlePart.Open);
-        List<SimplePrice> h = quotes.ToPrice(CandlePart.High);
-        List<SimplePrice> l = quotes.ToPrice(CandlePart.Low);
-        List<SimplePrice> c = quotes.ToPrice(CandlePart.Close);
-        List<SimplePrice> v = quotes.ToPrice(CandlePart.Volume);
-        List<SimplePrice> hl = quotes.ToPrice(CandlePart.HL2);
-        List<SimplePrice> hlc = quotes.ToPrice(CandlePart.HLC3);
-        List<SimplePrice> oc = quotes.ToPrice(CandlePart.OC2);
-        List<SimplePrice> ohl = quotes.ToPrice(CandlePart.OHL3);
-        List<SimplePrice> ohlc = quotes.ToPrice(CandlePart.OHLC4);
-
-        // assertions
-
-        // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, c.Count);
-
-        // samples
-        SimplePrice ro = o[501];
-        SimplePrice rh = h[501];
-        SimplePrice rl = l[501];
-        SimplePrice rc = c[501];
-        SimplePrice rv = v[501];
-        SimplePrice rhl = hl[501];
-        SimplePrice rhlc = hlc[501];
-        SimplePrice roc = oc[501];
-        SimplePrice rohl = ohl[501];
-        SimplePrice rohlc = ohlc[501];
-
-        // proper last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, rc.Date);
-
-        // last values should be correct
-        Assert.AreEqual(244.92, ro.Value);
-        Assert.AreEqual(245.54, rh.Value);
-        Assert.AreEqual(242.87, rl.Value);
-        Assert.AreEqual(245.28, rc.Value);
-        Assert.AreEqual(147031456, rv.Value);
-        Assert.AreEqual(244.205, rhl.Value);
-        Assert.AreEqual(244.5633, Math.Round(rhlc.Value, 4));
-        Assert.AreEqual(245.1, roc.Value);
-        Assert.AreEqual(244.4433, Math.Round(rohl.Value, 4));
-        Assert.AreEqual(244.6525, rohlc.Value);
-    }
-
     /* BAD QUOTES EXCEPTIONS */
     [TestMethod]
     [ExpectedException(typeof(InvalidQuotesException), "Duplicate date found.")]

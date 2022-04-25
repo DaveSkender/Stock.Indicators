@@ -15,7 +15,7 @@ public static partial class Indicator
         ValidateSma(lookbackPeriods);
 
         // initialize
-        List<SimplePrice> bdList = quotes.ToPrice(candlePart);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(candlePart);
 
         // calculate
         return bdList.CalcSma(lookbackPeriods);
@@ -23,7 +23,7 @@ public static partial class Indicator
 
     // internals
     private static IEnumerable<SmaResult> CalcSma(
-        this List<SimplePrice> bdList,
+        this List<BaseQuote> bdList,
         int lookbackPeriods)
     {
         // note: pre-validated
@@ -33,7 +33,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            SimplePrice q = bdList[i];
+            BaseQuote q = bdList[i];
             int index = i + 1;
 
             SmaResult result = new()
@@ -46,7 +46,7 @@ public static partial class Indicator
                 double sumSma = 0;
                 for (int p = index - lookbackPeriods; p < index; p++)
                 {
-                    SimplePrice d = bdList[p];
+                    BaseQuote d = bdList[p];
                     sumSma += d.Value;
                 }
 

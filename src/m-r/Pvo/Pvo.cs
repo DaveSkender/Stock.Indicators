@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<SimplePrice> bdList = quotes.ToPrice(CandlePart.Volume);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Volume);
 
         // check parameter arguments
         ValidatePvo(fastPeriods, slowPeriods, signalPeriods);
@@ -24,13 +24,13 @@ public static partial class Indicator
         List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
 
         int length = bdList.Count;
-        List<SimplePrice> emaDiff = new();
+        List<BaseQuote> emaDiff = new();
         List<PvoResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            SimplePrice h = bdList[i];
+            BaseQuote h = bdList[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
@@ -47,7 +47,7 @@ public static partial class Indicator
                 result.Pvo = (decimal?)pvo;
 
                 // temp data for interim EMA of PVO
-                SimplePrice diff = new()
+                BaseQuote diff = new()
                 {
                     Date = h.Date,
                     Value = pvo == null ? 0 : (double)pvo

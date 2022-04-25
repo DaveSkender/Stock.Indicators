@@ -13,8 +13,8 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<SimplePrice> bdBaseList = historyBase.ToPrice(CandlePart.Close);
-        List<SimplePrice> bdEvalList = historyEval.ToPrice(CandlePart.Close);
+        List<BaseQuote> bdBaseList = historyBase.ToBaseQuote(CandlePart.Close);
+        List<BaseQuote> bdEvalList = historyEval.ToBaseQuote(CandlePart.Close);
 
         // check parameter arguments
         ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriods);
@@ -25,8 +25,8 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdEvalList.Count; i++)
         {
-            SimplePrice bi = bdBaseList[i];
-            SimplePrice ei = bdEvalList[i];
+            BaseQuote bi = bdBaseList[i];
+            BaseQuote ei = bdEvalList[i];
             int index = i + 1;
 
             if (ei.Date != bi.Date)
@@ -44,8 +44,8 @@ public static partial class Indicator
 
             if (lookbackPeriods != null && index > lookbackPeriods)
             {
-                SimplePrice bo = bdBaseList[i - (int)lookbackPeriods];
-                SimplePrice eo = bdEvalList[i - (int)lookbackPeriods];
+                BaseQuote bo = bdBaseList[i - (int)lookbackPeriods];
+                BaseQuote eo = bdEvalList[i - (int)lookbackPeriods];
 
                 if (bo.Value != 0 && eo.Value != 0)
                 {
