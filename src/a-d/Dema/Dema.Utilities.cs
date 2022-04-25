@@ -8,10 +8,10 @@ public static partial class Indicator
     public static IEnumerable<DemaResult> RemoveWarmupPeriods(
         this IEnumerable<DemaResult> results)
     {
-        int n2 = results
+        int n = results
           .ToList()
-          .FindIndex(x => x.Dema != null) + 2;
+          .FindIndex(x => x.Dema != null) + 1;
 
-        return results.Remove(n2 + 100);
+        return results.Remove((2 * n) + 100);
     }
 }

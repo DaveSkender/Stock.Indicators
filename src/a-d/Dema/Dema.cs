@@ -18,31 +18,45 @@ public static partial class Indicator
         ValidateDema(lookbackPeriods);
 
         // initialize
-        List<DemaResult> results = new(bdList.Count);
-        List<EmaResult> emaN = CalcEma(bdList, lookbackPeriods);
+        int length = bdList.Count;
+        List<DemaResult> results = new(length);
 
-        List<BaseQuote> bd2 = emaN
-            .Where(x => x.Ema != null)
-            .Select(x => new BaseQuote { Date = x.Date, Value = (double)x.Ema })
-            .ToList();
+        double k = 2d / (lookbackPeriods + 1);
+        double? lastEma1 = 0;
+        double? lastEma2;
+        int initPeriods = Math.Min(lookbackPeriods, length);
 
-        List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
-
-        // compose final results
-        for (int i = 0; i < emaN.Count; i++)
+        for (int i = 0; i < initPeriods; i++)
         {
-            EmaResult e1 = emaN[i];
-            int index = i + 1;
+            lastEma1 += bdList[i].Value;
+        }
+
+        lastEma1 /= lookbackPeriods;
+        lastEma2 = lastEma1;
+
+        // roll through quotes
+        for (int i = 0; i < length; i++)
+        {
+            BaseQuote q = bdList[i];
 
             DemaResult result = new()
             {
-                Date = e1.Date
+                Date = q.Date
             };
 
-            if (index >= (2 * lookbackPeriods) - 1)
+            if (i > lookbackPeriods - 1)
             {
-                EmaResult e2 = emaN2[index - lookbackPeriods];
-                result.Dema = (2 * e1.Ema) - e2.Ema;
+                double? ema1 = lastEma1 + (k * (q.Value - lastEma1));
+                double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
+
+                result.Dema = (decimal?)((2d * ema1) - ema2);
+
+                lastEma1 = ema1;
+                lastEma2 = ema2;
+            }
+            else if (i == lookbackPeriods - 1)
+            {
+                result.Dema = (decimal?)((2d * lastEma1) - lastEma2);
             }
 
             results.Add(result);

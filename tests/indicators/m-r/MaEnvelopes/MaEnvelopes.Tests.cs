@@ -49,13 +49,13 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(464, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
 
         // sample values
         MaEnvelopeResult r1 = results[38];
-        Assert.AreEqual(224.1033m, Math.Round((decimal)r1.Centerline, 4));
-        Assert.AreEqual(229.7059m, Math.Round((decimal)r1.UpperEnvelope, 4));
-        Assert.AreEqual(218.5008m, Math.Round((decimal)r1.LowerEnvelope, 4));
+        Assert.AreEqual(223.4594m, Math.Round((decimal)r1.Centerline, 4));
+        Assert.AreEqual(229.0459m, Math.Round((decimal)r1.UpperEnvelope, 4));
+        Assert.AreEqual(217.8730m, Math.Round((decimal)r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
         Assert.AreEqual(258.4452m, Math.Round((decimal)r2.Centerline, 4));
