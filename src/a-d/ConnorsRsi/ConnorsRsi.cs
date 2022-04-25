@@ -66,7 +66,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             BaseQuote q = bdList[i];
-            int index = i + 1;
 
             ConnorsRsiResult r = new()
             {
@@ -116,10 +115,10 @@ public static partial class Indicator
             gain[i] = (lastClose <= 0) ? null
                     : (q.Value - lastClose) / lastClose;
 
-            if (index > rankPeriods)
+            if (i + 1 > rankPeriods)
             {
                 int qty = 0;
-                for (int p = index - rankPeriods - 1; p < index; p++)
+                for (int p = i + 1 - rankPeriods - 1; p <= i; p++)
                 {
                     if (gain[p] < gain[i])
                     {

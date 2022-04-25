@@ -34,17 +34,16 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BaseQuote q = bdList[i];
-            int index = i + 1;
 
             SmaResult result = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double sumSma = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BaseQuote d = bdList[p];
                     sumSma += d.Value;

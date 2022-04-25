@@ -39,7 +39,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             KvoResult r = new()
             {
@@ -78,11 +77,11 @@ public static partial class Indicator
                 : vf[i - 1];
 
             // fast-period EMA of VF
-            if (index > fastPeriods + 2)
+            if (i + 1 > fastPeriods + 2)
             {
                 vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
             }
-            else if (index == fastPeriods + 2)
+            else if (i + 1 == fastPeriods + 2)
             {
                 double? sum = 0;
                 for (int p = 2; p <= i; p++)
@@ -94,11 +93,11 @@ public static partial class Indicator
             }
 
             // slow-period EMA of VF
-            if (index > slowPeriods + 2)
+            if (i + 1 > slowPeriods + 2)
             {
                 vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
-            else if (index == slowPeriods + 2)
+            else if (i + 1 == slowPeriods + 2)
             {
                 double? sum = 0;
                 for (int p = 2; p <= i; p++)
@@ -110,17 +109,17 @@ public static partial class Indicator
             }
 
             // Klinger Oscillator
-            if (index >= slowPeriods + 2)
+            if (i + 1 >= slowPeriods + 2)
             {
                 r.Oscillator = vfFastEma[i] - vfSlowEma[i];
 
                 // Signal
-                if (index > slowPeriods + signalPeriods + 1)
+                if (i + 1 > slowPeriods + signalPeriods + 1)
                 {
                     r.Signal = (r.Oscillator * kSignal)
                         + (results[i - 1].Signal * (1 - kSignal));
                 }
-                else if (index == slowPeriods + signalPeriods + 1)
+                else if (i + 1 == slowPeriods + signalPeriods + 1)
                 {
                     double? sum = 0;
                     for (int p = slowPeriods + 1; p <= i; p++)

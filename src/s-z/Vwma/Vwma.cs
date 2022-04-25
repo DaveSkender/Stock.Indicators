@@ -24,18 +24,17 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             VwmaResult result = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double? sumCl = 0;
                 double? sumVl = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     QuoteD d = quotesList[p];
                     double? c = d.Close;

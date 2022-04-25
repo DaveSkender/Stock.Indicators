@@ -41,19 +41,18 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             SmiResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double hH = double.MinValue;
                 double lL = double.MaxValue;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     QuoteD x = quotesList[p];
 
@@ -72,7 +71,7 @@ public static partial class Indicator
                 double hl = hH - lL;
 
                 // initialize last EMA values
-                if (index == lookbackPeriods)
+                if (i + 1 == lookbackPeriods)
                 {
                     lastSmEma1 = sm;
                     lastSmEma2 = lastSmEma1;
@@ -88,12 +87,12 @@ public static partial class Indicator
                 double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
                 double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
 
-                // stochastic momentum index
+                // stochastic momentum i + 1
                 double smi = 100 * (smEma2 / (0.5 * hlEma2));
                 r.Smi = (decimal)smi;
 
                 // initialize signal line
-                if (index == lookbackPeriods)
+                if (i + 1 == lookbackPeriods)
                 {
                     lastSignal = smi;
                 }

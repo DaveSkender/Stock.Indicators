@@ -43,20 +43,19 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             BaseQuote q = bdList[i];
-            int index = i + 1;
             pr[i] = q.Value;
 
-            // only calculate jaw if the array index + offset is still in valid range
+            // only calculate jaw if the array offset is still in valid range
             if (i + jawOffset < length)
             {
                 AlligatorResult jawResult = results[i + jawOffset];
 
                 // calculate alligator's jaw
                 // first value: calculate SMA
-                if (index == jawPeriods)
+                if (i + 1 == jawPeriods)
                 {
                     double sumMedianPrice = 0;
-                    for (int p = index - jawPeriods; p < index; p++)
+                    for (int p = i + 1 - jawPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
@@ -65,24 +64,24 @@ public static partial class Indicator
                 }
 
                 // remaining values: SMMA
-                else if (index > jawPeriods)
+                else if (i + 1 > jawPeriods)
                 {
                     double? prevValue = (double?)results[i + jawOffset - 1].Jaw;
                     jawResult.Jaw = (decimal?)((prevValue * (jawPeriods - 1)) + pr[i]) / jawPeriods;
                 }
             }
 
-            // only calculate teeth if the array index + offset is still in valid range
+            // only calculate teeth if the array offset is still in valid range
             if (i + teethOffset < length)
             {
                 AlligatorResult teethResult = results[i + teethOffset];
 
                 // calculate alligator's teeth
                 // first value: calculate SMA
-                if (index == teethPeriods)
+                if (i + 1 == teethPeriods)
                 {
                     double sumMedianPrice = 0;
-                    for (int p = index - teethPeriods; p < index; p++)
+                    for (int p = i + 1 - teethPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
@@ -91,24 +90,24 @@ public static partial class Indicator
                 }
 
                 // remaining values: SMMA
-                else if (index > teethPeriods)
+                else if (i + 1 > teethPeriods)
                 {
                     double? prevValue = (double?)results[i + teethOffset - 1].Teeth;
                     teethResult.Teeth = (decimal?)((prevValue * (teethPeriods - 1)) + pr[i]) / teethPeriods;
                 }
             }
 
-            // only calculate lips if the array index + offset is still in valid range
+            // only calculate lips if the array offset is still in valid range
             if (i + lipsOffset < length)
             {
                 AlligatorResult lipsResult = results[i + lipsOffset];
 
                 // calculate alligator's lips
                 // first value: calculate SMA
-                if (index == lipsPeriods)
+                if (i + 1 == lipsPeriods)
                 {
                     double sumMedianPrice = 0;
-                    for (int p = index - lipsPeriods; p < index; p++)
+                    for (int p = i + 1 - lipsPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
@@ -117,7 +116,7 @@ public static partial class Indicator
                 }
 
                 // remaining values: SMMA
-                else if (index > lipsPeriods)
+                else if (i + 1 > lipsPeriods)
                 {
                     double? prevValue = (double?)results[i + lipsOffset - 1].Lips;
                     lipsResult.Lips = (decimal?)((prevValue * (lipsPeriods - 1)) + pr[i]) / lipsPeriods;

@@ -39,19 +39,18 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BaseQuote q = bdList[i];
-            int index = i + 1;
 
             AlmaResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double weightedSum = 0;
                 int n = 0;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BaseQuote d = bdList[p];
                     weightedSum += weight[n] * d.Value;

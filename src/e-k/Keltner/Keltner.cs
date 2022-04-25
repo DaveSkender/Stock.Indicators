@@ -28,14 +28,13 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             TQuote q = quotesList[i];
-            int index = i + 1;
 
             KeltnerResult result = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 EmaResult ema = emaResults[i];
                 AtrResult atr = atrResults[i];

@@ -25,7 +25,6 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             BaseQuote q = quotesList[i];
-            int index = i + 1;
 
             SmmaResult result = new()
             {
@@ -33,17 +32,17 @@ public static partial class Indicator
             };
 
             // calculate SMMA
-            if (index > lookbackPeriods)
+            if (i + 1 > lookbackPeriods)
             {
                 result.Smma = (decimal)((prevValue * (lookbackPeriods - 1)) + q.Value)
                             / lookbackPeriods;
             }
 
             // first SMMA calculated as simple SMA
-            else if (index == lookbackPeriods)
+            else if (i + 1 == lookbackPeriods)
             {
                 double sumClose = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BaseQuote d = quotesList[p];
                     sumClose += d.Value;

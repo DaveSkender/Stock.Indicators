@@ -26,7 +26,6 @@ public static partial class Indicator
         {
             BaseQuote a = bdListA[i];
             BaseQuote b = bdListB[i];
-            int index = i + 1;
 
             if (a.Date != b.Date)
             {
@@ -40,13 +39,13 @@ public static partial class Indicator
             };
 
             // calculate correlation
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double[] dataA = new double[lookbackPeriods];
                 double[] dataB = new double[lookbackPeriods];
                 int z = 0;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     dataA[z] = bdListA[p].Value;
                     dataB[z] = bdListB[p].Value;

@@ -25,20 +25,19 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BaseQuote q = bdList[i];
-            int index = i + 1;
 
             WmaResult result = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double wma = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BaseQuote d = bdList[p];
-                    wma += (double)d.Value * (lookbackPeriods - (index - p - 1)) / divisor;
+                    wma += (double)d.Value * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
 
                 result.Wma = (decimal)wma;

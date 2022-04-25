@@ -18,7 +18,7 @@ public class Smma : TestBase
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
 
-        // starting calculations at proper index
+        // starting calculations at proper i + 1
         Assert.IsNull(results[18].Smma);
         Assert.IsNotNull(results[19].Smma);
 

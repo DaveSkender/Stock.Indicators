@@ -24,7 +24,6 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            int index = i + 1;
             BaseQuote q = bdList[i];
 
             HurstResult result = new()
@@ -32,13 +31,13 @@ public static partial class Indicator
                 Date = q.Date
             };
 
-            if (index > lookbackPeriods)
+            if (i + 1 > lookbackPeriods)
             {
                 // get evaluation batch
                 double[] values = new double[lookbackPeriods];
 
                 int x = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     // compile return values
                     if (bdList[p - 1].Value != 0)
@@ -96,14 +95,14 @@ public static partial class Indicator
 
             // starting index position used to skip
             // observations to enforce same-sized chunks
-            int index = totalSize - (chunkSize * chunkQty);
+            int startIndex = totalSize - (chunkSize * chunkQty);
 
             // analyze chunks in set
             for (int chunkNum = 1; chunkNum <= chunkQty; chunkNum++)
             {
                 // chunk mean
                 double sum = 0;
-                for (int i = index; i < index + chunkSize; i++)
+                for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
                     sum += values[i];
                 }
@@ -113,9 +112,9 @@ public static partial class Indicator
                 // chunk mean diff
                 double sumY = 0;
                 double sumSq = 0;
-                double maxY = values[index] - chunkMean;
-                double minY = values[index] - chunkMean;
-                for (int i = index; i < index + chunkSize; i++)
+                double maxY = values[startIndex] - chunkMean;
+                double minY = values[startIndex] - chunkMean;
+                for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
                     double y = values[i] - chunkMean;
                     sumY += y;
@@ -133,7 +132,7 @@ public static partial class Indicator
                 sumChunkRs += rs;
 
                 // increment starting index
-                index += chunkSize;
+                startIndex += chunkSize;
             }
 
             // set results

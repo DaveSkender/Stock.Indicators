@@ -44,20 +44,19 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             BaseQuote h = bdList[i];
-            int index = i + 1;
 
             EmaResult result = new()
             {
                 Date = h.Date
             };
 
-            if (index > lookbackPeriods)
+            if (i + 1 > lookbackPeriods)
             {
                 double? ema = lastEma + (k * (h.Value - lastEma));
                 result.Ema = (decimal?)ema;
                 lastEma = ema;
             }
-            else if (index == lookbackPeriods)
+            else if (i + 1 == lookbackPeriods)
             {
                 result.Ema = (decimal?)lastEma;
             }

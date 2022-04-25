@@ -47,7 +47,6 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BaseQuote h = bdList[i];
-            int index = i + 1;
 
             RsiResult r = new()
             {
@@ -60,7 +59,7 @@ public static partial class Indicator
             lastValue = h.Value;
 
             // calculate RSI
-            if (index > lookbackPeriods + 1)
+            if (i + 1 > lookbackPeriods + 1)
             {
                 avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
                 avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
@@ -77,7 +76,7 @@ public static partial class Indicator
             }
 
             // initialize average gain
-            else if (index == lookbackPeriods + 1)
+            else if (i + 1 == lookbackPeriods + 1)
             {
                 double sumGain = 0;
                 double sumLoss = 0;

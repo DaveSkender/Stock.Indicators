@@ -33,20 +33,19 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BaseQuote bd = bdList[i];
-            int index = i + 1;
 
             StdDevResult result = new()
             {
                 Date = bd.Date,
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double[] periodValues = new double[lookbackPeriods];
                 double sum = 0;
                 int n = 0;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BaseQuote d = bdList[p];
                     periodValues[n] = d.Value;
@@ -66,10 +65,10 @@ public static partial class Indicator
             results.Add(result);
 
             // optional SMA
-            if (smaPeriods != null && index >= lookbackPeriods + smaPeriods - 1)
+            if (smaPeriods != null && i + 1 >= lookbackPeriods + smaPeriods - 1)
             {
                 double sumSma = 0;
-                for (int p = index - (int)smaPeriods; p < index; p++)
+                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
                 {
                     sumSma += (double)results[p].StdDev;
                 }

@@ -27,7 +27,6 @@ public static partial class Indicator
         {
             BaseQuote bi = bdBaseList[i];
             BaseQuote ei = bdEvalList[i];
-            int index = i + 1;
 
             if (ei.Date != bi.Date)
             {
@@ -42,7 +41,7 @@ public static partial class Indicator
             };
             results.Add(r);
 
-            if (lookbackPeriods != null && index > lookbackPeriods)
+            if (lookbackPeriods != null && i + 1 > lookbackPeriods)
             {
                 BaseQuote bo = bdBaseList[i - (int)lookbackPeriods];
                 BaseQuote eo = bdEvalList[i - (int)lookbackPeriods];
@@ -57,10 +56,10 @@ public static partial class Indicator
             }
 
             // optional moving average of PRS
-            if (smaPeriods != null && index >= smaPeriods)
+            if (smaPeriods != null && i + 1 >= smaPeriods)
             {
                 double? sumRs = 0;
-                for (int p = index - (int)smaPeriods; p < index; p++)
+                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
                 {
                     PrsResult d = results[p];
                     sumRs += d.Prs;

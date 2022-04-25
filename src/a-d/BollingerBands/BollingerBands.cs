@@ -25,20 +25,19 @@ public static partial class Indicator
         {
             BaseQuote q = bdList[i];
             decimal close = (decimal)q.Value;
-            int index = i + 1;
 
             BollingerBandsResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double[] periodClose = new double[lookbackPeriods];
                 double sum = 0;
                 int n = 0;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BaseQuote d = bdList[p];
                     periodClose[n] = d.Value;

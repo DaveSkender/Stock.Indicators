@@ -22,7 +22,6 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            int index = i + 1;
             FractalResult f = fractals[i];
 
             FcbResult r = new()
@@ -30,7 +29,7 @@ public static partial class Indicator
                 Date = f.Date
             };
 
-            if (index >= (2 * windowSpan) + 1)
+            if (i + 1 >= (2 * windowSpan) + 1)
             {
                 FractalResult fp = fractals[i - windowSpan];
 

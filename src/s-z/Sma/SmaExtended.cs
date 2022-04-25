@@ -22,7 +22,6 @@ public static partial class Indicator
         // roll through quotes
         for (int i = lookbackPeriods - 1; i < results.Count; i++)
         {
-            int index = i + 1;
             SmaExtendedResult r = results[i];
             double sma = (double)r.Sma;
 
@@ -30,7 +29,7 @@ public static partial class Indicator
             double sumMse = 0;
             double? sumMape = 0;
 
-            for (int p = index - lookbackPeriods; p < index; p++)
+            for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 BaseQuote d = quotesList[p];
                 double close = d.Value;

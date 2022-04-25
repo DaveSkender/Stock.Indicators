@@ -27,23 +27,22 @@ public static partial class Indicator
         {
             BaseQuote q = bdList[i];
             pr[i] = q.Value;
-            int index = i + 1;
 
             AwesomeResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index >= slowPeriods)
+            if (i + 1 >= slowPeriods)
             {
                 double sumSlow = 0;
                 double sumFast = 0;
 
-                for (int p = index - slowPeriods; p < index; p++)
+                for (int p = i + 1 - slowPeriods; p <= i; p++)
                 {
                     sumSlow += pr[p];
 
-                    if (p >= index - fastPeriods)
+                    if (p >= i + 1 - fastPeriods)
                     {
                         sumFast += pr[p];
                     }

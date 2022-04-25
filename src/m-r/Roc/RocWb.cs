@@ -49,21 +49,20 @@ public static partial class Indicator
         for (int i = lookbackPeriods; i < length; i++)
         {
             RocWbResult r = results[i];
-            int index = i + 1;
 
             // exponential moving average
-            if (index > lookbackPeriods + emaPeriods)
+            if (i + 1 > lookbackPeriods + emaPeriods)
             {
                 r.RocEma = lastEma + (k * (r.Roc - lastEma));
                 lastEma = r.RocEma;
             }
-            else if (index == lookbackPeriods + emaPeriods)
+            else if (i + 1 == lookbackPeriods + emaPeriods)
             {
                 r.RocEma = lastEma;
             }
 
             // ROC deviation
-            if (index >= lookbackPeriods + stdDevPeriods)
+            if (i + 1 >= lookbackPeriods + stdDevPeriods)
             {
                 double? sumSq = 0;
                 for (int p = i - stdDevPeriods + 1; p <= i; p++)

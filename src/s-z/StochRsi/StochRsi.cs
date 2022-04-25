@@ -42,16 +42,15 @@ public static partial class Indicator
         for (int i = 0; i < rsiResults.Count; i++)
         {
             RsiResult r = rsiResults[i];
-            int index = i + 1;
 
             StochRsiResult result = new()
             {
                 Date = r.Date
             };
 
-            if (index >= rsiPeriods + stochPeriods)
+            if (i + 1 >= rsiPeriods + stochPeriods)
             {
-                StochResult sto = stoResults[index - rsiPeriods - 1];
+                StochResult sto = stoResults[i + 1 - rsiPeriods - 1];
 
                 result.StochRsi = sto.Oscillator;
                 result.Signal = sto.Signal;

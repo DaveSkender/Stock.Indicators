@@ -27,14 +27,13 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             BaseQuote q = quotesList[i];
-            int index = i + 1;
 
             KamaResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index > erPeriods)
+            if (i + 1 > erPeriods)
             {
                 // ER period change
                 double change = Math.Abs(q.Value - quotesList[i - erPeriods].Value);
@@ -69,7 +68,7 @@ public static partial class Indicator
             }
 
             // initial value
-            else if (index == erPeriods)
+            else if (i + 1 == erPeriods)
             {
                 r.Kama = (decimal?)q.Value;
             }

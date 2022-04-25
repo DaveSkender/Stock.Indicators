@@ -23,23 +23,22 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BaseQuote q = bdList[i];
-            int index = i + 1;
 
             UlcerIndexResult result = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double? sumSquared = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BaseQuote d = bdList[p];
                     int dIndex = p + 1;
 
                     double maxClose = 0;
-                    for (int s = index - lookbackPeriods; s < dIndex; s++)
+                    for (int s = i + 1 - lookbackPeriods; s < dIndex; s++)
                     {
                         BaseQuote dd = bdList[s];
                         if (dd.Value > maxClose)

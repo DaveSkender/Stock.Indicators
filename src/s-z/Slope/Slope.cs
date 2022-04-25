@@ -25,7 +25,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             BaseQuote q = bdList[i];
-            int index = i + 1;
 
             SlopeResult r = new()
             {
@@ -35,7 +34,7 @@ public static partial class Indicator
             results.Add(r);
 
             // skip initialization period
-            if (index < lookbackPeriods)
+            if (i + 1 < lookbackPeriods)
             {
                 continue;
             }
@@ -44,7 +43,7 @@ public static partial class Indicator
             double sumX = 0;
             double sumY = 0;
 
-            for (int p = index - lookbackPeriods; p < index; p++)
+            for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 BaseQuote d = bdList[p];
 
@@ -60,7 +59,7 @@ public static partial class Indicator
             double sumSqY = 0;
             double sumSqXY = 0;
 
-            for (int p = index - lookbackPeriods; p < index; p++)
+            for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 BaseQuote d = bdList[p];
 

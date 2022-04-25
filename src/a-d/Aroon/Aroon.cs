@@ -23,7 +23,6 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             AroonResult result = new()
             {
@@ -31,14 +30,14 @@ public static partial class Indicator
             };
 
             // add aroons
-            if (index > lookbackPeriods)
+            if (i + 1 > lookbackPeriods)
             {
                 double lastHighPrice = 0;
                 double lastLowPrice = double.MaxValue;
                 int lastHighIndex = 0;
                 int lastLowIndex = 0;
 
-                for (int p = index - lookbackPeriods - 1; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods - 1; p <= i; p++)
                 {
                     QuoteD d = quotesList[p];
 
@@ -55,8 +54,8 @@ public static partial class Indicator
                     }
                 }
 
-                result.AroonUp = 100 * (decimal)(lookbackPeriods - (index - lastHighIndex)) / lookbackPeriods;
-                result.AroonDown = 100 * (decimal)(lookbackPeriods - (index - lastLowIndex)) / lookbackPeriods;
+                result.AroonUp = 100 * (decimal)(lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
+                result.AroonDown = 100 * (decimal)(lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
                 result.Oscillator = result.AroonUp - result.AroonDown;
             }
 
