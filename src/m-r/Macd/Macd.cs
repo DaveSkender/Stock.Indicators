@@ -10,7 +10,7 @@ public static partial class Indicator
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9,
-        CandlePart candlePart = CandlePart.OHLC4)
+        CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote
     {
         // convert quotes
