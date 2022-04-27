@@ -9,11 +9,12 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int fastPeriods = 12,
         int slowPeriods = 26,
-        int signalPeriods = 9)
+        int signalPeriods = 9,
+        CandlePart candlePart = CandlePart.OHLC4)
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BaseQuote> bdList = quotes.ToBaseQuote(candlePart);
 
         // check parameter arguments
         ValidateMacd(fastPeriods, slowPeriods, signalPeriods);
