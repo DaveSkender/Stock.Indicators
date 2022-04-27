@@ -13,9 +13,13 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 ![image]({{site.baseurl}}/assets/charts/Macd.png)
 
 ```csharp
-// usage
+// usage (with Close price)
 IEnumerable<MacdResult> results =
   quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
+
+// alternate
+IEnumerable<MacdResult> results =
+  quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods, candlePart);
 ```
 
 ## Parameters
