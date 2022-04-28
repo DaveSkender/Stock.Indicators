@@ -44,7 +44,7 @@ IEnumerable<BaseQuote>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Value` | double | Transformed quote price
+| `Value` | double | Price of `CandlePart` option
 
 ### Utilities
 
