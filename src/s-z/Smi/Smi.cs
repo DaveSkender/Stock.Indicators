@@ -87,7 +87,7 @@ public static partial class Indicator
                 double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
                 double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
 
-                // stochastic momentum i + 1
+                // stochastic momentum index
                 double smi = 100 * (smEma2 / (0.5 * hlEma2));
                 r.Smi = (decimal)smi;
 

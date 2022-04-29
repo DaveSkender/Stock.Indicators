@@ -61,7 +61,7 @@ public static partial class Indicator
             a[i] = Math.Abs(c[i]);
 
             // smoothing
-            if (i + 1 > lookbackPeriods + 1)
+            if (i > lookbackPeriods)
             {
                 // first smoothing
                 cs1[i] = ((c[i] - cs1[i - 1]) * mult1) + cs1[i - 1];
@@ -78,7 +78,7 @@ public static partial class Indicator
                     // signal line
                     if (signalPeriods > 0)
                     {
-                        if (i + 1 >= lookbackPeriods + smoothPeriods + signalPeriods)
+                        if (i >= lookbackPeriods + smoothPeriods + signalPeriods - 1)
                         {
                             r.Signal = ((r.Tsi - results[i - 1].Signal) * multS)
                                      + results[i - 1].Signal;
@@ -89,7 +89,7 @@ public static partial class Indicator
                         {
                             sumS += r.Tsi;
 
-                            if (i + 1 == lookbackPeriods + smoothPeriods + signalPeriods - 1)
+                            if (i == lookbackPeriods + smoothPeriods + signalPeriods - 2)
                             {
                                 r.Signal = sumS / signalPeriods;
                             }
@@ -122,7 +122,7 @@ public static partial class Indicator
                 sumA += a[i];
 
                 // initialize first smoothing
-                if (i + 1 == lookbackPeriods + 1)
+                if (i == lookbackPeriods)
                 {
                     cs1[i] = sumC / lookbackPeriods;
                     as1[i] = sumA / lookbackPeriods;

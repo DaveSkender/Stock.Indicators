@@ -29,7 +29,7 @@ public static partial class Indicator
                 Date = f.Date
             };
 
-            if (i + 1 >= (2 * windowSpan) + 1)
+            if (i >= 2 * windowSpan)
             {
                 FractalResult fp = fractals[i - windowSpan];
 

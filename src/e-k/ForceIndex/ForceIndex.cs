@@ -45,7 +45,7 @@ public static partial class Indicator
             prevClose = q.Close;
 
             // calculate EMA
-            if (i + 1 > lookbackPeriods + 1)
+            if (i > lookbackPeriods)
             {
                 r.ForceIndex = prevFI + (k * (rawFI - prevFI));
             }
@@ -56,7 +56,7 @@ public static partial class Indicator
                 sumRawFI += rawFI;
 
                 // first EMA value
-                if (i + 1 == lookbackPeriods + 1)
+                if (i == lookbackPeriods)
                 {
                     r.ForceIndex = sumRawFI / lookbackPeriods;
                 }

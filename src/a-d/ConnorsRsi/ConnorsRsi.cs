@@ -118,7 +118,7 @@ public static partial class Indicator
             if (i + 1 > rankPeriods)
             {
                 int qty = 0;
-                for (int p = i + 1 - rankPeriods - 1; p <= i; p++)
+                for (int p = i - rankPeriods; p <= i; p++)
                 {
                     if (gain[p] < gain[i])
                     {

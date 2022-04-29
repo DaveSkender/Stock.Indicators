@@ -50,7 +50,7 @@ public static partial class Indicator
 
             if (i + 1 >= rsiPeriods + stochPeriods)
             {
-                StochResult sto = stoResults[i + 1 - rsiPeriods - 1];
+                StochResult sto = stoResults[i - rsiPeriods];
 
                 result.StochRsi = sto.Oscillator;
                 result.Signal = sto.Signal;

@@ -20,7 +20,7 @@ public class Alligator : TestBase
         Assert.AreEqual(490, results.Where(x => x.Teeth != null).Count());
         Assert.AreEqual(495, results.Where(x => x.Lips != null).Count());
 
-        // starting calculations at proper i + 1
+        // starting calculations at proper index
         Assert.IsNull(results[19].Jaw);
         Assert.IsNotNull(results[20].Jaw);
 

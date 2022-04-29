@@ -32,7 +32,7 @@ public static partial class Indicator
 
             if (i + 1 > lookbackPeriods)
             {
-                BaseQuote back = bdList[i + 1 - lookbackPeriods - 1];
+                BaseQuote back = bdList[i - lookbackPeriods];
 
                 result.Roc = (back.Value == 0) ? null
                     : 100d * (q.Value - back.Value) / back.Value;

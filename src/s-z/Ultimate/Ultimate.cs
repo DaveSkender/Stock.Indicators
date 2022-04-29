@@ -43,7 +43,7 @@ public static partial class Indicator
                 tr[i] = Math.Max(q.High, priorClose) - Math.Min(q.Low, priorClose);
             }
 
-            if (i + 1 >= longPeriods + 1)
+            if (i >= longPeriods)
             {
                 double sumBP1 = 0;
                 double sumBP2 = 0;

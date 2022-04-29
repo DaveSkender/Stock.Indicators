@@ -60,7 +60,7 @@ public static partial class Indicator
             prevTP = tp[i];
         }
 
-        // add money flow i + 1
+        // add money flow index
         for (int i = lookbackPeriods; i < results.Count; i++)
         {
             MfiResult r = results[i];

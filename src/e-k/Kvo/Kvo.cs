@@ -77,11 +77,11 @@ public static partial class Indicator
                 : vf[i - 1];
 
             // fast-period EMA of VF
-            if (i + 1 > fastPeriods + 2)
+            if (i > fastPeriods + 1)
             {
                 vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
             }
-            else if (i + 1 == fastPeriods + 2)
+            else if (i == fastPeriods + 1)
             {
                 double? sum = 0;
                 for (int p = 2; p <= i; p++)
@@ -93,11 +93,11 @@ public static partial class Indicator
             }
 
             // slow-period EMA of VF
-            if (i + 1 > slowPeriods + 2)
+            if (i > slowPeriods + 1)
             {
                 vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
-            else if (i + 1 == slowPeriods + 2)
+            else if (i == slowPeriods + 1)
             {
                 double? sum = 0;
                 for (int p = 2; p <= i; p++)
@@ -109,17 +109,17 @@ public static partial class Indicator
             }
 
             // Klinger Oscillator
-            if (i + 1 >= slowPeriods + 2)
+            if (i >= slowPeriods + 1)
             {
                 r.Oscillator = vfFastEma[i] - vfSlowEma[i];
 
                 // Signal
-                if (i + 1 > slowPeriods + signalPeriods + 1)
+                if (i > slowPeriods + signalPeriods)
                 {
                     r.Signal = (r.Oscillator * kSignal)
                         + (results[i - 1].Signal * (1 - kSignal));
                 }
-                else if (i + 1 == slowPeriods + signalPeriods + 1)
+                else if (i == slowPeriods + signalPeriods)
                 {
                     double? sum = 0;
                     for (int p = slowPeriods + 1; p <= i; p++)

@@ -65,7 +65,7 @@ public static partial class Indicator
             results.Add(result);
 
             // optional SMA
-            if (smaPeriods != null && i + 1 >= lookbackPeriods + smaPeriods - 1)
+            if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 2)
             {
                 double sumSma = 0;
                 for (int p = i + 1 - (int)smaPeriods; p <= i; p++)

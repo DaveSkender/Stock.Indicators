@@ -59,7 +59,7 @@ public static partial class Indicator
             lastValue = h.Value;
 
             // calculate RSI
-            if (i + 1 > lookbackPeriods + 1)
+            if (i > lookbackPeriods)
             {
                 avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
                 avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
@@ -76,7 +76,7 @@ public static partial class Indicator
             }
 
             // initialize average gain
-            else if (i + 1 == lookbackPeriods + 1)
+            else if (i == lookbackPeriods)
             {
                 double sumGain = 0;
                 double sumLoss = 0;
