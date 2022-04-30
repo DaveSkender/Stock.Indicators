@@ -7,7 +7,7 @@ public static partial class Indicator
     ///
     public static IEnumerable<CandleResult> GetDoji<TQuote>(
         this IEnumerable<TQuote> quotes,
-        double maxPriceChangePercent = 0.001)
+        double maxPriceChangePercent = 0.1)
         where TQuote : IQuote
     {
         // check parameter arguments
@@ -15,6 +15,7 @@ public static partial class Indicator
 
         // initialize
         List<CandleResult> results = quotes.ToCandleResults();
+        maxPriceChangePercent /= 100;
         int length = results.Count;
 
         // roll through candles
@@ -41,10 +42,10 @@ public static partial class Indicator
         double maxPriceChangePercent)
     {
         // check parameter arguments
-        if (maxPriceChangePercent is < 0 or > 0.005)
+        if (maxPriceChangePercent is < 0 or > 0.5)
         {
             throw new ArgumentOutOfRangeException(nameof(maxPriceChangePercent), maxPriceChangePercent,
-                "Maximum Percent Change must be between 0 and 0.005 for Doji (0% to 0.5%).");
+                "Maximum Percent Change must be between 0 and 0.5 for Doji (0% to 0.5%).");
         }
     }
 }

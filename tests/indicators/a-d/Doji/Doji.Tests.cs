@@ -9,7 +9,7 @@ public class Doji : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CandleResult> results = quotes.GetDoji(0.001).ToList();
+        List<CandleResult> results = quotes.GetDoji(0.1).ToList();
 
         // assertions
 
@@ -64,7 +64,7 @@ public class Doji : TestBase
     public void Condense()
     {
         IEnumerable<CandleResult> r =
-            quotes.GetDoji(0.001).Condense();
+            quotes.GetDoji(0.1).Condense();
 
         Assert.AreEqual(112, r.Count());
     }
@@ -77,6 +77,6 @@ public class Doji : TestBase
             Indicator.GetDoji(quotes, -0.00001));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetDoji(quotes, 0.0050001));
+            Indicator.GetDoji(quotes, 0.50001));
     }
 }
