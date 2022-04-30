@@ -11,7 +11,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
-  <param name="minBodyPercent">Optional.  Minimum candle body size as decimalized percentage.</param>
+  <param name="minBodyPercent">Optional.  Minimum candle body size as percentage.</param>
   <returns>Time series of Marubozu values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </indicator>

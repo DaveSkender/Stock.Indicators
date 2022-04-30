@@ -9,7 +9,7 @@ public class Marubozu : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CandleResult> results = quotes.GetMarubozu(0.95).ToList();
+        List<CandleResult> results = quotes.GetMarubozu(95).ToList();
 
         // assertions
 
@@ -64,7 +64,7 @@ public class Marubozu : TestBase
     public void Condense()
     {
         IEnumerable<CandleResult> r =
-            quotes.GetMarubozu(0.95).Condense();
+            quotes.GetMarubozu(95).Condense();
 
         Assert.AreEqual(6, r.Count());
     }
@@ -74,9 +74,9 @@ public class Marubozu : TestBase
     {
         // bad minimum body percent values
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMarubozu(quotes, 0.799));
+            Indicator.GetMarubozu(quotes, 79.9));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMarubozu(quotes, 1.001));
+            Indicator.GetMarubozu(quotes, 100.1));
     }
 }

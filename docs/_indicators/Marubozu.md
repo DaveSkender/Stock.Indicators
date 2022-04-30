@@ -22,7 +22,7 @@ IEnumerable<CandleResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `minBodyPercent` | double | Optional.  Minimum body size as a decimalized percent of total candle size.  Must be between 0.8 and 1, if specified.  Default is 0.95 (95%).
+| `minBodyPercent` | double | Optional.  Minimum body size as a percent of total candle size.  Example: 85% would be entered as 85 (not 0.85).  Must be between 80 and 100, if specified.  Default is 95 (95%).
 
 ### Historical quotes requirements
 

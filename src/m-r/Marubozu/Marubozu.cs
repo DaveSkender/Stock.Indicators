@@ -7,7 +7,7 @@ public static partial class Indicator
     ///
     public static IEnumerable<CandleResult> GetMarubozu<TQuote>(
         this IEnumerable<TQuote> quotes,
-        double minBodyPercent = 0.95)
+        double minBodyPercent = 95)
         where TQuote : IQuote
     {
         // check parameter arguments
@@ -15,6 +15,7 @@ public static partial class Indicator
 
         // initialize
         List<CandleResult> results = quotes.ToCandleResults();
+        minBodyPercent /= 100;
         int length = results.Count;
 
         // roll through candles
@@ -38,16 +39,16 @@ public static partial class Indicator
         double minBodyPercent)
     {
         // check parameter arguments
-        if (minBodyPercent > 1)
+        if (minBodyPercent > 100)
         {
             throw new ArgumentOutOfRangeException(nameof(minBodyPercent), minBodyPercent,
-                "Minimum Body Percent must be less than 1 for Marubozu (<=100%).");
+                "Minimum Body Percent must be less than 100 for Marubozu (<=100%).");
         }
 
-        if (minBodyPercent < 0.8)
+        if (minBodyPercent < 80)
         {
             throw new ArgumentOutOfRangeException(nameof(minBodyPercent), minBodyPercent,
-                "Minimum Body Percent must at least 0.8 (80%) for Marubozu and is usually greater than 0.9 (90%).");
+                "Minimum Body Percent must at least 80 (80%) for Marubozu and is usually greater than 90 (90%).");
         }
     }
 }

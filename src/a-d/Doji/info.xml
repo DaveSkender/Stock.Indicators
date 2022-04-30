@@ -11,7 +11,7 @@
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
-  <param name="maxPriceChangePercent">Optional.  Maximum absolute decimalized percent difference in open and close price.</param>
+  <param name="maxPriceChangePercent">Optional.  Maximum absolute percent difference in open and close price.</param>
   <returns>Time series of Doji values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </indicator>
