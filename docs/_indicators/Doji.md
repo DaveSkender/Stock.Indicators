@@ -1,5 +1,5 @@
 ---
-title: Doji (Preview)
+title: Doji
 permalink: /indicators/Doji/
 layout: indicator
 type: candlestick-pattern

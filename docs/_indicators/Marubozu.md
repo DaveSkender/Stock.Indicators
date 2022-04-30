@@ -1,5 +1,5 @@
 ---
-title: Marubozu (Preview)
+title: Marubozu
 permalink: /indicators/Marubozu/
 layout: indicator
 type: candlestick-pattern
