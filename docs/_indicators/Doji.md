@@ -1,5 +1,5 @@
 ---
-title: Doji (Preview)
+title: Doji
 permalink: /indicators/Doji/
 layout: indicator
 type: candlestick-pattern
@@ -22,7 +22,7 @@ IEnumerable<CandleResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `maxPriceChangePercent` | double | Optional.  Maximum absolute decimalized percent difference in open and close price.  Must be between 0 and 0.005, if specified.  Default is 0.001 (0.1%).
+| `maxPriceChangePercent` | double | Optional.  Maximum absolute percent difference in open and close price.  Example: 0.3% would be entered as 0.3 (not 0.003).  Must be between 0 and 0.5 percent, if specified.  Default is 0.1 (0.1%).
 
 ### Historical quotes requirements
 
@@ -39,8 +39,8 @@ IEnumerable<CandleResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The candlestick pattern is indicated on dates where `Signal` is `Signal.Neutral`.
-- `Price` is `Close` price; however, all OHLC elements are included in the `Candle` properties.
+- The candlestick pattern is indicated on dates where `Match` is `Match.Neutral`.
+- `Price` is `Close` price; however, all OHLC elements are included in `CandleProperties`.
 - There is no intrinsic basis or confirmation signal provided for this pattern.
 
 {% include candle-result.md %}
