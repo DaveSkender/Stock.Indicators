@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> quotesList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> quotesList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateStc(cyclePeriods, fastPeriods, slowPeriods);
@@ -40,7 +40,7 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            BaseQuote q = quotesList[i];
+            BasicData q = quotesList[i];
             results.Add(new StcResult() { Date = q.Date });
         }
 

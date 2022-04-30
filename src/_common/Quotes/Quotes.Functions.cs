@@ -1,5 +1,4 @@
 using System.Globalization;
-using Skender.Stock.Indicators;
 
 namespace Skender.Stock.Indicators;
 
@@ -15,7 +14,7 @@ public static partial class HistoricalQuotes
     public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        // we cannot rely on date consistency when looking back, so we add an index and sort
+        // we cannot rely on date consistency when looking back, so we force sort
 
         List<TQuote> quotesList = quotes.SortToList();
 

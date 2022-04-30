@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // calculate
         return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
@@ -21,7 +21,7 @@ public static partial class Indicator
 
     // internals
     private static List<StdDevResult> CalcStdDev(
-        List<BaseQuote> bdList, int lookbackPeriods, int? smaPeriods = null)
+        List<BasicData> bdList, int lookbackPeriods, int? smaPeriods = null)
     {
         // check parameter arguments
         ValidateStdDev(lookbackPeriods, smaPeriods);
@@ -32,23 +32,22 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            BaseQuote bd = bdList[i];
-            int index = i + 1;
+            BasicData bd = bdList[i];
 
             StdDevResult result = new()
             {
                 Date = bd.Date,
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double[] periodValues = new double[lookbackPeriods];
                 double sum = 0;
                 int n = 0;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BaseQuote d = bdList[p];
+                    BasicData d = bdList[p];
                     periodValues[n] = d.Value;
                     sum += d.Value;
                     n++;
@@ -66,10 +65,10 @@ public static partial class Indicator
             results.Add(result);
 
             // optional SMA
-            if (smaPeriods != null && index >= lookbackPeriods + smaPeriods - 1)
+            if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 2)
             {
                 double sumSma = 0;
-                for (int p = index - (int)smaPeriods; p < index; p++)
+                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
                 {
                     sumSma += (double)results[p].StdDev;
                 }

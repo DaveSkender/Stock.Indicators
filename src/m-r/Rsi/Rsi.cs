@@ -12,14 +12,14 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // calculate
         return CalcRsi(bdList, lookbackPeriods);
     }
 
     // internals
-    private static List<RsiResult> CalcRsi(List<BaseQuote> bdList, int lookbackPeriods)
+    private static List<RsiResult> CalcRsi(List<BasicData> bdList, int lookbackPeriods)
     {
         // check parameter arguments
         ValidateRsi(lookbackPeriods);
@@ -46,8 +46,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            BaseQuote h = bdList[i];
-            int index = i + 1;
+            BasicData h = bdList[i];
 
             RsiResult r = new()
             {
@@ -60,7 +59,7 @@ public static partial class Indicator
             lastValue = h.Value;
 
             // calculate RSI
-            if (index > lookbackPeriods + 1)
+            if (i > lookbackPeriods)
             {
                 avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
                 avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
@@ -77,7 +76,7 @@ public static partial class Indicator
             }
 
             // initialize average gain
-            else if (index == lookbackPeriods + 1)
+            else if (i == lookbackPeriods)
             {
                 double sumGain = 0;
                 double sumLoss = 0;

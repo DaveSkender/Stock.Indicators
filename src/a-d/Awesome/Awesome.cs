@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.HL2);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.HL2);
 
         // check parameter arguments
         ValidateAwesome(fastPeriods, slowPeriods);
@@ -25,25 +25,24 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BaseQuote q = bdList[i];
+            BasicData q = bdList[i];
             pr[i] = q.Value;
-            int index = i + 1;
 
             AwesomeResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index >= slowPeriods)
+            if (i + 1 >= slowPeriods)
             {
                 double sumSlow = 0;
                 double sumFast = 0;
 
-                for (int p = index - slowPeriods; p < index; p++)
+                for (int p = i + 1 - slowPeriods; p <= i; p++)
                 {
                     sumSlow += pr[p];
 
-                    if (p >= index - fastPeriods)
+                    if (p >= i + 1 - fastPeriods)
                     {
                         sumFast += pr[p];
                     }

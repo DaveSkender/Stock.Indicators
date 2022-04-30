@@ -47,19 +47,18 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             StochResult result = new()
             {
                 Date = q.Date
             };
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double? highHigh = double.MinValue;
                 double? lowLow = double.MaxValue;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     QuoteD x = quotesList[p];
 
@@ -102,7 +101,6 @@ public static partial class Indicator
         for (int i = lookbackPeriods - 1; i < length; i++)
         {
             StochResult r = results[i];
-            int index = i + 1;
 
             // add signal
 
@@ -112,10 +110,10 @@ public static partial class Indicator
             }
 
             // SMA case
-            else if (index >= signalIndex && movingAverageType is MaType.SMA)
+            else if (i + 1 >= signalIndex && movingAverageType is MaType.SMA)
             {
                 double? sumOsc = 0;
-                for (int p = index - signalPeriods; p < index; p++)
+                for (int p = i + 1 - signalPeriods; p <= i; p++)
                 {
                     StochResult x = results[p];
                     sumOsc += (double?)x.Oscillator;
@@ -157,10 +155,8 @@ public static partial class Indicator
 
             for (int i = smoothIndex; i < length; i++)
             {
-                int index = i + 1;
-
                 double? sumOsc = 0;
-                for (int p = index - smoothPeriods; p < index; p++)
+                for (int p = i + 1 - smoothPeriods; p <= i; p++)
                 {
                     sumOsc += (double?)results[p].Oscillator;
                 }

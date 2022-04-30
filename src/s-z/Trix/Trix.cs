@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateTrix(lookbackPeriods);
@@ -24,16 +24,16 @@ public static partial class Indicator
 
         List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriods);
 
-        List<BaseQuote> bd2 = emaN1
+        List<BasicData> bd2 = emaN1
             .Where(x => x.Ema != null)
-            .Select(x => new BaseQuote { Date = x.Date, Value = (double)x.Ema })
+            .Select(x => new BasicData { Date = x.Date, Value = (double)x.Ema })
             .ToList();
 
         List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
 
-        List<BaseQuote> bd3 = emaN2
+        List<BasicData> bd3 = emaN2
             .Where(x => x.Ema != null)
-            .Select(x => new BaseQuote { Date = x.Date, Value = (double)x.Ema })
+            .Select(x => new BasicData { Date = x.Date, Value = (double)x.Ema })
             .ToList();
 
         List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods);

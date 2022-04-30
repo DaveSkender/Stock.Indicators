@@ -64,12 +64,11 @@ public static partial class Indicator
         for (int i = lookbackPeriods; i < results.Count; i++)
         {
             MfiResult r = results[i];
-            int index = i + 1;
 
             double sumPosMFs = 0;
             double sumNegMFs = 0;
 
-            for (int p = index - lookbackPeriods; p < index; p++)
+            for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 if (direction[p] == 1)
                 {

@@ -28,14 +28,13 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             TQuote q = quotesList[i];
-            int index = i + 1;
 
             AtrResult result = new()
             {
                 Date = q.Date
             };
 
-            if (index > 1)
+            if (i > 0)
             {
                 highMinusPrevClose = Math.Abs(q.High - prevClose);
                 lowMinusPrevClose = Math.Abs(q.Low - prevClose);
@@ -44,14 +43,14 @@ public static partial class Indicator
             decimal tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
             result.Tr = tr;
 
-            if (index > lookbackPeriods)
+            if (i + 1 > lookbackPeriods)
             {
                 // calculate ATR
                 result.Atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
                 result.Atrp = (q.Close == 0) ? null : result.Atr / q.Close * 100;
                 prevAtr = (decimal)result.Atr;
             }
-            else if (index == lookbackPeriods)
+            else if (i + 1 == lookbackPeriods)
             {
                 // initialize ATR
                 sumTr += tr;

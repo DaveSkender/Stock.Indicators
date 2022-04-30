@@ -26,7 +26,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
             tp[i] = (q.High + q.Low + q.Close) / 3d;
 
             CciResult result = new()
@@ -35,11 +34,11 @@ public static partial class Indicator
             };
             results.Add(result);
 
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 // average TP over lookback
                 double avgTp = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     avgTp += tp[p];
                 }
@@ -48,7 +47,7 @@ public static partial class Indicator
 
                 // average Deviation over lookback
                 double avgDv = 0;
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     avgDv += Math.Abs(avgTp - tp[p]);
                 }

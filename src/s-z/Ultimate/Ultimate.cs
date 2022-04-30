@@ -30,7 +30,6 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             UltimateResult r = new()
             {
@@ -44,7 +43,7 @@ public static partial class Indicator
                 tr[i] = Math.Max(q.High, priorClose) - Math.Min(q.Low, priorClose);
             }
 
-            if (index >= longPeriods + 1)
+            if (i >= longPeriods)
             {
                 double sumBP1 = 0;
                 double sumBP2 = 0;
@@ -54,19 +53,19 @@ public static partial class Indicator
                 double sumTR2 = 0;
                 double sumTR3 = 0;
 
-                for (int p = index - longPeriods; p < index; p++)
+                for (int p = i + 1 - longPeriods; p <= i; p++)
                 {
                     int pIndex = p + 1;
 
                     // short aggregate
-                    if (pIndex > index - shortPeriods)
+                    if (pIndex > i + 1 - shortPeriods)
                     {
                         sumBP1 += bp[p];
                         sumTR1 += tr[p];
                     }
 
                     // middle aggregate
-                    if (pIndex > index - middlePeriods)
+                    if (pIndex > i + 1 - middlePeriods)
                     {
                         sumBP2 += bp[p];
                         sumTR2 += tr[p];

@@ -26,7 +26,6 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             ChandelierResult result = new()
             {
@@ -34,7 +33,7 @@ public static partial class Indicator
             };
 
             // add exit values
-            if (index >= lookbackPeriods)
+            if (i + 1 >= lookbackPeriods)
             {
                 double? atr = (double?)atrResult[i].Atr;
 
@@ -43,7 +42,7 @@ public static partial class Indicator
                     case ChandelierType.Long:
 
                         double maxHigh = 0;
-                        for (int p = index - lookbackPeriods; p < index; p++)
+                        for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
                             QuoteD d = quotesList[p];
                             if (d.High > maxHigh)
@@ -58,7 +57,7 @@ public static partial class Indicator
                     case ChandelierType.Short:
 
                         double minLow = double.MaxValue;
-                        for (int p = index - lookbackPeriods; p < index; p++)
+                        for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
                             QuoteD d = quotesList[p];
                             if (d.Low < minLow)
