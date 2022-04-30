@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // calculate
         return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
@@ -21,7 +21,7 @@ public static partial class Indicator
 
     // internals
     private static List<StdDevResult> CalcStdDev(
-        List<BaseQuote> bdList, int lookbackPeriods, int? smaPeriods = null)
+        List<BasicData> bdList, int lookbackPeriods, int? smaPeriods = null)
     {
         // check parameter arguments
         ValidateStdDev(lookbackPeriods, smaPeriods);
@@ -32,7 +32,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            BaseQuote bd = bdList[i];
+            BasicData bd = bdList[i];
 
             StdDevResult result = new()
             {
@@ -47,7 +47,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BaseQuote d = bdList[p];
+                    BasicData d = bdList[p];
                     periodValues[n] = d.Value;
                     sum += d.Value;
                     n++;

@@ -1,6 +1,6 @@
 ---
 title: Basic Quote Transforms
-permalink: /indicators/BaseQuote/
+permalink: /indicators/BasicQuote/
 type: price-transform
 layout: indicator
 ---
@@ -11,7 +11,7 @@ Returns a basic quote transform.
 
 ```csharp
 // usage
-IEnumerable<BaseQuote> results =
+IEnumerable<BasicData> results =
   quotes.GetBaseQuote(candlePart);
 ```
 
@@ -32,19 +32,19 @@ You must have at least 1 period of `quotes`.
 ## Response
 
 ```csharp
-IEnumerable<BaseQuote>
+IEnumerable<BasicData>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-### BaseQuote
+### BasicData
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Value` | double | Transformed quote price
+| `Value` | double | Price of `CandlePart` option
 
 ### Utilities
 
@@ -59,5 +59,5 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate HL2 price (average of high and low price)
-IEnumerable<BaseQuote> results = quotes.GetBaseQuote(CandlePart.HL2);
+IEnumerable<BasicData> results = quotes.GetBaseQuote(CandlePart.HL2);
 ```

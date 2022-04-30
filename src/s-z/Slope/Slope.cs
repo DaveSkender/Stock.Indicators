@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateSlope(lookbackPeriods);
@@ -24,7 +24,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BaseQuote q = bdList[i];
+            BasicData q = bdList[i];
 
             SlopeResult r = new()
             {
@@ -45,7 +45,7 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                BaseQuote d = bdList[p];
+                BasicData d = bdList[p];
 
                 sumX += p + 1d;
                 sumY += d.Value;
@@ -61,7 +61,7 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                BaseQuote d = bdList[p];
+                BasicData d = bdList[p];
 
                 double devX = p + 1d - avgX;
                 double devY = d.Value - avgY;

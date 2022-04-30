@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(candlePart);
+        List<BasicData> bdList = quotes.ToBasicData(candlePart);
 
         // check parameter arguments
         ValidateWma(lookbackPeriods);
@@ -24,7 +24,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            BaseQuote q = bdList[i];
+            BasicData q = bdList[i];
 
             WmaResult result = new()
             {
@@ -36,7 +36,7 @@ public static partial class Indicator
                 double wma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BaseQuote d = bdList[p];
+                    BasicData d = bdList[p];
                     wma += (double)d.Value * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
 

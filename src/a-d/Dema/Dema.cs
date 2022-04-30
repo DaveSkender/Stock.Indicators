@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateDema(lookbackPeriods);
@@ -37,7 +37,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BaseQuote q = bdList[i];
+            BasicData q = bdList[i];
 
             DemaResult result = new()
             {

@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateRoc(lookbackPeriods, smaPeriods);
@@ -23,7 +23,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < bdList.Count; i++)
         {
-            BaseQuote q = bdList[i];
+            BasicData q = bdList[i];
 
             RocResult result = new()
             {
@@ -32,7 +32,7 @@ public static partial class Indicator
 
             if (i + 1 > lookbackPeriods)
             {
-                BaseQuote back = bdList[i - lookbackPeriods];
+                BasicData back = bdList[i - lookbackPeriods];
 
                 result.Roc = (back.Value == 0) ? null
                     : 100d * (q.Value - back.Value) / back.Value;

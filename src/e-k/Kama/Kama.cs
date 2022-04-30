@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> quotesList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> quotesList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateKama(erPeriods, fastPeriods, slowPeriods);
@@ -26,7 +26,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
         {
-            BaseQuote q = quotesList[i];
+            BasicData q = quotesList[i];
 
             KamaResult r = new()
             {

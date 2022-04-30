@@ -41,7 +41,7 @@ public static partial class Indicator
         double maxPriceChangePercent)
     {
         // check parameter arguments
-        if (maxPriceChangePercent < 0 || maxPriceChangePercent > 0.005)
+        if (maxPriceChangePercent is < 0 or > 0.005)
         {
             throw new ArgumentOutOfRangeException(nameof(maxPriceChangePercent), maxPriceChangePercent,
                 "Maximum Percent Change must be between 0 and 0.005 for Doji (0% to 0.5%).");
