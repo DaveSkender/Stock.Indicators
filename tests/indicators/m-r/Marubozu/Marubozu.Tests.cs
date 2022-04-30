@@ -15,32 +15,32 @@ public class Marubozu : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(6, results.Where(x => x.Signal != Signal.None).Count());
+        Assert.AreEqual(6, results.Where(x => x.Match != Match.None).Count());
 
         // sample values
         CandleResult r31 = results[31];
         Assert.AreEqual(null, r31.Price);
-        Assert.AreEqual(0, (int)r31.Signal);
+        Assert.AreEqual(0, (int)r31.Match);
 
         CandleResult r32 = results[32];
         Assert.AreEqual(222.10m, r32.Price);
-        Assert.AreEqual(Signal.BullSignal, r32.Signal);
+        Assert.AreEqual(Match.BullSignal, r32.Match);
 
         CandleResult r33 = results[33];
         Assert.AreEqual(null, r33.Price);
-        Assert.AreEqual(Signal.None, r33.Signal);
+        Assert.AreEqual(Match.None, r33.Match);
 
         CandleResult r34 = results[34];
         Assert.AreEqual(null, r34.Price);
-        Assert.AreEqual(Signal.None, r34.Signal);
+        Assert.AreEqual(Match.None, r34.Match);
 
         CandleResult r274 = results[274];
         Assert.AreEqual(null, r274.Price);
-        Assert.AreEqual(Signal.None, r274.Signal);
+        Assert.AreEqual(Match.None, r274.Match);
 
         CandleResult r277 = results[277];
         Assert.AreEqual(248.13m, r277.Price);
-        Assert.AreEqual(Signal.BearSignal, r277.Signal);
+        Assert.AreEqual(Match.BearSignal, r277.Match);
     }
 
     [TestMethod]

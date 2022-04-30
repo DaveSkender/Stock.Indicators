@@ -6,7 +6,7 @@ public static class Candlesticks
         this IEnumerable<CandleResult> candleResults)
     {
         return candleResults
-            .Where(candle => candle.Signal != Signal.None)
+            .Where(candle => candle.Match != Match.None)
             .ToList();
     }
 
@@ -19,7 +19,7 @@ public static class Candlesticks
             .Select(x => new CandleResult
             {
                 Date = x.Date,
-                Signal = Signal.None,
+                Match = Match.None,
                 Candle = new CandleProperties
                 {
                     Date = x.Date,

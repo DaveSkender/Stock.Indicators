@@ -29,7 +29,7 @@ public static partial class Indicator
                 if (Math.Abs((double)(r.Candle.Close / r.Candle.Open) - 1d) <= maxPriceChangePercent)
                 {
                     r.Price = r.Candle.Close;
-                    r.Signal = Signal.Neutral;
+                    r.Match = Match.Neutral;
                 }
             }
         }

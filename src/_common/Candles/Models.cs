@@ -26,6 +26,6 @@ public class CandleProperties : Quote
 public class CandleResult : ResultBase
 {
     public decimal? Price { get; set; }
-    public Signal Signal { get; set; }
+    public Match Match { get; set; }
     public CandleProperties Candle { get; set; }
 }

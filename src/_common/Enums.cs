@@ -54,7 +54,7 @@ public enum PeriodSize
     OneMinute
 }
 
-public enum Signal
+public enum Match
 {
     BullConfirmed = 200,
     BullSignal = 100,

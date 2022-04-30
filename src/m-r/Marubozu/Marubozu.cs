@@ -27,7 +27,7 @@ public static partial class Indicator
             if (r.Candle.BodyPct >= minBodyPercent)
             {
                 r.Price = r.Candle.Close;
-                r.Signal = r.Candle.IsBullish ? Signal.BullSignal : Signal.BearSignal;
+                r.Match = r.Candle.IsBullish ? Match.BullSignal : Match.BearSignal;
             }
         }
 

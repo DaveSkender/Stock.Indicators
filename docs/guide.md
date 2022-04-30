@@ -250,20 +250,20 @@ IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
 
 {% include candle-result.md %}
 
-### Signal
+### Match
 
-When a candlestick pattern is recognized, it produces a signal.  In some cases, an intrinsic confirmation is also available.  In cases where previous bars were used to identify a pattern, they are indicates as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
+When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available.  In cases where previous bars were used to identify a pattern, they are indicates as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
 
 | type | int | description
 |-- |--: |--
-| `Signal.BullConfirmed` | 200 | Confirmation of a prior bull signal
-| `Signal.BullSignal` | 100 | Matching bullish pattern
-| `Signal.BullBasis` | 10 | Bars supporting a bullish signal
-| `Signal.Neutral` | 1 | Matching for non-directional patterns
-| `Signal.None` | 0 | No match
-| `Signal.BearBasis` | -10 | Bars supporting a bearish signal
-| `Signal.BearSignal` | -100 | Matching bearish pattern
-| `Signal.BearConfirmed` | -200 | Confirmation of a prior bear signal
+| `Match.BullConfirmed` | 200 | Confirmation of a prior bull signal
+| `Match.BullSignal` | 100 | Matching bullish pattern
+| `Match.BullBasis` | 10 | Bars supporting a bullish signal
+| `Match.Neutral` | 1 | Matching for non-directional patterns
+| `Match.None` | 0 | No match
+| `Match.BearBasis` | -10 | Bars supporting a bearish signal
+| `Match.BearSignal` | -100 | Matching bearish pattern
+| `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal
 
 ### Candle
 
