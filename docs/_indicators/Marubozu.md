@@ -1,5 +1,5 @@
 ---
-title: Marubozu (Preview)
+title: Marubozu
 permalink: /indicators/Marubozu/
 layout: indicator
 type: candlestick-pattern
@@ -22,7 +22,7 @@ IEnumerable<CandleResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `minBodyPercent` | double | Optional.  Minimum body size as a decimalized percent of total candle size.  Must be between 0.8 and 1, if specified.  Default is 0.95 (95%).
+| `minBodyPercent` | double | Optional.  Minimum body size as a percent of total candle size.  Example: 85% would be entered as 85 (not 0.85).  Must be between 80 and 100, if specified.  Default is 95 (95%).
 
 ### Historical quotes requirements
 
@@ -39,8 +39,8 @@ IEnumerable<CandleResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The candlestick pattern is indicated on dates where `Signal` is `Signal.BullSignal` or `Signal.BearSignal`.
-- `Price` is `Close` price; however, all OHLC elements are included in the `Candle` properties.
+- The candlestick pattern is indicated on dates where `Match` is `Match.BullSignal` or `Match.BearSignal`.
+- `Price` is `Close` price; however, all OHLC elements are included in `CandleProperties`.
 - There is no intrinsic basis or confirmation signal provided for this pattern.
 
 {% include candle-result.md %}
