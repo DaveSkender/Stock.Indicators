@@ -6,7 +6,7 @@
   type: oscillator
 - name: Stop and reverse
   type: stop-and-reverse
-- name: Candlestick patterns
+- name: Candlestick patterns (preview)
   type: candlestick-pattern
   subcategories:
   - name: Other price patterns
