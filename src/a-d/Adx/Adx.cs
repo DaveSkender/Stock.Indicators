@@ -37,7 +37,6 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             AdxResult result = new()
             {
@@ -46,7 +45,7 @@ public static partial class Indicator
             results.Add(result);
 
             // skip first period
-            if (index == 1)
+            if (i == 0)
             {
                 prevHigh = q.High;
                 prevLow = q.Low;
@@ -65,7 +64,7 @@ public static partial class Indicator
             prevLow = q.Low;
 
             // initialization period
-            if (index <= lookbackPeriods + 1)
+            if (i <= lookbackPeriods)
             {
                 sumTr += tr;
                 sumPdm += pdm1;
@@ -73,7 +72,7 @@ public static partial class Indicator
             }
 
             // skip DM initialization period
-            if (index <= lookbackPeriods)
+            if (i + 1 <= lookbackPeriods)
             {
                 continue;
             }
@@ -83,7 +82,7 @@ public static partial class Indicator
             double pdm;
             double mdm;
 
-            if (index == lookbackPeriods + 1)
+            if (i == lookbackPeriods)
             {
                 trs = sumTr;
                 pdm = sumPdm;
@@ -121,19 +120,19 @@ public static partial class Indicator
             double dx = 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
             double adx;
 
-            if (index > 2 * lookbackPeriods)
+            if (i + 1 > 2 * lookbackPeriods)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
                 result.Adx = adx;
 
-                double? priorAdx = results[index - lookbackPeriods].Adx;
+                double? priorAdx = results[i + 1 - lookbackPeriods].Adx;
 
                 result.Adxr = (adx + priorAdx) / 2;
                 prevAdx = adx;
             }
 
             // initial ADX
-            else if (index == 2 * lookbackPeriods)
+            else if (i + 1 == 2 * lookbackPeriods)
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;

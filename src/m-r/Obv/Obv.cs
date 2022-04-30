@@ -26,7 +26,6 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             if (prevClose == null || q.Close == prevClose)
             {
@@ -51,10 +50,10 @@ public static partial class Indicator
             prevClose = q.Close;
 
             // optional SMA
-            if (smaPeriods != null && index > smaPeriods)
+            if (smaPeriods != null && i + 1 > smaPeriods)
             {
                 double sumSma = 0;
-                for (int p = index - (int)smaPeriods; p < index; p++)
+                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
                 {
                     sumSma += results[p].Obv;
                 }

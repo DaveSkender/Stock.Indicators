@@ -50,9 +50,9 @@ public class HelperPerformance
     }
 
     [Benchmark]
-    public object ToBasicD()
+    public object ToBasicData()
     {
-        return h.ToBaseQuote();
+        return h.ToBasicData();
     }
 
     [Benchmark]

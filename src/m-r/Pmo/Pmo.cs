@@ -26,16 +26,15 @@ public static partial class Indicator
         for (int i = startIndex - 1; i < results.Count; i++)
         {
             PmoResult pr = results[i];
-            int index = i + 1;
 
-            if (index > startIndex)
+            if (i + 1 > startIndex)
             {
                 pr.Pmo = ((pr.RocEma - lastPmo) * smoothingConstant) + lastPmo;
             }
-            else if (index == startIndex)
+            else if (i + 1 == startIndex)
             {
                 double? sumRocEma = 0;
-                for (int p = index - smoothPeriods; p < index; p++)
+                for (int p = i + 1 - smoothPeriods; p <= i; p++)
                 {
                     PmoResult d = results[p];
                     sumRocEma += d.RocEma;
@@ -70,21 +69,20 @@ public static partial class Indicator
         for (int i = 0; i < roc.Count; i++)
         {
             RocResult r = roc[i];
-            int index = i + 1;
 
             PmoResult result = new()
             {
                 Date = r.Date
             };
 
-            if (index > startIndex)
+            if (i + 1 > startIndex)
             {
                 result.RocEma = (r.Roc * smoothingMultiplier) + (lastRocEma * (1 - smoothingMultiplier));
             }
-            else if (index == startIndex)
+            else if (i + 1 == startIndex)
             {
                 double? sumRoc = 0;
-                for (int p = index - timePeriods; p < index; p++)
+                for (int p = i + 1 - timePeriods; p <= i; p++)
                 {
                     RocResult d = roc[p];
                     sumRoc += d.Roc;
@@ -115,16 +113,15 @@ public static partial class Indicator
         for (int i = startIndex - 1; i < results.Count; i++)
         {
             PmoResult pr = results[i];
-            int index = i + 1;
 
-            if (index > startIndex)
+            if (i + 1 > startIndex)
             {
                 pr.Signal = ((pr.Pmo - lastSignal) * signalConstant) + lastSignal;
             }
-            else if (index == startIndex)
+            else if (i + 1 == startIndex)
             {
                 double? sumPmo = 0;
-                for (int p = index - signalPeriods; p < index; p++)
+                for (int p = i + 1 - signalPeriods; p <= i; p++)
                 {
                     PmoResult d = results[p];
                     sumPmo += d.Pmo;

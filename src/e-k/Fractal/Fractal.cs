@@ -37,14 +37,13 @@ public static partial class Indicator
         for (int i = 0; i < quotesList.Count; i++)
         {
             TQuote q = quotesList[i];
-            int index = i + 1;
 
             FractalResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index > leftSpan && index <= quotesList.Count - rightSpan)
+            if (i + 1 > leftSpan && i + 1 <= quotesList.Count - rightSpan)
             {
                 bool isHigh = true;
                 bool isLow = true;

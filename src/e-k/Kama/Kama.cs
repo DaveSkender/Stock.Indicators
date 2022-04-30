@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> quotesList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> quotesList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateKama(erPeriods, fastPeriods, slowPeriods);
@@ -26,15 +26,14 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
         {
-            BaseQuote q = quotesList[i];
-            int index = i + 1;
+            BasicData q = quotesList[i];
 
             KamaResult r = new()
             {
                 Date = q.Date
             };
 
-            if (index > erPeriods)
+            if (i + 1 > erPeriods)
             {
                 // ER period change
                 double change = Math.Abs(q.Value - quotesList[i - erPeriods].Value);
@@ -69,7 +68,7 @@ public static partial class Indicator
             }
 
             // initial value
-            else if (index == erPeriods)
+            else if (i + 1 == erPeriods)
             {
                 r.Kama = (decimal?)q.Value;
             }

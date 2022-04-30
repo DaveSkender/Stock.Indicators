@@ -32,7 +32,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             VortexResult result = new()
             {
@@ -40,7 +39,7 @@ public static partial class Indicator
             };
 
             // skip first period
-            if (index == 1)
+            if (i + 1 == 1)
             {
                 results.Add(result);
                 prevHigh = q.High;
@@ -62,13 +61,13 @@ public static partial class Indicator
             prevClose = q.Close;
 
             // vortex indicator
-            if (index > lookbackPeriods)
+            if (i + 1 > lookbackPeriods)
             {
                 double sumTr = 0;
                 double sumPvm = 0;
                 double sumNvm = 0;
 
-                for (int p = index - lookbackPeriods; p < index; p++)
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     sumTr += tr[p];
                     sumPvm += pvm[p];

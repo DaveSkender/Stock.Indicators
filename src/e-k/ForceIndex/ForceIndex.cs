@@ -26,7 +26,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = quotesList[i];
-            int index = i + 1;
 
             ForceIndexResult r = new()
             {
@@ -46,7 +45,7 @@ public static partial class Indicator
             prevClose = q.Close;
 
             // calculate EMA
-            if (index > lookbackPeriods + 1)
+            if (i > lookbackPeriods)
             {
                 r.ForceIndex = prevFI + (k * (rawFI - prevFI));
             }
@@ -57,7 +56,7 @@ public static partial class Indicator
                 sumRawFI += rawFI;
 
                 // first EMA value
-                if (index == lookbackPeriods + 1)
+                if (i == lookbackPeriods)
                 {
                     r.ForceIndex = sumRawFI / lookbackPeriods;
                 }

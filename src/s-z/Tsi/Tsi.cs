@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BaseQuote> bdList = quotes.ToBaseQuote(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
 
         // check parameter arguments
         ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
@@ -42,8 +42,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BaseQuote q = bdList[i];
-            int index = i + 1;
+            BasicData q = bdList[i];
 
             TsiResult r = new()
             {
@@ -62,14 +61,14 @@ public static partial class Indicator
             a[i] = Math.Abs(c[i]);
 
             // smoothing
-            if (index > lookbackPeriods + 1)
+            if (i > lookbackPeriods)
             {
                 // first smoothing
                 cs1[i] = ((c[i] - cs1[i - 1]) * mult1) + cs1[i - 1];
                 as1[i] = ((a[i] - as1[i - 1]) * mult1) + as1[i - 1];
 
                 // second smoothing
-                if (index > lookbackPeriods + smoothPeriods)
+                if (i + 1 > lookbackPeriods + smoothPeriods)
                 {
                     cs2[i] = ((cs1[i] - cs2[i - 1]) * mult2) + cs2[i - 1];
                     as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
@@ -79,7 +78,7 @@ public static partial class Indicator
                     // signal line
                     if (signalPeriods > 0)
                     {
-                        if (index >= lookbackPeriods + smoothPeriods + signalPeriods)
+                        if (i >= lookbackPeriods + smoothPeriods + signalPeriods - 1)
                         {
                             r.Signal = ((r.Tsi - results[i - 1].Signal) * multS)
                                      + results[i - 1].Signal;
@@ -90,7 +89,7 @@ public static partial class Indicator
                         {
                             sumS += r.Tsi;
 
-                            if (index == lookbackPeriods + smoothPeriods + signalPeriods - 1)
+                            if (i == lookbackPeriods + smoothPeriods + signalPeriods - 2)
                             {
                                 r.Signal = sumS / signalPeriods;
                             }
@@ -105,7 +104,7 @@ public static partial class Indicator
                     sumA1 += as1[i];
 
                     // inialize second smoothing
-                    if (index == lookbackPeriods + smoothPeriods)
+                    if (i + 1 == lookbackPeriods + smoothPeriods)
                     {
                         cs2[i] = sumC1 / smoothPeriods;
                         as2[i] = sumA1 / smoothPeriods;
@@ -123,7 +122,7 @@ public static partial class Indicator
                 sumA += a[i];
 
                 // initialize first smoothing
-                if (index == lookbackPeriods + 1)
+                if (i == lookbackPeriods)
                 {
                     cs1[i] = sumC / lookbackPeriods;
                     as1[i] = sumA / lookbackPeriods;
