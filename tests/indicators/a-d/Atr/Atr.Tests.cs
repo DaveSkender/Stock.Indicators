@@ -26,23 +26,23 @@ public class Atr : TestBase
 
         AtrResult r2 = results[13];
         Assert.AreEqual(1.45m, r2.Tr);
-        Assert.AreEqual(1.3371m, Math.Round((decimal)r2.Atr, 4));
-        Assert.AreEqual(0.6258m, Math.Round((decimal)r2.Atrp, 4));
+        Assert.AreEqual(1.3371m, NullMath.Round(r2.Atr, 4));
+        Assert.AreEqual(0.6258m, NullMath.Round(r2.Atrp, 4));
 
         AtrResult r3 = results[24];
         Assert.AreEqual(0.88m, r3.Tr);
-        Assert.AreEqual(1.3201m, Math.Round((decimal)r3.Atr, 4));
-        Assert.AreEqual(0.6104m, Math.Round((decimal)r3.Atrp, 4));
+        Assert.AreEqual(1.3201m, NullMath.Round(r3.Atr, 4));
+        Assert.AreEqual(0.6104m, NullMath.Round(r3.Atrp, 4));
 
         AtrResult r4 = results[249];
         Assert.AreEqual(0.58m, r4.Tr);
-        Assert.AreEqual(1.3381m, Math.Round((decimal)r4.Atr, 4));
-        Assert.AreEqual(0.5187m, Math.Round((decimal)r4.Atrp, 4));
+        Assert.AreEqual(1.3381m, NullMath.Round(r4.Atr, 4));
+        Assert.AreEqual(0.5187m, NullMath.Round(r4.Atrp, 4));
 
         AtrResult r5 = results[501];
         Assert.AreEqual(2.67m, r5.Tr);
-        Assert.AreEqual(6.1497m, Math.Round((decimal)r5.Atr, 4));
-        Assert.AreEqual(2.5072m, Math.Round((decimal)r5.Atrp, 4));
+        Assert.AreEqual(6.1497m, NullMath.Round(r5.Atr, 4));
+        Assert.AreEqual(2.5072m, NullMath.Round(r5.Atrp, 4));
     }
 
     [TestMethod]
@@ -74,8 +74,8 @@ public class Atr : TestBase
 
         AtrResult last = results.LastOrDefault();
         Assert.AreEqual(2.67m, last.Tr);
-        Assert.AreEqual(6.1497m, Math.Round((decimal)last.Atr, 4));
-        Assert.AreEqual(2.5072m, Math.Round((decimal)last.Atrp, 4));
+        Assert.AreEqual(6.1497m, NullMath.Round(last.Atr, 4));
+        Assert.AreEqual(2.5072m, NullMath.Round(last.Atrp, 4));
     }
 
     [TestMethod]

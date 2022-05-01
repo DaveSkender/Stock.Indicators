@@ -33,24 +33,24 @@ public class Pvo : TestBase
         Assert.AreEqual(null, r1.Histogram);
 
         PvoResult r2 = results[33];
-        Assert.AreEqual(1.5795m, Math.Round((decimal)r2.Pvo, 4));
-        Assert.AreEqual(-3.5530m, Math.Round((decimal)r2.Signal, 4));
-        Assert.AreEqual(5.1325m, Math.Round((decimal)r2.Histogram, 4));
+        Assert.AreEqual(1.5795m, NullMath.Round(r2.Pvo, 4));
+        Assert.AreEqual(-3.5530m, NullMath.Round(r2.Signal, 4));
+        Assert.AreEqual(5.1325m, NullMath.Round(r2.Histogram, 4));
 
         PvoResult r3 = results[149];
-        Assert.AreEqual(-7.1910m, Math.Round((decimal)r3.Pvo, 4));
-        Assert.AreEqual(-5.1159m, Math.Round((decimal)r3.Signal, 4));
-        Assert.AreEqual(-2.0751m, Math.Round((decimal)r3.Histogram, 4));
+        Assert.AreEqual(-7.1910m, NullMath.Round(r3.Pvo, 4));
+        Assert.AreEqual(-5.1159m, NullMath.Round(r3.Signal, 4));
+        Assert.AreEqual(-2.0751m, NullMath.Round(r3.Histogram, 4));
 
         PvoResult r4 = results[249];
-        Assert.AreEqual(-6.3667m, Math.Round((decimal)r4.Pvo, 4));
-        Assert.AreEqual(1.7333m, Math.Round((decimal)r4.Signal, 4));
-        Assert.AreEqual(-8.1000m, Math.Round((decimal)r4.Histogram, 4));
+        Assert.AreEqual(-6.3667m, NullMath.Round(r4.Pvo, 4));
+        Assert.AreEqual(1.7333m, NullMath.Round(r4.Signal, 4));
+        Assert.AreEqual(-8.1000m, NullMath.Round(r4.Histogram, 4));
 
         PvoResult r5 = results[501];
-        Assert.AreEqual(10.4395m, Math.Round((decimal)r5.Pvo, 4));
-        Assert.AreEqual(12.2681m, Math.Round((decimal)r5.Signal, 4));
-        Assert.AreEqual(-1.8286m, Math.Round((decimal)r5.Histogram, 4));
+        Assert.AreEqual(10.4395m, NullMath.Round(r5.Pvo, 4));
+        Assert.AreEqual(12.2681m, NullMath.Round(r5.Signal, 4));
+        Assert.AreEqual(-1.8286m, NullMath.Round(r5.Histogram, 4));
     }
 
     [TestMethod]
@@ -86,9 +86,9 @@ public class Pvo : TestBase
         Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
 
         PvoResult last = results.LastOrDefault();
-        Assert.AreEqual(10.4395m, Math.Round((decimal)last.Pvo, 4));
-        Assert.AreEqual(12.2681m, Math.Round((decimal)last.Signal, 4));
-        Assert.AreEqual(-1.8286m, Math.Round((decimal)last.Histogram, 4));
+        Assert.AreEqual(10.4395m, NullMath.Round(last.Pvo, 4));
+        Assert.AreEqual(12.2681m, NullMath.Round(last.Signal, 4));
+        Assert.AreEqual(-1.8286m, NullMath.Round(last.Histogram, 4));
     }
 
     [TestMethod]

@@ -52,7 +52,7 @@ public class Pivots : TestBase
         Assert.AreEqual(233.02m, r120.HighLine);
         Assert.AreEqual(null, r120.LowPoint);
         Assert.AreEqual(PivotTrend.LL, r120.LowTrend);
-        Assert.AreEqual(228.9671m, Math.Round((decimal)r120.LowLine, 4));
+        Assert.AreEqual(228.9671m, NullMath.Round(r120.LowLine, 4));
 
         PivotsResult r180 = results[180];
         Assert.AreEqual(239.74m, r180.HighPoint);
@@ -60,7 +60,7 @@ public class Pivots : TestBase
         Assert.AreEqual(239.74m, r180.HighLine);
         Assert.AreEqual(null, r180.LowPoint);
         Assert.AreEqual(PivotTrend.HL, r180.LowTrend);
-        Assert.AreEqual(236.7050m, Math.Round((decimal)r180.LowLine, 4));
+        Assert.AreEqual(236.7050m, NullMath.Round(r180.LowLine, 4));
 
         PivotsResult r250 = results[250];
         Assert.AreEqual(null, r250.HighPoint);
@@ -76,7 +76,7 @@ public class Pivots : TestBase
         Assert.AreEqual(274.14m, r472.HighLine);
         Assert.AreEqual(null, r472.LowPoint);
         Assert.AreEqual(PivotTrend.HL, r472.LowTrend);
-        Assert.AreEqual(255.8078m, Math.Round((decimal)r472.LowLine, 4));
+        Assert.AreEqual(255.8078m, NullMath.Round(r472.LowLine, 4));
 
         PivotsResult r497 = results[497];
         Assert.AreEqual(null, r497.HighPoint);

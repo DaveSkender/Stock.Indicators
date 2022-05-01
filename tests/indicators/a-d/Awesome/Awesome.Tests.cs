@@ -24,16 +24,16 @@ public class Awesome : TestBase
         Assert.AreEqual(null, r1.Normalized);
 
         AwesomeResult r2 = results[33];
-        Assert.AreEqual(5.4756, Math.Round((double)r2.Oscillator, 4));
-        Assert.AreEqual(2.4548, Math.Round((double)r2.Normalized, 4));
+        Assert.AreEqual(5.4756, NullMath.Round(r2.Oscillator, 4));
+        Assert.AreEqual(2.4548, NullMath.Round(r2.Normalized, 4));
 
         AwesomeResult r3 = results[249];
-        Assert.AreEqual(5.0618, Math.Round((double)r3.Oscillator, 4));
-        Assert.AreEqual(1.9634, Math.Round((double)r3.Normalized, 4));
+        Assert.AreEqual(5.0618, NullMath.Round(r3.Oscillator, 4));
+        Assert.AreEqual(1.9634, NullMath.Round(r3.Normalized, 4));
 
         AwesomeResult r4 = results[501];
-        Assert.AreEqual(-17.7692, Math.Round((double)r4.Oscillator, 4));
-        Assert.AreEqual(-7.2763, Math.Round((double)r4.Normalized, 4));
+        Assert.AreEqual(-17.7692, NullMath.Round(r4.Oscillator, 4));
+        Assert.AreEqual(-7.2763, NullMath.Round(r4.Normalized, 4));
     }
 
     [TestMethod]
@@ -64,8 +64,8 @@ public class Awesome : TestBase
         Assert.AreEqual(502 - 33, results.Count);
 
         AwesomeResult last = results.LastOrDefault();
-        Assert.AreEqual(-17.7692, Math.Round((double)last.Oscillator, 4));
-        Assert.AreEqual(-7.2763, Math.Round((double)last.Normalized, 4));
+        Assert.AreEqual(-17.7692, NullMath.Round(last.Oscillator, 4));
+        Assert.AreEqual(-7.2763, NullMath.Round(last.Normalized, 4));
     }
 
     [TestMethod]

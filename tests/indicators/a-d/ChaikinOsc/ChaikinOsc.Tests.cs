@@ -27,7 +27,7 @@ public class ChaikinOsc : TestBase
         Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
         Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
         Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
-        Assert.AreEqual(-19135200.72, Math.Round((double)r.Oscillator, 2));
+        Assert.AreEqual(-19135200.72, NullMath.Round(r.Oscillator, 2));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class ChaikinOsc : TestBase
         Assert.AreEqual(3439986548.42, Math.Round(last.Adl, 2));
         Assert.AreEqual(0.8052, Math.Round(last.MoneyFlowMultiplier, 4));
         Assert.AreEqual(118396116.25, Math.Round(last.MoneyFlowVolume, 2));
-        Assert.AreEqual(-19135200.72, Math.Round((double)last.Oscillator, 2));
+        Assert.AreEqual(-19135200.72, NullMath.Round(last.Oscillator, 2));
     }
 
     [TestMethod]

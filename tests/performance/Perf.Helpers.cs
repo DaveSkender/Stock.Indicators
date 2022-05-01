@@ -52,7 +52,7 @@ public class HelperPerformance
     [Benchmark]
     public object ToBasicData()
     {
-        return h.ToBasicData();
+        return h.ToBasicClass();
     }
 
     [Benchmark]

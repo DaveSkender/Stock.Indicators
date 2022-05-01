@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -14,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
 
         // check parameter arguments
         ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
@@ -26,7 +25,7 @@ public static partial class Indicator
         // RSI of streak
         List<BasicData> bdStreak = results
             .Where(x => x.Streak != null)
-            .Select(x => new BasicData { Date = x.Date, Value = (double)x.Streak })
+            .Select(x => new BasicData { Date = x.Date, Value = (double?)x.Streak })
             .ToList();
 
         List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);

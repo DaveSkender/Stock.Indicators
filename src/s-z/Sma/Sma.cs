@@ -15,7 +15,7 @@ public static partial class Indicator
         ValidateSma(lookbackPeriods);
 
         // initialize
-        List<BasicData> bdList = quotes.ToBasicData(candlePart);
+        List<BasicData> bdList = quotes.ToBasicClass(candlePart);
 
         // calculate
         return bdList.CalcSma(lookbackPeriods);
@@ -42,14 +42,14 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double sumSma = 0;
+                double? sumSma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BasicData d = bdList[p];
                     sumSma += d.Value;
                 }
 
-                result.Sma = (decimal)sumSma / lookbackPeriods;
+                result.Sma = (decimal?)sumSma / lookbackPeriods;
             }
 
             results.Add(result);

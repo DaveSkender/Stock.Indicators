@@ -13,8 +13,8 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdBaseList = historyBase.ToBasicData(CandlePart.Close);
-        List<BasicData> bdEvalList = historyEval.ToBasicData(CandlePart.Close);
+        List<BasicData> bdBaseList = historyBase.ToBasicClass(CandlePart.Close);
+        List<BasicData> bdEvalList = historyEval.ToBasicClass(CandlePart.Close);
 
         // check parameter arguments
         ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriods);
@@ -48,8 +48,8 @@ public static partial class Indicator
 
                 if (bo.Value != 0 && eo.Value != 0)
                 {
-                    double pctB = (bi.Value - bo.Value) / bo.Value;
-                    double pctE = (ei.Value - eo.Value) / eo.Value;
+                    double? pctB = (bi.Value - bo.Value) / bo.Value;
+                    double? pctE = (ei.Value - eo.Value) / eo.Value;
 
                     r.PrsPercent = pctE - pctB;
                 }

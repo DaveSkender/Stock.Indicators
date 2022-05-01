@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -42,7 +41,7 @@ public static partial class Indicator
             EmaResult f = adlEmaFast[i];
             EmaResult s = adlEmaSlow[i];
 
-            r.Oscillator = (double)(f.Ema - s.Ema);
+            r.Oscillator = (double?)(f.Ema - s.Ema);
         }
 
         return results;

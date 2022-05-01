@@ -50,8 +50,8 @@ public class Dpo : TestBase
             DpoResult a = act[i];
 
             Assert.AreEqual(e.Date, a.Date);
-            Assert.AreEqual(e.Sma, a.Sma.NullRound(5), $"at index {i}");
-            Assert.AreEqual(e.Dpo, a.Dpo.NullRound(5), $"at index {i}");
+            Assert.AreEqual(e.Sma, NullMath.Round(a.Sma, 5), $"at index {i}");
+            Assert.AreEqual(e.Dpo, NullMath.Round(a.Dpo, 5), $"at index {i}");
         }
     }
 
@@ -65,7 +65,7 @@ public class Dpo : TestBase
         Assert.AreEqual(489, newQuotes.Count);
 
         Quote q = newQuotes.LastOrDefault();
-        Assert.AreEqual(2.18214m, Math.Round(q.Close, 5));
+        Assert.AreEqual(2.18214m, NullMath.Round(q.Close, 5));
     }
 
     [TestMethod]

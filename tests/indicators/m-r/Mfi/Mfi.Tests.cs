@@ -21,10 +21,10 @@ public class Mfi : TestBase
 
         // sample values
         MfiResult r1 = results[439];
-        Assert.AreEqual(69.0622m, Math.Round((decimal)r1.Mfi, 4));
+        Assert.AreEqual(69.0622m, NullMath.Round(r1.Mfi, 4));
 
         MfiResult r2 = results[501];
-        Assert.AreEqual(39.9494m, Math.Round((decimal)r2.Mfi, 4));
+        Assert.AreEqual(39.9494m, NullMath.Round(r2.Mfi, 4));
     }
 
     [TestMethod]
@@ -44,10 +44,10 @@ public class Mfi : TestBase
 
         // sample values
         MfiResult r1 = results[31];
-        Assert.AreEqual(100m, Math.Round((decimal)r1.Mfi, 4));
+        Assert.AreEqual(100m, NullMath.Round(r1.Mfi, 4));
 
         MfiResult r2 = results[43];
-        Assert.AreEqual(0m, Math.Round((decimal)r2.Mfi, 4));
+        Assert.AreEqual(0m, NullMath.Round(r2.Mfi, 4));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class Mfi : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         MfiResult last = results.LastOrDefault();
-        Assert.AreEqual(39.9494m, Math.Round((decimal)last.Mfi, 4));
+        Assert.AreEqual(39.9494m, NullMath.Round(last.Mfi, 4));
     }
 
     [TestMethod]

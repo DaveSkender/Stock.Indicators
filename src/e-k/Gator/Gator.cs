@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -24,11 +23,9 @@ public static partial class Indicator
         {
             Date = x.Date,
 
-            Upper = ((x.Jaw - x.Teeth) is null) ? null :
-                (double)Math.Abs(x.Jaw.Value - x.Teeth.Value),
+            Upper = (double?)NullMath.Abs(x.Jaw - x.Teeth),
 
-            Lower = ((x.Teeth - x.Lips) is null) ? null :
-                -(double)Math.Abs(x.Teeth.Value - x.Lips.Value)
+            Lower = (double?)-NullMath.Abs(x.Teeth - x.Lips)
         })
         .ToList();
 

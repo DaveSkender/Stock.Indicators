@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
 
         // check parameter arguments
         ValidateAlma(lookbackPeriods, offset, sigma);
@@ -47,7 +47,7 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double weightedSum = 0;
+                double? weightedSum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -57,7 +57,7 @@ public static partial class Indicator
                     n++;
                 }
 
-                r.Alma = (decimal)(weightedSum / norm);
+                r.Alma = (decimal?)(weightedSum / norm);
             }
 
             results.Add(r);

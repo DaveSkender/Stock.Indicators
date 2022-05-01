@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.HL2);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.HL2);
 
         // check parameter arguments
         ValidateAwesome(fastPeriods, slowPeriods);
@@ -20,7 +20,7 @@ public static partial class Indicator
         // initialize
         int length = bdList.Count;
         List<AwesomeResult> results = new();
-        double[] pr = new double[length]; // median price
+        double?[] pr = new double?[length]; // median price
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -35,8 +35,8 @@ public static partial class Indicator
 
             if (i + 1 >= slowPeriods)
             {
-                double sumSlow = 0;
-                double sumFast = 0;
+                double? sumSlow = 0;
+                double? sumFast = 0;
 
                 for (int p = i + 1 - slowPeriods; p <= i; p++)
                 {

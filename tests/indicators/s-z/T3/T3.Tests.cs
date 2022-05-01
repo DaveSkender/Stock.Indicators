@@ -23,19 +23,19 @@ public class T3 : TestBase
         Assert.IsNull(r1.T3);
 
         T3Result r2 = results[24];
-        Assert.AreEqual(215.9343m, Math.Round((decimal)r2.T3, 4));
+        Assert.AreEqual(215.9343m, NullMath.Round(r2.T3, 4));
 
         T3Result r3 = results[44];
-        Assert.AreEqual(224.9412m, Math.Round((decimal)r3.T3, 4));
+        Assert.AreEqual(224.9412m, NullMath.Round(r3.T3, 4));
 
         T3Result r4 = results[149];
-        Assert.AreEqual(235.8851m, Math.Round((decimal)r4.T3, 4));
+        Assert.AreEqual(235.8851m, NullMath.Round(r4.T3, 4));
 
         T3Result r5 = results[249];
-        Assert.AreEqual(257.8735m, Math.Round((decimal)r5.T3, 4));
+        Assert.AreEqual(257.8735m, NullMath.Round(r5.T3, 4));
 
         T3Result r6 = results[501];
-        Assert.AreEqual(238.9308m, Math.Round((decimal)r6.T3, 4));
+        Assert.AreEqual(238.9308m, NullMath.Round(r6.T3, 4));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class T3 : TestBase
         Assert.AreEqual(502 - ((6 * (5 - 1)) + 250), results.Count);
 
         T3Result last = results.LastOrDefault();
-        Assert.AreEqual(238.9308m, Math.Round((decimal)last.T3, 4));
+        Assert.AreEqual(238.9308m, NullMath.Round(last.T3, 4));
     }
 
     [TestMethod]

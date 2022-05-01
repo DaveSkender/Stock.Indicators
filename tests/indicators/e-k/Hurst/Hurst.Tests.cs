@@ -21,7 +21,7 @@ public class Hurst : TestBase
 
         // sample value
         HurstResult r15820 = results[15820];
-        Assert.AreEqual(0.483563m, Math.Round((decimal)r15820.HurstExponent, 6));
+        Assert.AreEqual(0.483563, NullMath.Round(r15820.HurstExponent, 6));
     }
 
     [TestMethod]
@@ -35,10 +35,10 @@ public class Hurst : TestBase
         Assert.AreEqual(1, newQuotes.Count);
 
         Quote q = newQuotes.LastOrDefault();
-        Assert.AreEqual(0.483563m, Math.Round(q.Open, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.High, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.Low, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.Close, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.Open, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.High, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.Low, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.Close, 6));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class Hurst : TestBase
         Assert.AreEqual(1, results.Count);
 
         HurstResult last = results.LastOrDefault();
-        Assert.AreEqual(0.483563m, Math.Round((decimal)last.HurstExponent, 6));
+        Assert.AreEqual(0.483563, NullMath.Round(last.HurstExponent, 6));
     }
 
     [TestMethod]
