@@ -29,7 +29,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(true, r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
-        Assert.AreEqual(212.9924m, Math.Round((decimal)r16.Sar, 4));
+        Assert.AreEqual(212.9924m, NullMath.Round(r16.Sar, 4));
         Assert.AreEqual(false, r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
@@ -37,7 +37,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(false, r94.IsReversal);
 
         ParabolicSarResult r501 = results[501];
-        Assert.AreEqual(229.7662m, Math.Round((decimal)r501.Sar, 4));
+        Assert.AreEqual(229.7662m, NullMath.Round(r501.Sar, 4));
         Assert.AreEqual(false, r501.IsReversal);
     }
 
@@ -66,7 +66,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(true, r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
-        Assert.AreEqual(212.9518m, Math.Round((decimal)r16.Sar, 4));
+        Assert.AreEqual(212.9518m, NullMath.Round(r16.Sar, 4));
         Assert.AreEqual(false, r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
@@ -135,7 +135,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(488, results.Count);
 
         ParabolicSarResult last = results.LastOrDefault();
-        Assert.AreEqual(229.7662m, Math.Round((decimal)last.Sar, 4));
+        Assert.AreEqual(229.7662m, NullMath.Round(last.Sar, 4));
         Assert.AreEqual(false, last.IsReversal);
     }
 

@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -12,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
 
         // check parameter arguments
         ValidateDema(lookbackPeriods);

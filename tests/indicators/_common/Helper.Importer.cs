@@ -29,6 +29,12 @@ internal static class Importer
         return quote;
     }
 
+    internal static decimal ToDecimal(this string value)
+    => decimal.TryParse(value, out decimal d) ? d : d;
+
+    internal static decimal? ToDecimalNull(this string value)
+        => decimal.TryParse(value, out decimal d) ? d : null;
+
     private static void HandleOHLCV(Quote quote, string position, string value)
     {
         if (string.IsNullOrEmpty(value))

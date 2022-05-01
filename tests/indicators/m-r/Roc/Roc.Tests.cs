@@ -21,11 +21,11 @@ public class Roc : TestBase
 
         // sample values
         RocResult r1 = results[249];
-        Assert.AreEqual(2.4827, Math.Round((double)r1.Roc, 4));
+        Assert.AreEqual(2.4827, NullMath.Round(r1.Roc, 4));
         Assert.AreEqual(null, r1.RocSma);
 
         RocResult r2 = results[501];
-        Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
+        Assert.AreEqual(-8.2482, NullMath.Round(r2.Roc, 4));
         Assert.AreEqual(null, r2.RocSma);
     }
 
@@ -48,12 +48,12 @@ public class Roc : TestBase
 
         // sample values
         RocResult r1 = results[29];
-        Assert.AreEqual(3.2936, Math.Round((double)r1.Roc, 4));
-        Assert.AreEqual(2.1558, Math.Round((double)r1.RocSma, 4));
+        Assert.AreEqual(3.2936, NullMath.Round(r1.Roc, 4));
+        Assert.AreEqual(2.1558, NullMath.Round(r1.RocSma, 4));
 
         RocResult r2 = results[501];
-        Assert.AreEqual(-8.2482, Math.Round((double)r2.Roc, 4));
-        Assert.AreEqual(-8.4828, Math.Round((double)r2.RocSma, 4));
+        Assert.AreEqual(-8.2482, NullMath.Round(r2.Roc, 4));
+        Assert.AreEqual(-8.4828, NullMath.Round(r2.RocSma, 4));
     }
 
     [TestMethod]
@@ -84,7 +84,7 @@ public class Roc : TestBase
         Assert.AreEqual(502 - 20, results.Count);
 
         RocResult last = results.LastOrDefault();
-        Assert.AreEqual(-8.2482, Math.Round((double)last.Roc, 4));
+        Assert.AreEqual(-8.2482, NullMath.Round(last.Roc, 4));
         Assert.AreEqual(null, last.RocSma);
     }
 

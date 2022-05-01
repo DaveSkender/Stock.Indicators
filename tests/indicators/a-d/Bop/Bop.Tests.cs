@@ -23,16 +23,16 @@ public class Bop : TestBase
         Assert.AreEqual(null, r1.Bop);
 
         BopResult r2 = results[13];
-        Assert.AreEqual(0.081822m, Math.Round((decimal)r2.Bop, 6));
+        Assert.AreEqual(0.081822, NullMath.Round(r2.Bop, 6));
 
         BopResult r3 = results[149];
-        Assert.AreEqual(-0.016203m, Math.Round((decimal)r3.Bop, 6));
+        Assert.AreEqual(-0.016203, NullMath.Round(r3.Bop, 6));
 
         BopResult r4 = results[249];
-        Assert.AreEqual(-0.058682m, Math.Round((decimal)r4.Bop, 6));
+        Assert.AreEqual(-0.058682, NullMath.Round(r4.Bop, 6));
 
         BopResult r5 = results[501];
-        Assert.AreEqual(-0.292788m, Math.Round((decimal)r5.Bop, 6));
+        Assert.AreEqual(-0.292788, NullMath.Round(r5.Bop, 6));
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class Bop : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         BopResult last = results.LastOrDefault();
-        Assert.AreEqual(-0.292788m, Math.Round((decimal)last.Bop, 6));
+        Assert.AreEqual(-0.292788, NullMath.Round(last.Bop, 6));
     }
 
     [TestMethod]

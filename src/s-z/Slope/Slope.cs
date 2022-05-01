@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -12,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
 
         // check parameter arguments
         ValidateSlope(lookbackPeriods);
@@ -40,8 +39,8 @@ public static partial class Indicator
             }
 
             // get averages for period
-            double sumX = 0;
-            double sumY = 0;
+            double? sumX = 0;
+            double? sumY = 0;
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
@@ -51,20 +50,20 @@ public static partial class Indicator
                 sumY += d.Value;
             }
 
-            double avgX = sumX / lookbackPeriods;
-            double avgY = sumY / lookbackPeriods;
+            double? avgX = sumX / lookbackPeriods;
+            double? avgY = sumY / lookbackPeriods;
 
             // least squares method
-            double sumSqX = 0;
-            double sumSqY = 0;
-            double sumSqXY = 0;
+            double? sumSqX = 0;
+            double? sumSqY = 0;
+            double? sumSqXY = 0;
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 BasicData d = bdList[p];
 
-                double devX = p + 1d - avgX;
-                double devY = d.Value - avgY;
+                double? devX = p + 1d - avgX;
+                double? devY = d.Value - avgY;
 
                 sumSqX += devX * devX;
                 sumSqY += devY * devY;
@@ -75,13 +74,13 @@ public static partial class Indicator
             r.Intercept = avgY - (r.Slope * avgX);
 
             // calculate Standard Deviation and R-Squared
-            double stdDevX = Math.Sqrt((double)sumSqX / lookbackPeriods);
-            double stdDevY = Math.Sqrt((double)sumSqY / lookbackPeriods);
+            double? stdDevX = NullMath.Sqrt(sumSqX / lookbackPeriods);
+            double? stdDevY = NullMath.Sqrt(sumSqY / lookbackPeriods);
             r.StdDev = stdDevY;
 
             if (stdDevX * stdDevY != 0)
             {
-                double arrr = (double)sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
+                double? arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
                 r.RSquared = arrr * arrr;
             }
         }
@@ -89,11 +88,11 @@ public static partial class Indicator
         // add last Line (y = mx + b)
         if (length >= lookbackPeriods)
         {
-            SlopeResult last = results.LastOrDefault();
+            SlopeResult? last = results.LastOrDefault();
             for (int p = length - lookbackPeriods; p < length; p++)
             {
                 SlopeResult d = results[p];
-                d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept);
+                d.Line = (decimal?)((last?.Slope * (p + 1)) + last?.Intercept);
             }
         }
 

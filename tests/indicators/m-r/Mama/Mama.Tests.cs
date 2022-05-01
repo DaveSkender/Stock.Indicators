@@ -32,24 +32,24 @@ public class Mama : TestBase
         Assert.AreEqual(213.73m, r2.Fama);
 
         MamaResult r3 = results[6];
-        Assert.AreEqual(213.7850m, Math.Round((decimal)r3.Mama, 4));
-        Assert.AreEqual(213.7438m, Math.Round((decimal)r3.Fama, 4));
+        Assert.AreEqual(213.7850m, NullMath.Round(r3.Mama, 4));
+        Assert.AreEqual(213.7438m, NullMath.Round(r3.Fama, 4));
 
         MamaResult r4 = results[25];
-        Assert.AreEqual(215.9524m, Math.Round((decimal)r4.Mama, 4));
-        Assert.AreEqual(215.1407m, Math.Round((decimal)r4.Fama, 4));
+        Assert.AreEqual(215.9524m, NullMath.Round(r4.Mama, 4));
+        Assert.AreEqual(215.1407m, NullMath.Round(r4.Fama, 4));
 
         MamaResult r5 = results[149];
-        Assert.AreEqual(235.6593m, Math.Round((decimal)r5.Mama, 4));
-        Assert.AreEqual(234.3660m, Math.Round((decimal)r5.Fama, 4));
+        Assert.AreEqual(235.6593m, NullMath.Round(r5.Mama, 4));
+        Assert.AreEqual(234.3660m, NullMath.Round(r5.Fama, 4));
 
         MamaResult r6 = results[249];
-        Assert.AreEqual(256.8026m, Math.Round((decimal)r6.Mama, 4));
-        Assert.AreEqual(254.0605m, Math.Round((decimal)r6.Fama, 4));
+        Assert.AreEqual(256.8026m, NullMath.Round(r6.Mama, 4));
+        Assert.AreEqual(254.0605m, NullMath.Round(r6.Fama, 4));
 
         MamaResult r7 = results[501];
-        Assert.AreEqual(244.1092m, Math.Round((decimal)r7.Mama, 4));
-        Assert.AreEqual(252.6139m, Math.Round((decimal)r7.Fama, 4));
+        Assert.AreEqual(244.1092m, NullMath.Round(r7.Mama, 4));
+        Assert.AreEqual(252.6139m, NullMath.Round(r7.Fama, 4));
     }
 
     [TestMethod]
@@ -83,8 +83,8 @@ public class Mama : TestBase
         Assert.AreEqual(502 - 50, results.Count);
 
         MamaResult last = results.LastOrDefault();
-        Assert.AreEqual(244.1092m, Math.Round((decimal)last.Mama, 4));
-        Assert.AreEqual(252.6139m, Math.Round((decimal)last.Fama, 4));
+        Assert.AreEqual(244.1092m, NullMath.Round(last.Mama, 4));
+        Assert.AreEqual(252.6139m, NullMath.Round(last.Fama, 4));
     }
 
     [TestMethod]

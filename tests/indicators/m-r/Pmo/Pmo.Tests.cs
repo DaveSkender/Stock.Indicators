@@ -21,12 +21,12 @@ public class Pmo : TestBase
 
         // sample values
         PmoResult r1 = results[92];
-        Assert.AreEqual(0.6159, Math.Round((double)r1.Pmo, 4));
-        Assert.AreEqual(0.5582, Math.Round((double)r1.Signal, 4));
+        Assert.AreEqual(0.6159, NullMath.Round(r1.Pmo, 4));
+        Assert.AreEqual(0.5582, NullMath.Round(r1.Signal, 4));
 
         PmoResult r2 = results[501];
-        Assert.AreEqual(-2.7016, Math.Round((double)r2.Pmo, 4));
-        Assert.AreEqual(-2.3117, Math.Round((double)r2.Signal, 4));
+        Assert.AreEqual(-2.7016, NullMath.Round(r2.Pmo, 4));
+        Assert.AreEqual(-2.3117, NullMath.Round(r2.Signal, 4));
     }
 
     [TestMethod]
@@ -57,8 +57,8 @@ public class Pmo : TestBase
         Assert.AreEqual(502 - (35 + 20 + 250), results.Count);
 
         PmoResult last = results.LastOrDefault();
-        Assert.AreEqual(-2.7016, Math.Round((double)last.Pmo, 4));
-        Assert.AreEqual(-2.3117, Math.Round((double)last.Signal, 4));
+        Assert.AreEqual(-2.7016, NullMath.Round(last.Pmo, 4));
+        Assert.AreEqual(-2.3117, NullMath.Round(last.Signal, 4));
     }
 
     [TestMethod]

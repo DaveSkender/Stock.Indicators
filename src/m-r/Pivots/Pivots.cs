@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -64,8 +63,8 @@ public static partial class Indicator
 
                     results[(int)lastHighIndex].HighLine = lastHighValue;
 
-                    decimal incr = (decimal)((r.HighPoint - lastHighValue)
-                                 / (decimal)(i - lastHighIndex));
+                    decimal? incr = (r.HighPoint - lastHighValue)
+                                 / (i - lastHighIndex);
 
                     for (int t = (int)lastHighIndex + 1; t <= i; t++)
                     {
@@ -91,8 +90,8 @@ public static partial class Indicator
 
                     results[(int)lastLowIndex].LowLine = lastLowValue;
 
-                    decimal incr = (decimal)((r.LowPoint - lastLowValue)
-                                 / (decimal)(i - lastLowIndex));
+                    decimal? incr = (r.LowPoint - lastLowValue)
+                                 / (i - lastLowIndex);
 
                     for (int t = (int)lastLowIndex + 1; t <= i; t++)
                     {

@@ -13,7 +13,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.HL2);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.HL2);
 
         // check parameter arguments
         ValidateMama(fastLimit, slowLimit);
@@ -22,26 +22,26 @@ public static partial class Indicator
         int length = bdList.Count;
         List<MamaResult> results = new(length);
 
-        double sumPr = 0d;
+        double? sumPr = 0d;
 
-        double[] pr = new double[length]; // price
-        double[] sm = new double[length]; // smooth
-        double[] dt = new double[length]; // detrender
-        double[] pd = new double[length]; // period
+        double?[] pr = new double?[length]; // price
+        double?[] sm = new double?[length]; // smooth
+        double?[] dt = new double?[length]; // detrender
+        double?[] pd = new double?[length]; // period
 
-        double[] q1 = new double[length]; // quadrature
-        double[] i1 = new double[length]; // in-phase
+        double?[] q1 = new double?[length]; // quadrature
+        double?[] i1 = new double?[length]; // in-phase
 
-        double jI;
-        double jQ;
+        double? jI;
+        double? jQ;
 
-        double[] q2 = new double[length]; // adj. quadrature
-        double[] i2 = new double[length]; // adj. in-phase
+        double?[] q2 = new double?[length]; // adj. quadrature
+        double?[] i2 = new double?[length]; // adj. in-phase
 
-        double[] re = new double[length];
-        double[] im = new double[length];
+        double?[] re = new double?[length];
+        double?[] im = new double?[length];
 
-        double[] ph = new double[length]; // phase
+        double?[] ph = new double?[length]; // phase
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -56,7 +56,7 @@ public static partial class Indicator
 
             if (i > 5)
             {
-                double adj = (0.075 * pd[i - 1]) + 0.54;
+                double? adj = (0.075 * pd[i - 1]) + 0.54;
 
                 // smooth and detrender
                 sm[i] = ((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10;
@@ -85,10 +85,9 @@ public static partial class Indicator
                 im[i] = (0.2 * im[i]) + (0.8 * im[i - 1]);
 
                 // calculate period
-                if (im[i] != 0 && re[i] != 0)
-                {
-                    pd[i] = 2 * Math.PI / Math.Atan(im[i] / re[i]);
-                }
+                pd[i] = im[i] != 0 && re[i] != 0
+                    ? 2 * Math.PI / NullMath.Atan(im[i] / re[i])
+                    : 0d;
 
                 // adjust period to thresholds
                 pd[i] = (pd[i] > 1.5 * pd[i - 1]) ? 1.5 * pd[i - 1] : pd[i];
@@ -100,10 +99,10 @@ public static partial class Indicator
                 pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
 
                 // determine phase position
-                ph[i] = (i1[i] != 0) ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
+                ph[i] = (i1[i] != 0) ? Math.Atan((double)(q1[i] / i1[i])) * 180 / Math.PI : 0;
 
                 // change in phase
-                double delta = Math.Max(ph[i - 1] - ph[i], 1d);
+                double delta = Math.Max((double)(ph[i - 1] - ph[i]), 1d);
 
                 // adaptive alpha value
                 double alpha = Math.Max(fastLimit / delta, slowLimit);

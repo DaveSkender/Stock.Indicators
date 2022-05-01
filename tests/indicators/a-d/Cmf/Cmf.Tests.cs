@@ -21,17 +21,17 @@ public class Cmf : TestBase
         CmfResult r1 = results[49];
         Assert.AreEqual(0.5468, Math.Round(r1.MoneyFlowMultiplier, 4));
         Assert.AreEqual(55609259, Math.Round(r1.MoneyFlowVolume, 2));
-        Assert.AreEqual(0.350596, Math.Round((double)r1.Cmf, 6));
+        Assert.AreEqual(0.350596, NullMath.Round(r1.Cmf, 6));
 
         CmfResult r2 = results[249];
         Assert.AreEqual(0.7778, Math.Round(r2.MoneyFlowMultiplier, 4));
         Assert.AreEqual(36433792.89, Math.Round(r2.MoneyFlowVolume, 2));
-        Assert.AreEqual(-0.040226, Math.Round((double)r2.Cmf, 6));
+        Assert.AreEqual(-0.040226, NullMath.Round(r2.Cmf, 6));
 
         CmfResult r3 = results[501];
         Assert.AreEqual(0.8052, Math.Round(r3.MoneyFlowMultiplier, 4));
         Assert.AreEqual(118396116.25, Math.Round(r3.MoneyFlowVolume, 2));
-        Assert.AreEqual(-0.123754, Math.Round((double)r3.Cmf, 6));
+        Assert.AreEqual(-0.123754, NullMath.Round(r3.Cmf, 6));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Cmf : TestBase
         CmfResult last = results.LastOrDefault();
         Assert.AreEqual(0.8052, Math.Round(last.MoneyFlowMultiplier, 4));
         Assert.AreEqual(118396116.25, Math.Round(last.MoneyFlowVolume, 2));
-        Assert.AreEqual(-0.123754, Math.Round((double)last.Cmf, 6));
+        Assert.AreEqual(-0.123754, NullMath.Round(last.Cmf, 6));
     }
 
     [TestMethod]

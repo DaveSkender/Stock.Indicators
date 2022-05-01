@@ -22,19 +22,19 @@ public class Trix : TestBase
 
         // sample values
         TrixResult r1 = results[67];
-        Assert.AreEqual(221.6320m, Math.Round((decimal)r1.Ema3, 4));
-        Assert.AreEqual(0.055596m, Math.Round((decimal)r1.Trix, 6));
-        Assert.AreEqual(0.063512m, Math.Round((decimal)r1.Signal, 6));
+        Assert.AreEqual(221.6320m, NullMath.Round(r1.Ema3, 4));
+        Assert.AreEqual(0.055596m, NullMath.Round(r1.Trix, 6));
+        Assert.AreEqual(0.063512m, NullMath.Round(r1.Signal, 6));
 
         TrixResult r2 = results[249];
-        Assert.AreEqual(249.4469m, Math.Round((decimal)r2.Ema3, 4));
-        Assert.AreEqual(0.121781m, Math.Round((decimal)r2.Trix, 6));
-        Assert.AreEqual(0.119769m, Math.Round((decimal)r2.Signal, 6));
+        Assert.AreEqual(249.4469m, NullMath.Round(r2.Ema3, 4));
+        Assert.AreEqual(0.121781m, NullMath.Round(r2.Trix, 6));
+        Assert.AreEqual(0.119769m, NullMath.Round(r2.Signal, 6));
 
         TrixResult r3 = results[501];
-        Assert.AreEqual(263.3216m, Math.Round((decimal)r3.Ema3, 4));
-        Assert.AreEqual(-0.230742m, Math.Round((decimal)r3.Trix, 6));
-        Assert.AreEqual(-0.204536m, Math.Round((decimal)r3.Signal, 6));
+        Assert.AreEqual(263.3216m, NullMath.Round(r3.Ema3, 4));
+        Assert.AreEqual(-0.230742m, NullMath.Round(r3.Trix, 6));
+        Assert.AreEqual(-0.204536m, NullMath.Round(r3.Signal, 6));
     }
 
     [TestMethod]
@@ -65,9 +65,9 @@ public class Trix : TestBase
         Assert.AreEqual(502 - ((3 * 20) + 250), results.Count);
 
         TrixResult last = results.LastOrDefault();
-        Assert.AreEqual(263.3216m, Math.Round((decimal)last.Ema3, 4));
-        Assert.AreEqual(-0.230742m, Math.Round((decimal)last.Trix, 6));
-        Assert.AreEqual(-0.204536m, Math.Round((decimal)last.Signal, 6));
+        Assert.AreEqual(263.3216m, NullMath.Round(last.Ema3, 4));
+        Assert.AreEqual(-0.230742m, NullMath.Round(last.Trix, 6));
+        Assert.AreEqual(-0.204536m, NullMath.Round(last.Signal, 6));
     }
 
     [TestMethod]
