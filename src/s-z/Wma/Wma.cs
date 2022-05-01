@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(candlePart);
+        List<BasicData> bdList = quotes.ToBasicClass(candlePart);
 
         // check parameter arguments
         ValidateWma(lookbackPeriods);

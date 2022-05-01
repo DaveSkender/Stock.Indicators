@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
 
         // check parameter arguments
         ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);

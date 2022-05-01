@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> quotesList = quotes.ToBasicData(CandlePart.Close);
+        List<BasicData> quotesList = quotes.ToBasicClass(CandlePart.Close);
 
         // initialize
         List<SmaExtendedResult> results = GetSma(quotes, lookbackPeriods)

@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicData(CandlePart.Volume);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Volume);
 
         // check parameter arguments
         ValidatePvo(fastPeriods, slowPeriods, signalPeriods);

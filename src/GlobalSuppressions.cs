@@ -24,7 +24,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1716:Identifiers should not match keywords",
     Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IBaseQuote.Date")]
+    Target = "~P:Skender.Stock.Indicators.IBaseData.Date")]
 
 [assembly: SuppressMessage(
     "Naming",
