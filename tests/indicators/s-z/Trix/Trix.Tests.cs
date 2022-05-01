@@ -16,25 +16,30 @@ public class Trix : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(445, results.Where(x => x.Ema3 != null).Count());
-        Assert.AreEqual(444, results.Where(x => x.Trix != null).Count());
-        Assert.AreEqual(440, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Ema3 != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Trix != null).Count());
+        Assert.AreEqual(478, results.Where(x => x.Signal != null).Count());
 
         // sample values
-        TrixResult r1 = results[67];
-        Assert.AreEqual(221.6320m, NullMath.Round(r1.Ema3, 4));
-        Assert.AreEqual(0.055596m, NullMath.Round(r1.Trix, 6));
-        Assert.AreEqual(0.063512m, NullMath.Round(r1.Signal, 6));
+        TrixResult r24 = results[24];
+        Assert.AreEqual(214.5486, NullMath.Round(r24.Ema3, 4));
+        Assert.AreEqual(0.005047, NullMath.Round(r24.Trix, 6));
+        Assert.AreEqual(0.002196, NullMath.Round(r24.Signal, 6));
 
-        TrixResult r2 = results[249];
-        Assert.AreEqual(249.4469m, NullMath.Round(r2.Ema3, 4));
-        Assert.AreEqual(0.121781m, NullMath.Round(r2.Trix, 6));
-        Assert.AreEqual(0.119769m, NullMath.Round(r2.Signal, 6));
+        TrixResult r67 = results[67];
+        Assert.AreEqual(221.7837, NullMath.Round(r67.Ema3, 4));
+        Assert.AreEqual(0.050030, NullMath.Round(r67.Trix, 6));
+        Assert.AreEqual(0.057064, NullMath.Round(r67.Signal, 6));
 
-        TrixResult r3 = results[501];
-        Assert.AreEqual(263.3216m, NullMath.Round(r3.Ema3, 4));
-        Assert.AreEqual(-0.230742m, NullMath.Round(r3.Trix, 6));
-        Assert.AreEqual(-0.204536m, NullMath.Round(r3.Signal, 6));
+        TrixResult r249 = results[249];
+        Assert.AreEqual(249.4469, NullMath.Round(r249.Ema3, 4));
+        Assert.AreEqual(0.121781, NullMath.Round(r249.Trix, 6));
+        Assert.AreEqual(0.119769, NullMath.Round(r249.Signal, 6));
+
+        TrixResult r501 = results[501];
+        Assert.AreEqual(263.3216, NullMath.Round(r501.Ema3, 4));
+        Assert.AreEqual(-0.230742, NullMath.Round(r501.Trix, 6));
+        Assert.AreEqual(-0.204536, NullMath.Round(r501.Signal, 6));
     }
 
     [TestMethod]
@@ -62,12 +67,12 @@ public class Trix : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((3 * 20) + 250), results.Count);
+        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TrixResult last = results.LastOrDefault();
-        Assert.AreEqual(263.3216m, NullMath.Round(last.Ema3, 4));
-        Assert.AreEqual(-0.230742m, NullMath.Round(last.Trix, 6));
-        Assert.AreEqual(-0.204536m, NullMath.Round(last.Signal, 6));
+        Assert.AreEqual(263.3216, NullMath.Round(last.Ema3, 4));
+        Assert.AreEqual(-0.230742, NullMath.Round(last.Trix, 6));
+        Assert.AreEqual(-0.204536, NullMath.Round(last.Signal, 6));
     }
 
     [TestMethod]

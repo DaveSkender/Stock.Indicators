@@ -8,10 +8,10 @@ public static partial class Indicator
     public static IEnumerable<TrixResult> RemoveWarmupPeriods(
         this IEnumerable<TrixResult> results)
     {
-        int n3 = results
+        int n = results
             .ToList()
-            .FindIndex(x => x.Trix != null) + 2;
+            .FindIndex(x => x.Trix != null);
 
-        return results.Remove(n3 + 250);
+        return results.Remove((3 * n) + 100);
     }
 }

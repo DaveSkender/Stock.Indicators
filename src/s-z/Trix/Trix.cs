@@ -18,54 +18,52 @@ public static partial class Indicator
         ValidateTrix(lookbackPeriods);
 
         // initialize
-        List<TrixResult> results = new(bdList.Count);
-        decimal? lastEma = null;
+        int length = bdList.Count;
+        List<TrixResult> results = new(length);
 
-        List<EmaResult> emaN1 = CalcEma(bdList, lookbackPeriods);
+        double k = 2d / (lookbackPeriods + 1);
+        double? lastEma1 = 0;
+        double? lastEma2;
+        double? lastEma3;
+        int initPeriods = Math.Min(lookbackPeriods, length);
 
-        List<BasicData> bd2 = emaN1
-            .Where(x => x.Ema != null)
-            .Select(x => new BasicData { Date = x.Date, Value = (double?)x.Ema })
-            .ToList();
+        for (int i = 0; i < initPeriods; i++)
+        {
+            lastEma1 += bdList[i].Value;
+        }
 
-        List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
-
-        List<BasicData> bd3 = emaN2
-            .Where(x => x.Ema != null)
-            .Select(x => new BasicData { Date = x.Date, Value = (double?)x.Ema })
-            .ToList();
-
-        List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods);
+        lastEma1 /= lookbackPeriods;
+        lastEma2 = lastEma3 = lastEma1;
 
         // compose final results
-        for (int i = 0; i < emaN1.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            EmaResult e1 = emaN1[i];
-            int index = i + 1;
+
+            BasicData q = bdList[i];
 
             TrixResult result = new()
             {
-                Date = e1.Date
+                Date = q.Date
             };
+
+            if (i >= lookbackPeriods)
+            {
+                double? ema1 = lastEma1 + (k * (q.Value - lastEma1));
+                double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
+                double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
+
+                result.Ema3 = ema3;
+                result.Trix = 100 * (ema3 - lastEma3) / lastEma3;
+
+                lastEma1 = ema1;
+                lastEma2 = ema2;
+                lastEma3 = ema3;
+            }
 
             results.Add(result);
 
-            if (index >= (3 * lookbackPeriods) - 2)
-            {
-                EmaResult e3 = emaN3[index - (2 * lookbackPeriods) + 1];
-
-                result.Ema3 = e3.Ema;
-
-                if (lastEma is not null and not 0)
-                {
-                    result.Trix = 100 * (e3.Ema - lastEma) / lastEma;
-                }
-
-                lastEma = e3.Ema;
-
-                // optional SMA signal
-                GetTrixSignal(signalPeriods, index, lookbackPeriods, results);
-            }
+            // optional SMA signal
+            GetTrixSignal(signalPeriods, i, lookbackPeriods, results);
         }
 
         return results;
@@ -73,17 +71,17 @@ public static partial class Indicator
 
     // internals
     private static void GetTrixSignal(
-        int? signalPeriods, int index, int lookbackPeriods, List<TrixResult> results)
+        int? signalPeriods, int i, int lookbackPeriods, List<TrixResult> results)
     {
-        if (signalPeriods != null && index >= (3 * lookbackPeriods) - 2 + signalPeriods)
+        if (signalPeriods != null && i >= (lookbackPeriods + signalPeriods - 1))
         {
-            decimal? sumSma = 0m;
-            for (int p = index - (int)signalPeriods; p < index; p++)
+            double? sumSma = 0;
+            for (int p = i + 1 - (int)signalPeriods; p <= i; p++)
             {
                 sumSma += results[p].Trix;
             }
 
-            results[index - 1].Signal = sumSma / signalPeriods;
+            results[i].Signal = sumSma / signalPeriods;
         }
     }
 
