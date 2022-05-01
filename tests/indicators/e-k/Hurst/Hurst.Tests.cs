@@ -35,10 +35,10 @@ public class Hurst : TestBase
         Assert.AreEqual(1, newQuotes.Count);
 
         Quote q = newQuotes.LastOrDefault();
-        Assert.AreEqual(0.483563m, Math.Round(q.Open, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.High, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.Low, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.Close, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.Open, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.High, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.Low, 6));
+        Assert.AreEqual(0.483563m, NullMath.Round(q.Close, 6));
     }
 
     [TestMethod]

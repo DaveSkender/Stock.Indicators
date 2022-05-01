@@ -24,10 +24,7 @@ public static partial class Indicator
     public static TResult Find<TResult>(
         this IEnumerable<TResult> results,
         DateTime lookupDate)
-        where TResult : IResult
-    {
-        return results.FirstOrDefault(x => x.Date == lookupDate);
-    }
+        where TResult : IResult => results.FirstOrDefault(x => x.Date == lookupDate);
 
     // REMOVE SPECIFIC PERIODS extension
     /// <include file='./info.xml' path='info/type[@name="PruneSpecific"]/*' />
@@ -36,12 +33,10 @@ public static partial class Indicator
         this IEnumerable<TResult> results,
         int removePeriods)
         where TResult : IResult
-    {
-        return removePeriods < 0
+        => removePeriods < 0
             ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
                 "If specified, the Remove Periods value must be greater than or equal to 0.")
             : results.Remove(removePeriods);
-    }
 
     // REMOVE RESULTS
     private static List<TResult> Remove<TResult>(

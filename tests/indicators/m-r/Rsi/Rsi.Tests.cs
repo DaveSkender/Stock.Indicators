@@ -94,10 +94,10 @@ public class Rsi : TestBase
 
         // sample values
         Quote first = results.FirstOrDefault();
-        Assert.AreEqual(62.0541m, Math.Round(first.Close, 4));
+        Assert.AreEqual(62.0541m, NullMath.Round(first.Close, 4));
 
         Quote last = results.LastOrDefault();
-        Assert.AreEqual(42.0773m, Math.Round(last.Close, 4));
+        Assert.AreEqual(42.0773m, NullMath.Round(last.Close, 4));
     }
 
     [TestMethod]

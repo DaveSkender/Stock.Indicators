@@ -2,14 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    // sort basic double class
-    internal static List<TBasicData> SortToList<TBasicData>(
-        this IEnumerable<TBasicData> basicData)
-        where TBasicData : IBaseData
-        => basicData
-            .Where(x => x.Value is not null)
-            .OrderBy(x => x.Date).ToList();
-
     // convert to basic double class
     internal static List<BasicData> ToBasicClass<TQuote>(
         this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
@@ -58,5 +50,49 @@ public static partial class Indicator
         };
 
         return prices.OrderBy(x => x.Date).ToList();
+    }
+
+    // sort basic double class
+    internal static List<IBasicData> SortToList(
+        this IEnumerable<IBasicData> basicData)
+        => basicData
+            .Condense()
+            .OrderBy(x => x.Date)
+            .ToList();
+
+    // remove initial null periods
+    internal static List<IBasicData> Condense(
+        this IEnumerable<IBasicData> baseData)
+    {
+        int removePeriods = baseData
+            .ToList()
+            .FindIndex(x => x.Value != null);
+
+        return baseData.Remove(removePeriods);
+    }
+
+    // remove specific periods
+    private static List<IBasicData> Remove(
+        this IEnumerable<IBasicData> baseData,
+        int removePeriods)
+    {
+        List<IBasicData> resultsList = baseData.ToList();
+
+        if (resultsList.Count <= removePeriods)
+        {
+            return new List<IBasicData>();
+        }
+        else
+        {
+            if (removePeriods > 0)
+            {
+                for (int i = 0; i < removePeriods; i++)
+                {
+                    resultsList.RemoveAt(0);
+                }
+            }
+
+            return resultsList;
+        }
     }
 }
