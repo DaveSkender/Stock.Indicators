@@ -29,7 +29,7 @@ public static partial class Indicator
 
         // initialize
         int length = bdList.Count;
-        double[] pr = new double[length]; // median price
+        double?[] pr = new double?[length]; // median price
 
         List<AlligatorResult> results =
             bdList
@@ -54,13 +54,13 @@ public static partial class Indicator
                 // first value: calculate SMA
                 if (i + 1 == jawPeriods)
                 {
-                    double sumMedianPrice = 0;
+                    double? sumMedianPrice = 0;
                     for (int p = i + 1 - jawPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
 
-                    jawResult.Jaw = (decimal)sumMedianPrice / jawPeriods;
+                    jawResult.Jaw = (decimal?)sumMedianPrice / jawPeriods;
                 }
 
                 // remaining values: SMMA
@@ -80,7 +80,7 @@ public static partial class Indicator
                 // first value: calculate SMA
                 if (i + 1 == teethPeriods)
                 {
-                    double sumMedianPrice = 0;
+                    double? sumMedianPrice = 0;
                     for (int p = i + 1 - teethPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
@@ -106,13 +106,13 @@ public static partial class Indicator
                 // first value: calculate SMA
                 if (i + 1 == lipsPeriods)
                 {
-                    double sumMedianPrice = 0;
+                    double? sumMedianPrice = 0;
                     for (int p = i + 1 - lipsPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
 
-                    lipsResult.Lips = (decimal)sumMedianPrice / lipsPeriods;
+                    lipsResult.Lips = (decimal?)sumMedianPrice / lipsPeriods;
                 }
 
                 // remaining values: SMMA

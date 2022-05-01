@@ -8,8 +8,7 @@ public static partial class Indicator
     ///
     public static IEnumerable<Quote> ToQuotes(
         this IEnumerable<RsiResult> results)
-    {
-        return results
+        => results
           .Where(x => x.Rsi != null)
           .Select(x => new Quote
           {
@@ -21,7 +20,6 @@ public static partial class Indicator
               Volume = (decimal)x.Rsi
           })
           .ToList();
-    }
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />

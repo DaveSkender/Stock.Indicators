@@ -13,20 +13,21 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> quotesList = quotes.ToBasicClass(CandlePart.Close);
+        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
 
         // check parameter arguments
         ValidateKama(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
-        List<KamaResult> results = new(quotesList.Count);
+        int length = bdList.Count;
+        List<KamaResult> results = new(length);
         double scFast = 2d / (fastPeriods + 1);
         double scSlow = 2d / (slowPeriods + 1);
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            BasicData q = quotesList[i];
+            BasicData q = bdList[i];
 
             KamaResult r = new()
             {
@@ -36,23 +37,23 @@ public static partial class Indicator
             if (i + 1 > erPeriods)
             {
                 // ER period change
-                double change = Math.Abs(q.Value - quotesList[i - erPeriods].Value);
+                double? change = NullMath.Abs(q.Value - bdList[i - erPeriods].Value);
 
                 // volatility
-                double sumPV = 0;
+                double? sumPV = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += Math.Abs(quotesList[p].Value - quotesList[p - 1].Value);
+                    sumPV += NullMath.Abs(bdList[p].Value - bdList[p - 1].Value);
                 }
 
                 if (sumPV != 0)
                 {
                     // efficiency ratio
-                    double er = change / sumPV;
+                    double? er = change / sumPV;
                     r.ER = er;
 
                     // smoothing constant
-                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
+                    double? sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
                     double? pk = (double?)results[i - 1].Kama;  // prior KAMA

@@ -67,8 +67,8 @@ public class HtTrendline : TestBase
         Assert.AreEqual(502 - 100, results.Count);
 
         HtlResult last = results.LastOrDefault();
-        Assert.AreEqual(252.2172m, Math.Round((decimal)last.Trendline, 4));
-        Assert.AreEqual(242.3435m, Math.Round((decimal)last.SmoothPrice, 4));
+        Assert.AreEqual(252.2172m, NullMath.Round(last.Trendline, 4));
+        Assert.AreEqual(242.3435m, NullMath.Round(last.SmoothPrice, 4));
     }
 
     [TestMethod]

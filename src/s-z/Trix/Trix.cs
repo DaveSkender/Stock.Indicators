@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -26,14 +25,14 @@ public static partial class Indicator
 
         List<BasicData> bd2 = emaN1
             .Where(x => x.Ema != null)
-            .Select(x => new BasicData { Date = x.Date, Value = (double)x.Ema })
+            .Select(x => new BasicData { Date = x.Date, Value = (double?)x.Ema })
             .ToList();
 
         List<EmaResult> emaN2 = CalcEma(bd2, lookbackPeriods);
 
         List<BasicData> bd3 = emaN2
             .Where(x => x.Ema != null)
-            .Select(x => new BasicData { Date = x.Date, Value = (double)x.Ema })
+            .Select(x => new BasicData { Date = x.Date, Value = (double?)x.Ema })
             .ToList();
 
         List<EmaResult> emaN3 = CalcEma(bd3, lookbackPeriods);
@@ -78,10 +77,10 @@ public static partial class Indicator
     {
         if (signalPeriods != null && index >= (3 * lookbackPeriods) - 2 + signalPeriods)
         {
-            decimal sumSma = 0m;
+            decimal? sumSma = 0m;
             for (int p = index - (int)signalPeriods; p < index; p++)
             {
-                sumSma += (decimal)results[p].Trix;
+                sumSma += results[p].Trix;
             }
 
             results[index - 1].Signal = sumSma / signalPeriods;

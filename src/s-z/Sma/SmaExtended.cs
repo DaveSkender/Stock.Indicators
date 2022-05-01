@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -23,22 +22,22 @@ public static partial class Indicator
         for (int i = lookbackPeriods - 1; i < results.Count; i++)
         {
             SmaExtendedResult r = results[i];
-            double sma = (double)r.Sma;
+            double? sma = (double?)r.Sma;
 
-            double sumMad = 0;
-            double sumMse = 0;
+            double? sumMad = 0;
+            double? sumMse = 0;
             double? sumMape = 0;
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 BasicData d = quotesList[p];
-                double close = d.Value;
+                double? close = d.Value;
 
-                sumMad += Math.Abs(close - sma);
+                sumMad += NullMath.Abs(close - sma);
                 sumMse += (close - sma) * (close - sma);
 
                 sumMape += (close == 0) ? null
-                    : Math.Abs(close - sma) / close;
+                    : NullMath.Abs(close - sma) / close;
             }
 
             // mean absolute deviation

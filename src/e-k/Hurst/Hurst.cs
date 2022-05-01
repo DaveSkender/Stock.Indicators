@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -34,7 +33,7 @@ public static partial class Indicator
             if (i + 1 > lookbackPeriods)
             {
                 // get evaluation batch
-                double[] values = new double[lookbackPeriods];
+                double?[] values = new double?[lookbackPeriods];
 
                 int x = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -58,7 +57,7 @@ public static partial class Indicator
         return results;
     }
 
-    private static double CalcHurst(double[] values)
+    private static double? CalcHurst(double?[] values)
     {
         int totalSize = values.Length;
         int maxChunks = 0;
@@ -82,8 +81,8 @@ public static partial class Indicator
         }
 
         // initialize result sets
-        double[] logRs = new double[setQty];
-        double[] logSize = new double[setQty];
+        double?[] logRs = new double?[setQty];
+        double?[] logSize = new double?[setQty];
         int setNum = 0;
 
         // roll through sets
@@ -101,22 +100,22 @@ public static partial class Indicator
             for (int chunkNum = 1; chunkNum <= chunkQty; chunkNum++)
             {
                 // chunk mean
-                double sum = 0;
+                double? sum = 0;
                 for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
                     sum += values[i];
                 }
 
-                double chunkMean = sum / chunkSize;
+                double? chunkMean = sum / chunkSize;
 
                 // chunk mean diff
-                double sumY = 0;
-                double sumSq = 0;
-                double maxY = values[startIndex] - chunkMean;
-                double minY = values[startIndex] - chunkMean;
+                double? sumY = 0;
+                double? sumSq = 0;
+                double? maxY = values[startIndex] - chunkMean;
+                double? minY = values[startIndex] - chunkMean;
                 for (int i = startIndex; i < startIndex + chunkSize; i++)
                 {
-                    double y = values[i] - chunkMean;
+                    double? y = values[i] - chunkMean;
                     sumY += y;
                     minY = (sumY < minY) ? sumY : minY;
                     maxY = (sumY > maxY) ? sumY : maxY;
@@ -125,8 +124,8 @@ public static partial class Indicator
                 }
 
                 // chunk rescaled range
-                double r = maxY - minY;
-                double s = Math.Sqrt(sumSq / chunkSize);
+                double? r = maxY - minY;
+                double? s = NullMath.Sqrt(sumSq / chunkSize);
                 double? rs = s != 0 ? r / s : null;
 
                 sumChunkRs += rs;

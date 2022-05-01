@@ -1,8 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-#nullable enable
-
 namespace Skender.Stock.Indicators;
 
 public class InvalidQuotesException : ArgumentOutOfRangeException

@@ -48,8 +48,8 @@ public static partial class Indicator
 
                 if (bo.Value != 0 && eo.Value != 0)
                 {
-                    double pctB = (bi.Value - bo.Value) / bo.Value;
-                    double pctE = (ei.Value - eo.Value) / eo.Value;
+                    double? pctB = (bi.Value - bo.Value) / bo.Value;
+                    double? pctE = (ei.Value - eo.Value) / eo.Value;
 
                     r.PrsPercent = pctE - pctB;
                 }

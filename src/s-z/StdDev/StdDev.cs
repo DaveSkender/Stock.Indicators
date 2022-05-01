@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -41,8 +40,8 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double[] periodValues = new double[lookbackPeriods];
-                double sum = 0;
+                double?[] periodValues = new double?[lookbackPeriods];
+                double? sum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -53,7 +52,7 @@ public static partial class Indicator
                     n++;
                 }
 
-                double periodAvg = sum / lookbackPeriods;
+                double? periodAvg = sum / lookbackPeriods;
 
                 result.StdDev = Functions.StdDev(periodValues);
                 result.Mean = periodAvg;
@@ -67,10 +66,10 @@ public static partial class Indicator
             // optional SMA
             if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 2)
             {
-                double sumSma = 0;
+                double? sumSma = 0;
                 for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
                 {
-                    sumSma += (double)results[p].StdDev;
+                    sumSma += results[p].StdDev;
                 }
 
                 result.StdDevSma = sumSma / smaPeriods;

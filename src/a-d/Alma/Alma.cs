@@ -47,7 +47,7 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double weightedSum = 0;
+                double? weightedSum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -57,7 +57,7 @@ public static partial class Indicator
                     n++;
                 }
 
-                r.Alma = (decimal)(weightedSum / norm);
+                r.Alma = (decimal?)(weightedSum / norm);
             }
 
             results.Add(r);

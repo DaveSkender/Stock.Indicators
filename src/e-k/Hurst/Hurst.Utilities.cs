@@ -8,8 +8,7 @@ public static partial class Indicator
     ///
     public static IEnumerable<Quote> ToQuotes(
         this IEnumerable<HurstResult> results)
-    {
-        return results
+        => results
           .Where(x => x.HurstExponent != null)
           .Select(x => new Quote
           {
@@ -20,7 +19,6 @@ public static partial class Indicator
               Close = (decimal)x.HurstExponent
           })
           .ToList();
-    }
 
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />

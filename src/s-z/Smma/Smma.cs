@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -34,21 +33,21 @@ public static partial class Indicator
             // calculate SMMA
             if (i + 1 > lookbackPeriods)
             {
-                result.Smma = (decimal)((prevValue * (lookbackPeriods - 1)) + q.Value)
+                result.Smma = (decimal?)((prevValue * (lookbackPeriods - 1)) + q.Value)
                             / lookbackPeriods;
             }
 
             // first SMMA calculated as simple SMA
             else if (i + 1 == lookbackPeriods)
             {
-                double sumClose = 0;
+                double? sumClose = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BasicData d = quotesList[p];
                     sumClose += d.Value;
                 }
 
-                result.Smma = (decimal)(sumClose / lookbackPeriods);
+                result.Smma = (decimal?)(sumClose / lookbackPeriods);
             }
 
             prevValue = (double?)result.Smma;

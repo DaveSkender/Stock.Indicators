@@ -34,8 +34,8 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double sumMfv = 0;
-                double sumVol = 0;
+                double? sumMfv = 0;
+                double? sumVol = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
@@ -46,8 +46,8 @@ public static partial class Indicator
                     sumMfv += (double)d.MoneyFlowVolume;
                 }
 
-                double avgMfv = sumMfv / lookbackPeriods;
-                double avgVol = sumVol / lookbackPeriods;
+                double? avgMfv = sumMfv / lookbackPeriods;
+                double? avgVol = sumVol / lookbackPeriods;
 
                 if (avgVol != 0)
                 {

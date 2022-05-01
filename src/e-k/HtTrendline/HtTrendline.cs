@@ -16,25 +16,25 @@ public static partial class Indicator
         int length = bdList.Count;
         List<HtlResult> results = new(length);
 
-        double[] pr = new double[length]; // price
-        double[] sp = new double[length]; // smooth price
-        double[] dt = new double[length]; // detrender
-        double[] pd = new double[length]; // period
+        double?[] pr = new double?[length]; // price
+        double?[] sp = new double?[length]; // smooth price
+        double?[] dt = new double?[length]; // detrender
+        double?[] pd = new double?[length]; // period
 
-        double[] q1 = new double[length]; // quadrature
-        double[] i1 = new double[length]; // in-phase
+        double?[] q1 = new double?[length]; // quadrature
+        double?[] i1 = new double?[length]; // in-phase
 
-        double jI;
-        double jQ;
+        double? jI;
+        double? jQ;
 
-        double[] q2 = new double[length]; // adj. quadrature
-        double[] i2 = new double[length]; // adj. in-phase
+        double?[] q2 = new double?[length]; // adj. quadrature
+        double?[] i2 = new double?[length]; // adj. in-phase
 
-        double[] re = new double[length];
-        double[] im = new double[length];
+        double?[] re = new double?[length];
+        double?[] im = new double?[length];
 
-        double[] sd = new double[length]; // smooth period
-        double[] it = new double[length]; // instantaneous trend (raw)
+        double?[] sd = new double?[length]; // smooth period
+        double?[] it = new double?[length]; // instantaneous trend (raw)
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -49,7 +49,7 @@ public static partial class Indicator
 
             if (i > 5)
             {
-                double adj = (0.075 * pd[i - 1]) + 0.54;
+                double? adj = (0.075 * pd[i - 1]) + 0.54;
 
                 // smooth and detrender
                 sp[i] = ((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10;
@@ -78,10 +78,9 @@ public static partial class Indicator
                 im[i] = (0.2 * im[i]) + (0.8 * im[i - 1]);
 
                 // calculate period
-                if (im[i] != 0 && re[i] != 0)
-                {
-                    pd[i] = 2 * Math.PI / Math.Atan(im[i] / re[i]);
-                }
+                pd[i] = im[i] != 0 && re[i] != 0
+                    ? 2 * Math.PI / NullMath.Atan(im[i] / re[i])
+                    : 0d;
 
                 // adjust period to thresholds
                 pd[i] = (pd[i] > 1.5 * pd[i - 1]) ? 1.5 * pd[i - 1] : pd[i];
@@ -94,9 +93,9 @@ public static partial class Indicator
                 sd[i] = (0.33 * pd[i]) + (0.67 * sd[i - 1]);
 
                 // smooth dominant cycle period
-                int dcPeriods = (int)(sd[i] + 0.5);
-                double sumPr = 0;
-                for (int d = i - dcPeriods + 1; d <= i; d++)
+                int? dcPeriods = (int?)(sd[i] + 0.5);
+                double? sumPr = 0;
+                for (int d = i - (int)dcPeriods! + 1; d <= i; d++)
                 {
                     if (d >= 0)
                     {
@@ -114,16 +113,16 @@ public static partial class Indicator
 
                 // final indicators
                 r.Trendline = i >= 11 // 12th bar
-                    ? (decimal)((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10m
-                    : (decimal)pr[i];
+                    ? (decimal?)((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10m
+                    : (decimal?)pr[i];
 
-                r.SmoothPrice = (decimal)((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10m;
+                r.SmoothPrice = (decimal?)((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10m;
             }
 
             // initialization period
             else
             {
-                r.Trendline = (decimal)pr[i];
+                r.Trendline = (decimal?)pr[i];
                 r.SmoothPrice = null;
 
                 pd[i] = 0;

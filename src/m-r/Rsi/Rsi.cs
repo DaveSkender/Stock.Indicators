@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -26,13 +25,13 @@ public static partial class Indicator
 
         // initialize
         int length = bdList.Count;
-        double avgGain = 0;
-        double avgLoss = 0;
+        double? avgGain = 0;
+        double? avgLoss = 0;
 
         List<RsiResult> results = new(length);
-        double[] gain = new double[length]; // gain
-        double[] loss = new double[length]; // loss
-        double lastValue;
+        double?[] gain = new double?[length]; // gain
+        double?[] loss = new double?[length]; // loss
+        double? lastValue;
 
         if (length == 0)
         {
@@ -66,7 +65,7 @@ public static partial class Indicator
 
                 if (avgLoss > 0)
                 {
-                    double rs = avgGain / avgLoss;
+                    double? rs = avgGain / avgLoss;
                     r.Rsi = 100 - (100 / (1 + rs));
                 }
                 else
@@ -78,8 +77,8 @@ public static partial class Indicator
             // initialize average gain
             else if (i == lookbackPeriods)
             {
-                double sumGain = 0;
-                double sumLoss = 0;
+                double? sumGain = 0;
+                double? sumLoss = 0;
 
                 for (int p = 1; p <= lookbackPeriods; p++)
                 {

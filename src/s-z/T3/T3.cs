@@ -28,8 +28,8 @@ public static partial class Indicator
         double c3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
         double c4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
 
-        double e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0;
-        double sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0, sum6 = 0;
+        double? e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, e6 = 0;
+        double? sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0, sum6 = 0;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -140,7 +140,7 @@ public static partial class Indicator
             // first warmup
             else
             {
-                sum1 += (double)q.Value;
+                sum1 += q.Value;
 
                 if (i == lookbackPeriods - 1)
                 {

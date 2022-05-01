@@ -83,8 +83,8 @@ public class Mama : TestBase
         Assert.AreEqual(502 - 50, results.Count);
 
         MamaResult last = results.LastOrDefault();
-        Assert.AreEqual(244.1092m, Math.Round((decimal)last.Mama, 4));
-        Assert.AreEqual(252.6139m, Math.Round((decimal)last.Fama, 4));
+        Assert.AreEqual(244.1092m, NullMath.Round(last.Mama, 4));
+        Assert.AreEqual(252.6139m, NullMath.Round(last.Fama, 4));
     }
 
     [TestMethod]

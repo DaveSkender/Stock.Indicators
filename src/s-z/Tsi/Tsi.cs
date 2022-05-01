@@ -27,17 +27,17 @@ public static partial class Indicator
 
         List<TsiResult> results = new(length);
 
-        double[] c = new double[length]; // price change
-        double[] cs1 = new double[length]; // smooth 1
-        double[] cs2 = new double[length]; // smooth 2
-        double sumC = 0;
-        double sumC1 = 0;
+        double?[] c = new double?[length]; // price change
+        double?[] cs1 = new double?[length]; // smooth 1
+        double?[] cs2 = new double?[length]; // smooth 2
+        double? sumC = 0;
+        double? sumC1 = 0;
 
-        double[] a = new double[length]; // abs of price change
-        double[] as1 = new double[length]; // smooth 1
-        double[] as2 = new double[length]; // smooth 2
-        double sumA = 0;
-        double sumA1 = 0;
+        double?[] a = new double?[length]; // abs of price change
+        double?[] as1 = new double?[length]; // smooth 1
+        double?[] as2 = new double?[length]; // smooth 2
+        double? sumA = 0;
+        double? sumA1 = 0;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -58,7 +58,7 @@ public static partial class Indicator
 
             // price change
             c[i] = q.Value - bdList[i - 1].Value;
-            a[i] = Math.Abs(c[i]);
+            a[i] = NullMath.Abs(c[i]);
 
             // smoothing
             if (i > lookbackPeriods)

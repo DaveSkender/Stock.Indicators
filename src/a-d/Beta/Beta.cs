@@ -114,8 +114,8 @@ public static partial class Indicator
         // initialize
         CorrResult c = new();
 
-        List<double> dataA = new(lookbackPeriods);
-        List<double> dataB = new(lookbackPeriods);
+        List<double?> dataA = new(lookbackPeriods);
+        List<double?> dataB = new(lookbackPeriods);
 
         for (int p = i - lookbackPeriods + 1; p <= i; p++)
         {

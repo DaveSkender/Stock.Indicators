@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -11,12 +10,10 @@ public static partial class Indicator
         decimal accelerationStep = 0.02m,
         decimal maxAccelerationFactor = 0.2m)
         where TQuote : IQuote
-    {
-        return quotes.GetParabolicSar(
+        => quotes.GetParabolicSar(
             accelerationStep,
             maxAccelerationFactor,
             accelerationStep);
-    }
 
     /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
     ///
@@ -165,7 +162,7 @@ public static partial class Indicator
         }
 
         // remove first trendline since it is an invalid guess
-        ParabolicSarResult firstReversal = results
+        ParabolicSarResult? firstReversal = results
             .Where(x => x.IsReversal == true)
             .OrderBy(x => x.Date)
             .FirstOrDefault();

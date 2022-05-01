@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -39,12 +38,12 @@ public static partial class Indicator
             if (i >= lookbackPeriods - 1)
             {
                 double mid = (q.High + q.Low) / 2;
-                double atr = (double)atrResults[i].Atr;
+                double? atr = (double?)atrResults[i].Atr;
                 double prevClose = quotesList[i - 1].Close;
 
                 // potential bands
-                double upperEval = mid + (multiplier * atr);
-                double lowerEval = mid - (multiplier * atr);
+                double? upperEval = mid + (multiplier * atr);
+                double? lowerEval = mid - (multiplier * atr);
 
                 // initial values
                 if (i == lookbackPeriods - 1)
