@@ -21,13 +21,13 @@ public class Ema : TestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.6228m, Math.Round((decimal)r29.Ema, 4));
+        Assert.AreEqual(216.6228m, NullMath.Round(r29.Ema, 4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.3873m, Math.Round((decimal)r249.Ema, 4));
+        Assert.AreEqual(255.3873m, NullMath.Round(r249.Ema, 4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.3519m, Math.Round((decimal)r501.Ema, 4));
+        Assert.AreEqual(249.3519m, NullMath.Round(r501.Ema, 4));
     }
 
     [TestMethod]
@@ -45,13 +45,13 @@ public class Ema : TestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.2643m, Math.Round((decimal)r29.Ema, 4));
+        Assert.AreEqual(216.2643m, NullMath.Round(r29.Ema, 4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.4875m, Math.Round((decimal)r249.Ema, 4));
+        Assert.AreEqual(255.4875m, NullMath.Round(r249.Ema, 4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.9157m, Math.Round((decimal)r501.Ema, 4));
+        Assert.AreEqual(249.9157m, NullMath.Round(r501.Ema, 4));
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class Ema : TestBase
         Assert.AreEqual(502 - (20 + 100), results.Count);
 
         EmaResult last = results.LastOrDefault();
-        Assert.AreEqual(249.3519m, Math.Round((decimal)last.Ema, 4));
+        Assert.AreEqual(249.3519m, NullMath.Round(last.Ema, 4));
     }
 
     [TestMethod]

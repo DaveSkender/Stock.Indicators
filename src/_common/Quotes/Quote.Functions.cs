@@ -39,16 +39,12 @@ public static partial class HistoricalQuotes
     // sort quotes
     internal static List<TQuote> SortToList<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        return quotes.OrderBy(x => x.Date).ToList();
-    }
+        where TQuote : IQuote => quotes.OrderBy(x => x.Date).ToList();
 
+    // convert to quotes in double precision
     internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        return quotes
+        where TQuote : IQuote => quotes
             .Select(x => new QuoteD
             {
                 Date = x.Date,
@@ -60,5 +56,4 @@ public static partial class HistoricalQuotes
             })
             .OrderBy(x => x.Date)
             .ToList();
-    }
 }

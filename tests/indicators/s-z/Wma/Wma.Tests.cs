@@ -20,10 +20,10 @@ public class Wma : TestBase
 
         // sample values
         WmaResult r1 = results[149];
-        Assert.AreEqual(235.5253m, Math.Round((decimal)r1.Wma, 4));
+        Assert.AreEqual(235.5253m, NullMath.Round(r1.Wma, 4));
 
         WmaResult r2 = results[501];
-        Assert.AreEqual(246.5110m, Math.Round((decimal)r2.Wma, 4));
+        Assert.AreEqual(246.5110m, NullMath.Round(r2.Wma, 4));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Wma : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         WmaResult last = results.LastOrDefault();
-        Assert.AreEqual(246.5110m, Math.Round((decimal)last.Wma, 4));
+        Assert.AreEqual(246.5110m, NullMath.Round(last.Wma, 4));
     }
 
     [TestMethod]

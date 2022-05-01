@@ -20,16 +20,16 @@ public class Tema : TestBase
 
         // sample values
         TemaResult r25 = results[25];
-        Assert.AreEqual(216.1441m, Math.Round((decimal)r25.Tema, 4));
+        Assert.AreEqual(216.1441m, NullMath.Round(r25.Tema, 4));
 
         TemaResult r67 = results[67];
-        Assert.AreEqual(222.9562m, Math.Round((decimal)r67.Tema, 4));
+        Assert.AreEqual(222.9562m, NullMath.Round(r67.Tema, 4));
 
         TemaResult r249 = results[249];
-        Assert.AreEqual(258.6208m, Math.Round((decimal)r249.Tema, 4));
+        Assert.AreEqual(258.6208m, NullMath.Round(r249.Tema, 4));
 
         TemaResult r501 = results[501];
-        Assert.AreEqual(238.7690m, Math.Round((decimal)r501.Tema, 4));
+        Assert.AreEqual(238.7690m, NullMath.Round(r501.Tema, 4));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class Tema : TestBase
         Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TemaResult last = results.LastOrDefault();
-        Assert.AreEqual(238.7690m, Math.Round((decimal)last.Tema, 4));
+        Assert.AreEqual(238.7690m, NullMath.Round(last.Tema, 4));
     }
 
     [TestMethod]

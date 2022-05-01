@@ -29,24 +29,24 @@ public class HtTrendline : TestBase
         Assert.AreEqual(214.071m, r2.SmoothPrice);
 
         HtlResult r3 = results[11];
-        Assert.AreEqual(213.9502m, Math.Round((decimal)r3.Trendline, 4));
-        Assert.AreEqual(213.8460m, Math.Round((decimal)r3.SmoothPrice, 4));
+        Assert.AreEqual(213.9502m, NullMath.Round(r3.Trendline, 4));
+        Assert.AreEqual(213.8460m, NullMath.Round(r3.SmoothPrice, 4));
 
         HtlResult r4 = results[25];
-        Assert.AreEqual(215.3948m, Math.Round((decimal)r4.Trendline, 4));
-        Assert.AreEqual(216.3365m, Math.Round((decimal)r4.SmoothPrice, 4));
+        Assert.AreEqual(215.3948m, NullMath.Round(r4.Trendline, 4));
+        Assert.AreEqual(216.3365m, NullMath.Round(r4.SmoothPrice, 4));
 
         HtlResult r5 = results[149];
-        Assert.AreEqual(233.9410m, Math.Round((decimal)r5.Trendline, 4));
-        Assert.AreEqual(235.8570m, Math.Round((decimal)r5.SmoothPrice, 4));
+        Assert.AreEqual(233.9410m, NullMath.Round(r5.Trendline, 4));
+        Assert.AreEqual(235.8570m, NullMath.Round(r5.SmoothPrice, 4));
 
         HtlResult r6 = results[249];
-        Assert.AreEqual(253.8788m, Math.Round((decimal)r6.Trendline, 4));
-        Assert.AreEqual(257.5825m, Math.Round((decimal)r6.SmoothPrice, 4));
+        Assert.AreEqual(253.8788m, NullMath.Round(r6.Trendline, 4));
+        Assert.AreEqual(257.5825m, NullMath.Round(r6.SmoothPrice, 4));
 
         HtlResult r7 = results[501];
-        Assert.AreEqual(252.2172m, Math.Round((decimal)r7.Trendline, 4));
-        Assert.AreEqual(242.3435m, Math.Round((decimal)r7.SmoothPrice, 4));
+        Assert.AreEqual(252.2172m, NullMath.Round(r7.Trendline, 4));
+        Assert.AreEqual(242.3435m, NullMath.Round(r7.SmoothPrice, 4));
     }
 
     [TestMethod]

@@ -37,47 +37,47 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r1.R4);
 
         RollingPivotsResult r2 = results[20];
-        Assert.AreEqual(213.6367m, Math.Round((decimal)r2.PP, 4));
-        Assert.AreEqual(212.1033m, Math.Round((decimal)r2.S1, 4));
-        Assert.AreEqual(209.9867m, Math.Round((decimal)r2.S2, 4));
-        Assert.AreEqual(208.4533m, Math.Round((decimal)r2.S3, 4));
+        Assert.AreEqual(213.6367m, NullMath.Round(r2.PP, 4));
+        Assert.AreEqual(212.1033m, NullMath.Round(r2.S1, 4));
+        Assert.AreEqual(209.9867m, NullMath.Round(r2.S2, 4));
+        Assert.AreEqual(208.4533m, NullMath.Round(r2.S3, 4));
         Assert.AreEqual(null, r2.S4);
-        Assert.AreEqual(215.7533m, Math.Round((decimal)r2.R1, 4));
-        Assert.AreEqual(217.2867m, Math.Round((decimal)r2.R2, 4));
-        Assert.AreEqual(219.4033m, Math.Round((decimal)r2.R3, 4));
+        Assert.AreEqual(215.7533m, NullMath.Round(r2.R1, 4));
+        Assert.AreEqual(217.2867m, NullMath.Round(r2.R2, 4));
+        Assert.AreEqual(219.4033m, NullMath.Round(r2.R3, 4));
         Assert.AreEqual(null, r2.R4);
 
         RollingPivotsResult r3 = results[149];
-        Assert.AreEqual(233.6333m, Math.Round((decimal)r3.PP, 4));
-        Assert.AreEqual(231.3567m, Math.Round((decimal)r3.S1, 4));
-        Assert.AreEqual(227.3733m, Math.Round((decimal)r3.S2, 4));
-        Assert.AreEqual(225.0967m, Math.Round((decimal)r3.S3, 4));
+        Assert.AreEqual(233.6333m, NullMath.Round(r3.PP, 4));
+        Assert.AreEqual(231.3567m, NullMath.Round(r3.S1, 4));
+        Assert.AreEqual(227.3733m, NullMath.Round(r3.S2, 4));
+        Assert.AreEqual(225.0967m, NullMath.Round(r3.S3, 4));
         Assert.AreEqual(null, r3.S4);
-        Assert.AreEqual(237.6167m, Math.Round((decimal)r3.R1, 4));
-        Assert.AreEqual(239.8933m, Math.Round((decimal)r3.R2, 4));
-        Assert.AreEqual(243.8767m, Math.Round((decimal)r3.R3, 4));
+        Assert.AreEqual(237.6167m, NullMath.Round(r3.R1, 4));
+        Assert.AreEqual(239.8933m, NullMath.Round(r3.R2, 4));
+        Assert.AreEqual(243.8767m, NullMath.Round(r3.R3, 4));
         Assert.AreEqual(null, r3.R4);
 
         RollingPivotsResult r4 = results[249];
-        Assert.AreEqual(253.9533m, Math.Round((decimal)r4.PP, 4));
-        Assert.AreEqual(251.5267m, Math.Round((decimal)r4.S1, 4));
-        Assert.AreEqual(247.4433m, Math.Round((decimal)r4.S2, 4));
-        Assert.AreEqual(245.0167m, Math.Round((decimal)r4.S3, 4));
+        Assert.AreEqual(253.9533m, NullMath.Round(r4.PP, 4));
+        Assert.AreEqual(251.5267m, NullMath.Round(r4.S1, 4));
+        Assert.AreEqual(247.4433m, NullMath.Round(r4.S2, 4));
+        Assert.AreEqual(245.0167m, NullMath.Round(r4.S3, 4));
         Assert.AreEqual(null, r4.S4);
-        Assert.AreEqual(258.0367m, Math.Round((decimal)r4.R1, 4));
-        Assert.AreEqual(260.4633m, Math.Round((decimal)r4.R2, 4));
-        Assert.AreEqual(264.5467m, Math.Round((decimal)r4.R3, 4));
+        Assert.AreEqual(258.0367m, NullMath.Round(r4.R1, 4));
+        Assert.AreEqual(260.4633m, NullMath.Round(r4.R2, 4));
+        Assert.AreEqual(264.5467m, NullMath.Round(r4.R3, 4));
         Assert.AreEqual(null, r4.R4);
 
         RollingPivotsResult r5 = results[501];
-        Assert.AreEqual(260.0267m, Math.Round((decimal)r5.PP, 4));
-        Assert.AreEqual(246.4633m, Math.Round((decimal)r5.S1, 4));
-        Assert.AreEqual(238.7767m, Math.Round((decimal)r5.S2, 4));
-        Assert.AreEqual(225.2133m, Math.Round((decimal)r5.S3, 4));
+        Assert.AreEqual(260.0267m, NullMath.Round(r5.PP, 4));
+        Assert.AreEqual(246.4633m, NullMath.Round(r5.S1, 4));
+        Assert.AreEqual(238.7767m, NullMath.Round(r5.S2, 4));
+        Assert.AreEqual(225.2133m, NullMath.Round(r5.S3, 4));
         Assert.AreEqual(null, r5.S4);
-        Assert.AreEqual(267.7133m, Math.Round((decimal)r5.R1, 4));
-        Assert.AreEqual(281.2767m, Math.Round((decimal)r5.R2, 4));
-        Assert.AreEqual(288.9633m, Math.Round((decimal)r5.R3, 4));
+        Assert.AreEqual(267.7133m, NullMath.Round(r5.R1, 4));
+        Assert.AreEqual(281.2767m, NullMath.Round(r5.R2, 4));
+        Assert.AreEqual(288.9633m, NullMath.Round(r5.R3, 4));
         Assert.AreEqual(null, r5.R4);
     }
 
@@ -113,48 +113,48 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r1.S4);
 
         RollingPivotsResult r2 = results[10];
-        Assert.AreEqual(267.0800m, Math.Round((decimal)r2.PP, 4));
-        Assert.AreEqual(265.8095m, Math.Round((decimal)r2.S1, 4));
-        Assert.AreEqual(264.5390m, Math.Round((decimal)r2.S2, 4));
-        Assert.AreEqual(263.2685m, Math.Round((decimal)r2.S3, 4));
-        Assert.AreEqual(259.4570m, Math.Round((decimal)r2.S4, 4));
-        Assert.AreEqual(268.3505m, Math.Round((decimal)r2.R1, 4));
-        Assert.AreEqual(269.6210m, Math.Round((decimal)r2.R2, 4));
-        Assert.AreEqual(270.8915m, Math.Round((decimal)r2.R3, 4));
-        Assert.AreEqual(274.7030m, Math.Round((decimal)r2.R4, 4));
+        Assert.AreEqual(267.0800m, NullMath.Round(r2.PP, 4));
+        Assert.AreEqual(265.8095m, NullMath.Round(r2.S1, 4));
+        Assert.AreEqual(264.5390m, NullMath.Round(r2.S2, 4));
+        Assert.AreEqual(263.2685m, NullMath.Round(r2.S3, 4));
+        Assert.AreEqual(259.4570m, NullMath.Round(r2.S4, 4));
+        Assert.AreEqual(268.3505m, NullMath.Round(r2.R1, 4));
+        Assert.AreEqual(269.6210m, NullMath.Round(r2.R2, 4));
+        Assert.AreEqual(270.8915m, NullMath.Round(r2.R3, 4));
+        Assert.AreEqual(274.7030m, NullMath.Round(r2.R4, 4));
 
         RollingPivotsResult r3 = results[22];
-        Assert.AreEqual(263.2900m, Math.Round((decimal)r3.PP, 4));
-        Assert.AreEqual(261.6840m, Math.Round((decimal)r3.S1, 4));
-        Assert.AreEqual(260.0780m, Math.Round((decimal)r3.S2, 4));
-        Assert.AreEqual(258.4720m, Math.Round((decimal)r3.S3, 4));
-        Assert.AreEqual(253.6540m, Math.Round((decimal)r3.S4, 4));
-        Assert.AreEqual(264.8960m, Math.Round((decimal)r3.R1, 4));
-        Assert.AreEqual(266.5020m, Math.Round((decimal)r3.R2, 4));
-        Assert.AreEqual(268.1080m, Math.Round((decimal)r3.R3, 4));
-        Assert.AreEqual(272.9260m, Math.Round((decimal)r3.R4, 4));
+        Assert.AreEqual(263.2900m, NullMath.Round(r3.PP, 4));
+        Assert.AreEqual(261.6840m, NullMath.Round(r3.S1, 4));
+        Assert.AreEqual(260.0780m, NullMath.Round(r3.S2, 4));
+        Assert.AreEqual(258.4720m, NullMath.Round(r3.S3, 4));
+        Assert.AreEqual(253.6540m, NullMath.Round(r3.S4, 4));
+        Assert.AreEqual(264.8960m, NullMath.Round(r3.R1, 4));
+        Assert.AreEqual(266.5020m, NullMath.Round(r3.R2, 4));
+        Assert.AreEqual(268.1080m, NullMath.Round(r3.R3, 4));
+        Assert.AreEqual(272.9260m, NullMath.Round(r3.R4, 4));
 
         RollingPivotsResult r4 = results[23];
-        Assert.AreEqual(257.1700m, Math.Round((decimal)r4.PP, 4));
-        Assert.AreEqual(255.5640m, Math.Round((decimal)r4.S1, 4));
-        Assert.AreEqual(253.9580m, Math.Round((decimal)r4.S2, 4));
-        Assert.AreEqual(252.3520m, Math.Round((decimal)r4.S3, 4));
-        Assert.AreEqual(247.5340m, Math.Round((decimal)r4.S4, 4));
-        Assert.AreEqual(258.7760m, Math.Round((decimal)r4.R1, 4));
-        Assert.AreEqual(260.3820m, Math.Round((decimal)r4.R2, 4));
-        Assert.AreEqual(261.9880m, Math.Round((decimal)r4.R3, 4));
-        Assert.AreEqual(266.8060m, Math.Round((decimal)r4.R4, 4));
+        Assert.AreEqual(257.1700m, NullMath.Round(r4.PP, 4));
+        Assert.AreEqual(255.5640m, NullMath.Round(r4.S1, 4));
+        Assert.AreEqual(253.9580m, NullMath.Round(r4.S2, 4));
+        Assert.AreEqual(252.3520m, NullMath.Round(r4.S3, 4));
+        Assert.AreEqual(247.5340m, NullMath.Round(r4.S4, 4));
+        Assert.AreEqual(258.7760m, NullMath.Round(r4.R1, 4));
+        Assert.AreEqual(260.3820m, NullMath.Round(r4.R2, 4));
+        Assert.AreEqual(261.9880m, NullMath.Round(r4.R3, 4));
+        Assert.AreEqual(266.8060m, NullMath.Round(r4.R4, 4));
 
         RollingPivotsResult r5 = results[37];
-        Assert.AreEqual(243.1500m, Math.Round((decimal)r5.PP, 4));
-        Assert.AreEqual(240.5650m, Math.Round((decimal)r5.S1, 4));
-        Assert.AreEqual(237.9800m, Math.Round((decimal)r5.S2, 4));
-        Assert.AreEqual(235.3950m, Math.Round((decimal)r5.S3, 4));
-        Assert.AreEqual(227.6400m, Math.Round((decimal)r5.S4, 4));
-        Assert.AreEqual(245.7350m, Math.Round((decimal)r5.R1, 4));
-        Assert.AreEqual(248.3200m, Math.Round((decimal)r5.R2, 4));
-        Assert.AreEqual(250.9050m, Math.Round((decimal)r5.R3, 4));
-        Assert.AreEqual(258.6600m, Math.Round((decimal)r5.R4, 4));
+        Assert.AreEqual(243.1500m, NullMath.Round(r5.PP, 4));
+        Assert.AreEqual(240.5650m, NullMath.Round(r5.S1, 4));
+        Assert.AreEqual(237.9800m, NullMath.Round(r5.S2, 4));
+        Assert.AreEqual(235.3950m, NullMath.Round(r5.S3, 4));
+        Assert.AreEqual(227.6400m, NullMath.Round(r5.S4, 4));
+        Assert.AreEqual(245.7350m, NullMath.Round(r5.R1, 4));
+        Assert.AreEqual(248.3200m, NullMath.Round(r5.R2, 4));
+        Assert.AreEqual(250.9050m, NullMath.Round(r5.R3, 4));
+        Assert.AreEqual(258.6600m, NullMath.Round(r5.R4, 4));
     }
 
     [TestMethod]
@@ -188,9 +188,9 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r1.R4);
 
         RollingPivotsResult r2 = results[20];
-        Assert.AreEqual(212.9900m, Math.Round((decimal)r2.PP, 4));
-        Assert.AreEqual(210.8100m, Math.Round((decimal)r2.S1, 4));
-        Assert.AreEqual(214.4600m, Math.Round((decimal)r2.R1, 4));
+        Assert.AreEqual(212.9900m, NullMath.Round(r2.PP, 4));
+        Assert.AreEqual(210.8100m, NullMath.Round(r2.S1, 4));
+        Assert.AreEqual(214.4600m, NullMath.Round(r2.R1, 4));
         Assert.AreEqual(null, r2.R2);
         Assert.AreEqual(null, r2.R3);
         Assert.AreEqual(null, r2.R4);
@@ -199,9 +199,9 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r2.S4);
 
         RollingPivotsResult r3 = results[149];
-        Assert.AreEqual(232.6525m, Math.Round((decimal)r3.PP, 4));
-        Assert.AreEqual(229.3950m, Math.Round((decimal)r3.S1, 4));
-        Assert.AreEqual(235.6550m, Math.Round((decimal)r3.R1, 4));
+        Assert.AreEqual(232.6525m, NullMath.Round(r3.PP, 4));
+        Assert.AreEqual(229.3950m, NullMath.Round(r3.S1, 4));
+        Assert.AreEqual(235.6550m, NullMath.Round(r3.R1, 4));
         Assert.AreEqual(null, r3.R2);
         Assert.AreEqual(null, r3.R3);
         Assert.AreEqual(null, r3.R4);
@@ -210,9 +210,9 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r3.S4);
 
         RollingPivotsResult r4 = results[250];
-        Assert.AreEqual(252.9325m, Math.Round((decimal)r4.PP, 4));
-        Assert.AreEqual(249.4850m, Math.Round((decimal)r4.S1, 4));
-        Assert.AreEqual(255.9950m, Math.Round((decimal)r4.R1, 4));
+        Assert.AreEqual(252.9325m, NullMath.Round(r4.PP, 4));
+        Assert.AreEqual(249.4850m, NullMath.Round(r4.S1, 4));
+        Assert.AreEqual(255.9950m, NullMath.Round(r4.R1, 4));
         Assert.AreEqual(null, r4.R2);
         Assert.AreEqual(null, r4.R3);
         Assert.AreEqual(null, r4.R4);
@@ -221,9 +221,9 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r4.S4);
 
         RollingPivotsResult r5 = results[251];
-        Assert.AreEqual(252.6700m, Math.Round((decimal)r5.PP, 4));
-        Assert.AreEqual(248.9600m, Math.Round((decimal)r5.S1, 4));
-        Assert.AreEqual(255.4700m, Math.Round((decimal)r5.R1, 4));
+        Assert.AreEqual(252.6700m, NullMath.Round(r5.PP, 4));
+        Assert.AreEqual(248.9600m, NullMath.Round(r5.S1, 4));
+        Assert.AreEqual(255.4700m, NullMath.Round(r5.R1, 4));
         Assert.AreEqual(null, r5.R2);
         Assert.AreEqual(null, r5.R3);
         Assert.AreEqual(null, r5.R4);
@@ -232,9 +232,9 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r5.S4);
 
         RollingPivotsResult r6 = results[501];
-        Assert.AreEqual(264.6125m, Math.Round((decimal)r6.PP, 4));
-        Assert.AreEqual(255.6350m, Math.Round((decimal)r6.S1, 4));
-        Assert.AreEqual(276.8850m, Math.Round((decimal)r6.R1, 4));
+        Assert.AreEqual(264.6125m, NullMath.Round(r6.PP, 4));
+        Assert.AreEqual(255.6350m, NullMath.Round(r6.S1, 4));
+        Assert.AreEqual(276.8850m, NullMath.Round(r6.R1, 4));
         Assert.AreEqual(null, r6.R2);
         Assert.AreEqual(null, r6.R3);
         Assert.AreEqual(null, r6.R4);
@@ -275,49 +275,49 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r1.S4);
 
         RollingPivotsResult r2 = results[59];
-        Assert.AreEqual(368.4283m, Math.Round((decimal)r2.PP, 4));
-        Assert.AreEqual(367.8553m, Math.Round((decimal)r2.S1, 4));
-        Assert.AreEqual(367.5013m, Math.Round((decimal)r2.S2, 4));
-        Assert.AreEqual(366.9283m, Math.Round((decimal)r2.S3, 4));
-        Assert.AreEqual(369.0013m, Math.Round((decimal)r2.R1, 4));
-        Assert.AreEqual(369.3553m, Math.Round((decimal)r2.R2, 4));
-        Assert.AreEqual(369.9283m, Math.Round((decimal)r2.R3, 4));
+        Assert.AreEqual(368.4283m, NullMath.Round(r2.PP, 4));
+        Assert.AreEqual(367.8553m, NullMath.Round(r2.S1, 4));
+        Assert.AreEqual(367.5013m, NullMath.Round(r2.S2, 4));
+        Assert.AreEqual(366.9283m, NullMath.Round(r2.S3, 4));
+        Assert.AreEqual(369.0013m, NullMath.Round(r2.R1, 4));
+        Assert.AreEqual(369.3553m, NullMath.Round(r2.R2, 4));
+        Assert.AreEqual(369.9283m, NullMath.Round(r2.R3, 4));
 
         RollingPivotsResult r3 = results[118];
-        Assert.AreEqual(369.1573m, Math.Round((decimal)r3.PP, 4));
-        Assert.AreEqual(368.7333m, Math.Round((decimal)r3.S1, 4));
-        Assert.AreEqual(368.4713m, Math.Round((decimal)r3.S2, 4));
-        Assert.AreEqual(368.0473m, Math.Round((decimal)r3.S3, 4));
-        Assert.AreEqual(369.5813m, Math.Round((decimal)r3.R1, 4));
-        Assert.AreEqual(369.8433m, Math.Round((decimal)r3.R2, 4));
-        Assert.AreEqual(370.2673m, Math.Round((decimal)r3.R3, 4));
+        Assert.AreEqual(369.1573m, NullMath.Round(r3.PP, 4));
+        Assert.AreEqual(368.7333m, NullMath.Round(r3.S1, 4));
+        Assert.AreEqual(368.4713m, NullMath.Round(r3.S2, 4));
+        Assert.AreEqual(368.0473m, NullMath.Round(r3.S3, 4));
+        Assert.AreEqual(369.5813m, NullMath.Round(r3.R1, 4));
+        Assert.AreEqual(369.8433m, NullMath.Round(r3.R2, 4));
+        Assert.AreEqual(370.2673m, NullMath.Round(r3.R3, 4));
 
         RollingPivotsResult r4 = results[119];
-        Assert.AreEqual(369.1533m, Math.Round((decimal)r4.PP, 4));
-        Assert.AreEqual(368.7293m, Math.Round((decimal)r4.S1, 4));
-        Assert.AreEqual(368.4674m, Math.Round((decimal)r4.S2, 4));
-        Assert.AreEqual(368.0433m, Math.Round((decimal)r4.S3, 4));
-        Assert.AreEqual(369.5774m, Math.Round((decimal)r4.R1, 4));
-        Assert.AreEqual(369.8393m, Math.Round((decimal)r4.R2, 4));
-        Assert.AreEqual(370.2633m, Math.Round((decimal)r4.R3, 4));
+        Assert.AreEqual(369.1533m, NullMath.Round(r4.PP, 4));
+        Assert.AreEqual(368.7293m, NullMath.Round(r4.S1, 4));
+        Assert.AreEqual(368.4674m, NullMath.Round(r4.S2, 4));
+        Assert.AreEqual(368.0433m, NullMath.Round(r4.S3, 4));
+        Assert.AreEqual(369.5774m, NullMath.Round(r4.R1, 4));
+        Assert.AreEqual(369.8393m, NullMath.Round(r4.R2, 4));
+        Assert.AreEqual(370.2633m, NullMath.Round(r4.R3, 4));
 
         RollingPivotsResult r5 = results[149];
-        Assert.AreEqual(369.0183m, Math.Round((decimal)r5.PP, 4));
-        Assert.AreEqual(368.6593m, Math.Round((decimal)r5.S1, 4));
-        Assert.AreEqual(368.4374m, Math.Round((decimal)r5.S2, 4));
-        Assert.AreEqual(368.0783m, Math.Round((decimal)r5.S3, 4));
-        Assert.AreEqual(369.3774m, Math.Round((decimal)r5.R1, 4));
-        Assert.AreEqual(369.5993m, Math.Round((decimal)r5.R2, 4));
-        Assert.AreEqual(369.9583m, Math.Round((decimal)r5.R3, 4));
+        Assert.AreEqual(369.0183m, NullMath.Round(r5.PP, 4));
+        Assert.AreEqual(368.6593m, NullMath.Round(r5.S1, 4));
+        Assert.AreEqual(368.4374m, NullMath.Round(r5.S2, 4));
+        Assert.AreEqual(368.0783m, NullMath.Round(r5.S3, 4));
+        Assert.AreEqual(369.3774m, NullMath.Round(r5.R1, 4));
+        Assert.AreEqual(369.5993m, NullMath.Round(r5.R2, 4));
+        Assert.AreEqual(369.9583m, NullMath.Round(r5.R3, 4));
 
         RollingPivotsResult r6 = results[299];
-        Assert.AreEqual(367.7567m, Math.Round((decimal)r6.PP, 4));
-        Assert.AreEqual(367.3174m, Math.Round((decimal)r6.S1, 4));
-        Assert.AreEqual(367.0460m, Math.Round((decimal)r6.S2, 4));
-        Assert.AreEqual(366.6067m, Math.Round((decimal)r6.S3, 4));
-        Assert.AreEqual(368.1960m, Math.Round((decimal)r6.R1, 4));
-        Assert.AreEqual(368.4674m, Math.Round((decimal)r6.R2, 4));
-        Assert.AreEqual(368.9067m, Math.Round((decimal)r6.R3, 4));
+        Assert.AreEqual(367.7567m, NullMath.Round(r6.PP, 4));
+        Assert.AreEqual(367.3174m, NullMath.Round(r6.S1, 4));
+        Assert.AreEqual(367.0460m, NullMath.Round(r6.S2, 4));
+        Assert.AreEqual(366.6067m, NullMath.Round(r6.S3, 4));
+        Assert.AreEqual(368.1960m, NullMath.Round(r6.R1, 4));
+        Assert.AreEqual(368.4674m, NullMath.Round(r6.R2, 4));
+        Assert.AreEqual(368.9067m, NullMath.Round(r6.R3, 4));
     }
 
     [TestMethod]
@@ -352,40 +352,40 @@ public class RollingPivots : TestBase
         Assert.AreEqual(null, r2.S4);
 
         RollingPivotsResult r3 = results[391];
-        Assert.AreEqual(368.7850m, Math.Round((decimal)r3.PP, 4));
-        Assert.AreEqual(367.9901m, Math.Round((decimal)r3.S1, 4));
-        Assert.AreEqual(365.1252m, Math.Round((decimal)r3.S2, 4));
-        Assert.AreEqual(364.3303m, Math.Round((decimal)r3.S3, 4));
-        Assert.AreEqual(371.6499m, Math.Round((decimal)r3.R1, 4));
-        Assert.AreEqual(372.4448m, Math.Round((decimal)r3.R2, 4));
-        Assert.AreEqual(375.3097m, Math.Round((decimal)r3.R3, 4));
+        Assert.AreEqual(368.7850m, NullMath.Round(r3.PP, 4));
+        Assert.AreEqual(367.9901m, NullMath.Round(r3.S1, 4));
+        Assert.AreEqual(365.1252m, NullMath.Round(r3.S2, 4));
+        Assert.AreEqual(364.3303m, NullMath.Round(r3.S3, 4));
+        Assert.AreEqual(371.6499m, NullMath.Round(r3.R1, 4));
+        Assert.AreEqual(372.4448m, NullMath.Round(r3.R2, 4));
+        Assert.AreEqual(375.3097m, NullMath.Round(r3.R3, 4));
 
         RollingPivotsResult r4 = results[1172];
-        Assert.AreEqual(371.75m, Math.Round((decimal)r4.PP, 4));
-        Assert.AreEqual(371.04m, Math.Round((decimal)r4.S1, 4));
-        Assert.AreEqual(369.35m, Math.Round((decimal)r4.S2, 4));
-        Assert.AreEqual(368.64m, Math.Round((decimal)r4.S3, 4));
-        Assert.AreEqual(373.44m, Math.Round((decimal)r4.R1, 4));
-        Assert.AreEqual(374.15m, Math.Round((decimal)r4.R2, 4));
-        Assert.AreEqual(375.84m, Math.Round((decimal)r4.R3, 4));
+        Assert.AreEqual(371.75m, NullMath.Round(r4.PP, 4));
+        Assert.AreEqual(371.04m, NullMath.Round(r4.S1, 4));
+        Assert.AreEqual(369.35m, NullMath.Round(r4.S2, 4));
+        Assert.AreEqual(368.64m, NullMath.Round(r4.S3, 4));
+        Assert.AreEqual(373.44m, NullMath.Round(r4.R1, 4));
+        Assert.AreEqual(374.15m, NullMath.Round(r4.R2, 4));
+        Assert.AreEqual(375.84m, NullMath.Round(r4.R3, 4));
 
         RollingPivotsResult r5 = results[1173];
-        Assert.AreEqual(371.3625m, Math.Round((decimal)r5.PP, 4));
-        Assert.AreEqual(370.2650m, Math.Round((decimal)r5.S1, 4));
-        Assert.AreEqual(369.9525m, Math.Round((decimal)r5.S2, 4));
-        Assert.AreEqual(368.8550m, Math.Round((decimal)r5.S3, 4));
-        Assert.AreEqual(371.6750m, Math.Round((decimal)r5.R1, 4));
-        Assert.AreEqual(372.7725m, Math.Round((decimal)r5.R2, 4));
-        Assert.AreEqual(373.0850m, Math.Round((decimal)r5.R3, 4));
+        Assert.AreEqual(371.3625m, NullMath.Round(r5.PP, 4));
+        Assert.AreEqual(370.2650m, NullMath.Round(r5.S1, 4));
+        Assert.AreEqual(369.9525m, NullMath.Round(r5.S2, 4));
+        Assert.AreEqual(368.8550m, NullMath.Round(r5.S3, 4));
+        Assert.AreEqual(371.6750m, NullMath.Round(r5.R1, 4));
+        Assert.AreEqual(372.7725m, NullMath.Round(r5.R2, 4));
+        Assert.AreEqual(373.0850m, NullMath.Round(r5.R3, 4));
 
         RollingPivotsResult r6 = results[1563];
-        Assert.AreEqual(369.38m, Math.Round((decimal)r6.PP, 4));
-        Assert.AreEqual(366.52m, Math.Round((decimal)r6.S1, 4));
-        Assert.AreEqual(364.16m, Math.Round((decimal)r6.S2, 4));
-        Assert.AreEqual(361.30m, Math.Round((decimal)r6.S3, 4));
-        Assert.AreEqual(371.74m, Math.Round((decimal)r6.R1, 4));
-        Assert.AreEqual(374.60m, Math.Round((decimal)r6.R2, 4));
-        Assert.AreEqual(376.96m, Math.Round((decimal)r6.R3, 4));
+        Assert.AreEqual(369.38m, NullMath.Round(r6.PP, 4));
+        Assert.AreEqual(366.52m, NullMath.Round(r6.S1, 4));
+        Assert.AreEqual(364.16m, NullMath.Round(r6.S2, 4));
+        Assert.AreEqual(361.30m, NullMath.Round(r6.S3, 4));
+        Assert.AreEqual(371.74m, NullMath.Round(r6.R1, 4));
+        Assert.AreEqual(374.60m, NullMath.Round(r6.R2, 4));
+        Assert.AreEqual(376.96m, NullMath.Round(r6.R3, 4));
     }
 
     [TestMethod]
@@ -421,14 +421,14 @@ public class RollingPivots : TestBase
         Assert.AreEqual(502 - (windowPeriods + offsetPeriods), results.Count);
 
         RollingPivotsResult last = results.LastOrDefault();
-        Assert.AreEqual(260.0267m, Math.Round((decimal)last.PP, 4));
-        Assert.AreEqual(246.4633m, Math.Round((decimal)last.S1, 4));
-        Assert.AreEqual(238.7767m, Math.Round((decimal)last.S2, 4));
-        Assert.AreEqual(225.2133m, Math.Round((decimal)last.S3, 4));
+        Assert.AreEqual(260.0267m, NullMath.Round(last.PP, 4));
+        Assert.AreEqual(246.4633m, NullMath.Round(last.S1, 4));
+        Assert.AreEqual(238.7767m, NullMath.Round(last.S2, 4));
+        Assert.AreEqual(225.2133m, NullMath.Round(last.S3, 4));
         Assert.AreEqual(null, last.S4);
-        Assert.AreEqual(267.7133m, Math.Round((decimal)last.R1, 4));
-        Assert.AreEqual(281.2767m, Math.Round((decimal)last.R2, 4));
-        Assert.AreEqual(288.9633m, Math.Round((decimal)last.R3, 4));
+        Assert.AreEqual(267.7133m, NullMath.Round(last.R1, 4));
+        Assert.AreEqual(281.2767m, NullMath.Round(last.R2, 4));
+        Assert.AreEqual(288.9633m, NullMath.Round(last.R3, 4));
         Assert.AreEqual(null, last.R4);
     }
 

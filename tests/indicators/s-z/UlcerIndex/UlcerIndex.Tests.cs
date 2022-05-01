@@ -21,7 +21,7 @@ public class UlcerIndex : TestBase
 
         // sample value
         UlcerIndexResult r = results[501];
-        Assert.AreEqual(5.7255, Math.Round((double)r.UI, 4));
+        Assert.AreEqual(5.7255, NullMath.Round(r.UI, 4));
     }
 
     [TestMethod]
@@ -52,7 +52,7 @@ public class UlcerIndex : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         UlcerIndexResult last = results.LastOrDefault();
-        Assert.AreEqual(5.7255, Math.Round((double)last.UI, 4));
+        Assert.AreEqual(5.7255, NullMath.Round(last.UI, 4));
     }
 
     [TestMethod]

@@ -27,29 +27,29 @@ public class Stoch : TestBase
 
         // sample values
         StochResult r15 = results[15];
-        Assert.AreEqual(81.1253m, Math.Round((decimal)r15.Oscillator, 4));
+        Assert.AreEqual(81.1253m, NullMath.Round(r15.Oscillator, 4));
         Assert.IsNull(r15.Signal);
         Assert.IsNull(r15.PercentJ);
 
         StochResult r17 = results[17];
-        Assert.AreEqual(92.1307m, Math.Round((decimal)r17.Oscillator, 4));
-        Assert.AreEqual(88.4995m, Math.Round((decimal)r17.Signal, 4));
-        Assert.AreEqual(99.3929m, Math.Round((decimal)r17.PercentJ, 4));
+        Assert.AreEqual(92.1307m, NullMath.Round(r17.Oscillator, 4));
+        Assert.AreEqual(88.4995m, NullMath.Round(r17.Signal, 4));
+        Assert.AreEqual(99.3929m, NullMath.Round(r17.PercentJ, 4));
 
         StochResult r149 = results[149];
-        Assert.AreEqual(81.6870m, Math.Round((decimal)r149.Oscillator, 4));
-        Assert.AreEqual(79.7935m, Math.Round((decimal)r149.Signal, 4));
-        Assert.AreEqual(85.4741m, Math.Round((decimal)r149.PercentJ, 4));
+        Assert.AreEqual(81.6870m, NullMath.Round(r149.Oscillator, 4));
+        Assert.AreEqual(79.7935m, NullMath.Round(r149.Signal, 4));
+        Assert.AreEqual(85.4741m, NullMath.Round(r149.PercentJ, 4));
 
         StochResult r249 = results[249];  // also testing aliases here
-        Assert.AreEqual(83.2020m, Math.Round((decimal)r249.K, 4));
-        Assert.AreEqual(83.0813m, Math.Round((decimal)r249.D, 4));
-        Assert.AreEqual(83.4435m, Math.Round((decimal)r249.J, 4));
+        Assert.AreEqual(83.2020m, NullMath.Round(r249.K, 4));
+        Assert.AreEqual(83.0813m, NullMath.Round(r249.D, 4));
+        Assert.AreEqual(83.4435m, NullMath.Round(r249.J, 4));
 
         StochResult r501 = results[501];
-        Assert.AreEqual(43.1353m, Math.Round((decimal)r501.Oscillator, 4));
-        Assert.AreEqual(35.5674m, Math.Round((decimal)r501.Signal, 4));
-        Assert.AreEqual(58.2712m, Math.Round((decimal)r501.PercentJ, 4));
+        Assert.AreEqual(43.1353m, NullMath.Round(r501.Oscillator, 4));
+        Assert.AreEqual(35.5674m, NullMath.Round(r501.Signal, 4));
+        Assert.AreEqual(58.2712m, NullMath.Round(r501.PercentJ, 4));
     }
 
     [TestMethod]
@@ -74,29 +74,29 @@ public class Stoch : TestBase
         Assert.IsNull(r7.J);
 
         StochResult r8 = results[8];
-        Assert.AreEqual(81.9178m, Math.Round((decimal)r8.K, 4));
-        Assert.AreEqual(81.9178m, Math.Round((decimal)r8.D, 4));
-        Assert.AreEqual(81.9178m, Math.Round((decimal)r8.J, 4));
+        Assert.AreEqual(81.9178m, NullMath.Round(r8.K, 4));
+        Assert.AreEqual(81.9178m, NullMath.Round(r8.D, 4));
+        Assert.AreEqual(81.9178m, NullMath.Round(r8.J, 4));
 
         StochResult r17 = results[17];
-        Assert.AreEqual(82.5181m, Math.Round((decimal)r17.K, 4));
-        Assert.AreEqual(76.2603m, Math.Round((decimal)r17.D, 4));
-        Assert.AreEqual(107.5491m, Math.Round((decimal)r17.J, 4));
+        Assert.AreEqual(82.5181m, NullMath.Round(r17.K, 4));
+        Assert.AreEqual(76.2603m, NullMath.Round(r17.D, 4));
+        Assert.AreEqual(107.5491m, NullMath.Round(r17.J, 4));
 
         StochResult r149 = results[149];
-        Assert.AreEqual(77.1571m, Math.Round((decimal)r149.K, 4));
-        Assert.AreEqual(72.8206m, Math.Round((decimal)r149.D, 4));
-        Assert.AreEqual(94.5030m, Math.Round((decimal)r149.J, 4));
+        Assert.AreEqual(77.1571m, NullMath.Round(r149.K, 4));
+        Assert.AreEqual(72.8206m, NullMath.Round(r149.D, 4));
+        Assert.AreEqual(94.5030m, NullMath.Round(r149.J, 4));
 
         StochResult r249 = results[249];  // also testing aliases here
-        Assert.AreEqual(74.3652m, Math.Round((decimal)r249.K, 4));
-        Assert.AreEqual(75.5660m, Math.Round((decimal)r249.D, 4));
-        Assert.AreEqual(69.5621m, Math.Round((decimal)r249.J, 4));
+        Assert.AreEqual(74.3652m, NullMath.Round(r249.K, 4));
+        Assert.AreEqual(75.5660m, NullMath.Round(r249.D, 4));
+        Assert.AreEqual(69.5621m, NullMath.Round(r249.J, 4));
 
         StochResult r501 = results[501];
-        Assert.AreEqual(46.9807m, Math.Round((decimal)r501.K, 4));
-        Assert.AreEqual(32.0413m, Math.Round((decimal)r501.D, 4));
-        Assert.AreEqual(106.7382m, Math.Round((decimal)r501.J, 4));
+        Assert.AreEqual(46.9807m, NullMath.Round(r501.K, 4));
+        Assert.AreEqual(32.0413m, NullMath.Round(r501.D, 4));
+        Assert.AreEqual(106.7382m, NullMath.Round(r501.J, 4));
     }
 
     [TestMethod]
@@ -131,12 +131,12 @@ public class Stoch : TestBase
 
         // sample values
         StochResult r1 = results[487];
-        Assert.AreEqual(25.0353m, Math.Round((decimal)r1.Oscillator, 4));
-        Assert.AreEqual(60.5706m, Math.Round((decimal)r1.Signal, 4));
+        Assert.AreEqual(25.0353m, NullMath.Round(r1.Oscillator, 4));
+        Assert.AreEqual(60.5706m, NullMath.Round(r1.Signal, 4));
 
         StochResult r2 = results[501];
-        Assert.AreEqual(91.6233m, Math.Round((decimal)r2.Oscillator, 4));
-        Assert.AreEqual(36.0608m, Math.Round((decimal)r2.Signal, 4));
+        Assert.AreEqual(91.6233m, NullMath.Round(r2.Oscillator, 4));
+        Assert.AreEqual(36.0608m, NullMath.Round(r2.Signal, 4));
     }
 
     [TestMethod]
@@ -152,10 +152,10 @@ public class Stoch : TestBase
 
         // sample values
         StochResult r1 = results[70];
-        Assert.AreEqual(0m, Math.Round((decimal)r1.Oscillator, 4));
+        Assert.AreEqual(0m, NullMath.Round(r1.Oscillator, 4));
 
         StochResult r2 = results[71];
-        Assert.AreEqual(100m, Math.Round((decimal)r2.Oscillator, 4));
+        Assert.AreEqual(100m, NullMath.Round(r2.Oscillator, 4));
     }
 
     [TestMethod]
@@ -191,9 +191,9 @@ public class Stoch : TestBase
         Assert.AreEqual(502 - (lookbackPeriods + smoothPeriods - 2), results.Count);
 
         StochResult last = results.LastOrDefault();
-        Assert.AreEqual(43.1353m, Math.Round((decimal)last.Oscillator, 4));
-        Assert.AreEqual(35.5674m, Math.Round((decimal)last.Signal, 4));
-        Assert.AreEqual(58.2712m, Math.Round((decimal)last.PercentJ, 4));
+        Assert.AreEqual(43.1353m, NullMath.Round(last.Oscillator, 4));
+        Assert.AreEqual(35.5674m, NullMath.Round(last.Signal, 4));
+        Assert.AreEqual(58.2712m, NullMath.Round(last.PercentJ, 4));
     }
 
     [TestMethod]

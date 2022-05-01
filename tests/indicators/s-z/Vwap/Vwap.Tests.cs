@@ -24,16 +24,16 @@ public class Vwap : TestBase
 
         // sample values
         VwapResult r1 = results[0];
-        Assert.AreEqual(367.4800m, Math.Round((decimal)r1.Vwap, 4));
+        Assert.AreEqual(367.4800m, NullMath.Round(r1.Vwap, 4));
 
         VwapResult r2 = results[1];
-        Assert.AreEqual(367.4223m, Math.Round((decimal)r2.Vwap, 4));
+        Assert.AreEqual(367.4223m, NullMath.Round(r2.Vwap, 4));
 
         VwapResult r3 = results[369];
-        Assert.AreEqual(367.9494m, Math.Round((decimal)r3.Vwap, 4));
+        Assert.AreEqual(367.9494m, NullMath.Round(r3.Vwap, 4));
 
         VwapResult r4 = results[390];
-        Assert.AreEqual(368.1804m, Math.Round((decimal)r4.Vwap, 4));
+        Assert.AreEqual(368.1804m, NullMath.Round(r4.Vwap, 4));
     }
 
     [TestMethod]
@@ -56,13 +56,13 @@ public class Vwap : TestBase
         Assert.AreEqual(null, r1.Vwap);
 
         VwapResult r2 = results[30];
-        Assert.AreEqual(366.8100m, Math.Round((decimal)r2.Vwap, 4));
+        Assert.AreEqual(366.8100m, NullMath.Round(r2.Vwap, 4));
 
         VwapResult r3 = results[369];
-        Assert.AreEqual(368.0511m, Math.Round((decimal)r3.Vwap, 4));
+        Assert.AreEqual(368.0511m, NullMath.Round(r3.Vwap, 4));
 
         VwapResult r4 = results[390];
-        Assert.AreEqual(368.2908m, Math.Round((decimal)r4.Vwap, 4));
+        Assert.AreEqual(368.2908m, NullMath.Round(r4.Vwap, 4));
     }
 
     [TestMethod]
@@ -94,7 +94,7 @@ public class Vwap : TestBase
         Assert.AreEqual(391, results.Count);
 
         VwapResult last = results.LastOrDefault();
-        Assert.AreEqual(368.1804m, Math.Round((decimal)last.Vwap, 4));
+        Assert.AreEqual(368.1804m, NullMath.Round(last.Vwap, 4));
 
         // with start date
         DateTime startDate =
@@ -108,7 +108,7 @@ public class Vwap : TestBase
         Assert.AreEqual(361, sdResults.Count);
 
         VwapResult sdLast = sdResults.LastOrDefault();
-        Assert.AreEqual(368.2908m, Math.Round((decimal)sdLast.Vwap, 4));
+        Assert.AreEqual(368.2908m, NullMath.Round(sdLast.Vwap, 4));
     }
 
     [TestMethod]

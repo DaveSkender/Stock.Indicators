@@ -21,13 +21,13 @@ public class Ultimate : TestBase
 
         // sample values
         UltimateResult r1 = results[74];
-        Assert.AreEqual(51.7770m, Math.Round((decimal)r1.Ultimate, 4));
+        Assert.AreEqual(51.7770m, NullMath.Round(r1.Ultimate, 4));
 
         UltimateResult r2 = results[249];
-        Assert.AreEqual(45.3121m, Math.Round((decimal)r2.Ultimate, 4));
+        Assert.AreEqual(45.3121m, NullMath.Round(r2.Ultimate, 4));
 
         UltimateResult r3 = results[501];
-        Assert.AreEqual(49.5257m, Math.Round((decimal)r3.Ultimate, 4));
+        Assert.AreEqual(49.5257m, NullMath.Round(r3.Ultimate, 4));
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class Ultimate : TestBase
         Assert.AreEqual(502 - 28, results.Count);
 
         UltimateResult last = results.LastOrDefault();
-        Assert.AreEqual(49.5257m, Math.Round((decimal)last.Ultimate, 4));
+        Assert.AreEqual(49.5257m, NullMath.Round(last.Ultimate, 4));
     }
 
     [TestMethod]

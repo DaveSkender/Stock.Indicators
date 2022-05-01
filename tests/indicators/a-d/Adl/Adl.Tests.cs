@@ -47,7 +47,7 @@ public class Adl : TestBase
         Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
         Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
         Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
-        Assert.AreEqual(3595352721.16, Math.Round((double)r.AdlSma, 2));
+        Assert.AreEqual(3595352721.16, NullMath.Round(r.AdlSma, 2));
     }
 
     [TestMethod]

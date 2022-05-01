@@ -73,9 +73,9 @@ public class Alligator : TestBase
         Assert.AreEqual(502 - 21 - 250, r.Count());
 
         AlligatorResult last = r.LastOrDefault();
-        Assert.AreEqual(260.98953m, Math.Round((decimal)last.Jaw, 5));
-        Assert.AreEqual(253.53576m, Math.Round((decimal)last.Teeth, 5));
-        Assert.AreEqual(244.29591m, Math.Round((decimal)last.Lips, 5));
+        Assert.AreEqual(260.98953m, NullMath.Round(last.Jaw, 5));
+        Assert.AreEqual(253.53576m, NullMath.Round(last.Teeth, 5));
+        Assert.AreEqual(244.29591m, NullMath.Round(last.Lips, 5));
     }
 
     [TestMethod]

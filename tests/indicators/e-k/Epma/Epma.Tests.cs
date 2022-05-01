@@ -23,16 +23,16 @@ public class Epma : TestBase
         Assert.IsNull(r1.Epma);
 
         EpmaResult r2 = results[19];
-        Assert.AreEqual(215.6189m, Math.Round((decimal)r2.Epma, 4));
+        Assert.AreEqual(215.6189m, NullMath.Round(r2.Epma, 4));
 
         EpmaResult r3 = results[149];
-        Assert.AreEqual(236.7060m, Math.Round((decimal)r3.Epma, 4));
+        Assert.AreEqual(236.7060m, NullMath.Round(r3.Epma, 4));
 
         EpmaResult r4 = results[249];
-        Assert.AreEqual(258.5179m, Math.Round((decimal)r4.Epma, 4));
+        Assert.AreEqual(258.5179m, NullMath.Round(r4.Epma, 4));
 
         EpmaResult r5 = results[501];
-        Assert.AreEqual(235.8131m, Math.Round((decimal)r5.Epma, 4));
+        Assert.AreEqual(235.8131m, NullMath.Round(r5.Epma, 4));
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class Epma : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         EpmaResult last = results.LastOrDefault();
-        Assert.AreEqual(235.8131m, Math.Round((decimal)last.Epma, 4));
+        Assert.AreEqual(235.8131m, NullMath.Round(last.Epma, 4));
     }
 
     [TestMethod]

@@ -26,28 +26,28 @@ public class Smi : TestBase
         Assert.IsNull(r12.Signal);
 
         SmiResult r13 = results[13];
-        Assert.AreEqual(17.2603m, Math.Round((decimal)r13.Smi, 4));
-        Assert.AreEqual(17.2603m, Math.Round((decimal)r13.Signal, 4));
+        Assert.AreEqual(17.2603m, NullMath.Round(r13.Smi, 4));
+        Assert.AreEqual(17.2603m, NullMath.Round(r13.Signal, 4));
 
         SmiResult r14 = results[14];
-        Assert.AreEqual(18.6086m, Math.Round((decimal)r14.Smi, 4));
-        Assert.AreEqual(17.9344m, Math.Round((decimal)r14.Signal, 4));
+        Assert.AreEqual(18.6086m, NullMath.Round(r14.Smi, 4));
+        Assert.AreEqual(17.9344m, NullMath.Round(r14.Signal, 4));
 
         SmiResult r28 = results[28];
-        Assert.AreEqual(51.0417m, Math.Round((decimal)r28.Smi, 4));
-        Assert.AreEqual(47.1207m, Math.Round((decimal)r28.Signal, 4));
+        Assert.AreEqual(51.0417m, NullMath.Round(r28.Smi, 4));
+        Assert.AreEqual(47.1207m, NullMath.Round(r28.Signal, 4));
 
         SmiResult r150 = results[150];
-        Assert.AreEqual(65.6692m, Math.Round((decimal)r150.Smi, 4));
-        Assert.AreEqual(66.3292m, Math.Round((decimal)r150.Signal, 4));
+        Assert.AreEqual(65.6692m, NullMath.Round(r150.Smi, 4));
+        Assert.AreEqual(66.3292m, NullMath.Round(r150.Signal, 4));
 
         SmiResult r250 = results[250];  // also testing aliases here
-        Assert.AreEqual(67.2534m, Math.Round((decimal)r250.Smi, 4));
-        Assert.AreEqual(67.6261m, Math.Round((decimal)r250.Signal, 4));
+        Assert.AreEqual(67.2534m, NullMath.Round(r250.Smi, 4));
+        Assert.AreEqual(67.6261m, NullMath.Round(r250.Signal, 4));
 
         SmiResult r501 = results[501];
-        Assert.AreEqual(-52.6560m, Math.Round((decimal)r501.Smi, 4));
-        Assert.AreEqual(-54.1903m, Math.Round((decimal)r501.Signal, 4));
+        Assert.AreEqual(-52.6560m, NullMath.Round(r501.Smi, 4));
+        Assert.AreEqual(-54.1903m, NullMath.Round(r501.Signal, 4));
     }
 
     [TestMethod]
@@ -72,16 +72,16 @@ public class Smi : TestBase
 
         // sample values
         SmiResult r51 = results[51];
-        Assert.AreEqual(-100m, Math.Round((decimal)r51.Smi, 4));
-        Assert.AreEqual(-20.8709m, Math.Round((decimal)r51.Signal, 4));
+        Assert.AreEqual(-100m, NullMath.Round(r51.Smi, 4));
+        Assert.AreEqual(-20.8709m, NullMath.Round(r51.Signal, 4));
 
         SmiResult r81 = results[81];
-        Assert.AreEqual(0m, Math.Round((decimal)r81.Smi, 4));
-        Assert.AreEqual(-14.7101m, Math.Round((decimal)r81.Signal, 4));
+        Assert.AreEqual(0m, NullMath.Round(r81.Smi, 4));
+        Assert.AreEqual(-14.7101m, NullMath.Round(r81.Signal, 4));
 
         SmiResult r88 = results[88];
-        Assert.AreEqual(100m, Math.Round((decimal)r88.Smi, 4));
-        Assert.AreEqual(47.2291m, Math.Round((decimal)r88.Signal, 4));
+        Assert.AreEqual(100m, NullMath.Round(r88.Smi, 4));
+        Assert.AreEqual(47.2291m, NullMath.Round(r88.Signal, 4));
     }
 
     [TestMethod]
@@ -112,8 +112,8 @@ public class Smi : TestBase
         Assert.AreEqual(501 - (14 + 100), results.Count);
 
         SmiResult last = results.LastOrDefault();
-        Assert.AreEqual(-52.6560m, Math.Round((decimal)last.Smi, 4));
-        Assert.AreEqual(-54.1903m, Math.Round((decimal)last.Signal, 4));
+        Assert.AreEqual(-52.6560m, NullMath.Round(last.Smi, 4));
+        Assert.AreEqual(-54.1903m, NullMath.Round(last.Signal, 4));
     }
 
     [TestMethod]
