@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -29,7 +28,7 @@ public static partial class Indicator
 
             // open
             decimal? open = (prevOpen == null) ? (q.Open + q.Close) / 2
-                : (decimal?)(prevOpen + prevClose) / 2;
+                : (prevOpen + prevClose) / 2;
 
             // high
             decimal?[] arrH = { q.High, open, close };

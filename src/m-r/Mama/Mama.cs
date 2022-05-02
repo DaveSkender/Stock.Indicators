@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -119,7 +118,7 @@ public static partial class Indicator
 
                 if (i == 5)
                 {
-                    r.Mama = (decimal)sumPr / 6m;
+                    r.Mama = (decimal?)sumPr / 6m;
                     r.Fama = r.Mama;
                 }
 

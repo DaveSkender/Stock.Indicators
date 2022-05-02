@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -7,9 +6,7 @@ public static partial class Indicator
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Convert"]/*' />
     ///
     public static IEnumerable<Quote> ToQuotes(
-        this IEnumerable<DpoResult> results)
-    {
-        return results
+        this IEnumerable<DpoResult> results) => results
           .Where(x => x.Dpo != null)
           .Select(x => new Quote
           {
@@ -21,5 +18,4 @@ public static partial class Indicator
               Volume = x.Dpo
           })
           .ToList();
-    }
 }

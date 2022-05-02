@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -13,10 +12,10 @@ public static partial class Indicator
           .Select(x => new Quote
           {
               Date = x.Date,
-              Open = (decimal)x.HurstExponent,
-              High = (decimal)x.HurstExponent,
-              Low = (decimal)x.HurstExponent,
-              Close = (decimal)x.HurstExponent
+              Open = (decimal?)x.HurstExponent,
+              High = (decimal?)x.HurstExponent,
+              Low = (decimal?)x.HurstExponent,
+              Close = (decimal?)x.HurstExponent
           })
           .ToList();
 

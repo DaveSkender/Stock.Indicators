@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -23,13 +22,13 @@ public static partial class Indicator
 
         // convert rsi to quote format
         List<Quote> rsiQuotes = rsiResults
-            .Where(x => x.Rsi != null)
+            .Remove(rsiPeriods)
             .Select(x => new Quote
             {
                 Date = x.Date,
-                High = (decimal)x.Rsi,
-                Low = (decimal)x.Rsi,
-                Close = (decimal)x.Rsi
+                High = (decimal?)x.Rsi,
+                Low = (decimal?)x.Rsi,
+                Close = (decimal?)x.Rsi
             })
             .ToList();
 

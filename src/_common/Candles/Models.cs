@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 // CANDLESTICK MODELS
 
@@ -25,6 +24,11 @@ public class CandleProperties : Quote
 [Serializable]
 public class CandleResult : ResultBase
 {
+    public CandleResult()
+    {
+        Candle = new CandleProperties();
+    }
+
     public decimal? Price { get; set; }
     public Match Match { get; set; }
     public CandleProperties Candle { get; set; }
