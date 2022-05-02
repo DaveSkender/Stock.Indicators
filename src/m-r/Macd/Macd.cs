@@ -41,10 +41,10 @@ public static partial class Indicator
                 SlowEma = ds.Ema
             };
 
-            if (df.Ema != null && ds.Ema != null)
+            if (i >= slowPeriods - 1)
             {
-                double macd = (double)(df.Ema - ds.Ema);
-                result.Macd = (decimal)macd;
+                double? macd = (double?)(df.Ema - ds.Ema);
+                result.Macd = (decimal?)macd;
 
                 // temp data for interim EMA of macd
                 BasicData diff = new()

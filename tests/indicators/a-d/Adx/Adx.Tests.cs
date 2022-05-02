@@ -89,10 +89,9 @@ public class Adx : TestBase
     }
 
     [TestMethod]
-    public void Exceptions()
-    {
+    public void Exceptions() =>
+
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAdx(quotes, 1));
-    }
 }

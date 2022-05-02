@@ -24,9 +24,9 @@ public class ChaikinOsc : TestBase
 
         // sample value
         ChaikinOscResult r = results[501];
-        Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
-        Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
+        Assert.AreEqual(3439986548.42, NullMath.Round(r.Adl, 2));
+        Assert.AreEqual(0.8052, NullMath.Round(r.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, NullMath.Round(r.MoneyFlowVolume, 2));
         Assert.AreEqual(-19135200.72, NullMath.Round(r.Oscillator, 2));
     }
 
@@ -61,9 +61,9 @@ public class ChaikinOsc : TestBase
         Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
 
         ChaikinOscResult last = results.LastOrDefault();
-        Assert.AreEqual(3439986548.42, Math.Round(last.Adl, 2));
-        Assert.AreEqual(0.8052, Math.Round(last.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, Math.Round(last.MoneyFlowVolume, 2));
+        Assert.AreEqual(3439986548.42, NullMath.Round(last.Adl, 2));
+        Assert.AreEqual(0.8052, NullMath.Round(last.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, NullMath.Round(last.MoneyFlowVolume, 2));
         Assert.AreEqual(-19135200.72, NullMath.Round(last.Oscillator, 2));
     }
 

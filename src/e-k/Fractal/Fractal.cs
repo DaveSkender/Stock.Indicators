@@ -48,10 +48,10 @@ public static partial class Indicator
                 bool isHigh = true;
                 bool isLow = true;
 
-                decimal evalHigh = (endType == EndType.Close) ?
+                decimal? evalHigh = (endType == EndType.Close) ?
                    q.Close : q.High;
 
-                decimal evalLow = (endType == EndType.Close) ?
+                decimal? evalLow = (endType == EndType.Close) ?
                     q.Close : q.Low;
 
                 // compare today with wings
@@ -66,10 +66,10 @@ public static partial class Indicator
                     // evaluate wing periods
                     TQuote wing = quotesList[p];
 
-                    decimal wingHigh = (endType == EndType.Close) ?
+                    decimal? wingHigh = (endType == EndType.Close) ?
                         wing.Close : wing.High;
 
-                    decimal wingLow = (endType == EndType.Close) ?
+                    decimal? wingLow = (endType == EndType.Close) ?
                         wing.Close : wing.Low;
 
                     if (evalHigh <= wingHigh)

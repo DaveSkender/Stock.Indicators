@@ -34,10 +34,10 @@ public static partial class Indicator
         int brickIndex = 1;
         int decimals = brickSize.GetDecimalPlaces();
 
-        decimal o = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
-        decimal h = q0.Close;
-        decimal l = q0.Close;
-        decimal v = q0.Close;
+        decimal? o = NullMath.Round(q0.Close, Math.Max(decimals - 1, 0));
+        decimal? h = q0.Close;
+        decimal? l = q0.Close;
+        decimal? v = q0.Close;
 
         // roll through quotes
         for (int i = 1; i < length; i++)
@@ -61,8 +61,8 @@ public static partial class Indicator
 
             // determine if new brick threshold is met
             // TODO: add High/Low handling
-            int newBrickQty = GetNewBricks(endType, q, o, brickSize);
-            int absQty = Math.Abs(newBrickQty);
+            int? newBrickQty = GetNewBricks(endType, q, o, brickSize);
+            int? absQty = NullMath.Abs(newBrickQty);
 
             // add new brick(s)
             if (newBrickQty != 0)
@@ -70,7 +70,7 @@ public static partial class Indicator
                 // can add more than one brick!
                 for (int b = 0; b < absQty; b++)
                 {
-                    decimal brickClose = newBrickQty > 0 ?
+                    decimal? brickClose = newBrickQty > 0 ?
                         o + brickSize : o - brickSize;
 
                     RenkoResult result = new()
@@ -96,28 +96,28 @@ public static partial class Indicator
     }
 
     // calculate brick size
-    private static int GetNewBricks<TQuote>(
+    private static int? GetNewBricks<TQuote>(
         EndType endType,
         TQuote q,
-        decimal lastOpen,
-        decimal brickSize)
+        decimal? lastOpen,
+        decimal? brickSize)
         where TQuote : IQuote
     {
         switch (endType)
         {
             case EndType.Close:
 
-                return (int)((q.Close - lastOpen) / brickSize);
+                return (int?)((q.Close - lastOpen) / brickSize);
 
             case EndType.HighLow:
 
                 // high/low assumption: absolute greater diff wins
                 // --> does not consider close direction
 
-                decimal hQty = (q.High - lastOpen) / brickSize;
-                decimal lQty = (q.Low - lastOpen) / brickSize;
+                decimal? hQty = (q.High - lastOpen) / brickSize;
+                decimal? lQty = (q.Low - lastOpen) / brickSize;
 
-                return (int)(Math.Abs(hQty) >= Math.Abs(lQty) ? hQty : lQty);
+                return (int?)(NullMath.Abs(hQty) >= NullMath.Abs(lQty) ? hQty : lQty);
 
             default: return 0;
         }

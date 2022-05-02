@@ -19,7 +19,7 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<CciResult> results = new(length);
-        double[] tp = new double[length];
+        double?[] tp = new double?[length];
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -36,7 +36,7 @@ public static partial class Indicator
             if (i + 1 >= lookbackPeriods)
             {
                 // average TP over lookback
-                double avgTp = 0;
+                double? avgTp = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     avgTp += tp[p];
@@ -45,10 +45,10 @@ public static partial class Indicator
                 avgTp /= lookbackPeriods;
 
                 // average Deviation over lookback
-                double avgDv = 0;
+                double? avgDv = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    avgDv += Math.Abs(avgTp - tp[p]);
+                    avgDv += NullMath.Abs(avgTp - tp[p]);
                 }
 
                 avgDv /= lookbackPeriods;

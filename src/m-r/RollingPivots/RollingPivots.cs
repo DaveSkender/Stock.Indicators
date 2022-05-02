@@ -37,9 +37,9 @@ public static partial class Indicator
                 int s = i - windowPeriods - offsetPeriods;
                 TQuote hi = quotesList[s];
 
-                decimal windowHigh = hi.High;
-                decimal windowLow = hi.Low;
-                decimal windowClose = quotesList[i - offsetPeriods - 1].Close;
+                decimal? windowHigh = hi.High;
+                decimal? windowLow = hi.Low;
+                decimal? windowClose = quotesList[i - offsetPeriods - 1].Close;
 
                 for (int p = s; p <= i - offsetPeriods - 1; p++)
                 {

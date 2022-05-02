@@ -25,19 +25,19 @@ public static partial class Indicator
             TQuote q = quotesList[i];
 
             // close
-            decimal close = (q.Open + q.High + q.Low + q.Close) / 4;
+            decimal? close = (q.Open + q.High + q.Low + q.Close) / 4;
 
             // open
-            decimal open = (prevOpen == null) ? (q.Open + q.Close) / 2
-                : (decimal)(prevOpen + prevClose) / 2;
+            decimal? open = (prevOpen == null) ? (q.Open + q.Close) / 2
+                : (decimal?)(prevOpen + prevClose) / 2;
 
             // high
-            decimal[] arrH = { q.High, open, close };
-            decimal high = arrH.Max();
+            decimal?[] arrH = { q.High, open, close };
+            decimal? high = arrH.Max();
 
             // low
-            decimal[] arrL = { q.Low, open, close };
-            decimal low = arrL.Min();
+            decimal?[] arrL = { q.Low, open, close };
+            decimal? low = arrL.Min();
 
             HeikinAshiResult result = new()
             {

@@ -19,8 +19,8 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<MfiResult> results = new(length);
-        double[] tp = new double[length];  // true price
-        double[] mf = new double[length];  // raw MF value
+        double?[] tp = new double?[length];  // true price
+        double?[] mf = new double?[length];  // raw MF value
         int[] direction = new int[length];   // direction
 
         double? prevTP = null;
@@ -65,8 +65,8 @@ public static partial class Indicator
         {
             MfiResult r = results[i];
 
-            double sumPosMFs = 0;
-            double sumNegMFs = 0;
+            double? sumPosMFs = 0;
+            double? sumNegMFs = 0;
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
@@ -88,7 +88,7 @@ public static partial class Indicator
             }
 
             // calculate MFI normally
-            decimal mfRatio = (decimal)(sumPosMFs / sumNegMFs);
+            decimal? mfRatio = (decimal?)(sumPosMFs / sumNegMFs);
 
             r.Mfi = 100 - (100 / (1 + mfRatio));
         }

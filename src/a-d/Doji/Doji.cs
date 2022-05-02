@@ -26,7 +26,7 @@ public static partial class Indicator
             // check for current signal
             if (r.Candle.Open != 0)
             {
-                if (Math.Abs((double)(r.Candle.Close / r.Candle.Open) - 1d) <= maxPriceChangePercent)
+                if (NullMath.Abs((double?)(r.Candle.Close / r.Candle.Open) - 1d) <= maxPriceChangePercent)
                 {
                     r.Price = r.Candle.Close;
                     r.Match = Match.Neutral;

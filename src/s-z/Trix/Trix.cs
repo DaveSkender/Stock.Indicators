@@ -38,7 +38,6 @@ public static partial class Indicator
         // compose final results
         for (int i = 0; i < length; i++)
         {
-
             BasicData q = bdList[i];
 
             TrixResult result = new()
