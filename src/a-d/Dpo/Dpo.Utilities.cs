@@ -14,11 +14,11 @@ public static partial class Indicator
           .Select(x => new Quote
           {
               Date = x.Date,
-              Open = (decimal)x.Dpo,
-              High = (decimal)x.Dpo,
-              Low = (decimal)x.Dpo,
-              Close = (decimal)x.Dpo,
-              Volume = (decimal)x.Dpo
+              Open = x.Dpo,
+              High = x.Dpo,
+              Low = x.Dpo,
+              Close = x.Dpo,
+              Volume = x.Dpo
           })
           .ToList();
     }
