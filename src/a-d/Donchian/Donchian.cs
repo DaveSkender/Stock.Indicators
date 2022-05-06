@@ -31,8 +31,8 @@ public static partial class Indicator
 
             if (i >= lookbackPeriods)
             {
-                decimal highHigh = 0;
-                decimal lowLow = decimal.MaxValue;
+                decimal? highHigh = 0;
+                decimal? lowLow = decimal.MaxValue;
 
                 // high/low over prior periods
                 for (int p = i - lookbackPeriods; p < i; p++)

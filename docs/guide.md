@@ -86,7 +86,7 @@ More examples available:
 
 ## Historical quotes
 
-You must provide historical price quotes to the library in the standard [OHLCV](https://acronyms.thefreedictionary.com/OHLCV) `IEnumerable<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+You must provide historical price quotes to the library in the standard OHLCV `IEnumerable<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 | name | type | notes
 | -- |-- |--
@@ -124,11 +124,11 @@ public class MyCustomQuote : IQuote
 {
     // required base properties
     public DateTime Date { get; set; }
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
+    public decimal? Open { get; set; }
+    public decimal? High { get; set; }
+    public decimal? Low { get; set; }
+    public decimal? Close { get; set; }
+    public decimal? Volume { get; set; }
 
     // custom properties
     public int MyOtherProperty { get; set; }
@@ -152,11 +152,11 @@ public class MyCustomQuote : IQuote
 {
     // required base properties
     DateTime IQuote.Date => CloseDate;
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
+    public decimal? Open { get; set; }
+    public decimal? High { get; set; }
+    public decimal? Low { get; set; }
+    public decimal? Close { get; set; }
+    public decimal? Volume { get; set; }
 
     // custom properties
     public int MyOtherProperty { get; set; }

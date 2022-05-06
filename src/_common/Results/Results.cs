@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 // RESULT MODELS
 
@@ -21,7 +20,7 @@ public static partial class Indicator
     // FIND by DATE
     /// <include file='./info.xml' path='info/type[@name="Find"]/*' />
     ///
-    public static TResult Find<TResult>(
+    public static TResult? Find<TResult>(
         this IEnumerable<TResult> results,
         DateTime lookupDate)
         where TResult : IResult => results.FirstOrDefault(x => x.Date == lookupDate);

@@ -18,16 +18,16 @@ public static partial class Indicator
 
         // initialize
         List<AdlResult> results = new(quotesList.Count);
-        double prevAdl = 0;
+        double? prevAdl = 0;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
         {
             QuoteD q = quotesList[i];
 
-            double mfm = (q.High == q.Low) ? 0 : (q.Close - q.Low - (q.High - q.Close)) / (q.High - q.Low);
-            double mfv = mfm * q.Volume;
-            double adl = mfv + prevAdl;
+            double? mfm = (q.High == q.Low) ? 0 : (q.Close - q.Low - (q.High - q.Close)) / (q.High - q.Low);
+            double? mfv = mfm * q.Volume;
+            double? adl = mfv + prevAdl;
 
             AdlResult result = new()
             {
@@ -43,7 +43,7 @@ public static partial class Indicator
             // optional SMA
             if (smaPeriods != null && i + 1 >= smaPeriods)
             {
-                double sumSma = 0;
+                double? sumSma = 0;
                 for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
                 {
                     sumSma += results[p].Adl;

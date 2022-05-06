@@ -193,7 +193,7 @@ public static partial class Indicator
     {
         if (nextPoint.Index != lastPoint.Index)
         {
-            decimal increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
+            decimal? increment = (nextPoint.Value - lastPoint.Value) / (nextPoint.Index - lastPoint.Index);
 
             // add new line segment
             for (int i = lastPoint.Index; i < nextPoint.Index; i++)
@@ -258,7 +258,7 @@ public static partial class Indicator
         }
 
         // narrow to period
-        decimal increment = (nextPoint.Value - priorPoint.Value) / (nextPoint.Index - priorPoint.Index);
+        decimal? increment = (nextPoint.Value - priorPoint.Value) / (nextPoint.Index - priorPoint.Index);
 
         // add new line segment
         for (int i = priorPoint.Index - 1; i < nextPoint.Index; i++)

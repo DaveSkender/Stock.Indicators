@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -22,13 +21,13 @@ public static partial class Indicator
         // get stochastic of macd
         IEnumerable<StochResult> stochMacd = quotes
             .GetMacd(fastPeriods, slowPeriods, 1)
-            .Where(x => x.Macd != null)
+            .Remove(slowPeriods - 1)
             .Select(x => new Quote
             {
                 Date = x.Date,
-                High = (decimal)x.Macd,
-                Low = (decimal)x.Macd,
-                Close = (decimal)x.Macd
+                High = x.Macd,
+                Low = x.Macd,
+                Close = x.Macd
             })
             .GetStoch(cyclePeriods, 1, 3);
 

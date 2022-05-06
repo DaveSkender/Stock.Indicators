@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
@@ -9,7 +9,7 @@ namespace External.Other;
 internal class MyQuote : Quote
 {
     public bool MyProperty { get; set; }
-    public decimal MyClose { get; set; }
+    public decimal? MyClose { get; set; }
 }
 
 internal class MyIndicator : EmaResult
@@ -23,16 +23,16 @@ internal class MyGenericQuote : IQuote
 {
     // required base properties
     DateTime IQuote.Date => CloseDate;
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    decimal IQuote.Close => CloseValue;
-    public decimal Volume { get; set; }
+    public decimal? Open { get; set; }
+    public decimal? High { get; set; }
+    public decimal? Low { get; set; }
+    decimal? IQuote.Close => CloseValue;
+    public decimal? Volume { get; set; }
 
     // custom properties
     public int MyOtherProperty { get; set; }
     public DateTime CloseDate { get; set; }
-    public decimal CloseValue { get; set; }
+    public decimal? CloseValue { get; set; }
 }
 
 [TestClass]

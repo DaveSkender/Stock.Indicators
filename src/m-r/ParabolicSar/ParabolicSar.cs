@@ -46,8 +46,8 @@ public static partial class Indicator
         }
 
         decimal accelerationFactor = initialFactor;
-        decimal extremePoint = q0.High;
-        decimal priorSar = q0.Low;
+        decimal? extremePoint = q0.High;
+        decimal? priorSar = q0.Low;
         bool isRising = true;  // initial guess
 
         // roll through quotes
@@ -70,18 +70,18 @@ public static partial class Indicator
             // was rising
             if (isRising)
             {
-                decimal sar =
+                decimal? sar =
                     priorSar + (accelerationFactor * (extremePoint - priorSar));
 
                 // SAR cannot be higher than last two lows
                 if (i >= 2)
                 {
-                    decimal minLastTwo =
-                        Math.Min(
+                    decimal? minLastTwo =
+                        NullMath.Min(
                             quotesList[i - 1].Low,
                             quotesList[i - 2].Low);
 
-                    sar = Math.Min(sar, minLastTwo);
+                    sar = NullMath.Min(sar, minLastTwo);
                 }
 
                 // turn down
@@ -116,17 +116,17 @@ public static partial class Indicator
             // was falling
             else
             {
-                decimal sar
+                decimal? sar
                     = priorSar - (accelerationFactor * (priorSar - extremePoint));
 
                 // SAR cannot be lower than last two highs
                 if (i >= 2)
                 {
-                    decimal maxLastTwo = Math.Max(
+                    decimal? maxLastTwo = NullMath.Max(
                         quotesList[i - 1].High,
                         quotesList[i - 2].High);
 
-                    sar = Math.Max(sar, maxLastTwo);
+                    sar = NullMath.Max(sar, maxLastTwo);
                 }
 
                 // turn up
@@ -158,7 +158,7 @@ public static partial class Indicator
                 }
             }
 
-            priorSar = (decimal)r.Sar;
+            priorSar = (decimal?)r.Sar;
         }
 
         // remove first trendline since it is an invalid guess
