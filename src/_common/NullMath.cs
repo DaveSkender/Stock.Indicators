@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // NULLABLE SYSTEM.MATH
 // System.Math does not allow or handle null input values.
 // Instead of putting a lot of inline defensive code
-// we're buildng nullable equivalents here.
+// we're building nullable equivalents here.
 internal static class NullMath
 {
     internal static decimal? Abs(decimal? value)
