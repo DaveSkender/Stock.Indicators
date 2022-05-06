@@ -13,9 +13,13 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 ![image]({{site.baseurl}}/assets/charts/Macd.png)
 
 ```csharp
-// usage
+// usage (with Close price)
 IEnumerable<MacdResult> results =
   quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
+
+// alternate
+IEnumerable<MacdResult> results =
+  quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods, candlePart);
 ```
 
 ## Parameters
@@ -25,7 +29,7 @@ IEnumerable<MacdResult> results =
 | `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
 | `signalPeriods` | int | Number of periods (`P`) for the moving average of MACD.  Must be greater than or equal to 0.  Default is 9.
-| `candlePart` | CandlePart | Optional.  Specify the [OHLCV]({{site.baseurl}}/guide/#historical-quotes) candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
+| `candlePart` | CandlePart | Optional.  Specify candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
 
 ### Historical quotes requirements
 
