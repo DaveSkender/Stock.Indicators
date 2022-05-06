@@ -65,7 +65,7 @@ public static partial class Indicator
                     // calculate CHOP
                     if (range != 0)
                     {
-                        r.Chop = (decimal?)(100 * (NullMath.Log(sum / range) / Math.Log(lookbackPeriods)));
+                        r.Chop = 100 * (NullMath.Log(sum / range) / Math.Log(lookbackPeriods));
                     }
                 }
             }

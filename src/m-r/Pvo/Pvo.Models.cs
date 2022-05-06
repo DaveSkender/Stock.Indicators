@@ -3,7 +3,7 @@
 [Serializable]
 public class PvoResult : ResultBase
 {
-    public decimal? Pvo { get; set; }
-    public decimal? Signal { get; set; }
-    public decimal? Histogram { get; set; }
+    public double? Pvo { get; set; }
+    public double? Signal { get; set; }
+    public double? Histogram { get; set; }
 }

@@ -44,7 +44,7 @@ public static partial class Indicator
             if (i >= slowPeriods - 1)
             {
                 double? macd = (double?)(df.Ema - ds.Ema);
-                result.Macd = (decimal?)macd;
+                result.Macd = macd;
 
                 // temp data for interim EMA of macd
                 BasicData diff = new()
@@ -67,7 +67,7 @@ public static partial class Indicator
             MacdResult r = results[d];
             EmaResult ds = emaSignal[d + 1 - slowPeriods];
 
-            r.Signal = ds.Ema;
+            r.Signal = (double?)ds.Ema;
             r.Histogram = r.Macd - r.Signal;
         }
 

@@ -43,7 +43,7 @@ public static partial class Indicator
                 double? pvo = (ds.Ema != 0) ?
                     100 * (double?)((df.Ema - ds.Ema) / ds.Ema) : null;
 
-                result.Pvo = (decimal?)pvo;
+                result.Pvo = pvo;
 
                 // temp data for interim EMA of PVO
                 BasicData diff = new()
@@ -66,7 +66,7 @@ public static partial class Indicator
             PvoResult r = results[d];
             EmaResult ds = emaSignal[d + 1 - slowPeriods];
 
-            r.Signal = ds.Ema;
+            r.Signal = (double?)ds.Ema;
             r.Histogram = r.Pvo - r.Signal;
         }
 
