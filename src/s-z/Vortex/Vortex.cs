@@ -20,13 +20,13 @@ public static partial class Indicator
         int length = quotesList.Count;
         List<VortexResult> results = new(length);
 
-        double[] tr = new double[length];
-        double[] pvm = new double[length];
-        double[] nvm = new double[length];
+        double?[] tr = new double?[length];
+        double?[] pvm = new double?[length];
+        double?[] nvm = new double?[length];
 
-        double prevHigh = 0;
-        double prevLow = 0;
-        double prevClose = 0;
+        double? prevHigh = 0;
+        double? prevLow = 0;
+        double? prevClose = 0;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -49,12 +49,12 @@ public static partial class Indicator
             }
 
             // trend information
-            double highMinusPrevClose = Math.Abs(q.High - prevClose);
-            double lowMinusPrevClose = Math.Abs(q.Low - prevClose);
+            double? highMinusPrevClose = NullMath.Abs(q.High - prevClose);
+            double? lowMinusPrevClose = NullMath.Abs(q.Low - prevClose);
 
-            tr[i] = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
-            pvm[i] = Math.Abs(q.High - prevLow);
-            nvm[i] = Math.Abs(q.Low - prevHigh);
+            tr[i] = NullMath.Max(q.High - q.Low, NullMath.Max(highMinusPrevClose, lowMinusPrevClose));
+            pvm[i] = NullMath.Abs(q.High - prevLow);
+            nvm[i] = NullMath.Abs(q.Low - prevHigh);
 
             prevHigh = q.High;
             prevLow = q.Low;
@@ -63,9 +63,9 @@ public static partial class Indicator
             // vortex indicator
             if (i + 1 > lookbackPeriods)
             {
-                double sumTr = 0;
-                double sumPvm = 0;
-                double sumNvm = 0;
+                double? sumTr = 0;
+                double? sumPvm = 0;
+                double? sumNvm = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {

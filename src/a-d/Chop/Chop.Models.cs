@@ -3,5 +3,5 @@
 [Serializable]
 public class ChopResult : ResultBase
 {
-    public decimal? Chop { get; set; }
+    public double? Chop { get; set; }
 }

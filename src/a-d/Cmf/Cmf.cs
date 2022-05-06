@@ -32,7 +32,7 @@ public static partial class Indicator
                 MoneyFlowVolume = r.MoneyFlowVolume
             };
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double? sumMfv = 0;
                 double? sumVol = 0;
@@ -43,7 +43,7 @@ public static partial class Indicator
                     sumVol += q.Value;
 
                     AdlResult d = adlResults[p];
-                    sumMfv += (double)d.MoneyFlowVolume;
+                    sumMfv += d.MoneyFlowVolume;
                 }
 
                 double? avgMfv = sumMfv / lookbackPeriods;

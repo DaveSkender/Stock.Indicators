@@ -93,9 +93,10 @@ public static partial class Indicator
                 sd[i] = (0.33 * pd[i]) + (0.67 * sd[i - 1]);
 
                 // smooth dominant cycle period
-                int? dcPeriods = (int?)(sd[i] + 0.5);
+                double? dc = sd[i] + 0.5;
+                int dcPeriods = dc == null ? 0 : (int)dc;
                 double? sumPr = 0;
-                for (int d = i - (int)dcPeriods! + 1; d <= i; d++)
+                for (int d = i - dcPeriods + 1; d <= i; d++)
                 {
                     if (d >= 0)
                     {

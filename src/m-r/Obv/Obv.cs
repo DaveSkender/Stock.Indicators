@@ -20,7 +20,7 @@ public static partial class Indicator
         List<ObvResult> results = new(quotesList.Count);
 
         double? prevClose = null;
-        double obv = 0;
+        double? obv = 0;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
@@ -52,7 +52,7 @@ public static partial class Indicator
             // optional SMA
             if (smaPeriods != null && i + 1 > smaPeriods)
             {
-                double sumSma = 0;
+                double? sumSma = 0;
                 for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
                 {
                     sumSma += results[p].Obv;

@@ -31,11 +31,11 @@ public static partial class Indicator
         double k2 = 2d / (secondSmoothPeriods + 1);
         double kS = 2d / (signalPeriods + 1);
 
-        double lastSmEma1 = 0;
-        double lastSmEma2 = 0;
-        double lastHlEma1 = 0;
-        double lastHlEma2 = 0;
-        double lastSignal = 0;
+        double? lastSmEma1 = 0;
+        double? lastSmEma2 = 0;
+        double? lastHlEma1 = 0;
+        double? lastHlEma2 = 0;
+        double? lastSignal = 0;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -49,8 +49,8 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double hH = double.MinValue;
-                double lL = double.MaxValue;
+                double? hH = double.MinValue;
+                double? lL = double.MaxValue;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
@@ -67,8 +67,8 @@ public static partial class Indicator
                     }
                 }
 
-                double sm = q.Close - (0.5d * (hH + lL));
-                double hl = hH - lL;
+                double? sm = q.Close - (0.5d * (hH + lL));
+                double? hl = hH - lL;
 
                 // initialize last EMA values
                 if (i + 1 == lookbackPeriods)
@@ -80,16 +80,16 @@ public static partial class Indicator
                 }
 
                 // first smoothing
-                double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
-                double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
+                double? smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
+                double? hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
 
                 // second smoothing
-                double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
-                double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
+                double? smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
+                double? hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
 
                 // stochastic momentum index
-                double smi = 100 * (smEma2 / (0.5 * hlEma2));
-                r.Smi = (decimal)smi;
+                double? smi = 100 * (smEma2 / (0.5 * hlEma2));
+                r.Smi = (decimal?)smi;
 
                 // initialize signal line
                 if (i + 1 == lookbackPeriods)
@@ -98,8 +98,8 @@ public static partial class Indicator
                 }
 
                 // signal line
-                double signal = lastSignal + (kS * (smi - lastSignal));
-                r.Signal = (decimal)signal;
+                double? signal = lastSignal + (kS * (smi - lastSignal));
+                r.Signal = (decimal?)signal;
 
                 // carryover values
                 lastSmEma1 = smEma1;
