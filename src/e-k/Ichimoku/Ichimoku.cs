@@ -10,15 +10,12 @@ public static partial class Indicator
         int tenkanPeriods = 9,
         int kijunPeriods = 26,
         int senkouBPeriods = 52)
-        where TQuote : IQuote
-    {
-        return quotes.GetIchimoku(
+        where TQuote : IQuote => quotes.GetIchimoku(
             tenkanPeriods,
             kijunPeriods,
             senkouBPeriods,
             kijunPeriods,
             kijunPeriods);
-    }
 
     /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
     ///
@@ -28,15 +25,12 @@ public static partial class Indicator
         int kijunPeriods,
         int senkouBPeriods,
         int offsetPeriods)
-        where TQuote : IQuote
-    {
-        return quotes.GetIchimoku(
+        where TQuote : IQuote => quotes.GetIchimoku(
             tenkanPeriods,
             kijunPeriods,
             senkouBPeriods,
             offsetPeriods,
             offsetPeriods);
-    }
 
     /// <include file='./info.xml' path='indicator/type[@name="Full"]/*' />
     ///
@@ -113,8 +107,8 @@ public static partial class Indicator
     {
         if (i >= tenkanPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
+            decimal? max = 0;
+            decimal? min = decimal.MaxValue;
 
             for (int p = i - tenkanPeriods + 1; p <= i; p++)
             {
@@ -131,7 +125,7 @@ public static partial class Indicator
                 }
             }
 
-            result.TenkanSen = (min + max) / 2;
+            result.TenkanSen = (min == decimal.MaxValue) ? null : (min + max) / 2;
         }
     }
 
@@ -144,8 +138,8 @@ public static partial class Indicator
     {
         if (i >= kijunPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
+            decimal? max = 0;
+            decimal? min = decimal.MaxValue;
 
             for (int p = i - kijunPeriods + 1; p <= i; p++)
             {
@@ -162,7 +156,7 @@ public static partial class Indicator
                 }
             }
 
-            result.KijunSen = (min + max) / 2;
+            result.KijunSen = (min == decimal.MaxValue) ? null : (min + max) / 2;
         }
     }
 
@@ -176,8 +170,8 @@ public static partial class Indicator
     {
         if (i >= senkouOffset + senkouBPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
+            decimal? max = 0;
+            decimal? min = decimal.MaxValue;
 
             for (int p = i - senkouOffset - senkouBPeriods + 1;
                 p <= i - senkouOffset; p++)
@@ -195,7 +189,7 @@ public static partial class Indicator
                 }
             }
 
-            result.SenkouSpanB = (min + max) / 2;
+            result.SenkouSpanB = (min == decimal.MaxValue) ? null : (min + max) / 2;
         }
     }
 

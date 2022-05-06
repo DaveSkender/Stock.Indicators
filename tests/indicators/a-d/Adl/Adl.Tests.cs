@@ -19,15 +19,15 @@ public class Adl : TestBase
 
         // sample values
         AdlResult r1 = results[249];
-        Assert.AreEqual(0.7778, Math.Round(r1.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(36433792.89, Math.Round(r1.MoneyFlowVolume, 2));
-        Assert.AreEqual(3266400865.74, Math.Round(r1.Adl, 2));
+        Assert.AreEqual(0.7778, NullMath.Round(r1.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(36433792.89, NullMath.Round(r1.MoneyFlowVolume, 2));
+        Assert.AreEqual(3266400865.74, NullMath.Round(r1.Adl, 2));
         Assert.AreEqual(null, r1.AdlSma);
 
         AdlResult r2 = results[501];
-        Assert.AreEqual(0.8052, Math.Round(r2.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, Math.Round(r2.MoneyFlowVolume, 2));
-        Assert.AreEqual(3439986548.42, Math.Round(r2.Adl, 2));
+        Assert.AreEqual(0.8052, NullMath.Round(r2.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, NullMath.Round(r2.MoneyFlowVolume, 2));
+        Assert.AreEqual(3439986548.42, NullMath.Round(r2.Adl, 2));
         Assert.AreEqual(null, r2.AdlSma);
     }
 

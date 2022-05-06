@@ -28,8 +28,8 @@ public static partial class Indicator
         bool calcDn = type is BetaType.All or BetaType.Down;
 
         // convert quotes to returns
-        double[] evalReturns = new double[size];
-        double[] mrktReturns = new double[size];
+        double?[] evalReturns = new double?[size];
+        double?[] mrktReturns = new double?[size];
         decimal? prevE = 0;
         decimal? prevM = 0;
 
@@ -44,8 +44,8 @@ public static partial class Indicator
                     "Date sequence does not match.  Beta requires matching dates in provided quotes.");
             }
 
-            evalReturns[i] = (double)(prevE != 0 ? (e.Close / prevE) - 1m : 0);
-            mrktReturns[i] = (double)(prevM != 0 ? (m.Close / prevM) - 1m : 0);
+            evalReturns[i] = (double?)(prevE != 0 ? (e.Close / prevE) - 1m : 0);
+            mrktReturns[i] = (double?)(prevM != 0 ? (m.Close / prevM) - 1m : 0);
 
             prevE = e.Close;
             prevM = m.Close;
@@ -105,8 +105,8 @@ public static partial class Indicator
         this BetaResult r,
         int i,
         int lookbackPeriods,
-        double[] mrktReturns,
-        double[] evalReturns,
+        double?[] mrktReturns,
+        double?[] evalReturns,
         BetaType type)
     {
         // note: BetaType.All is ineligible for this method
@@ -119,8 +119,8 @@ public static partial class Indicator
 
         for (int p = i - lookbackPeriods + 1; p <= i; p++)
         {
-            double a = mrktReturns[p];
-            double b = evalReturns[p];
+            double? a = mrktReturns[p];
+            double? b = evalReturns[p];
 
             if (type is BetaType.Standard)
             {

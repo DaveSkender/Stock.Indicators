@@ -24,9 +24,9 @@ public static partial class Indicator
 
         // RSI of streak
         List<BasicData> bdStreak = results
-            .Where(x => x.Streak != null)
-            .Select(x => new BasicData { Date = x.Date, Value = (double?)x.Streak })
-            .ToList();
+            .Select(x => new BasicData { Date = x.Date, Value = x.Streak })
+            .ToList()
+            .Remove(Math.Min(results.Count, 1));
 
         List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);
 

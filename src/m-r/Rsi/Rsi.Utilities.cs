@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -13,11 +12,11 @@ public static partial class Indicator
           .Select(x => new Quote
           {
               Date = x.Date,
-              Open = (decimal)x.Rsi,
-              High = (decimal)x.Rsi,
-              Low = (decimal)x.Rsi,
-              Close = (decimal)x.Rsi,
-              Volume = (decimal)x.Rsi
+              Open = (decimal?)x.Rsi,
+              High = (decimal?)x.Rsi,
+              Low = (decimal?)x.Rsi,
+              Close = (decimal?)x.Rsi,
+              Volume = (decimal?)x.Rsi
           })
           .ToList();
 

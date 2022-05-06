@@ -32,8 +32,8 @@ public static partial class Indicator
             // add aroons
             if (i + 1 > lookbackPeriods)
             {
-                double lastHighPrice = 0;
-                double lastLowPrice = double.MaxValue;
+                double? lastHighPrice = 0;
+                double? lastLowPrice = double.MaxValue;
                 int lastHighIndex = 0;
                 int lastLowIndex = 0;
 

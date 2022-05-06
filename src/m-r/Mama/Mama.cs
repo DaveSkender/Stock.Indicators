@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable
 
 public static partial class Indicator
 {
@@ -99,17 +98,17 @@ public static partial class Indicator
                 pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
 
                 // determine phase position
-                ph[i] = (i1[i] != 0) ? Math.Atan((double)(q1[i] / i1[i])) * 180 / Math.PI : 0;
+                ph[i] = (i1[i] != 0) ? NullMath.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
 
                 // change in phase
-                double delta = Math.Max((double)(ph[i - 1] - ph[i]), 1d);
+                double? delta = NullMath.Max(ph[i - 1] - ph[i], 1d);
 
                 // adaptive alpha value
-                double alpha = Math.Max(fastLimit / delta, slowLimit);
+                double? alpha = NullMath.Max(fastLimit / delta, slowLimit);
 
                 // final indicators
-                r.Mama = (decimal)((alpha * pr[i]) + ((1d - alpha) * (double)results[i - 1].Mama));
-                r.Fama = (decimal)((0.5d * alpha * (double)r.Mama) + ((1d - (0.5d * alpha)) * (double)results[i - 1].Fama));
+                r.Mama = (decimal?)((alpha * pr[i]) + ((1d - alpha) * (double?)results[i - 1].Mama));
+                r.Fama = (decimal?)((0.5d * alpha * (double?)r.Mama) + ((1d - (0.5d * alpha)) * (double?)results[i - 1].Fama));
             }
 
             // initialization period
@@ -119,7 +118,7 @@ public static partial class Indicator
 
                 if (i == 5)
                 {
-                    r.Mama = (decimal)sumPr / 6m;
+                    r.Mama = (decimal?)sumPr / 6m;
                     r.Fama = r.Mama;
                 }
 
