@@ -53,9 +53,9 @@ IEnumerable<MacdResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Macd` | decimal | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
-| `Signal` | decimal | Moving average of the `MACD` line
-| `Histogram` | decimal | Gap between of the `MACD` and `Signal` line
+| `Macd` | double | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
+| `Signal` | double | Moving average of the `MACD` line
+| `Histogram` | double | Gap between of the `MACD` and `Signal` line
 | `FastEma` | decimal | Fast Exponential Moving Average
 | `SlowEma` | decimal | Slow Exponential Moving Average
 
