@@ -24,13 +24,13 @@ public class Chop : TestBase
         Assert.AreEqual(null, r1.Chop);
 
         ChopResult r2 = results[14];
-        Assert.AreEqual(69.9967m, NullMath.Round(r2.Chop, 4));
+        Assert.AreEqual(69.9967, NullMath.Round(r2.Chop, 4));
 
         ChopResult r3 = results[249];
-        Assert.AreEqual(41.8499m, NullMath.Round(r3.Chop, 4));
+        Assert.AreEqual(41.8499, NullMath.Round(r3.Chop, 4));
 
         ChopResult r4 = results[501];
-        Assert.AreEqual(38.6526m, NullMath.Round(r4.Chop, 4));
+        Assert.AreEqual(38.6526, NullMath.Round(r4.Chop, 4));
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class Chop : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         ChopResult last = results.LastOrDefault();
-        Assert.AreEqual(38.6526m, NullMath.Round(last.Chop, 4));
+        Assert.AreEqual(38.6526, NullMath.Round(last.Chop, 4));
     }
 
     [TestMethod]
