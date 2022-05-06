@@ -25,9 +25,9 @@ public static partial class Indicator
             .Select(x => new Quote
             {
                 Date = x.Date,
-                High = x.Macd,
-                Low = x.Macd,
-                Close = x.Macd
+                High = (decimal?)x.Macd,
+                Low = (decimal?)x.Macd,
+                Close = (decimal?)x.Macd
             })
             .GetStoch(cyclePeriods, 1, 3);
 
