@@ -46,6 +46,10 @@
   permalink: /indicators/Roc/
   type: price-characteristic
 
+- title: Normalized Average True Range
+  permalink: /indicators/Atr/
+  type: price-characteristic
+
 - title: HL2
   permalink: /indicators/BasicQuote/
   type: price-transform
