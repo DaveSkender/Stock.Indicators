@@ -50,9 +50,9 @@ IEnumerable<PvoResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Pvo` | decimal | Normalized difference between two Volume moving averages
-| `Signal` | decimal | Moving average of the `Pvo` line
-| `Histogram` | decimal | Gap between of the `Pvo` and `Signal` line
+| `Pvo` | double | Normalized difference between two Volume moving averages
+| `Signal` | double | Moving average of the `Pvo` line
+| `Histogram` | double | Gap between of the `Pvo` and `Signal` line
 
 ### Utilities
 

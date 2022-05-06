@@ -45,7 +45,7 @@ IEnumerable<ChopResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Chop` | decimal | Choppiness Index
+| `Chop` | double | Choppiness Index
 
 ### Utilities
 
