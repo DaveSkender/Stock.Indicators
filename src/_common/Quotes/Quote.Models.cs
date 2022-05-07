@@ -10,6 +10,7 @@ public interface IQuote
     public decimal? Low { get; }
     public decimal? Close { get; }
     public decimal? Volume { get; }
+    public decimal OHLC4 { get; set; }
 }
 
 [Serializable]
@@ -21,6 +22,7 @@ public class Quote : IQuote
     public decimal? Low { get; set; }
     public decimal? Close { get; set; }
     public decimal? Volume { get; set; }
+    public decimal OHLC4 { get; set; }
 }
 
 [Serializable]
