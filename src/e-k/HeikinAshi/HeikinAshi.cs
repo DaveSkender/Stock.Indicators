@@ -15,8 +15,8 @@ public static partial class Indicator
         // initialize
         List<HeikinAshiResult> results = new(quotesList.Count);
 
-        decimal? prevOpen = null;
-        decimal? prevClose = null;
+        decimal prevOpen = decimal.MinValue;
+        decimal prevClose = decimal.MinValue;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
@@ -24,19 +24,19 @@ public static partial class Indicator
             TQuote q = quotesList[i];
 
             // close
-            decimal? close = (q.Open + q.High + q.Low + q.Close) / 4;
+            decimal close = (q.Open + q.High + q.Low + q.Close) / 4;
 
             // open
-            decimal? open = (prevOpen == null) ? (q.Open + q.Close) / 2
+            decimal open = (prevOpen == decimal.MinValue) ? (q.Open + q.Close) / 2
                 : (prevOpen + prevClose) / 2;
 
             // high
-            decimal?[] arrH = { q.High, open, close };
-            decimal? high = arrH.Max();
+            decimal[] arrH = { q.High, open, close };
+            decimal high = arrH.Max();
 
             // low
-            decimal?[] arrL = { q.Low, open, close };
-            decimal? low = arrL.Min();
+            decimal[] arrL = { q.Low, open, close };
+            decimal low = arrL.Min();
 
             HeikinAshiResult result = new()
             {

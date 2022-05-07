@@ -19,15 +19,15 @@ public static partial class Indicator
         // initialize
         List<ObvResult> results = new(quotesList.Count);
 
-        double? prevClose = null;
-        double? obv = 0;
+        double prevClose = double.NaN;
+        double obv = 0;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
         {
             QuoteD q = quotesList[i];
 
-            if (prevClose == null || q.Close == prevClose)
+            if (double.IsNaN(prevClose) || q.Close == prevClose)
             {
                 // no change to OBV
             }

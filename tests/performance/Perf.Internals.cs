@@ -23,8 +23,5 @@ public class InternalsPerformance
             .ToArray();
 
     [Benchmark]
-    public object StdDev()
-    {
-        return Functions.StdDev(values);
-    }
+    public object StdDev() => Functions.StdDev(values);
 }

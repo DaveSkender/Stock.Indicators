@@ -9,21 +9,29 @@ public static partial class Indicator
     {
         IEnumerable<BasicData> prices = element switch
         {
-            CandlePart.Open => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)x.Open }),
-            CandlePart.High => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)x.High }),
-            CandlePart.Low => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)x.Low }),
-            CandlePart.Close => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)x.Close }),
-            CandlePart.Volume => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)x.Volume }),
-            CandlePart.HL2 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)(x.High + x.Low) / 2 }),
-            CandlePart.HLC3 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)(x.High + x.Low + x.Close) / 3 }),
-            CandlePart.OC2 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)(x.Open + x.Close) / 2 }),
-            CandlePart.OHL3 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)(x.Open + x.High + x.Low) / 3 }),
-            CandlePart.OHLC4 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double?)(x.Open + x.High + x.Low + x.Close) / 4 }),
+            CandlePart.Open => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)x.Open }),
+            CandlePart.High => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)x.High }),
+            CandlePart.Low => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)x.Low }),
+            CandlePart.Close => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)x.Close }),
+            CandlePart.Volume => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)x.Volume }),
+            CandlePart.HL2 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)(x.High + x.Low) / 2 }),
+            CandlePart.HLC3 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)(x.High + x.Low + x.Close) / 3 }),
+            CandlePart.OC2 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)(x.Open + x.Close) / 2 }),
+            CandlePart.OHL3 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)(x.Open + x.High + x.Low) / 3 }),
+            CandlePart.OHLC4 => quotes.Select(x => new BasicData { Date = x.Date, Value = (double)(x.Open + x.High + x.Low + x.Close) / 4 }),
             _ => new List<BasicData>()
         };
 
         return prices.OrderBy(x => x.Date).ToList();
     }
+
+    // convert basic data to tuple
+    internal static List<(DateTime Date, double Value)> ToResultTuple(
+        this IEnumerable<IReusableResult> basicData)
+        => basicData
+            .Where(x => x.Value is not null)
+            .Select(x => (x.Date, (double)x.Value))
+            .ToList();
 
     // convert to basic double tuple
     internal static List<(DateTime Date, double Value)> ToBasicTuple<TQuote>(

@@ -20,16 +20,17 @@ public static partial class Indicator
 
         // get stochastic of macd
         IEnumerable<StochResult> stochMacd = quotes
-            .GetMacd(fastPeriods, slowPeriods, 1)
-            .Remove(slowPeriods - 1)
-            .Select(x => new Quote
-            {
-                Date = x.Date,
-                High = (decimal?)x.Macd,
-                Low = (decimal?)x.Macd,
-                Close = (decimal?)x.Macd
-            })
-            .GetStoch(cyclePeriods, 1, 3);
+          .GetMacd(fastPeriods, slowPeriods, 1)
+          .Remove(slowPeriods - 1)
+          .Where(x => x.Macd is not null)
+          .Select(x => new Quote
+          {
+              Date = x.Date,
+              High = (decimal)x.Macd,
+              Low = (decimal)x.Macd,
+              Close = (decimal)x.Macd
+          })
+          .GetStoch(cyclePeriods, 1, 3);
 
         // initialize results
         // to ensure same length as original quotes

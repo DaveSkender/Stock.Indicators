@@ -45,23 +45,6 @@ public class Obv : TestBase
     }
 
     [TestMethod]
-    public void ToQuotes()
-    {
-        List<Quote> newQuotes = quotes.GetObv()
-            .ToQuotes()
-            .ToList();
-
-        // assertions
-        Assert.AreEqual(502, newQuotes.Count);
-
-        Quote q1 = newQuotes[249];
-        Assert.AreEqual(1780918888m, q1.Close);
-
-        Quote q2 = newQuotes[501];
-        Assert.AreEqual(539843504m, q2.Close);
-    }
-
-    [TestMethod]
     public void BadData()
     {
         IEnumerable<ObvResult> r = badQuotes.GetObv();

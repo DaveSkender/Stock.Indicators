@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 // HISTORICAL QUOTES FUNCTIONS (GENERAL)
 
-public static partial class HistoricalQuotes
+public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 

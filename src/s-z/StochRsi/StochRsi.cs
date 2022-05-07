@@ -3,6 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // STOCHASTIC RSI
+
     /// <include file='./info.xml' path='indicator/*' />
     ///
     public static IEnumerable<StochRsiResult> GetStochRsi<TQuote>(
@@ -20,21 +21,20 @@ public static partial class Indicator
         List<RsiResult> rsiResults = GetRsi(quotes, rsiPeriods).ToList();
         List<StochRsiResult> results = new(rsiResults.Count);
 
-        // convert rsi to quote format
-        List<Quote> rsiQuotes = rsiResults
+        // get Stochastic of RSI
+        List<StochResult> stoResults =
+            quotes
+            .GetRsi(rsiPeriods)
             .Remove(rsiPeriods)
+            .Where(x => x.Rsi is not null)
             .Select(x => new Quote
             {
                 Date = x.Date,
-                High = (decimal?)x.Rsi,
-                Low = (decimal?)x.Rsi,
-                Close = (decimal?)x.Rsi
+                High = (decimal)x.Rsi,
+                Low = (decimal)x.Rsi,
+                Close = (decimal)x.Rsi
             })
-            .ToList();
-
-        // get Stochastic of RSI
-        List<StochResult> stoResults =
-            GetStoch(rsiQuotes, stochPeriods, signalPeriods, smoothPeriods)
+            .GetStoch(stochPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
         // compose

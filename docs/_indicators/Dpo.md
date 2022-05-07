@@ -47,7 +47,7 @@ IEnumerable<DpoResult>
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average offset by `N/2+1` periods
-| `Dpo` | double | Detrended Price Oscillator (DPO)
+| `Dpo` | decimal | Detrended Price Oscillator (DPO)
 
 ### Utilities
 

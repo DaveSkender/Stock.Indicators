@@ -10,14 +10,11 @@ public static partial class Indicator
         int lookbackPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 3)
-        where TQuote : IQuote
-    {
-        return quotes
+        where TQuote : IQuote => quotes
             .GetStoch(
                 lookbackPeriods,
                 signalPeriods,
                 smoothPeriods, 3, 2, MaType.SMA);
-    }
 
     /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
     ///
@@ -55,8 +52,8 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double? highHigh = double.MinValue;
-                double? lowLow = double.MaxValue;
+                double highHigh = double.MinValue;
+                double lowLow = double.MaxValue;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
