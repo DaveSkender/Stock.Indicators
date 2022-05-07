@@ -53,6 +53,7 @@ public static partial class HistoricalQuotes
                 Low = (double?)x.Low,
                 Close = (double?)x.Close,
                 Volume = (double?)x.Volume
+                OHLC4 = (double?)x.OHLC4
             })
             .OrderBy(x => x.Date)
             .ToList();
