@@ -33,7 +33,7 @@ public static partial class HistoricalQuotes
                 Low = x.Min(t => t.Low),
                 Close = x.Last().Close,
                 Volume = x.Sum(t => t.Volume),
-                OHLC4 = ( x.First().Open + x.Max(t => t.High) + x.Min(t => t.Low) + x.Last().Close )/4
+                OHLC4 = ( x.First().Open??0 + x.Max(t => t.High??0) + x.Min(t => t.Low??0) + x.Last().Close??0 )/4
             });
         }
     }
