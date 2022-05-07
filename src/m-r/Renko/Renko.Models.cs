@@ -9,4 +9,5 @@ public class RenkoResult : ResultBase, IQuote
     public decimal? Close { get; set; }
     public decimal? Volume { get; set; }
     public bool IsUp { get; set; }
+    public decimal OHLC4 { get; set; }
 }
