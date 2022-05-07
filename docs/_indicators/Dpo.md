@@ -47,11 +47,10 @@ IEnumerable<DpoResult>
 | -- |-- |--
 | `Date` | DateTime | Date
 | `Sma` | decimal | Simple moving average offset by `N/2+1` periods
-| `Dpo` | decimal | Detrended Price Oscillator (DPO)
+| `Dpo` | double | Detrended Price Oscillator (DPO)
 
 ### Utilities
 
-- [.ToQuotes()]({{site.baseurl}}/utilities#convert-to-quotes)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 

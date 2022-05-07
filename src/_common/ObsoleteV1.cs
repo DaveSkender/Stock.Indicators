@@ -1,7 +1,43 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+#nullable disable
 
 namespace Skender.Stock.Indicators;
+
+// REMOVED .ToQuotes in v1.24.0
+public static partial class Indicator
+{
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    public static IEnumerable<Quote> ToQuotes(
+    this IEnumerable<AdlResult> results) => results
+      .Select(x => new Quote
+      {
+          Date = x.Date,
+          Open = (decimal)x.Adl,
+          High = (decimal)x.Adl,
+          Low = (decimal)x.Adl,
+          Close = (decimal)x.Adl,
+          Volume = (decimal)x.Adl
+      })
+      .ToList();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    public static IEnumerable<Quote> ToQuotes(
+    this IEnumerable<HurstResult> results)
+    => results
+      .Where(x => x.HurstExponent != null)
+      .Select(x => new Quote
+      {
+          Date = x.Date,
+          Open = (decimal)x.HurstExponent,
+          High = (decimal)x.HurstExponent,
+          Low = (decimal)x.HurstExponent,
+          Close = (decimal)x.HurstExponent
+      })
+      .ToList();
+}
 
 // RENAMED IN v1.23.0 - GetDoubleEma, GetTripleEma
 public static partial class Indicator
