@@ -8,4 +8,5 @@ public class HeikinAshiResult : ResultBase, IQuote
     public decimal? Low { get; set; }
     public decimal? Close { get; set; }
     public decimal? Volume { get; set; }
+    public decimal OHLC4 { get; set; }
 }
