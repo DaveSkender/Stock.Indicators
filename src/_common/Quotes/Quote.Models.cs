@@ -32,4 +32,5 @@ internal class QuoteD
     internal double? Low { get; set; }
     internal double? Close { get; set; }
     internal double? Volume { get; set; }
+    internal double? OHLC4 { get; set; }
 }
