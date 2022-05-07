@@ -56,6 +56,12 @@ public class HelperPerformance
     }
 
     [Benchmark]
+    public object ToBasicTuple()
+    {
+        return h.ToBasicTuple();
+    }
+
+    [Benchmark]
     public object ToCandleResults()
     {
         return h.ToCandleResults();

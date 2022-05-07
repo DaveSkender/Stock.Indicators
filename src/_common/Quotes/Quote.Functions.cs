@@ -48,11 +48,11 @@ public static partial class HistoricalQuotes
             .Select(x => new QuoteD
             {
                 Date = x.Date,
-                Open = (double?)x.Open,
-                High = (double?)x.High,
-                Low = (double?)x.Low,
-                Close = (double?)x.Close,
-                Volume = (double?)x.Volume
+                Open = (double)x.Open,
+                High = (double)x.High,
+                Low = (double)x.Low,
+                Close = (double)x.Close,
+                Volume = (double)x.Volume
             })
             .OrderBy(x => x.Date)
             .ToList();
