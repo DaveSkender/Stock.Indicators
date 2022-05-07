@@ -32,7 +32,7 @@ public static partial class HistoricalQuotes
                 High = x.Max(t => t.High),
                 Low = x.Min(t => t.Low),
                 Close = x.Last().Close,
-                Volume = x.Sum(t => t.Volume)
+                Volume = x.Sum(t => t.Volume),
                 OHLC4 = ( x.First().Open + x.Max(t => t.High) + x.Min(t => t.Low) + x.Last().Close )/4
             });
         }
@@ -69,7 +69,7 @@ public static partial class HistoricalQuotes
                 High = x.Max(t => t.High),
                 Low = x.Min(t => t.Low),
                 Close = x.Last().Close,
-                Volume = x.Sum(t => t.Volume)
+                Volume = x.Sum(t => t.Volume),
                 OHLC4 = ( x.First().Open + x.Max(t => t.High) + x.Min(t => t.Low) + x.Last().Close )/4
             });
     }
