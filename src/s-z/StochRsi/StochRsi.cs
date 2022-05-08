@@ -22,6 +22,7 @@ public static partial class Indicator
         List<StochRsiResult> results = new(rsiResults.Count);
 
         // get Stochastic of RSI
+#pragma warning disable CS8629 // Nullable value type may be null.  False warning.
         List<StochResult> stoResults =
             quotes
             .GetRsi(rsiPeriods)
@@ -36,6 +37,7 @@ public static partial class Indicator
             })
             .GetStoch(stochPeriods, signalPeriods, smoothPeriods)
             .ToList();
+#pragma warning restore CS8629
 
         // compose
         for (int i = 0; i < rsiResults.Count; i++)

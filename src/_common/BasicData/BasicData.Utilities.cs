@@ -25,14 +25,6 @@ public static partial class Indicator
         return prices.OrderBy(x => x.Date).ToList();
     }
 
-    // convert basic data to tuple
-    internal static List<(DateTime Date, double Value)> ToResultTuple(
-        this IEnumerable<IReusableResult> basicData)
-        => basicData
-            .Where(x => x.Value is not null)
-            .Select(x => (x.Date, (double)x.Value))
-            .ToList();
-
     // convert to basic double tuple
     internal static List<(DateTime Date, double Value)> ToBasicTuple<TQuote>(
         this IEnumerable<TQuote> quotes, CandlePart element = CandlePart.Close)
@@ -52,6 +44,19 @@ public static partial class Indicator
             CandlePart.OHLC4 => quotes.Select(x => (x.Date, (double)(x.Open + x.High + x.Low + x.Close) / 4)),
             _ => new List<(DateTime, double)>()
         };
+
+        return prices.OrderBy(x => x.Date).ToList();
+    }
+
+    // convert basic data to tuple
+    internal static List<(DateTime Date, double Value)> ToResultTuple(
+        this IEnumerable<IReusableResult> basicData)
+    {
+#pragma warning disable CS8629 // Nullable value type may be null.  False warning.
+        IEnumerable<(DateTime Date, double)> prices = basicData
+            .Where(x => x.Value is not null)
+            .Select(x => (x.Date, (double)x.Value));
+#pragma warning restore CS8629
 
         return prices.OrderBy(x => x.Date).ToList();
     }

@@ -9,5 +9,5 @@ public class ConnorsRsiResult : ResultBase
     public double? ConnorsRsi { get; set; }
 
     // internal use only
-    internal int? Streak { get; set; }
+    internal int Streak { get; set; }
 }
