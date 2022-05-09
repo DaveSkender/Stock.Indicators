@@ -222,8 +222,6 @@ IEnumerable<RsiResult> results
     .GetRsi(14);
 ```
 
-See [.ToQuotes()]({{site.baseurl}}/utilities/#convert-to-quotes) for more information.
-
 When `.ToQuotes()` is not available for an indicator, a workaround is to convert yourself.
 
 ```csharp
