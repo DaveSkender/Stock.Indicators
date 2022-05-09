@@ -209,7 +209,7 @@ public void MyClass(){
 
 ## Generating indicator of indicators
 
-If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one and chain it to another.  Example:
+If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one, reformat into a synthetic historical quotes, and send it through to another indicator.  Example:
 
 ```csharp
 // fetch historical quotes from your feed (your method)
@@ -218,14 +218,13 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // calculate RSI of OBV
 IEnumerable<RsiResult> results
   = quotes.GetObv()
+    .ToQuotes()
     .GetRsi(14);
-
-// or with two separate operations
-IEnumerable<ObvResult> obvResults = quotes.GetObv();
-IEnumerable<RsiResult> results = obvResults.GetRsi(14);
 ```
 
-When chaining is not available for an indicator, a workaround is to convert to a synthetic quote yourself.
+See [.ToQuotes()]({{site.baseurl}}/utilities/#convert-to-quotes) for more information.
+
+When `.ToQuotes()` is not available for an indicator, a workaround is to convert yourself.
 
 ```csharp
 // calculate OBV
