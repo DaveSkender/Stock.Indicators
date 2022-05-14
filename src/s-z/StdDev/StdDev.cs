@@ -57,7 +57,7 @@ public static partial class Indicator
                 result.StdDev = Functions.StdDev(periodValues);
                 result.Mean = periodAvg;
 
-                result.ZScore = (result.StdDev == 0) ? null
+                result.ZScore = (result.StdDev == 0) ? double.NaN
                     : (bd.Value - periodAvg) / result.StdDev;
             }
 

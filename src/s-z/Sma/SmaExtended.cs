@@ -31,7 +31,7 @@ public static partial class Indicator
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 BasicData d = quotesList[p];
-                double? close = d.Value;
+                double close = d.Value;
 
                 sumMad += NullMath.Abs(close - sma);
                 sumMse += (close - sma) * (close - sma);

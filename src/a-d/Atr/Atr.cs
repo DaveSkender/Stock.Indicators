@@ -48,7 +48,7 @@ public static partial class Indicator
                 // calculate ATR
                 result.Atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
                 result.Atrp = (q.Close == 0) ? null : result.Atr / q.Close * 100;
-                prevAtr = (decimal?)result.Atr;
+                prevAtr = result.Atr;
             }
             else if (i + 1 == lookbackPeriods)
             {
@@ -56,7 +56,7 @@ public static partial class Indicator
                 sumTr += tr;
                 result.Atr = sumTr / lookbackPeriods;
                 result.Atrp = (q.Close == 0) ? null : result.Atr / q.Close * 100;
-                prevAtr = (decimal?)result.Atr;
+                prevAtr = result.Atr;
             }
             else
             {

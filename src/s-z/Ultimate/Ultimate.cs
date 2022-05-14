@@ -76,11 +76,11 @@ public static partial class Indicator
                     sumTR3 += tr[p];
                 }
 
-                double? avg1 = (sumTR1 == 0) ? null : sumBP1 / sumTR1;
-                double? avg2 = (sumTR2 == 0) ? null : sumBP2 / sumTR2;
-                double? avg3 = (sumTR3 == 0) ? null : sumBP3 / sumTR3;
+                double avg1 = (sumTR1 == 0) ? double.NaN : sumBP1 / sumTR1;
+                double avg2 = (sumTR2 == 0) ? double.NaN : sumBP2 / sumTR2;
+                double avg3 = (sumTR3 == 0) ? double.NaN : sumBP3 / sumTR3;
 
-                r.Ultimate = (decimal?)(100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d);
+                r.Ultimate = 100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d;
             }
 
             priorClose = q.Close;

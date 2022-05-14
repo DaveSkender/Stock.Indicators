@@ -101,7 +101,7 @@ public static partial class Indicator
         r.VarianceA = varA;
         r.VarianceB = varB;
         r.Covariance = cov;
-        r.Correlation = (divisor == 0) ? null : cov / divisor;
+        r.Correlation = (divisor == 0) ? double.NaN : cov / divisor;
         r.RSquared = r.Correlation * r.Correlation;
     }
 

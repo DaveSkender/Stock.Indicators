@@ -53,9 +53,7 @@ public static partial class Indicator
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
 
-                result.UI = double.IsNaN(sumSquared)
-                    ? null
-                    : Math.Sqrt(sumSquared / lookbackPeriods);
+                result.UI = Math.Sqrt(sumSquared / lookbackPeriods);
             }
 
             results.Add(result);

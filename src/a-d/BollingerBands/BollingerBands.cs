@@ -55,8 +55,8 @@ public static partial class Indicator
                 r.PercentB = (r.UpperBand == r.LowerBand) ? null
                     : (double?)((close - r.LowerBand) / (r.UpperBand - r.LowerBand));
 
-                r.ZScore = (stdDev == 0) ? null : (double?)(close - r.Sma) / stdDev;
-                r.Width = (periodAvg == 0) ? null : (double?)(r.UpperBand - r.LowerBand) / periodAvg;
+                r.ZScore = (stdDev == 0) ? double.NaN : (double?)(close - r.Sma) / stdDev;
+                r.Width = (periodAvg == 0) ? double.NaN : (double?)(r.UpperBand - r.LowerBand) / periodAvg;
             }
 
             results.Add(r);
