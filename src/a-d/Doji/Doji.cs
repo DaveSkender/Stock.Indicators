@@ -15,7 +15,7 @@ public static partial class Indicator
 
         // initialize
         List<CandleResult> results = quotes.ToCandleResults();
-        maxPriceChangePercent /= 100;
+        decimal maxPctChange = (decimal)maxPriceChangePercent / 100m;
         int length = results.Count;
 
         // roll through candles
@@ -26,7 +26,7 @@ public static partial class Indicator
             // check for current signal
             if (r.Candle.Open != 0)
             {
-                if (NullMath.Abs((double?)(r.Candle.Close / r.Candle.Open) - 1d) <= maxPriceChangePercent)
+                if (Math.Abs((r.Candle.Close / r.Candle.Open) - 1m) <= maxPctChange)
                 {
                     r.Price = r.Candle.Close;
                     r.Match = Match.Neutral;

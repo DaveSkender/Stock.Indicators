@@ -41,8 +41,8 @@ public static partial class Indicator
             // calculate correlation
             if (i + 1 >= lookbackPeriods)
             {
-                double?[] dataA = new double?[lookbackPeriods];
-                double?[] dataB = new double?[lookbackPeriods];
+                double[] dataA = new double[lookbackPeriods];
+                double[] dataB = new double[lookbackPeriods];
                 int z = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -65,20 +65,20 @@ public static partial class Indicator
     // calculate correlation
     private static void CalcCorrelation(
         this CorrResult r,
-        double?[] dataA,
-        double?[] dataB)
+        double[] dataA,
+        double[] dataB)
     {
         int length = dataA.Length;
-        double? sumA = 0;
-        double? sumB = 0;
-        double? sumA2 = 0;
-        double? sumB2 = 0;
-        double? sumAB = 0;
+        double sumA = 0;
+        double sumB = 0;
+        double sumA2 = 0;
+        double sumB2 = 0;
+        double sumAB = 0;
 
         for (int i = 0; i < length; i++)
         {
-            double? a = dataA[i];
-            double? b = dataB[i];
+            double a = dataA[i];
+            double b = dataB[i];
 
             sumA += a;
             sumB += b;
@@ -87,20 +87,21 @@ public static partial class Indicator
             sumAB += a * b;
         }
 
-        double? avgA = sumA / length;
-        double? avgB = sumB / length;
-        double? avgA2 = sumA2 / length;
-        double? avgB2 = sumB2 / length;
-        double? avgAB = sumAB / length;
+        double avgA = sumA / length;
+        double avgB = sumB / length;
+        double avgA2 = sumA2 / length;
+        double avgB2 = sumB2 / length;
+        double avgAB = sumAB / length;
 
-        r.VarianceA = avgA2 - (avgA * avgA);
-        r.VarianceB = avgB2 - (avgB * avgB);
-        r.Covariance = avgAB - (avgA * avgB);
+        double varA = avgA2 - (avgA * avgA);
+        double varB = avgB2 - (avgB * avgB);
+        double cov = avgAB - (avgA * avgB);
+        double divisor = Math.Sqrt(varA * varB);
 
-        double? divisor = NullMath.Sqrt(r.VarianceA * r.VarianceB);
-
-        r.Correlation = (divisor == 0) ? null : r.Covariance / divisor;
-
+        r.VarianceA = varA;
+        r.VarianceB = varB;
+        r.Covariance = cov;
+        r.Correlation = (divisor == 0) ? null : cov / divisor;
         r.RSquared = r.Correlation * r.Correlation;
     }
 

@@ -24,7 +24,7 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BasicData q = bdList[i];
-            decimal? close = (decimal?)q.Value;
+            decimal close = (decimal)q.Value;
 
             BollingerBandsResult r = new()
             {
@@ -33,8 +33,8 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double?[] periodClose = new double?[lookbackPeriods];
-                double? sum = 0;
+                double[] periodClose = new double[lookbackPeriods];
+                double sum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)

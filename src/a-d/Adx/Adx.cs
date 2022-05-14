@@ -20,16 +20,16 @@ public static partial class Indicator
         List<AdxResult> results = new(quotesList.Count);
         List<AtrResult> atr = GetAtr(quotes, lookbackPeriods).ToList(); // get True Range info
 
-        double? prevHigh = 0;
-        double? prevLow = 0;
+        double prevHigh = 0;
+        double prevLow = 0;
         double? prevTrs = 0; // smoothed
-        double? prevPdm = 0;
-        double? prevMdm = 0;
+        double prevPdm = 0;
+        double prevMdm = 0;
         double? prevAdx = 0;
 
         double? sumTr = 0;
-        double? sumPdm = 0;
-        double? sumMdm = 0;
+        double sumPdm = 0;
+        double sumMdm = 0;
         double? sumDx = 0;
 
         // roll through quotes
@@ -53,11 +53,11 @@ public static partial class Indicator
 
             double? tr = (double?)atr[i].Tr;
 
-            double? pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
-                NullMath.Max(q.High - prevHigh, 0) : 0;
+            double pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
+                Math.Max(q.High - prevHigh, 0) : 0;
 
-            double? mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
-                NullMath.Max(prevLow - q.Low, 0) : 0;
+            double mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
+                Math.Max(prevLow - q.Low, 0) : 0;
 
             prevHigh = q.High;
             prevLow = q.Low;
@@ -78,8 +78,8 @@ public static partial class Indicator
 
             // smoothed true range and directional movement
             double? trs;
-            double? pdm;
-            double? mdm;
+            double pdm;
+            double mdm;
 
             if (i == lookbackPeriods)
             {
@@ -98,14 +98,14 @@ public static partial class Indicator
             prevPdm = pdm;
             prevMdm = mdm;
 
-            if (trs == 0)
+            if (trs == 0 || trs is null)
             {
                 continue;
             }
 
             // directional increments
-            double? pdi = 100 * pdm / trs;
-            double? mdi = 100 * mdm / trs;
+            double pdi = 100 * pdm / (double)trs;
+            double mdi = 100 * mdm / (double)trs;
 
             result.Pdi = pdi;
             result.Mdi = mdi;
@@ -116,7 +116,7 @@ public static partial class Indicator
             }
 
             // calculate ADX
-            double? dx = 100 * NullMath.Abs(pdi - mdi) / (pdi + mdi);
+            double dx = 100 * Math.Abs((double)(pdi - mdi)) / (pdi + mdi);
             double? adx;
 
             if (i + 1 > 2 * lookbackPeriods)

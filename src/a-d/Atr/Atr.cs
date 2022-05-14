@@ -19,9 +19,9 @@ public static partial class Indicator
         // initialize
         List<AtrResult> results = new(quotesList.Count);
         decimal? prevAtr = 0;
-        decimal? prevClose = 0;
-        decimal? highMinusPrevClose = 0;
-        decimal? lowMinusPrevClose = 0;
+        decimal prevClose = 0;
+        decimal highMinusPrevClose = 0;
+        decimal lowMinusPrevClose = 0;
         decimal? sumTr = 0;
 
         // roll through quotes
@@ -36,11 +36,11 @@ public static partial class Indicator
 
             if (i > 0)
             {
-                highMinusPrevClose = NullMath.Abs(q.High - prevClose);
-                lowMinusPrevClose = NullMath.Abs(q.Low - prevClose);
+                highMinusPrevClose = Math.Abs(q.High - prevClose);
+                lowMinusPrevClose = Math.Abs(q.Low - prevClose);
             }
 
-            decimal? tr = NullMath.Max(q.High - q.Low, NullMath.Max(highMinusPrevClose, lowMinusPrevClose));
+            decimal? tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
             result.Tr = tr;
 
             if (i + 1 > lookbackPeriods)

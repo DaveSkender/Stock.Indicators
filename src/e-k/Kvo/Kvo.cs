@@ -23,12 +23,12 @@ public static partial class Indicator
         List<KvoResult> results = new(length);
 
         double[] t = new double[length];            // trend direction
-        double?[] hlc = new double?[length];        // trend basis
-        double?[] dm = new double?[length];         // daily measurement
-        double?[] cm = new double?[length];         // cumulative measurement
-        double?[] vf = new double?[length];         // volume force (VF)
-        double?[] vfFastEma = new double?[length];  // EMA of VF (short-term)
-        double?[] vfSlowEma = new double?[length];  // EMA of VP (long-term)
+        double[] hlc = new double[length];        // trend basis
+        double[] dm = new double[length];         // daily measurement
+        double[] cm = new double[length];         // cumulative measurement
+        double[] vf = new double[length];         // volume force (VF)
+        double[] vfFastEma = new double[length];  // EMA of VF (short-term)
+        double[] vfSlowEma = new double[length];  // EMA of VP (long-term)
 
         // EMA multipliers
         double kFast = 2d / (fastPeriods + 1);
@@ -73,7 +73,7 @@ public static partial class Indicator
             // volume force (VF)
             vf[i] = (dm[i] == cm[i] || q.Volume == 0) ? 0
                 : (dm[i] == 0) ? q.Volume * 2d * t[i] * 100d
-                : (cm[i] != 0) ? q.Volume * NullMath.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d
+                : (cm[i] != 0) ? q.Volume * Math.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d
                 : vf[i - 1];
 
             // fast-period EMA of VF
@@ -83,7 +83,7 @@ public static partial class Indicator
             }
             else if (i == fastPeriods + 1)
             {
-                double? sum = 0;
+                double sum = 0;
                 for (int p = 2; p <= i; p++)
                 {
                     sum += vf[p];
@@ -99,7 +99,7 @@ public static partial class Indicator
             }
             else if (i == slowPeriods + 1)
             {
-                double? sum = 0;
+                double sum = 0;
                 for (int p = 2; p <= i; p++)
                 {
                     sum += vf[p];
