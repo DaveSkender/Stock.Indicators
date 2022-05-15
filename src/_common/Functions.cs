@@ -3,46 +3,46 @@ namespace Skender.Stock.Indicators;
 internal static class Functions
 {
     // STANDARD DEVIATION
-    internal static double? StdDev(double?[] values)
+    internal static double StdDev(double[] values)
     {
         // ref: https://stackoverflow.com/questions/2253874/standard-deviation-in-linq
         // and then modified to an iterative model without LINQ, for performance improvement
 
-        double? sd = 0;
+        double sd = 0;
         int n = values.Length;
         if (n > 1)
         {
-            double? sum = 0;
+            double sum = 0;
             for (int i = 0; i < n; i++)
             {
                 sum += values[i];
             }
 
-            double? avg = sum / n;
+            double avg = sum / n;
 
-            double? sumSq = 0;
+            double sumSq = 0;
             for (int i = 0; i < n; i++)
             {
-                double? d = values[i];
+                double d = values[i];
                 sumSq += (d - avg) * (d - avg);
             }
 
-            sd = NullMath.Sqrt(sumSq / n);
+            sd = Math.Sqrt(sumSq / n);
         }
 
         return sd;
     }
 
     // SLOPE of BEST FIT LINE
-    internal static double? Slope(double?[] x, double?[] y)
+    internal static double Slope(double[] x, double[] y)
     {
         // TODO: add better error handling for mismatch size arrays
 
         int length = Math.Min(x.Length, y.Length);
 
         // get averages for period
-        double? sumX = 0;
-        double? sumY = 0;
+        double sumX = 0;
+        double sumY = 0;
 
         for (int i = 0; i < length; i++)
         {
@@ -50,25 +50,25 @@ internal static class Functions
             sumY += y[i];
         }
 
-        double? avgX = sumX / length;
-        double? avgY = sumY / length;
+        double avgX = sumX / length;
+        double avgY = sumY / length;
 
         // least squares method
-        double? sumSqX = 0;
-        double? sumSqY = 0;
-        double? sumSqXY = 0;
+        double sumSqX = 0;
+        double sumSqY = 0;
+        double sumSqXY = 0;
 
         for (int i = 0; i < length; i++)
         {
-            double? devX = x[i] - avgX;
-            double? devY = y[i] - avgY;
+            double devX = x[i] - avgX;
+            double devY = y[i] - avgY;
 
             sumSqX += devX * devX;
             sumSqY += devY * devY;
             sumSqXY += devX * devY;
         }
 
-        double? slope = sumSqXY / sumSqX;
+        double slope = sumSqXY / sumSqX;
 
         return slope;
     }

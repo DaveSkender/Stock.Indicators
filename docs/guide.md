@@ -124,11 +124,11 @@ public class MyCustomQuote : IQuote
 {
     // required base properties
     public DateTime Date { get; set; }
-    public decimal? Open { get; set; }
-    public decimal? High { get; set; }
-    public decimal? Low { get; set; }
-    public decimal? Close { get; set; }
-    public decimal? Volume { get; set; }
+    public decimal Open { get; set; }
+    public decimal High { get; set; }
+    public decimal Low { get; set; }
+    public decimal Close { get; set; }
+    public decimal Volume { get; set; }
 
     // custom properties
     public int MyOtherProperty { get; set; }
@@ -152,11 +152,11 @@ public class MyCustomQuote : IQuote
 {
     // required base properties
     DateTime IQuote.Date => CloseDate;
-    public decimal? Open { get; set; }
-    public decimal? High { get; set; }
-    public decimal? Low { get; set; }
-    public decimal? Close { get; set; }
-    public decimal? Volume { get; set; }
+    public decimal Open { get; set; }
+    public decimal High { get; set; }
+    public decimal Low { get; set; }
+    public decimal Close { get; set; }
+    public decimal Volume { get; set; }
 
     // custom properties
     public int MyOtherProperty { get; set; }

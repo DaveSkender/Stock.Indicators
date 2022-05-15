@@ -18,11 +18,11 @@ public static partial class Indicator
 
         // initialize
         List<AtrResult> results = new(quotesList.Count);
-        decimal? prevAtr = 0;
-        decimal? prevClose = 0;
-        decimal? highMinusPrevClose = 0;
-        decimal? lowMinusPrevClose = 0;
-        decimal? sumTr = 0;
+        decimal prevAtr = 0;
+        decimal prevClose = 0;
+        decimal highMinusPrevClose = 0;
+        decimal lowMinusPrevClose = 0;
+        decimal sumTr = 0;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
@@ -36,27 +36,29 @@ public static partial class Indicator
 
             if (i > 0)
             {
-                highMinusPrevClose = NullMath.Abs(q.High - prevClose);
-                lowMinusPrevClose = NullMath.Abs(q.Low - prevClose);
+                highMinusPrevClose = Math.Abs(q.High - prevClose);
+                lowMinusPrevClose = Math.Abs(q.Low - prevClose);
             }
 
-            decimal? tr = NullMath.Max(q.High - q.Low, NullMath.Max(highMinusPrevClose, lowMinusPrevClose));
+            decimal tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
             result.Tr = tr;
 
             if (i + 1 > lookbackPeriods)
             {
                 // calculate ATR
-                result.Atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
-                result.Atrp = (q.Close == 0) ? null : result.Atr / q.Close * 100;
-                prevAtr = (decimal?)result.Atr;
+                decimal atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
+                result.Atr = atr;
+                result.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                prevAtr = atr;
             }
             else if (i + 1 == lookbackPeriods)
             {
                 // initialize ATR
                 sumTr += tr;
-                result.Atr = sumTr / lookbackPeriods;
-                result.Atrp = (q.Close == 0) ? null : result.Atr / q.Close * 100;
-                prevAtr = (decimal?)result.Atr;
+                decimal atr = sumTr / lookbackPeriods;
+                result.Atr = atr;
+                result.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                prevAtr = atr;
             }
             else
             {

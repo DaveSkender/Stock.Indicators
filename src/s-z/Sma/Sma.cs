@@ -42,7 +42,7 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double? sumSma = 0;
+                double sumSma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BasicData d = bdList[p];

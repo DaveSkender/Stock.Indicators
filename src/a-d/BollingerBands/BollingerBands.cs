@@ -24,7 +24,7 @@ public static partial class Indicator
         for (int i = 0; i < bdList.Count; i++)
         {
             BasicData q = bdList[i];
-            decimal? close = (decimal?)q.Value;
+            decimal close = (decimal)q.Value;
 
             BollingerBandsResult r = new()
             {
@@ -33,8 +33,8 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double?[] periodClose = new double?[lookbackPeriods];
-                double? sum = 0;
+                double[] periodClose = new double[lookbackPeriods];
+                double sum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -55,8 +55,8 @@ public static partial class Indicator
                 r.PercentB = (r.UpperBand == r.LowerBand) ? null
                     : (double?)((close - r.LowerBand) / (r.UpperBand - r.LowerBand));
 
-                r.ZScore = (stdDev == 0) ? null : (double?)(close - r.Sma) / stdDev;
-                r.Width = (periodAvg == 0) ? null : (double?)(r.UpperBand - r.LowerBand) / periodAvg;
+                r.ZScore = (stdDev == 0) ? double.NaN : (double?)(close - r.Sma) / stdDev;
+                r.Width = (periodAvg == 0) ? double.NaN : (double?)(r.UpperBand - r.LowerBand) / periodAvg;
             }
 
             results.Add(r);

@@ -25,23 +25,6 @@ public class Hurst : TestBase
     }
 
     [TestMethod]
-    public void ToQuotes()
-    {
-        List<Quote> newQuotes = longestQuotes
-            .GetHurst(longestQuotes.Count() - 1)
-            .ToQuotes()
-            .ToList();
-
-        Assert.AreEqual(1, newQuotes.Count);
-
-        Quote q = newQuotes.LastOrDefault();
-        Assert.AreEqual(0.483563m, NullMath.Round(q.Open, 6));
-        Assert.AreEqual(0.483563m, NullMath.Round(q.High, 6));
-        Assert.AreEqual(0.483563m, NullMath.Round(q.Low, 6));
-        Assert.AreEqual(0.483563m, NullMath.Round(q.Close, 6));
-    }
-
-    [TestMethod]
     public void BadData()
     {
         IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);

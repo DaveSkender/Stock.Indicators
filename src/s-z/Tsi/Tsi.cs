@@ -23,21 +23,21 @@ public static partial class Indicator
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
-        double? sumS = 0;
+        double sumS = 0;
 
         List<TsiResult> results = new(length);
 
-        double?[] c = new double?[length]; // price change
-        double?[] cs1 = new double?[length]; // smooth 1
-        double?[] cs2 = new double?[length]; // smooth 2
-        double? sumC = 0;
-        double? sumC1 = 0;
+        double[] c = new double[length]; // price change
+        double[] cs1 = new double[length]; // smooth 1
+        double[] cs2 = new double[length]; // smooth 2
+        double sumC = 0;
+        double sumC1 = 0;
 
-        double?[] a = new double?[length]; // abs of price change
-        double?[] as1 = new double?[length]; // smooth 1
-        double?[] as2 = new double?[length]; // smooth 2
-        double? sumA = 0;
-        double? sumA1 = 0;
+        double[] a = new double[length]; // abs of price change
+        double[] as1 = new double[length]; // smooth 1
+        double[] as2 = new double[length]; // smooth 2
+        double sumA = 0;
+        double sumA1 = 0;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -58,7 +58,7 @@ public static partial class Indicator
 
             // price change
             c[i] = q.Value - bdList[i - 1].Value;
-            a[i] = NullMath.Abs(c[i]);
+            a[i] = Math.Abs(c[i]);
 
             // smoothing
             if (i > lookbackPeriods)
@@ -73,21 +73,22 @@ public static partial class Indicator
                     cs2[i] = ((cs1[i] - cs2[i - 1]) * mult2) + cs2[i - 1];
                     as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
 
-                    r.Tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : null;
+                    double tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : double.NaN;
+                    r.Tsi = tsi;
 
                     // signal line
                     if (signalPeriods > 0)
                     {
                         if (i >= lookbackPeriods + smoothPeriods + signalPeriods - 1)
                         {
-                            r.Signal = ((r.Tsi - results[i - 1].Signal) * multS)
+                            r.Signal = ((tsi - results[i - 1].Signal) * multS)
                                      + results[i - 1].Signal;
                         }
 
                         // initialize signal
                         else
                         {
-                            sumS += r.Tsi;
+                            sumS += tsi;
 
                             if (i == lookbackPeriods + smoothPeriods + signalPeriods - 2)
                             {
@@ -109,8 +110,9 @@ public static partial class Indicator
                         cs2[i] = sumC1 / smoothPeriods;
                         as2[i] = sumA1 / smoothPeriods;
 
-                        r.Tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : null;
-                        sumS = r.Tsi;
+                        double tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : double.NaN;
+                        r.Tsi = tsi;
+                        sumS = tsi;
                     }
                 }
             }

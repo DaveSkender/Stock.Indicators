@@ -20,7 +20,7 @@ public static partial class Indicator
         // initialize
         int length = bdList.Count;
         List<AwesomeResult> results = new();
-        double?[] pr = new double?[length]; // median price
+        double[] pr = new double[length]; // median price
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -35,8 +35,8 @@ public static partial class Indicator
 
             if (i + 1 >= slowPeriods)
             {
-                double? sumSlow = 0;
-                double? sumFast = 0;
+                double sumSlow = 0;
+                double sumFast = 0;
 
                 for (int p = i + 1 - slowPeriods; p <= i; p++)
                 {
@@ -49,7 +49,7 @@ public static partial class Indicator
                 }
 
                 r.Oscillator = (sumFast / fastPeriods) - (sumSlow / slowPeriods);
-                r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : null;
+                r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : double.NaN;
             }
 
             results.Add(r);

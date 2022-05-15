@@ -1,7 +1,89 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+#nullable disable
 
 namespace Skender.Stock.Indicators;
+
+// REMOVED .ToQuotes in v1.24.0
+public static partial class Indicator
+{
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    public static IEnumerable<Quote> ToQuotes(
+    this IEnumerable<AdlResult> results) => results
+      .Select(x => new Quote
+      {
+          Date = x.Date,
+          Open = (decimal)x.Adl,
+          High = (decimal)x.Adl,
+          Low = (decimal)x.Adl,
+          Close = (decimal)x.Adl,
+          Volume = (decimal)x.Adl
+      })
+      .ToList();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    public static IEnumerable<Quote> ToQuotes(
+    this IEnumerable<DpoResult> results) => results
+      .Where(x => x.Dpo != null)
+      .Select(x => new Quote
+      {
+          Date = x.Date,
+          Open = (decimal)x.Dpo,
+          High = (decimal)x.Dpo,
+          Low = (decimal)x.Dpo,
+          Close = (decimal)x.Dpo,
+          Volume = (decimal)x.Dpo
+      })
+      .ToList();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    public static IEnumerable<Quote> ToQuotes(
+    this IEnumerable<HurstResult> results) => results
+      .Where(x => x.HurstExponent != null)
+      .Select(x => new Quote
+      {
+          Date = x.Date,
+          Open = (decimal)x.HurstExponent,
+          High = (decimal)x.HurstExponent,
+          Low = (decimal)x.HurstExponent,
+          Close = (decimal)x.HurstExponent
+      })
+      .ToList();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    public static IEnumerable<Quote> ToQuotes(
+    this IEnumerable<ObvResult> results) => results
+      .Select(x => new Quote
+      {
+          Date = x.Date,
+          Open = (decimal)x.Obv,
+          High = (decimal)x.Obv,
+          Low = (decimal)x.Obv,
+          Close = (decimal)x.Obv,
+          Volume = (decimal)x.Obv
+      })
+      .ToList();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    public static IEnumerable<Quote> ToQuotes(
+    this IEnumerable<RsiResult> results) => results
+      .Where(x => x.Rsi != null)
+      .Select(x => new Quote
+      {
+          Date = x.Date,
+          Open = (decimal)x.Rsi,
+          High = (decimal)x.Rsi,
+          Low = (decimal)x.Rsi,
+          Close = (decimal)x.Rsi,
+          Volume = (decimal)x.Rsi
+      })
+      .ToList();
+}
 
 // RENAMED IN v1.23.0 - GetDoubleEma, GetTripleEma
 public static partial class Indicator
@@ -11,20 +93,14 @@ public static partial class Indicator
     public static IEnumerable<DemaResult> GetDoubleEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        return quotes.GetDema(lookbackPeriods);
-    }
+        where TQuote : IQuote => quotes.GetDema(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'GetTripleEma(..)' to 'GetTema(..)' to fix.")]
     public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        return quotes.GetTema(lookbackPeriods);
-    }
+        where TQuote : IQuote => quotes.GetTema(lookbackPeriods);
 }
 
 // RENAMED IN v1.23.0 - .ConvertToQuotes()
@@ -33,25 +109,17 @@ public static partial class Indicator
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<AdlResult> results)
-    {
-        return results.ToQuotes();
-    }
+        this IEnumerable<AdlResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<DpoResult> results)
-    {
-        return results.ToQuotes();
-    }
+        this IEnumerable<DpoResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("'ConvertToQuotes()' is not needed for Heikin-Ashi.  Results can now be used directly as a replacement for IEnumerable<TQuote>.")]
     public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<HeikinAshiResult> results)
-    {
-        return results
+        this IEnumerable<HeikinAshiResult> results) => results
           .Select(x => new Quote
           {
               Date = x.Date,
@@ -62,30 +130,21 @@ public static partial class Indicator
               Volume = x.Volume
           })
           .ToList();
-    }
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<HurstResult> results)
-    {
-        return results.ToQuotes();
-    }
+        this IEnumerable<HurstResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<ObvResult> results)
-    {
-        return results.ToQuotes();
-    }
+        this IEnumerable<ObvResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("'ConvertToQuotes()' is not needed for Renko.  Results can now be used directly as a replacement for IEnumerable<TQuote>.")]
     public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<RenkoResult> results)
-    {
-        return results
+        this IEnumerable<RenkoResult> results) => results
           .Select(x => new Quote
           {
               Date = x.Date,
@@ -96,15 +155,11 @@ public static partial class Indicator
               Volume = x.Volume
           })
           .ToList();
-    }
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
     public static IEnumerable<Quote> ConvertToQuotes(
-        this IEnumerable<RsiResult> results)
-    {
-        return results.ToQuotes();
-    }
+        this IEnumerable<RsiResult> results) => results.ToQuotes();
 }
 
 // REMOVED in v1.21.0
@@ -113,6 +168,7 @@ public static partial class Indicator
         + "See https://github.com/DaveSkender/Stock.Indicators/pull/685 for more info.")]
 public class BadQuotesException : ArgumentOutOfRangeException
 {
+#nullable enable
     public BadQuotesException()
     {
     }

@@ -37,23 +37,23 @@ public static partial class Indicator
             if (i + 1 > erPeriods)
             {
                 // ER period change
-                double? change = NullMath.Abs(q.Value - bdList[i - erPeriods].Value);
+                double change = Math.Abs(q.Value - bdList[i - erPeriods].Value);
 
                 // volatility
-                double? sumPV = 0;
+                double sumPV = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += NullMath.Abs(bdList[p].Value - bdList[p - 1].Value);
+                    sumPV += Math.Abs(bdList[p].Value - bdList[p - 1].Value);
                 }
 
                 if (sumPV != 0)
                 {
                     // efficiency ratio
-                    double? er = change / sumPV;
+                    double er = change / sumPV;
                     r.ER = er;
 
                     // smoothing constant
-                    double? sc = (er * (scFast - scSlow)) + scSlow;  // squared later
+                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
                     double? pk = (double?)results[i - 1].Kama;  // prior KAMA

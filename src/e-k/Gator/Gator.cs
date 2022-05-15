@@ -7,13 +7,10 @@ public static partial class Indicator
     ///
     public static IEnumerable<GatorResult> GetGator<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        // convert alligator to gator
-        return quotes
+        where TQuote : IQuote =>
+        quotes
             .GetAlligator()
             .GetGator();
-    }
 
     public static IEnumerable<GatorResult> GetGator(
         this IEnumerable<AlligatorResult> alligator)

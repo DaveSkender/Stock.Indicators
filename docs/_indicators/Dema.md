@@ -10,11 +10,11 @@ redirect_from:
 # {{ page.title }}
 
 Created by Patrick G. Mulloy, the [Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) is a faster smoothed EMA of the Close price over a lookback window.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/807 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Dema.png)
 
-DEMA is shown as the dashed line above.  [EMA](../Ema#content) (solid line) and [Triple EMA](../Tema#content) (dotted line) are also shown here for comparison.
+See also related [EMA](../Ema#content) and [Triple EMA](../Tema#content).
 
 ```csharp
 // usage

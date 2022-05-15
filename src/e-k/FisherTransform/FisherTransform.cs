@@ -18,8 +18,8 @@ public static partial class Indicator
 
         // initialize
         int length = bdList.Count;
-        double?[] pr = new double?[length]; // median price
-        double?[] xv = new double?[length]; // price transform "value"
+        double[] pr = new double[length]; // median price
+        double[] xv = new double[length]; // price transform "value"
         List<FisherTransformResult> results = new(length);
 
         // roll through quotes
@@ -28,13 +28,13 @@ public static partial class Indicator
             BasicData q = bdList[i];
             pr[i] = q.Value;
 
-            double? minPrice = pr[i];
-            double? maxPrice = pr[i];
+            double minPrice = pr[i];
+            double maxPrice = pr[i];
 
             for (int p = Math.Max(i - lookbackPeriods + 1, 0); p <= i; p++)
             {
-                minPrice = NullMath.Min(pr[p], minPrice);
-                maxPrice = NullMath.Max(pr[p], maxPrice);
+                minPrice = Math.Min(pr[p], minPrice);
+                maxPrice = Math.Max(pr[p], maxPrice);
             }
 
             FisherTransformResult r = new()
@@ -52,7 +52,7 @@ public static partial class Indicator
                 xv[i] = (xv[i] > 0.99) ? 0.999 : xv[i];
                 xv[i] = (xv[i] < -0.99) ? -0.999 : xv[i];
 
-                r.Fisher = (0.5 * NullMath.Log((1 + xv[i]) / (1 - xv[i])))
+                r.Fisher = (0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
                       + (0.5 * results[i - 1].Fisher);
 
                 r.Trigger = results[i - 1].Fisher;
