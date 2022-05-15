@@ -12,11 +12,11 @@ internal class MyQuote : Quote
     public decimal? MyClose { get; set; }
 }
 
-internal class MyIndicator : EmaResult
+internal class MyEma : ResultBase
 {
     public int Id { get; set; }
     public bool MyProperty { get; set; }
-    public float MyEma { get; set; }
+    public float CustomEma { get; set; }
 }
 
 internal class MyGenericQuote : IQuote
@@ -195,10 +195,10 @@ public class PublicClassTests
     public void DerivedIndicatorClass()
     {
         // can use a derive Indicator class
-        MyIndicator myIndicator = new()
+        MyEma myIndicator = new()
         {
             Date = DateTime.Now,
-            MyEma = 123.456f,
+            CustomEma = 123.456f,
             MyProperty = false
         };
 
@@ -206,19 +206,19 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void DerivedIndicatorClassLinq()
+    public void CustomIndicatorClassLinq()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<EmaResult> emaResults = quotes.GetEma(14);
 
         // can use a derive Indicator class using Linq
 
-        IEnumerable<MyIndicator> myIndicatorResults = emaResults
+        IEnumerable<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
-            .Select(x => new MyIndicator
+            .Select(x => new MyEma
             {
                 Date = x.Date,
-                MyEma = (float)x.Ema,
+                CustomEma = (float)x.Ema,
                 MyProperty = false
             });
 
@@ -226,20 +226,20 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void DerivedIndicatorFind()
+    public void CustomIndicatorClassFind()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
 
         // can use a derive Indicator class using Linq
 
-        IEnumerable<MyIndicator> myIndicatorResults = emaResults
+        IEnumerable<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
-            .Select(x => new MyIndicator
+            .Select(x => new MyEma
             {
                 Id = 12345,
                 Date = x.Date,
-                MyEma = (float)x.Ema,
+                CustomEma = (float)x.Ema,
                 MyProperty = false
             });
 
@@ -248,7 +248,7 @@ public class PublicClassTests
         // find specific date
         DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
 
-        MyIndicator i = myIndicatorResults.Find(findDate);
+        MyEma i = myIndicatorResults.Find(findDate);
         Assert.AreEqual(12345, i.Id);
 
         EmaResult r = emaResults.Find(findDate);

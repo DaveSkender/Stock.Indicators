@@ -14,7 +14,7 @@ redirect_from:
 - [Example usage](#example-usage)
 - [Historical quotes](#historical-quotes)
 - [Using custom quote classes](#using-custom-quote-classes)
-- [Using derived results classes](#using-derived-results-classes)
+- [Using custom results classes](#using-custom-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Candlestick patterns](#candlestick-patterns)
 - [Creating custom indicators]({{site.baseurl}}/custom-indicators/#content)
@@ -168,16 +168,17 @@ Note the use of explicit interface (property declaration is `IQuote.Date`), this
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 
-## Using derived results classes
+## Using custom results classes
 
-The indicator result (e.g. `EmaResult`) classes can be extended in your code.  There are many ways to do this.  Here's one example:
+The indicator result classes can be customized in your code.  There are many ways to do this, but the benefit of using derived `ResultBase` is that your custom class will inherit all of the [utility results extension methods](./utilities.md#utilities-for-indicator-results).  Here's one example:
 
 ```csharp
-// your custom derived class
-public class MyEma : EmaResult
+// your custom class with an EMA interface profile
+public class MyEma : ResultBase, IEmaResult
 {
-  // my added properties
+  // my properties
   public int MyId { get; set; }
+  public decimal? Ema { get; set; }
 }
 
 public void MyClass(){
