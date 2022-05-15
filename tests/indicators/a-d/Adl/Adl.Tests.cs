@@ -53,15 +53,22 @@ public class Adl : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AdlResult> r = Indicator.GetAdl(badQuotes);
+        IEnumerable<AdlResult> r = badQuotes.GetAdl();
         Assert.AreEqual(502, r.Count());
     }
 
     [TestMethod]
     public void BigData()
     {
-        IEnumerable<AdlResult> r = Indicator.GetAdl(bigQuotes);
+        IEnumerable<AdlResult> r = bigQuotes.GetAdl();
         Assert.AreEqual(1246, r.Count());
+    }
+
+    [TestMethod]
+    public void RandomData()
+    {
+        IEnumerable<AdlResult> r = randomQuotes.GetAdl();
+        Assert.AreEqual(1000, r.Count());
     }
 
     [TestMethod]
