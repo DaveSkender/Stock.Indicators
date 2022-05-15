@@ -43,10 +43,10 @@ public static partial class Indicator
         int windowEval;
         bool firstWindow = true;
 
-        decimal? windowHigh = h0.High;
-        decimal? windowLow = h0.Low;
-        decimal? windowOpen = h0.Open;
-        decimal? windowClose = h0.Close;
+        decimal windowHigh = h0.High;
+        decimal windowLow = h0.Low;
+        decimal windowOpen = h0.Open;
+        decimal windowClose = h0.Close;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -126,10 +126,10 @@ public static partial class Indicator
 
     // internals
     internal static TPivotPoint GetPivotPointStandard<TPivotPoint>(
-        decimal? high, decimal? low, decimal? close)
+        decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
     {
-        decimal? pp = (high + low + close) / 3;
+        decimal pp = (high + low + close) / 3;
 
         return new TPivotPoint
         {
@@ -144,7 +144,7 @@ public static partial class Indicator
     }
 
     internal static TPivotPoint GetPivotPointCamarilla<TPivotPoint>(
-        decimal? high, decimal? low, decimal? close)
+        decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
         => new()
         {
@@ -160,7 +160,7 @@ public static partial class Indicator
         };
 
     internal static TPivotPoint GetPivotPointDemark<TPivotPoint>(
-        decimal? open, decimal? high, decimal? low, decimal? close)
+        decimal open, decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
     {
         decimal? x = null;
@@ -187,10 +187,10 @@ public static partial class Indicator
     }
 
     internal static TPivotPoint GetPivotPointFibonacci<TPivotPoint>(
-        decimal? high, decimal? low, decimal? close)
+        decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
     {
-        decimal? pp = (high + low + close) / 3;
+        decimal pp = (high + low + close) / 3;
 
         return new TPivotPoint
         {
@@ -205,10 +205,10 @@ public static partial class Indicator
     }
 
     internal static TPivotPoint GetPivotPointWoodie<TPivotPoint>(
-        decimal? currentOpen, decimal? high, decimal? low)
+        decimal currentOpen, decimal high, decimal low)
         where TPivotPoint : IPivotPoint, new()
     {
-        decimal? pp = (high + low + (2 * currentOpen)) / 4;
+        decimal pp = (high + low + (2 * currentOpen)) / 4;
 
         return new TPivotPoint
         {
@@ -224,7 +224,7 @@ public static partial class Indicator
 
     // pivot type lookup
     internal static TPivotPoint? GetPivotPoint<TPivotPoint>(
-        PivotPointType pointType, decimal? open, decimal? high, decimal? low, decimal? close)
+        PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
         => pointType switch
         {

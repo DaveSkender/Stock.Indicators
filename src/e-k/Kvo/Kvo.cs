@@ -22,7 +22,7 @@ public static partial class Indicator
         int length = quotesList.Count;
         List<KvoResult> results = new(length);
 
-        double[] t = new double[length];            // trend direction
+        double[] t = new double[length];          // trend direction
         double[] hlc = new double[length];        // trend basis
         double[] dm = new double[length];         // daily measurement
         double[] cm = new double[length];         // cumulative measurement

@@ -81,7 +81,7 @@ public static partial class Indicator
 
             if (stdDevX * stdDevY != 0)
             {
-                double? arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
+                double arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
                 r.RSquared = arrr * arrr;
             }
         }
