@@ -18,11 +18,12 @@ public static partial class Indicator
 
         // initialize
         List<SmmaResult> results = new(quotesList.Count);
-        double? prevValue = null;
+        double prevValue = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
         {
+            double smma = double.NaN;
             BasicData q = quotesList[i];
 
             SmmaResult result = new()
@@ -33,24 +34,25 @@ public static partial class Indicator
             // calculate SMMA
             if (i + 1 > lookbackPeriods)
             {
-                result.Smma = (decimal?)((prevValue * (lookbackPeriods - 1)) + q.Value)
-                            / lookbackPeriods;
+                smma = ((prevValue * (lookbackPeriods - 1)) + q.Value) / lookbackPeriods;
+                result.Smma = (decimal?)smma;
             }
 
             // first SMMA calculated as simple SMA
             else if (i + 1 == lookbackPeriods)
             {
-                double? sumClose = 0;
+                double sumClose = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BasicData d = quotesList[p];
                     sumClose += d.Value;
                 }
 
-                result.Smma = (decimal?)(sumClose / lookbackPeriods);
+                smma = sumClose / lookbackPeriods;
+                result.Smma = (decimal?)smma;
             }
 
-            prevValue = (double?)result.Smma;
+            prevValue = smma;
             results.Add(result);
         }
 

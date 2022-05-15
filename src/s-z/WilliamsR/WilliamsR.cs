@@ -18,7 +18,7 @@ public static partial class Indicator
             .Select(s => new WilliamsResult
             {
                 Date = s.Date,
-                WilliamsR = s.Oscillator - 100
+                WilliamsR = (decimal?)s.Oscillator - 100
             })
             .ToList();
     }

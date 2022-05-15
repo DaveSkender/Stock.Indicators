@@ -19,6 +19,7 @@ public static partial class Indicator
         ValidateStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // get stochastic of macd
+        // TODO: make this work better
 #pragma warning disable CS8629 // Nullable value type may be null. False warning.
         IEnumerable<StochResult> stochMacd = quotes
           .GetMacd(fastPeriods, slowPeriods, 1)

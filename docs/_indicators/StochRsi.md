@@ -53,8 +53,8 @@ IEnumerable<StochRsiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `StochRsi` | decimal | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of Close price
-| `Signal` | decimal | %D Signal Line = Simple moving average of %K based on `G` periods
+| `StochRsi` | double | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of Close price
+| `Signal` | double | %D Signal Line = Simple moving average of %K based on `G` periods
 
 ### Utilities
 

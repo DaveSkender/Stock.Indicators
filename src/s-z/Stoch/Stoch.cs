@@ -23,8 +23,8 @@ public static partial class Indicator
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
-        decimal kFactor,
-        decimal dFactor,
+        double kFactor,
+        double dFactor,
         MaType movingAverageType)
         where TQuote : IQuote
     {
@@ -71,7 +71,7 @@ public static partial class Indicator
                 }
 
                 result.Oscillator = lowLow != highHigh
-                    ? 100 * (decimal?)((q.Close - lowLow) / (highHigh - lowLow))
+                    ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
                     : 0;
             }
 
@@ -93,7 +93,7 @@ public static partial class Indicator
 
         // signal (%D) and %J
         int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
-        double? s = (double?)results[lookbackPeriods - 1].Oscillator;
+        double? s = results[lookbackPeriods - 1].Oscillator;
 
         for (int i = lookbackPeriods - 1; i < length; i++)
         {
@@ -113,19 +113,19 @@ public static partial class Indicator
                 for (int p = i + 1 - signalPeriods; p <= i; p++)
                 {
                     StochResult x = results[p];
-                    sumOsc += (double?)x.Oscillator;
+                    sumOsc += x.Oscillator;
                 }
 
-                r.Signal = (decimal?)(sumOsc / signalPeriods);
+                r.Signal = sumOsc / signalPeriods;
             }
 
             // SMMA case
             else if (i >= lookbackPeriods - 1 && movingAverageType is MaType.SMMA)
             {
-                s = (s == null) ? (double?)results[i].Oscillator : s; // reset if null
+                s = (s == null) ? results[i].Oscillator : s; // reset if null
 
-                s = ((s * (signalPeriods - 1)) + (double?)results[i].Oscillator) / signalPeriods;
-                r.Signal = (decimal?)s;
+                s = ((s * (signalPeriods - 1)) + results[i].Oscillator) / signalPeriods;
+                r.Signal = s;
             }
 
             // %J
@@ -155,7 +155,7 @@ public static partial class Indicator
                 double? sumOsc = 0;
                 for (int p = i + 1 - smoothPeriods; p <= i; p++)
                 {
-                    sumOsc += (double?)results[p].Oscillator;
+                    sumOsc += results[p].Oscillator;
                 }
 
                 smooth[i] = sumOsc / smoothPeriods;
@@ -164,13 +164,13 @@ public static partial class Indicator
         else if (movingAverageType is MaType.SMMA)
         {
             // initialize with unsmoothed value
-            double? k = (double?)results[lookbackPeriods - 1].Oscillator;
+            double? k = results[lookbackPeriods - 1].Oscillator;
 
             for (int i = lookbackPeriods - 1; i < length; i++)
             {
-                k = (k == null) ? (double?)results[i].Oscillator : k; // reset if null
+                k = (k == null) ? results[i].Oscillator : k; // reset if null
 
-                k = ((k * (smoothPeriods - 1)) + (double?)results[i].Oscillator) / smoothPeriods;
+                k = ((k * (smoothPeriods - 1)) + results[i].Oscillator) / smoothPeriods;
                 smooth[i] = k;
             }
         }
@@ -182,7 +182,7 @@ public static partial class Indicator
         // replace oscillator
         for (int i = 0; i < length; i++)
         {
-            results[i].Oscillator = (decimal?)((smooth[i] != null) ? smooth[i] : null);
+            results[i].Oscillator = (smooth[i] != null) ? smooth[i] : null;
         }
 
         return results;
@@ -193,8 +193,8 @@ public static partial class Indicator
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
-        decimal kFactor,
-        decimal dFactor,
+        double kFactor,
+        double dFactor,
         MaType movingAverageType)
     {
         // check parameter arguments
