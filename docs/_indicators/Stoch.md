@@ -33,8 +33,8 @@ IEnumerable<StochResult> results =
 | `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
 | `signalPeriods` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
 | `smoothPeriods` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
-| `kFactor` | decimal | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
-| `dFactor` | decimal | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
+| `kFactor` | double | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
+| `dFactor` | double | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
 | `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Historical quotes requirements
@@ -70,9 +70,9 @@ IEnumerable<StochResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Oscillator` or `K` | decimal | %K Oscillator over prior `N` lookback periods
-| `Signal` or `D` | decimal | %D Simple moving average of Oscillator
-| `PercentJ` or `J` | decimal | %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
+| `Oscillator` or `K` | double | %K Oscillator over prior `N` lookback periods
+| `Signal` or `D` | double | %D Simple moving average of Oscillator
+| `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
 
 Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangably with the standard outputs.
 

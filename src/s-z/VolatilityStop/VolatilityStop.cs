@@ -30,14 +30,14 @@ public static partial class Indicator
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);
-        double? sic = bdList[0].Value;
+        double sic = bdList[0].Value;
         bool isLong = bdList[initPeriods - 1].Value > sic;
 
         for (int i = 0; i < initPeriods; i++)
         {
             BasicData q = bdList[i];
-            double? close = q.Value;
-            sic = isLong ? NullMath.Max(sic, close) : NullMath.Min(sic, close);
+            double close = q.Value;
+            sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
             results.Add(new VolatilityStopResult() { Date = q.Date });
         }
 
@@ -45,7 +45,7 @@ public static partial class Indicator
         for (int i = lookbackPeriods; i < length; i++)
         {
             BasicData q = bdList[i];
-            double? close = q.Value;
+            double close = q.Value;
 
             // average true range × multiplier constant
             double? arc = (double?)atrList[i - 1].Atr * multiplier;
@@ -83,7 +83,7 @@ public static partial class Indicator
 
                 // significant close adjustment
                 // extreme favorable close while in trade
-                sic = isLong ? NullMath.Max(sic, close) : NullMath.Min(sic, close);
+                sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
             }
         }
 

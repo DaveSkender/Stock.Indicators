@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // HISTORICAL QUOTES FUNCTIONS (AGGREGATES)
 
-public static partial class HistoricalQuotes
+public static partial class QuoteUtility
 {
     // aggregation (quantization)
     /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />

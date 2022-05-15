@@ -5,12 +5,12 @@ namespace Skender.Stock.Indicators;
 [Serializable]
 public class StochResult : ResultBase
 {
-    public decimal? Oscillator { get; set; }
-    public decimal? Signal { get; set; }
-    public decimal? PercentJ { get; set; }
+    public double? Oscillator { get; set; }
+    public double? Signal { get; set; }
+    public double? PercentJ { get; set; }
 
     // aliases
-    public decimal? K => Oscillator;
-    public decimal? D => Signal;
-    public decimal? J => PercentJ;
+    public double? K => Oscillator;
+    public double? D => Signal;
+    public double? J => PercentJ;
 }

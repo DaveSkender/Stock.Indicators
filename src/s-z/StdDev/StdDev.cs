@@ -40,8 +40,8 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double?[] periodValues = new double?[lookbackPeriods];
-                double? sum = 0;
+                double[] periodValues = new double[lookbackPeriods];
+                double sum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -52,12 +52,12 @@ public static partial class Indicator
                     n++;
                 }
 
-                double? periodAvg = sum / lookbackPeriods;
+                double periodAvg = sum / lookbackPeriods;
 
                 result.StdDev = Functions.StdDev(periodValues);
                 result.Mean = periodAvg;
 
-                result.ZScore = (result.StdDev == 0) ? null
+                result.ZScore = (result.StdDev == 0) ? double.NaN
                     : (bd.Value - periodAvg) / result.StdDev;
             }
 

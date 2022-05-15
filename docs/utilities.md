@@ -81,22 +81,6 @@ Currently, `.Condense()` is only available on a select few indicators.  If you f
 
 :warning: WARNING! In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
 
-### Convert to quotes
-
-`results.ToQuotes()` will transform indicator results back into an `IEnumerable<Quote>` so it can be re-used to generate an [indicator of indicators]({{site.baseurl}}/guide/#generating-indicator-of-indicators).
-
-```csharp
-// example: an RSI of Renko bricks
-IEnumerable<RsiResult> results
-  = quotes.GetRenko(..)
-    .ToQuotes()
-    .GetRsi(14);
-```
-
-Currently, `.ToQuotes` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue]({{site.github.repository_url}}/issues).
-
-:warning: WARNING! In many cases, `.ToQuotes` will remove any `null` results -- this will produce fewer records than are in `quotes`.
-
 ### Find indicator result by date
 
 `results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.

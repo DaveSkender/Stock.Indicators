@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 // HISTORICAL QUOTES FUNCTIONS (GENERAL)
 
-public static partial class HistoricalQuotes
+public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
@@ -48,11 +48,11 @@ public static partial class HistoricalQuotes
             .Select(x => new QuoteD
             {
                 Date = x.Date,
-                Open = (double?)x.Open,
-                High = (double?)x.High,
-                Low = (double?)x.Low,
-                Close = (double?)x.Close,
-                Volume = (double?)x.Volume
+                Open = (double)x.Open,
+                High = (double)x.High,
+                Low = (double)x.Low,
+                Close = (double)x.Close,
+                Volume = (double)x.Volume
             })
             .OrderBy(x => x.Date)
             .ToList();

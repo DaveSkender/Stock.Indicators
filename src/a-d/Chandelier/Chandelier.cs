@@ -41,7 +41,7 @@ public static partial class Indicator
                 {
                     case ChandelierType.Long:
 
-                        double? maxHigh = 0;
+                        double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
                             QuoteD d = quotesList[p];
@@ -56,7 +56,7 @@ public static partial class Indicator
 
                     case ChandelierType.Short:
 
-                        double? minLow = double.MaxValue;
+                        double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
                             QuoteD d = quotesList[p];

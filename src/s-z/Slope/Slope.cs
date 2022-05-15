@@ -11,23 +11,24 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
+        List<(DateTime Date, double Value)> tpList
+            = quotes.ToBasicTuple(CandlePart.Close);
 
         // check parameter arguments
         ValidateSlope(lookbackPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<SlopeResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             SlopeResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             results.Add(r);
@@ -39,31 +40,31 @@ public static partial class Indicator
             }
 
             // get averages for period
-            double? sumX = 0;
-            double? sumY = 0;
+            double sumX = 0;
+            double sumY = 0;
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                BasicData d = bdList[p];
+                (DateTime dateP, double valueP) = tpList[p];
 
                 sumX += p + 1d;
-                sumY += d.Value;
+                sumY += valueP;
             }
 
-            double? avgX = sumX / lookbackPeriods;
-            double? avgY = sumY / lookbackPeriods;
+            double avgX = sumX / lookbackPeriods;
+            double avgY = sumY / lookbackPeriods;
 
             // least squares method
-            double? sumSqX = 0;
-            double? sumSqY = 0;
-            double? sumSqXY = 0;
+            double sumSqX = 0;
+            double sumSqY = 0;
+            double sumSqXY = 0;
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                BasicData d = bdList[p];
+                (DateTime dateP, double valueP) = tpList[p];
 
-                double? devX = p + 1d - avgX;
-                double? devY = d.Value - avgY;
+                double devX = p + 1d - avgX;
+                double devY = valueP - avgY;
 
                 sumSqX += devX * devX;
                 sumSqY += devY * devY;
@@ -74,13 +75,13 @@ public static partial class Indicator
             r.Intercept = avgY - (r.Slope * avgX);
 
             // calculate Standard Deviation and R-Squared
-            double? stdDevX = NullMath.Sqrt(sumSqX / lookbackPeriods);
-            double? stdDevY = NullMath.Sqrt(sumSqY / lookbackPeriods);
+            double stdDevX = Math.Sqrt(sumSqX / lookbackPeriods);
+            double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
             r.StdDev = stdDevY;
 
             if (stdDevX * stdDevY != 0)
             {
-                double? arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
+                double arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
                 r.RSquared = arrr * arrr;
             }
         }
