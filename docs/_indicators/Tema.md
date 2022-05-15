@@ -11,11 +11,11 @@ redirect_from:
 
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the Close price over a lookback window.
 Note: TEMA is often confused with the alternative [TRIX](../Trix#content) oscillator.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Tema.png)
 
-TEMA is shown as the dotted line above.  [EMA](../Ema#content) (solid line) and [Double EMA](../Dema#content) (dashed line) are also shown here for comparison.
+See also related [EMA](../Ema#content) and [Double EMA](../Dema#content).
 
 ```csharp
 // usage
