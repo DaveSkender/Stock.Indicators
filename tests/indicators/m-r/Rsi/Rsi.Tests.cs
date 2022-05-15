@@ -80,27 +80,6 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
-    public void ToQuotes()
-    {
-        // exclude nulls case
-        List<Quote> results = quotes.GetRsi(14)
-            .ToQuotes()
-            .ToList();
-
-        // assertions
-
-        // proper quantities
-        Assert.AreEqual(488, results.Count);
-
-        // sample values
-        Quote first = results.FirstOrDefault();
-        Assert.AreEqual(62.0541m, NullMath.Round(first.Close, 4));
-
-        Quote last = results.LastOrDefault();
-        Assert.AreEqual(42.0773m, NullMath.Round(last.Close, 4));
-    }
-
-    [TestMethod]
     public void Removed()
     {
         List<RsiResult> results = quotes.GetRsi(14)

@@ -30,7 +30,7 @@ public static partial class Indicator
         List<EmaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
-        double? lastEma = 0;
+        double lastEma = 0;
         int initPeriods = Math.Min(lookbackPeriods, length);
 
         for (int i = 0; i < initPeriods; i++)
@@ -52,7 +52,7 @@ public static partial class Indicator
 
             if (i + 1 > lookbackPeriods)
             {
-                double? ema = lastEma + (k * (h.Value - lastEma));
+                double ema = lastEma + (k * (h.Value - lastEma));
                 result.Ema = (decimal?)ema;
                 lastEma = ema;
             }

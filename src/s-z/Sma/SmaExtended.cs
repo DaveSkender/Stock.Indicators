@@ -22,22 +22,22 @@ public static partial class Indicator
         for (int i = lookbackPeriods - 1; i < results.Count; i++)
         {
             SmaExtendedResult r = results[i];
-            double? sma = (double?)r.Sma;
+            double sma = (r.Sma == null) ? double.NaN : (double)r.Sma;
 
-            double? sumMad = 0;
-            double? sumMse = 0;
-            double? sumMape = 0;
+            double sumMad = 0;
+            double sumMse = 0;
+            double sumMape = 0;
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
                 BasicData d = quotesList[p];
-                double? close = d.Value;
+                double close = d.Value;
 
-                sumMad += NullMath.Abs(close - sma);
+                sumMad += Math.Abs(close - sma);
                 sumMse += (close - sma) * (close - sma);
 
-                sumMape += (close == 0) ? null
-                    : NullMath.Abs(close - sma) / close;
+                sumMape += (close == 0) ? double.NaN
+                    : Math.Abs(close - sma) / close;
             }
 
             // mean absolute deviation

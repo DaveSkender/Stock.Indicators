@@ -48,7 +48,7 @@ IEnumerable<UltimateResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ultimate` | decimal | Simple moving average for `N` lookback periods
+| `Ultimate` | double | Simple moving average for `N` lookback periods
 
 ### Utilities
 

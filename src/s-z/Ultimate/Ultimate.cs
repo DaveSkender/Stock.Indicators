@@ -21,10 +21,10 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<UltimateResult> results = new(length);
-        double?[] bp = new double?[length]; // buying pressure
-        double?[] tr = new double?[length]; // true range
+        double[] bp = new double[length]; // buying pressure
+        double[] tr = new double[length]; // true range
 
-        double? priorClose = 0;
+        double priorClose = 0;
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
@@ -39,19 +39,19 @@ public static partial class Indicator
 
             if (i > 0)
             {
-                bp[i] = q.Close - NullMath.Min(q.Low, priorClose);
-                tr[i] = NullMath.Max(q.High, priorClose) - NullMath.Min(q.Low, priorClose);
+                bp[i] = q.Close - Math.Min(q.Low, priorClose);
+                tr[i] = Math.Max(q.High, priorClose) - Math.Min(q.Low, priorClose);
             }
 
             if (i >= longPeriods)
             {
-                double? sumBP1 = 0;
-                double? sumBP2 = 0;
-                double? sumBP3 = 0;
+                double sumBP1 = 0;
+                double sumBP2 = 0;
+                double sumBP3 = 0;
 
-                double? sumTR1 = 0;
-                double? sumTR2 = 0;
-                double? sumTR3 = 0;
+                double sumTR1 = 0;
+                double sumTR2 = 0;
+                double sumTR3 = 0;
 
                 for (int p = i + 1 - longPeriods; p <= i; p++)
                 {
@@ -76,11 +76,11 @@ public static partial class Indicator
                     sumTR3 += tr[p];
                 }
 
-                double? avg1 = (sumTR1 == 0) ? null : sumBP1 / sumTR1;
-                double? avg2 = (sumTR2 == 0) ? null : sumBP2 / sumTR2;
-                double? avg3 = (sumTR3 == 0) ? null : sumBP3 / sumTR3;
+                double avg1 = (sumTR1 == 0) ? double.NaN : sumBP1 / sumTR1;
+                double avg2 = (sumTR2 == 0) ? double.NaN : sumBP2 / sumTR2;
+                double avg3 = (sumTR3 == 0) ? double.NaN : sumBP3 / sumTR3;
 
-                r.Ultimate = (decimal?)(100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d);
+                r.Ultimate = 100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d;
             }
 
             priorClose = q.Close;

@@ -37,7 +37,7 @@ public static partial class Indicator
             {
                 SmaResult s = sma[i + offset];
                 r.Sma = s.Sma;
-                r.Dpo = q.Close - s.Sma;
+                r.Dpo = s.Sma is null ? null : q.Close - s.Sma;
             }
         }
 

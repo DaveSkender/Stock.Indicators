@@ -11,7 +11,7 @@ public class InternalsPerformance
 {
     // standard deviation
 
-    private double?[] values;
+    private double[] values;
 
     [Params(20, 50, 250, 1000)]
     public int Periods;
@@ -19,12 +19,9 @@ public class InternalsPerformance
     [GlobalSetup(Targets = new[] { nameof(StdDev) })]
     public void Setup()
         => values = TestData.GetLongish(Periods)
-            .Select(x => (double?)x.Close)
+            .Select(x => (double)x.Close)
             .ToArray();
 
     [Benchmark]
-    public object StdDev()
-    {
-        return Functions.StdDev(values);
-    }
+    public object StdDev() => Functions.StdDev(values);
 }

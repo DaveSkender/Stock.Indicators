@@ -56,19 +56,6 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
-    public void ToQuotes()
-    {
-        List<Quote> newQuotes = quotes.GetDpo(14)
-            .ToQuotes()
-            .ToList();
-
-        Assert.AreEqual(489, newQuotes.Count);
-
-        Quote q = newQuotes.LastOrDefault();
-        Assert.AreEqual(2.18214m, NullMath.Round(q.Close, 5));
-    }
-
-    [TestMethod]
     public void BadData()
     {
         IEnumerable<DpoResult> r = badQuotes.GetDpo(5);
