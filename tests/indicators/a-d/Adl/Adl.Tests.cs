@@ -51,22 +51,6 @@ public class Adl : TestBase
     }
 
     [TestMethod]
-    public void ToQuotes()
-    {
-        List<Quote> newQuotes = quotes.GetAdl()
-            .ToQuotes()
-            .ToList();
-
-        Assert.AreEqual(502, newQuotes.Count);
-
-        Quote q1 = newQuotes[249];
-        Assert.AreEqual(3266400865.74m, NullMath.Round(q1.Close, 2));
-
-        Quote q2 = newQuotes[501];
-        Assert.AreEqual(3439986548.42m, NullMath.Round(q2.Close, 2));
-    }
-
-    [TestMethod]
     public void BadData()
     {
         IEnumerable<AdlResult> r = Indicator.GetAdl(badQuotes);

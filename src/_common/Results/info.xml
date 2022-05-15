@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <info>
-  <type name="Convert">
-    <summary>
-      Convert indicator results into historical quotes.
-      <para>
-        See
-        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#convert-to-quotes">documentation</see>
-        for more information.
-      </para>
-    </summary>
-    <param name="results">Indicator results to evaluate.</param>
-    <returns>Time series of historical quote values.</returns>
-  </type>
   <type name="Find">
     <summary>
       Finds indicator values on a specific date.

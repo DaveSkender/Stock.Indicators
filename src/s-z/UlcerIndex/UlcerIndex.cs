@@ -31,13 +31,13 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double? sumSquared = 0;
+                double sumSquared = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     BasicData d = bdList[p];
                     int dIndex = p + 1;
 
-                    double? maxClose = 0;
+                    double maxClose = 0;
                     for (int s = i + 1 - lookbackPeriods; s < dIndex; s++)
                     {
                         BasicData dd = bdList[s];
@@ -47,14 +47,13 @@ public static partial class Indicator
                         }
                     }
 
-                    double? percentDrawdown = (maxClose == 0) ? null
+                    double percentDrawdown = (maxClose == 0) ? double.NaN
                         : 100 * ((d.Value - maxClose) / maxClose);
 
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
 
-                result.UI = (sumSquared == null) ? null
-                    : NullMath.Sqrt(sumSquared / lookbackPeriods);
+                result.UI = Math.Sqrt(sumSquared / lookbackPeriods);
             }
 
             results.Add(result);

@@ -3,12 +3,9 @@ namespace Skender.Stock.Indicators;
 public static class Candlesticks
 {
     public static IEnumerable<CandleResult> Condense(
-        this IEnumerable<CandleResult> candleResults)
-    {
-        return candleResults
+        this IEnumerable<CandleResult> candleResults) => candleResults
             .Where(candle => candle.Match != Match.None)
             .ToList();
-    }
 
     // convert/sort quotes into candles
     internal static List<CandleResult> ToCandleResults<TQuote>(

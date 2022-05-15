@@ -1,18 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// RESULT MODELS
-
-public interface IResult
-{
-    public DateTime Date { get; }
-}
-
-[Serializable]
-public abstract class ResultBase : IResult
-{
-    public DateTime Date { get; set; }
-}
-
 // HELPER FUNCTIONS
 
 public static partial class Indicator

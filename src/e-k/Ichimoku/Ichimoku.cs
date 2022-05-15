@@ -107,8 +107,8 @@ public static partial class Indicator
     {
         if (i >= tenkanPeriods - 1)
         {
-            decimal? max = 0;
-            decimal? min = decimal.MaxValue;
+            decimal max = 0;
+            decimal min = decimal.MaxValue;
 
             for (int p = i - tenkanPeriods + 1; p <= i; p++)
             {
@@ -138,8 +138,8 @@ public static partial class Indicator
     {
         if (i >= kijunPeriods - 1)
         {
-            decimal? max = 0;
-            decimal? min = decimal.MaxValue;
+            decimal max = 0;
+            decimal min = decimal.MaxValue;
 
             for (int p = i - kijunPeriods + 1; p <= i; p++)
             {
@@ -170,8 +170,8 @@ public static partial class Indicator
     {
         if (i >= senkouOffset + senkouBPeriods - 1)
         {
-            decimal? max = 0;
-            decimal? min = decimal.MaxValue;
+            decimal max = 0;
+            decimal min = decimal.MaxValue;
 
             for (int p = i - senkouOffset - senkouBPeriods + 1;
                 p <= i - senkouOffset; p++)

@@ -17,16 +17,16 @@ public static partial class Indicator
         ValidateChop(lookbackPeriods);
 
         // initialize
-        double? sum;
-        double? high;
-        double? low;
-        double? range;
+        double sum;
+        double high;
+        double low;
+        double range;
 
         int length = quotesList.Count;
         List<ChopResult> results = new(length);
-        double?[] trueHigh = new double?[length];
-        double?[] trueLow = new double?[length];
-        double?[] trueRange = new double?[length];
+        double[] trueHigh = new double[length];
+        double[] trueLow = new double[length];
+        double[] trueRange = new double[length];
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
@@ -39,8 +39,8 @@ public static partial class Indicator
 
             if (i > 0)
             {
-                trueHigh[i] = NullMath.Max(quotesList[i].High, quotesList[i - 1].Close);
-                trueLow[i] = NullMath.Min(quotesList[i].Low, quotesList[i - 1].Close);
+                trueHigh[i] = Math.Max(quotesList[i].High, quotesList[i - 1].Close);
+                trueLow[i] = Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
                 trueRange[i] = trueHigh[i] - trueLow[i];
 
                 // calculate CHOP
@@ -56,8 +56,8 @@ public static partial class Indicator
                     for (int j = 1; j < lookbackPeriods; j++)
                     {
                         sum += trueRange[i - j];
-                        high = NullMath.Max(high, trueHigh[i - j]);
-                        low = NullMath.Min(low, trueLow[i - j]);
+                        high = Math.Max(high, trueHigh[i - j]);
+                        low = Math.Min(low, trueLow[i - j]);
                     }
 
                     range = high - low;
@@ -65,7 +65,7 @@ public static partial class Indicator
                     // calculate CHOP
                     if (range != 0)
                     {
-                        r.Chop = 100 * (NullMath.Log(sum / range) / Math.Log(lookbackPeriods));
+                        r.Chop = 100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods));
                     }
                 }
             }

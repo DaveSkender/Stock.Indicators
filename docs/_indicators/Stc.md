@@ -50,7 +50,7 @@ IEnumerable<StcResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Stc` | decimal | Schaff Trend Cycle
+| `Stc` | double | Schaff Trend Cycle
 
 ### Utilities
 
