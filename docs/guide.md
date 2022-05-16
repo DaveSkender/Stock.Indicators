@@ -170,7 +170,7 @@ For more information on explicit interfaces, refer to the [C# Programming Guide]
 
 ## Using custom results classes
 
-The indicator result classes can be customized in your code.  There are many ways to do this, but the benefit of using derived `ResultBase` is that your custom class will inherit all of the [utility results extension methods](./utilities.md#utilities-for-indicator-results).  Here's one example:
+The indicator result classes can be customized in your code.  There are many ways to do this, but the benefit of using derived `ResultBase` is that your custom class will inherit all of the [utility results extension methods]({{site.baseurl}}/utilities/#utilities-for-indicator-results).  Here's one example:
 
 ```csharp
 // your custom class with an EMA interface profile
