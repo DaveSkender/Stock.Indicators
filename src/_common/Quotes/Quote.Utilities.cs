@@ -8,6 +8,28 @@ public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
+    // convert quotes to basic double tuple list
+    // validation
+    /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
+    ///
+    public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
+        this IEnumerable<TQuote> quotes, CandlePart candlePart = CandlePart.Close)
+        where TQuote : IQuote => quotes
+            .Select(x => x.ToBasicTuple(candlePart));
+
+    internal static List<(DateTime Date, double Value)> ToBasicTuple<TQuote>(
+        this IEnumerable<TQuote> quotes, CandlePart candlePart = CandlePart.Close)
+        where TQuote : IQuote => quotes
+            .Use(candlePart)
+            .OrderBy(x => x.Date)
+            .ToList();
+
+    internal static List<(DateTime Date, double Value)> ToTupleList(
+    this IEnumerable<(DateTime date, double value)> quotes)
+        => quotes
+            .OrderBy(x => x.date)
+            .ToList();
+
     // validation
     /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
     ///
@@ -56,4 +78,23 @@ public static partial class QuoteUtility
             })
             .OrderBy(x => x.Date)
             .ToList();
+
+    // convert quote to basic double tuple
+    internal static (DateTime Date, double Value) ToBasicTuple<TQuote>(
+        this TQuote q, CandlePart candlePart = CandlePart.Close)
+        where TQuote : IQuote => candlePart switch
+        {
+            CandlePart.Open => (q.Date, (double)q.Open),
+            CandlePart.High => (q.Date, (double)q.High),
+            CandlePart.Low => (q.Date, (double)q.Low),
+            CandlePart.Close => (q.Date, (double)q.Close),
+            CandlePart.Volume => (q.Date, (double)q.Volume),
+            CandlePart.HL2 => (q.Date, (double)(q.High + q.Low) / 2),
+            CandlePart.HLC3 => (q.Date, (double)(q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => (q.Date, (double)(q.Open + q.Close) / 2),
+            CandlePart.OHL3 => (q.Date, (double)(q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => (q.Date, (double)(q.Open + q.High + q.Low + q.Close) / 4),
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+        };
 }
