@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
-  <summary>
-    Exponential Moving Average (EMA) of the Close price or any other specified OHLCV element.
-    <para>
-      See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
-      for more information.
-    </para>
-  </summary>
-  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="quotes">Historical price quotes.</param>
-  <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-  <param name="candlePart">Optional. Selected OHLCV part. Defaults to Close price.</param>
-  <returns>Time series of EMA values.</returns>
-  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+<info>
+  <type name="standard">
+    <summary>
+      Exponential Moving Average (EMA) of price or any other specified OHLCV element.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <returns>Time series of EMA values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
+  <type name="foo">
+    <summary>
+      Exponential Moving Average (EMA) of price or any other specified OHLCV element.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+  </type>
+</info>

@@ -38,10 +38,11 @@ public static partial class Indicator
             {
                 EmaResult ema = emaResults[i];
                 AtrResult atr = atrResults[i];
+                decimal? emaM = (decimal?)ema.Ema;
 
-                result.UpperBand = ema.Ema + (multiplier * atr.Atr);
-                result.LowerBand = ema.Ema - (multiplier * atr.Atr);
-                result.Centerline = ema.Ema;
+                result.UpperBand = emaM + (multiplier * atr.Atr);
+                result.LowerBand = emaM - (multiplier * atr.Atr);
+                result.Centerline = emaM;
                 result.Width = (result.Centerline == 0) ? null
                     : (result.UpperBand - result.LowerBand) / result.Centerline;
             }

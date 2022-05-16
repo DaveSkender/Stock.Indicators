@@ -12,11 +12,11 @@ internal class MyQuote : Quote
     public decimal? MyClose { get; set; }
 }
 
-internal class MyEma : ResultBase
+internal class MyEma : ResultBase, IEmaResult
 {
     public int Id { get; set; }
     public bool MyProperty { get; set; }
-    public float CustomEma { get; set; }
+    public double? Ema { get; set; }
 }
 
 internal class MyGenericQuote : IQuote
@@ -192,13 +192,13 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void DerivedIndicatorClass()
+    public void CustomIndicatorClass()
     {
         // can use a derive Indicator class
         MyEma myIndicator = new()
         {
             Date = DateTime.Now,
-            CustomEma = 123.456f,
+            Ema = 123.456,
             MyProperty = false
         };
 
@@ -218,7 +218,7 @@ public class PublicClassTests
             .Select(x => new MyEma
             {
                 Date = x.Date,
-                CustomEma = (float)x.Ema,
+                Ema = x.Ema,
                 MyProperty = false
             });
 
@@ -239,7 +239,7 @@ public class PublicClassTests
             {
                 Id = 12345,
                 Date = x.Date,
-                CustomEma = (float)x.Ema,
+                Ema = x.Ema,
                 MyProperty = false
             });
 

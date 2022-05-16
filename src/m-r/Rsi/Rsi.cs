@@ -19,11 +19,11 @@ public static partial class Indicator
     }
 
     public static IEnumerable<RsiResult> GetRsi(
-        IEnumerable<IReusableResult> basicData,
+        this IEnumerable<IReusableResult> basicData,
         int lookbackPeriods = 14)
     {
         // convert results
-        List<(DateTime Date, double Value)>? tpList
+        List<(DateTime Date, double Value)> tpList
             = basicData.ToResultTuple();
 
         // calculate

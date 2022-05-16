@@ -13,29 +13,29 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Volume);
+        List<(DateTime Date, double Value)> tpList = quotes.ToBasicTuple(CandlePart.Volume);
 
         // check parameter arguments
         ValidatePvo(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = CalcEma(bdList, fastPeriods);
-        List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
+        List<EmaResult> emaFast = CalcEma(tpList, fastPeriods);
+        List<EmaResult> emaSlow = CalcEma(tpList, slowPeriods);
 
-        int length = bdList.Count;
-        List<BasicData> emaDiff = new();
+        int length = tpList.Count;
+        List<(DateTime, double)> emaDiff = new();
         List<PvoResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData h = bdList[i];
+            (DateTime date, double value) = tpList[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
             PvoResult result = new()
             {
-                Date = h.Date
+                Date = date
             };
 
             if (i >= slowPeriods - 1)
@@ -46,11 +46,7 @@ public static partial class Indicator
                 result.Pvo = pvo;
 
                 // temp data for interim EMA of PVO
-                BasicData diff = new()
-                {
-                    Date = h.Date,
-                    Value = pvo == null ? 0 : (double)pvo
-                };
+                (DateTime, double) diff = (date, (pvo == null) ? 0 : (double)pvo);
 
                 emaDiff.Add(diff);
             }

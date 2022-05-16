@@ -21,7 +21,7 @@ public static partial class Indicator
             .Select(x => new ElderRayResult
             {
                 Date = x.Date,
-                Ema = x.Ema
+                Ema = (decimal?)x.Ema
             })
             .ToList();
 

@@ -83,9 +83,9 @@ public static partial class Indicator
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
-            Centerline = x.Ema,
-            UpperEnvelope = x.Ema + (x.Ema * offsetRatio),
-            LowerEnvelope = x.Ema - (x.Ema * offsetRatio)
+            Centerline = (decimal?)x.Ema,
+            UpperEnvelope = (decimal?)x.Ema + ((decimal?)x.Ema * offsetRatio),
+            LowerEnvelope = (decimal?)x.Ema - ((decimal?)x.Ema * offsetRatio)
         });
     }
 

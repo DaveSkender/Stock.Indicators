@@ -26,16 +26,13 @@ public static partial class Indicator
             .ToList();
 
         // EMA of ADL
-        List<BasicData> bdAdl = results
-            .Select(x => new BasicData
-            {
-                Date = x.Date,
-                Value = (double)(x.Adl == null ? double.NaN : x.Adl)
-            })
+        List<(DateTime Date, double)> tpAdl = results
+            .Select(x => (
+                x.Date, (double)(x.Adl == null ? double.NaN : x.Adl)))
             .ToList();
 
-        List<EmaResult> adlEmaSlow = CalcEma(bdAdl, slowPeriods);
-        List<EmaResult> adlEmaFast = CalcEma(bdAdl, fastPeriods);
+        List<EmaResult> adlEmaSlow = CalcEma(tpAdl, slowPeriods);
+        List<EmaResult> adlEmaFast = CalcEma(tpAdl, fastPeriods);
 
         // add Oscillator
         for (int i = slowPeriods - 1; i < results.Count; i++)

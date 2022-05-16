@@ -9,11 +9,16 @@ public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> ho;
+    private static List<Quote> hList;
 
     // SETUP
 
     [GlobalSetup]
-    public void Setup() => h = TestData.GetDefault();
+    public void Setup()
+    {
+        h = TestData.GetDefault();
+        hList = h.ToList();
+    }
 
     [GlobalSetup(Targets = new[]
     {
@@ -113,6 +118,20 @@ public class IndicatorPerformance
 
     [Benchmark]
     public object GetEma() => h.GetEma(14);
+
+    [Benchmark]
+    public object GetEmaStream()
+    {
+        Ema emaBase = new(hList.Take(15), 14);
+
+        for (int i = 15; i < hList.Count; i++)
+        {
+            Quote q = hList[i];
+            emaBase.Add(q);
+        }
+
+        return emaBase.Results;
+    }
 
     [Benchmark]
     public object GetEpma() => h.GetEpma(14);

@@ -8,6 +8,23 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     [ExcludeFromCodeCoverage]
+    [Obsolete("The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(CandlePart.Close)' prior to calling .GetEma()")]
+    public static IEnumerable<EmaResult> GetEma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        CandlePart candlePart)
+    where TQuote : IQuote
+    {
+        // convert quotes
+        List<(DateTime, double)> tpList
+            = quotes.ToBasicTuple(candlePart);
+
+        // calculate
+        return tpList.CalcEma(lookbackPeriods);
+    }
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("The .ToQuotes() utility is obsolete.")]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<AdlResult> results) => results

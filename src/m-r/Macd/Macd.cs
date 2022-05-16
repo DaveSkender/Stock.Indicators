@@ -14,31 +14,31 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(candlePart);
+        List<(DateTime Date, double Value)> tpList = quotes.ToBasicTuple(candlePart);
 
         // check parameter arguments
         ValidateMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = CalcEma(bdList, fastPeriods);
-        List<EmaResult> emaSlow = CalcEma(bdList, slowPeriods);
+        List<EmaResult> emaFast = CalcEma(tpList, fastPeriods);
+        List<EmaResult> emaSlow = CalcEma(tpList, slowPeriods);
 
-        int length = bdList.Count;
-        List<BasicData> emaDiff = new();
+        int length = tpList.Count;
+        List<(DateTime, double)> emaDiff = new();
         List<MacdResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData h = bdList[i];
+            (DateTime date, double value) = tpList[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
             MacdResult result = new()
             {
-                Date = h.Date,
-                FastEma = df.Ema,
-                SlowEma = ds.Ema
+                Date = date,
+                FastEma = (decimal?)df.Ema,
+                SlowEma = (decimal?)ds.Ema
             };
 
             if (i >= slowPeriods - 1
@@ -49,11 +49,7 @@ public static partial class Indicator
                 result.Macd = macd;
 
                 // temp data for interim EMA of macd
-                BasicData diff = new()
-                {
-                    Date = h.Date,
-                    Value = macd
-                };
+                (DateTime, double) diff = (date, macd);
 
                 emaDiff.Add(diff);
             }

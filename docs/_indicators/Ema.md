@@ -57,7 +57,7 @@ IEnumerable<EmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | decimal | Exponential moving average
+| `Ema` | double | Exponential moving average
 
 ### Utilities
 
