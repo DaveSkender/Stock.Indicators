@@ -11,11 +11,6 @@ internal static class NullMath
         ? null
         : value < 0 ? (decimal)-value : (decimal)value;
 
-    internal static double? Abs(double? value)
-        => (value is null)
-        ? null
-        : value < 0 ? (double)-value : (double)value;
-
     internal static decimal? Round(decimal? value, int digits)
         => (value is null)
         ? null

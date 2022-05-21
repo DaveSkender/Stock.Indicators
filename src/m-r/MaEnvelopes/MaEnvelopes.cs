@@ -45,9 +45,7 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetAlma(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetAlma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -55,15 +53,12 @@ public static partial class Indicator
             UpperEnvelope = x.Alma + (x.Alma * offsetRatio),
             LowerEnvelope = x.Alma - (x.Alma * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvDema<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetDema(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -71,15 +66,12 @@ public static partial class Indicator
             UpperEnvelope = x.Dema + (x.Dema * offsetRatio),
             LowerEnvelope = x.Dema - (x.Dema * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetEma(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -87,15 +79,12 @@ public static partial class Indicator
             UpperEnvelope = (decimal?)x.Ema + ((decimal?)x.Ema * offsetRatio),
             LowerEnvelope = (decimal?)x.Ema - ((decimal?)x.Ema * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvEpma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetEpma(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -103,15 +92,12 @@ public static partial class Indicator
             UpperEnvelope = x.Epma + (x.Epma * offsetRatio),
             LowerEnvelope = x.Epma - (x.Epma * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvHma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetHma(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -119,15 +105,12 @@ public static partial class Indicator
             UpperEnvelope = x.Hma + (x.Hma * offsetRatio),
             LowerEnvelope = x.Hma - (x.Hma * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvSma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetSma(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -135,15 +118,12 @@ public static partial class Indicator
             UpperEnvelope = x.Sma + (x.Sma * offsetRatio),
             LowerEnvelope = x.Sma - (x.Sma * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvSmma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetSmma(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -151,15 +131,12 @@ public static partial class Indicator
             UpperEnvelope = x.Smma + (x.Smma * offsetRatio),
             LowerEnvelope = x.Smma - (x.Smma * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvTema<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetTema(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -167,15 +144,12 @@ public static partial class Indicator
             UpperEnvelope = x.Tema + (x.Tema * offsetRatio),
             LowerEnvelope = x.Tema - (x.Tema * offsetRatio)
         });
-    }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvWma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         decimal offsetRatio)
-        where TQuote : IQuote
-    {
-        return quotes.GetWma(lookbackPeriods)
+        where TQuote : IQuote => quotes.GetWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
@@ -183,7 +157,6 @@ public static partial class Indicator
             UpperEnvelope = x.Wma + (x.Wma * offsetRatio),
             LowerEnvelope = x.Wma - (x.Wma * offsetRatio)
         });
-    }
 
     // parameter validation
     private static void ValidateMaEnvelopes(
