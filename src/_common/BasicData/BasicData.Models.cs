@@ -6,8 +6,13 @@ public interface IBasicData
     public double Value { get; }
 }
 
-public class BasicData : IResult, IBasicData
+public class BasicData : IResult, IBasicData, IReusableResult
 {
     public DateTime Date { get; internal set; }
     public double Value { get; internal set; }
+
+    double? IReusableResult.Value
+    {
+        get { return Value; }
+    }
 }
