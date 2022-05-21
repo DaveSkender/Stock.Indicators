@@ -122,7 +122,7 @@ public class IndicatorPerformance
     [Benchmark]
     public object GetEmaStream()
     {
-        Ema emaBase = new(hList.Take(15), 14);
+        Ema emaBase = hList.Take(15).InitEma(14);
 
         for (int i = 15; i < hList.Count; i++)
         {

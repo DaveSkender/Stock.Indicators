@@ -3,46 +3,6 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // EXPONENTIAL MOVING AVERAGE (SERIES)
-    /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
-    ///
-    public static IEnumerable<EmaResult> GetEma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = quotes.ToBasicTuple(CandlePart.Close);
-
-        // calculate
-        return tpList.CalcEma(lookbackPeriods);
-    }
-
-    public static IEnumerable<EmaResult> GetEma(
-        this IEnumerable<(DateTime, double)> quotes,
-        int lookbackPeriods)
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = quotes.ToTupleList();
-
-        // calculate
-        return tpList.CalcEma(lookbackPeriods);
-    }
-
-    public static IEnumerable<EmaResult> GetEma(
-        this IEnumerable<IReusableResult> basicData,
-        int lookbackPeriods)
-    {
-        // convert results
-        List<(DateTime Date, double Value)> tpList
-            = basicData.ToResultTuple();
-
-        // calculate
-        return CalcEma(tpList, lookbackPeriods);
-    }
-
-    // standard calculation
     private static List<EmaResult> CalcEma(
         this List<(DateTime Date, double Value)> tpList,
         int lookbackPeriods)
@@ -77,7 +37,7 @@ public static partial class Indicator
                 r.Ema = ema;
                 lastEma = ema;
             }
-            else if (i + 1 == lookbackPeriods)
+            else if (i == lookbackPeriods - 1)
             {
                 r.Ema = lastEma;
             }

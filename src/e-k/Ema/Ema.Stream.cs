@@ -1,18 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// EXPONENTIAL MOVING AVERAGE (STREAM BASE)
+// EXPONENTIAL MOVING AVERAGE
+// streaming baseline
 public class Ema
 {
-    // initialize
-    // TODO: make this internal and have static InitEma(..) as public API
-    public Ema(IEnumerable<IQuote> quotes, int lookbackPeriods)
+    // initialize streaming base
+    internal Ema(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
     {
         K = 2d / (lookbackPeriods + 1);
 
-        List<EmaResult> results = quotes.GetEma(lookbackPeriods).ToList();
-        ProtectedResults = results;
+        List<EmaResult>? baseline = tpQuotes.GetEma(lookbackPeriods).ToList();
+        ProtectedResults = baseline;
 
-        EmaResult? last = results.LastOrDefault();
+        EmaResult? last = baseline.LastOrDefault();
 
         if (last != null)
         {

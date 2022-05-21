@@ -16,16 +16,19 @@
     <returns>Time series of EMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-  <type name="foo">
+  <type name="stream">
     <summary>
       Exponential Moving Average (EMA) of price or any other specified OHLCV element.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#streaming">documentation</see>
         for more information.
       </para>
     </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <returns>EMA base that you can add Quotes to with the .Add(quote) method.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 </info>

@@ -41,7 +41,7 @@ public class EmaTests : TestBase
         List<EmaResult> series = quotesList.GetEma(20).ToList();
 
         // stream simulation
-        Ema emaBase = new(quotesList.Take(25), 20);
+        Ema emaBase = quotesList.Take(25).InitEma(20);
 
         for (int i = 25; i < series.Count; i++)
         {
