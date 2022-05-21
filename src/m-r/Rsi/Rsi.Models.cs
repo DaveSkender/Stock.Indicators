@@ -10,8 +10,5 @@ public sealed class RsiResult : ResultBase, IRsiResult, IReusableResult
 {
     public double? Rsi { get; set; }
 
-    double? IReusableResult.Value
-    {
-        get { return Rsi; }
-    }
+    double? IReusableResult.Value => Rsi;
 }

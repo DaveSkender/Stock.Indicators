@@ -18,7 +18,7 @@
   </type>
   <type name="stream">
     <summary>
-      Exponential Moving Average (EMA) of price or any other specified OHLCV element.
+      Extablish a streaming base for Exponential Moving Average (EMA).
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#streaming">documentation</see>

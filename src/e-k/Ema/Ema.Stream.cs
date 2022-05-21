@@ -1,16 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// EXPONENTIAL MOVING AVERAGE
-// streaming baseline
+// EXPONENTIAL MOVING AVERAGE (STREAMING)
 public class Ema
 {
     // initialize streaming base
     internal Ema(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
     {
-        K = 2d / (lookbackPeriods + 1);
+        List<(DateTime Date, double Value)>? tpList = tpQuotes.ToTupleList();
 
-        List<EmaResult>? baseline = tpQuotes.GetEma(lookbackPeriods).ToList();
+        List<EmaResult>? baseline = tpList.CalcEma(lookbackPeriods).ToList();
+
+        // store results
         ProtectedResults = baseline;
+        K = 2d / (lookbackPeriods + 1);
 
         EmaResult? last = baseline.LastOrDefault();
 
@@ -26,11 +28,7 @@ public class Ema
     internal double LastEma { get; set; }
     internal List<EmaResult> ProtectedResults { get; set; }
 
-    public IEnumerable<EmaResult> Results
-    {
-        get { return ProtectedResults; }
-    }
-
+    public IEnumerable<EmaResult> Results => ProtectedResults;
     public IEnumerable<EmaResult> Add(
         Quote quote,
         CandlePart candlePart = CandlePart.Close)
@@ -53,7 +51,6 @@ public class Ema
         // update bar
         if (tuple.Date == LastDate)
         {
-            // TODO: is it faster to get Last and compare dates?
             EmaResult? e = ProtectedResults.Find(tuple.Date);
             if (e != null)
             {
@@ -62,9 +59,9 @@ public class Ema
         }
 
         // add new bar
-        else
+        else if (tuple.Date > LastDate)
         {
-            EmaResult? r = new() { Date = tuple.Date, Ema = ema };
+            EmaResult r = new() { Date = tuple.Date, Ema = ema };
 
             LastDate = tuple.Date;
             LastEma = ema;

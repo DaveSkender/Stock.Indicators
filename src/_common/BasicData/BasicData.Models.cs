@@ -11,8 +11,5 @@ public class BasicData : IResult, IBasicData, IReusableResult
     public DateTime Date { get; internal set; }
     public double Value { get; internal set; }
 
-    double? IReusableResult.Value
-    {
-        get { return Value; }
-    }
+    double? IReusableResult.Value => Value;
 }
