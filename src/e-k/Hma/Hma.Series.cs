@@ -1,35 +1,30 @@
 namespace Skender.Stock.Indicators;
 
+// HULL MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // HULL MOVING AVERAGE
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<HmaResult> GetHma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // calculate series
+    internal static IEnumerable<HmaResult> CalcHma(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.SortToList();
-
         // check parameter arguments
         ValidateHma(lookbackPeriods);
 
         // initialize
         List<Quote> synthHistory = new();
 
-        List<WmaResult> wmaN1 = GetWma(quotes, lookbackPeriods).ToList();
-        List<WmaResult> wmaN2 = GetWma(quotes, lookbackPeriods / 2).ToList();
+        List<WmaResult> wmaN1 = tpList.GetWma(lookbackPeriods).ToList();
+        List<WmaResult> wmaN2 = tpList.GetWma(lookbackPeriods / 2).ToList();
 
         // roll through quotes, to get interim synthetic quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            TQuote q = quotesList[i];
+            (DateTime date, double value) = tpList[i];
 
             Quote sh = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             WmaResult w1 = wmaN1[i];
@@ -46,11 +41,11 @@ public static partial class Indicator
         int sqN = (int)Math.Sqrt(lookbackPeriods);
         int shiftQty = lookbackPeriods - 1;
 
-        List<HmaResult> results = quotesList
+        List<HmaResult> results = tpList
             .Take(shiftQty)
             .Select(x => new HmaResult
             {
-                Date = x.Date
+                Date = x.Item1
             })
             .ToList();
 

@@ -6,7 +6,7 @@ public interface IEpmaResult
 }
 
 [Serializable]
-public class EpmaResult : ResultBase, IEpmaResult, IReusableResult
+public sealed class EpmaResult : ResultBase, IEpmaResult, IReusableResult
 {
     public double? Epma { get; set; }
 
