@@ -30,6 +30,19 @@ You must have at least `2×N+100` periods of `quotes` to allow for smoothing con
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `Adx` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetAdx(..)
+    .GetRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from a chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
