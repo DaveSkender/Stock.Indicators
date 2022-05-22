@@ -1,0 +1,35 @@
+namespace Skender.Stock.Indicators;
+
+// MOVING AVERAGE ENVELOPES (API)
+public static partial class Indicator
+{
+    // SERIES, from TQuote
+    /// <include file='./info.xml' path='indicator/*' />
+    ///
+    public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        double percentOffset = 2.5,
+        MaType movingAverageType = MaType.SMA)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple()
+            .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
+
+    // SERIES, from CHAIN
+    public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes(
+        this IEnumerable<IReusableResult> results,
+        int lookbackPeriods,
+        double percentOffset = 2.5,
+        MaType movingAverageType = MaType.SMA) => results
+            .ToResultTuple()
+            .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
+
+    // SERIES, from TUPLE
+    public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes(
+        this IEnumerable<(DateTime, double)> priceTuples,
+        int lookbackPeriods,
+        double percentOffset = 2.5,
+        MaType movingAverageType = MaType.SMA) => priceTuples
+            .ToTupleList()
+            .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
+}

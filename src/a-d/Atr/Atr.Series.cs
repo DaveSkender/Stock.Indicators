@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static IEnumerable<AtrResult> GetAtr<TQuote>(
+    internal static IEnumerable<AtrResult> CalcAtr<TQuote>(
         this List<TQuote> quotesList,
         int lookbackPeriods = 14)
         where TQuote : IQuote

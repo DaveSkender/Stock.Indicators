@@ -68,9 +68,9 @@ IEnumerable<MaEnvelopeResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Centerline` | decimal | Moving average for `N` lookback periods
-| `UpperEnvelope` | decimal | Upper envelope band
-| `LowerEnvelope` | decimal | Lower envelope band
+| `Centerline` | double | Moving average for `N` lookback periods
+| `UpperEnvelope` | double | Upper envelope band
+| `LowerEnvelope` | double | Lower envelope band
 
 The moving average `Centerline` is based on the `movingAverageType` type specified.
 
