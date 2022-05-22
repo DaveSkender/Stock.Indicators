@@ -30,6 +30,19 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `Oscillator` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetAroon(..)
+    .GetSlope(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from a chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
@@ -46,9 +59,9 @@ IEnumerable<AroonResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `AroonUp` | decimal | Based on last High price
-| `AroonDown` | decimal | Based on last Low price
-| `Oscillator` | decimal | AroonUp - AroonDown
+| `AroonUp` | double | Based on last High price
+| `AroonDown` | double | Based on last Low price
+| `Oscillator` | double | AroonUp - AroonDown
 
 ### Utilities
 

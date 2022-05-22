@@ -54,8 +54,8 @@ public static partial class Indicator
                     }
                 }
 
-                result.AroonUp = 100 * (decimal)(lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
-                result.AroonDown = 100 * (decimal)(lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
+                result.AroonUp = 100d * (lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
+                result.AroonDown = 100d * (lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
                 result.Oscillator = result.AroonUp - result.AroonDown;
             }
 
