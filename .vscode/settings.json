@@ -1,35 +1,38 @@
 {
-    // file settings
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 3000,
-    "files.encoding": "utf8",
-    "files.exclude": {
-        "**/.vs/**": true,
-        "**/bin/**": true,
-        "**/obj/**": true,
-        "**/TestResults/**": true,
-        "**/*.csproj.user": true
-    },
-
-    // search settings, auto excludes files.exclude
-    "search.exclude": {
-        "**/_site/**": true
-    },
-
-    // editor settings
-    "editor.codeLens": false,
-    "editor.bracketPairColorization.enabled": true,
-    "editor.guides.bracketPairs": "active",
-    "editor.formatOnPaste": true,
-    "terminal.integrated.defaultProfile.windows": "Git Bash",
-
-    // language settings
-    "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
-    "scss.validate": false, // false-positives on SCSS files with Jekyll front matter
-
-    // markdown settings
-    "markdownlint.config": {
-        "MD033": false,     // no-inline-html
-        "MD025": false      // single-title/single-h1 --> fails with front-matter
-    }
+  // file settings
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 3000,
+  "files.encoding": "utf8",
+  "files.exclude": {
+    "**/.vs/**": true,
+    "**/bin/**": true,
+    "**/obj/**": true,
+    "**/TestResults/**": true,
+    "**/*.csproj.user": true
+  },
+  // search settings, auto excludes files.exclude
+  "search.exclude": {
+    "**/_site/**": true
+  },
+  // editor settings
+  "editor.codeLens": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.formatOnPaste": true,
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  // language settings
+  "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
+  "scss.validate": false, // false-positives on SCSS files with Jekyll front matter
+  // markdown settings
+  "markdownlint.config": {
+    "MD033": false, // no-inline-html
+    "MD025": false // single-title/single-h1 --> fails with front-matter
+  },
+  // dictionary exceptions
+  "cSpell.words": [
+    "adxr",
+    "Chaikin",
+    "lookback",
+    "trendline"
+  ]
 }
