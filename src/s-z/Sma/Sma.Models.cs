@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public interface ISmaResult : IResult
 {
-    public double? Sma { get; set; }
+    public double? Sma { get; }
 }
 
 [Serializable]

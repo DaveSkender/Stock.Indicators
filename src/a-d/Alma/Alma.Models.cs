@@ -1,7 +1,14 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
+
+public interface IAlmaResult
+{
+    public double? Alma { get; }
+}
 
 [Serializable]
-public class AlmaResult : ResultBase
+public sealed class AlmaResult : ResultBase, IAlmaResult, IReusableResult
 {
-    public decimal? Alma { get; set; }
+    public double? Alma { get; set; }
+
+    double? IReusableResult.Value => Alma;
 }

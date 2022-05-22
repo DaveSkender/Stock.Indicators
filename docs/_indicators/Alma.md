@@ -48,7 +48,7 @@ IEnumerable<AlmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Alma` | decimal | Arnaud Legoux Moving Average
+| `Alma` | double | Arnaud Legoux Moving Average
 
 ### Utilities
 

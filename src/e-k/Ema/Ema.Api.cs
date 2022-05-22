@@ -25,15 +25,14 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // convert results
-        List<(DateTime Date, double Value)> tpList
+        List<(DateTime, double)> tpList
             = results.ToResultTuple();
 
         // calculate
-        return CalcEma(tpList, lookbackPeriods);
+        return tpList.CalcEma(lookbackPeriods);
     }
 
     // SERIES, from TUPLE
-    // TODO: preview, undocumented, for now
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<(DateTime, double)> tpPrices,
         int lookbackPeriods)

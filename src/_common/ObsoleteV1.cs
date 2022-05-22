@@ -9,7 +9,24 @@ public static partial class Indicator
 {
     [ExcludeFromCodeCoverage]
     [Obsolete("The use of CandlePart as a parameter is deprecated.  "
-        + "Use '.Use(CandlePart.Close)' prior to calling .GetEma()")]
+        + "Use '.Use(candlePart)' prior to calling .GetSma()")]
+    public static IEnumerable<SmaResult> GetSma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        CandlePart candlePart)
+    where TQuote : IQuote
+    {
+        // convert quotes
+        List<(DateTime Date, double Value)> tpList
+            = quotes.ToBasicTuple(candlePart);
+
+        // calculate
+        return tpList.CalcSma(lookbackPeriods);
+    }
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(candlePart)' prior to calling .GetEma()")]
     public static IEnumerable<EmaResult> GetEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,

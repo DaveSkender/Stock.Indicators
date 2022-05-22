@@ -1,25 +1,20 @@
 namespace Skender.Stock.Indicators;
 
+// ARNAUD LEGOUX MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // ARNAUD LEGOUX MOVING AVERAGE
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<AlmaResult> GetAlma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // series calculation
+    internal static IEnumerable<AlmaResult> CalcAlma(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateAlma(lookbackPeriods, offset, sigma);
 
         // initialize
-        List<AlmaResult> results = new(bdList.Count);
+        List<AlmaResult> results = new(tpList.Count);
 
         // determine price weights
         double m = offset * (lookbackPeriods - 1);
@@ -36,13 +31,13 @@ public static partial class Indicator
         }
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             AlmaResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 >= lookbackPeriods)
@@ -52,12 +47,12 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BasicData d = bdList[p];
-                    weightedSum += weight[n] * d.Value;
+                    (DateTime pDate, double pValue) = tpList[p];
+                    weightedSum += weight[n] * pValue;
                     n++;
                 }
 
-                r.Alma = (decimal?)(weightedSum / norm);
+                r.Alma = weightedSum / norm;
             }
 
             results.Add(r);

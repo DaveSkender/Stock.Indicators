@@ -12,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // initialize
-        List<(DateTime Date, double Value)> tpList = quotes.ToBasicTuple();
+        List<(DateTime, double)> tpList = quotes.ToBasicTuple();
 
         // calculate
         return tpList.CalcSma(lookbackPeriods);

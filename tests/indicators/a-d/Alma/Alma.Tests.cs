@@ -28,19 +28,46 @@ public class Alma : TestBase
         Assert.AreEqual(null, r1.Alma);
 
         AlmaResult r2 = results[9];
-        Assert.AreEqual(214.1839m, NullMath.Round(r2.Alma, 4));
+        Assert.AreEqual(214.1839, NullMath.Round(r2.Alma, 4));
 
         AlmaResult r3 = results[24];
-        Assert.AreEqual(216.0619m, NullMath.Round(r3.Alma, 4));
+        Assert.AreEqual(216.0619, NullMath.Round(r3.Alma, 4));
 
         AlmaResult r4 = results[149];
-        Assert.AreEqual(235.8609m, NullMath.Round(r4.Alma, 4));
+        Assert.AreEqual(235.8609, NullMath.Round(r4.Alma, 4));
 
         AlmaResult r5 = results[249];
-        Assert.AreEqual(257.5787m, NullMath.Round(r5.Alma, 4));
+        Assert.AreEqual(257.5787, NullMath.Round(r5.Alma, 4));
 
         AlmaResult r6 = results[501];
-        Assert.AreEqual(242.1871m, NullMath.Round(r6.Alma, 4));
+        Assert.AreEqual(242.1871, NullMath.Round(r6.Alma, 4));
+    }
+
+    [TestMethod]
+    public void Chaining()
+    {
+        int lookbackPeriods = 10;
+        double offset = 0.85;
+        double sigma = 6;
+
+        List<AlmaResult> standard = quotes
+            .GetAlma(lookbackPeriods, offset, sigma)
+            .ToList();
+
+        List<AlmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetAlma(lookbackPeriods, offset, sigma)
+            .ToList();
+
+        // assertions
+        for (int i = 0; i < results.Count; i++)
+        {
+            AlmaResult s = standard[i];
+            AlmaResult c = results[i];
+
+            Assert.AreEqual(s.Date, c.Date);
+            Assert.AreEqual(s.Alma, c.Alma);
+        }
     }
 
     [TestMethod]
@@ -71,7 +98,7 @@ public class Alma : TestBase
         Assert.AreEqual(502 - 9, results.Count);
 
         AlmaResult last = results.LastOrDefault();
-        Assert.AreEqual(242.1871m, NullMath.Round(last.Alma, 4));
+        Assert.AreEqual(242.1871, NullMath.Round(last.Alma, 4));
     }
 
     [TestMethod]

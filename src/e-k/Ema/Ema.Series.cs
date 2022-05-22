@@ -1,10 +1,11 @@
 namespace Skender.Stock.Indicators;
 
+// EXPONENTIAL MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // EXPONENTIAL MOVING AVERAGE (SERIES)
+    // series calculation
     internal static List<EmaResult> CalcEma(
-        this List<(DateTime Date, double Value)> tpList,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -20,7 +21,8 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            lastEma += tpList[i].Value;
+            (DateTime date, double value) = tpList[i];
+            lastEma += value;
         }
 
         lastEma /= lookbackPeriods;

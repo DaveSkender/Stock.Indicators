@@ -20,7 +20,7 @@ public class SmaExtended : TestBase
 
         // sample value
         SmaExtendedResult r = results[501];
-        Assert.AreEqual(251.86m, r.Sma);
+        Assert.AreEqual(251.86, NullMath.Round(r.Sma, 6));
         Assert.AreEqual(9.450000, NullMath.Round(r.Mad, 6));
         Assert.AreEqual(119.25102, NullMath.Round(r.Mse, 6));
         Assert.AreEqual(0.037637, NullMath.Round(r.Mape, 6));
@@ -29,7 +29,7 @@ public class SmaExtended : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<SmaResult> r = Indicator.GetSmaExtended(badQuotes, 15);
+        IEnumerable<SmaExtendedResult> r = Indicator.GetSmaExtended(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
     }
 
@@ -52,7 +52,7 @@ public class SmaExtended : TestBase
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
-        Assert.AreEqual(251.8600m, Math.Round(results.LastOrDefault().Sma.Value, 4));
+        Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
     [TestMethod]

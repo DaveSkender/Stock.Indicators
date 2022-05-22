@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public interface IEmaResult : IResult
 {
-    public double? Ema { get; set; }
+    public double? Ema { get; }
 }
 
 [Serializable]

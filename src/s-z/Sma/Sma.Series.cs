@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // series calculation
     internal static IEnumerable<SmaResult> CalcSma(
-        this List<(DateTime Date, double Value)> tpList,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
