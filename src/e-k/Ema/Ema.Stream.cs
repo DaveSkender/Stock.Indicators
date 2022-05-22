@@ -13,22 +13,12 @@ public class Ema
         // store results
         ProtectedResults = baseline;
         K = 2d / (lookbackPeriods + 1);
-
-        EmaResult? last = baseline.LastOrDefault();
-
-        if (last != null)
-        {
-            LastDate = last.Date;
-            LastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
-        }
     }
 
     internal double K { get; set; }
-    internal DateTime LastDate { get; set; }
-    internal double LastEma { get; set; }
     internal List<EmaResult> ProtectedResults { get; set; }
-
     public IEnumerable<EmaResult> Results => ProtectedResults;
+
     public IEnumerable<EmaResult> Add(
         Quote quote,
         CandlePart candlePart = CandlePart.Close)
@@ -45,27 +35,28 @@ public class Ema
     public IEnumerable<EmaResult> Add(
         (DateTime Date, double Value) tuple)
     {
-        // calculate incremental value
-        double ema = Increment(tuple.Value, LastEma, K);
+        // get last value
+        int lastIndex = ProtectedResults.Count - 1;
+        EmaResult last = ProtectedResults[lastIndex];
 
         // update bar
-        if (tuple.Date == LastDate)
+        if (tuple.Date == last.Date)
         {
-            EmaResult? e = ProtectedResults.Find(tuple.Date);
-            if (e != null)
-            {
-                e.Ema = ema;
-            }
+            // get prior last EMA
+            EmaResult prior = ProtectedResults[lastIndex - 1];
+
+            double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
+            last.Ema = Increment(tuple.Value, priorEma, K);
         }
 
         // add new bar
-        else if (tuple.Date > LastDate)
+        else if (tuple.Date > last.Date)
         {
-            EmaResult r = new() { Date = tuple.Date, Ema = ema };
+            // calculate incremental value
+            double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
+            double newEma = Increment(tuple.Value, lastEma, K);
 
-            LastDate = tuple.Date;
-            LastEma = ema;
-
+            EmaResult r = new() { Date = tuple.Date, Ema = newEma };
             ProtectedResults.Add(r);
         }
 

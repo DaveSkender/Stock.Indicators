@@ -47,6 +47,7 @@ public class EmaTests : TestBase
         {
             Quote q = quotesList[i];
             emaBase.Add(q);
+            emaBase.Add(q); // redundant
         }
 
         List<EmaResult> stream = emaBase.Results.ToList();
