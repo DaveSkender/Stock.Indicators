@@ -35,6 +35,19 @@ You must have at least `JP+JO+100` periods of `quotes` to cover the convergence 
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetAlligator();
+```
+
+Results **cannot** be further chained with additional transforms.
+
 ## Response
 
 ```csharp
@@ -53,9 +66,9 @@ IEnumerable<AlligatorResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Jaw` | decimal | Alligator's Jaw
-| `Teeth` | decimal | Alligator's Teeth
-| `Lips` | decimal | Alligator's Lips
+| `Jaw` | double | Alligator's Jaw
+| `Teeth` | double | Alligator's Teeth
+| `Lips` | double | Alligator's Lips
 
 ### Utilities
 
@@ -64,13 +77,3 @@ IEnumerable<AlligatorResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate the Williams Alligator with default configuration
-IEnumerable<AlligatorResult> results = quotes.GetAlligator();
-```

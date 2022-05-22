@@ -19,10 +19,8 @@ public static partial class Indicator
         .Select(x => new GatorResult
         {
             Date = x.Date,
-
-            Upper = (double?)NullMath.Abs(x.Jaw - x.Teeth),
-
-            Lower = (double?)-NullMath.Abs(x.Teeth - x.Lips)
+            Upper = NullMath.Abs(x.Jaw - x.Teeth),
+            Lower = -NullMath.Abs(x.Teeth - x.Lips)
         })
         .ToList();
 

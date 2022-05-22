@@ -1,23 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+// WILLIAMS ALLIGATOR (SERIES)
 public static partial class Indicator
 {
-    // WILLIAMS ALLIGATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<AlligatorResult> GetAlligator<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<AlligatorResult> CalcAlligator(
+        this List<(DateTime Date, double Value)> tpList,
         int jawPeriods = 13,
         int jawOffset = 8,
         int teethPeriods = 8,
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.HL2);
-
         // check parameter arguments
         ValidateAlligator(
             jawPeriods,
@@ -28,11 +22,11 @@ public static partial class Indicator
             lipsOffset);
 
         // initialize
-        int length = bdList.Count;
-        double?[] pr = new double?[length]; // median price
+        int length = tpList.Count;
+        double[] pr = new double[length]; // median price
 
         List<AlligatorResult> results =
-            bdList
+            tpList
             .Select(x => new AlligatorResult
             {
                 Date = x.Date
@@ -42,8 +36,8 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
-            pr[i] = q.Value;
+            (DateTime date, double value) = tpList[i];
+            pr[i] = value;
 
             // only calculate jaw if the array offset is still in valid range
             if (i + jawOffset < length)
@@ -54,20 +48,20 @@ public static partial class Indicator
                 // first value: calculate SMA
                 if (i + 1 == jawPeriods)
                 {
-                    double? sumMedianPrice = 0;
+                    double sumMedianPrice = 0;
                     for (int p = i + 1 - jawPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
 
-                    jawResult.Jaw = (decimal?)sumMedianPrice / jawPeriods;
+                    jawResult.Jaw = sumMedianPrice / jawPeriods;
                 }
 
                 // remaining values: SMMA
                 else if (i + 1 > jawPeriods)
                 {
-                    double? prevValue = (double?)results[i + jawOffset - 1].Jaw;
-                    jawResult.Jaw = (decimal?)((prevValue * (jawPeriods - 1)) + pr[i]) / jawPeriods;
+                    double? prevValue = results[i + jawOffset - 1].Jaw;
+                    jawResult.Jaw = ((prevValue * (jawPeriods - 1)) + pr[i]) / jawPeriods;
                 }
             }
 
@@ -80,20 +74,20 @@ public static partial class Indicator
                 // first value: calculate SMA
                 if (i + 1 == teethPeriods)
                 {
-                    double? sumMedianPrice = 0;
+                    double sumMedianPrice = 0;
                     for (int p = i + 1 - teethPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
 
-                    teethResult.Teeth = (decimal?)sumMedianPrice / teethPeriods;
+                    teethResult.Teeth = sumMedianPrice / teethPeriods;
                 }
 
                 // remaining values: SMMA
                 else if (i + 1 > teethPeriods)
                 {
-                    double? prevValue = (double?)results[i + teethOffset - 1].Teeth;
-                    teethResult.Teeth = (decimal?)((prevValue * (teethPeriods - 1)) + pr[i]) / teethPeriods;
+                    double? prevValue = results[i + teethOffset - 1].Teeth;
+                    teethResult.Teeth = ((prevValue * (teethPeriods - 1)) + pr[i]) / teethPeriods;
                 }
             }
 
@@ -106,20 +100,20 @@ public static partial class Indicator
                 // first value: calculate SMA
                 if (i + 1 == lipsPeriods)
                 {
-                    double? sumMedianPrice = 0;
+                    double sumMedianPrice = 0;
                     for (int p = i + 1 - lipsPeriods; p <= i; p++)
                     {
                         sumMedianPrice += pr[p];
                     }
 
-                    lipsResult.Lips = (decimal?)sumMedianPrice / lipsPeriods;
+                    lipsResult.Lips = sumMedianPrice / lipsPeriods;
                 }
 
                 // remaining values: SMMA
                 else if (i + 1 > lipsPeriods)
                 {
-                    double? prevValue = (double?)results[i + lipsOffset - 1].Lips;
-                    lipsResult.Lips = (decimal?)((prevValue * (lipsPeriods - 1)) + pr[i]) / lipsPeriods;
+                    double? prevValue = results[i + lipsOffset - 1].Lips;
+                    lipsResult.Lips = ((prevValue * (lipsPeriods - 1)) + pr[i]) / lipsPeriods;
                 }
             }
         }

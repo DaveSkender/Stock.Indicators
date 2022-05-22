@@ -1,9 +1,16 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
+
+public interface IAlligatorResult
+{
+    public double? Jaw { get; }
+    public double? Teeth { get; }
+    public double? Lips { get; }
+}
 
 [Serializable]
-public class AlligatorResult : ResultBase
+public sealed class AlligatorResult : ResultBase, IAlligatorResult
 {
-    public decimal? Jaw { get; set; }
-    public decimal? Teeth { get; set; }
-    public decimal? Lips { get; set; }
+    public double? Jaw { get; set; }
+    public double? Teeth { get; set; }
+    public double? Lips { get; set; }
 }
