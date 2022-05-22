@@ -1,20 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+// ENDPOINT MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // ENDPOINT MOVING AVERAGE
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<EpmaResult> GetEpma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // calculate series
+    internal static IEnumerable<EpmaResult> CalcEpma(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ValidateEpma(lookbackPeriods);
 
         // initialize
-        List<SlopeResult> slopeResults = GetSlope(quotes, lookbackPeriods)
+        List<SlopeResult> slopeResults = tpList
+            .CalcSlope(lookbackPeriods)
             .ToList();
 
         int length = slopeResults.Count;
