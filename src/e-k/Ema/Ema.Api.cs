@@ -34,12 +34,12 @@ public static partial class Indicator
 
     // SERIES, from TUPLE
     public static IEnumerable<EmaResult> GetEma(
-        this IEnumerable<(DateTime, double)> tpPrices,
+        this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods)
     {
-        // convert quotes
+        // convert prices
         List<(DateTime, double)> tpList
-            = tpPrices.ToTupleList();
+            = priceTuples.ToTupleList();
 
         // calculate
         return tpList.CalcEma(lookbackPeriods);

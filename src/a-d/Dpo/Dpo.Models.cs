@@ -3,6 +3,6 @@ namespace Skender.Stock.Indicators;
 [Serializable]
 public class DpoResult : ResultBase
 {
-    public decimal? Sma { get; set; }
-    public decimal? Dpo { get; set; }
+    public double? Sma { get; set; }
+    public double? Dpo { get; set; }
 }

@@ -14,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<(DateTime, double)>? tpList
+        List<(DateTime, double)> tpList
             = quotes.ToBasicTuple(CandlePart.Close);
 
         // calculate
@@ -38,14 +38,14 @@ public static partial class Indicator
 
     // SERIES, from TUPLE
     public static IEnumerable<AlmaResult> GetAlma(
-        this IEnumerable<(DateTime, double)> tpPrices,
+        this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6)
     {
-        // convert quotes
+        // convert prices
         List<(DateTime, double)> tpList
-            = tpPrices.ToTupleList();
+            = priceTuples.ToTupleList();
 
         // calculate
         return tpList.CalcAlma(lookbackPeriods, offset, sigma);

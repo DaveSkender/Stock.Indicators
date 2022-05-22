@@ -50,7 +50,7 @@ public static partial class Indicator
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
                 double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
-                result.Tema = (decimal?)((3 * ema1) - (3 * ema2) + ema3);
+                result.Tema = (3 * ema1) - (3 * ema2) + ema3;
 
                 lastEma1 = ema1;
                 lastEma2 = ema2;
@@ -58,7 +58,7 @@ public static partial class Indicator
             }
             else if (i == lookbackPeriods - 1)
             {
-                result.Tema = (decimal?)((3 * lastEma1) - (3 * lastEma2) + lastEma3);
+                result.Tema = (3 * lastEma1) - (3 * lastEma2) + lastEma3;
             }
 
             results.Add(result);

@@ -42,6 +42,23 @@ public static partial class Indicator
     }
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(candlePart)' prior to calling .GetWma()")]
+    public static IEnumerable<WmaResult> GetWma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        CandlePart candlePart)
+        where TQuote : IQuote
+    {
+        // convert quotes
+        List<(DateTime, double)> tpList
+            = quotes.ToBasicTuple(candlePart);
+
+        // calculate
+        return tpList.CalcWma(lookbackPeriods);
+    }
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("The .ToQuotes() utility is obsolete.")]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<AdlResult> results) => results

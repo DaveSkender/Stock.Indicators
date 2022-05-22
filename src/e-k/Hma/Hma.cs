@@ -37,7 +37,7 @@ public static partial class Indicator
 
             if (i >= lookbackPeriods - 1 && w1.Wma != null && w2.Wma != null)
             {
-                sh.Close = (decimal)((w2.Wma * 2m) - w1.Wma);
+                sh.Close = (decimal)((w2.Wma * 2d) - w1.Wma);
                 synthHistory.Add(sh);
             }
         }

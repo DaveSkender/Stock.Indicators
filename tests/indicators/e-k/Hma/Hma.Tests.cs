@@ -20,10 +20,10 @@ public class Hma : TestBase
 
         // sample values
         HmaResult r1 = results[149];
-        Assert.AreEqual(236.0835m, NullMath.Round(r1.Hma, 4));
+        Assert.AreEqual(236.0835, NullMath.Round(r1.Hma, 4));
 
         HmaResult r2 = results[501];
-        Assert.AreEqual(235.6972m, NullMath.Round(r2.Hma, 4));
+        Assert.AreEqual(235.6972, NullMath.Round(r2.Hma, 4));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Hma : TestBase
         Assert.AreEqual(480, results.Count);
 
         HmaResult last = results.LastOrDefault();
-        Assert.AreEqual(235.6972m, NullMath.Round(last.Hma, 4));
+        Assert.AreEqual(235.6972, NullMath.Round(last.Hma, 4));
     }
 
     [TestMethod]

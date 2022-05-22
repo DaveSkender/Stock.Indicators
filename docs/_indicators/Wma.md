@@ -53,7 +53,7 @@ IEnumerable<WmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Wma` | decimal | Weighted moving average for `N` lookback periods
+| `Wma` | double | Weighted moving average for `N` lookback periods
 
 ### Utilities
 

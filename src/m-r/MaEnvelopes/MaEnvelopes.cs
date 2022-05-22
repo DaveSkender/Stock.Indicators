@@ -17,7 +17,7 @@ public static partial class Indicator
         ValidateMaEnvelopes(percentOffset);
 
         // initialize
-        decimal offsetRatio = (decimal)percentOffset / 100m;
+        double offsetRatio = percentOffset / 100d;
 
         // get envelopes variant
         return movingAverageType switch
@@ -44,7 +44,7 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvAlma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetAlma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
@@ -57,7 +57,7 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvDema<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
@@ -70,20 +70,20 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
             Date = x.Date,
-            Centerline = (decimal?)x.Ema,
-            UpperEnvelope = (decimal?)x.Ema + ((decimal?)x.Ema * offsetRatio),
-            LowerEnvelope = (decimal?)x.Ema - ((decimal?)x.Ema * offsetRatio)
+            Centerline = x.Ema,
+            UpperEnvelope = x.Ema + (x.Ema * offsetRatio),
+            LowerEnvelope = x.Ema - (x.Ema * offsetRatio)
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvEpma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
@@ -96,7 +96,7 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvHma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
@@ -109,7 +109,7 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvSma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
@@ -122,7 +122,7 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvSmma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
@@ -135,7 +135,7 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvTema<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {
@@ -148,7 +148,7 @@ public static partial class Indicator
     private static IEnumerable<MaEnvelopeResult> MaEnvWma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
-        decimal offsetRatio)
+        double offsetRatio)
         where TQuote : IQuote => quotes.GetWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult
         {

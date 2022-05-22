@@ -1,38 +1,38 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE (API)
+// WEIGHTED MOVING AVERAGE (API)
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
+    /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<SmaResult> GetSma<TQuote>(
+    public static IEnumerable<WmaResult> GetWma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {
-        // initialize
+        // convert quotes
         List<(DateTime, double)> tpList = quotes.ToBasicTuple();
 
         // calculate
-        return tpList.CalcSma(lookbackPeriods);
+        return tpList.CalcWma(lookbackPeriods);
     }
 
     // SERIES, from CHAIN
-    public static IEnumerable<SmaResult> GetSma(
+    public static IEnumerable<WmaResult> GetWma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods)
     {
         // convert results
-        List<(DateTime Date, double Value)> tpList
+        List<(DateTime, double)> tpList
             = results.ToResultTuple();
 
         // calculate
-        return tpList.CalcSma(lookbackPeriods);
+        return tpList.CalcWma(lookbackPeriods);
     }
 
     // SERIES, from TUPLE
-    public static IEnumerable<SmaResult> GetSma(
+    public static IEnumerable<WmaResult> GetWma(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods)
     {
@@ -41,6 +41,6 @@ public static partial class Indicator
             = priceTuples.ToTupleList();
 
         // calculate
-        return tpList.CalcSma(lookbackPeriods);
+        return tpList.CalcWma(lookbackPeriods);
     }
 }

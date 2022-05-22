@@ -1,34 +1,28 @@
 namespace Skender.Stock.Indicators;
 
+// WEIGHTED MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // WEIGHTED MOVING AVERAGE
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<WmaResult> GetWma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        CandlePart candlePart = CandlePart.Close)
-        where TQuote : IQuote
+    // series calculation
+    internal static IEnumerable<WmaResult> CalcWma(
+        this List<(DateTime, double)> tpList,
+        int lookbackPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(candlePart);
-
         // check parameter arguments
         ValidateWma(lookbackPeriods);
 
         // initialize
-        List<WmaResult> results = new(bdList.Count);
+        List<WmaResult> results = new(tpList.Count);
         double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             WmaResult result = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 >= lookbackPeriods)
@@ -36,11 +30,11 @@ public static partial class Indicator
                 double? wma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BasicData d = bdList[p];
-                    wma += d.Value * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
+                    (DateTime pDate, double pValue) = tpList[p];
+                    wma += pValue * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
 
-                result.Wma = (decimal?)wma;
+                result.Wma = wma;
             }
 
             results.Add(result);

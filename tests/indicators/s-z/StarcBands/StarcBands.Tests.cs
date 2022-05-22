@@ -34,24 +34,24 @@ public class StarcBands : TestBase
         Assert.AreEqual(null, r1.LowerBand);
 
         StarcBandsResult r2 = results[19];
-        Assert.AreEqual(214.5250m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(217.2831m, NullMath.Round(r2.UpperBand, 4));
-        Assert.AreEqual(211.7669m, NullMath.Round(r2.LowerBand, 4));
+        Assert.AreEqual(214.5250, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(217.2831, NullMath.Round(r2.UpperBand, 4));
+        Assert.AreEqual(211.7669, NullMath.Round(r2.LowerBand, 4));
 
         StarcBandsResult r3 = results[249];
-        Assert.AreEqual(255.5500m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(258.2261m, NullMath.Round(r3.UpperBand, 4));
-        Assert.AreEqual(252.8739m, NullMath.Round(r3.LowerBand, 4));
+        Assert.AreEqual(255.5500, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(258.2261, NullMath.Round(r3.UpperBand, 4));
+        Assert.AreEqual(252.8739, NullMath.Round(r3.LowerBand, 4));
 
         StarcBandsResult r4 = results[485];
-        Assert.AreEqual(265.4855m, NullMath.Round(r4.Centerline, 4));
-        Assert.AreEqual(275.1161m, NullMath.Round(r4.UpperBand, 4));
-        Assert.AreEqual(255.8549m, NullMath.Round(r4.LowerBand, 4));
+        Assert.AreEqual(265.4855, NullMath.Round(r4.Centerline, 4));
+        Assert.AreEqual(275.1161, NullMath.Round(r4.UpperBand, 4));
+        Assert.AreEqual(255.8549, NullMath.Round(r4.LowerBand, 4));
 
         StarcBandsResult r5 = results[501];
-        Assert.AreEqual(251.8600m, NullMath.Round(r5.Centerline, 4));
-        Assert.AreEqual(264.1595m, NullMath.Round(r5.UpperBand, 4));
-        Assert.AreEqual(239.5605m, NullMath.Round(r5.LowerBand, 4));
+        Assert.AreEqual(251.8600, NullMath.Round(r5.Centerline, 4));
+        Assert.AreEqual(264.1595, NullMath.Round(r5.UpperBand, 4));
+        Assert.AreEqual(239.5605, NullMath.Round(r5.LowerBand, 4));
     }
 
     [TestMethod]
@@ -88,9 +88,9 @@ public class StarcBands : TestBase
         Assert.AreEqual(502 - (lookbackPeriods + 150), results.Count);
 
         StarcBandsResult last = results.LastOrDefault();
-        Assert.AreEqual(251.8600m, NullMath.Round(last.Centerline, 4));
-        Assert.AreEqual(264.1595m, NullMath.Round(last.UpperBand, 4));
-        Assert.AreEqual(239.5605m, NullMath.Round(last.LowerBand, 4));
+        Assert.AreEqual(251.8600, NullMath.Round(last.Centerline, 4));
+        Assert.AreEqual(264.1595, NullMath.Round(last.UpperBand, 4));
+        Assert.AreEqual(239.5605, NullMath.Round(last.LowerBand, 4));
     }
 
     [TestMethod]

@@ -31,8 +31,8 @@ public class Dpo : TestBase
             exp.Add(new DpoResult
             {
                 Date = date,
-                Sma = csv[6].ToDecimalNull(),
-                Dpo = csv[7].ToDecimalNull()
+                Sma = csv[6].ToDoubleNull(),
+                Dpo = csv[7].ToDoubleNull()
             });
         }
 

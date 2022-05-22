@@ -48,14 +48,14 @@ public static partial class Indicator
                 double? ema1 = lastEma1 + (k * (q.Value - lastEma1));
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
 
-                result.Dema = (decimal?)((2d * ema1) - ema2);
+                result.Dema = (2d * ema1) - ema2;
 
                 lastEma1 = ema1;
                 lastEma2 = ema2;
             }
             else if (i == lookbackPeriods - 1)
             {
-                result.Dema = (decimal?)((2d * lastEma1) - lastEma2);
+                result.Dema = (2d * lastEma1) - lastEma2;
             }
 
             results.Add(result);

@@ -56,7 +56,7 @@ IEnumerable<SmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sma` | decimal | Simple moving average
+| `Sma` | double | Simple moving average
 
 ### Utilities
 

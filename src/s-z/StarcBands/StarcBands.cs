@@ -8,7 +8,7 @@ public static partial class Indicator
     public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
         this IEnumerable<TQuote> quotes,
         int smaPeriods = 20,
-        decimal multiplier = 2,
+        double multiplier = 2,
         int atrPeriods = 10)
         where TQuote : IQuote
     {
@@ -34,8 +34,8 @@ public static partial class Indicator
 
             AtrResult a = atrResults[i];
 
-            r.UpperBand = r.Centerline + (multiplier * a.Atr);
-            r.LowerBand = r.Centerline - (multiplier * a.Atr);
+            r.UpperBand = r.Centerline + (multiplier * (double?)a.Atr);
+            r.LowerBand = r.Centerline - (multiplier * (double?)a.Atr);
         }
 
         return results;
@@ -44,7 +44,7 @@ public static partial class Indicator
     // parameter validation
     private static void ValidateStarcBands(
         int smaPeriods,
-        decimal multiplier,
+        double multiplier,
         int atrPeriods)
     {
         // check parameter arguments

@@ -35,7 +35,7 @@ public static partial class Indicator
             if (i + 1 > lookbackPeriods)
             {
                 smma = ((prevValue * (lookbackPeriods - 1)) + q.Value) / lookbackPeriods;
-                result.Smma = (decimal?)smma;
+                result.Smma = smma;
             }
 
             // first SMMA calculated as simple SMA
@@ -49,7 +49,7 @@ public static partial class Indicator
                 }
 
                 smma = sumClose / lookbackPeriods;
-                result.Smma = (decimal?)smma;
+                result.Smma = smma;
             }
 
             prevValue = smma;

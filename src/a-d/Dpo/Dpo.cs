@@ -10,14 +10,15 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.SortToList();
+        // conver quotes
+        List<(DateTime Date, double Value)>? tpList
+            = quotes.ToBasicTuple(CandlePart.Close);
 
         // check parameter arguments
         ValidateDpo(lookbackPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = tpList.Count;
         int offset = (lookbackPeriods / 2) + 1;
         List<SmaResult> sma = quotes.GetSma(lookbackPeriods).ToList();
         List<DpoResult> results = new(length);
@@ -25,11 +26,11 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            (DateTime date, double value) = tpList[i];
 
             DpoResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
             results.Add(r);
 
@@ -37,7 +38,7 @@ public static partial class Indicator
             {
                 SmaResult s = sma[i + offset];
                 r.Sma = s.Sma;
-                r.Dpo = s.Sma is null ? null : q.Close - s.Sma;
+                r.Dpo = s.Sma is null ? null : value - s.Sma;
             }
         }
 

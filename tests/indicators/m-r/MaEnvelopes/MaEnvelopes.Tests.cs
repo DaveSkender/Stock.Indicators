@@ -22,19 +22,19 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(216.0619m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(221.4635m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(210.6604m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(216.0619, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(221.4635, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(210.6604, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(257.5787m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(264.0182m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(251.1393m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(257.5787, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(264.0182, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(251.1393, NullMath.Round(r2.LowerEnvelope, 4));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(242.1871m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(248.2418m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(236.1324m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(242.1871, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(248.2418, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(236.1324, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -53,19 +53,19 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[38];
-        Assert.AreEqual(223.4594m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(229.0459m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(217.8730m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(223.4594, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(229.0459, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(217.8730, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(258.4452m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(264.9064m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(251.9841m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(258.4452, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(264.9064, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(251.9841, NullMath.Round(r2.LowerEnvelope, 4));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(241.1677m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(247.1969m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(235.1385m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(241.1677, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(247.1969, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(235.1385, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -84,19 +84,19 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(216.2859m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(221.6930m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(210.8787m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(216.2859, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(221.6930, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(210.8787, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(258.5179m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(264.9808m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(252.0549m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(258.5179, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(264.9808, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(252.0549, NullMath.Round(r2.LowerEnvelope, 4));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(235.8131m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(241.7085m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(229.9178m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(235.8131, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(241.7085, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(229.9178, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -115,19 +115,19 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(215.0920m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(220.4693m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(209.7147m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(215.0920, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(220.4693, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(209.7147, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(255.3873m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(261.7719m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(249.0026m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(255.3873, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(261.7719, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(249.0026, NullMath.Round(r2.LowerEnvelope, 4));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(249.3519m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(255.5857m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(243.1181m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(249.3519, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(255.5857, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(243.1181, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -146,14 +146,14 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r2 = results[149];
-        Assert.AreEqual(236.0835m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(241.9856m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(230.1814m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(236.0835, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(241.9856, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(230.1814, NullMath.Round(r2.LowerEnvelope, 4));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(235.6972m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(241.5897m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(229.8048m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(235.6972, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(241.5897, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(229.8048, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -172,19 +172,19 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(215.0310m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(220.4068m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(209.6552m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(215.0310, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(220.4068, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(209.6552, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(255.5500m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(261.9388m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(249.16125m, NullMath.Round(r2.LowerEnvelope, 5));
+        Assert.AreEqual(255.5500, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(261.9388, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(249.16125, NullMath.Round(r2.LowerEnvelope, 5));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(251.8600m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(258.1565m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(245.5635m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(251.8600, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(258.1565, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(245.5635, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -203,19 +203,19 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(214.8433m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(220.2144m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(209.4722m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(214.8433, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(220.2144, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(209.4722, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(252.5574m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(258.8714m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(246.2435m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(252.5574, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(258.8714, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(246.2435, NullMath.Round(r2.LowerEnvelope, 4));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(255.6746m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(262.0665m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(249.2828m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(255.6746, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(262.0665, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(249.2828, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -234,19 +234,19 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[57];
-        Assert.AreEqual(222.6349m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(228.2008m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(217.0690m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(222.6349, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(228.2008, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(217.0690, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(258.6208m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(265.0863m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(252.1553m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(258.6208, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(265.0863, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(252.1553, NullMath.Round(r2.LowerEnvelope, 4));
 
         MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(238.7690m, NullMath.Round(r3.Centerline, 4));
-        Assert.AreEqual(244.7382m, NullMath.Round(r3.UpperEnvelope, 4));
-        Assert.AreEqual(232.7998m, NullMath.Round(r3.LowerEnvelope, 4));
+        Assert.AreEqual(238.7690, NullMath.Round(r3.Centerline, 4));
+        Assert.AreEqual(244.7382, NullMath.Round(r3.UpperEnvelope, 4));
+        Assert.AreEqual(232.7998, NullMath.Round(r3.LowerEnvelope, 4));
     }
 
     [TestMethod]
@@ -265,14 +265,14 @@ public class MaEnvelopes : TestBase
 
         // sample values
         MaEnvelopeResult r1 = results[149];
-        Assert.AreEqual(235.5253m, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(241.4135m, NullMath.Round(r1.UpperEnvelope, 4));
-        Assert.AreEqual(229.6372m, NullMath.Round(r1.LowerEnvelope, 4));
+        Assert.AreEqual(235.5253, NullMath.Round(r1.Centerline, 4));
+        Assert.AreEqual(241.4135, NullMath.Round(r1.UpperEnvelope, 4));
+        Assert.AreEqual(229.6372, NullMath.Round(r1.LowerEnvelope, 4));
 
         MaEnvelopeResult r2 = results[501];
-        Assert.AreEqual(246.5110m, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(252.6738m, NullMath.Round(r2.UpperEnvelope, 4));
-        Assert.AreEqual(240.3483m, NullMath.Round(r2.LowerEnvelope, 4));
+        Assert.AreEqual(246.5110, NullMath.Round(r2.Centerline, 4));
+        Assert.AreEqual(252.6738, NullMath.Round(r2.UpperEnvelope, 4));
+        Assert.AreEqual(240.3483, NullMath.Round(r2.LowerEnvelope, 4));
     }
 
     [TestMethod]

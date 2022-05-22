@@ -28,7 +28,7 @@ public static partial class Indicator
             EpmaResult r = new()
             {
                 Date = s.Date,
-                Epma = (decimal?)((s.Slope * (i + 1)) + s.Intercept)
+                Epma = (s.Slope * (i + 1)) + s.Intercept
             };
 
             results.Add(r);
