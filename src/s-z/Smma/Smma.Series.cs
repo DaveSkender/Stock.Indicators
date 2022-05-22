@@ -1,40 +1,36 @@
 namespace Skender.Stock.Indicators;
 
+// SMOOTHED MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // SMOOTHED MOVING AVERAGE
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
-    ///
-    public static IEnumerable<SmmaResult> GetSmma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // calculate series
+    internal static IEnumerable<SmmaResult> CalcSmma(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> quotesList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateSmma(lookbackPeriods);
 
         // initialize
-        List<SmmaResult> results = new(quotesList.Count);
+        int length = tpList.Count;
+        List<SmmaResult> results = new(length);
         double prevValue = double.NaN;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             double smma = double.NaN;
-            BasicData q = quotesList[i];
+            (DateTime date, double value) = tpList[i];
 
             SmmaResult result = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             // calculate SMMA
             if (i + 1 > lookbackPeriods)
             {
-                smma = ((prevValue * (lookbackPeriods - 1)) + q.Value) / lookbackPeriods;
+                smma = ((prevValue * (lookbackPeriods - 1)) + value) / lookbackPeriods;
                 result.Smma = smma;
             }
 
@@ -44,8 +40,8 @@ public static partial class Indicator
                 double sumClose = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BasicData d = quotesList[p];
-                    sumClose += d.Value;
+                    (DateTime pDate, double pValue) = tpList[p];
+                    sumClose += pValue;
                 }
 
                 smma = sumClose / lookbackPeriods;

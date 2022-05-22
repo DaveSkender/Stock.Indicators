@@ -49,7 +49,7 @@ IEnumerable<SmmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Smma` | decimal | Smoothed moving average
+| `Smma` | double | Smoothed moving average
 
 ### Utilities
 
