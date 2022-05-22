@@ -23,7 +23,7 @@ IEnumerable<StarcBandsResult> results =
 | name | type | notes
 | -- |-- |--
 | `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
-| `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
+| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2.
 | `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10.
 
 ### Historical quotes requirements

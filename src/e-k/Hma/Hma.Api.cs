@@ -26,5 +26,4 @@ public static partial class Indicator
         int lookbackPeriods) => priceTuples
             .ToTupleList()
             .CalcHma(lookbackPeriods);
-
 }
