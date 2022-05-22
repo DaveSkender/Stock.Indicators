@@ -1,19 +1,13 @@
 namespace Skender.Stock.Indicators;
 
+// SLOPE AND LINEAR REGRESSION (SERIES)
 public static partial class Indicator
 {
-    // SLOPE AND LINEAR REGRESSION
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<SlopeResult> GetSlope<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // calculate series
+    internal static IEnumerable<SlopeResult> CalcSlope(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<(DateTime Date, double Value)> tpList
-            = quotes.ToBasicTuple(CandlePart.Close);
-
         // check parameter arguments
         ValidateSlope(lookbackPeriods);
 
@@ -45,10 +39,10 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                (DateTime dateP, double valueP) = tpList[p];
+                (DateTime pDate, double pValue) = tpList[p];
 
                 sumX += p + 1d;
-                sumY += valueP;
+                sumY += pValue;
             }
 
             double avgX = sumX / lookbackPeriods;
@@ -61,10 +55,10 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                (DateTime dateP, double valueP) = tpList[p];
+                (DateTime pDate, double pValue) = tpList[p];
 
                 double devX = p + 1d - avgX;
-                double devY = valueP - avgY;
+                double devY = pValue - avgY;
 
                 sumSqX += devX * devX;
                 sumSqY += devY * devY;
