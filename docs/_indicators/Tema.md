@@ -53,7 +53,7 @@ IEnumerable<TemaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Tema` | decimal | Triple exponential moving average
+| `Tema` | double | Triple exponential moving average
 
 ### Utilities
 

@@ -13,12 +13,14 @@ public static partial class QuoteUtility
     /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
     ///
     public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
-        this IEnumerable<TQuote> quotes, CandlePart candlePart = CandlePart.Close)
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
             .Select(x => x.ToBasicTuple(candlePart));
 
     internal static List<(DateTime Date, double Value)> ToBasicTuple<TQuote>(
-        this IEnumerable<TQuote> quotes, CandlePart candlePart = CandlePart.Close)
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
             .Use(candlePart)
             .OrderBy(x => x.Date)
