@@ -1,23 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+// DOUBLE EXPONENTIAL MOVING AVERAGE - DEMA (SERIES)
 public static partial class Indicator
 {
-    // DOUBLE EXPONENTIAL MOVING AVERAGE (DEMA)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<DemaResult> GetDema<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // series calculation
+    internal static IEnumerable<DemaResult> CalcDema(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateDema(lookbackPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<DemaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
@@ -27,7 +22,8 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            lastEma1 += bdList[i].Value;
+            (DateTime date, double value) = tpList[i];
+            lastEma1 += value;
         }
 
         lastEma1 /= lookbackPeriods;
@@ -36,16 +32,16 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             DemaResult result = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i > lookbackPeriods - 1)
             {
-                double? ema1 = lastEma1 + (k * (q.Value - lastEma1));
+                double? ema1 = lastEma1 + (k * (value - lastEma1));
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
 
                 result.Dema = (2d * ema1) - ema2;

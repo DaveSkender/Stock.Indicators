@@ -12,7 +12,8 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<(DateTime, double)> tpList = quotes.ToBasicTuple();
+        List<(DateTime, double)> tpList
+            = quotes.ToBasicTuple();
 
         // calculate
         return tpList.CalcWma(lookbackPeriods);

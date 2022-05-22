@@ -52,7 +52,7 @@ IEnumerable<DemaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Dema` | decimal | Double exponential moving average
+| `Dema` | double | Double exponential moving average
 
 ### Utilities
 
