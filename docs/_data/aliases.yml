@@ -42,10 +42,6 @@
   permalink: /indicators/Roc/
   type: price-characteristic
 
-- title: Momentum Oscillator
-  permalink: /indicators/Roc/
-  type: price-characteristic
-
 - title: Normalized Average True Range
   permalink: /indicators/Atr/
   type: price-characteristic
