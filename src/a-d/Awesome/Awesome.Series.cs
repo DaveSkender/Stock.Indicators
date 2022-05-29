@@ -5,8 +5,8 @@ public static partial class Indicator
 {
     internal static IEnumerable<AwesomeResult> CalcAwesome(
         this List<(DateTime, double)> tpList,
-        int fastPeriods = 5,
-        int slowPeriods = 34)
+        int fastPeriods,
+        int slowPeriods)
     {
         // check parameter arguments
         ValidateAwesome(fastPeriods, slowPeriods);

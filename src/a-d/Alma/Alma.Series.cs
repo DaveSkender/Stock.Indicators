@@ -6,9 +6,9 @@ public static partial class Indicator
     // series calculation
     internal static IEnumerable<AlmaResult> CalcAlma(
         this List<(DateTime, double)> tpList,
-        int lookbackPeriods = 9,
-        double offset = 0.85,
-        double sigma = 6)
+        int lookbackPeriods,
+        double offset,
+        double sigma)
     {
         // check parameter arguments
         ValidateAlma(lookbackPeriods, offset, sigma);

@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     internal static IEnumerable<AroonResult> CalcAroon(
         this List<QuoteD> qdList,
-        int lookbackPeriods = 25)
+        int lookbackPeriods)
     {
         // check parameter arguments
         ValidateAroon(lookbackPeriods);

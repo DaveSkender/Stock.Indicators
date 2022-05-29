@@ -6,7 +6,7 @@ public static partial class Indicator
     // calculate series
     internal static IEnumerable<AtrResult> CalcAtr<TQuote>(
         this List<TQuote> quotesList,
-        int lookbackPeriods = 14)
+        int lookbackPeriods)
         where TQuote : IQuote
     {
         // check parameter arguments

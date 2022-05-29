@@ -1,28 +1,23 @@
 namespace Skender.Stock.Indicators;
 
+// BALANCE OF POWER (SERIES)
 public static partial class Indicator
 {
-    // BALANCE OF POWER
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<BopResult> GetBop<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int smoothPeriods = 14)
-        where TQuote : IQuote
+    // series calculation
+    internal static IEnumerable<BopResult> CalcBop(
+        this List<QuoteD> qdList,
+        int smoothPeriods)
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateBop(smoothPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<BopResult> results = new(length);
 
-        double?[] raw = quotesList
+        double[] raw = qdList
             .Select(x => (x.High != x.Low) ?
-                (double?)((x.Close - x.Open) / (x.High - x.Low)) : null)
+                ((x.Close - x.Open) / (x.High - x.Low)) : double.NaN)
             .ToArray();
 
         // roll through quotes
@@ -30,12 +25,12 @@ public static partial class Indicator
         {
             BopResult r = new()
             {
-                Date = quotesList[i].Date
+                Date = qdList[i].Date
             };
 
             if (i >= smoothPeriods - 1)
             {
-                double? sum = 0;
+                double sum = 0;
                 for (int p = i - smoothPeriods + 1; p <= i; p++)
                 {
                     sum += raw[p];

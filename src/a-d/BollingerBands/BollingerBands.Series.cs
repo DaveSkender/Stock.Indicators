@@ -5,8 +5,8 @@ public static partial class Indicator
 {
     internal static IEnumerable<BollingerBandsResult> CalcBollingerBands(
         this List<(DateTime, double)> tpList,
-        int lookbackPeriods = 20,
-        double standardDeviations = 2)
+        int lookbackPeriods,
+        double standardDeviations)
     {
         // check parameter arguments
         ValidateBollingerBands(lookbackPeriods, standardDeviations);

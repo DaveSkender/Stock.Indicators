@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     internal static IEnumerable<AdxResult> CalcAdx<TQuote>(
         this List<TQuote> quotes,
-        int lookbackPeriods = 14)
+        int lookbackPeriods)
         where TQuote : IQuote
     {
         // check parameter arguments

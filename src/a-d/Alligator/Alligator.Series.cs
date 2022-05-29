@@ -5,12 +5,12 @@ public static partial class Indicator
 {
     internal static IEnumerable<AlligatorResult> CalcAlligator(
         this List<(DateTime Date, double Value)> tpList,
-        int jawPeriods = 13,
-        int jawOffset = 8,
-        int teethPeriods = 8,
-        int teethOffset = 5,
-        int lipsPeriods = 5,
-        int lipsOffset = 3)
+        int jawPeriods,
+        int jawOffset,
+        int teethPeriods,
+        int teethOffset,
+        int lipsPeriods,
+        int lipsOffset)
     {
         // check parameter arguments
         ValidateAlligator(
