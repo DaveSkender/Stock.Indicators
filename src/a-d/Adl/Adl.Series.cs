@@ -1,29 +1,23 @@
 namespace Skender.Stock.Indicators;
 
+// ACCUMULATION/DISTRIBUTION LINE (SERIES)
 public static partial class Indicator
 {
-    // ACCUMULATION/DISTRIBUTION LINE
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<AdlResult> GetAdl<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<AdlResult> CalcAdl(
+        this List<QuoteD> qdList,
         int? smaPeriods = null)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateAdl(smaPeriods);
 
         // initialize
-        List<AdlResult> results = new(quotesList.Count);
+        List<AdlResult> results = new(qdList.Count);
         double prevAdl = 0;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             double mfm = (q.High == q.Low) ? 0 : (q.Close - q.Low - (q.High - q.Close)) / (q.High - q.Low);
             double mfv = mfm * q.Volume;

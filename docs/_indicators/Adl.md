@@ -45,7 +45,7 @@ var results = quotes
     .GetRsi(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from a chain-enabled indicator or method.
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ## Response
 

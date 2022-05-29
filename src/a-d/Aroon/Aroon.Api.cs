@@ -1,15 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE TRUE RANGE (API)
+// AROON OSCILLATOR (API)
 public static partial class Indicator
 {
     // SERIES, from TQuote
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<AtrResult> GetAtr<TQuote>(
+    public static IEnumerable<AroonResult> GetAroon<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14)
+        int lookbackPeriods = 25)
         where TQuote : IQuote => quotes
-            .SortToList()
-            .CalcAtr(lookbackPeriods);
+            .ToQuoteD()
+            .CalcAroon(lookbackPeriods);
 }

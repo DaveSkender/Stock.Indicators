@@ -1,28 +1,22 @@
 namespace Skender.Stock.Indicators;
 
+// AROON OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // AROON OSCILLATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<AroonResult> GetAroon<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<AroonResult> CalcAroon(
+        this List<QuoteD> qdList,
         int lookbackPeriods = 25)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateAroon(lookbackPeriods);
 
         // initialize
-        List<AroonResult> results = new(quotesList.Count);
+        List<AroonResult> results = new(qdList.Count);
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             AroonResult result = new()
             {
@@ -39,7 +33,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods - 1; p <= i; p++)
                 {
-                    QuoteD d = quotesList[p];
+                    QuoteD d = qdList[p];
 
                     if (d.High > lastHighPrice)
                     {

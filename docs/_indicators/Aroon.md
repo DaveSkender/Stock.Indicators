@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a oscillator view of how long ago the new high or low price occured over a lookback window.
+Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a oscillator view of how long ago the new high or low price occurred over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/266 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Aroon.png)
@@ -41,7 +41,7 @@ var results = quotes
     .GetSlope(..);
 ```
 
-This indicator must be generated from `quotes` and **cannot** be generated from a chain-enabled indicator or method.
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ## Response
 

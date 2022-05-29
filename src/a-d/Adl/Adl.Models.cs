@@ -1,12 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public interface IAdlResult
-{
-    public double Adl { get; }
-}
-
 [Serializable]
-public sealed class AdlResult : ResultBase, IAdlResult, IReusableResult
+public sealed class AdlResult : ResultBase, IReusableResult
 {
     public double? MoneyFlowMultiplier { get; set; }
     public double? MoneyFlowVolume { get; set; }

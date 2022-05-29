@@ -1,12 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public interface IAlmaResult
-{
-    public double? Alma { get; }
-}
-
 [Serializable]
-public sealed class AlmaResult : ResultBase, IAlmaResult, IReusableResult
+public sealed class AlmaResult : ResultBase, IReusableResult
 {
     public double? Alma { get; set; }
 

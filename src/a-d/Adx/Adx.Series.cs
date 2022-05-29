@@ -1,24 +1,24 @@
 namespace Skender.Stock.Indicators;
 
+// AVERAGE DIRECTIONAL INDEX (SERIES)
 public static partial class Indicator
 {
-    // AVERAGE DIRECTIONAL INDEX
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<AdxResult> GetAdx<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<AdxResult> CalcAdx<TQuote>(
+        this List<TQuote> quotes,
         int lookbackPeriods = 14)
         where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateAdx(lookbackPeriods);
 
+        // convert quotes
+        List<QuoteD> qdList = quotes.ToQuoteD();
+
         // initialize
-        List<AdxResult> results = new(quotesList.Count);
-        List<AtrResult> atr = GetAtr(quotes, lookbackPeriods).ToList(); // get True Range info
+        List<AdxResult> results = new(quotes.Count);
+        List<AtrResult> atr = quotes
+            .CalcAtr(lookbackPeriods)
+            .ToList();
 
         double prevHigh = 0;
         double prevLow = 0;
@@ -33,9 +33,9 @@ public static partial class Indicator
         double? sumDx = 0;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < quotes.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD? q = qdList[i];
 
             AdxResult result = new()
             {
