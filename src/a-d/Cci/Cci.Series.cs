@@ -1,30 +1,25 @@
 namespace Skender.Stock.Indicators;
 
+// COMMODITY CHANNEL INDEX (SERIES)
 public static partial class Indicator
 {
-    // COMMODITY CHANNEL INDEX
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<CciResult> GetCci<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 20)
-        where TQuote : IQuote
+    // series calculation
+    internal static IEnumerable<CciResult> CalcCci(
+        this List<QuoteD> qdList,
+        int lookbackPeriods)
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateCci(lookbackPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<CciResult> results = new(length);
         double[] tp = new double[length];
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
             tp[i] = (q.High + q.Low + q.Close) / 3d;
 
             CciResult result = new()
