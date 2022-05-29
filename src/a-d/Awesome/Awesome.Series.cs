@@ -1,36 +1,30 @@
 namespace Skender.Stock.Indicators;
 
+// AWESOME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // AWESOME OSCILLATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<AwesomeResult> CalcAwesome(
+        this List<(DateTime, double)> tpList,
         int fastPeriods = 5,
         int slowPeriods = 34)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.HL2);
-
         // check parameter arguments
         ValidateAwesome(fastPeriods, slowPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<AwesomeResult> results = new();
-        double[] pr = new double[length]; // median price
+        double[] pr = new double[length];
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
-            pr[i] = q.Value;
+            (DateTime date, double value) = tpList[i];
+            pr[i] = value;
 
             AwesomeResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 >= slowPeriods)
