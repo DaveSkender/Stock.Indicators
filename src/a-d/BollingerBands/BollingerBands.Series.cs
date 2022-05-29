@@ -1,62 +1,55 @@
 namespace Skender.Stock.Indicators;
 
+// BOLLINGER BANDS (SERIES)
 public static partial class Indicator
 {
-    // BOLLINGER BANDS
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<BollingerBandsResult> GetBollingerBands<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<BollingerBandsResult> CalcBollingerBands(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods = 20,
         double standardDeviations = 2)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateBollingerBands(lookbackPeriods, standardDeviations);
 
         // initialize
-        List<BollingerBandsResult> results = new(bdList.Count);
+        List<BollingerBandsResult> results = new(tpList.Count);
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            BasicData q = bdList[i];
-            decimal close = (decimal)q.Value;
+            (DateTime date, double value) = tpList[i];
 
             BollingerBandsResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 >= lookbackPeriods)
             {
-                double[] periodClose = new double[lookbackPeriods];
+                double[] window = new double[lookbackPeriods];
                 double sum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BasicData d = bdList[p];
-                    periodClose[n] = d.Value;
-                    sum += d.Value;
+                    (DateTime pDate, double pValue) = tpList[p];
+                    window[n] = pValue;
+                    sum += pValue;
                     n++;
                 }
 
                 double? periodAvg = sum / lookbackPeriods;
-                double? stdDev = Functions.StdDev(periodClose);
+                double? stdDev = Functions.StdDev(window);
 
-                r.Sma = (decimal?)periodAvg;
-                r.UpperBand = (decimal?)(periodAvg + (standardDeviations * stdDev));
-                r.LowerBand = (decimal?)(periodAvg - (standardDeviations * stdDev));
+                r.Sma = periodAvg;
+                r.UpperBand = periodAvg + (standardDeviations * stdDev);
+                r.LowerBand = periodAvg - (standardDeviations * stdDev);
 
                 r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                    : (double?)((close - r.LowerBand) / (r.UpperBand - r.LowerBand));
+                    : (value - r.LowerBand) / (r.UpperBand - r.LowerBand);
 
-                r.ZScore = (stdDev == 0) ? double.NaN : (double?)(close - r.Sma) / stdDev;
-                r.Width = (periodAvg == 0) ? double.NaN : (double?)(r.UpperBand - r.LowerBand) / periodAvg;
+                r.ZScore = (stdDev == 0) ? double.NaN : (value - r.Sma) / stdDev;
+                r.Width = (periodAvg == 0) ? double.NaN : (r.UpperBand - r.LowerBand) / periodAvg;
             }
 
             results.Add(r);

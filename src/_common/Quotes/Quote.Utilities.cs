@@ -27,7 +27,7 @@ public static partial class QuoteUtility
             .ToList();
 
     internal static List<(DateTime, double)> ToTupleList(
-    this IEnumerable<(DateTime date, double value)> quotes)
+        this IEnumerable<(DateTime date, double value)> quotes)
         => quotes
             .OrderBy(x => x.date)
             .ToList();
@@ -64,7 +64,9 @@ public static partial class QuoteUtility
     // sort quotes
     internal static List<TQuote> SortToList<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes.OrderBy(x => x.Date).ToList();
+        where TQuote : IQuote => quotes
+            .OrderBy(x => x.Date)
+            .ToList();
 
     // convert to quotes in double precision
     internal static List<QuoteD> ToQuoteD<TQuote>(
