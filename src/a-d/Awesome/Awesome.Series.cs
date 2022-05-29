@@ -13,7 +13,7 @@ public static partial class Indicator
 
         // initialize
         int length = tpList.Count;
-        List<AwesomeResult> results = new();
+        List<AwesomeResult> results = new(length);
         double[] pr = new double[length];
 
         // roll through quotes

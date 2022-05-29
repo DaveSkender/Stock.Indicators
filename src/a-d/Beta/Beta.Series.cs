@@ -1,64 +1,58 @@
 namespace Skender.Stock.Indicators;
 
+// BETA COEFFICIENT (SERIES)
 public static partial class Indicator
 {
-    // BETA COEFFICIENT
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<BetaResult> GetBeta<TQuote>(
-        IEnumerable<TQuote> quotesMarket,
-        IEnumerable<TQuote> quotesEval,
+    // NOTE: sequence swapped from API
+    internal static IEnumerable<BetaResult> CalcBeta(
+        List<(DateTime, double)> tpListEval,
+        List<(DateTime, double)> tpListMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<TQuote> evalQuotesList = quotesEval.SortToList();
-        List<TQuote> mrktQuotesList = quotesMarket.SortToList();
-
         // check parameter arguments
-        ValidateBeta(mrktQuotesList, evalQuotesList, lookbackPeriods);
+        ValidateBeta(tpListEval, tpListMrkt, lookbackPeriods);
 
         // initialize
-        int size = evalQuotesList.Count;
-        List<BetaResult> results = new(size);
+        int length = tpListEval.Count;
+        List<BetaResult> results = new(length);
 
         bool calcSd = type is BetaType.All or BetaType.Standard;
         bool calcUp = type is BetaType.All or BetaType.Up;
         bool calcDn = type is BetaType.All or BetaType.Down;
 
         // convert quotes to returns
-        double[] evalReturns = new double[size];
-        double[] mrktReturns = new double[size];
-        decimal prevE = 0;
-        decimal prevM = 0;
+        double[] evalReturns = new double[length];
+        double[] mrktReturns = new double[length];
+        double prevE = 0;
+        double prevM = 0;
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
-            TQuote e = evalQuotesList[i];
-            TQuote m = mrktQuotesList[i];
+            (DateTime eDate, double eValue) = tpListEval[i];
+            (DateTime mDate, double mValue) = tpListMrkt[i];
 
-            if (e.Date != m.Date)
+            if (eDate != mDate)
             {
-                throw new InvalidQuotesException(nameof(quotesEval), e.Date,
+                throw new InvalidQuotesException(nameof(tpListEval), eDate,
                     "Date sequence does not match.  Beta requires matching dates in provided quotes.");
             }
 
-            evalReturns[i] = (double)(prevE != 0 ? (e.Close / prevE) - 1m : 0);
-            mrktReturns[i] = (double)(prevM != 0 ? (m.Close / prevM) - 1m : 0);
+            evalReturns[i] = prevE != 0 ? (eValue / prevE) - 1d : 0;
+            mrktReturns[i] = prevM != 0 ? (mValue / prevM) - 1d : 0;
 
-            prevE = e.Close;
-            prevM = m.Close;
+            prevE = eValue;
+            prevM = mValue;
         }
 
         // roll through quotes
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < length; i++)
         {
-            TQuote q = evalQuotesList[i];
+            (DateTime date, double value) = tpListEval[i];
 
             BetaResult r = new()
             {
-                Date = q.Date,
+                Date = date,
                 ReturnsEval = evalReturns[i],
                 ReturnsMrkt = mrktReturns[i]
             };
@@ -73,19 +67,19 @@ public static partial class Indicator
             // calculate beta variants
             if (calcSd)
             {
-                r.CalcBeta(
+                r.CalcBetaWindow(
                 i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Standard);
             }
 
             if (calcDn)
             {
-                r.CalcBeta(
+                r.CalcBetaWindow(
                 i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Down);
             }
 
             if (calcUp)
             {
-                r.CalcBeta(
+                r.CalcBetaWindow(
                 i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Up);
             }
 
@@ -101,7 +95,7 @@ public static partial class Indicator
     }
 
     // calculate beta
-    private static void CalcBeta(
+    private static void CalcBetaWindow(
         this BetaResult r,
         int i,
         int lookbackPeriods,
@@ -166,11 +160,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateBeta<TQuote>(
-        List<TQuote> quotesMarket,
-        List<TQuote> quotesEval,
+    private static void ValidateBeta(
+        List<(DateTime, double)> tpListEval,
+        List<(DateTime, double)> tpListMrkt,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -180,10 +173,10 @@ public static partial class Indicator
         }
 
         // check quotes
-        if (quotesEval.Count != quotesMarket.Count)
+        if (tpListEval.Count != tpListMrkt.Count)
         {
             throw new InvalidQuotesException(
-                nameof(quotesEval),
+                nameof(tpListEval),
                 "Eval quotes should have the same number of Market quotes for Beta.");
         }
     }

@@ -41,6 +41,26 @@ You must have at least `N` periods of quotes to cover the warmup periods.  You m
 | `Down` | Downside Beta only.  Uses historical quotes from market down bars only.
 | `All` | Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetBeta(..);
+```
+
+Results can be further processed on `Beta` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetBeta(..)
+    .GetSlope(..);
+```
+
 ## Response
 
 ```csharp

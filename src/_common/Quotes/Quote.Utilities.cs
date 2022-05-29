@@ -18,7 +18,7 @@ public static partial class QuoteUtility
         where TQuote : IQuote => quotes
             .Select(x => x.ToBasicTuple(candlePart));
 
-    internal static List<(DateTime Date, double Value)> ToBasicTuple<TQuote>(
+    internal static List<(DateTime, double)> ToBasicTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
@@ -26,7 +26,7 @@ public static partial class QuoteUtility
             .OrderBy(x => x.Date)
             .ToList();
 
-    internal static List<(DateTime Date, double Value)> ToTupleList(
+    internal static List<(DateTime, double)> ToTupleList(
     this IEnumerable<(DateTime date, double value)> quotes)
         => quotes
             .OrderBy(x => x.date)
@@ -35,7 +35,8 @@ public static partial class QuoteUtility
     // validation
     /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
     ///
-    public static IEnumerable<TQuote> Validate<TQuote>(this IEnumerable<TQuote> quotes)
+    public static IEnumerable<TQuote> Validate<TQuote>(
+        this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
         // we cannot rely on date consistency when looking back, so we force sort
@@ -82,7 +83,7 @@ public static partial class QuoteUtility
             .ToList();
 
     // convert quote to basic double tuple
-    internal static (DateTime Date, double Value) ToBasicTuple<TQuote>(
+    internal static (DateTime, double) ToBasicTuple<TQuote>(
         this TQuote q, CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => candlePart switch
         {
