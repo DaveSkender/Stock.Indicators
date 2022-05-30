@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
+// DOJI (SERIES)
 public static partial class Indicator
 {
-    // DOJI
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<CandleResult> GetDoji<TQuote>(
+    internal static IEnumerable<CandleResult> CalcDoji<TQuote>(
         this IEnumerable<TQuote> quotes,
         double maxPriceChangePercent = 0.1)
         where TQuote : IQuote
