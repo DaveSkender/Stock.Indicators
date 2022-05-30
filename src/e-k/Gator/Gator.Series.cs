@@ -1,19 +1,10 @@
 namespace Skender.Stock.Indicators;
 
+// GATOR OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // GATOR OSCILLATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<GatorResult> GetGator<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote =>
-        quotes
-            .GetAlligator()
-            .GetGator();
-
-    public static IEnumerable<GatorResult> GetGator(
-        this IEnumerable<AlligatorResult> alligator)
+    internal static IEnumerable<GatorResult> CalcGator(
+        this List<AlligatorResult> alligator)
     {
         List<GatorResult> results = alligator
         .Select(x => new GatorResult
