@@ -1,25 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+// KLINGER VOLUME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // KLINGER VOLUME OSCILLATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<KvoResult> GetKvo<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int fastPeriods = 34,
-        int slowPeriods = 55,
-        int signalPeriods = 13)
-        where TQuote : IQuote
+    internal static IEnumerable<KvoResult> CalcKvo(
+        this List<QuoteD> qdList,
+        int fastPeriods,
+        int slowPeriods,
+        int signalPeriods)
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<KvoResult> results = new(length);
 
         double[] t = new double[length];          // trend direction
@@ -38,7 +32,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             KvoResult r = new()
             {
