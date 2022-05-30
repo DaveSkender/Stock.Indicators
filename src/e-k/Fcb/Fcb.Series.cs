@@ -1,20 +1,21 @@
 namespace Skender.Stock.Indicators;
 
+// FRACTAL CHAOS BANDS (SERIES)
 public static partial class Indicator
 {
-    // FRACTAL CHAOS BANDS
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<FcbResult> GetFcb<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int windowSpan = 2)
+    internal static IEnumerable<FcbResult> CalcFcb<TQuote>(
+        this List<TQuote> quotesList,
+        int windowSpan)
         where TQuote : IQuote
     {
         // check parameter arguments
         ValidateFcb(windowSpan);
 
         // initialize
-        List<FractalResult> fractals = GetFractal(quotes, windowSpan).ToList();
+        List<FractalResult> fractals = quotesList
+            .CalcFractal(windowSpan, windowSpan, EndType.HighLow)
+            .ToList();
+
         int length = fractals.Count;
         List<FcbResult> results = new(length);
         decimal? upperLine = null, lowerLine = null;

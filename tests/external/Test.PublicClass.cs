@@ -12,7 +12,7 @@ internal class MyQuote : Quote
     public decimal? MyClose { get; set; }
 }
 
-internal class MyEma : ResultBase, IEmaResult
+internal class MyEma : ResultBase
 {
     public int Id { get; set; }
     public bool MyProperty { get; set; }

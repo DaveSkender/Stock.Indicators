@@ -1,32 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+// WILLIAMS FRACTAL (SERIES)
 public static partial class Indicator
 {
-    // WILLIAMS FRACTAL
-    /// <include file='./info.xml' path='indicator/type[@name="standard"]/*' />
-    ///
-    public static IEnumerable<FractalResult> GetFractal<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int windowSpan = 2,
-        EndType endType = EndType.HighLow)
-        where TQuote : IQuote
-            => GetFractal(quotes, windowSpan, windowSpan, endType);
-
-    // more configurable version (undocumented)
-    /// <include file='./info.xml' path='indicator/type[@name="alt"]/*' />
-    ///
-    public static IEnumerable<FractalResult> GetFractal<TQuote>(
-        IEnumerable<TQuote> quotes,
+    internal static IEnumerable<FractalResult> CalcFractal<TQuote>(
+        this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,
-        EndType endType = EndType.HighLow)
+        EndType endType)
         where TQuote : IQuote
     {
         // check parameter arguments
         ValidateFractal(Math.Min(leftSpan, rightSpan));
-
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
 
         // initialize
         List<FractalResult> results = new(quotesList.Count);

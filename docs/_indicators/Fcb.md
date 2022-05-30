@@ -24,13 +24,17 @@ IEnumerable<FcbResult> results =
 | -- |-- |--
 | `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.  See [Williams Fractal](../Fractal#content) for more information about Fractals and `windowSpan`.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](../Fractal#content) for more information about Fractals and `windowSpan`.
 
 ### Historical quotes requirements
 
 You must have at least `2×S+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+
+### Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 ## Response
 

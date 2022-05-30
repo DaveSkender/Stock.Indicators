@@ -25,7 +25,7 @@ IEnumerable<FractalResult> results =
 | `windowSpan` | int | Evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 | `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
 ### Historical quotes requirements
 
@@ -39,6 +39,10 @@ You must have at least `2×S+1` periods of `quotes` to cover the warmup periods;
 |-- |--
 | `EndType.Close` | Chevron point identified from `Close` price
 | `EndType.HighLow` | Chevron point identified from `High` and `Low` price (default)
+
+### Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 ## Response
 

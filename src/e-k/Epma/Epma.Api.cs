@@ -7,11 +7,11 @@ public static partial class Indicator
     /// <include file='./info.xml' path='indicator/*' />
     ///
     public static IEnumerable<EpmaResult> GetEpma<TQuote>(
-    this IEnumerable<TQuote> quotes,
-    int lookbackPeriods)
-    where TQuote : IQuote => quotes
-        .ToBasicTuple(CandlePart.Close)
-        .CalcEpma(lookbackPeriods);
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(CandlePart.Close)
+            .CalcEpma(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<EpmaResult> GetEpma(

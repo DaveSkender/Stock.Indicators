@@ -107,7 +107,7 @@ Each indicator will need different amounts of price `quotes` to calculate.  You 
 
 :warning: IMPORTANT! **Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system.**  Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
 
-For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occassionally, even more is required for optimal precision.
+For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occasionally, even more is required for optimal precision.
 
 See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
 
@@ -173,12 +173,12 @@ For more information on explicit interfaces, refer to the [C# Programming Guide]
 The indicator result classes can be customized in your code.  There are many ways to do this, but the benefit of using derived `ResultBase` is that your custom class will inherit all of the [utility results extension methods]({{site.baseurl}}/utilities/#utilities-for-indicator-results).  Here's one example:
 
 ```csharp
-// your custom class with an EMA interface profile
-public class MyEma : ResultBase, IEmaResult
+// your custom class with an EMA profile
+public class MyEma : ResultBase
 {
   // my properties
   public int MyId { get; set; }
-  public decimal? Ema { get; set; }
+  public double? Ema { get; set; }
 }
 
 public void MyClass(){
@@ -285,7 +285,7 @@ The `CandleProperties` class is an extended version of `Quote`, and contains add
 | `LowerWick` | decimal | Lower wick size
 | `BodyPct` | double | `Body/Size`
 | `UpperWickPct` | double | `UpperWick/Size`
-| `LowerWickPct` | double | `Lowerwick/Size`
+| `LowerWickPct` | double | `LowerWick/Size`
 | `IsBullish` | bool | `Close>Open` direction
 | `IsBearish` | bool | `Close<Open` direction
 
