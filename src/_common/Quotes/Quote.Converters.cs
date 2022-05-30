@@ -9,7 +9,6 @@ public static partial class QuoteUtility
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
     // convert quotes to basic double tuple list
-    // validation
     /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
     ///
     public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
@@ -18,51 +17,8 @@ public static partial class QuoteUtility
         where TQuote : IQuote => quotes
             .Select(x => x.ToBasicTuple(candlePart));
 
-    internal static List<(DateTime, double)> ToBasicTuple<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart = CandlePart.Close)
-        where TQuote : IQuote => quotes
-            .Use(candlePart)
-            .OrderBy(x => x.Date)
-            .ToList();
-
-    internal static List<(DateTime, double)> ToTupleList(
-        this IEnumerable<(DateTime date, double value)> quotes)
-        => quotes
-            .OrderBy(x => x.date)
-            .ToList();
-
-    // validation
-    /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
-    ///
-    public static IEnumerable<TQuote> Validate<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        // we cannot rely on date consistency when looking back, so we force sort
-
-        List<TQuote> quotesList = quotes.SortToList();
-
-        // check for duplicates
-        DateTime lastDate = DateTime.MinValue;
-        for (int i = 0; i < quotesList.Count; i++)
-        {
-            TQuote q = quotesList[i];
-
-            if (lastDate == q.Date)
-            {
-                throw new InvalidQuotesException(
-                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
-            }
-
-            lastDate = q.Date;
-        }
-
-        return quotesList;
-    }
-
     // sort quotes
-    internal static List<TQuote> SortToList<TQuote>(
+    internal static List<TQuote> ToSortedList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
             .OrderBy(x => x.Date)
@@ -84,9 +40,33 @@ public static partial class QuoteUtility
             .OrderBy(x => x.Date)
             .ToList();
 
-    // convert quote to basic double tuple
+    // convert quotes to tuple list
+    internal static List<(DateTime, double)> ToBasicTuple<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .OrderBy(x => x.Date)
+            .Select(x => x.ToBasicTuple(candlePart))
+            .ToList();
+
+    // convert quoteD list to tuples
+    internal static List<(DateTime, double)> ToBasicTuple(
+        this List<QuoteD> qdList,
+        CandlePart candlePart) => qdList
+            .OrderBy(x => x.Date)
+            .Select(x => x.ToBasicTuple(candlePart))
+            .ToList();
+
+    // convert tuples to list, with sorting
+    internal static List<(DateTime, double)> ToSortedList(
+        this IEnumerable<(DateTime date, double value)> tuples) => tuples
+            .OrderBy(x => x.date)
+            .ToList();
+
+    // convert quote element to basic tuple
     internal static (DateTime, double) ToBasicTuple<TQuote>(
-        this TQuote q, CandlePart candlePart = CandlePart.Close)
+        this TQuote q,
+        CandlePart candlePart)
         where TQuote : IQuote => candlePart switch
         {
             CandlePart.Open => (q.Date, (double)q.Open),
@@ -99,6 +79,25 @@ public static partial class QuoteUtility
             CandlePart.OC2 => (q.Date, (double)(q.Open + q.Close) / 2),
             CandlePart.OHL3 => (q.Date, (double)(q.Open + q.High + q.Low) / 3),
             CandlePart.OHLC4 => (q.Date, (double)(q.Open + q.High + q.Low + q.Close) / 4),
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+        };
+
+    // convert quoteD element to basic tuple
+    internal static (DateTime, double) ToBasicTuple(
+        this QuoteD q,
+        CandlePart candlePart) => candlePart switch
+        {
+            CandlePart.Open => (q.Date, q.Open),
+            CandlePart.High => (q.Date, q.High),
+            CandlePart.Low => (q.Date, q.Low),
+            CandlePart.Close => (q.Date, q.Close),
+            CandlePart.Volume => (q.Date, q.Volume),
+            CandlePart.HL2 => (q.Date, (q.High + q.Low) / 2),
+            CandlePart.HLC3 => (q.Date, (q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => (q.Date, (q.Open + q.Close) / 2),
+            CandlePart.OHL3 => (q.Date, (q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => (q.Date, (q.Open + q.High + q.Low + q.Close) / 4),
             _ => throw new ArgumentOutOfRangeException(
                 nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };

@@ -26,7 +26,7 @@ public static partial class Indicator
         ValidateFractal(Math.Min(leftSpan, rightSpan));
 
         // sort quotes
-        List<TQuote> quotesList = quotes.SortToList();
+        List<TQuote> quotesList = quotes.ToSortedList();
 
         // initialize
         List<FractalResult> results = new(quotesList.Count);

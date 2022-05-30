@@ -10,7 +10,7 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple()
+            .ToBasicTuple(CandlePart.Close)
             .CalcEma(lookbackPeriods);
 
     // SERIES, from CHAIN
@@ -24,7 +24,7 @@ public static partial class Indicator
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToTupleList()
+            .ToSortedList()
             .CalcEma(lookbackPeriods);
 
     // STREAM INITIALIZATION, from TQuote

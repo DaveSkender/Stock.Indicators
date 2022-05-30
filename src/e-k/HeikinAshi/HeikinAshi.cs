@@ -10,7 +10,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // sort quotes
-        List<TQuote> quotesList = quotes.SortToList();
+        List<TQuote> quotesList = quotes.ToSortedList();
 
         // initialize
         List<HeikinAshiResult> results = new(quotesList.Count);

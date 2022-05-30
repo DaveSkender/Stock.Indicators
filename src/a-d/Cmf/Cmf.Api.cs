@@ -1,15 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE DIRECTIONAL INDEX (API)
+// CHAIKIN MONEY FLOW (API)
 public static partial class Indicator
 {
     // SERIES, from TQuote
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<AdxResult> GetAdx<TQuote>(
+    public static IEnumerable<CmfResult> GetCmf<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14)
+        int lookbackPeriods = 20)
         where TQuote : IQuote => quotes
-            .ToSortedList()
-            .CalcAdx(lookbackPeriods);
+            .ToQuoteD()
+            .CalcCmf(lookbackPeriods);
 }

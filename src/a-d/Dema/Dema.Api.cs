@@ -13,7 +13,7 @@ public static partial class Indicator
     {
         // convert quotes
         List<(DateTime, double)> tpList
-            = quotes.ToBasicTuple();
+            = quotes.ToBasicTuple(CandlePart.Close);
 
         // calculate
         return tpList.CalcDema(lookbackPeriods);
@@ -39,7 +39,7 @@ public static partial class Indicator
     {
         // convert prices
         List<(DateTime, double)> tpList
-            = priceTuples.ToTupleList();
+            = priceTuples.ToSortedList();
 
         // calculate
         return tpList.CalcDema(lookbackPeriods);

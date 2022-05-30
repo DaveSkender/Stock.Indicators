@@ -10,7 +10,7 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple()
+            .ToBasicTuple(CandlePart.Close)
             .CalcHma(lookbackPeriods);
 
     // SERIES, from CHAIN
@@ -24,6 +24,6 @@ public static partial class Indicator
     public static IEnumerable<HmaResult> GetHma(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToTupleList()
+            .ToSortedList()
             .CalcHma(lookbackPeriods);
 }

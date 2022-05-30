@@ -6,7 +6,7 @@ public class Ema
     // initialize streaming base
     internal Ema(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
     {
-        List<(DateTime Date, double Value)>? tpList = tpQuotes.ToTupleList();
+        List<(DateTime Date, double Value)>? tpList = tpQuotes.ToSortedList();
 
         List<EmaResult>? baseline = tpList.CalcEma(lookbackPeriods).ToList();
 

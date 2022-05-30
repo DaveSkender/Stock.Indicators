@@ -12,7 +12,7 @@ public static partial class Indicator
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
         where TQuote : IQuote => quotes
-            .ToBasicTuple()
+            .ToBasicTuple(CandlePart.Close)
             .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 
     // SERIES, from CHAIN
@@ -30,6 +30,6 @@ public static partial class Indicator
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA) => priceTuples
-            .ToTupleList()
+            .ToSortedList()
             .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 }

@@ -1,27 +1,25 @@
 namespace Skender.Stock.Indicators;
 
+// CHAIKIN MONEY FLOW (SERIES)
 public static partial class Indicator
 {
-    // CHAIKIN MONEY FLOW
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<CmfResult> GetCmf<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 20)
-        where TQuote : IQuote
+    internal static IEnumerable<CmfResult> CalcCmf(
+        this List<QuoteD> qdList,
+        int lookbackPeriods)
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Volume);
+        List<(DateTime, double)> tpList = qdList.ToBasicTuple(CandlePart.Volume);
 
         // check parameter arguments
         ValidateCmf(lookbackPeriods);
 
         // initialize
-        List<CmfResult> results = new(bdList.Count);
-        List<AdlResult> adlResults = GetAdl(quotes).ToList();
+        int length = tpList.Count;
+        List<CmfResult> results = new(length);
+        List<AdlResult> adlResults = qdList.CalcAdl(null).ToList();
 
         // roll through quotes
-        for (int i = 0; i < adlResults.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             AdlResult r = adlResults[i];
 
@@ -39,8 +37,8 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BasicData q = bdList[p];
-                    sumVol += q.Value;
+                    (DateTime pDate, double pValue) = tpList[p];
+                    sumVol += pValue;
 
                     AdlResult d = adlResults[p];
                     sumMfv += d.MoneyFlowVolume;

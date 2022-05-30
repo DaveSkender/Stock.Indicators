@@ -27,6 +27,6 @@ public static partial class Indicator
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods = 20,
         double standardDeviations = 2) => priceTuples
-            .ToTupleList()
+            .ToSortedList()
             .CalcBollingerBands(lookbackPeriods, standardDeviations);
 }
