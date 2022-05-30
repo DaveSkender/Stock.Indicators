@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    // Doji
+    // DOJI
     /// <include file='./info.xml' path='indicator/*' />
     ///
     public static IEnumerable<CandleResult> GetDoji<TQuote>(

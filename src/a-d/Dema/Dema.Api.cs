@@ -9,39 +9,21 @@ public static partial class Indicator
     public static IEnumerable<DemaResult> GetDema<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = quotes.ToBasicTuple(CandlePart.Close);
-
-        // calculate
-        return tpList.CalcDema(lookbackPeriods);
-    }
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(CandlePart.Close)
+            .CalcDema(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<DemaResult> GetDema(
         this IEnumerable<IReusableResult> results,
-        int lookbackPeriods)
-    {
-        // convert results
-        List<(DateTime Date, double Value)> tpList
-            = results.ToResultTuple();
-
-        // calculate
-        return tpList.CalcDema(lookbackPeriods);
-    }
+        int lookbackPeriods) => results
+            .ToResultTuple()
+            .CalcDema(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<DemaResult> GetDema(
         this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods)
-    {
-        // convert prices
-        List<(DateTime, double)> tpList
-            = priceTuples.ToSortedList();
-
-        // calculate
-        return tpList.CalcDema(lookbackPeriods);
-    }
+        int lookbackPeriods) => priceTuples
+            .ToSortedList()
+            .CalcDema(lookbackPeriods);
 }

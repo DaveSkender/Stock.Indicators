@@ -1,7 +1,7 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class DonchianResult : ResultBase
+public sealed class DonchianResult : ResultBase
 {
     public decimal? UpperBand { get; set; }
     public decimal? Centerline { get; set; }

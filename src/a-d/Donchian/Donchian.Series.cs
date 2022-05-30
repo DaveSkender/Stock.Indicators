@@ -1,26 +1,22 @@
 namespace Skender.Stock.Indicators;
 
+// DONCHIAN CHANNEL (SERIES)
 public static partial class Indicator
 {
-    // DONCHIAN CHANNEL
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<DonchianResult> GetDonchian<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 20)
+    internal static IEnumerable<DonchianResult> CalcDonchian<TQuote>(
+        this List<TQuote> quotesList,
+        int lookbackPeriods)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // check parameter arguments
         ValidateDonchian(lookbackPeriods);
 
         // initialize
-        List<DonchianResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        List<DonchianResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 
@@ -31,8 +27,8 @@ public static partial class Indicator
 
             if (i >= lookbackPeriods)
             {
-                decimal? highHigh = 0;
-                decimal? lowLow = decimal.MaxValue;
+                decimal highHigh = 0;
+                decimal lowLow = decimal.MaxValue;
 
                 // high/low over prior periods
                 for (int p = i - lookbackPeriods; p < i; p++)
@@ -52,7 +48,7 @@ public static partial class Indicator
 
                 result.UpperBand = highHigh;
                 result.LowerBand = lowLow;
-                result.Centerline = (result.UpperBand + result.LowerBand) / 2;
+                result.Centerline = (result.UpperBand + result.LowerBand) / 2m;
                 result.Width = (result.Centerline == 0) ? null
                     : (result.UpperBand - result.LowerBand) / result.Centerline;
             }
