@@ -39,6 +39,19 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 | `ChandelierType.Long` | Intended as stop loss value for long positions. (default)
 | `ChandelierType.Short` | Intended as stop loss value for short positions.
 
+### Chaining
+
+Results can be further processed on `Atrp` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetChandelier(..)
+    .GetAlma(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp

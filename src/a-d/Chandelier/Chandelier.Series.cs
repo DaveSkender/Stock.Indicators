@@ -1,31 +1,31 @@
 namespace Skender.Stock.Indicators;
 
+// CHANDELIER EXIT (SERIES)
 public static partial class Indicator
 {
-    // CHANDELIER EXIT
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ChandelierResult> GetChandelier<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 22,
-        double multiplier = 3,
-        ChandelierType type = ChandelierType.Long)
+    internal static IEnumerable<ChandelierResult> CalcChandelier<TQuote>(
+        this List<TQuote> quotesList,
+        int lookbackPeriods,
+        double multiplier,
+        ChandelierType type)
         where TQuote : IQuote
     {
         // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
+        List<QuoteD> qdList = quotesList.ToQuoteD();
 
         // check parameter arguments
         ValidateChandelier(lookbackPeriods, multiplier);
 
         // initialize
         List<ChandelierResult> results = new(quotesList.Count);
-        List<AtrResult> atrResult = GetAtr(quotes, lookbackPeriods).ToList();  // uses ATR
+        List<AtrResult> atrResult = quotesList
+            .CalcAtr(lookbackPeriods)
+            .ToList();
 
         // roll through quotes
         for (int i = 0; i < quotesList.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             ChandelierResult result = new()
             {
@@ -44,7 +44,7 @@ public static partial class Indicator
                         double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
-                            QuoteD d = quotesList[p];
+                            QuoteD d = qdList[p];
                             if (d.High > maxHigh)
                             {
                                 maxHigh = d.High;
@@ -59,7 +59,7 @@ public static partial class Indicator
                         double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
-                            QuoteD d = quotesList[p];
+                            QuoteD d = qdList[p];
                             if (d.Low < minLow)
                             {
                                 minLow = d.Low;
