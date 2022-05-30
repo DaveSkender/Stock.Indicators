@@ -1,64 +1,61 @@
 namespace Skender.Stock.Indicators;
 
+// CONNORS RSI (SERIES)
 public static partial class Indicator
 {
-    // CONNORS RSI
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ConnorsRsiResult> GetConnorsRsi<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int rsiPeriods = 3,
-        int streakPeriods = 2,
-        int rankPeriods = 100)
-        where TQuote : IQuote
+    internal static IEnumerable<ConnorsRsiResult> CalcConnorsRsi(
+        this List<(DateTime, double)> tpList,
+        int rsiPeriods,
+        int streakPeriods,
+        int rankPeriods)
     {
-        // convert quotes
-        List<(DateTime Date, double Value)>? tpList = quotes.ToBasicTuple(CandlePart.Close);
-
         // check parameter arguments
         ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         // initialize
-        List<ConnorsRsiResult> results = CalcConnorsRsiBaseline(tpList, rsiPeriods, rankPeriods);
+        List<ConnorsRsiResult> results = tpList.CalcStreak(rsiPeriods, rankPeriods);
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
+        int length = results.Count;
 
         // RSI of streak
         List<(DateTime Date, double Streak)> bdStreak = results
-            .Remove(Math.Min(results.Count, 1))
+            .Remove(Math.Min(length, 1))
             .Select(x => (x.Date, (double)x.Streak))
             .ToList();
 
-        List<RsiResult> rsiStreakResults = CalcRsi(bdStreak, streakPeriods);
+        List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);
 
         // compose final results
-        for (int p = streakPeriods + 2; p < results.Count; p++)
+        for (int p = streakPeriods + 2; p < length; p++)
         {
             ConnorsRsiResult r = results[p];
-            RsiResult k = rsiStreakResults[p - 1];
+            RsiResult k = rsiStreak[p - 1];
 
             r.RsiStreak = k.Rsi;
 
             if (p + 1 >= startPeriod)
             {
-                r.ConnorsRsi = (r.RsiClose + r.RsiStreak + r.PercentRank) / 3;
+                r.ConnorsRsi = (r.Rsi + r.RsiStreak + r.PercentRank) / 3;
             }
         }
 
         return results;
     }
 
-    // parameter validation
-    private static List<ConnorsRsiResult> CalcConnorsRsiBaseline(
-        List<(DateTime Date, double Streak)> tpList, int rsiPeriods, int rankPeriods)
+    // calculate baseline streak and rank
+    private static List<ConnorsRsiResult> CalcStreak(
+        this List<(DateTime Date, double Streak)> tpList,
+        int rsiPeriods,
+        int rankPeriods)
     {
         // initialize
         List<RsiResult> rsiResults = CalcRsi(tpList, rsiPeriods);
 
         int length = tpList.Count;
         List<ConnorsRsiResult> results = new(length);
-        double?[] gain = new double?[length];
+        double[] gain = new double[length];
 
-        double? lastClose = null;
+        double lastClose = double.NaN;
         int streak = 0;
 
         // compose interim results
@@ -69,12 +66,12 @@ public static partial class Indicator
             ConnorsRsiResult r = new()
             {
                 Date = date,
-                RsiClose = rsiResults[i].Rsi
+                Rsi = rsiResults[i].Rsi
             };
             results.Add(r);
 
             // bypass for first record
-            if (lastClose == null)
+            if (i == 0)
             {
                 lastClose = value;
                 continue;
@@ -111,7 +108,7 @@ public static partial class Indicator
             r.Streak = streak;
 
             // percentile rank
-            gain[i] = (lastClose <= 0) ? null
+            gain[i] = (lastClose <= 0) ? double.NaN
                     : (value - lastClose) / lastClose;
 
             if (i + 1 > rankPeriods)
@@ -134,6 +131,7 @@ public static partial class Indicator
         return results;
     }
 
+    // parameter validation
     private static void ValidateConnorsRsi(
         int rsiPeriods,
         int streakPeriods,

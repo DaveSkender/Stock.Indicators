@@ -45,12 +45,32 @@ IEnumerable<ConnorsRsiResult>
 
 :hourglass: **Convergence Warning**: The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetConnorsRsi(..);
+```
+
+Results can be further processed on `ConnorsRsi` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetConnorsRsi(..)
+    .GetSma(..);
+```
+
 ### ConnorsRsiResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `RsiClose` | double | RSI(`R`) of the Close price.
+| `Rsi` | double | RSI(`R`) of the price.
 | `RsiStreak` | double | RSI(`S`) of the Streak.
 | `PercentRank` | double | Percentile rank of the period gain value.
 | `ConnorsRsi` | double | ConnorsRSI
