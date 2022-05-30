@@ -1,45 +1,39 @@
 namespace Skender.Stock.Indicators;
 
+// CORRELATION COEFFICIENT (SERIES)
 public static partial class Indicator
 {
-    // CORRELATION COEFFICIENT
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
-        this IEnumerable<TQuote> quotesA,
-        IEnumerable<TQuote> quotesB,
+    internal static IEnumerable<CorrResult> CalcCorrelation(
+        this List<(DateTime, double)> tpListA,
+        List<(DateTime, double)> tpListB,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> bdListA = quotesA.ToBasicClass(CandlePart.Close);
-        List<BasicData> bdListB = quotesB.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
-        ValidateCorrelation(quotesA, quotesB, lookbackPeriods);
+        ValidateCorrelation(tpListA, tpListB, lookbackPeriods);
 
         // initialize
-        List<CorrResult> results = new(bdListA.Count);
+        int length = tpListA.Count;
+        List<CorrResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < bdListA.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            BasicData a = bdListA[i];
-            BasicData b = bdListB[i];
+            (DateTime aDate, double aValue) = tpListA[i];
+            (DateTime bDate, double bValue) = tpListB[i];
 
-            if (a.Date != b.Date)
+            if (aDate != bDate)
             {
-                throw new InvalidQuotesException(nameof(quotesA), a.Date,
+                throw new InvalidQuotesException(nameof(tpListA), aDate,
                     "Date sequence does not match.  Correlation requires matching dates in provided histories.");
             }
 
             CorrResult r = new()
             {
-                Date = a.Date
+                Date = aDate
             };
 
             // calculate correlation
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double[] dataA = new double[lookbackPeriods];
                 double[] dataB = new double[lookbackPeriods];
@@ -47,13 +41,13 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    dataA[z] = bdListA[p].Value;
-                    dataB[z] = bdListB[p].Value;
+                    dataA[z] = tpListA[p].Item2;
+                    dataB[z] = tpListB[p].Item2;
 
                     z++;
                 }
 
-                r.CalcCorrelation(dataA, dataB);
+                r.PeriodCorrelation(dataA, dataB);
             }
 
             results.Add(r);
@@ -63,7 +57,7 @@ public static partial class Indicator
     }
 
     // calculate correlation
-    private static void CalcCorrelation(
+    private static void PeriodCorrelation(
         this CorrResult r,
         double[] dataA,
         double[] dataB)
@@ -106,11 +100,10 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateCorrelation<TQuote>(
-        IEnumerable<TQuote> quotesA,
-        IEnumerable<TQuote> quotesB,
+    private static void ValidateCorrelation(
+        List<(DateTime, double)> quotesA,
+        List<(DateTime, double)> quotesB,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -120,7 +113,7 @@ public static partial class Indicator
         }
 
         // check quotes
-        if (quotesA.Count() != quotesB.Count())
+        if (quotesA.Count != quotesB.Count)
         {
             throw new InvalidQuotesException(
                 nameof(quotesB),

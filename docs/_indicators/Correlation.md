@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear correlatation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
+Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear correlation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/259 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Correlation.png)
@@ -31,6 +31,26 @@ IEnumerable<CorrResult> results =
 You must have at least `N` periods for both versions of `quotes` to cover the warmup periods.  Mismatch histories will produce a `InvalidQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
 `quotesA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetCorr(..);
+```
+
+Results can be further processed on `Correlation` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetCorr(..)
+    .GetSlope(..);
+```
 
 ## Response
 

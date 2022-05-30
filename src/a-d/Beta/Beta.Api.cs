@@ -13,10 +13,10 @@ public static partial class Indicator
         BetaType type = BetaType.Standard)
         where TQuote : IQuote
     {
-        List<(DateTime Date, double Value)> tpListEval
+        List<(DateTime, double)> tpListEval
             = quotesEval.ToBasicTuple(CandlePart.Close);
 
-        List<(DateTime Date, double Value)> tpListMrkt
+        List<(DateTime, double)> tpListMrkt
             = quotesMarket.ToBasicTuple(CandlePart.Close);
 
         // TODO: reverse API order (above), in next version,
