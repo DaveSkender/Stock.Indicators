@@ -26,29 +26,29 @@ public class ElderRay : TestBase
         Assert.IsNull(r1.BearPower);
 
         ElderRayResult r2 = results[12];
-        Assert.AreEqual(214.0000m, NullMath.Round(r2.Ema, 4));
-        Assert.AreEqual(0.7500m, r2.BullPower);
-        Assert.AreEqual(-0.5100m, r2.BearPower);
+        Assert.AreEqual(214.0000, NullMath.Round(r2.Ema, 4));
+        Assert.AreEqual(0.7500, NullMath.Round(r2.BullPower, 4));
+        Assert.AreEqual(-0.5100, NullMath.Round(r2.BearPower, 4));
 
         ElderRayResult r3 = results[24];
-        Assert.AreEqual(215.5426m, NullMath.Round(r3.Ema, 4));
-        Assert.AreEqual(1.4274m, NullMath.Round(r3.BullPower, 4));
-        Assert.AreEqual(0.5474m, NullMath.Round(r3.BearPower, 4));
+        Assert.AreEqual(215.5426, NullMath.Round(r3.Ema, 4));
+        Assert.AreEqual(1.4274, NullMath.Round(r3.BullPower, 4));
+        Assert.AreEqual(0.5474, NullMath.Round(r3.BearPower, 4));
 
         ElderRayResult r4 = results[149];
-        Assert.AreEqual(235.3970m, NullMath.Round(r4.Ema, 4));
-        Assert.AreEqual(0.9430m, NullMath.Round(r4.BullPower, 4));
-        Assert.AreEqual(0.4730m, NullMath.Round(r4.BearPower, 4));
+        Assert.AreEqual(235.3970, NullMath.Round(r4.Ema, 4));
+        Assert.AreEqual(0.9430, NullMath.Round(r4.BullPower, 4));
+        Assert.AreEqual(0.4730, NullMath.Round(r4.BearPower, 4));
 
         ElderRayResult r5 = results[249];
-        Assert.AreEqual(256.5206m, NullMath.Round(r5.Ema, 4));
-        Assert.AreEqual(1.5194m, NullMath.Round(r5.BullPower, 4));
-        Assert.AreEqual(1.0694m, NullMath.Round(r5.BearPower, 4));
+        Assert.AreEqual(256.5206, NullMath.Round(r5.Ema, 4));
+        Assert.AreEqual(1.5194, NullMath.Round(r5.BullPower, 4));
+        Assert.AreEqual(1.0694, NullMath.Round(r5.BearPower, 4));
 
         ElderRayResult r6 = results[501];
-        Assert.AreEqual(246.0129m, NullMath.Round(r6.Ema, 4));
-        Assert.AreEqual(-0.4729m, NullMath.Round(r6.BullPower, 4));
-        Assert.AreEqual(-3.1429m, NullMath.Round(r6.BearPower, 4));
+        Assert.AreEqual(246.0129, NullMath.Round(r6.Ema, 4));
+        Assert.AreEqual(-0.4729, NullMath.Round(r6.BullPower, 4));
+        Assert.AreEqual(-3.1429, NullMath.Round(r6.BearPower, 4));
     }
 
     [TestMethod]
@@ -79,9 +79,9 @@ public class ElderRay : TestBase
         Assert.AreEqual(502 - (100 + 13), results.Count);
 
         ElderRayResult last = results.LastOrDefault();
-        Assert.AreEqual(246.0129m, NullMath.Round(last.Ema, 4));
-        Assert.AreEqual(-0.4729m, NullMath.Round(last.BullPower, 4));
-        Assert.AreEqual(-3.1429m, NullMath.Round(last.BearPower, 4));
+        Assert.AreEqual(246.0129, NullMath.Round(last.Ema, 4));
+        Assert.AreEqual(-0.4729, NullMath.Round(last.BullPower, 4));
+        Assert.AreEqual(-3.1429, NullMath.Round(last.BearPower, 4));
     }
 
     [TestMethod]

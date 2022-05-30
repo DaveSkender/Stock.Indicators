@@ -1,34 +1,30 @@
 namespace Skender.Stock.Indicators;
 
+// ELDER-RAY (SERIES)
 public static partial class Indicator
 {
-    // ELDER-RAY
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ElderRayResult> GetElderRay<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 13)
-        where TQuote : IQuote
+    internal static IEnumerable<ElderRayResult> CalcElderRay(
+        this List<QuoteD> qdList,
+        int lookbackPeriods)
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // check parameter arguments
         ValidateElderRay(lookbackPeriods);
 
         // initialize with EMA
-        List<ElderRayResult> results = GetEma(quotes, lookbackPeriods)
+        List<ElderRayResult> results = qdList
+            .ToBasicTuple(CandlePart.Close)
+            .CalcEma(lookbackPeriods)
             .Select(x => new ElderRayResult
             {
                 Date = x.Date,
-                Ema = (decimal?)x.Ema
+                Ema = x.Ema
             })
             .ToList();
 
         // roll through quotes
-        for (int i = lookbackPeriods - 1; i < quotesList.Count; i++)
+        for (int i = lookbackPeriods - 1; i < qdList.Count; i++)
         {
-            TQuote q = quotesList[i];
+            QuoteD q = qdList[i];
             ElderRayResult r = results[i];
 
             r.BullPower = q.High - r.Ema;

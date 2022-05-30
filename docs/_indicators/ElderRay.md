@@ -31,6 +31,19 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `(BullPower+BearPower)` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetElderRay(..)
+    .GetEma(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
@@ -49,9 +62,9 @@ IEnumerable<ElderRayResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | decimal | Exponential moving average of Close price
-| `BullPower` | decimal | Bull Power
-| `BearPower` | decimal | Bear Power
+| `Ema` | double | Exponential moving average of Close price
+| `BullPower` | double | Bull Power
+| `BearPower` | double | Bear Power
 
 ### Utilities
 
