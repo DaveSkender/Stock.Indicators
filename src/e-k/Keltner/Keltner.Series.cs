@@ -1,27 +1,30 @@
 namespace Skender.Stock.Indicators;
 
+// KELTNER CHANNELS (SERIES)
 public static partial class Indicator
 {
-    // KELTNER CHANNELS
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<KeltnerResult> GetKeltner<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int emaPeriods = 20,
-        decimal multiplier = 2,
-        int atrPeriods = 10)
+    internal static IEnumerable<KeltnerResult> CalcKeltner<TQuote>(
+        this List<TQuote> quotesList,
+        int emaPeriods,
+        double multiplier,
+        int atrPeriods)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // check parameter arguments
         ValidateKeltner(emaPeriods, multiplier, atrPeriods);
 
         // initialize
         List<KeltnerResult> results = new(quotesList.Count);
-        List<EmaResult> emaResults = GetEma(quotes, emaPeriods).ToList();
-        List<AtrResult> atrResults = GetAtr(quotes, atrPeriods).ToList();
+
+        List<EmaResult> emaResults = quotesList
+            .ToBasicTuple(CandlePart.Close)
+            .CalcEma(emaPeriods)
+            .ToList();
+
+        List<AtrResult> atrResults = quotesList
+            .CalcAtr(atrPeriods)
+            .ToList();
+
         int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
 
         // roll through quotes
@@ -38,11 +41,11 @@ public static partial class Indicator
             {
                 EmaResult ema = emaResults[i];
                 AtrResult atr = atrResults[i];
-                decimal? emaM = (decimal?)ema.Ema;
+                double? atrSpan = (double?)atr.Atr * multiplier;
 
-                result.UpperBand = emaM + (multiplier * atr.Atr);
-                result.LowerBand = emaM - (multiplier * atr.Atr);
-                result.Centerline = emaM;
+                result.UpperBand = ema.Ema + atrSpan;
+                result.LowerBand = ema.Ema - atrSpan;
+                result.Centerline = ema.Ema;
                 result.Width = (result.Centerline == 0) ? null
                     : (result.UpperBand - result.LowerBand) / result.Centerline;
             }
@@ -56,7 +59,7 @@ public static partial class Indicator
     // parameter validation
     private static void ValidateKeltner(
         int emaPeriods,
-        decimal multiplier,
+        double multiplier,
         int atrPeriods)
     {
         // check parameter arguments

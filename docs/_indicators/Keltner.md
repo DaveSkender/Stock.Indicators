@@ -23,7 +23,7 @@ IEnumerable<KeltnerResult> results =
 | name | type | notes
 | -- |-- |--
 | `emaPeriods` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
-| `multiplier` | decimal | ATR Multiplier. Must be greater than 0.  Default is 2.
+| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2.
 | `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
 
 ### Historical quotes requirements
@@ -31,6 +31,10 @@ IEnumerable<KeltnerResult> results =
 You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more, where `N` is the greater of `E` or `A` periods, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+
+### Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
 
 ## Response
 
@@ -50,10 +54,10 @@ IEnumerable<KeltnerResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `UpperBand` | decimal | Upper band of Keltner Channel
-| `Centerline` | decimal | EMA of Close price
-| `LowerBand` | decimal | Lower band of Keltner Channel
-| `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
+| `UpperBand` | double | Upper band of Keltner Channel
+| `Centerline` | double | EMA of Close price
+| `LowerBand` | double | Lower band of Keltner Channel
+| `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
 
 ### Utilities
 
