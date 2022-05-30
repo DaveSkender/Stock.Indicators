@@ -33,7 +33,7 @@ IEnumerable<HeikinAshiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first period will have `null` values since there's not enough data to calculate.
 - `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.  In other words, you can use it as base quotes for all other indicators.  Example:

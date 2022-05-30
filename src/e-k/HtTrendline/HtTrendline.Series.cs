@@ -1,19 +1,13 @@
 namespace Skender.Stock.Indicators;
 
+// HILBERT TRANSFORM - INSTANTANEOUS TRENDLINE (SERIES)
 public static partial class Indicator
 {
-    // HILBERT TRANSFORM - INSTANTANEOUS TRENDLINE (HTL)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<HtlResult> GetHtTrendline<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
+    internal static IEnumerable<HtlResult> CalcHtTrendline(
+        this List<(DateTime, double)> tpList)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.HL2);
-
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<HtlResult> results = new(length);
 
         double[] pr = new double[length]; // price
@@ -39,12 +33,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
-            pr[i] = q.Value;
+            (DateTime date, double value) = tpList[i];
+            pr[i] = value;
 
             HtlResult r = new()
             {
-                Date = q.Date,
+                Date = date,
             };
 
             if (i > 5)
@@ -113,16 +107,16 @@ public static partial class Indicator
 
                 // final indicators
                 r.Trendline = i >= 11 // 12th bar
-                    ? (decimal?)((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10m
-                    : (decimal?)pr[i];
+                    ? ((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d
+                    : pr[i];
 
-                r.SmoothPrice = (decimal?)((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10m;
+                r.SmoothPrice = ((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10d;
             }
 
             // initialization period
             else
             {
-                r.Trendline = (decimal?)pr[i];
+                r.Trendline = pr[i];
                 r.SmoothPrice = null;
 
                 pd[i] = 0;
