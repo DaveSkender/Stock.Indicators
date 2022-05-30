@@ -1,18 +1,12 @@
 namespace Skender.Stock.Indicators;
 
+// CHOPPINESS INDEX (SERIES)
 public static partial class Indicator
 {
-    // CHOPPINESS INDEX
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ChopResult> GetChop<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14)
-        where TQuote : IQuote
+    internal static IEnumerable<ChopResult> CalcChop(
+        this List<QuoteD> qdList,
+        int lookbackPeriods)
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateChop(lookbackPeriods);
 
@@ -22,25 +16,25 @@ public static partial class Indicator
         double low;
         double range;
 
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<ChopResult> results = new(length);
         double[] trueHigh = new double[length];
         double[] trueLow = new double[length];
         double[] trueRange = new double[length];
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
             ChopResult r = new()
             {
-                Date = quotesList[i].Date
+                Date = qdList[i].Date
             };
             results.Add(r);
 
             if (i > 0)
             {
-                trueHigh[i] = Math.Max(quotesList[i].High, quotesList[i - 1].Close);
-                trueLow[i] = Math.Min(quotesList[i].Low, quotesList[i - 1].Close);
+                trueHigh[i] = Math.Max(qdList[i].High, qdList[i - 1].Close);
+                trueLow[i] = Math.Min(qdList[i].Low, qdList[i - 1].Close);
                 trueRange[i] = trueHigh[i] - trueLow[i];
 
                 // calculate CHOP

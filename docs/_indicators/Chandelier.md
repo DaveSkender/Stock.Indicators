@@ -47,7 +47,7 @@ Results can be further processed on `Atrp` with additional chain-enabled indicat
 # example
 var results = quotes
     .GetChandelier(..)
-    .GetAlma(..);
+    .GetEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
