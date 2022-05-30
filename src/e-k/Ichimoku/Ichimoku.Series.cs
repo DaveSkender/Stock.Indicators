@@ -1,41 +1,10 @@
 namespace Skender.Stock.Indicators;
 
+// ICHIMOKU CLOUD (SERIES)
 public static partial class Indicator
 {
-    // ICHIMOKU CLOUD
-    /// <include file='./info.xml' path='indicator/type[@name="Standard"]/*' />
-    ///
-    public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int tenkanPeriods = 9,
-        int kijunPeriods = 26,
-        int senkouBPeriods = 52)
-        where TQuote : IQuote => quotes.GetIchimoku(
-            tenkanPeriods,
-            kijunPeriods,
-            senkouBPeriods,
-            kijunPeriods,
-            kijunPeriods);
-
-    /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
-    ///
-    public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int tenkanPeriods,
-        int kijunPeriods,
-        int senkouBPeriods,
-        int offsetPeriods)
-        where TQuote : IQuote => quotes.GetIchimoku(
-            tenkanPeriods,
-            kijunPeriods,
-            senkouBPeriods,
-            offsetPeriods,
-            offsetPeriods);
-
-    /// <include file='./info.xml' path='indicator/type[@name="Full"]/*' />
-    ///
-    public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<IchimokuResult> CalcIchimoku<TQuote>(
+        this List<TQuote> quotesList,
         int tenkanPeriods,
         int kijunPeriods,
         int senkouBPeriods,
@@ -43,9 +12,6 @@ public static partial class Indicator
         int chikouOffset)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // check parameter arguments
         ValidateIchimoku(
             tenkanPeriods,
@@ -55,13 +21,14 @@ public static partial class Indicator
             chikouOffset);
 
         // initialize
-        List<IchimokuResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        List<IchimokuResult> results = new(length);
         int senkouStartPeriod = Math.Max(
             2 * senkouOffset,
             Math.Max(tenkanPeriods, kijunPeriods)) - 1;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 
