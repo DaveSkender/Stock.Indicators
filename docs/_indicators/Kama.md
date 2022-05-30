@@ -32,6 +32,26 @@ You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more,
 
 `quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetKama(..);
+```
+
+Results can be further processed on `Kama` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetKama(..)
+    .GetRsi(..);
+```
+
 ## Response
 
 ```csharp
@@ -51,7 +71,7 @@ IEnumerable<KamaResult>
 | -- |-- |--
 | `Date` | DateTime | Date
 | `ER`   | double | Efficiency Ratio is the fractal efficiency of price changes
-| `Kama` | decimal | Kaufman's adaptive moving average
+| `Kama` | double | Kaufman's adaptive moving average
 
 More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` window. ER would be zero if prices are unchanged over the `erPeriods` window.
 

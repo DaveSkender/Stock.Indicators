@@ -1,25 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+// KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // KAUFMAN's ADAPTIVE MOVING AVERAGE
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<KamaResult> GetKama<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int erPeriods = 10,
-        int fastPeriods = 2,
-        int slowPeriods = 30)
-        where TQuote : IQuote
+    internal static IEnumerable<KamaResult> CalcKama(
+        this List<(DateTime, double)> tpList,
+        int erPeriods,
+        int fastPeriods,
+        int slowPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateKama(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<KamaResult> results = new(length);
         double scFast = 2d / (fastPeriods + 1);
         double scSlow = 2d / (slowPeriods + 1);
@@ -27,23 +21,23 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             KamaResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 > erPeriods)
             {
                 // ER period change
-                double change = Math.Abs(q.Value - bdList[i - erPeriods].Value);
+                double change = Math.Abs(value - tpList[i - erPeriods].Item2);
 
                 // volatility
                 double sumPV = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += Math.Abs(bdList[p].Value - bdList[p - 1].Value);
+                    sumPV += Math.Abs(tpList[p].Item2 - tpList[p - 1].Item2);
                 }
 
                 if (sumPV != 0)
@@ -56,22 +50,22 @@ public static partial class Indicator
                     double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
-                    double? pk = (double?)results[i - 1].Kama;  // prior KAMA
-                    r.Kama = (decimal?)(pk + (sc * sc * (q.Value - pk)));
+                    double? pk = results[i - 1].Kama;  // prior KAMA
+                    r.Kama = pk + (sc * sc * (value - pk));
                 }
 
                 // handle flatline case
                 else
                 {
                     r.ER = 0;
-                    r.Kama = (decimal?)q.Value;
+                    r.Kama = value;
                 }
             }
 
             // initial value
             else if (i + 1 == erPeriods)
             {
-                r.Kama = (decimal?)q.Value;
+                r.Kama = value;
             }
 
             results.Add(r);

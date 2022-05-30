@@ -1,7 +1,7 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class IchimokuResult : ResultBase
+public sealed class IchimokuResult : ResultBase
 {
     public decimal? TenkanSen { get; set; } // conversion line
     public decimal? KijunSen { get; set; } // base line

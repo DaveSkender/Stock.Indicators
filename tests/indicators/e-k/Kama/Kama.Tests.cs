@@ -31,27 +31,27 @@ public class Kama : TestBase
 
         KamaResult r2 = results[9];
         Assert.AreEqual(null, r2.ER);
-        Assert.AreEqual(213.75m, r2.Kama);
+        Assert.AreEqual(213.7500, NullMath.Round(r2.Kama, 4));
 
         KamaResult r3 = results[10];
         Assert.AreEqual(0.2465, NullMath.Round(r3.ER, 4));
-        Assert.AreEqual(213.7713m, NullMath.Round(r3.Kama, 4));
+        Assert.AreEqual(213.7713, NullMath.Round(r3.Kama, 4));
 
         KamaResult r4 = results[24];
         Assert.AreEqual(0.2136, NullMath.Round(r4.ER, 4));
-        Assert.AreEqual(214.7423m, NullMath.Round(r4.Kama, 4));
+        Assert.AreEqual(214.7423, NullMath.Round(r4.Kama, 4));
 
         KamaResult r5 = results[149];
         Assert.AreEqual(0.3165, NullMath.Round(r5.ER, 4));
-        Assert.AreEqual(235.5510m, NullMath.Round(r5.Kama, 4));
+        Assert.AreEqual(235.5510, NullMath.Round(r5.Kama, 4));
 
         KamaResult r6 = results[249];
         Assert.AreEqual(0.3182, NullMath.Round(r6.ER, 4));
-        Assert.AreEqual(256.0898m, NullMath.Round(r6.Kama, 4));
+        Assert.AreEqual(256.0898, NullMath.Round(r6.Kama, 4));
 
         KamaResult r7 = results[501];
         Assert.AreEqual(0.2214, NullMath.Round(r7.ER, 4));
-        Assert.AreEqual(240.1138m, NullMath.Round(r7.Kama, 4));
+        Assert.AreEqual(240.1138, NullMath.Round(r7.Kama, 4));
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class Kama : TestBase
 
         KamaResult last = results.LastOrDefault();
         Assert.AreEqual(0.2214, NullMath.Round(last.ER, 4));
-        Assert.AreEqual(240.1138m, NullMath.Round(last.Kama, 4));
+        Assert.AreEqual(240.1138, NullMath.Round(last.Kama, 4));
     }
 
     [TestMethod]
