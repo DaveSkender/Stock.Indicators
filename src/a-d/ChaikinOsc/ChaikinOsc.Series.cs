@@ -1,21 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+// CHAIKIN OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // CHAIKIN OSCILLATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int fastPeriods = 3,
-        int slowPeriods = 10)
-        where TQuote : IQuote
+    // series calculation
+    internal static IEnumerable<ChaikinOscResult> CalcChaikinOsc(
+        this List<QuoteD> qdList,
+        int fastPeriods,
+        int slowPeriods)
     {
         // check parameter arguments
         ValidateChaikinOsc(fastPeriods, slowPeriods);
 
         // money flow
-        List<ChaikinOscResult> results = GetAdl(quotes)
+        List<ChaikinOscResult> results = qdList.CalcAdl(null)
             .Select(r => new ChaikinOscResult
             {
                 Date = r.Date,
@@ -31,8 +29,8 @@ public static partial class Indicator
                 x.Date, (double)(x.Adl == null ? double.NaN : x.Adl)))
             .ToList();
 
-        List<EmaResult> adlEmaSlow = CalcEma(tpAdl, slowPeriods);
-        List<EmaResult> adlEmaFast = CalcEma(tpAdl, fastPeriods);
+        List<EmaResult> adlEmaSlow = tpAdl.CalcEma(slowPeriods);
+        List<EmaResult> adlEmaFast = tpAdl.CalcEma(fastPeriods);
 
         // add Oscillator
         for (int i = slowPeriods - 1; i < results.Count; i++)
@@ -42,7 +40,7 @@ public static partial class Indicator
             EmaResult f = adlEmaFast[i];
             EmaResult s = adlEmaSlow[i];
 
-            r.Oscillator = (double?)(f.Ema - s.Ema);
+            r.Oscillator = f.Ema - s.Ema;
         }
 
         return results;
