@@ -1,33 +1,27 @@
 namespace Skender.Stock.Indicators;
 
+// HURST EXPONENT (SERIES)
 public static partial class Indicator
 {
-    // HURST EXPONENT
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<HurstResult> GetHurst<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 100)
-        where TQuote : IQuote
+    internal static IEnumerable<HurstResult> CalcHurst(
+        this List<(DateTime, double)> tpList,
+        int lookbackPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateHurst(lookbackPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<HurstResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             HurstResult result = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 > lookbackPeriods)
@@ -36,19 +30,21 @@ public static partial class Indicator
                 double[] values = new double[lookbackPeriods];
 
                 int x = 0;
+                double l = tpList[i - lookbackPeriods].Item2;
+
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    // compile return values
-                    if (bdList[p - 1].Value != 0)
-                    {
-                        values[x] = (bdList[p].Value / bdList[p - 1].Value) - 1;
-                    }
+                    (DateTime d, double c) = tpList[p];
 
+                    // return values
+                    values[x] = l != 0 ? (c / l) - 1 : double.NaN;
+
+                    l = c;
                     x++;
                 }
 
                 // calculate hurst exponent
-                result.HurstExponent = CalcHurst(values);
+                result.HurstExponent = CalcHurstWindow(values);
             }
 
             results.Add(result);
@@ -57,7 +53,7 @@ public static partial class Indicator
         return results;
     }
 
-    private static double CalcHurst(double[] values)
+    private static double CalcHurstWindow(double[] values)
     {
         int totalSize = values.Length;
         int maxChunks = 0;
