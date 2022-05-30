@@ -1,23 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+// FORCE INDEX (SERIES)
 public static partial class Indicator
 {
-    // FORCE INDEX
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ForceIndexResult> GetForceIndex<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<ForceIndexResult> CalcForceIndex(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateForceIndex(lookbackPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<ForceIndexResult> results = new(length);
         double? prevClose = null, prevFI = null, sumRawFI = 0;
         double k = 2d / (lookbackPeriods + 1);
@@ -25,7 +19,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             ForceIndexResult r = new()
             {
