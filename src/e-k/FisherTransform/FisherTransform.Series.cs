@@ -1,32 +1,26 @@
 namespace Skender.Stock.Indicators;
 
+// FISHER TRANSFORM (SERIES)
 public static partial class Indicator
 {
-    // FISHER TRANSFORM
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<FisherTransformResult> GetFisherTransform<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 10)
-        where TQuote : IQuote
+    internal static IEnumerable<FisherTransformResult> CalcFisherTransform(
+        this List<(DateTime, double)> tpList,
+        int lookbackPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.HL2);
-
         // check parameter arguments
         ValidateFisherTransform(lookbackPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         double[] pr = new double[length]; // median price
         double[] xv = new double[length]; // price transform "value"
         List<FisherTransformResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            BasicData q = bdList[i];
-            pr[i] = q.Value;
+            (DateTime date, double value) = tpList[i];
+            pr[i] = value;
 
             double minPrice = pr[i];
             double maxPrice = pr[i];
@@ -39,7 +33,7 @@ public static partial class Indicator
 
             FisherTransformResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i > 0)
