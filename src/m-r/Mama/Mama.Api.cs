@@ -11,7 +11,7 @@ public static partial class Indicator
         double fastLimit = 0.5,
         double slowLimit = 0.05)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToBasicTuple(CandlePart.HL2)
             .CalcMama(fastLimit, slowLimit);
 
     // SERIES, from CHAIN

@@ -40,7 +40,7 @@ IEnumerable<CandleResult>
 - It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The candlestick pattern is indicated on dates where `Match` is `Match.Neutral`.
-- `Price` is `Close` price; however, all OHLC elements are included in `CandleProperties`.
+- `Price` is `Close` price; however, all OHLCV elements are included in `CandleProperties`.
 - There is no intrinsic basis or confirmation signal provided for this pattern.
 
 {% include candle-result.md %}

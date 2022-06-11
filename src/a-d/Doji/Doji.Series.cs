@@ -7,7 +7,7 @@ public static partial class Indicator
     ///
     internal static IEnumerable<CandleResult> CalcDoji<TQuote>(
         this IEnumerable<TQuote> quotes,
-        double maxPriceChangePercent = 0.1)
+        double maxPriceChangePercent)
         where TQuote : IQuote
     {
         // check parameter arguments

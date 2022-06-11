@@ -1,13 +1,13 @@
 namespace Skender.Stock.Indicators;
 
+// MARUBOZU (SERIES)
 public static partial class Indicator
 {
-    // MARUBOZU
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<CandleResult> GetMarubozu<TQuote>(
+    internal static IEnumerable<CandleResult> CalcMarubozu<TQuote>(
         this IEnumerable<TQuote> quotes,
-        double minBodyPercent = 95)
+        double minBodyPercent)
         where TQuote : IQuote
     {
         // check parameter arguments
