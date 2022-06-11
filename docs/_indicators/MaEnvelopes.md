@@ -15,7 +15,7 @@ layout: indicator
 ```csharp
 // usage
 IEnumerable<MaEnvelopeResult> results =
-  quotes.GetSmaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
+  quotes.GetMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 ```
 
 ## Parameters
@@ -49,6 +49,19 @@ These are the supported moving average types:
 | `MaType.WMA` | [Weighted Moving Average](../Wma#content)
 
 :warning: For ALMA, default values are used for `offset` and `sigma`.
+
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HLC3)
+    .GetMaEnvelopes(..);
+```
+
+Results **cannot** be further chained with additional transforms.
 
 ## Response
 

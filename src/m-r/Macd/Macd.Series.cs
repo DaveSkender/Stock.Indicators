@@ -3,6 +3,7 @@ namespace Skender.Stock.Indicators;
 // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (SERIES)
 public static partial class Indicator
 {
+    // series calculation
     internal static IEnumerable<MacdResult> CalcMacd(
         this List<(DateTime, double)> tpList,
         int fastPeriods,

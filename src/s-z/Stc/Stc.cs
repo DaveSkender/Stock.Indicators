@@ -20,7 +20,6 @@ public static partial class Indicator
 
         // get stochastic of macd
         // TODO: make this work better
-#pragma warning disable CS8629 // Nullable value type may be null. False warning.
         IEnumerable<StochResult> stochMacd = quotes
           .GetMacd(fastPeriods, slowPeriods, 1)
           .Remove(slowPeriods - 1)
@@ -33,7 +32,6 @@ public static partial class Indicator
               Close = (decimal)x.Macd
           })
           .GetStoch(cyclePeriods, 1, 3);
-#pragma warning restore CS8629
 
         // initialize results
         // to ensure same length as original quotes

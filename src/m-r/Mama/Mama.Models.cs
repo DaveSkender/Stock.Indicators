@@ -1,8 +1,10 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class MamaResult : ResultBase
+public sealed class MamaResult : ResultBase, IReusableResult
 {
-    public decimal? Mama { get; set; }
-    public decimal? Fama { get; set; }
+    public double? Mama { get; set; }
+    public double? Fama { get; set; }
+
+    double? IReusableResult.Value => Mama;
 }

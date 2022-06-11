@@ -1,24 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+// MOTHER of ADAPTIVE MOVING AVERAGES - MAMA (SERIES)
 public static partial class Indicator
 {
-    // MOTHER of ADAPTIVE MOVING AVERAGES (MAMA)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<MamaResult> GetMama<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        double fastLimit = 0.5,
-        double slowLimit = 0.05)
-        where TQuote : IQuote
+    internal static IEnumerable<MamaResult> CalcMama(
+        this List<(DateTime, double)> tpList,
+        double fastLimit,
+        double slowLimit)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.HL2);
-
         // check parameter arguments
         ValidateMama(fastLimit, slowLimit);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<MamaResult> results = new(length);
 
         double sumPr = 0d;
@@ -45,12 +39,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
-            pr[i] = q.Value;
+            (DateTime date, double value) = tpList[i];
+            pr[i] = value;
 
             MamaResult r = new()
             {
-                Date = q.Date,
+                Date = date,
             };
 
             if (i > 5)
@@ -107,8 +101,8 @@ public static partial class Indicator
                 double alpha = Math.Max(fastLimit / delta, slowLimit);
 
                 // final indicators
-                r.Mama = (decimal?)((alpha * pr[i]) + ((1d - alpha) * (double?)results[i - 1].Mama));
-                r.Fama = (decimal?)((0.5d * alpha * (double?)r.Mama) + ((1d - (0.5d * alpha)) * (double?)results[i - 1].Fama));
+                r.Mama = (alpha * pr[i]) + ((1d - alpha) * results[i - 1].Mama);
+                r.Fama = (0.5d * alpha * r.Mama) + ((1d - (0.5d * alpha)) * results[i - 1].Fama);
             }
 
             // initialization period
@@ -118,7 +112,7 @@ public static partial class Indicator
 
                 if (i == 5)
                 {
-                    r.Mama = (decimal?)sumPr / 6m;
+                    r.Mama = sumPr / 6d;
                     r.Fama = r.Mama;
                 }
 
