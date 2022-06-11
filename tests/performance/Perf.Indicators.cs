@@ -176,6 +176,9 @@ public class IndicatorPerformance
     public object GetKeltner() => h.GetKeltner();
 
     [Benchmark]
+    public object GetKvo() => h.GetKvo();
+
+    [Benchmark]
     public object GetMacd() => h.GetMacd();
 
     [Benchmark]

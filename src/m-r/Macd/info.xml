@@ -14,7 +14,6 @@
   <param name="fastPeriods">Number of periods in the Fast EMA.</param>
   <param name="slowPeriods">Number of periods in the Slow EMA.</param>
   <param name="signalPeriods">Number of periods for the Signal moving average.</param>
-  <param name="candlePart">Optional. Selected OHLCV part. Defaults to Close price.</param>
   <returns>Time series of MACD values, including MACD, Signal, and Histogram.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </indicator>

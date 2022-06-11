@@ -1,13 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class MacdResult : ResultBase
+public sealed class MacdResult : ResultBase, IReusableResult
 {
     public double? Macd { get; set; }
     public double? Signal { get; set; }
     public double? Histogram { get; set; }
 
     // extra interim data
-    public decimal? FastEma { get; set; }
-    public decimal? SlowEma { get; set; }
+    public double? FastEma { get; set; }
+    public double? SlowEma { get; set; }
+
+    double? IReusableResult.Value => Histogram;
 }

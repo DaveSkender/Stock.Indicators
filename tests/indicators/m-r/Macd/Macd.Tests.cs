@@ -31,22 +31,22 @@ public class Macd : TestBase
         Assert.AreEqual(1.7203, NullMath.Round(r49.Macd, 4));
         Assert.AreEqual(1.9675, NullMath.Round(r49.Signal, 4));
         Assert.AreEqual(-0.2472, NullMath.Round(r49.Histogram, 4));
-        Assert.AreEqual(224.1840m, NullMath.Round(r49.FastEma, 4));
-        Assert.AreEqual(222.4637m, NullMath.Round(r49.SlowEma, 4));
+        Assert.AreEqual(224.1840, NullMath.Round(r49.FastEma, 4));
+        Assert.AreEqual(222.4637, NullMath.Round(r49.SlowEma, 4));
 
         MacdResult r249 = results[249];
         Assert.AreEqual(2.2353, NullMath.Round(r249.Macd, 4));
         Assert.AreEqual(2.3141, NullMath.Round(r249.Signal, 4));
         Assert.AreEqual(-0.0789, NullMath.Round(r249.Histogram, 4));
-        Assert.AreEqual(256.6780m, NullMath.Round(r249.FastEma, 4));
-        Assert.AreEqual(254.4428m, NullMath.Round(r249.SlowEma, 4));
+        Assert.AreEqual(256.6780, NullMath.Round(r249.FastEma, 4));
+        Assert.AreEqual(254.4428, NullMath.Round(r249.SlowEma, 4));
 
         MacdResult r501 = results[501];
         Assert.AreEqual(-6.2198, NullMath.Round(r501.Macd, 4));
         Assert.AreEqual(-5.8569, NullMath.Round(r501.Signal, 4));
         Assert.AreEqual(-0.3629, NullMath.Round(r501.Histogram, 4));
-        Assert.AreEqual(245.4957m, NullMath.Round(r501.FastEma, 4));
-        Assert.AreEqual(251.7155m, NullMath.Round(r501.SlowEma, 4));
+        Assert.AreEqual(245.4957, NullMath.Round(r501.FastEma, 4));
+        Assert.AreEqual(251.7155, NullMath.Round(r501.SlowEma, 4));
     }
 
     [TestMethod]

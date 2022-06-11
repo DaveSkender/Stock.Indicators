@@ -1,27 +1,20 @@
 namespace Skender.Stock.Indicators;
 
+// MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<MacdResult> GetMacd<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9,
-        CandlePart candlePart = CandlePart.Close)
-        where TQuote : IQuote
+    internal static IEnumerable<MacdResult> CalcMacd(
+        this List<(DateTime, double)> tpList,
+        int fastPeriods,
+        int slowPeriods,
+        int signalPeriods)
     {
-        // convert quotes
-        List<(DateTime Date, double Value)> tpList = quotes.ToBasicTuple(candlePart);
-
         // check parameter arguments
         ValidateMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = CalcEma(tpList, fastPeriods);
-        List<EmaResult> emaSlow = CalcEma(tpList, slowPeriods);
+        List<EmaResult> emaFast = tpList.CalcEma(fastPeriods);
+        List<EmaResult> emaSlow = tpList.CalcEma(slowPeriods);
 
         int length = tpList.Count;
         List<(DateTime, double)> emaDiff = new();
@@ -37,8 +30,8 @@ public static partial class Indicator
             MacdResult result = new()
             {
                 Date = date,
-                FastEma = (decimal?)df.Ema,
-                SlowEma = (decimal?)ds.Ema
+                FastEma = df.Ema,
+                SlowEma = ds.Ema
             };
 
             if (i >= slowPeriods - 1
@@ -65,7 +58,7 @@ public static partial class Indicator
             MacdResult r = results[d];
             EmaResult ds = emaSignal[d + 1 - slowPeriods];
 
-            r.Signal = (double?)ds.Ema;
+            r.Signal = ds.Ema;
             r.Histogram = r.Macd - r.Signal;
         }
 

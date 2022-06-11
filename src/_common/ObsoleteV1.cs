@@ -4,9 +4,28 @@ using System.Runtime.Serialization;
 
 namespace Skender.Stock.Indicators;
 
-// REMOVED .ToQuotes in v1.24.0
+// REMOVED IN v1.24.0, ToQuotes(), CandlePart params
 public static partial class Indicator
 {
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(candlePart)' prior to calling .GetMacd()")]
+    public static IEnumerable<MacdResult> GetMacd<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int fastPeriods,
+        int slowPeriods,
+        int signalPeriods,
+        CandlePart candlePart)
+        where TQuote : IQuote
+    {
+        // convert quotes
+        List<(DateTime Date, double Value)> tpList
+            = quotes.ToBasicTuple(candlePart);
+
+        // calculate
+        return tpList.CalcMacd(fastPeriods, slowPeriods, signalPeriods);
+    }
+
     [ExcludeFromCodeCoverage]
     [Obsolete("The use of CandlePart as a parameter is deprecated.  "
         + "Use '.Use(candlePart)' prior to calling .GetSma()")]

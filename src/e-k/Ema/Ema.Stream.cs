@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
-public class Ema
+public partial class Ema
 {
     // initialize streaming base
     internal Ema(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
@@ -17,6 +17,7 @@ public class Ema
 
     internal double K { get; set; }
     internal List<EmaResult> ProtectedResults { get; set; }
+
     public IEnumerable<EmaResult> Results => ProtectedResults;
 
     public IEnumerable<EmaResult> Add(
@@ -63,6 +64,19 @@ public class Ema
         return Results;
     }
 
+    // incrementation calculation
     internal static double Increment(double newValue, double lastEma, double k)
         => lastEma + (k * (newValue - lastEma));
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for EMA.");
+        }
+    }
 }
