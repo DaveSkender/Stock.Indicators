@@ -1,34 +1,28 @@
 namespace Skender.Stock.Indicators;
 
+// MONEY FLOW INDEX (SERIES)
 public static partial class Indicator
 {
-    // MONEY FLOW INDEX
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<MfiResult> GetMfi<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<MfiResult> CalcMfi(
+        this List<QuoteD> qdList,
         int lookbackPeriods = 14)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateMfi(lookbackPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<MfiResult> results = new(length);
         double[] tp = new double[length];  // true price
         double[] mf = new double[length];  // raw MF value
-        int[] direction = new int[length];   // direction
+        int[] direction = new int[length]; // direction
 
         double? prevTP = null;
 
         // roll through quotes, to get preliminary data
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             MfiResult result = new()
             {
@@ -80,17 +74,18 @@ public static partial class Indicator
                 }
             }
 
-            // handle no negative case
-            if (sumNegMFs == 0)
+            // calculate MFI normally
+            if (sumNegMFs != 0)
             {
-                r.Mfi = 100;
-                continue;
+                double? mfRatio = sumPosMFs / sumNegMFs;
+                r.Mfi = 100 - (100 / (1 + mfRatio));
             }
 
-            // calculate MFI normally
-            decimal? mfRatio = (decimal?)(sumPosMFs / sumNegMFs);
-
-            r.Mfi = 100 - (100 / (1 + mfRatio));
+            // handle no negative case
+            else
+            {
+                r.Mfi = 100;
+            }
         }
 
         return results;
