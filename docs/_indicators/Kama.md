@@ -30,7 +30,7 @@ IEnumerable<KamaResult> results =
 
 You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### Chaining
 
@@ -82,13 +82,3 @@ More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes a
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate KAMA(10,2,30)
-IEnumerable<KamaResult> results = quotes.GetKama(10,2,30);
-```

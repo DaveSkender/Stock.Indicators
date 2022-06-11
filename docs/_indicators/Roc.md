@@ -34,7 +34,7 @@ IEnumerable<RocResult> results =
 
 You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -62,16 +62,6 @@ IEnumerable<RocResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate 20-period ROC
-IEnumerable<RocResult> results = quotes.GetRoc(20);
-```
 
 ## ROC with Bands
 

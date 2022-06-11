@@ -28,7 +28,7 @@ IEnumerable<CandleResult> results =
 
 You must have at least one historical quote; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -52,13 +52,3 @@ IEnumerable<CandleResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate
-IEnumerable<CandleResult> results = quotes.GetMarubozu();
-```

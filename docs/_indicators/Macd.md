@@ -16,10 +16,6 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 // usage (with Close price)
 IEnumerable<MacdResult> results =
   quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
-
-// alternate
-IEnumerable<MacdResult> results =
-  quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods, candlePart);
 ```
 
 ## Parameters
@@ -29,15 +25,32 @@ IEnumerable<MacdResult> results =
 | `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
 | `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
 | `signalPeriods` | int | Number of periods (`P`) for the moving average of MACD.  Must be greater than or equal to 0.  Default is 9.
-| `candlePart` | CandlePart | Optional.  Specify candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
 
 ### Historical quotes requirements
 
 You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-{% include candlepart-options.md %}
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetMacd(..);
+```
+
+Results can be further processed on `Histogram` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetMacd(..)
+    .GetSlope(..);
+```
 
 ## Response
 
@@ -60,8 +73,8 @@ IEnumerable<MacdResult>
 | `Macd` | double | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
 | `Signal` | double | Moving average of the `MACD` line
 | `Histogram` | double | Gap between of the `MACD` and `Signal` line
-| `FastEma` | decimal | Fast Exponential Moving Average
-| `SlowEma` | decimal | Slow Exponential Moving Average
+| `FastEma` | double | Fast Exponential Moving Average
+| `SlowEma` | double | Slow Exponential Moving Average
 
 ### Utilities
 
@@ -70,13 +83,3 @@ IEnumerable<MacdResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate MACD(12,26,9)
-IEnumerable<MacdResult> results = quotes.GetMacd(12,26,9);
-```

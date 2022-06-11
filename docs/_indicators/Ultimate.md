@@ -30,7 +30,7 @@ IEnumerable<UltimateResult> results =
 
 You must have at least `L+1` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -57,13 +57,3 @@ IEnumerable<UltimateResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate 20-period Ultimate
-IEnumerable<UltimateResult> results = quotes.GetUltimate(7,14,28);
-```

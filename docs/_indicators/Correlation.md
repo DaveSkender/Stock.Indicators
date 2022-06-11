@@ -81,15 +81,3 @@ IEnumerable<CorrResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
-IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
-
-// calculate 20-period Correlation
-IEnumerable<CorrResult> results
-  = historySPX.GetCorr(historyTSLA,20);
-```

@@ -30,7 +30,7 @@ IEnumerable<MaEnvelopeResult> results =
 
 See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `quotes` and `lookbackPeriods`.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### MaType options
 
@@ -80,14 +80,3 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate 20-period SMA envelopes with 2.5% offset
-IEnumerable<MaEnvelopeResult> results =
-    quotes.GetMaEnvelopes(20,2.5,MaType.SMA);
-```

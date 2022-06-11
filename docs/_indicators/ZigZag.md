@@ -29,7 +29,7 @@ IEnumerable<ZigZagResult> results =
 
 You must have at least two periods of `quotes` to cover the warmup periods, but notably more is needed to be useful.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### EndType options
 
@@ -71,14 +71,3 @@ IEnumerable<ZigZagResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate 3% change ZIGZAG
-IEnumerable<ZigZagResult> results
-  = quotes.GetZigZag(EndType.Close,3);
-```

@@ -97,15 +97,3 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 - Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have daily bars, use the [quotes.Aggregate(PeriodSize.Monthly)]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
 - [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotesSPX = GetHistoryFromFeed("SPX");
-IEnumerable<Quote> quotesTSLA = GetHistoryFromFeed("TSLA");
-
-// calculate 20-period Beta coefficient
-IEnumerable<BetaResult> results =
-  Indicator.GetBeta(quotesSPX,quotesTSLA,20);
-```

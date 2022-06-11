@@ -25,7 +25,7 @@ IEnumerable<BasicData> results =
 
 You must have at least 1 period of `quotes`.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 {% include candlepart-options.md %}
 
@@ -51,13 +51,3 @@ IEnumerable<BasicData>
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate HL2 price (average of high and low price)
-IEnumerable<BasicData> results = quotes.GetBaseQuote(CandlePart.HL2);
-```
