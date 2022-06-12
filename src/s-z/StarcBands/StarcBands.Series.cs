@@ -1,23 +1,24 @@
 namespace Skender.Stock.Indicators;
 
+// STARC BANDS (SERIES)
 public static partial class Indicator
 {
-    // STARC BANDS
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int smaPeriods = 20,
-        double multiplier = 2,
-        int atrPeriods = 10)
+    internal static List<StarcBandsResult> CalcStarcBands<TQuote>(
+        this List<TQuote> quotesList,
+        int smaPeriods,
+        double multiplier,
+        int atrPeriods)
         where TQuote : IQuote
     {
         // check parameter arguments
         ValidateStarcBands(smaPeriods, multiplier, atrPeriods);
 
         // initialize
-        List<AtrResult> atrResults = GetAtr(quotes, atrPeriods).ToList();
-        List<StarcBandsResult> results = GetSma(quotes, smaPeriods)
+        List<AtrResult> atrResults = quotesList.CalcAtr(atrPeriods);
+
+        List<StarcBandsResult> results = quotesList
+            .ToBasicTuple(CandlePart.Close)
+            .CalcSma(smaPeriods)
             .Select(x => new StarcBandsResult
             {
                 Date = x.Date,
