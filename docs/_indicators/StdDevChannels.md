@@ -31,6 +31,19 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotesEval
+    .Use(CandlePart.HL2)
+    .GetStdDevChannels(..);
+```
+
+Results **cannot** be further chained with additional transforms.
+
 ## Response
 
 ```csharp
@@ -49,9 +62,9 @@ IEnumerable<StdDevChannelsResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Centerline` | decimal | Linear regression line (center line)
-| `UpperChannel` | decimal | Upper line is `D` standard deviations above the center line
-| `LowerChannel` | decimal | Lower line is `D` standard deviations below the center line
+| `Centerline` | double | Linear regression line (center line)
+| `UpperChannel` | double | Upper line is `D` standard deviations above the center line
+| `LowerChannel` | double | Lower line is `D` standard deviations below the center line
 | `BreakPoint` | bool | Helper information.  Indicates first point in new window.
 
 ### Utilities

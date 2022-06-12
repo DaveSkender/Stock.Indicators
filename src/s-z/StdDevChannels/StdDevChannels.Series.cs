@@ -1,27 +1,25 @@
 namespace Skender.Stock.Indicators;
 
+// STANDARD DEVIATION CHANNELS
 public static partial class Indicator
 {
-    // STANDARD DEVIATION CHANNELS
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int? lookbackPeriods = 20,
-        double standardDeviations = 2)
-        where TQuote : IQuote
+    internal static List<StdDevChannelsResult> CalcStdDevChannels(
+        this List<(DateTime, double)> tpList,
+        int? lookbackPeriods,
+        double standardDeviations)
     {
         // assume whole quotes when lookback is null
         if (lookbackPeriods is null)
         {
-            lookbackPeriods = quotes.Count();
+            lookbackPeriods = tpList.Count;
         }
 
         // check parameter arguments
         ValidateStdDevChannels(lookbackPeriods, standardDeviations);
 
         // initialize
-        List<SlopeResult> slopeResults = GetSlope(quotes, (int)lookbackPeriods).ToList();
+        List<SlopeResult> slopeResults = tpList
+            .CalcSlope((int)lookbackPeriods);
 
         int length = slopeResults.Count;
         List<StdDevChannelsResult> results = slopeResults
@@ -32,7 +30,7 @@ public static partial class Indicator
         for (int w = length - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)
         {
             SlopeResult s = slopeResults[w];
-            decimal? width = (decimal?)(standardDeviations * s.StdDev);
+            double? width = standardDeviations * s.StdDev;
 
             // add regression line (y = mx + b) and channels
             for (int p = w - (int)lookbackPeriods + 1; p <= w; p++)
@@ -40,7 +38,7 @@ public static partial class Indicator
                 if (p >= 0)
                 {
                     StdDevChannelsResult d = results[p];
-                    d.Centerline = (decimal?)((s.Slope * (p + 1)) + s.Intercept);
+                    d.Centerline = (s.Slope * (p + 1)) + s.Intercept;
                     d.UpperChannel = d.Centerline + width;
                     d.LowerChannel = d.Centerline - width;
 
