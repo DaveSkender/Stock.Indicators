@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // KELTNER CHANNELS (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<KeltnerResult> CalcKeltner<TQuote>(
+    internal static List<KeltnerResult> CalcKeltner<TQuote>(
         this List<TQuote> quotesList,
         int emaPeriods,
         double multiplier,

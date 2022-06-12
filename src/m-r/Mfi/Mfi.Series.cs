@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // MONEY FLOW INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<MfiResult> CalcMfi(
+    internal static List<MfiResult> CalcMfi(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // AVERAGE DIRECTIONAL INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<AdxResult> CalcAdx<TQuote>(
+    internal static List<AdxResult> CalcAdx<TQuote>(
         this List<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote

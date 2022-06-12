@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // FORCE INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<ForceIndexResult> CalcForceIndex(
+    internal static List<ForceIndexResult> CalcForceIndex(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

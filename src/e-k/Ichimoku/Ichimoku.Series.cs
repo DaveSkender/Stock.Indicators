@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ICHIMOKU CLOUD (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<IchimokuResult> CalcIchimoku<TQuote>(
+    internal static List<IchimokuResult> CalcIchimoku<TQuote>(
         this List<TQuote> quotesList,
         int tenkanPeriods,
         int kijunPeriods,

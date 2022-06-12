@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    internal static IEnumerable<CandleResult> CalcMarubozu<TQuote>(
+    internal static List<CandleResult> CalcMarubozu<TQuote>(
         this IEnumerable<TQuote> quotes,
         double minBodyPercent)
         where TQuote : IQuote

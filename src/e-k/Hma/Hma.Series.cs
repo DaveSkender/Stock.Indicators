@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static IEnumerable<HmaResult> CalcHma(
+    internal static List<HmaResult> CalcHma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CHOPPINESS INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<ChopResult> CalcChop(
+    internal static List<ChopResult> CalcChop(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

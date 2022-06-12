@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ELDER-RAY (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<ElderRayResult> CalcElderRay(
+    internal static List<ElderRayResult> CalcElderRay(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

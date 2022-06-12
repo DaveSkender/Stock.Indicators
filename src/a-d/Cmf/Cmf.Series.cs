@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CHAIKIN MONEY FLOW (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<CmfResult> CalcCmf(
+    internal static List<CmfResult> CalcCmf(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

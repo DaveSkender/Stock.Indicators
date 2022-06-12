@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // HURST EXPONENT (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<HurstResult> CalcHurst(
+    internal static List<HurstResult> CalcHurst(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {

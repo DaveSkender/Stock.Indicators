@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ACCUMULATION/DISTRIBUTION LINE (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<AdlResult> CalcAdl(
+    internal static List<AdlResult> CalcAdl(
         this List<QuoteD> qdList,
         int? smaPeriods)
     {

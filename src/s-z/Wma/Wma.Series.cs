@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // series calculation
-    internal static IEnumerable<WmaResult> CalcWma(
+    internal static List<WmaResult> CalcWma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {

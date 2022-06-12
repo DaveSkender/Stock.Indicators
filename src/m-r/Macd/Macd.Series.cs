@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // series calculation
-    internal static IEnumerable<MacdResult> CalcMacd(
+    internal static List<MacdResult> CalcMacd(
         this List<(DateTime, double)> tpList,
         int fastPeriods,
         int slowPeriods,

@@ -1,22 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+// PRICE MOMENTUM OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // PRICE MOMENTUM OSCILLATOR (PMO)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<PmoResult> GetPmo<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int timePeriods = 35,
-        int smoothPeriods = 20,
-        int signalPeriods = 10)
-        where TQuote : IQuote
+    internal static List<PmoResult> CalcPmo(
+        this List<(DateTime, double)> tpList,
+        int timePeriods,
+        int smoothPeriods,
+        int signalPeriods)
     {
         // check parameter arguments
         ValidatePmo(timePeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        List<PmoResult> results = CalcPmoRocEma(quotes, timePeriods);
+        List<PmoResult> results = tpList.CalcPmoRocEma(timePeriods);
         double smoothingConstant = 2d / smoothPeriods;
         double? lastPmo = null;
 
@@ -53,15 +50,14 @@ public static partial class Indicator
     }
 
     // internals
-    private static List<PmoResult> CalcPmoRocEma<TQuote>(
-        IEnumerable<TQuote> quotes,
+    private static List<PmoResult> CalcPmoRocEma(
+        this List<(DateTime, double)> tpList,
         int timePeriods)
-        where TQuote : IQuote
     {
         // initialize
         double smoothingMultiplier = 2d / timePeriods;
         double? lastRocEma = null;
-        List<RocResult> roc = GetRoc(quotes, 1).ToList();
+        List<RocResult> roc = tpList.CalcRoc(1, null).ToList();
         List<PmoResult> results = new();
 
         int startIndex = timePeriods + 1;

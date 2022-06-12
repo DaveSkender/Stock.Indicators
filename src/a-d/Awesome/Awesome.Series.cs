@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // AWESOME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<AwesomeResult> CalcAwesome(
+    internal static List<AwesomeResult> CalcAwesome(
         this List<(DateTime, double)> tpList,
         int fastPeriods,
         int slowPeriods)

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // WILLIAMS ALLIGATOR (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<AlligatorResult> CalcAlligator(
+    internal static List<AlligatorResult> CalcAlligator(
         this List<(DateTime Date, double Value)> tpList,
         int jawPeriods,
         int jawOffset,

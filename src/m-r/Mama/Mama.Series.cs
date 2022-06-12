@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // MOTHER of ADAPTIVE MOVING AVERAGES - MAMA (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<MamaResult> CalcMama(
+    internal static List<MamaResult> CalcMama(
         this List<(DateTime, double)> tpList,
         double fastLimit,
         double slowLimit)

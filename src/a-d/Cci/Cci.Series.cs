@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // series calculation
-    internal static IEnumerable<CciResult> CalcCci(
+    internal static List<CciResult> CalcCci(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

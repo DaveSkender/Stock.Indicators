@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // HILBERT TRANSFORM - INSTANTANEOUS TRENDLINE (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<HtlResult> CalcHtTrendline(
+    internal static List<HtlResult> CalcHtTrendline(
         this List<(DateTime, double)> tpList)
     {
         // initialize

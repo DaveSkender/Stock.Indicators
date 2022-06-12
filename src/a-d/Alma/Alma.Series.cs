@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // series calculation
-    internal static IEnumerable<AlmaResult> CalcAlma(
+    internal static List<AlmaResult> CalcAlma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offset,

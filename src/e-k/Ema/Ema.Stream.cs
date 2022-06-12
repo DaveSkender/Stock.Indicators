@@ -3,23 +3,23 @@ namespace Skender.Stock.Indicators;
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 public partial class Ema
 {
-    // initialize streaming base
+    // initialize base
     internal Ema(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
     {
-        List<(DateTime Date, double Value)>? tpList = tpQuotes.ToSortedList();
-
-        List<EmaResult>? baseline = tpList.CalcEma(lookbackPeriods).ToList();
-
-        // store results
-        ProtectedResults = baseline;
         K = 2d / (lookbackPeriods + 1);
+
+        ProtectedResults = tpQuotes
+            .ToSortedList()
+            .CalcEma(lookbackPeriods);
     }
 
+    // properties
     internal double K { get; set; }
     internal List<EmaResult> ProtectedResults { get; set; }
 
     public IEnumerable<EmaResult> Results => ProtectedResults;
 
+    // methods
     public IEnumerable<EmaResult> Add(
         Quote quote,
         CandlePart candlePart = CandlePart.Close)
@@ -64,7 +64,7 @@ public partial class Ema
         return Results;
     }
 
-    // incrementation calculation
+    // incremental calculation
     internal static double Increment(double newValue, double lastEma, double k)
         => lastEma + (k * (newValue - lastEma));
 

@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    internal static IEnumerable<CandleResult> CalcDoji<TQuote>(
+    internal static List<CandleResult> CalcDoji<TQuote>(
         this IEnumerable<TQuote> quotes,
         double maxPriceChangePercent)
         where TQuote : IQuote

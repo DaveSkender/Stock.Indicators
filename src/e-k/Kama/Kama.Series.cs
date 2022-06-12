@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<KamaResult> CalcKama(
+    internal static List<KamaResult> CalcKama(
         this List<(DateTime, double)> tpList,
         int erPeriods,
         int fastPeriods,

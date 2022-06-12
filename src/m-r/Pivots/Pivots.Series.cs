@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // PIVOTS (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<PivotsResult> CalcPivots<TQuote>(
+    internal static List<PivotsResult> CalcPivots<TQuote>(
         this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,

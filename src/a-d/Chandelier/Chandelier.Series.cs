@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CHANDELIER EXIT (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<ChandelierResult> CalcChandelier<TQuote>(
+    internal static List<ChandelierResult> CalcChandelier<TQuote>(
         this List<TQuote> quotesList,
         int lookbackPeriods,
         double multiplier,

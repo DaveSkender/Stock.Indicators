@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // WILLIAMS FRACTAL (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<FractalResult> CalcFractal<TQuote>(
+    internal static List<FractalResult> CalcFractal<TQuote>(
         this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,

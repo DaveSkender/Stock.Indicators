@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // FRACTAL CHAOS BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<FcbResult> CalcFcb<TQuote>(
+    internal static List<FcbResult> CalcFcb<TQuote>(
         this List<TQuote> quotesList,
         int windowSpan)
         where TQuote : IQuote

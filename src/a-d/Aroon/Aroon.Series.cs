@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // AROON OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<AroonResult> CalcAroon(
+    internal static List<AroonResult> CalcAroon(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

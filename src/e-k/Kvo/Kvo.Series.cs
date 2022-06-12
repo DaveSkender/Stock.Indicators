@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // KLINGER VOLUME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<KvoResult> CalcKvo(
+    internal static List<KvoResult> CalcKvo(
         this List<QuoteD> qdList,
         int fastPeriods,
         int slowPeriods,

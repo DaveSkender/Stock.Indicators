@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // series calculation
-    internal static IEnumerable<BopResult> CalcBop(
+    internal static List<BopResult> CalcBop(
         this List<QuoteD> qdList,
         int smoothPeriods)
     {

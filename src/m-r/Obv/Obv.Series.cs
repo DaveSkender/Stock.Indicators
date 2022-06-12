@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ON-BALANCE VOLUME (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<ObvResult> CalcObv(
+    internal static List<ObvResult> CalcObv(
         this List<QuoteD> qdList,
         int? smaPeriods)
     {

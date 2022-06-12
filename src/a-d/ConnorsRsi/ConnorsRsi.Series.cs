@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CONNORS RSI (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<ConnorsRsiResult> CalcConnorsRsi(
+    internal static List<ConnorsRsiResult> CalcConnorsRsi(
         this List<(DateTime, double)> tpList,
         int rsiPeriods,
         int streakPeriods,

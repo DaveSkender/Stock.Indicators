@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // BOLLINGER BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<BollingerBandsResult> CalcBollingerBands(
+    internal static List<BollingerBandsResult> CalcBollingerBands(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double standardDeviations)

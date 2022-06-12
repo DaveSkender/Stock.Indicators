@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static IEnumerable<SlopeResult> CalcSlope(
+    internal static List<SlopeResult> CalcSlope(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {

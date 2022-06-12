@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // NOTE: sequence swapped from API
-    internal static IEnumerable<BetaResult> CalcBeta(
+    internal static List<BetaResult> CalcBeta(
         List<(DateTime, double)> tpListEval,
         List<(DateTime, double)> tpListMrkt,
         int lookbackPeriods,

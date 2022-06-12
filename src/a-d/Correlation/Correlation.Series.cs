@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // CORRELATION COEFFICIENT (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<CorrResult> CalcCorrelation(
+    internal static List<CorrResult> CalcCorrelation(
         this List<(DateTime, double)> tpListA,
         List<(DateTime, double)> tpListB,
         int lookbackPeriods)

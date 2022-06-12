@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // FISHER TRANSFORM (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<FisherTransformResult> CalcFisherTransform(
+    internal static List<FisherTransformResult> CalcFisherTransform(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {

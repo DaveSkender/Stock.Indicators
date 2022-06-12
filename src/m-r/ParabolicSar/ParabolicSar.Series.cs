@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // PARABOLIC SAR (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<ParabolicSarResult> CalcParabolicSar<TQuote>(
+    internal static List<ParabolicSarResult> CalcParabolicSar<TQuote>(
         this List<TQuote> quotesList,
         decimal accelerationStep,
         decimal maxAccelerationFactor,

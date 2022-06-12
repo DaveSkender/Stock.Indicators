@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // DONCHIAN CHANNEL (SERIES)
 public static partial class Indicator
 {
-    internal static IEnumerable<DonchianResult> CalcDonchian<TQuote>(
+    internal static List<DonchianResult> CalcDonchian<TQuote>(
         this List<TQuote> quotesList,
         int lookbackPeriods)
         where TQuote : IQuote
