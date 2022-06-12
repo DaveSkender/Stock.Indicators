@@ -38,7 +38,7 @@ Results can be further processed on `Mfi` with additional chain-enabled indicato
 # example
 var results = quotes
     .GetMfi(..)
-    .GetSlope(..);
+    .GetRsi(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

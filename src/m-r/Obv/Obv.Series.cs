@@ -1,31 +1,25 @@
 namespace Skender.Stock.Indicators;
 
+// ON-BALANCE VOLUME (SERIES)
 public static partial class Indicator
 {
-    // ON-BALANCE VOLUME
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ObvResult> GetObv<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<ObvResult> CalcObv(
+        this List<QuoteD> qdList,
         int? smaPeriods = null)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateObv(smaPeriods);
 
         // initialize
-        List<ObvResult> results = new(quotesList.Count);
+        List<ObvResult> results = new(qdList.Count);
 
         double prevClose = double.NaN;
         double obv = 0;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             if (double.IsNaN(prevClose) || q.Close == prevClose)
             {

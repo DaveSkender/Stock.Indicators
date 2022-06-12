@@ -34,6 +34,19 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `Obv` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetObv(..)
+    .GetRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
