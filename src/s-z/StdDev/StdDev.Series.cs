@@ -1,41 +1,28 @@
 namespace Skender.Stock.Indicators;
 
+// STANDARD DEVIATION (SERIES)
 public static partial class Indicator
 {
-    // STANDARD DEVIATION
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<StdDevResult> CalcStdDev(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
-        int? smaPeriods = null)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
-        // calculate
-        return CalcStdDev(bdList, lookbackPeriods, smaPeriods);
-    }
-
-    // internals
-    private static List<StdDevResult> CalcStdDev(
-        List<BasicData> bdList, int lookbackPeriods, int? smaPeriods = null)
+        int? smaPeriods)
     {
         // check parameter arguments
         ValidateStdDev(lookbackPeriods, smaPeriods);
 
         // initialize
-        List<StdDevResult> results = new(bdList.Count);
+        int length = tpList.Count;
+        List<StdDevResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            BasicData bd = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             StdDevResult result = new()
             {
-                Date = bd.Date,
+                Date = date,
             };
 
             if (i + 1 >= lookbackPeriods)
@@ -46,19 +33,19 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BasicData d = bdList[p];
-                    periodValues[n] = d.Value;
-                    sum += d.Value;
+                    (DateTime dDate, double dValue) = tpList[p];
+                    periodValues[n] = dValue;
+                    sum += dValue;
                     n++;
                 }
 
                 double periodAvg = sum / lookbackPeriods;
 
-                result.StdDev = Functions.StdDev(periodValues);
+                result.StdDev = periodValues.StdDev();
                 result.Mean = periodAvg;
 
                 result.ZScore = (result.StdDev == 0) ? double.NaN
-                    : (bd.Value - periodAvg) / result.StdDev;
+                    : (value - periodAvg) / result.StdDev;
             }
 
             results.Add(result);

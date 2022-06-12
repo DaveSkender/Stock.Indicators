@@ -36,6 +36,26 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetStdDev(..);
+```
+
+Results can be further processed on `StdDev` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetStdDev(..)
+    .GetSlope(..);
+```
+
 ## Response
 
 ```csharp
@@ -55,7 +75,7 @@ IEnumerable<StdDevResult>
 | `StdDev` | double | Standard Deviation of Close price over `N` lookback periods
 | `Mean` | double | Mean value of Close price over `N` lookback periods
 | `ZScore` | double | Z-Score of current Close price (number of standard deviations from mean)
-| `StdDevSma` | double | Moving average (SMA) of STDDEV based on `smaPeriods` periods, if specified
+| `StdDevSma` | double | Moving average (SMA) of `StdDev` based on `smaPeriods` periods, if specified
 
 ### Utilities
 
