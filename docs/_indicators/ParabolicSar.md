@@ -27,7 +27,7 @@ IEnumerable<ParabolicSarResult> results =
 | name | type | notes
 | -- |-- |--
 | `accelerationStep` | decimal | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
-| `maxAccelerationFactor` | decimal | Maximimum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
+| `maxAccelerationFactor` | decimal | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
 | `initialFactor` | decimal | Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
 
 ### Historical quotes requirements
@@ -35,6 +35,19 @@ IEnumerable<ParabolicSarResult> results =
 You must have at least two historical quotes to cover the warmup periods; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals, before your intended usage period.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+
+### Chaining
+
+Results can be further processed on `Sar` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetParabolicSar(..)
+    .GetEma(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ## Response
 

@@ -1,12 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public interface ISmmaResult
-{
-    public double? Smma { get; }
-}
-
 [Serializable]
-public sealed class SmmaResult : ResultBase, ISmmaResult, IReusableResult
+public sealed class SmmaResult : ResultBase, IReusableResult
 {
     public double? Smma { get; set; }
 

@@ -57,7 +57,7 @@ public static partial class Indicator
             = quotes.ToBasicTuple(candlePart);
 
         // calculate
-        return Ema.CalcSeries(tpList, lookbackPeriods);
+        return tpList.CalcEma(lookbackPeriods);
     }
 
     [ExcludeFromCodeCoverage]

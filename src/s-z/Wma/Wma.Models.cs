@@ -1,12 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public interface IWmaResult
-{
-    public double? Wma { get; }
-}
-
 [Serializable]
-public sealed class WmaResult : ResultBase, IWmaResult, IReusableResult
+public sealed class WmaResult : ResultBase, IReusableResult
 {
     public double? Wma { get; set; }
 

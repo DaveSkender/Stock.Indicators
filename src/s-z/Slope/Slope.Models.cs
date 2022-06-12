@@ -1,14 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public interface ISlopeResult
-{
-    public double? Slope { get; }
-    public double? Intercept { get; }
-    public decimal? Line { get; }
-}
-
 [Serializable]
-public sealed class SlopeResult : ResultBase, ISlopeResult, IReusableResult
+public sealed class SlopeResult : ResultBase, IReusableResult
 {
     public double? Slope { get; set; }
     public double? Intercept { get; set; }
