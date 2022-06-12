@@ -26,6 +26,19 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results are based in `IQuote` and can be further used in any indicator.
+
+```csharp
+# example
+var results = quotes
+    .GetHeikinAshi(..)
+    .GetRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
@@ -36,12 +49,7 @@ IEnumerable<HeikinAshiResult>
 - It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first period will have `null` values since there's not enough data to calculate.
-- `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.  In other words, you can use it as base quotes for all other indicators.  Example:
-
-  ```csharp
-  var haQuotes = quotes.GetHeikinAshi();
-  var haRsi = haQuotes.GetRsi(14);
-  ```
+- `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
 
 ### HeikinAshiResult
 

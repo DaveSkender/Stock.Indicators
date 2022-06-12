@@ -1,28 +1,24 @@
 namespace Skender.Stock.Indicators;
 
+// PIVOT POINTS (SERIES)
 public static partial class Indicator
 {
-    // PIVOT POINTS
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<RollingPivotsResult> GetRollingPivots<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<RollingPivotsResult> CalcRollingPivots<TQuote>(
+        this List<TQuote> quotesList,
         int windowPeriods,
         int offsetPeriods,
-        PivotPointType pointType = PivotPointType.Standard)
+        PivotPointType pointType)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // check parameter arguments
         ValidateRollingPivots(windowPeriods, offsetPeriods);
 
         // initialize
-        List<RollingPivotsResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        List<RollingPivotsResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
 
