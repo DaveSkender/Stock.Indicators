@@ -1,55 +1,48 @@
 namespace Skender.Stock.Indicators;
 
+// PRICE RELATIVE STRENGTH (SERIES)
 public static partial class Indicator
 {
-    // PRICE RELATIVE STRENGTH
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<PrsResult> GetPrs<TQuote>(
-        this IEnumerable<TQuote> historyBase,
-        IEnumerable<TQuote> historyEval,
+    internal static List<PrsResult> CalcPrs(
+        List<(DateTime, double)> tpListEval,
+        List<(DateTime, double)> tpListBase,
         int? lookbackPeriods = null,
         int? smaPeriods = null)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<BasicData> bdBaseList = historyBase.ToBasicClass(CandlePart.Close);
-        List<BasicData> bdEvalList = historyEval.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
-        ValidatePriceRelative(historyBase, historyEval, lookbackPeriods, smaPeriods);
+        ValidatePriceRelative(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
 
         // initialize
-        List<PrsResult> results = new(bdEvalList.Count);
+        List<PrsResult> results = new(tpListEval.Count);
 
         // roll through quotes
-        for (int i = 0; i < bdEvalList.Count; i++)
+        for (int i = 0; i < tpListEval.Count; i++)
         {
-            BasicData bi = bdBaseList[i];
-            BasicData ei = bdEvalList[i];
+            (DateTime bDate, double bValue) = tpListBase[i];
+            (DateTime eDate, double eValue) = tpListEval[i];
 
-            if (ei.Date != bi.Date)
+            if (eDate != bDate)
             {
-                throw new InvalidQuotesException(nameof(historyEval), ei.Date,
+                throw new InvalidQuotesException(nameof(tpListEval), eDate,
                     "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
             }
 
             PrsResult r = new()
             {
-                Date = ei.Date,
-                Prs = (bi.Value == 0) ? null : (ei.Value / bi.Value) // relative strength ratio
+                Date = eDate,
+                Prs = (bValue == 0) ? null : (eValue / bValue) // relative strength ratio
             };
             results.Add(r);
 
             if (lookbackPeriods != null && i + 1 > lookbackPeriods)
             {
-                BasicData bo = bdBaseList[i - (int)lookbackPeriods];
-                BasicData eo = bdEvalList[i - (int)lookbackPeriods];
+                (DateTime boDate, double boValue) = tpListBase[i - (int)lookbackPeriods];
+                (DateTime eoDate, double eoValue) = tpListEval[i - (int)lookbackPeriods];
 
-                if (bo.Value != 0 && eo.Value != 0)
+                if (boValue != 0 && eoValue != 0)
                 {
-                    double? pctB = (bi.Value - bo.Value) / bo.Value;
-                    double? pctE = (ei.Value - eo.Value) / eo.Value;
+                    double? pctB = (bValue - boValue) / boValue;
+                    double? pctE = (eValue - eoValue) / eoValue;
 
                     r.PrsPercent = pctE - pctB;
                 }
@@ -73,12 +66,11 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidatePriceRelative<TQuote>(
-        IEnumerable<TQuote> historyBase,
-        IEnumerable<TQuote> historyEval,
+    private static void ValidatePriceRelative(
+        List<(DateTime, double)> quotesEval,
+        List<(DateTime, double)> quotesBase,
         int? lookbackPeriods,
         int? smaPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         if (lookbackPeriods is not null and <= 0)
@@ -94,8 +86,8 @@ public static partial class Indicator
         }
 
         // check quotes
-        int qtyHistoryEval = historyEval.Count();
-        int qtyHistoryBase = historyBase.Count();
+        int qtyHistoryEval = quotesEval.Count;
+        int qtyHistoryBase = quotesBase.Count;
 
         int? minHistory = lookbackPeriods;
         if (minHistory != null && qtyHistoryEval < minHistory)
@@ -106,13 +98,13 @@ public static partial class Indicator
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryEval, minHistory);
 
-            throw new InvalidQuotesException(nameof(historyEval), message);
+            throw new InvalidQuotesException(nameof(quotesEval), message);
         }
 
         if (qtyHistoryBase != qtyHistoryEval)
         {
             throw new InvalidQuotesException(
-                nameof(historyBase),
+                nameof(quotesBase),
                 "Base quotes should have at least as many records as Eval quotes for PRS.");
         }
     }

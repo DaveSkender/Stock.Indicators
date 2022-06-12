@@ -4,13 +4,14 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
+#pragma warning disable CS0618 // Type or member is obsolete
 public class Beta : TestBase
 {
     [TestMethod]
     public void All()
     {
-        List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.All)
+        List<BetaResult> results = otherQuotes
+            .GetBeta(quotes, 20, BetaType.All)
             .ToList();
 
         // assertions
@@ -58,7 +59,7 @@ public class Beta : TestBase
     public void Standard()
     {
         List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.Standard)
+            .GetBeta(otherQuotes, quotes, 20, BetaType.Standard)
             .ToList();
 
         // assertions
@@ -76,8 +77,8 @@ public class Beta : TestBase
     [TestMethod]
     public void Up()
     {
-        List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.Up)
+        List<BetaResult> results = otherQuotes
+            .GetBeta(quotes, 20, BetaType.Up)
             .ToList();
 
         // assertions
@@ -95,8 +96,8 @@ public class Beta : TestBase
     [TestMethod]
     public void Down()
     {
-        List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.Down)
+        List<BetaResult> results = otherQuotes
+            .GetBeta(quotes, 20, BetaType.Down)
             .ToList();
 
         // assertions
@@ -151,8 +152,8 @@ public class Beta : TestBase
 
         List<BetaResult> results = Indicator
             .GetBeta(
-                mktQuotes.Aggregate(PeriodSize.Month),
                 evalQuotes.Aggregate(PeriodSize.Month),
+                mktQuotes.Aggregate(PeriodSize.Month),
                 60, BetaType.Standard)
             .ToList();
 
@@ -162,7 +163,7 @@ public class Beta : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<BetaResult> results = Indicator.GetBeta(quotes, otherQuotes, 20)
+        List<BetaResult> results = Indicator.GetBeta(otherQuotes, quotes, 20)
             .RemoveWarmupPeriods()
             .ToList();
 

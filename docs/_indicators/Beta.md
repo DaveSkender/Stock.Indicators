@@ -15,8 +15,8 @@ layout: indicator
 
 ```csharp
 // usage
-IEnumerable<BetaResult> results =
-  Indicator.GetBeta(quotesMarket, quotesEval, lookbackPeriods, type);
+IEnumerable<BetaResult> results = quotesEval
+  .GetBeta(quotesMarket, lookbackPeriods, type);
 ```
 
 ## Parameters
@@ -24,13 +24,12 @@ IEnumerable<BetaResult> results =
 | name | type | notes
 | -- |-- |--
 | `quotesMarket` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
-| `quotesEval` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of quotes to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+You must have at least `N` periods of `quotesEval` to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 #### BetaType options
 
@@ -47,17 +46,17 @@ This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
 # example
-var results = quotes
+var results = quotesEval
     .Use(CandlePart.HL2)
-    .GetBeta(..);
+    .GetBeta(quotesMarket, ..);
 ```
 
 Results can be further processed on `Beta` with additional chain-enabled indicators.
 
 ```csharp
 # example
-var results = quotes
-    .GetBeta(..)
+var results = quotesEval
+    .GetBeta(quotesMarket, ..)
     .GetSlope(..);
 ```
 

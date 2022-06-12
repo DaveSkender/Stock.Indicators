@@ -25,8 +25,7 @@ public static partial class Indicator
     public static IEnumerable<CorrResult> GetCorrelation(
         this IEnumerable<(DateTime, double)> tuplesA,
         IEnumerable<(DateTime, double)> tuplesB,
-        int lookbackPeriods,
-        BetaType type = BetaType.Standard)
+        int lookbackPeriods)
     {
         List<(DateTime, double)> tpListA = tuplesA.ToSortedList();
         List<(DateTime, double)> tpListB = tuplesB.ToSortedList();

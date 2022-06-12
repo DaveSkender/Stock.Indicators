@@ -6,9 +6,10 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='indicator/*' />
     ///
+    [Obsolete("Eval and Market quotes have been reversed in v2!  Ensure you swap parameter location.  This warning will be removed after v2.0.0")]
     public static IEnumerable<BetaResult> GetBeta<TQuote>(
+        this IEnumerable<TQuote> quotesEval,
         IEnumerable<TQuote> quotesMarket,
-        IEnumerable<TQuote> quotesEval,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         where TQuote : IQuote
@@ -19,7 +20,6 @@ public static partial class Indicator
         List<(DateTime, double)> tpListMrkt
             = quotesMarket.ToBasicTuple(CandlePart.Close);
 
-        // TODO: reverse API order (above), in next version,
         // to enable typical 'this' extension
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
     }
