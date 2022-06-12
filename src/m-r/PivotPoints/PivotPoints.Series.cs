@@ -6,7 +6,7 @@ public static partial class Indicator
     internal static IEnumerable<PivotPointsResult> CalcPivotPoints<TQuote>(
         this List<TQuote> quotesList,
         PeriodSize windowSize,
-        PivotPointType pointType = PivotPointType.Standard)
+        PivotPointType pointType)
         where TQuote : IQuote
     {
         // initialize

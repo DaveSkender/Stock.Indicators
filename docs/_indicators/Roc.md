@@ -36,6 +36,26 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetRoc(..);
+```
+
+Results can be further processed on `Roc` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetRoc(..)
+    .GetEma(..);
+```
+
 ## Response
 
 ```csharp

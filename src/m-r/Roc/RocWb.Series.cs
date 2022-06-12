@@ -1,22 +1,20 @@
 namespace Skender.Stock.Indicators;
 
+// RATE OF CHANGE (ROC) WITH BANDS (SERIES)
 public static partial class Indicator
 {
-    // RATE OF CHANGE (ROC) WITH BANDS
-    /// <include file='./info.xml' path='indicator/type[@name="WithBands"]/*' />
-    ///
-    public static IEnumerable<RocWbResult> GetRocWb<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<RocWbResult> CalcRocWb(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ValidateRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         // initialize
-        List<RocWbResult> results = GetRoc(quotes, lookbackPeriods)
+        List<RocWbResult> results = tpList
+            .CalcRoc(lookbackPeriods, null)
             .Select(x => new RocWbResult
             {
                 Date = x.Date,

@@ -1,41 +1,35 @@
 namespace Skender.Stock.Indicators;
 
+// RATE OF CHANGE (SERIES)
 public static partial class Indicator
 {
-    // RATE OF CHANGE (ROC)
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
-    ///
-    public static IEnumerable<RocResult> GetRoc<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<RocResult> CalcRoc(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
-        int? smaPeriods = null)
-        where TQuote : IQuote
+        int? smaPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateRoc(lookbackPeriods, smaPeriods);
 
         // initialize
-        List<RocResult> results = new(bdList.Count);
+        List<RocResult> results = new(tpList.Count);
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             RocResult result = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 > lookbackPeriods)
             {
-                BasicData back = bdList[i - lookbackPeriods];
+                (DateTime backDate, double backValue) = tpList[i - lookbackPeriods];
 
-                result.Roc = (back.Value == 0) ? null
-                    : 100d * (q.Value - back.Value) / back.Value;
+                result.Roc = (backValue == 0) ? null
+                    : 100d * (value - backValue) / backValue;
             }
 
             results.Add(result);

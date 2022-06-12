@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     internal static IEnumerable<MfiResult> CalcMfi(
         this List<QuoteD> qdList,
-        int lookbackPeriods = 14)
+        int lookbackPeriods)
     {
         // check parameter arguments
         ValidateMfi(lookbackPeriods);

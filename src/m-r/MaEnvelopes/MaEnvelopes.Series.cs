@@ -7,8 +7,8 @@ public static partial class Indicator
     internal static IEnumerable<MaEnvelopeResult> CalcMaEnvelopes(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods,
-        double percentOffset = 2.5,
-        MaType movingAverageType = MaType.SMA)
+        double percentOffset,
+        MaType movingAverageType)
     {
         // check parameter arguments
         // note: most validations are done in variant methods

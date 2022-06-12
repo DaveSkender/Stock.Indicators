@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     internal static IEnumerable<ObvResult> CalcObv(
         this List<QuoteD> qdList,
-        int? smaPeriods = null)
+        int? smaPeriods)
     {
         // check parameter arguments
         ValidateObv(smaPeriods);
