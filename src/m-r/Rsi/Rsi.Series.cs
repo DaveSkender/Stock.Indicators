@@ -1,38 +1,10 @@
 namespace Skender.Stock.Indicators;
 
+// RELATIVE STRENGTH INDEX (SERIES)
 public static partial class Indicator
 {
-    // RELATIVE STRENGTH INDEX
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<RsiResult> GetRsi<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime Date, double Value)> tpList
-            = quotes.ToBasicTuple(CandlePart.Close);
-
-        // calculate
-        return CalcRsi(tpList, lookbackPeriods);
-    }
-
-    public static IEnumerable<RsiResult> GetRsi(
-        this IEnumerable<IReusableResult> basicData,
-        int lookbackPeriods = 14)
-    {
-        // convert results
-        List<(DateTime Date, double Value)> tpList
-            = basicData.ToResultTuple();
-
-        // calculate
-        return CalcRsi(tpList, lookbackPeriods);
-    }
-
-    // internals
-    private static List<RsiResult> CalcRsi(
-        List<(DateTime Date, double Value)> tpList,
+    internal static List<RsiResult> CalcRsi(
+        this List<(DateTime Date, double Value)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -58,7 +30,7 @@ public static partial class Indicator
         }
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
 
