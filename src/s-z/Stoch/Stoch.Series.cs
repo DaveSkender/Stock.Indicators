@@ -1,49 +1,30 @@
 namespace Skender.Stock.Indicators;
 
+// STOCHASTIC OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // STOCHASTIC OSCILLATOR
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
-    ///
-    public static IEnumerable<StochResult> GetStoch<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14,
-        int signalPeriods = 3,
-        int smoothPeriods = 3)
-        where TQuote : IQuote => quotes
-            .GetStoch(
-                lookbackPeriods,
-                signalPeriods,
-                smoothPeriods, 3, 2, MaType.SMA);
-
-    /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
-    ///
-    public static IEnumerable<StochResult> GetStoch<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<StochResult> CalcStoch(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
         double kFactor,
         double dFactor,
         MaType movingAverageType)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateStoch(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<StochResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             StochResult result = new()
             {
@@ -57,7 +38,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD x = quotesList[p];
+                    QuoteD x = qdList[p];
 
                     if (x.High > highHigh)
                     {

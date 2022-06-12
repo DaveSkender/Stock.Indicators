@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <include file='./info.xml' path='indicator/type[@name="Results"]/*' />
 ///
 [Serializable]
-public class StochResult : ResultBase
+public sealed class StochResult : ResultBase, IReusableResult
 {
     public double? Oscillator { get; set; }
     public double? Signal { get; set; }
@@ -13,4 +13,6 @@ public class StochResult : ResultBase
     public double? K => Oscillator;
     public double? D => Signal;
     public double? J => PercentJ;
+
+    double? IReusableResult.Value => Oscillator;
 }

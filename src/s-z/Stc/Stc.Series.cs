@@ -1,59 +1,52 @@
 namespace Skender.Stock.Indicators;
+#nullable disable // false positive in QuoteD conversion
 
+// SCHAFF TREND CYCLE (SERIES)
 public static partial class Indicator
 {
-    // SCHAFF TREND CYCLE (STC)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<StcResult> GetStc<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int cyclePeriods = 10,
-        int fastPeriods = 23,
-        int slowPeriods = 50)
-        where TQuote : IQuote
+    internal static List<StcResult> CalcStc(
+        this List<(DateTime, double)> tpList,
+        int cyclePeriods,
+        int fastPeriods,
+        int slowPeriods)
     {
-        // convert quotes
-        List<BasicData> quotesList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateStc(cyclePeriods, fastPeriods, slowPeriods);
 
-        // get stochastic of macd
-        // TODO: make this work better
-        IEnumerable<StochResult> stochMacd = quotes
-          .GetMacd(fastPeriods, slowPeriods, 1)
-          .Remove(slowPeriods - 1)
-          .Where(x => x.Macd is not null)
-          .Select(x => new Quote
-          {
-              Date = x.Date,
-              High = (decimal)x.Macd,
-              Low = (decimal)x.Macd,
-              Close = (decimal)x.Macd
-          })
-          .GetStoch(cyclePeriods, 1, 3);
-
         // initialize results
         // to ensure same length as original quotes
-        int length = quotesList.Count;
+        int length = tpList.Count;
         int initPeriods = Math.Min(slowPeriods - 1, length);
         List<StcResult> results = new(length);
 
+        // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            BasicData q = quotesList[i];
-            results.Add(new StcResult() { Date = q.Date });
+            (DateTime date, double value) = tpList[i];
+            results.Add(new StcResult() { Date = date });
         }
 
+        // get stochastic of macd
+        List<StochResult> stochMacd = tpList
+          .CalcMacd(fastPeriods, slowPeriods, 1)
+          .Remove(slowPeriods - 1)
+          .Where(x => x.Macd is not null)
+          .Select(x => new QuoteD
+          {
+              Date = x.Date,
+              High = (double)x.Macd,
+              Low = (double)x.Macd,
+              Close = (double)x.Macd
+          })
+          .ToList()
+          .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.SMA);
+
         // add stoch results
-        // TODO: see if List Add works faster
-        results.AddRange(
-           stochMacd
-           .Select(x => new StcResult
-           {
-               Date = x.Date,
-               Stc = x.Oscillator
-           }));
+        for (int i = 0; i < stochMacd.Count; i++)
+        {
+            StochResult r = stochMacd[i];
+            results.Add(new StcResult { Date = r.Date, Stc = r.Oscillator });
+        }
 
         return results;
     }

@@ -52,6 +52,19 @@ These are the supported moving average types:
 | `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
 | `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
 
+### Chaining
+
+Results can be further processed on `Oscillator` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetStoch(..)
+    .GetSlope(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
