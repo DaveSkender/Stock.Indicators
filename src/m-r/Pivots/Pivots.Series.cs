@@ -1,16 +1,14 @@
 namespace Skender.Stock.Indicators;
 
+// PIVOTS (SERIES)
 public static partial class Indicator
 {
-    // PIVOTS (derived from Williams Fractal)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<PivotsResult> GetPivots<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int leftSpan = 2,
-        int rightSpan = 2,
-        int maxTrendPeriods = 20,
-        EndType endType = EndType.HighLow)
+    internal static IEnumerable<PivotsResult> CalcPivots<TQuote>(
+        this List<TQuote> quotesList,
+        int leftSpan,
+        int rightSpan,
+        int maxTrendPeriods,
+        EndType endType)
         where TQuote : IQuote
     {
         // check parameter arguments
@@ -19,7 +17,8 @@ public static partial class Indicator
         // initialize
 
         List<PivotsResult> results
-           = GetFractal(quotes, leftSpan, rightSpan, endType)
+           = quotesList
+            .CalcFractal(leftSpan, rightSpan, endType)
             .Select(x => new PivotsResult
             {
                 Date = x.Date,

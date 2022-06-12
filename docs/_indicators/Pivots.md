@@ -42,6 +42,10 @@ You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; 
 | `EndType.Close` | Chevron point identified from `Close` price
 | `EndType.HighLow` | Chevron point identified from `High` and `Low` price (default)
 
+### Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
 ## Response
 
 ```csharp
