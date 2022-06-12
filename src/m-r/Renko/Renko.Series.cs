@@ -1,19 +1,14 @@
 namespace Skender.Stock.Indicators;
 
+// RENKO CHART - STANDARD (SERIES)
 public static partial class Indicator
 {
-    // RENKO CHART (STANDARD)
-    /// <include file='./info.xml' path='indicator/type[@name="standard"]/*' />
-    ///
-    public static IEnumerable<RenkoResult> GetRenko<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<RenkoResult> CalcRenko<TQuote>(
+        this List<TQuote> quotesList,
         decimal brickSize,
-        EndType endType = EndType.Close)
+        EndType endType)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // check parameter arguments
         ValidateRenko(brickSize);
 

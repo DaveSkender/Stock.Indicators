@@ -1,26 +1,20 @@
 namespace Skender.Stock.Indicators;
 
+// PRICE VOLUME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // PRICE VOLUME OSCILLATOR (PVO)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<PvoResult> GetPvo<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9)
-        where TQuote : IQuote
+    internal static List<PvoResult> CalcPvo(
+        this List<(DateTime, double)> tpList,
+        int fastPeriods,
+        int slowPeriods,
+        int signalPeriods)
     {
-        // convert quotes
-        List<(DateTime Date, double Value)> tpList = quotes.ToBasicTuple(CandlePart.Volume);
-
         // check parameter arguments
         ValidatePvo(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = CalcEma(tpList, fastPeriods);
-        List<EmaResult> emaSlow = CalcEma(tpList, slowPeriods);
+        List<EmaResult> emaFast = tpList.CalcEma(fastPeriods);
+        List<EmaResult> emaSlow = tpList.CalcEma(slowPeriods);
 
         int length = tpList.Count;
         List<(DateTime, double)> emaDiff = new();

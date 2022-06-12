@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class HeikinAshiResult : ResultBase, IQuote
+public sealed class HeikinAshiResult : ResultBase, IQuote
 {
     public decimal Open { get; set; }
     public decimal High { get; set; }
