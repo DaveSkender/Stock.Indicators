@@ -19,10 +19,6 @@ redirect_from:
 // usage (with Close price)
 IEnumerable<SmaResult> results =
   quotes.GetSma(lookbackPeriods);
-
-// alternate
-IEnumerable<SmaResult> results =
-  quotes.GetSma(lookbackPeriods, candlePart);
 ```
 
 ## Parameters
@@ -30,7 +26,6 @@ IEnumerable<SmaResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
-| `candlePart` | CandlePart | Optional.  Specify candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
 
 ### Historical quotes requirements
 
@@ -38,7 +33,25 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-{% include candlepart-options.md %}
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.Volume)
+    .GetSma(..);
+```
+
+Results can be further processed on `Sma` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetSma(..)
+    .GetRsi(..);
+```
 
 ## Response
 

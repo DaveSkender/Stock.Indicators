@@ -9,6 +9,17 @@ public static partial class Indicator
 {
     [ExcludeFromCodeCoverage]
     [Obsolete("The use of CandlePart as a parameter is deprecated.  "
+    + "Use '.Use(candlePart)' prior to calling .GetEma()")]
+    public static IEnumerable<EmaResult> GetEma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcEma(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The use of CandlePart as a parameter is deprecated.  "
         + "Use '.Use(candlePart)' prior to calling .GetMacd()")]
     public static IEnumerable<MacdResult> GetMacd<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -16,15 +27,9 @@ public static partial class Indicator
         int slowPeriods,
         int signalPeriods,
         CandlePart candlePart)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime Date, double Value)> tpList
-            = quotes.ToBasicTuple(candlePart);
-
-        // calculate
-        return tpList.CalcMacd(fastPeriods, slowPeriods, signalPeriods);
-    }
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcMacd(fastPeriods, slowPeriods, signalPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("The use of CandlePart as a parameter is deprecated.  "
@@ -33,32 +38,9 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         CandlePart candlePart)
-    where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime Date, double Value)> tpList
-            = quotes.ToBasicTuple(candlePart);
-
-        // calculate
-        return tpList.CalcSma(lookbackPeriods);
-    }
-
-    [ExcludeFromCodeCoverage]
-    [Obsolete("The use of CandlePart as a parameter is deprecated.  "
-        + "Use '.Use(candlePart)' prior to calling .GetEma()")]
-    public static IEnumerable<EmaResult> GetEma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        CandlePart candlePart)
-    where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = quotes.ToBasicTuple(candlePart);
-
-        // calculate
-        return tpList.CalcEma(lookbackPeriods);
-    }
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcSma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("The use of CandlePart as a parameter is deprecated.  "
@@ -67,18 +49,12 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
         CandlePart candlePart)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = quotes.ToBasicTuple(candlePart);
-
-        // calculate
-        return tpList.CalcWma(lookbackPeriods);
-    }
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcWma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.")]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<AdlResult> results) => results
       .Select(x => new Quote
@@ -93,7 +69,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.")]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<DpoResult> results) => results
       .Where(x => x.Dpo != null)
@@ -109,7 +85,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.")]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<HurstResult> results) => results
       .Where(x => x.HurstExponent != null)
@@ -124,7 +100,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.")]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<ObvResult> results) => results
       .Select(x => new Quote
@@ -139,7 +115,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.")]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<RsiResult> results) => results
       .Where(x => x.Rsi != null)

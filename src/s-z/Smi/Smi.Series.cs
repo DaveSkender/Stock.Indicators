@@ -1,21 +1,15 @@
 namespace Skender.Stock.Indicators;
 
+// STOCHASTIC MOMENTUM INDEX (SERIES)
 public static partial class Indicator
 {
-    // STOCHASTIC MOMENTUM INDEX
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
-    ///
-    public static IEnumerable<SmiResult> GetSmi<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<SmiResult> CalcSmi(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
-        int signalPeriods = 3)
-        where TQuote : IQuote
+        int signalPeriods)
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateSmi(
             lookbackPeriods,
@@ -24,7 +18,7 @@ public static partial class Indicator
             signalPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<SmiResult> results = new(length);
 
         double k1 = 2d / (firstSmoothPeriods + 1);
@@ -40,7 +34,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             SmiResult r = new()
             {
@@ -54,7 +48,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD x = quotesList[p];
+                    QuoteD x = qdList[p];
 
                     if (x.High > hH)
                     {
@@ -89,7 +83,7 @@ public static partial class Indicator
 
                 // stochastic momentum index
                 double smi = 100 * (smEma2 / (0.5 * hlEma2));
-                r.Smi = (decimal?)smi;
+                r.Smi = smi;
 
                 // initialize signal line
                 if (i + 1 == lookbackPeriods)
@@ -99,7 +93,7 @@ public static partial class Indicator
 
                 // signal line
                 double signal = lastSignal + (kS * (smi - lastSignal));
-                r.Signal = (decimal?)signal;
+                r.Signal = signal;
 
                 // carryover values
                 lastSmEma1 = smEma1;

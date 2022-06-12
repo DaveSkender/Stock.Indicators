@@ -34,6 +34,19 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `Smi` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetSmi(..)
+    .GetSlope(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
@@ -52,8 +65,8 @@ IEnumerable<SmiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Smi` | decimal | Stochastic Momentum Index (SMI)
-| `Signal` | decimal | Signal line: an Exponential Moving Average (EMA) of SMI
+| `Smi` | double | Stochastic Momentum Index (SMI)
+| `Signal` | double | Signal line: an Exponential Moving Average (EMA) of SMI
 
 ### Utilities
 
