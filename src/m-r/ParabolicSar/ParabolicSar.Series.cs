@@ -187,7 +187,7 @@ public static partial class Indicator
         {
             string message = string.Format(
                 EnglishCulture,
-                "Acceleration Step must be smaller than provided Max Accleration Factor ({0}) for Parabolic SAR.",
+                "Acceleration Step must be smaller than provided Max Acceleration Factor ({0}) for Parabolic SAR.",
                 maxAccelerationFactor);
 
             throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep, message);

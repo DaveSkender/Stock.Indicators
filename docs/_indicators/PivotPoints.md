@@ -41,6 +41,10 @@ You must have at least `2` windows of `quotes` to cover the warmup periods.  For
 | `PeriodSize.Day` | [..] daily.  Commonly used for intraday data.
 | `PeriodSize.OneHour` | [..] hourly
 
+### Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
 ### PivotPointType options
 
 | type | description
@@ -62,7 +66,7 @@ IEnumerable<PivotPointsResult>
 - It does not return a single incremental indicator value.
 - The first window will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
+:warning: **Warning**: The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 
 :paintbrush: **Repaint Warning**: the last window will be repainted if it does not contain a full window of data.
 

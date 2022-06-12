@@ -3,6 +3,7 @@ namespace Skender.Stock.Indicators;
 // PARABOLIC SAR (API)
 public static partial class Indicator
 {
+    // SERIES, from TQuote
     /// <include file='./info.xml' path='indicator/type[@name="Standard"]/*' />
     ///
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
@@ -16,6 +17,7 @@ public static partial class Indicator
                 maxAccelerationFactor,
                 accelerationStep);
 
+    // SERIES, from TQuote (alt)
     /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
     ///
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(

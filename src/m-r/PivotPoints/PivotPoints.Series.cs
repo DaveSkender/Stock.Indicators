@@ -1,19 +1,14 @@
 namespace Skender.Stock.Indicators;
 
+// PIVOT POINTS (SERIES)
 public static partial class Indicator
 {
-    // PIVOT POINTS
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<PivotPointsResult> GetPivotPoints<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static IEnumerable<PivotPointsResult> CalcPivotPoints<TQuote>(
+        this List<TQuote> quotesList,
         PeriodSize windowSize,
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // initialize
         int length = quotesList.Count;
         List<PivotPointsResult> results = new(length);
@@ -109,19 +104,6 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<PivotPointsResult> RemoveWarmupPeriods(
-        this IEnumerable<PivotPointsResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.PP != null);
-
-        return results.Remove(removePeriods);
     }
 
     // internals

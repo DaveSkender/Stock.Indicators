@@ -56,6 +56,7 @@
     "Homma",
     "Hosoda",
     "Ichimoku",
+    "intraday",
     "Kaby",
     "Keltner",
     "kijun",
@@ -91,6 +92,7 @@
     "TSLA",
     "Tushar",
     "Vwap",
-    "Vwma"
+    "Vwma",
+    "Woodie"
   ]
 }

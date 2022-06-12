@@ -203,10 +203,10 @@ public class IndicatorPerformance
     public object GetParabolicSar() => h.GetParabolicSar();
 
     [Benchmark]
-    public object GetPivots() => h.GetPivots();
+    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
 
     [Benchmark]
-    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
+    public object GetPivots() => h.GetPivots();
 
     [Benchmark]
     public object GetPmo() => h.GetPmo();
