@@ -1,19 +1,14 @@
 namespace Skender.Stock.Indicators;
 
+// ZIG ZAG (SERIES)
 public static partial class Indicator
 {
-    // ZIG ZAG
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<ZigZagResult> CalcZigZag<TQuote>(
+        this List<TQuote> quotesList,
         EndType endType = EndType.Close,
         decimal percentChange = 5)
         where TQuote : IQuote
     {
-        // sort quotes
-        List<TQuote> quotesList = quotes.ToSortedList();
-
         // check parameter arguments
         ValidateZigZag(percentChange);
 

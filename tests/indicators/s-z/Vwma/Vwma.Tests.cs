@@ -61,11 +61,9 @@ public class Vwma : TestBase
         Assert.AreEqual(242.101548, NullMath.Round(last.Vwma, 6));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetVwma(0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetVwma(0));
 }

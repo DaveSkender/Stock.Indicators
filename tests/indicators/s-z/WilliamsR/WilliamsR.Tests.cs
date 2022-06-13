@@ -58,11 +58,9 @@ public class WilliamsR : TestBase
         Assert.AreEqual(-52.0121, NullMath.Round(last.WilliamsR, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetWilliamsR(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetWilliamsR(0));
 }
