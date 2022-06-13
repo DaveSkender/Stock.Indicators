@@ -3,7 +3,6 @@ namespace Skender.Stock.Indicators;
 // SIMPLE MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // series calculation
     internal static List<SmaResult> CalcSma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)

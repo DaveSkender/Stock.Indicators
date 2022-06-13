@@ -3,7 +3,6 @@ namespace Skender.Stock.Indicators;
 // BALANCE OF POWER (SERIES)
 public static partial class Indicator
 {
-    // series calculation
     internal static List<BopResult> CalcBop(
         this List<QuoteD> qdList,
         int smoothPeriods)

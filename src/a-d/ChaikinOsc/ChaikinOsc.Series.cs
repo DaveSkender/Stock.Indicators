@@ -3,7 +3,6 @@ namespace Skender.Stock.Indicators;
 // CHAIKIN OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // series calculation
     internal static List<ChaikinOscResult> CalcChaikinOsc(
         this List<QuoteD> qdList,
         int fastPeriods,

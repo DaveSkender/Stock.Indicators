@@ -3,7 +3,6 @@ namespace Skender.Stock.Indicators;
 // COMMODITY CHANNEL INDEX (SERIES)
 public static partial class Indicator
 {
-    // series calculation
     internal static List<CciResult> CalcCci(
         this List<QuoteD> qdList,
         int lookbackPeriods)

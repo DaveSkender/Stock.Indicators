@@ -1,23 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+// VORTEX INDICATOR (SERIES)
 public static partial class Indicator
 {
-    // VORTEX INDICATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<VortexResult> GetVortex<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<VortexResult> CalcVortex(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateVortex(lookbackPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<VortexResult> results = new(length);
 
         double[] tr = new double[length];
@@ -31,7 +25,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             VortexResult result = new()
             {

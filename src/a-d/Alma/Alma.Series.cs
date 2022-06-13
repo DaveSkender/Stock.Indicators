@@ -3,7 +3,6 @@ namespace Skender.Stock.Indicators;
 // ARNAUD LEGOUX MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // series calculation
     internal static List<AlmaResult> CalcAlma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods,

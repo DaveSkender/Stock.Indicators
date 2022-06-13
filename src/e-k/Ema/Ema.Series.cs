@@ -3,7 +3,6 @@ namespace Skender.Stock.Indicators;
 // EXPONENTIAL MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // series calculation
     internal static List<EmaResult> CalcEma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)

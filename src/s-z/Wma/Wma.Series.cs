@@ -3,7 +3,6 @@ namespace Skender.Stock.Indicators;
 // WEIGHTED MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // series calculation
     internal static List<WmaResult> CalcWma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
