@@ -1,32 +1,26 @@
 namespace Skender.Stock.Indicators;
 
+// ULCER INDEX (SERIES)
 public static partial class Indicator
 {
-    // ULCER INDEX (UI)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<UlcerIndexResult> GetUlcerIndex<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14)
-        where TQuote : IQuote
+    internal static List<UlcerIndexResult> CalcUlcerIndex(
+        this List<(DateTime, double)> tpList,
+        int lookbackPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateUlcer(lookbackPeriods);
 
         // initialize
-        List<UlcerIndexResult> results = new(bdList.Count);
+        List<UlcerIndexResult> results = new(tpList.Count);
 
         // roll through quotes
-        for (int i = 0; i < bdList.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             UlcerIndexResult result = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i + 1 >= lookbackPeriods)
@@ -34,21 +28,21 @@ public static partial class Indicator
                 double sumSquared = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    BasicData d = bdList[p];
+                    (DateTime pDate, double pValue) = tpList[p];
                     int dIndex = p + 1;
 
                     double maxClose = 0;
                     for (int s = i + 1 - lookbackPeriods; s < dIndex; s++)
                     {
-                        BasicData dd = bdList[s];
-                        if (dd.Value > maxClose)
+                        (DateTime sDate, double sValue) = tpList[s];
+                        if (sValue > maxClose)
                         {
-                            maxClose = dd.Value;
+                            maxClose = sValue;
                         }
                     }
 
                     double percentDrawdown = (maxClose == 0) ? double.NaN
-                        : 100 * ((d.Value - maxClose) / maxClose);
+                        : 100 * ((pValue - maxClose) / maxClose);
 
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
