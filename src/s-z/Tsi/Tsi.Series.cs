@@ -1,25 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+// TRUE STRENGTH INDEX (SERIES)
 public static partial class Indicator
 {
-    // TRUE STRENGTH INDEX (TSI)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<TsiResult> GetTsi<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 25,
-        int smoothPeriods = 13,
-        int signalPeriods = 7)
-        where TQuote : IQuote
+    internal static List<TsiResult> CalcTsi(
+        this List<(DateTime, double)> tpList,
+        int lookbackPeriods,
+        int smoothPeriods,
+        int signalPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
@@ -42,11 +36,11 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             TsiResult r = new()
             {
-                Date = q.Date
+                Date = date
             };
             results.Add(r);
 
@@ -57,7 +51,7 @@ public static partial class Indicator
             }
 
             // price change
-            c[i] = q.Value - bdList[i - 1].Value;
+            c[i] = value - tpList[i - 1].Item2;
             a[i] = Math.Abs(c[i]);
 
             // smoothing

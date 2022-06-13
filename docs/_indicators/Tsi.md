@@ -32,6 +32,26 @@ You must have at least `N+M+100` periods of `quotes` to cover the convergence pe
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+# example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetTsi(..);
+```
+
+Results can be further processed on `Tsi` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetTsi(..)
+    .GetSlope(..);
+```
+
 ## Response
 
 ```csharp
