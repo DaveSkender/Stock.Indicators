@@ -1,7 +1,9 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class T3Result : ResultBase
+public sealed class T3Result : ResultBase, IReusableResult
 {
-    public decimal? T3 { get; set; }
+    public double? T3 { get; set; }
+
+    double? IReusableResult.Value => T3;
 }

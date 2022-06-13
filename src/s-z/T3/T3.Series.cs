@@ -1,24 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+// TILLSON T3 MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    // TILLSON T3 MOVING AVERAGE (T3)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<T3Result> GetT3<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 5,
-        double volumeFactor = 0.7)
-        where TQuote : IQuote
+    internal static List<T3Result> CalcT3(
+        this List<(DateTime, double)> tpList,
+        int lookbackPeriods,
+        double volumeFactor)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateT3(lookbackPeriods, volumeFactor);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<T3Result> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
@@ -34,16 +28,16 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
             T3Result r = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             // first smoothing
             if (i > lookbackPeriods - 1)
             {
-                e1 += k * (q.Value - e1);
+                e1 += k * (value - e1);
 
                 // second smoothing
                 if (i > 2 * (lookbackPeriods - 1))
@@ -71,7 +65,7 @@ public static partial class Indicator
                                     e6 += k * (e5 - e6);
 
                                     // T3 moving average
-                                    r.T3 = (decimal?)((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3));
+                                    r.T3 = (c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3);
                                 }
 
                                 // sixth warmup
@@ -84,7 +78,7 @@ public static partial class Indicator
                                         e6 = sum6 / lookbackPeriods;
 
                                         // initial T3 moving average
-                                        r.T3 = (decimal?)((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3));
+                                        r.T3 = (c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3);
                                     }
                                 }
                             }
@@ -140,7 +134,7 @@ public static partial class Indicator
             // first warmup
             else
             {
-                sum1 += q.Value;
+                sum1 += value;
 
                 if (i == lookbackPeriods - 1)
                 {
