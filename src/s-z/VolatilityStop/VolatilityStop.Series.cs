@@ -1,24 +1,22 @@
 namespace Skender.Stock.Indicators;
 
+// VOLATILITY SYSTEM/STOP (SERIES)
 public static partial class Indicator
 {
-    // VOLATILITY SYSTEM (STOP)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<VolatilityStopResult> GetVolatilityStop<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 7,
-        double multiplier = 3)
-        where TQuote : IQuote
+    internal static List<VolatilityStopResult> CalcVolatilityStop(
+        this List<QuoteD> qdList,
+        int lookbackPeriods,
+        double multiplier)
     {
         // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
+        List<(DateTime, double)> tpList = qdList
+            .ToBasicTuple(CandlePart.Close);
 
         // check parameter arguments
         ValidateVolatilityStop(lookbackPeriods, multiplier);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<VolatilityStopResult> results = new(length);
 
         if (length == 0)
@@ -26,36 +24,34 @@ public static partial class Indicator
             return results;
         }
 
-        List<AtrResult> atrList = quotes.GetAtr(lookbackPeriods).ToList();
+        List<AtrResult> atrList = qdList.CalcAtr(lookbackPeriods);
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);
-        double sic = bdList[0].Value;
-        bool isLong = bdList[initPeriods - 1].Value > sic;
+        double sic = tpList[0].Item2;
+        bool isLong = tpList[initPeriods - 1].Item2 > sic;
 
         for (int i = 0; i < initPeriods; i++)
         {
-            BasicData q = bdList[i];
-            double close = q.Value;
-            sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
-            results.Add(new VolatilityStopResult() { Date = q.Date });
+            (DateTime date, double value) = tpList[i];
+            sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
+            results.Add(new VolatilityStopResult() { Date = date });
         }
 
         // roll through quotes
         for (int i = lookbackPeriods; i < length; i++)
         {
-            BasicData q = bdList[i];
-            double close = q.Value;
+            (DateTime date, double value) = tpList[i];
 
             // average true range × multiplier constant
-            double? arc = (double?)atrList[i - 1].Atr * multiplier;
+            double? arc = atrList[i - 1].Atr * multiplier;
 
             VolatilityStopResult r = new()
             {
-                Date = q.Date,
+                Date = date,
 
                 // stop and reverse threshold
-                Sar = (decimal?)(isLong ? sic - arc : sic + arc)
+                Sar = isLong ? sic - arc : sic + arc
             };
             results.Add(r);
 
@@ -70,11 +66,11 @@ public static partial class Indicator
             }
 
             // evaluate stop and reverse
-            if ((isLong && (decimal?)q.Value < r.Sar)
-            || (!isLong && (decimal?)q.Value > r.Sar))
+            if ((isLong && value < r.Sar)
+            || (!isLong && value > r.Sar))
             {
                 r.IsStop = true;
-                sic = close;
+                sic = value;
                 isLong = !isLong;
             }
             else
@@ -82,8 +78,8 @@ public static partial class Indicator
                 r.IsStop = false;
 
                 // significant close adjustment
-                // extreme favorable close while in trade
-                sic = isLong ? Math.Max(sic, close) : Math.Min(sic, close);
+                // extreme favorable close (value) while in trade
+                sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
             }
         }
 

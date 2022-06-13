@@ -11,6 +11,6 @@ public static partial class Indicator
         int lookbackPeriods = 10,
         double multiplier = 3)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToQuoteD()
             .CalcSuperTrend(lookbackPeriods, multiplier);
 }

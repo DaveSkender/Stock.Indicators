@@ -1,15 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE DIRECTIONAL INDEX (API)
+// ULTIMATE OSCILLATOR (API)
 public static partial class Indicator
 {
     // SERIES, from TQuote
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<AdxResult> GetAdx<TQuote>(
+    public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14)
+        int shortPeriods = 7,
+        int middlePeriods = 14,
+        int longPeriods = 28)
         where TQuote : IQuote => quotes
             .ToQuoteD()
-            .CalcAdx(lookbackPeriods);
+            .CalcUltimate(shortPeriods, middlePeriods, longPeriods);
 }

@@ -3,21 +3,17 @@ namespace Skender.Stock.Indicators;
 // SUPERTREND (SERIES)
 public static partial class Indicator
 {
-    internal static List<SuperTrendResult> CalcSuperTrend<TQuote>(
-        this List<TQuote> quotesList,
-        int lookbackPeriods = 10,
-        double multiplier = 3)
-        where TQuote : IQuote
+    internal static List<SuperTrendResult> CalcSuperTrend(
+        this List<QuoteD> qdList,
+        int lookbackPeriods,
+        double multiplier)
     {
-        // convert quotes
-        List<QuoteD> qdList = quotesList.ToQuoteD();
-
         // check parameter arguments
         ValidateSuperTrend(lookbackPeriods, multiplier);
 
         // initialize
         List<SuperTrendResult> results = new(qdList.Count);
-        List<AtrResult> atrResults = quotesList.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;

@@ -3,34 +3,34 @@ namespace Skender.Stock.Indicators;
 // KELTNER CHANNELS (SERIES)
 public static partial class Indicator
 {
-    internal static List<KeltnerResult> CalcKeltner<TQuote>(
-        this List<TQuote> quotesList,
+    internal static List<KeltnerResult> CalcKeltner(
+        this List<QuoteD> qdList,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ValidateKeltner(emaPeriods, multiplier, atrPeriods);
 
         // initialize
-        List<KeltnerResult> results = new(quotesList.Count);
+        int length = qdList.Count;
+        List<KeltnerResult> results = new(length);
 
-        List<EmaResult> emaResults = quotesList
+        List<EmaResult> emaResults = qdList
             .ToBasicTuple(CandlePart.Close)
             .CalcEma(emaPeriods)
             .ToList();
 
-        List<AtrResult> atrResults = quotesList
+        List<AtrResult> atrResults = qdList
             .CalcAtr(atrPeriods)
             .ToList();
 
         int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            QuoteD q = qdList[i];
 
             KeltnerResult result = new()
             {
@@ -41,7 +41,7 @@ public static partial class Indicator
             {
                 EmaResult ema = emaResults[i];
                 AtrResult atr = atrResults[i];
-                double? atrSpan = (double?)atr.Atr * multiplier;
+                double? atrSpan = atr.Atr * multiplier;
 
                 result.UpperBand = ema.Ema + atrSpan;
                 result.LowerBand = ema.Ema - atrSpan;

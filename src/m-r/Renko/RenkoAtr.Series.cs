@@ -10,9 +10,11 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // initialize
-        List<AtrResult> atrResults = quotesList.CalcAtr(atrPeriods);
+        List<AtrResult> atrResults = quotesList
+            .ToQuoteD()
+            .CalcAtr(atrPeriods);
 
-        decimal? atr = atrResults.LastOrDefault()?.Atr;
+        double? atr = atrResults.LastOrDefault()?.Atr;
         decimal brickSize = (atr == null) ? 0 : (decimal)atr;
 
         return brickSize is 0 ?

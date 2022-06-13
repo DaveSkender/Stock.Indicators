@@ -68,7 +68,7 @@ IEnumerable<ChandelierResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `ChandelierExit` | decimal | Exit line
+| `ChandelierExit` | double | Exit line
 
 ### Utilities
 

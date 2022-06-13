@@ -3,27 +3,24 @@ namespace Skender.Stock.Indicators;
 // CHANDELIER EXIT (SERIES)
 public static partial class Indicator
 {
-    internal static List<ChandelierResult> CalcChandelier<TQuote>(
-        this List<TQuote> quotesList,
+    internal static List<ChandelierResult> CalcChandelier(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
         ChandelierType type)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> qdList = quotesList.ToQuoteD();
-
         // check parameter arguments
         ValidateChandelier(lookbackPeriods, multiplier);
 
         // initialize
-        List<ChandelierResult> results = new(quotesList.Count);
-        List<AtrResult> atrResult = quotesList
+        int length = qdList.Count;
+        List<ChandelierResult> results = new(length);
+        List<AtrResult> atrResult = qdList
             .CalcAtr(lookbackPeriods)
             .ToList();
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
 
@@ -35,7 +32,7 @@ public static partial class Indicator
             // add exit values
             if (i + 1 >= lookbackPeriods)
             {
-                double? atr = (double?)atrResult[i].Atr;
+                double? atr = atrResult[i].Atr;
 
                 switch (type)
                 {
@@ -51,7 +48,7 @@ public static partial class Indicator
                             }
                         }
 
-                        result.ChandelierExit = (decimal?)(maxHigh - (atr * multiplier));
+                        result.ChandelierExit = maxHigh - (atr * multiplier);
                         break;
 
                     case ChandelierType.Short:
@@ -66,7 +63,7 @@ public static partial class Indicator
                             }
                         }
 
-                        result.ChandelierExit = (decimal?)(minLow + (atr * multiplier));
+                        result.ChandelierExit = minLow + (atr * multiplier);
                         break;
 
                     default:

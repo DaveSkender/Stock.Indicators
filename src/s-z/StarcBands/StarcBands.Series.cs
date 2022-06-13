@@ -3,20 +3,19 @@ namespace Skender.Stock.Indicators;
 // STARC BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static List<StarcBandsResult> CalcStarcBands<TQuote>(
-        this List<TQuote> quotesList,
+    internal static List<StarcBandsResult> CalcStarcBands(
+        this List<QuoteD> qdList,
         int smaPeriods,
         double multiplier,
         int atrPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ValidateStarcBands(smaPeriods, multiplier, atrPeriods);
 
         // initialize
-        List<AtrResult> atrResults = quotesList.CalcAtr(atrPeriods);
+        List<AtrResult> atrResults = qdList.CalcAtr(atrPeriods);
 
-        List<StarcBandsResult> results = quotesList
+        List<StarcBandsResult> results = qdList
             .ToBasicTuple(CandlePart.Close)
             .CalcSma(smaPeriods)
             .Select(x => new StarcBandsResult
@@ -35,8 +34,8 @@ public static partial class Indicator
 
             AtrResult a = atrResults[i];
 
-            r.UpperBand = r.Centerline + (multiplier * (double?)a.Atr);
-            r.LowerBand = r.Centerline - (multiplier * (double?)a.Atr);
+            r.UpperBand = r.Centerline + (multiplier * a.Atr);
+            r.LowerBand = r.Centerline - (multiplier * a.Atr);
         }
 
         return results;

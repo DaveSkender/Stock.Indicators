@@ -9,8 +9,8 @@ public class ParabolicSar : TestBase
     [TestMethod]
     public void Standard()
     {
-        decimal acclerationStep = 0.02m;
-        decimal maxAccelerationFactor = 0.2m;
+        double acclerationStep = 0.02;
+        double maxAccelerationFactor = 0.2;
 
         List<ParabolicSarResult> results =
             quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
@@ -25,28 +25,28 @@ public class ParabolicSar : TestBase
 
         // sample values
         ParabolicSarResult r14 = results[14];
-        Assert.AreEqual(212.83m, r14.Sar);
+        Assert.AreEqual(212.83, r14.Sar);
         Assert.AreEqual(true, r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
-        Assert.AreEqual(212.9924m, NullMath.Round(r16.Sar, 4));
+        Assert.AreEqual(212.9924, NullMath.Round(r16.Sar, 4));
         Assert.AreEqual(false, r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
-        Assert.AreEqual(228.36m, r94.Sar);
+        Assert.AreEqual(228.3600, NullMath.Round(r94.Sar, 4));
         Assert.AreEqual(false, r94.IsReversal);
 
         ParabolicSarResult r501 = results[501];
-        Assert.AreEqual(229.7662m, NullMath.Round(r501.Sar, 4));
+        Assert.AreEqual(229.7662, NullMath.Round(r501.Sar, 4));
         Assert.AreEqual(false, r501.IsReversal);
     }
 
     [TestMethod]
     public void Extended()
     {
-        decimal acclerationStep = 0.02m;
-        decimal maxAccelerationFactor = 0.2m;
-        decimal initialStep = 0.01m;
+        double acclerationStep = 0.02;
+        double maxAccelerationFactor = 0.2;
+        double initialStep = 0.01;
 
         List<ParabolicSarResult> results =
             quotes.GetParabolicSar(
@@ -62,31 +62,31 @@ public class ParabolicSar : TestBase
 
         // sample values
         ParabolicSarResult r14 = results[14];
-        Assert.AreEqual(212.83m, r14.Sar);
+        Assert.AreEqual(212.83, r14.Sar);
         Assert.AreEqual(true, r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
-        Assert.AreEqual(212.9518m, NullMath.Round(r16.Sar, 4));
+        Assert.AreEqual(212.9518, NullMath.Round(r16.Sar, 4));
         Assert.AreEqual(false, r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
-        Assert.AreEqual(228.36m, r94.Sar);
+        Assert.AreEqual(228.36, r94.Sar);
         Assert.AreEqual(false, r94.IsReversal);
 
         ParabolicSarResult r486 = results[486];
-        Assert.AreEqual(273.4148m, r486.Sar);
+        Assert.AreEqual(273.4148, NullMath.Round(r486.Sar, 4));
         Assert.AreEqual(false, r486.IsReversal);
 
         ParabolicSarResult r501 = results[501];
-        Assert.AreEqual(246.73m, r501.Sar);
+        Assert.AreEqual(246.73, r501.Sar);
         Assert.AreEqual(false, r501.IsReversal);
     }
 
     [TestMethod]
     public void InsufficientQuotes()
     {
-        decimal acclerationStep = 0.02m;
-        decimal maxAccelerationFactor = 0.2m;
+        double acclerationStep = 0.02;
+        double maxAccelerationFactor = 0.2;
 
         IEnumerable<Quote> insufficientQuotes = TestData.GetDefault()
             .OrderBy(x => x.Date)
@@ -123,8 +123,8 @@ public class ParabolicSar : TestBase
     [TestMethod]
     public void Removed()
     {
-        decimal acclerationStep = 0.02m;
-        decimal maxAccelerationFactor = 0.2m;
+        double acclerationStep = 0.02;
+        double maxAccelerationFactor = 0.2;
 
         List<ParabolicSarResult> results =
             quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
@@ -135,7 +135,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(488, results.Count);
 
         ParabolicSarResult last = results.LastOrDefault();
-        Assert.AreEqual(229.7662m, NullMath.Round(last.Sar, 4));
+        Assert.AreEqual(229.7662, NullMath.Round(last.Sar, 4));
         Assert.AreEqual(false, last.IsReversal);
     }
 
@@ -148,7 +148,7 @@ public class ParabolicSar : TestBase
 
         // insufficient acceleration step
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetParabolicSar(quotes, 0.02m, 0));
+            Indicator.GetParabolicSar(quotes, 0.02, 0));
 
         // step larger than factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
@@ -156,6 +156,6 @@ public class ParabolicSar : TestBase
 
         // insufficient initial factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(0.02m, 0.5m, 0));
+            quotes.GetParabolicSar(0.02, 0.5, 0));
     }
 }

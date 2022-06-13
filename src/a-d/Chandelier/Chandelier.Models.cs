@@ -3,9 +3,9 @@ namespace Skender.Stock.Indicators;
 [Serializable]
 public sealed class ChandelierResult : ResultBase, IReusableResult
 {
-    public decimal? ChandelierExit { get; set; }
+    public double? ChandelierExit { get; set; }
 
-    double? IReusableResult.Value => (double?)ChandelierExit;
+    double? IReusableResult.Value => ChandelierExit;
 }
 
 public enum ChandelierType

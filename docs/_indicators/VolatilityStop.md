@@ -31,6 +31,19 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `Sar` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetVolatilityStop(..)
+    .GetEma(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
@@ -49,10 +62,10 @@ IEnumerable<VolatilityStopResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sar` | decimal | Stop and Reverse value contains both Upper and Lower segments
+| `Sar` | double | Stop and Reverse value contains both Upper and Lower segments
 | `IsStop` | bool | Indicates a trend reversal
-| `UpperBand` | decimal | Upper band only (bearish/red)
-| `LowerBand` | decimal | Lower band only (bullish/green)
+| `UpperBand` | double | Upper band only (bearish/red)
+| `LowerBand` | double | Lower band only (bullish/green)
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `Sar` is the contiguous combination of both upper and lower line data.
 

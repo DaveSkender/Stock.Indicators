@@ -8,10 +8,10 @@ public static partial class Indicator
     ///
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,
-        decimal accelerationStep = 0.02m,
-        decimal maxAccelerationFactor = 0.2m)
+        double accelerationStep = 0.02,
+        double maxAccelerationFactor = 0.2)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToQuoteD()
             .CalcParabolicSar(
                 accelerationStep,
                 maxAccelerationFactor,
@@ -22,11 +22,11 @@ public static partial class Indicator
     ///
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,
-        decimal accelerationStep,
-        decimal maxAccelerationFactor,
-        decimal initialFactor)
+        double accelerationStep,
+        double maxAccelerationFactor,
+        double initialFactor)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToQuoteD()
             .CalcParabolicSar(
                 accelerationStep,
                 maxAccelerationFactor,

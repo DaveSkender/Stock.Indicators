@@ -26,9 +26,9 @@ IEnumerable<ParabolicSarResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `accelerationStep` | decimal | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
-| `maxAccelerationFactor` | decimal | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
-| `initialFactor` | decimal | Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
+| `accelerationStep` | double | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
+| `maxAccelerationFactor` | double | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
+| `initialFactor` | double | Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
 
 ### Historical quotes requirements
 
@@ -65,7 +65,7 @@ IEnumerable<ParabolicSarResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sar` | decimal | Stop and Reverse value
+| `Sar` | double | Stop and Reverse value
 | `IsReversal` | bool | Indicates a trend reversal
 
 ### Utilities

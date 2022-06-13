@@ -1,25 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+// ULTIMATE OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    // ULTIMATE OSCILLATOR
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int shortPeriods = 7,
-        int middlePeriods = 14,
-        int longPeriods = 28)
-        where TQuote : IQuote
+    internal static List<UltimateResult> CalcUltimate(
+        this List<QuoteD> qdList,
+        int shortPeriods,
+        int middlePeriods,
+        int longPeriods)
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
         ValidateUltimate(shortPeriods, middlePeriods, longPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<UltimateResult> results = new(length);
         double[] bp = new double[length]; // buying pressure
         double[] tr = new double[length]; // true range
@@ -27,9 +21,9 @@ public static partial class Indicator
         double priorClose = 0;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             UltimateResult r = new()
             {

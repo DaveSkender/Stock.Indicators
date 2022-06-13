@@ -3,21 +3,20 @@ namespace Skender.Stock.Indicators;
 // PARABOLIC SAR (SERIES)
 public static partial class Indicator
 {
-    internal static List<ParabolicSarResult> CalcParabolicSar<TQuote>(
-        this List<TQuote> quotesList,
-        decimal accelerationStep,
-        decimal maxAccelerationFactor,
-        decimal initialFactor)
-        where TQuote : IQuote
+    internal static List<ParabolicSarResult> CalcParabolicSar(
+        this List<QuoteD> qdList,
+        double accelerationStep,
+        double maxAccelerationFactor,
+        double initialFactor)
     {
         // check parameter arguments
         ValidateParabolicSar(
             accelerationStep, maxAccelerationFactor, initialFactor);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<ParabolicSarResult> results = new(length);
-        TQuote q0;
+        QuoteD q0;
 
         if (length == 0)
         {
@@ -25,18 +24,18 @@ public static partial class Indicator
         }
         else
         {
-            q0 = quotesList[0];
+            q0 = qdList[0];
         }
 
-        decimal accelerationFactor = initialFactor;
-        decimal extremePoint = q0.High;
-        decimal priorSar = q0.Low;
+        double accelerationFactor = initialFactor;
+        double extremePoint = q0.High;
+        double priorSar = q0.Low;
         bool isRising = true;  // initial guess
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            QuoteD? q = qdList[i];
 
             ParabolicSarResult r = new()
             {
@@ -53,16 +52,16 @@ public static partial class Indicator
             // was rising
             if (isRising)
             {
-                decimal sar =
+                double sar =
                     priorSar + (accelerationFactor * (extremePoint - priorSar));
 
                 // SAR cannot be higher than last two lows
                 if (i >= 2)
                 {
-                    decimal minLastTwo =
+                    double minLastTwo =
                         Math.Min(
-                            quotesList[i - 1].Low,
-                            quotesList[i - 2].Low);
+                            qdList[i - 1].Low,
+                            qdList[i - 2].Low);
 
                     sar = Math.Min(sar, minLastTwo);
                 }
@@ -99,15 +98,15 @@ public static partial class Indicator
             // was falling
             else
             {
-                decimal sar
+                double sar
                     = priorSar - (accelerationFactor * (priorSar - extremePoint));
 
                 // SAR cannot be lower than last two highs
                 if (i >= 2)
                 {
-                    decimal maxLastTwo = Math.Max(
-                        quotesList[i - 1].High,
-                        quotesList[i - 2].High);
+                    double maxLastTwo = Math.Max(
+                        qdList[i - 1].High,
+                        qdList[i - 2].High);
 
                     sar = Math.Max(sar, maxLastTwo);
                 }
@@ -141,7 +140,7 @@ public static partial class Indicator
                 }
             }
 
-            priorSar = (decimal)r.Sar;
+            priorSar = (double)r.Sar;
         }
 
         // remove first trendline since it is an invalid guess
@@ -166,9 +165,9 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateParabolicSar(
-        decimal accelerationStep,
-        decimal maxAccelerationFactor,
-        decimal initialFactor)
+        double accelerationStep,
+        double maxAccelerationFactor,
+        double initialFactor)
     {
         // check parameter arguments
         if (accelerationStep <= 0)

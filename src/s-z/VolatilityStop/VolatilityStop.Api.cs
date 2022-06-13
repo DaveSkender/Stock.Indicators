@@ -1,15 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE DIRECTIONAL INDEX (API)
+// VOLATILITY SYSTEM/STOP (API)
 public static partial class Indicator
 {
     // SERIES, from TQuote
     /// <include file='./info.xml' path='indicator/*' />
     ///
-    public static IEnumerable<AdxResult> GetAdx<TQuote>(
+    public static IEnumerable<VolatilityStopResult> GetVolatilityStop<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 14)
+        int lookbackPeriods = 7,
+        double multiplier = 3)
         where TQuote : IQuote => quotes
             .ToQuoteD()
-            .CalcAdx(lookbackPeriods);
+            .CalcVolatilityStop(lookbackPeriods, multiplier);
 }

@@ -61,9 +61,9 @@ IEnumerable<AtrResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Tr` | decimal | True Range for current period
-| `Atr` | decimal | Average True Range for `N` lookback periods
-| `Atrp` | decimal | Average True Range Percent is `(ATR/Close Price)*100`.  This normalizes so it can be compared to other stocks.
+| `Tr` | double | True Range for current period
+| `Atr` | double | Average True Range for `N` lookback periods
+| `Atrp` | double | Average True Range Percent is `(ATR/Close Price)*100`.  This normalizes so it can be compared to other stocks.
 
 ### Utilities
 

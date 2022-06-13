@@ -4,26 +4,25 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<AtrResult> CalcAtr<TQuote>(
-        this List<TQuote> quotesList,
+    internal static List<AtrResult> CalcAtr(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
-        where TQuote : IQuote
     {
         // check parameter arguments
         ValidateAtr(lookbackPeriods);
 
         // initialize
-        List<AtrResult> results = new(quotesList.Count);
-        decimal prevAtr = 0;
-        decimal prevClose = 0;
-        decimal highMinusPrevClose = 0;
-        decimal lowMinusPrevClose = 0;
-        decimal sumTr = 0;
+        List<AtrResult> results = new(qdList.Count);
+        double prevAtr = 0;
+        double prevClose = 0;
+        double highMinusPrevClose = 0;
+        double lowMinusPrevClose = 0;
+        double sumTr = 0;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
-            TQuote q = quotesList[i];
+            QuoteD q = qdList[i];
 
             AtrResult result = new()
             {
@@ -36,13 +35,13 @@ public static partial class Indicator
                 lowMinusPrevClose = Math.Abs(q.Low - prevClose);
             }
 
-            decimal tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
+            double tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
             result.Tr = tr;
 
             if (i + 1 > lookbackPeriods)
             {
                 // calculate ATR
-                decimal atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
+                double atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
                 result.Atr = atr;
                 result.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
                 prevAtr = atr;
@@ -51,7 +50,7 @@ public static partial class Indicator
             {
                 // initialize ATR
                 sumTr += tr;
-                decimal atr = sumTr / lookbackPeriods;
+                double atr = sumTr / lookbackPeriods;
                 result.Atr = atr;
                 result.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
                 prevAtr = atr;
