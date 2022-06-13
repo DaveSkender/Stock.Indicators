@@ -14,7 +14,6 @@ public static partial class Indicator
         ValidateStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // initialize results
-        // to ensure same length as original quotes
         int length = tpList.Count;
         int initPeriods = Math.Min(slowPeriods - 1, length);
         List<StcResult> results = new(length);

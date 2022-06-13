@@ -1,63 +1,61 @@
 namespace Skender.Stock.Indicators;
+#nullable disable // false positive in QuoteD conversion
 
+// STOCHASTIC RSI (SERIES)
 public static partial class Indicator
 {
-    // STOCHASTIC RSI
-
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<StochRsiResult> GetStochRsi<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<StochRsiResult> CalcStochRsi(
+        this List<(DateTime, double)> tpList,
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
-        int smoothPeriods = 1)
-        where TQuote : IQuote
+        int smoothPeriods)
     {
         // check parameter arguments
         ValidateStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
-        // initialize
-        List<RsiResult> rsiResults = GetRsi(quotes, rsiPeriods).ToList();
-        List<StochRsiResult> results = new(rsiResults.Count);
+        // initialize results
+        int length = tpList.Count;
+        int initPeriods = Math.Min(rsiPeriods + stochPeriods - 1, length);
+        List<StochRsiResult> results = new(length);
+
+        // add back auto-pruned results
+        for (int i = 0; i < initPeriods; i++)
+        {
+            (DateTime date, double value) = tpList[i];
+            results.Add(new StochRsiResult() { Date = date });
+        }
 
         // get Stochastic of RSI
-#pragma warning disable CS8629 // Nullable value type may be null.  False warning.
         List<StochResult> stoResults =
-            quotes
-            .GetRsi(rsiPeriods)
+            tpList
+            .CalcRsi(rsiPeriods)
             .Remove(rsiPeriods)
             .Where(x => x.Rsi is not null)
-            .Select(x => new Quote
+            .Select(x => new QuoteD
             {
                 Date = x.Date,
-                High = (decimal)x.Rsi,
-                Low = (decimal)x.Rsi,
-                Close = (decimal)x.Rsi
+                High = (double)x.Rsi,
+                Low = (double)x.Rsi,
+                Close = (double)x.Rsi
             })
-            .GetStoch(stochPeriods, signalPeriods, smoothPeriods)
+            .ToList()
+            .CalcStoch(
+                stochPeriods,
+                signalPeriods,
+                smoothPeriods, 3, 2, MaType.SMA)
             .ToList();
-#pragma warning restore CS8629
 
-        // compose
-        for (int i = 0; i < rsiResults.Count; i++)
+        // add stoch results
+        for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
         {
-            RsiResult r = rsiResults[i];
-
-            StochRsiResult result = new()
+            StochResult r = stoResults[i - rsiPeriods];
+            results.Add(new StochRsiResult
             {
-                Date = r.Date
-            };
-
-            if (i + 1 >= rsiPeriods + stochPeriods)
-            {
-                StochResult sto = stoResults[i - rsiPeriods];
-
-                result.StochRsi = sto.Oscillator;
-                result.Signal = sto.Signal;
-            }
-
-            results.Add(result);
+                Date = r.Date,
+                StochRsi = r.Oscillator,
+                Signal = r.Signal
+            });
         }
 
         return results;
