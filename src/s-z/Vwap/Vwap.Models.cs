@@ -1,7 +1,9 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class VwapResult : ResultBase
+public sealed class VwapResult : ResultBase, IReusableResult
 {
-    public decimal? Vwap { get; set; }
+    public double? Vwap { get; set; }
+
+    double? IReusableResult.Value => Vwap;
 }

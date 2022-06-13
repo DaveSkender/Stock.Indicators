@@ -1,23 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+// VOLUME WEIGHTED AVERAGE PRICE (SERIES)
 public static partial class Indicator
 {
-    // VOLUME WEIGHTED AVERAGE PRICE
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<VwapResult> GetVwap<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<VwapResult> CalcVwap(
+        this List<QuoteD> qdList,
         DateTime? startDate = null)
-        where TQuote : IQuote
     {
-        // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
-
         // check parameter arguments
-        ValidateVwap(quotesList, startDate);
+        ValidateVwap(qdList, startDate);
 
         // initialize
-        int length = quotesList.Count;
+        int length = qdList.Count;
         List<VwapResult> results = new(length);
 
         if (length == 0)
@@ -25,7 +19,7 @@ public static partial class Indicator
             return results;
         }
 
-        startDate = (startDate == null) ? quotesList[0].Date : startDate;
+        startDate = (startDate == null) ? qdList[0].Date : startDate;
 
         double? cumVolume = 0;
         double? cumVolumeTP = 0;
@@ -33,7 +27,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
             double? v = q.Volume;
             double? h = q.High;
             double? l = q.Low;
@@ -49,7 +43,7 @@ public static partial class Indicator
                 cumVolume += v;
                 cumVolumeTP += v * (h + l + c) / 3;
 
-                r.Vwap = (cumVolume != 0) ? (decimal?)(cumVolumeTP / cumVolume) : null;
+                r.Vwap = (cumVolume != 0) ? (cumVolumeTP / cumVolume) : null;
             }
 
             results.Add(r);

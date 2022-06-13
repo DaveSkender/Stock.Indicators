@@ -34,6 +34,19 @@ You must have at least one historical quote to calculate; however, more is often
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `Vwap` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetVwap(..)
+    .GetRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
@@ -51,7 +64,7 @@ IEnumerable<VwapResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Vwap` | decimal | Volume Weighted Average Price
+| `Vwap` | double | Volume Weighted Average Price
 
 ### Utilities
 
