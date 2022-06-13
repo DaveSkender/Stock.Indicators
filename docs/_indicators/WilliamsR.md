@@ -30,6 +30,19 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### Chaining
+
+Results can be further processed on `WilliamsR` with additional chain-enabled indicators.
+
+```csharp
+# example
+var results = quotes
+    .GetWilliamsR(..)
+    .GetSlope(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Response
 
 ```csharp
@@ -46,7 +59,7 @@ IEnumerable<WilliamsResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `WilliamsR` | decimal | Oscillator over prior `N` lookback periods
+| `WilliamsR` | double | Oscillator over prior `N` lookback periods
 
 ### Utilities
 
