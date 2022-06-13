@@ -1,34 +1,32 @@
 namespace Skender.Stock.Indicators;
 
+// SUPERTREND (SERIES)
 public static partial class Indicator
 {
-    // SUPERTREND
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<SuperTrendResult> GetSuperTrend<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<SuperTrendResult> CalcSuperTrend<TQuote>(
+        this List<TQuote> quotesList,
         int lookbackPeriods = 10,
         double multiplier = 3)
         where TQuote : IQuote
     {
         // convert quotes
-        List<QuoteD> quotesList = quotes.ToQuoteD();
+        List<QuoteD> qdList = quotesList.ToQuoteD();
 
         // check parameter arguments
         ValidateSuperTrend(lookbackPeriods, multiplier);
 
         // initialize
-        List<SuperTrendResult> results = new(quotesList.Count);
-        List<AtrResult> atrResults = GetAtr(quotes, lookbackPeriods).ToList();
+        List<SuperTrendResult> results = new(qdList.Count);
+        List<AtrResult> atrResults = quotesList.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;
         double? lowerBand = null;
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < qdList.Count; i++)
         {
-            QuoteD q = quotesList[i];
+            QuoteD q = qdList[i];
 
             SuperTrendResult r = new()
             {
@@ -39,7 +37,7 @@ public static partial class Indicator
             {
                 double? mid = (q.High + q.Low) / 2;
                 double? atr = (double?)atrResults[i].Atr;
-                double? prevClose = quotesList[i - 1].Close;
+                double? prevClose = qdList[i - 1].Close;
 
                 // potential bands
                 double? upperEval = mid + (multiplier * atr);
