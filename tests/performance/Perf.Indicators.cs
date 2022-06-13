@@ -292,6 +292,9 @@ public class IndicatorPerformance
     public object GetSuperTrend() => h.GetSuperTrend();
 
     [Benchmark]
+    public object GetT3() => h.GetT3();
+
+    [Benchmark]
     public object GetTema() => h.GetTema(14);
 
     [Benchmark]
@@ -302,9 +305,6 @@ public class IndicatorPerformance
 
     [Benchmark]
     public object GetTsi() => h.GetTsi();
-
-    [Benchmark]
-    public object GetT3() => h.GetT3();
 
     [Benchmark]
     public object GetUlcerIndex() => h.GetUlcerIndex();

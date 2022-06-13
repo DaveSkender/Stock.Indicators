@@ -1,24 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+// TRIPLE EMA OSCILLATOR - TRIX (SERIES)
 public static partial class Indicator
 {
-    // TRIPLE EMA OSCILLATOR (TRIX)
-    /// <include file='./info.xml' path='indicator/*' />
-    ///
-    public static IEnumerable<TrixResult> GetTrix<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    internal static List<TrixResult> CalcTrix(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
-        int? signalPeriods = null)
-        where TQuote : IQuote
+        int? signalPeriods)
     {
-        // convert quotes
-        List<BasicData> bdList = quotes.ToBasicClass(CandlePart.Close);
-
         // check parameter arguments
         ValidateTrix(lookbackPeriods);
 
         // initialize
-        int length = bdList.Count;
+        int length = tpList.Count;
         List<TrixResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
@@ -29,25 +23,25 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            lastEma1 += bdList[i].Value;
+            lastEma1 += tpList[i].Item2;
         }
 
-        lastEma1 /= lookbackPeriods;
+        lastEma1 /= initPeriods;
         lastEma2 = lastEma3 = lastEma1;
 
         // compose final results
         for (int i = 0; i < length; i++)
         {
-            BasicData q = bdList[i];
+            (DateTime date, double value) = tpList[i];
 
             TrixResult result = new()
             {
-                Date = q.Date
+                Date = date
             };
 
             if (i >= lookbackPeriods)
             {
-                double? ema1 = lastEma1 + (k * (q.Value - lastEma1));
+                double? ema1 = lastEma1 + (k * (value - lastEma1));
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
                 double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
@@ -62,14 +56,14 @@ public static partial class Indicator
             results.Add(result);
 
             // optional SMA signal
-            GetTrixSignal(signalPeriods, i, lookbackPeriods, results);
+            CalcTrixSignal(signalPeriods, i, lookbackPeriods, results);
         }
 
         return results;
     }
 
     // internals
-    private static void GetTrixSignal(
+    private static void CalcTrixSignal(
         int? signalPeriods, int i, int lookbackPeriods, List<TrixResult> results)
     {
         if (signalPeriods != null && i >= (lookbackPeriods + signalPeriods - 1))
