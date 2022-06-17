@@ -1,5 +1,37 @@
 namespace Skender.Stock.Indicators;
 
+<<<<<<< Updated upstream:src/_common/Results/Result.Utilities.cs
+=======
+// RESULT MODELS
+
+public interface IResult
+{
+    public DateTime Date { get; }
+}
+
+[Serializable]
+public abstract class ResultBase : IResult
+{
+    public DateTime Date { get; set; }
+}
+
+[Serializable]
+// For generic collections containing any kind of MA in the MAType enum
+public abstract class MaResultBase : ResultBase
+{
+    // Consider implementing as an explicit interface or overridden abstract
+    public decimal? Ma
+    {
+        get
+        {
+            // MA value = XyzResult.Xyz
+            string maValuePropertyName = GetType().Name.Replace("Result", string.Empty);
+            return (decimal)GetType().GetProperty(maValuePropertyName).GetValue(this);
+        }
+    }
+}
+
+>>>>>>> Stashed changes:src/_common/Results/Results.cs
 // HELPER FUNCTIONS
 
 public static partial class Indicator

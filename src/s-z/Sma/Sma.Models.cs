@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class SmaResult : ResultBase
+public class SmaResult : MaResultBase
 {
     public decimal? Sma { get; set; }
 }

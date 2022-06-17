@@ -7,12 +7,17 @@ public static partial class Indicator
     ///
     public static IEnumerable<SlopeResult> GetSlope<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
+        int lookbackPeriods,
+        CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote
     {
         // convert quotes
+<<<<<<< Updated upstream
         List<(DateTime Date, double Value)> tpList
             = quotes.ToBasicTuple(CandlePart.Close);
+=======
+        List<BasicData> bdList = quotes.ToBasicClass(candlePart);
+>>>>>>> Stashed changes
 
         // check parameter arguments
         ValidateSlope(lookbackPeriods);

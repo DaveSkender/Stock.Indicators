@@ -7,19 +7,34 @@ public static partial class Indicator
     /// <include file='./info.xml' path='indicator/*' />
     ///
     public static IEnumerable<StochRsiResult> GetStochRsi<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int rsiPeriods,
-        int stochPeriods,
-        int signalPeriods,
-        int smoothPeriods = 1)
-        where TQuote : IQuote
+       this IEnumerable<TQuote> quotes,
+       int rsiPeriods,
+       int stochPeriods,
+       int signalPeriods,
+       int smoothPeriods = 1,
+       decimal kFactor = 3,
+       decimal dFactor = 2,
+       MaType movingAverageType = MaType.SMA)
+       where TQuote : IQuote
     {
         // check parameter arguments
         ValidateStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // initialize
-        List<RsiResult> rsiResults = GetRsi(quotes, rsiPeriods).ToList();
-        List<StochRsiResult> results = new(rsiResults.Count);
+        return GetStochRsi(GetRsi(quotes, rsiPeriods), rsiPeriods, stochPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType).ToList();
+    }
+
+    public static IEnumerable<StochRsiResult> GetStochRsi(
+    this IEnumerable<RsiResult> rsiResults,
+    int rsiPeriods,
+    int stochPeriods,
+    int signalPeriods,
+    int smoothPeriods = 1,
+    decimal kFactor = 3,
+    decimal dFactor = 2,
+    MaType movingAverageType = MaType.SMA)
+    {
+        List<StochRsiResult> results = new(rsiResults.Count());
 
         // get Stochastic of RSI
 #pragma warning disable CS8629 // Nullable value type may be null.  False warning.
@@ -37,22 +52,30 @@ public static partial class Indicator
             })
             .GetStoch(stochPeriods, signalPeriods, smoothPeriods)
             .ToList();
+<<<<<<< Updated upstream
 #pragma warning restore CS8629
+=======
+
+        // get Stochastic of RSI
+        List<StochResult> stoResults =
+            GetStoch(rsiQuotes, stochPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType)
+            .ToList();
+>>>>>>> Stashed changes
 
         // compose
-        for (int i = 0; i < rsiResults.Count; i++)
+        for (int i = 0; i < rsiResults.Count(); i++)
         {
-            RsiResult r = rsiResults[i];
+            RsiResult r = rsiResults.ElementAt(i);
 
             StochRsiResult result = new()
             {
                 Date = r.Date
             };
 
+            StochResult sto;
             if (i + 1 >= rsiPeriods + stochPeriods)
             {
-                StochResult sto = stoResults[i - rsiPeriods];
-
+                sto = stoResults[i - rsiPeriods];
                 result.StochRsi = sto.Oscillator;
                 result.Signal = sto.Signal;
             }

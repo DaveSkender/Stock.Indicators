@@ -2,7 +2,7 @@
 
 <indicator>
   <summary>
-    Slope of the best fit line is determined by an ordinary least-squares simple linear regression on Close price.
+    Slope of the best fit line is determined by an ordinary least-squares simple linear regression on historial data.
     It can be used to help identify trend strength and direction.
     <para>
       See
@@ -13,6 +13,7 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+  <param name="candlePart">The part of the quotes to analyze.</param>
   <returns>Time series of Slope values, including Slope, Standard Deviation, R², and a best-fit Line (for the last lookback segment).</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </indicator>
