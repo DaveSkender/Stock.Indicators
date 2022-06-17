@@ -12,8 +12,8 @@ public static partial class Indicator
        int stochPeriods,
        int signalPeriods,
        int smoothPeriods = 1,
-       decimal kFactor = 3,
-       decimal dFactor = 2,
+       double kFactor = 3,
+       double dFactor = 2,
        MaType movingAverageType = MaType.SMA)
        where TQuote : IQuote
     {
@@ -30,8 +30,8 @@ public static partial class Indicator
     int stochPeriods,
     int signalPeriods,
     int smoothPeriods = 1,
-    decimal kFactor = 3,
-    decimal dFactor = 2,
+    double kFactor = 3,
+    double dFactor = 2,
     MaType movingAverageType = MaType.SMA)
     {
         List<StochRsiResult> results = new(rsiResults.Count());
@@ -39,8 +39,7 @@ public static partial class Indicator
         // get Stochastic of RSI
 #pragma warning disable CS8629 // Nullable value type may be null.  False warning.
         List<StochResult> stoResults =
-            quotes
-            .GetRsi(rsiPeriods)
+            rsiResults
             .Remove(rsiPeriods)
             .Where(x => x.Rsi is not null)
             .Select(x => new Quote
@@ -50,17 +49,9 @@ public static partial class Indicator
                 Low = (decimal)x.Rsi,
                 Close = (decimal)x.Rsi
             })
-            .GetStoch(stochPeriods, signalPeriods, smoothPeriods)
+            .GetStoch(stochPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType)
             .ToList();
-<<<<<<< Updated upstream
 #pragma warning restore CS8629
-=======
-
-        // get Stochastic of RSI
-        List<StochResult> stoResults =
-            GetStoch(rsiQuotes, stochPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType)
-            .ToList();
->>>>>>> Stashed changes
 
         // compose
         for (int i = 0; i < rsiResults.Count(); i++)

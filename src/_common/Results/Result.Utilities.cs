@@ -1,20 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-<<<<<<< Updated upstream:src/_common/Results/Result.Utilities.cs
-=======
-// RESULT MODELS
-
-public interface IResult
-{
-    public DateTime Date { get; }
-}
-
-[Serializable]
-public abstract class ResultBase : IResult
-{
-    public DateTime Date { get; set; }
-}
-
 [Serializable]
 // For generic collections containing any kind of MA in the MAType enum
 public abstract class MaResultBase : ResultBase
@@ -31,7 +16,6 @@ public abstract class MaResultBase : ResultBase
     }
 }
 
->>>>>>> Stashed changes:src/_common/Results/Results.cs
 // HELPER FUNCTIONS
 
 public static partial class Indicator

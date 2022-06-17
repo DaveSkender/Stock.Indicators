@@ -12,12 +12,9 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-<<<<<<< Updated upstream
         List<(DateTime Date, double Value)> tpList
-            = quotes.ToBasicTuple(CandlePart.Close);
-=======
+            = quotes.ToBasicTuple(candlePart);
         List<BasicData> bdList = quotes.ToBasicClass(candlePart);
->>>>>>> Stashed changes
 
         // check parameter arguments
         ValidateSlope(lookbackPeriods);
