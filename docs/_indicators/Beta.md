@@ -45,7 +45,7 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotesEval
     .Use(CandlePart.HL2)
     .GetBeta(quotesMarket, ..);
@@ -54,7 +54,7 @@ var results = quotesEval
 Results can be further processed on `Beta` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotesEval
     .GetBeta(quotesMarket, ..)
     .GetSlope(..);

@@ -41,7 +41,7 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 Results can be further processed on `Sar` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetParabolicSar(..)
     .GetEma(..);

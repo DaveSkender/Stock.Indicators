@@ -35,7 +35,7 @@ You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more
 Results can be further processed on `ForceIndex` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetForceIndex(..)
     .GetEma(..);

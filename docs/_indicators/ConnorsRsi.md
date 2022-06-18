@@ -50,7 +50,7 @@ IEnumerable<ConnorsRsiResult>
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetConnorsRsi(..);
@@ -59,7 +59,7 @@ var results = quotes
 Results can be further processed on `ConnorsRsi` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetConnorsRsi(..)
     .GetSma(..);

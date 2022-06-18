@@ -39,7 +39,7 @@ You must have at least one historical quote to calculate; however, more is often
 Results can be further processed on `Vwap` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetVwap(..)
     .GetRsi(..);

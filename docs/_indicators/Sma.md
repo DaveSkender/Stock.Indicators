@@ -33,26 +33,6 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-# example
-var results = quotes
-    .Use(CandlePart.Volume)
-    .GetSma(..);
-```
-
-Results can be further processed on `Sma` with additional chain-enabled indicators.
-
-```csharp
-# example
-var results = quotes
-    .GetSma(..)
-    .GetRsi(..);
-```
-
 ## Response
 
 ```csharp
@@ -79,17 +59,17 @@ IEnumerable<SmaResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Extended analysis
+## Analysis
 
-An extended variant of this indicator includes additional analysis.
+This indicator has an extended version with more analysis.
 
 ```csharp
 // usage
-IEnumerable<SmaExtendedResult> results =
-  quotes.GetSmaExtended(lookbackPeriods);
+IEnumberable<SmaAnalysis> analysis =
+  results.GetSmaAnalysis();
 ```
 
-### SmaExtendedResult
+### SmaAnalysis
 
 | name | type | notes
 | -- |-- |--
@@ -98,3 +78,25 @@ IEnumerable<SmaExtendedResult> results =
 | `Mad` | double | Mean absolute deviation
 | `Mse` | double | Mean square error
 | `Mape` | double | Mean absolute percentage error
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.Volume)
+    .GetSma(..);
+```
+
+Results can be further processed on `Sma` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetSma(..)
+    .GetRsi(..);
+```
+
+:warning: In most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

@@ -43,7 +43,7 @@ You must have at least two periods of `quotes` to cover the warmup periods, but 
 Results can be further processed on `ZigZag` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetZigZag(..)
     .GetSlope(..);

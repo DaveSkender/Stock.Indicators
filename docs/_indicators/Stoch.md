@@ -57,7 +57,7 @@ These are the supported moving average types:
 Results can be further processed on `Oscillator` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetStoch(..)
     .GetSlope(..);

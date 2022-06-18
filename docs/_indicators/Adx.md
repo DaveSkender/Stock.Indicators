@@ -35,7 +35,7 @@ You must have at least `2×N+100` periods of `quotes` to allow for smoothing con
 Results can be further processed on `Adx` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetAdx(..)
     .GetRsi(..);

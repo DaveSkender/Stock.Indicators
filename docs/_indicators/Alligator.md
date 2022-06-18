@@ -40,7 +40,7 @@ You must have at least `JP+JO+100` periods of `quotes` to cover the convergence 
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetAlligator();

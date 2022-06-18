@@ -41,7 +41,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetStdDev(..);
@@ -50,7 +50,7 @@ var results = quotes
 Results can be further processed on `StdDev` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetStdDev(..)
     .GetSlope(..);

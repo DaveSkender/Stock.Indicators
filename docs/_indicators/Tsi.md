@@ -37,7 +37,7 @@ You must have at least `N+M+100` periods of `quotes` to cover the convergence pe
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetTsi(..);
@@ -46,7 +46,7 @@ var results = quotes
 Results can be further processed on `Tsi` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetTsi(..)
     .GetSlope(..);

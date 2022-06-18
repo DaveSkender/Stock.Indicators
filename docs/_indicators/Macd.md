@@ -37,7 +37,7 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetMacd(..);
@@ -46,7 +46,7 @@ var results = quotes
 Results can be further processed on `Histogram` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetMacd(..)
     .GetSlope(..);

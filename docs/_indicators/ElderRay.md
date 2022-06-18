@@ -36,7 +36,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 Results can be further processed on `(BullPower+BearPower)` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetElderRay(..)
     .GetEma(..);

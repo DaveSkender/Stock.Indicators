@@ -36,7 +36,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetEma(..)
     .GetSlope(..);
@@ -45,7 +45,7 @@ var results = quotes
 Results can be further processed on `Slope` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetSlope(..)
     .GetRsi(..);

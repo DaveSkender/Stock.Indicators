@@ -44,7 +44,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 Results can be further processed on `Atrp` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetChandelier(..)
     .GetEma(..);

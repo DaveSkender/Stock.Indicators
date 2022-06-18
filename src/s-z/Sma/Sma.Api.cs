@@ -26,4 +26,14 @@ public static partial class Indicator
         int lookbackPeriods) => priceTuples
             .ToSortedList()
             .CalcSma(lookbackPeriods);
+
+    /// <include file='./info.xml' path='indicator/type[@name="Analysis"]/*' />
+    ///
+    // ANALYSIS, from TQuote
+    public static IEnumerable<SmaResult> GetSmaAnalysis<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(CandlePart.Close)
+            .CalcSma(lookbackPeriods);
 }

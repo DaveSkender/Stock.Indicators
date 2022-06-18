@@ -9,7 +9,7 @@ public sealed class SmaResult : ResultBase, IReusableResult
 }
 
 [Serializable]
-public sealed class SmaExtendedResult : ResultBase, IReusableResult
+public sealed class SmaAnalysis : ResultBase, IReusableResult
 {
     public double? Sma { get; set; } // simple moving average
     public double? Mad { get; set; } // mean absolute deviation

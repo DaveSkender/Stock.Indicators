@@ -34,7 +34,7 @@ If using default settings, you must have at least 121 periods of `quotes`. Since
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HLC3)
     .GetGator();

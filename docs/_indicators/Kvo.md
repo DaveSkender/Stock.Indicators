@@ -37,7 +37,7 @@ You must have at least `L+100` periods of `quotes` to cover the warmup periods. 
 Results can be further processed on `Kvo` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetKvo(..)
     .GetSlope(..);

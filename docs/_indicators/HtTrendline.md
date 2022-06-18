@@ -29,7 +29,7 @@ You must have at least `100` periods of `quotes` to cover the warmup periods.
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HLC3)
     .GetHtTrendline(..);
@@ -38,7 +38,7 @@ var results = quotes
 Results can be further processed on `Trendline` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetHtTrendline(..)
     .GetRsi(..);

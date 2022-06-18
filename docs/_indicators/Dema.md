@@ -39,7 +39,7 @@ You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is mo
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetDema(..);
@@ -48,7 +48,7 @@ var results = quotes
 Results can be further processed on `Dema` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetDema(..)
     .GetRsi(..);

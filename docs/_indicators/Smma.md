@@ -36,7 +36,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetSmma(..);
@@ -45,7 +45,7 @@ var results = quotes
 Results can be further processed on `Smma` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetSmma(..)
     .GetRsi(..);

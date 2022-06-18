@@ -41,7 +41,7 @@ You must have at least `N` periods of `quotesEval` to calculate `PrsPercent` if 
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotesEval
     .Use(CandlePart.HL2)
     .GetPrs(quotesBase, ..);
@@ -50,7 +50,7 @@ var results = quotesEval
 Results can be further processed on `Beta` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotesEval
     .GetPrs(quotesBase, ..)
     .GetSlope(..);

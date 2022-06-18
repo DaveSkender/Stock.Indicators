@@ -39,7 +39,7 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 Results can be further processed on `Obv` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetObv(..)
     .GetRsi(..);

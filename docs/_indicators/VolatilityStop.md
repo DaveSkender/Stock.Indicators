@@ -36,7 +36,7 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 Results can be further processed on `Sar` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetVolatilityStop(..)
     .GetEma(..);

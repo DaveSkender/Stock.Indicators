@@ -18,7 +18,7 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 
-  <type name="Extended">
+  <type name="Analysis">
     <summary>
       Simple Moving Average (SMA) is the average of Close price over a lookback window.  This extended variant includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
       <para>

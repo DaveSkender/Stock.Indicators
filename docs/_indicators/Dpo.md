@@ -35,7 +35,7 @@ You must have at least `N` historical quotes to cover the warmup periods.
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetDpo(..);
@@ -44,7 +44,7 @@ var results = quotes
 Results can be further processed on `Dpo` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetDpo(..)
     .GetRsi(..);

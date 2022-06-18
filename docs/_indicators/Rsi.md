@@ -35,7 +35,7 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetRsi(..);
@@ -44,7 +44,7 @@ var results = quotes
 Results can be further processed on `Rsi` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetRsi(..)
     .GetSlope(..);

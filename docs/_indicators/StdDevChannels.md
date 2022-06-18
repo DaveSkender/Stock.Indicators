@@ -36,7 +36,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotesEval
     .Use(CandlePart.HL2)
     .GetStdDevChannels(..);

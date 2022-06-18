@@ -36,7 +36,7 @@ You must have at least `2×S` or `S+100` periods of `quotes`, whichever is more,
 Results can be further processed on `Oscillator` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetChaikinOsc(..)
     .GetSlope(..);

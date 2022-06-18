@@ -37,7 +37,7 @@ You must have at least `N` periods for both versions of `quotes` to cover the wa
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetCorr(..);
@@ -46,7 +46,7 @@ var results = quotes
 Results can be further processed on `Correlation` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetCorr(..)
     .GetSlope(..);

@@ -35,7 +35,7 @@ You must have at least `N+1` historical quotes to cover the warmup periods.
 Results can be further processed on `Mfi` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetMfi(..)
     .GetRsi(..);

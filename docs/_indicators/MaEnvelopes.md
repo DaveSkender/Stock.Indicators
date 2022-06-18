@@ -55,7 +55,7 @@ These are the supported moving average types:
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HLC3)
     .GetMaEnvelopes(..);

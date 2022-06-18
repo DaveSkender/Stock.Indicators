@@ -31,7 +31,7 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 Results are based in `IQuote` and can be further used in any indicator.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetHeikinAshi(..)
     .GetRsi(..);

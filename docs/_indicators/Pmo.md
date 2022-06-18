@@ -37,7 +37,7 @@ You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetPmo(..);
@@ -46,7 +46,7 @@ var results = quotes
 Results can be further processed on `Pmo` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetPmo(..)
     .GetRsi(..);

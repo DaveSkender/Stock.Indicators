@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace Skender.Stock.Indicators;
 
-// REMOVED IN v1.24.0, ToQuotes(), CandlePart params
+// REMOVED IN v2.0.0
 public static partial class Indicator
 {
     [ExcludeFromCodeCoverage]
@@ -41,6 +41,15 @@ public static partial class Indicator
         where TQuote : IQuote => quotes
             .ToBasicTuple(candlePart)
             .CalcSma(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("GetSmaExtended(..) was renamed to GetSmaAnalysis(..)")]
+    public static IEnumerable<SmaAnalysis> GetSmaExtended<TQuote>(
+    this IEnumerable<TQuote> quotes,
+    int lookbackPeriods)
+    where TQuote : IQuote => quotes
+        .ToBasicTuple(CandlePart.Close)
+        .CalcSmaAnalysis(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("The use of CandlePart as a parameter is deprecated.  "

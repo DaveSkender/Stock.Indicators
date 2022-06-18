@@ -37,7 +37,7 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 Results can be further processed on `Pvo` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetPvo(..)
     .GetSlope(..);

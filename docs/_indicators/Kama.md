@@ -37,7 +37,7 @@ You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more,
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetKama(..);
@@ -46,7 +46,7 @@ var results = quotes
 Results can be further processed on `Kama` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetKama(..)
     .GetRsi(..);

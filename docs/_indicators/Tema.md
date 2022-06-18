@@ -40,7 +40,7 @@ You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is mo
 This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-# example
+// example
 var results = quotes
     .Use(CandlePart.HL2)
     .GetTema(..);
@@ -49,7 +49,7 @@ var results = quotes
 Results can be further processed on `Tema` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetTema(..)
     .GetRsi(..);

@@ -35,7 +35,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 Results can be further processed on `Oscillator` with additional chain-enabled indicators.
 
 ```csharp
-# example
+// example
 var results = quotes
     .GetAroon(..)
     .GetSlope(..);
