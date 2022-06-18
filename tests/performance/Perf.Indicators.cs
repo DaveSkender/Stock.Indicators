@@ -256,7 +256,7 @@ public class IndicatorPerformance
     public object GetSma() => h.GetSma(10);
 
     [Benchmark]
-    public object GetSmaExtended() => h.GetSmaExtended(10);
+    public object GetSmaAnalysis() => h.GetSmaAnalysis(10);
 
     [Benchmark]
     public object GetSmi() => h.GetSmi(5, 20, 5, 3);

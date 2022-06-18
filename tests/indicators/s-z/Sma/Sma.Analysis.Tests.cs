@@ -9,7 +9,7 @@ public class SmaExtended : TestBase
     [TestMethod]
     public void Extended()
     {
-        List<SmaExtendedResult> results = quotes.GetSmaExtended(20).ToList();
+        List<SmaAnalysis> results = quotes.GetSmaAnalysis(20).ToList();
 
         // assertions
 
@@ -19,7 +19,7 @@ public class SmaExtended : TestBase
         Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
 
         // sample value
-        SmaExtendedResult r = results[501];
+        SmaAnalysis r = results[501];
         Assert.AreEqual(251.86, NullMath.Round(r.Sma, 6));
         Assert.AreEqual(9.450000, NullMath.Round(r.Mad, 6));
         Assert.AreEqual(119.25102, NullMath.Round(r.Mse, 6));
@@ -29,24 +29,24 @@ public class SmaExtended : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<SmaExtendedResult> r = Indicator.GetSmaExtended(badQuotes, 15);
+        IEnumerable<SmaAnalysis> r = Indicator.GetSmaAnalysis(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<SmaExtendedResult> r0 = noquotes.GetSmaExtended(6);
+        IEnumerable<SmaAnalysis> r0 = noquotes.GetSmaAnalysis(6);
         Assert.AreEqual(0, r0.Count());
 
-        IEnumerable<SmaExtendedResult> r1 = onequote.GetSmaExtended(6);
+        IEnumerable<SmaAnalysis> r1 = onequote.GetSmaAnalysis(6);
         Assert.AreEqual(1, r1.Count());
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<SmaExtendedResult> results = quotes.GetSmaExtended(20)
+        List<SmaAnalysis> results = quotes.GetSmaAnalysis(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -60,6 +60,6 @@ public class SmaExtended : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSmaExtended(quotes, 0));
+            Indicator.GetSmaAnalysis(quotes, 0));
     }
 }

@@ -30,10 +30,24 @@ public static partial class Indicator
     /// <include file='./info.xml' path='indicator/type[@name="Analysis"]/*' />
     ///
     // ANALYSIS, from TQuote
-    public static IEnumerable<SmaResult> GetSmaAnalysis<TQuote>(
+    public static IEnumerable<SmaAnalysis> GetSmaAnalysis<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
             .ToBasicTuple(CandlePart.Close)
-            .CalcSma(lookbackPeriods);
+            .CalcSmaAnalysis(lookbackPeriods);
+
+    // ANALYSIS, from CHAIN
+    public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
+        this IEnumerable<IReusableResult> results,
+        int lookbackPeriods) => results
+            .ToResultTuple()
+            .CalcSmaAnalysis(lookbackPeriods);
+
+    // ANALYSIS, from TUPLE
+    public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
+        this IEnumerable<(DateTime, double)> priceTuples,
+        int lookbackPeriods) => priceTuples
+            .ToSortedList()
+            .CalcSmaAnalysis(lookbackPeriods);
 }
