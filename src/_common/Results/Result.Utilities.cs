@@ -49,4 +49,24 @@ public static partial class Indicator
             return resultsList;
         }
     }
+
+    // CONVERT TO TUPLE
+    internal static List<(DateTime Date, double Value)> ToResultTuple(
+        this IEnumerable<IReusableResult> basicData)
+    {
+        List<(DateTime Date, double Value)> prices = new();
+        List<IReusableResult>? bdList = basicData.ToList();
+
+        // find first non-nulled
+        int first = bdList.FindIndex(x => x.Value != null);
+
+        for (int i = first; i < bdList.Count; i++)
+        {
+            IReusableResult? q = bdList[i];
+            double value = (q.Value == null) ? double.NaN : (double)q.Value;
+            prices.Add(new(q.Date, value));
+        }
+
+        return prices.OrderBy(x => x.Date).ToList();
+    }
 }

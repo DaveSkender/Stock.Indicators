@@ -57,6 +57,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="_common\BasicData\**" />
+    <EmbeddedResource Remove="_common\BasicData\**" />
+    <None Remove="_common\BasicData\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

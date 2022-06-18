@@ -8,7 +8,9 @@ public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-    // convert quotes to basic double tuple list
+    /* LISTS */
+
+    // convert TQuotes to basic double tuple list
     /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
     ///
     public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
@@ -40,6 +42,14 @@ public static partial class QuoteUtility
             .OrderBy(x => x.Date)
             .ToList();
 
+    // convert TQuotes to basic quotes list
+    internal static IEnumerable<BasicData> ToBasicData<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .OrderBy(x => x.Date)
+            .Select(q => q.ToBasicData(candlePart));
+
     // convert quotes to tuple list
     internal static List<(DateTime, double)> ToBasicTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -63,7 +73,9 @@ public static partial class QuoteUtility
             .OrderBy(x => x.date)
             .ToList();
 
-    // convert quote element to basic tuple
+    /* ELEMENTS */
+
+    // convert TQuote element to basic tuple
     internal static (DateTime, double) ToBasicTuple<TQuote>(
         this TQuote q,
         CandlePart candlePart)
@@ -79,6 +91,26 @@ public static partial class QuoteUtility
             CandlePart.OC2 => (q.Date, (double)(q.Open + q.Close) / 2),
             CandlePart.OHL3 => (q.Date, (double)(q.Open + q.High + q.Low) / 3),
             CandlePart.OHLC4 => (q.Date, (double)(q.Open + q.High + q.Low + q.Close) / 4),
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+        };
+
+    // convert TQuote element to basic double class
+    internal static BasicData ToBasicData<TQuote>(
+        this TQuote q,
+        CandlePart candlePart)
+        where TQuote : IQuote => candlePart switch
+        {
+            CandlePart.Open => new BasicData { Date = q.Date, Value = (double)q.Open },
+            CandlePart.High => new BasicData { Date = q.Date, Value = (double)q.High },
+            CandlePart.Low => new BasicData { Date = q.Date, Value = (double)q.Low },
+            CandlePart.Close => new BasicData { Date = q.Date, Value = (double)q.Close },
+            CandlePart.Volume => new BasicData { Date = q.Date, Value = (double)q.Volume },
+            CandlePart.HL2 => new BasicData { Date = q.Date, Value = (double)(q.High + q.Low) / 2 },
+            CandlePart.HLC3 => new BasicData { Date = q.Date, Value = (double)(q.High + q.Low + q.Close) / 3 },
+            CandlePart.OC2 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.Close) / 2 },
+            CandlePart.OHL3 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low) / 3 },
+            CandlePart.OHLC4 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
             _ => throw new ArgumentOutOfRangeException(
                 nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
