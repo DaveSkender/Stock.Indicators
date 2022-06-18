@@ -11,5 +11,5 @@ public sealed class MacdResult : ResultBase, IReusableResult
     public double? FastEma { get; set; }
     public double? SlowEma { get; set; }
 
-    double? IReusableResult.Value => Histogram;
+    double? IReusableResult.Value => Macd;
 }

@@ -45,7 +45,25 @@ IEnumerable<ConnorsRsiResult>
 
 :hourglass: **Convergence Warning**: The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
-### Chaining
+### ConnorsRsiResult
+
+| name | type | notes
+| -- |-- |--
+| `Date` | DateTime | Date
+| `Rsi` | double | RSI(`R`) of the price.
+| `RsiStreak` | double | RSI(`S`) of the Streak.
+| `PercentRank` | double | Percentile rank of the period gain value.
+| `ConnorsRsi` | double | ConnorsRSI
+
+### Utilities
+
+- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+
+See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
 
@@ -65,20 +83,4 @@ var results = quotes
     .GetSma(..);
 ```
 
-### ConnorsRsiResult
-
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Rsi` | double | RSI(`R`) of the price.
-| `RsiStreak` | double | RSI(`S`) of the Streak.
-| `PercentRank` | double | Percentile rank of the period gain value.
-| `ConnorsRsi` | double | ConnorsRSI
-
-### Utilities
-
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
-
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

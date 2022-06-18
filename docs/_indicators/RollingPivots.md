@@ -44,10 +44,6 @@ You must have at least `W+F` periods of `quotes` to cover the warmup periods.
 | `PivotPointType.Fibonacci` | Fibonacci
 | `PivotPointType.Woodie` | Woodie
 
-### Chaining
-
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
-
 ## Response
 
 ```csharp
@@ -79,3 +75,7 @@ IEnumerable<RollingPivotsResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.

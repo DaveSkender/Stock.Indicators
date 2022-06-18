@@ -41,10 +41,6 @@ You must have at least `2` windows of `quotes` to cover the warmup periods.  For
 | `PeriodSize.Day` | [..] daily.  Commonly used for intraday data.
 | `PeriodSize.OneHour` | [..] hourly
 
-### Chaining
-
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
-
 ### PivotPointType options
 
 | type | description
@@ -90,3 +86,7 @@ IEnumerable<PivotPointsResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.

@@ -29,7 +29,7 @@ public class Sma : TestBase
     }
 
     [TestMethod]
-    public void OpenCandlePart()
+    public void CandlePartOpen()
     {
         List<SmaResult> results = quotes
             .Use(CandlePart.Open)
@@ -53,7 +53,7 @@ public class Sma : TestBase
     }
 
     [TestMethod]
-    public void VolumeCandlePart()
+    public void CandlePartVolume()
     {
         List<SmaResult> results = quotes
             .Use(CandlePart.Volume)

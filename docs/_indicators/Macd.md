@@ -32,26 +32,6 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotes
-    .Use(CandlePart.HL2)
-    .GetMacd(..);
-```
-
-Results can be further processed on `Histogram` with additional chain-enabled indicators.
-
-```csharp
-// example
-var results = quotes
-    .GetMacd(..)
-    .GetSlope(..);
-```
-
 ## Response
 
 ```csharp
@@ -83,3 +63,25 @@ IEnumerable<MacdResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetMacd(..);
+```
+
+Results can be further processed on `Macd` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetMacd(..)
+    .GetSlope(..);
+```
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

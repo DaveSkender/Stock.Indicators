@@ -51,3 +51,21 @@ IEnumerable<BasicData>
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+### Chaining
+
+Results can be further processed on `Value` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetBasicData(..)
+    .GetRsi(..);
+
+// and is equivalent to
+var results = quotes
+    .Use(..)
+    .GetRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

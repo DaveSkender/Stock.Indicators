@@ -40,26 +40,6 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 | `Down` | Downside Beta only.  Uses historical quotes from market down bars only.
 | `All` | Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotesEval
-    .Use(CandlePart.HL2)
-    .GetBeta(quotesMarket, ..);
-```
-
-Results can be further processed on `Beta` with additional chain-enabled indicators.
-
-```csharp
-// example
-var results = quotesEval
-    .GetBeta(quotesMarket, ..)
-    .GetSlope(..);
-```
-
 ## Response
 
 ```csharp
@@ -91,6 +71,28 @@ IEnumerable<BetaResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotesEval
+    .Use(CandlePart.HL2)
+    .GetBeta(quotesMarket, ..);
+```
+
+Results can be further processed on `Beta` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotesEval
+    .GetBeta(quotesMarket, ..)
+    .GetSlope(..);
+```
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.
 
 ## Pro tips
 

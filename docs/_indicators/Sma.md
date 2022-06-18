@@ -99,4 +99,4 @@ var results = quotes
     .GetRsi(..);
 ```
 
-:warning: In most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

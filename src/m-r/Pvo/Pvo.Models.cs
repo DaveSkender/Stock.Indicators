@@ -7,5 +7,5 @@ public sealed class PvoResult : ResultBase, IReusableResult
     public double? Signal { get; set; }
     public double? Histogram { get; set; }
 
-    double? IReusableResult.Value => Histogram;
+    double? IReusableResult.Value => Pvo;
 }

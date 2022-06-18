@@ -31,26 +31,6 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotes
-    .GetEma(..)
-    .GetSlope(..);
-```
-
-Results can be further processed on `Slope` with additional chain-enabled indicators.
-
-```csharp
-// example
-var results = quotes
-    .GetSlope(..)
-    .GetRsi(..);
-```
-
 ## Response
 
 ```csharp
@@ -82,3 +62,25 @@ IEnumerable<SlopeResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .GetEma(..)
+    .GetSlope(..);
+```
+
+Results can be further processed on `Slope` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetSlope(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

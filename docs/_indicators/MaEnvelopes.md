@@ -50,19 +50,6 @@ These are the supported moving average types:
 
 :warning: For ALMA, default values are used for `offset` and `sigma`.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotes
-    .Use(CandlePart.HLC3)
-    .GetMaEnvelopes(..);
-```
-
-Results **cannot** be further chained with additional transforms.
-
 ## Response
 
 ```csharp
@@ -93,3 +80,18 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.HLC3)
+    .GetMaEnvelopes(..);
+```
+
+Results **cannot** be further chained with additional transforms.
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

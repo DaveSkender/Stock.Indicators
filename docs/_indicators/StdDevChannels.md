@@ -31,19 +31,6 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotesEval
-    .Use(CandlePart.HL2)
-    .GetStdDevChannels(..);
-```
-
-Results **cannot** be further chained with additional transforms.
-
 ## Response
 
 ```csharp
@@ -80,3 +67,18 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `quotes`.
 
 ![image]({{site.baseurl}}/assets/charts/StdDevChannelsFull.png)
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotesEval
+    .Use(CandlePart.HL2)
+    .GetStdDevChannels(..);
+```
+
+Results **cannot** be further chained with additional transforms.
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

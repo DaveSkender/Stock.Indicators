@@ -52,19 +52,6 @@ These are the supported moving average types:
 | `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
 | `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
 
-### Chaining
-
-Results can be further processed on `Oscillator` with additional chain-enabled indicators.
-
-```csharp
-// example
-var results = quotes
-    .GetStoch(..)
-    .GetSlope(..);
-```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
-
 ## Response
 
 ```csharp
@@ -87,7 +74,7 @@ IEnumerable<StochResult>
 | `Signal` or `D` | double | %D Simple moving average of Oscillator
 | `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
 
-Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangably with the standard outputs.
+Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangeably with the standard outputs.
 
 ### Utilities
 
@@ -96,3 +83,18 @@ Note: aliases of `K`, `D`, and `J` are also provided.  They can be used intercha
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+Results can be further processed on `Oscillator` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetStoch(..)
+    .GetSlope(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

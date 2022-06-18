@@ -29,19 +29,6 @@ If using default settings, you must have at least 121 periods of `quotes`. Since
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotes
-    .Use(CandlePart.HLC3)
-    .GetGator();
-```
-
-Results **cannot** be further chained with additional transforms.
-
 ## Response
 
 ```csharp
@@ -72,3 +59,18 @@ IEnumerable<GatorResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.HLC3)
+    .GetGator();
+```
+
+Results **cannot** be further chained with additional transforms.
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

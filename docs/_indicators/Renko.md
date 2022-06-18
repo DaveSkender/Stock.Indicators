@@ -38,7 +38,7 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 | `EndType.Close` | Brick change threshold measured from `Close` price (default)
 | `EndType.HighLow` | Brick change threshold measured from `High` and `Low` price
 
-### Chaining
+## Chaining
 
 Results are based in `IQuote` and can be further used in any indicator.
 

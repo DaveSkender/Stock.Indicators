@@ -38,19 +38,6 @@ You must have at least two periods of `quotes` to cover the warmup periods, but 
 | `EndType.Close` | Percent change measured from `Close` price (default)
 | `EndType.HighLow` | Percent change measured from `High` and `Low` price
 
-### Chaining
-
-Results can be further processed on `ZigZag` with additional chain-enabled indicators.
-
-```csharp
-// example
-var results = quotes
-    .GetZigZag(..)
-    .GetSlope(..);
-```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
-
 ## Response
 
 ```csharp
@@ -66,7 +53,7 @@ IEnumerable<ZigZagResult>
 
 :warning: **Warning**:  depending on the specified `endType`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
 
-:paintbrush: **Repaint Warning**: the last line segement will always be redrawn back to the last known pivot.  Do not attempt to calculate incremental values since previous values may change based on newer quotes.
+:paintbrush: **Repaint Warning**: the last line segment will always be redrawn back to the last known pivot.  Do not attempt to calculate incremental values since previous values may change based on newer quotes.
 
 ### ZigZagResult
 
@@ -84,3 +71,18 @@ IEnumerable<ZigZagResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+Results can be further processed on `ZigZag` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetZigZag(..)
+    .GetSlope(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

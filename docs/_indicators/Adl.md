@@ -34,19 +34,6 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-### Chaining
-
-Results can be further processed on `Adl` with additional chain-enabled indicators.
-
-```csharp
-// example
-var results = quotes
-    .GetAdl()
-    .GetRsi(..);
-```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
-
 ## Response
 
 ```csharp
@@ -75,3 +62,18 @@ IEnumerable<AdlResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+Results can be further processed on `Adl` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetAdl()
+    .GetRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

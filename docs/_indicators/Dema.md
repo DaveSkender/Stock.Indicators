@@ -34,26 +34,6 @@ You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is mo
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
-### Chaining
-
-This indicator may be generated from any chain-enabled indicator or method.
-
-```csharp
-// example
-var results = quotes
-    .Use(CandlePart.HL2)
-    .GetDema(..);
-```
-
-Results can be further processed on `Dema` with additional chain-enabled indicators.
-
-```csharp
-// example
-var results = quotes
-    .GetDema(..)
-    .GetRsi(..);
-```
-
 ## Response
 
 ```csharp
@@ -81,3 +61,25 @@ IEnumerable<DemaResult>
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetDema(..);
+```
+
+Results can be further processed on `Dema` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetDema(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.
