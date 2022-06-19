@@ -36,10 +36,6 @@ public class Sma : TestBase
             .GetSma(20)
             .ToList();
 
-        // assertions
-
-        // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
 
@@ -60,10 +56,6 @@ public class Sma : TestBase
             .GetSma(20)
             .ToList();
 
-        // assertions
-
-        // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
 
@@ -82,12 +74,12 @@ public class Sma : TestBase
     [TestMethod]
     public void Chained()
     {
-        IEnumerable<SmaResult> results = quotes
+        IEnumerable<EmaResult> results = quotes
             .GetSma(10)
-            .GetSma(10);
+            .GetEma(10);
 
         Assert.AreEqual(493, results.Count());
-        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(484, results.Where(x => x.Ema != null).Count());
     }
 
     [TestMethod]

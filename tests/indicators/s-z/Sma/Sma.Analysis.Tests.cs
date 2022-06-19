@@ -27,6 +27,17 @@ public class SmaExtended : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<EmaResult> results = quotes
+            .GetSmaAnalysis(10)
+            .GetEma(10);
+
+        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(484, results.Where(x => x.Ema != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<SmaAnalysis> r = Indicator.GetSmaAnalysis(badQuotes, 15);

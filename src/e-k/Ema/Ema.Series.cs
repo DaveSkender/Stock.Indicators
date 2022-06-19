@@ -8,7 +8,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        Ema.Validate(lookbackPeriods);
+        EmaBase.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -34,7 +34,7 @@ public static partial class Indicator
 
             if (i + 1 > lookbackPeriods)
             {
-                double ema = Ema.Increment(value, lastEma, k);
+                double ema = EmaBase.Increment(value, lastEma, k);
                 r.Ema = ema;
                 lastEma = ema;
             }

@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
-public class Ema
+public class EmaBase
 {
     // initialize base
-    internal Ema(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
+    internal EmaBase(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
     {
         K = 2d / (lookbackPeriods + 1);
 

@@ -30,7 +30,7 @@ public static partial class Indicator
     // STREAM INITIALIZATION, from TQuote
     /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
     ///
-    public static Ema InitEma<TQuote>(
+    public static EmaBase InitEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
@@ -39,11 +39,11 @@ public static partial class Indicator
         List<(DateTime, double)> tpList
             = quotes.ToBasicTuple(CandlePart.Close);
 
-        return new Ema(tpList, lookbackPeriods);
+        return new EmaBase(tpList, lookbackPeriods);
     }
 
     // STREAM INITIALIZATION, from CHAIN
-    public static Ema InitEma(
+    public static EmaBase InitEma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods)
     {
@@ -51,6 +51,6 @@ public static partial class Indicator
         List<(DateTime, double)> tpList
             = results.ToResultTuple();
 
-        return new Ema(tpList, lookbackPeriods);
+        return new EmaBase(tpList, lookbackPeriods);
     }
 }

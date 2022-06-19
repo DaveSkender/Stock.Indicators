@@ -63,7 +63,7 @@ public class EmaTests : TestBase
         List<EmaResult> series = quotesList.GetEma(20).ToList();
 
         // stream simulation
-        Ema emaBase = quotesList.Take(25).InitEma(20);
+        EmaBase emaBase = quotesList.Take(25).InitEma(20);
 
         for (int i = 25; i < series.Count; i++)
         {
@@ -174,5 +174,10 @@ public class EmaTests : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetEma(quotes, 0));
+
+        // null quote added
+        EmaBase emaBase = quotes.InitEma(14);
+        Assert.ThrowsException<InvalidQuotesException>(() =>
+        emaBase.Add(null));
     }
 }

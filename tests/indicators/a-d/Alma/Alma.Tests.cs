@@ -71,6 +71,9 @@ public class Alma : TestBase
             .ToList();
 
         // assertions
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
+
         for (int i = 0; i < results.Count; i++)
         {
             AlmaResult s = standard[i];
