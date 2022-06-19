@@ -1,7 +1,9 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class TemaResult : ResultBase
+public sealed class TemaResult : ResultBase, IReusableResult
 {
-    public decimal? Tema { get; set; }
+    public double? Tema { get; set; }
+
+    double? IReusableResult.Value => Tema;
 }

@@ -4,13 +4,14 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
+#pragma warning disable CS0618 // Type or member is obsolete
 public class Beta : TestBase
 {
     [TestMethod]
     public void All()
     {
-        List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.All)
+        List<BetaResult> results = otherQuotes
+            .GetBeta(quotes, 20, BetaType.All)
             .ToList();
 
         // assertions
@@ -58,7 +59,7 @@ public class Beta : TestBase
     public void Standard()
     {
         List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.Standard)
+            .GetBeta(otherQuotes, quotes, 20, BetaType.Standard)
             .ToList();
 
         // assertions
@@ -76,8 +77,8 @@ public class Beta : TestBase
     [TestMethod]
     public void Up()
     {
-        List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.Up)
+        List<BetaResult> results = otherQuotes
+            .GetBeta(quotes, 20, BetaType.Up)
             .ToList();
 
         // assertions
@@ -95,8 +96,8 @@ public class Beta : TestBase
     [TestMethod]
     public void Down()
     {
-        List<BetaResult> results = Indicator
-            .GetBeta(quotes, otherQuotes, 20, BetaType.Down)
+        List<BetaResult> results = otherQuotes
+            .GetBeta(quotes, 20, BetaType.Down)
             .ToList();
 
         // assertions
@@ -109,6 +110,28 @@ public class Beta : TestBase
         // sample value
         BetaResult r = results[501];
         Assert.AreEqual(1.5908, NullMath.Round(r.BetaDown, 4));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<BetaResult> results = otherQuotes
+            .Use(CandlePart.Close)
+            .GetBeta(quotes.Use(CandlePart.Close), 20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = otherQuotes
+            .GetBeta(quotes, 20)
+            .GetSma(10);
+
+        Assert.AreEqual(482, results.Count());
+        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -151,8 +174,8 @@ public class Beta : TestBase
 
         List<BetaResult> results = Indicator
             .GetBeta(
-                mktQuotes.Aggregate(PeriodSize.Month),
                 evalQuotes.Aggregate(PeriodSize.Month),
+                mktQuotes.Aggregate(PeriodSize.Month),
                 60, BetaType.Standard)
             .ToList();
 
@@ -162,7 +185,7 @@ public class Beta : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<BetaResult> results = Indicator.GetBeta(quotes, otherQuotes, 20)
+        List<BetaResult> results = Indicator.GetBeta(otherQuotes, quotes, 20)
             .RemoveWarmupPeriods()
             .ToList();
 

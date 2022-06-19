@@ -30,7 +30,7 @@ IEnumerable<TsiResult> results =
 
 You must have at least `N+M+100` periods of `quotes` to cover the convergence periods.  Since this uses a two EMA smoothing techniques, we recommend you use at least `N+M+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -39,7 +39,7 @@ IEnumerable<TsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N+M-1` periods will have `null` values since there's not enough data to calculate.
 - `Signal` will be `null` for all periods if `signalPeriods=0`.
@@ -62,12 +62,24 @@ IEnumerable<TsiResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate 20-period TSI
-IEnumerable<TsiResult> results = quotes.GetTsi(25,13,7);
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetTsi(..);
 ```
+
+Results can be further processed on `Tsi` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetTsi(..)
+    .GetSlope(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

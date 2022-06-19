@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by William Blau, the Stochastic Momentum Index (SMI) is a double-smoothed variant of the [Stochastic Oscillator](../Stoch/#content) on a scale from -100 to 100.
+Created by William Blau, the Stochastic Momentum Index (SMI) is a double-smoothed variant of the [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content) on a scale from -100 to 100.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/625 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Smi.png)
@@ -32,7 +32,7 @@ IEnumerable<SmiResult> results =
 
 You must have at least `N+100` periods of `quotes` to cover the convergence periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -41,7 +41,7 @@ IEnumerable<SmiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` SMI values since there's not enough data to calculate.
 
@@ -52,8 +52,8 @@ IEnumerable<SmiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Smi` | decimal | Stochastic Momentum Index (SMI)
-| `Signal` | decimal | Signal line: an Exponential Moving Average (EMA) of SMI
+| `Smi` | double | Stochastic Momentum Index (SMI)
+| `Signal` | double | Signal line: an Exponential Moving Average (EMA) of SMI
 
 ### Utilities
 
@@ -63,12 +63,17 @@ IEnumerable<SmiResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `Smi` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate SMI(14,20,5,3)
-IEnumerable<SmiResult> results = quotes.GetSmi(14,20,5,3);
+// example
+var results = quotes
+    .GetSmi(..)
+    .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

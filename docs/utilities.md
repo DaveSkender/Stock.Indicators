@@ -14,17 +14,19 @@ redirect_from:
 
 ## Utilities for historical quotes
 
-### Validate quote history
+### Use alternate price
 
-`quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes` (historical quotes).  It will check for duplicate dates and other bad data.  This comes at a small performance cost, so we did not automatically add these advanced validations in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
+`quotes.Use()` can be used before most indicator calls to specify price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
 
 ```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// advanced validation
-IEnumerable<Quote> validatedQuotes = quotes.Validate();
+// example: use HL2 price instead of 
+// the standard Close price for RSI
+var results = quotes
+  .Use(CandlePart.HL2)
+  .GetRsi(14);
 ```
+
+{% include candlepart-options.md %}
 
 ### Resize quote history
 
@@ -47,8 +49,6 @@ IEnumerable<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(TimeSpan timeSpan);
 ```
 
-:warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
-
 #### PeriodSize options (for newSize)
 
 - `PeriodSize.Month`
@@ -64,22 +64,21 @@ IEnumerable<Quote> dayBarQuotes =
 - `PeriodSize.TwoMinutes`
 - `PeriodSize.OneMinute`
 
-## Utilities for indicator results
+:warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 
-### Condense
+### Validate quote history
 
-`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+`quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes` (historical quotes).  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
 
 ```csharp
-// example: only show Marubozu signals
-IEnumerable<CandleResult> results
-  = quotes.GetMarubozu(..)
-    .Condense();
+// fetch historical quotes from your favorite feed
+IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+
+// advanced validation
+IEnumerable<Quote> validatedQuotes = quotes.Validate();
 ```
 
-Currently, `.Condense()` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue]({{site.github.repository_url}}/issues).
-
-:warning: WARNING! In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
+## Utilities for indicator results
 
 ### Find indicator result by date
 
@@ -115,3 +114,18 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 :warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 
 :warning: WARNING! `.RemoveWarmupPeriods()` will reverse-engineer some parameters in determing the recommended pruning amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use the `.RemoveWarmupPeriods(removePeriods)` with a specific number of `removePeriods`.
+
+### Condense
+
+`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+
+```csharp
+// example: only show Marubozu signals
+IEnumerable<CandleResult> results
+  = quotes.GetMarubozu(..)
+    .Condense();
+```
+
+Currently, `.Condense()` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue]({{site.github.repository_url}}/issues).
+
+:warning: WARNING! In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.

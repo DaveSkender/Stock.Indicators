@@ -100,6 +100,17 @@ public class Stoch : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetStoch()
+            .GetSma(10);
+
+        Assert.AreEqual(487, results.Count());
+        Assert.AreEqual(478, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void NoSignal()
     {
         int lookbackPeriods = 5;

@@ -43,6 +43,28 @@ public class Trix : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<TrixResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetTrix(20, 5);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Trix != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetTrix(20, 5)
+            .GetSma(10);
+
+        Assert.AreEqual(482, results.Count());
+        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<TrixResult> r = Indicator.GetTrix(badQuotes, 15, 2);

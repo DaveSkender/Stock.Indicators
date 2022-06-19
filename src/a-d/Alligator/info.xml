@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Williams Alligator is an indicator that transposes multiple moving averages,
     showing chart patterns that creator Bill Williams compared to an alligator's
@@ -21,4 +21,4 @@
   <param name="lipsOffset">Offset periods for the Lips line.</param>
   <returns>Time series of Alligator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

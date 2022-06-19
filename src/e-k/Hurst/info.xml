@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Hurst Exponent is a measure of randomness, trending, and mean-reverting tendencies of incremental return values.
     <para>
@@ -14,4 +14,4 @@
   <param name="lookbackPeriods">Number of lookback periods.</param>
   <returns>Time series of Hurst Exponent values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

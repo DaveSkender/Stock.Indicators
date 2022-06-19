@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Bollinger Bands&#174; depict volatility as standard deviation boundary lines from a moving average of Close price.
     <para>
@@ -15,4 +15,4 @@
   <param name="standardDeviations">Width of bands. Number of Standard Deviations from the moving average.</param>
   <returns>Time series of Bollinger Band and %B values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

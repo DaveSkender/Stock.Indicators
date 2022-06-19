@@ -20,16 +20,38 @@ public class Tema : TestBase
 
         // sample values
         TemaResult r25 = results[25];
-        Assert.AreEqual(216.1441m, NullMath.Round(r25.Tema, 4));
+        Assert.AreEqual(216.1441, NullMath.Round(r25.Tema, 4));
 
         TemaResult r67 = results[67];
-        Assert.AreEqual(222.9562m, NullMath.Round(r67.Tema, 4));
+        Assert.AreEqual(222.9562, NullMath.Round(r67.Tema, 4));
 
         TemaResult r249 = results[249];
-        Assert.AreEqual(258.6208m, NullMath.Round(r249.Tema, 4));
+        Assert.AreEqual(258.6208, NullMath.Round(r249.Tema, 4));
 
         TemaResult r501 = results[501];
-        Assert.AreEqual(238.7690m, NullMath.Round(r501.Tema, 4));
+        Assert.AreEqual(238.7690, NullMath.Round(r501.Tema, 4));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<TemaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetTema(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Tema != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetTema(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -60,7 +82,7 @@ public class Tema : TestBase
         Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TemaResult last = results.LastOrDefault();
-        Assert.AreEqual(238.7690m, NullMath.Round(last.Tema, 4));
+        Assert.AreEqual(238.7690, NullMath.Round(last.Tema, 4));
     }
 
     [TestMethod]

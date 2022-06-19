@@ -15,7 +15,7 @@ layout: indicator
 ```csharp
 // usage
 IEnumerable<MaEnvelopeResult> results =
-  quotes.GetSmaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
+  quotes.GetMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 ```
 
 ## Parameters
@@ -30,7 +30,7 @@ IEnumerable<MaEnvelopeResult> results =
 
 See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `quotes` and `lookbackPeriods`.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### MaType options
 
@@ -38,15 +38,15 @@ These are the supported moving average types:
 
 | type | description
 |-- |--
-| `MaType.ALMA` | [Arnaud Legoux Moving Average](../Alma#content)
-| `MaType.DEMA` | [Double Exponential Moving Average](../Dema#content)
-| `MaType.EPMA` | [Endpoint Moving Average](../Epma#content)
-| `MaType.EMA` | [Exponential Moving Average](../Ema#content)
-| `MaType.HMA` | [Hull Moving Average](../Hma#content)
-| `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
-| `MaType.TEMA` | [Triple Exponential Moving Average](../Tema#content)
-| `MaType.WMA` | [Weighted Moving Average](../Wma#content)
+| `MaType.ALMA` | [Arnaud Legoux Moving Average]({{site.baseurl}}/indicators/Alma/#content)
+| `MaType.DEMA` | [Double Exponential Moving Average]({{site.baseurl}}/indicators/Dema/#content)
+| `MaType.EPMA` | [Endpoint Moving Average]({{site.baseurl}}/indicators/Epma/#content)
+| `MaType.EMA` | [Exponential Moving Average]({{site.baseurl}}/indicators/Ema/#content)
+| `MaType.HMA` | [Hull Moving Average]({{site.baseurl}}/indicators/Hma/#content)
+| `MaType.SMA` | [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+| `MaType.SMMA` | [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
+| `MaType.TEMA` | [Triple Exponential Moving Average]({{site.baseurl}}/indicators/Tema/#content)
+| `MaType.WMA` | [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
 
 :warning: For ALMA, default values are used for `offset` and `sigma`.
 
@@ -57,7 +57,7 @@ IEnumerable<MaEnvelopeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
@@ -68,9 +68,9 @@ IEnumerable<MaEnvelopeResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Centerline` | decimal | Moving average for `N` lookback periods
-| `UpperEnvelope` | decimal | Upper envelope band
-| `LowerEnvelope` | decimal | Lower envelope band
+| `Centerline` | double | Moving average for `N` lookback periods
+| `UpperEnvelope` | double | Upper envelope band
+| `LowerEnvelope` | double | Lower envelope band
 
 The moving average `Centerline` is based on the `movingAverageType` type specified.
 
@@ -81,13 +81,17 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate 20-period SMA envelopes with 2.5% offset
-IEnumerable<MaEnvelopeResult> results =
-    quotes.GetMaEnvelopes(20,2.5,MaType.SMA);
+// example
+var results = quotes
+    .Use(CandlePart.HLC3)
+    .GetMaEnvelopes(..);
 ```
+
+Results **cannot** be further chained with additional transforms.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

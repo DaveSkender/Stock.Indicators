@@ -4,11 +4,77 @@ using System.Runtime.Serialization;
 
 namespace Skender.Stock.Indicators;
 
-// REMOVED .ToQuotes in v1.24.0
+// REMOVED IN v2.0.0 - now show Errors
+// TODO: remove in v2.0.1
 public static partial class Indicator
 {
+    // see also Beta.Api.cs for inline Warning
+
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete(
+        "The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(candlePart)' prior to calling .GetEma()",
+        true)]
+    public static IEnumerable<EmaResult> GetEma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcEma(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete(
+        "The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(candlePart)' prior to calling .GetMacd()",
+        true)]
+    public static IEnumerable<MacdResult> GetMacd<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int fastPeriods,
+        int slowPeriods,
+        int signalPeriods,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcMacd(fastPeriods, slowPeriods, signalPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete(
+        "The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(candlePart)' prior to calling .GetSma()",
+        true)]
+    public static IEnumerable<SmaResult> GetSma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcSma(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("GetSmaExtended(..) was renamed to GetSmaAnalysis(..)", true)]
+    public static IEnumerable<SmaAnalysis> GetSmaExtended<TQuote>(
+    this IEnumerable<TQuote> quotes,
+    int lookbackPeriods)
+    where TQuote : IQuote => quotes
+        .ToBasicTuple(CandlePart.Close)
+        .CalcSmaAnalysis(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete(
+        "The use of CandlePart as a parameter is deprecated.  "
+        + "Use '.Use(candlePart)' prior to calling .GetWma()",
+        true)]
+    public static IEnumerable<WmaResult> GetWma<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .ToBasicTuple(candlePart)
+            .CalcWma(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.", true)]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<AdlResult> results) => results
       .Select(x => new Quote
@@ -23,7 +89,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.", true)]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<DpoResult> results) => results
       .Where(x => x.Dpo != null)
@@ -39,7 +105,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.", true)]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<HurstResult> results) => results
       .Where(x => x.HurstExponent != null)
@@ -54,7 +120,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.", true)]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<ObvResult> results) => results
       .Select(x => new Quote
@@ -69,7 +135,7 @@ public static partial class Indicator
       .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("The .ToQuotes() utility is obsolete.")]
+    [Obsolete("The .ToQuotes() utility is obsolete.  Use v2 chaining instead.", true)]
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<RsiResult> results) => results
       .Where(x => x.Rsi != null)
@@ -89,14 +155,14 @@ public static partial class Indicator
 public static partial class Indicator
 {
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'GetDoubleEma(..)' to 'GetDema(..)' to fix.")]
+    [Obsolete("Rename 'GetDoubleEma(..)' to 'GetDema(..)' to fix.", true)]
     public static IEnumerable<DemaResult> GetDoubleEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes.GetDema(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'GetTripleEma(..)' to 'GetTema(..)' to fix.")]
+    [Obsolete("Rename 'GetTripleEma(..)' to 'GetTema(..)' to fix.", true)]
     public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
@@ -107,17 +173,17 @@ public static partial class Indicator
 public static partial class Indicator
 {
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
+    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.", true)]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<AdlResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
+    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.", true)]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<DpoResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("'ConvertToQuotes()' is not needed for Heikin-Ashi.  Results can now be used directly as a replacement for IEnumerable<TQuote>.")]
+    [Obsolete("'ConvertToQuotes()' is not needed for Heikin-Ashi.  Results can now be used directly as a replacement for IEnumerable<TQuote>.", true)]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<HeikinAshiResult> results) => results
           .Select(x => new Quote
@@ -132,17 +198,17 @@ public static partial class Indicator
           .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
+    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.", true)]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<HurstResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
+    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.", true)]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<ObvResult> results) => results.ToQuotes();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("'ConvertToQuotes()' is not needed for Renko.  Results can now be used directly as a replacement for IEnumerable<TQuote>.")]
+    [Obsolete("'ConvertToQuotes()' is not needed for Renko.  Results can now be used directly as a replacement for IEnumerable<TQuote>.", true)]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<RenkoResult> results) => results
           .Select(x => new Quote
@@ -157,15 +223,17 @@ public static partial class Indicator
           .ToList();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.")]
+    [Obsolete("Rename 'ConvertToQuotes()' to 'ToQuotes()' to fix.", true)]
     public static IEnumerable<Quote> ConvertToQuotes(
         this IEnumerable<RsiResult> results) => results.ToQuotes();
 }
 
 // REMOVED in v1.21.0
 [ExcludeFromCodeCoverage]
-[Obsolete("Using less than recommended quote history no longer throws an exception.  "
-        + "See https://github.com/DaveSkender/Stock.Indicators/pull/685 for more info.")]
+[Obsolete(
+    "Using less than recommended quote history no longer throws an exception.  "
+    + "See https://github.com/DaveSkender/Stock.Indicators/pull/685 for more info.",
+    true)]
 public class BadQuotesException : ArgumentOutOfRangeException
 {
 #nullable enable

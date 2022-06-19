@@ -16,7 +16,7 @@ public class HelperPerformance
     public void Setup() => h = TestData.GetDefault();
 
     [Benchmark]
-    public object SortToList() => h.SortToList();
+    public object SortToList() => h.ToSortedList();
 
     [Benchmark]
     public object ToListQuoteD() => h.ToQuoteD();
@@ -31,10 +31,10 @@ public class HelperPerformance
     public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);
 
     [Benchmark]
-    public object ToBasicData() => h.ToBasicClass();
+    public object ToBasicData() => h.ToBasicData(CandlePart.Close);
 
     [Benchmark]
-    public object ToBasicTuple() => h.ToBasicTuple();
+    public object ToBasicTuple() => h.ToBasicTuple(CandlePart.Close);
 
     [Benchmark]
     public object ToCandleResults() => h.ToCandleResults();

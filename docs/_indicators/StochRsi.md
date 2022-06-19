@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator](../Stoch#content).
+Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/236 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/StochRsi.png)
@@ -27,13 +27,13 @@ IEnumerable<StochRsiResult> results =
 | `signalPeriods` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
 | `smoothPeriods` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
 
-The original Stochasic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.GetStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
+The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.GetStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
 
 ### Historical quotes requirements
 
 You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S+M` and `R+100` to cover the convergence periods.  Since this uses a smoothing technique in the underlying RSI value, we recommend you use at least `10×R` periods prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -42,7 +42,7 @@ IEnumerable<StochRsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.
 
@@ -64,13 +64,17 @@ IEnumerable<StochRsiResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+### Chaining
+
+Results can be further processed on `StochRsi` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate StochRSI(14)
-IEnumerable<StochRsiResult> results
-  = quotes.GetStochRsi(14,14,1,1);
+// example
+var results = quotes
+    .GetStochRsi(..)
+    .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

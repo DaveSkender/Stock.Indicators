@@ -29,7 +29,7 @@ IEnumerable<RenkoResult> results =
 
 You must have at least two periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### EndType options
 
@@ -37,6 +37,19 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 |-- |--
 | `EndType.Close` | Brick change threshold measured from `Close` price (default)
 | `EndType.HighLow` | Brick change threshold measured from `High` and `Low` price
+
+## Chaining
+
+Results are based in `IQuote` and can be further used in any indicator.
+
+```csharp
+// example
+var results = quotes
+    .GetRenko(..)
+    .GetRsi(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ## Response
 
@@ -46,12 +59,7 @@ IEnumerable<RenkoResult>
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
-- `RenkoResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.  In other words, you can use it as base quotes for other indicators. Example:
-
-  ```csharp
-  var renkoQuotes = quotes.GetRenko(..);
-  var renkoRsi = renkoQuotes.GetRsi(..);
-  ```
+- `RenkoResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
 
 :warning: WARNING!  Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Date`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.
 
@@ -78,16 +86,6 @@ Each result record represents one Renko brick.
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate
-IEnumerable<RenkoResult> results = quotes.GetRenko(2.5);
-```
-
 ## ATR Variant
 
 ```csharp
@@ -107,7 +105,7 @@ IEnumerable<RenkoResult> results =
 
 You must have at least `A+100` periods of `quotes`.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response for ATR
 
@@ -116,7 +114,7 @@ IEnumerable<RenkoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 
-:paintbrush: **Repaint Warning**: When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)](../Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.
+:paintbrush: **Repaint Warning**: When using the `GetRenkoAtr()` variant, the last [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) value is used to set `brickSize`.  Since the ATR changes over time, historical bricks will be repainted as new periods are added or updated in `quotes`.

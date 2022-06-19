@@ -30,7 +30,7 @@ IEnumerable<KamaResult> results =
 
 You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `10×E` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -39,7 +39,7 @@ IEnumerable<KamaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `E-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -51,7 +51,7 @@ IEnumerable<KamaResult>
 | -- |-- |--
 | `Date` | DateTime | Date
 | `ER`   | double | Efficiency Ratio is the fractal efficiency of price changes
-| `Kama` | decimal | Kaufman's adaptive moving average
+| `Kama` | double | Kaufman's adaptive moving average
 
 More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` window. ER would be zero if prices are unchanged over the `erPeriods` window.
 
@@ -63,12 +63,24 @@ More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes a
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate KAMA(10,2,30)
-IEnumerable<KamaResult> results = quotes.GetKama(10,2,30);
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetKama(..);
 ```
+
+Results can be further processed on `Kama` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetKama(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

@@ -23,19 +23,41 @@ public class T3 : TestBase
         Assert.IsNull(r1.T3);
 
         T3Result r2 = results[24];
-        Assert.AreEqual(215.9343m, NullMath.Round(r2.T3, 4));
+        Assert.AreEqual(215.9343, NullMath.Round(r2.T3, 4));
 
         T3Result r3 = results[44];
-        Assert.AreEqual(224.9412m, NullMath.Round(r3.T3, 4));
+        Assert.AreEqual(224.9412, NullMath.Round(r3.T3, 4));
 
         T3Result r4 = results[149];
-        Assert.AreEqual(235.8851m, NullMath.Round(r4.T3, 4));
+        Assert.AreEqual(235.8851, NullMath.Round(r4.T3, 4));
 
         T3Result r5 = results[249];
-        Assert.AreEqual(257.8735m, NullMath.Round(r5.T3, 4));
+        Assert.AreEqual(257.8735, NullMath.Round(r5.T3, 4));
 
         T3Result r6 = results[501];
-        Assert.AreEqual(238.9308m, NullMath.Round(r6.T3, 4));
+        Assert.AreEqual(238.9308, NullMath.Round(r6.T3, 4));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<T3Result> results = quotes
+            .Use(CandlePart.Close)
+            .GetT3();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(478, results.Where(x => x.T3 != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetT3()
+            .GetSma(10);
+
+        Assert.AreEqual(478, results.Count());
+        Assert.AreEqual(469, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -66,7 +88,7 @@ public class T3 : TestBase
         Assert.AreEqual(502 - ((6 * (5 - 1)) + 250), results.Count);
 
         T3Result last = results.LastOrDefault();
-        Assert.AreEqual(238.9308m, NullMath.Round(last.T3, 4));
+        Assert.AreEqual(238.9308, NullMath.Round(last.T3, 4));
     }
 
     [TestMethod]

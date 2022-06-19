@@ -6,11 +6,6 @@ namespace Skender.Stock.Indicators;
 // we're building nullable equivalents here.
 internal static class NullMath
 {
-    internal static decimal? Abs(decimal? value)
-        => (value is null)
-        ? null
-        : value < 0 ? (decimal)-value : (decimal)value;
-
     internal static double? Abs(double? value)
         => (value is null)
         ? null

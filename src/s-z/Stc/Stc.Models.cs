@@ -1,7 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class StcResult : ResultBase
+public sealed class StcResult : ResultBase, IReusableResult
 {
     public double? Stc { get; set; }
+
+    double? IReusableResult.Value => Stc;
 }

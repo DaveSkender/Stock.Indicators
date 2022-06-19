@@ -31,6 +31,17 @@ public class Ultimate : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetUltimate()
+            .GetSma(10);
+
+        Assert.AreEqual(474, results.Count());
+        Assert.AreEqual(465, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<UltimateResult> r = Indicator.GetUltimate(badQuotes, 1, 2, 3);

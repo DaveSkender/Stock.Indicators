@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
 
   <type name="Main">
     <summary>
@@ -14,12 +14,11 @@
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <param name="candlePart">Optional. Selected OHLCV part. Defaults to Close price.</param>
     <returns>Time series of SMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 
-  <type name="Extended">
+  <type name="Analysis">
     <summary>
       Simple Moving Average (SMA) is the average of Close price over a lookback window.  This extended variant includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
       <para>
@@ -35,4 +34,4 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 
-</indicator>
+</info>

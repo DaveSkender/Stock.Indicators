@@ -37,6 +37,28 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<CorrResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetCorrelation(otherQuotes.Use(CandlePart.Close), 20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Correlation != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetCorrelation(otherQuotes, 20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<CorrResult> r = Indicator.GetCorrelation(badQuotes, badQuotes, 15);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     A simple quote transform.
     <para>
@@ -13,4 +13,5 @@
   <param name="quotes">Historical price quotes.</param>
   <param name="candlePart">The OHLCV element or simply calculated value type.</param>
   <returns>Time series of Basic Quote values.</returns>
-</indicator>
+  <exception cref="InvalidQuotesException">Invalid candle part provided.</exception>
+</info>

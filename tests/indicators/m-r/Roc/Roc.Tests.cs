@@ -57,6 +57,28 @@ public class Roc : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<RocResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetRoc(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetRoc(20)
+            .GetSma(10);
+
+        Assert.AreEqual(482, results.Count());
+        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<RocResult> r = Indicator.GetRoc(badQuotes, 35, 2);

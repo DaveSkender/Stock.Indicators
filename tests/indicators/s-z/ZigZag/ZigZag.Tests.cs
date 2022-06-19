@@ -118,6 +118,17 @@ public class ZigZag : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetZigZag(EndType.Close, 3)
+            .GetSma(10);
+
+        Assert.AreEqual(234, results.Count());
+        Assert.AreEqual(225, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void NoEntry()
     {
         // thresholds are never met
@@ -189,11 +200,9 @@ public class ZigZag : TestBase
         Assert.AreEqual(342, r2.Count());
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetZigZag(quotes, EndType.Close, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetZigZag(quotes, EndType.Close, 0));
 }

@@ -8,7 +8,7 @@ layout: indicator
 # {{ page.title }}
 
 [Pivot Points](https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)) depict support and resistance levels, based on the prior lookback window.  You can specify window size (e.g. month, week, day, etc).
-See also the alternative [Rolling Pivot Points](../RollingPivots#content) variant for a modern update that uses a rolling window.
+See also the alternative [Rolling Pivot Points]({{site.baseurl}}/indicators/RollingPivots/#content) variant for a modern update that uses a rolling window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/PivotPoints.png)
@@ -30,7 +30,7 @@ IEnumerable<PivotPointsResult> results =
 
 You must have at least `2` windows of `quotes` to cover the warmup periods.  For example, if you specify a `Week` window size, you need at least 14 calendar days of `quotes`.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### PeriodSize options (for windowSize)
 
@@ -58,11 +58,11 @@ IEnumerable<PivotPointsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first window will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The second window may be innaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
+:warning: **Warning**: The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
 
 :paintbrush: **Repaint Warning**: the last window will be repainted if it does not contain a full window of data.
 
@@ -87,13 +87,6 @@ IEnumerable<PivotPointsResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
 
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate Woodie-style month-based Pivot Points
-IEnumerable<PivotPointsResult> results
-  = quotes.GetPivotPoints(PeriodSize.Month,PivotPointType.Woodie);
-```
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.

@@ -21,10 +21,21 @@ public class Mfi : TestBase
 
         // sample values
         MfiResult r1 = results[439];
-        Assert.AreEqual(69.0622m, NullMath.Round(r1.Mfi, 4));
+        Assert.AreEqual(69.0622, NullMath.Round(r1.Mfi, 4));
 
         MfiResult r2 = results[501];
-        Assert.AreEqual(39.9494m, NullMath.Round(r2.Mfi, 4));
+        Assert.AreEqual(39.9494, NullMath.Round(r2.Mfi, 4));
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetMfi()
+            .GetSma(10);
+
+        Assert.AreEqual(488, results.Count());
+        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -44,10 +55,10 @@ public class Mfi : TestBase
 
         // sample values
         MfiResult r1 = results[31];
-        Assert.AreEqual(100m, NullMath.Round(r1.Mfi, 4));
+        Assert.AreEqual(100, NullMath.Round(r1.Mfi, 4));
 
         MfiResult r2 = results[43];
-        Assert.AreEqual(0m, NullMath.Round(r2.Mfi, 4));
+        Assert.AreEqual(0, NullMath.Round(r2.Mfi, 4));
     }
 
     [TestMethod]
@@ -79,14 +90,12 @@ public class Mfi : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         MfiResult last = results.LastOrDefault();
-        Assert.AreEqual(39.9494m, NullMath.Round(last.Mfi, 4));
+        Assert.AreEqual(39.9494, NullMath.Round(last.Mfi, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMfi(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetMfi(quotes, 1));
 }

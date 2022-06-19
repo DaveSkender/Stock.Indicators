@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Bill Williams, Alligator is a depiction of three smoothed moving averages of median price, showing chart patterns that compared to an alligator's feeding habits when describing market movement. The moving averages are known as the Jaw, Teeth, and Lips, which are calculated using lookback and offset periods.  See also the [Gator Oscillator](../Gator#content).
+Created by Bill Williams, Alligator is a depiction of three smoothed moving averages of median price, showing chart patterns that compared to an alligator's feeding habits when describing market movement. The moving averages are known as the Jaw, Teeth, and Lips, which are calculated using lookback and offset periods.  See also the [Gator Oscillator]({{site.baseurl}}/indicators/Gator/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Alligator.png)
@@ -33,7 +33,7 @@ IEnumerable<AlligatorResult> results =
 
 You must have at least `JP+JO+100` periods of `quotes` to cover the convergence periods. Since this uses a smoothing technique, we recommend you use at least `JP+JO+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -42,7 +42,7 @@ IEnumerable<AlligatorResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `JP+JO` periods will have `null` values since there's not enough data to calculate.
 
@@ -53,9 +53,9 @@ IEnumerable<AlligatorResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Jaw` | decimal | Alligator's Jaw
-| `Teeth` | decimal | Alligator's Teeth
-| `Lips` | decimal | Alligator's Lips
+| `Jaw` | double | Alligator's Jaw
+| `Teeth` | double | Alligator's Teeth
+| `Lips` | double | Alligator's Lips
 
 ### Utilities
 
@@ -65,12 +65,17 @@ IEnumerable<AlligatorResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate the Williams Alligator with default configuration
-IEnumerable<AlligatorResult> results = quotes.GetAlligator();
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetAlligator();
 ```
+
+Results **cannot** be further chained with additional transforms.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

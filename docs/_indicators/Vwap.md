@@ -19,7 +19,7 @@ IEnumerable<VwapResult> results =
 
 // usage with optional anchored start date
 IEnumerable<VwapResult> results =
-  quotes.GetVwap(startDate);  
+  quotes.GetVwap(startDate);
 ```
 
 ## Parameters
@@ -32,7 +32,7 @@ IEnumerable<VwapResult> results =
 
 You must have at least one historical quote to calculate; however, more is often needed to be useful.  Historical quotes are typically provided for a single day using minute-based intraday periods.  Since this is an accumulated weighted average price, different start dates will produce different results.  The accumulation starts at the first period in the provided `quotes`, unless it is specified in the optional `startDate` parameter.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -41,7 +41,7 @@ IEnumerable<VwapResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first period or the `startDate` will have a `Vwap = Close` value since it is the initial starting point.
 - `Vwap` values before `startDate`, if specified, will be `null`.
@@ -51,7 +51,7 @@ IEnumerable<VwapResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Vwap` | decimal | Volume Weighted Average Price
+| `Vwap` | double | Volume Weighted Average Price
 
 ### Utilities
 
@@ -61,12 +61,17 @@ IEnumerable<VwapResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `Vwap` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate
-IEnumerable<VwapResult> results = quotes.GetVwap();
+// example
+var results = quotes
+    .GetVwap(..)
+    .GetRsi(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

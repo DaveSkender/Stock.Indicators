@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Heikin-Ashi is a modified candlestick pattern that uses prior day for smoothing.
     <para>
@@ -12,4 +12,4 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <returns>Time series of Heikin-Ashi candlestick values.</returns>
-</indicator>
+</info>

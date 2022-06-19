@@ -21,10 +21,21 @@ public class WilliamsR : TestBase
 
         // sample values
         WilliamsResult r1 = results[343];
-        Assert.AreEqual(-19.8211m, NullMath.Round(r1.WilliamsR, 4));
+        Assert.AreEqual(-19.8211, NullMath.Round(r1.WilliamsR, 4));
 
         WilliamsResult r2 = results[501];
-        Assert.AreEqual(-52.0121m, NullMath.Round(r2.WilliamsR, 4));
+        Assert.AreEqual(-52.0121, NullMath.Round(r2.WilliamsR, 4));
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetWilliamsR()
+            .GetSma(10);
+
+        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -55,14 +66,12 @@ public class WilliamsR : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         WilliamsResult last = results.LastOrDefault();
-        Assert.AreEqual(-52.0121m, NullMath.Round(last.WilliamsR, 4));
+        Assert.AreEqual(-52.0121, NullMath.Round(last.WilliamsR, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetWilliamsR(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetWilliamsR(0));
 }

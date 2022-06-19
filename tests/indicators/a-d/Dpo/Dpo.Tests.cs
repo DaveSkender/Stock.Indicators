@@ -31,8 +31,8 @@ public class Dpo : TestBase
             exp.Add(new DpoResult
             {
                 Date = date,
-                Sma = csv[6].ToDecimalNull(),
-                Dpo = csv[7].ToDecimalNull()
+                Sma = csv[6].ToDoubleNull(),
+                Dpo = csv[7].ToDoubleNull()
             });
         }
 
@@ -53,6 +53,33 @@ public class Dpo : TestBase
             Assert.AreEqual(e.Sma, NullMath.Round(a.Sma, 5), $"at index {i}");
             Assert.AreEqual(e.Dpo, NullMath.Round(a.Dpo, 5), $"at index {i}");
         }
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<DpoResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetDpo(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(489, results.Where(x => x.Dpo != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetDpo(14)
+            .GetSma(10);
+
+        foreach (SmaResult r in results)
+        {
+            Console.WriteLine($"{r.Date} {r.Sma}");
+        }
+
+        Assert.AreEqual(489, results.Where(x => x.Sma is not double.NaN).Count());
+        Assert.AreEqual(480, results.Where(x => x.Sma is not null and not double.NaN).Count());
     }
 
     [TestMethod]

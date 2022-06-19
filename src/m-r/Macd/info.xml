@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Moving Average Convergence/Divergence (MACD) is a simple oscillator view of two converging/diverging exponential moving averages.
     <para>
@@ -14,7 +14,6 @@
   <param name="fastPeriods">Number of periods in the Fast EMA.</param>
   <param name="slowPeriods">Number of periods in the Slow EMA.</param>
   <param name="signalPeriods">Number of periods for the Signal moving average.</param>
-  <param name="candlePart">Optional. Selected OHLCV part. Defaults to Close price.</param>
   <returns>Time series of MACD values, including MACD, Signal, and Histogram.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

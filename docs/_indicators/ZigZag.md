@@ -29,7 +29,7 @@ IEnumerable<ZigZagResult> results =
 
 You must have at least two periods of `quotes` to cover the warmup periods, but notably more is needed to be useful.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### EndType options
 
@@ -45,7 +45,7 @@ IEnumerable<ZigZagResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - If you do not supply enough points to cover the percent change, there will be no Zig Zag points or lines.
 - The first line segment starts after the first confirmed point; ZigZag values before the first confirmed point will be `null`.
@@ -53,7 +53,7 @@ IEnumerable<ZigZagResult>
 
 :warning: **Warning**:  depending on the specified `endType`, the indicator cannot be initialized if the first `Quote` in `quotes` has a `High`,`Low`, or `Close` value of 0 (zero).
 
-:paintbrush: **Repaint Warning**: the last line segement will always be redrawn back to the last known pivot.  Do not attempt to calculate incremental values since previous values may change based on newer quotes.
+:paintbrush: **Repaint Warning**: the last line segment will always be redrawn back to the last known pivot.  Do not attempt to calculate incremental values since previous values may change based on newer quotes.
 
 ### ZigZagResult
 
@@ -72,13 +72,17 @@ IEnumerable<ZigZagResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `ZigZag` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate 3% change ZIGZAG
-IEnumerable<ZigZagResult> results
-  = quotes.GetZigZag(EndType.Close,3);
+// example
+var results = quotes
+    .GetZigZag(..)
+    .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

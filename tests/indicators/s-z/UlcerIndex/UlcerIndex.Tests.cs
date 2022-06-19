@@ -25,6 +25,28 @@ public class UlcerIndex : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<UlcerIndexResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetUlcerIndex(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetUlcerIndex(14)
+            .GetSma(10);
+
+        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(badQuotes, 15);

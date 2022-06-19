@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Volatility Stop is an ATR based indicator used to determine trend direction, stops, and reversals.
     <para>
@@ -15,4 +15,4 @@
   <param name="multiplier">ATR offset amount.</param>
   <returns>Time series of Volatility Stop values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

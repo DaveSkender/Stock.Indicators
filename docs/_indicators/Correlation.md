@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear correlatation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
+Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear correlation between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/259 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Correlation.png)
@@ -16,7 +16,7 @@ Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/
 ```csharp
 // usage
 IEnumerable<CorrResult> results =
-  quotesA.GetCorr(quotesB, lookbackPeriods);
+  quotesA.GetCorrelation(quotesB, lookbackPeriods);
 ```
 
 ## Parameters
@@ -39,7 +39,7 @@ IEnumerable<CorrResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -62,14 +62,24 @@ IEnumerable<CorrResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
-IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
-
-// calculate 20-period Correlation
-IEnumerable<CorrResult> results
-  = historySPX.GetCorr(historyTSLA,20);
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetCorrelation(quotesMarket.Use(CandlePart.HL2),20);
 ```
+
+Results can be further processed on `Correlation` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetCorrelation(..)
+    .GetSlope(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

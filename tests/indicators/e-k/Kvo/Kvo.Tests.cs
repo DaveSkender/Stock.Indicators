@@ -52,6 +52,17 @@ public class Klinger : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetKvo()
+            .GetSma(10);
+
+        Assert.AreEqual(446, results.Count());
+        Assert.AreEqual(437, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<KvoResult> r = Indicator.GetKvo(badQuotes);

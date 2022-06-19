@@ -1,7 +1,9 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class WmaResult : ResultBase
+public sealed class WmaResult : ResultBase, IReusableResult
 {
-    public decimal? Wma { get; set; }
+    public double? Wma { get; set; }
+
+    double? IReusableResult.Value => Wma;
 }

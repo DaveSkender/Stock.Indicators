@@ -47,6 +47,28 @@ public class Stc : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<StcResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetStc(9, 12, 26);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(467, results.Where(x => x.Stc != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetStc(9, 12, 26)
+            .GetSma(10);
+
+        Assert.AreEqual(467, results.Count());
+        Assert.AreEqual(458, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<StcResult> r = badQuotes.GetStc(10, 23, 50);

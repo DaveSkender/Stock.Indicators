@@ -30,10 +30,13 @@ internal static class Importer
     }
 
     internal static decimal ToDecimal(this string value)
-    => decimal.TryParse(value, out decimal d) ? d : d;
+        => decimal.TryParse(value, out decimal d) ? d : d;
 
     internal static decimal? ToDecimalNull(this string value)
         => decimal.TryParse(value, out decimal d) ? d : null;
+
+    internal static double? ToDoubleNull(this string value)
+        => double.TryParse(value, out double d) ? d : null;
 
     private static void HandleOHLCV(Quote quote, string position, string value)
     {

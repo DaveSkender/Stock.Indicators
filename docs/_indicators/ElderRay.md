@@ -29,7 +29,7 @@ IEnumerable<ElderRayResult> results =
 
 You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -38,7 +38,7 @@ IEnumerable<ElderRayResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` indicator values since there's not enough data to calculate.
 
@@ -49,9 +49,9 @@ IEnumerable<ElderRayResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | decimal | Exponential moving average of Close price
-| `BullPower` | decimal | Bull Power
-| `BearPower` | decimal | Bear Power
+| `Ema` | double | Exponential moving average of Close price
+| `BullPower` | double | Bull Power
+| `BearPower` | double | Bear Power
 
 ### Utilities
 
@@ -61,13 +61,17 @@ IEnumerable<ElderRayResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `(BullPower+BearPower)` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate ElderRay(13)
-IEnumerable<ElderRayResult> results
-  = quotes.GetElderRay(13);
+// example
+var results = quotes
+    .GetElderRay(..)
+    .GetEma(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

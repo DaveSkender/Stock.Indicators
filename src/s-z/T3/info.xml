@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Tillson T3 is a smooth moving average that reduces both lag and overshooting.
     <para>
@@ -15,4 +15,4 @@
   <param name="volumeFactor">Size of the Volume Factor.</param>
   <returns>Time series of T3 values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

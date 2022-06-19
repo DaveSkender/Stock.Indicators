@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of [Williams Fractal](../Fractal#content).
+Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of [Williams Fractal]({{site.baseurl}}/indicators/Fractal/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/347 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Fcb.png)
@@ -24,13 +24,13 @@ IEnumerable<FcbResult> results =
 | -- |-- |--
 | `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.  See [Williams Fractal](../Fractal#content) for more information about Fractals and `windowSpan`.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal]({{site.baseurl}}/indicators/Fractal/#content) for more information about Fractals and `windowSpan`.
 
 ### Historical quotes requirements
 
 You must have at least `2×S+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -39,7 +39,7 @@ IEnumerable<FcbResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The periods before the first fractal are `null` since they cannot be calculated.
 
@@ -59,12 +59,6 @@ IEnumerable<FcbResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
 
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate Fcb(14)
-IEnumerable<FcbResult> results = quotes.GetFcb(14);
-```
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.

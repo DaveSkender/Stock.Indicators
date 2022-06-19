@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on Close price.  It can be used to help identify trend strength and direction.  Standard Deviation, R&sup2;, and a best-fit `Line` (for last lookback segment) are also output.  See also [Standard Deviation Channels](../StdDevChannels#content) for an alternative depiction.
+[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on Close price.  It can be used to help identify trend strength and direction.  Standard Deviation, R&sup2;, and a best-fit `Line` (for last lookback segment) are also output.  See also [Standard Deviation Channels]({{site.baseurl}}/indicators/StdDevChannels/#content) for an alternative depiction.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/241 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Linear.png)
@@ -29,7 +29,7 @@ IEnumerable<SlopeResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -38,7 +38,7 @@ IEnumerable<SlopeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
 
@@ -63,12 +63,24 @@ IEnumerable<SlopeResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
-
-// calculate 20-period Slope
-IEnumerable<SlopeResult> results = quotes.GetSlope(20);
+// example
+var results = quotes
+    .GetEma(..)
+    .GetSlope(..);
 ```
+
+Results can be further processed on `Slope` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetSlope(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

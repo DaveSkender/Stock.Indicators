@@ -22,29 +22,40 @@ public class Aroon : TestBase
 
         // sample values
         AroonResult r1 = results[210];
-        Assert.AreEqual(100m, r1.AroonUp);
-        Assert.AreEqual(000m, r1.AroonDown);
-        Assert.AreEqual(100m, r1.Oscillator);
+        Assert.AreEqual(100, r1.AroonUp);
+        Assert.AreEqual(000, r1.AroonDown);
+        Assert.AreEqual(100, r1.Oscillator);
 
         AroonResult r2 = results[293];
-        Assert.AreEqual(0m, r2.AroonUp);
-        Assert.AreEqual(40m, r2.AroonDown);
-        Assert.AreEqual(-40m, r2.Oscillator);
+        Assert.AreEqual(0, r2.AroonUp);
+        Assert.AreEqual(40, r2.AroonDown);
+        Assert.AreEqual(-40, r2.Oscillator);
 
         AroonResult r3 = results[298];
-        Assert.AreEqual(0m, r3.AroonUp);
-        Assert.AreEqual(20m, r3.AroonDown);
-        Assert.AreEqual(-20m, r3.Oscillator);
+        Assert.AreEqual(0, r3.AroonUp);
+        Assert.AreEqual(20, r3.AroonDown);
+        Assert.AreEqual(-20, r3.Oscillator);
 
         AroonResult r4 = results[458];
-        Assert.AreEqual(0m, r4.AroonUp);
-        Assert.AreEqual(100m, r4.AroonDown);
-        Assert.AreEqual(-100m, r4.Oscillator);
+        Assert.AreEqual(0, r4.AroonUp);
+        Assert.AreEqual(100, r4.AroonDown);
+        Assert.AreEqual(-100, r4.Oscillator);
 
         AroonResult r5 = results[501];
-        Assert.AreEqual(28m, r5.AroonUp);
-        Assert.AreEqual(88m, r5.AroonDown);
-        Assert.AreEqual(-60m, r5.Oscillator);
+        Assert.AreEqual(28, r5.AroonUp);
+        Assert.AreEqual(88, r5.AroonDown);
+        Assert.AreEqual(-60, r5.Oscillator);
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetAroon(25)
+            .GetSma(10);
+
+        Assert.AreEqual(477, results.Count());
+        Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -75,9 +86,9 @@ public class Aroon : TestBase
         Assert.AreEqual(502 - 25, results.Count);
 
         AroonResult last = results.LastOrDefault();
-        Assert.AreEqual(28m, last.AroonUp);
-        Assert.AreEqual(88m, last.AroonDown);
-        Assert.AreEqual(-60m, last.Oscillator);
+        Assert.AreEqual(28, last.AroonUp);
+        Assert.AreEqual(88, last.AroonDown);
+        Assert.AreEqual(-60, last.Oscillator);
     }
 
     [TestMethod]

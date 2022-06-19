@@ -10,12 +10,12 @@ redirect_from:
 # {{ page.title }}
 
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the Close price over a lookback window.
-Note: TEMA is often confused with the alternative [TRIX](../Trix#content) oscillator.
+Note: TEMA is often confused with the alternative [TRIX]({{site.baseurl}}/indicators/Trix/#content) oscillator.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Tema.png)
 
-See also related [EMA](../Ema#content) and [Double EMA](../Dema#content).
+See also related [EMA]({{site.baseurl}}/indicators/Ema/#content) and [Double EMA]({{site.baseurl}}/indicators/Dema/#content).
 
 ```csharp
 // usage
@@ -33,7 +33,7 @@ IEnumerable<TemaResult> results =
 
 You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -42,9 +42,9 @@ IEnumerable<TemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
-- The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX](../Trix#content) oscillator instead.
+- The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX]({{site.baseurl}}/indicators/Trix#content) oscillator instead.
 
 :hourglass: **Convergence Warning**: The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
@@ -53,7 +53,7 @@ IEnumerable<TemaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Tema` | decimal | Triple exponential moving average
+| `Tema` | double | Triple exponential moving average
 
 ### Utilities
 
@@ -63,12 +63,24 @@ IEnumerable<TemaResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate 20-period TEMA
-IEnumerable<TemaResult> results = quotes.GetTema(20);
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetTema(..);
 ```
+
+Results can be further processed on `Tema` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetTema(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

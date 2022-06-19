@@ -25,10 +25,10 @@ internal class RandomGbm : List<Quote>
     private double seed;
 
     public RandomGbm(
-        int bars = 252,
+        int bars = 250,
         double volatility = 1.0,
         double drift = 0.05,
-        double seed = 100.0)
+        double seed = 10000000.0)
     {
         this.seed = seed;
         this.volatility = volatility * 0.01;

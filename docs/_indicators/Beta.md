@@ -15,8 +15,8 @@ layout: indicator
 
 ```csharp
 // usage
-IEnumerable<BetaResult> results =
-  Indicator.GetBeta(quotesMarket, quotesEval, lookbackPeriods, type);
+IEnumerable<BetaResult> results = quotesEval
+  .GetBeta(quotesMarket, lookbackPeriods, type);
 ```
 
 ## Parameters
@@ -24,13 +24,12 @@ IEnumerable<BetaResult> results =
 | name | type | notes
 | -- |-- |--
 | `quotesMarket` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
-| `quotesEval` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [evaluation stock] Quotes data should be at any consistent frequency (day, hour, minute, etc).
 | `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
 | `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below.
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of quotes to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+You must have at least `N` periods of `quotesEval` to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  Exception will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 #### BetaType options
 
@@ -48,7 +47,7 @@ IEnumerable<BetaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -73,19 +72,29 @@ IEnumerable<BetaResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotesEval
+    .Use(CandlePart.HL2)
+    .GetBeta(quotesMarket.Use(CandlePart.HL2), ..);
+```
+
+Results can be further processed on `Beta` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotesEval
+    .GetBeta(quotesMarket, ..)
+    .GetSlope(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.
+
 ## Pro tips
 
 - Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have daily bars, use the [quotes.Aggregate(PeriodSize.Monthly)]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
 - [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
-
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotesSPX = GetHistoryFromFeed("SPX");
-IEnumerable<Quote> quotesTSLA = GetHistoryFromFeed("TSLA");
-
-// calculate 20-period Beta coefficient
-IEnumerable<BetaResult> results =
-  Indicator.GetBeta(quotesSPX,quotesTSLA,20);
-```

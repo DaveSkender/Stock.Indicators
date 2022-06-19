@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Weighted Moving Average (WMA) is the linear weighted average of Close price over N lookback periods. This also called Linear Weighted Moving Average (LWMA).
     <para>
@@ -12,7 +12,6 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-  <param name="candlePart">Optional. Selected OHLCV part. Defaults to Close price.</param>
   <returns>Time series of WMA values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

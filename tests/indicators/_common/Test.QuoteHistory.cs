@@ -89,7 +89,7 @@ public class QuoteHistory : TestBase
         IEnumerable<Quote> quotes = TestData.GetMismatch();
 
         // clean
-        List<Quote> h = quotes.SortToList();
+        List<Quote> h = quotes.ToSortedList();
 
         // assertions
 

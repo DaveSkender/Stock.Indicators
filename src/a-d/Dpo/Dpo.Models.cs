@@ -1,8 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class DpoResult : ResultBase
+public sealed class DpoResult : ResultBase, IReusableResult
 {
-    public decimal? Sma { get; set; }
-    public decimal? Dpo { get; set; }
+    public double? Sma { get; set; }
+    public double? Dpo { get; set; }
+
+    double? IReusableResult.Value => Dpo;
 }

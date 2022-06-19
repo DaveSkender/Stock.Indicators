@@ -25,13 +25,13 @@ IEnumerable<FractalResult> results =
 | `windowSpan` | int | Evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 | `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evalution date.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.
 
 ### Historical quotes requirements
 
 You must have at least `2×S+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### EndType options
 
@@ -47,7 +47,7 @@ IEnumerable<FractalResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
@@ -68,12 +68,6 @@ IEnumerable<FractalResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
 
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate Fractal(5)
-IEnumerable<FractalResult> results = quotes.GetFractal(5);
-```
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.

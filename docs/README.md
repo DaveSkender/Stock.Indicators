@@ -22,7 +22,7 @@ Explore more information:
 
 ![image](examples.png)
 
-### Example usage
+### Basic usage
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -31,6 +31,24 @@ using Skender.Stock.Indicators;
 
 // example: get 20-period simple moving average
 IEnumerable<SmaResult> results = quotes.GetSma(20);
+```
+
+### Advanced usage
+
+Optional chaining enables advanced uses cases; such as, indicator of indicators, slope (direction) of any result, or moving average of an indicator.
+
+```csharp
+// example: advanced chaining (RSI of OBV)
+IEnumerable<RsiResult> results
+  = quotes
+    .Obv()
+    .Rsi(14);
+
+// example: use any candle variant
+IEnumerable<EmaResult> results
+  = quotes
+    .Use(CandlePart.HL2)
+    .GetEma(20);
 ```
 
 See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.

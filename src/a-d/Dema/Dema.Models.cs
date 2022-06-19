@@ -1,7 +1,9 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class DemaResult : ResultBase
+public sealed class DemaResult : ResultBase, IReusableResult
 {
-    public decimal? Dema { get; set; }
+    public double? Dema { get; set; }
+
+    double? IReusableResult.Value => Dema;
 }

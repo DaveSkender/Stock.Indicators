@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Moving Average Envelopes is a price band overlay that is offset from the moving average of Close price over a lookback window.
     <para>
@@ -16,4 +16,4 @@
   <param name="movingAverageType">Moving average type (e.g. EMA, HMA, TEMA, etc.).</param>
   <returns>Time series of MA Envelopes values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

@@ -81,6 +81,17 @@ public class StochRsi : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetStochRsi(14, 14, 3, 3)
+            .GetSma(10);
+
+        Assert.AreEqual(473, results.Count());
+        Assert.AreEqual(464, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(badQuotes, 15, 20, 3, 2);

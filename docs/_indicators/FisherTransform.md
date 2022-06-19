@@ -28,7 +28,7 @@ IEnumerable<FisherTransformResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -37,7 +37,7 @@ IEnumerable<FisherTransformResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 
 :hourglass: **Convergence Warning**: The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
@@ -64,13 +64,24 @@ quotes.GetFisherTransform(lookbackPeriods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate 10-period FisherTransform
-IEnumerable<FisherTransformResult> results
-  = quotes.GetFisherTransform(10);
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetFisherTransform(..);
 ```
+
+Results can be further processed on `Alma` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetFisherTransform(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

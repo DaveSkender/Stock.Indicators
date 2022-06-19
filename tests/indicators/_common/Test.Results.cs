@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
@@ -16,7 +16,7 @@ public class Results : TestBase
         DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
 
         EmaResult r = emaResults.Find(findDate);
-        Assert.AreEqual(249.3519m, NullMath.Round(r.Ema, 4));
+        Assert.AreEqual(249.3519, NullMath.Round(r.Ema, 4));
     }
 
     [TestMethod]

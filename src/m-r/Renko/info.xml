@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
 
   <type name="standard">
     <summary>
@@ -35,4 +35,4 @@
     <returns>Time series of Renko Chart candlestick values.</returns>
   </type>
 
-</indicator>
+</info>

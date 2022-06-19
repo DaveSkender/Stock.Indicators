@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class BetaResult : ResultBase
+public sealed class BetaResult : ResultBase, IReusableResult
 {
     public double? Beta { get; set; }
     public double? BetaUp { get; set; }
@@ -10,6 +10,8 @@ public class BetaResult : ResultBase
     public double? Convexity { get; set; }
     public double? ReturnsEval { get; set; }
     public double? ReturnsMrkt { get; set; }
+
+    double? IReusableResult.Value => Beta;
 }
 
 public enum BetaType

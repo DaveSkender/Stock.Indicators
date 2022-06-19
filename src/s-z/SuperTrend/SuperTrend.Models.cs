@@ -1,7 +1,7 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class SuperTrendResult : ResultBase
+public sealed class SuperTrendResult : ResultBase
 {
     public decimal? SuperTrend { get; set; }
     public decimal? UpperBand { get; set; }

@@ -27,7 +27,7 @@ public class ConnorsRsi : TestBase
 
         // sample value
         ConnorsRsiResult r1 = results1[501];
-        Assert.AreEqual(68.8087, NullMath.Round(r1.RsiClose, 4));
+        Assert.AreEqual(68.8087, NullMath.Round(r1.Rsi, 4));
         Assert.AreEqual(67.4899, NullMath.Round(r1.RsiStreak, 4));
         Assert.AreEqual(88.0000, NullMath.Round(r1.PercentRank, 4));
         Assert.AreEqual(74.7662, NullMath.Round(r1.ConnorsRsi, 4));
@@ -35,10 +35,32 @@ public class ConnorsRsi : TestBase
         // different parameters
         List<ConnorsRsiResult> results2 = quotes.GetConnorsRsi(14, 20, 10).ToList();
         ConnorsRsiResult r2 = results2[501];
-        Assert.AreEqual(42.0773, NullMath.Round(r2.RsiClose, 4));
+        Assert.AreEqual(42.0773, NullMath.Round(r2.Rsi, 4));
         Assert.AreEqual(52.7386, NullMath.Round(r2.RsiStreak, 4));
         Assert.AreEqual(90.0000, NullMath.Round(r2.PercentRank, 4));
         Assert.AreEqual(61.6053, NullMath.Round(r2.ConnorsRsi, 4));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<ConnorsRsiResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetConnorsRsi();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(401, results.Where(x => x.ConnorsRsi != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetConnorsRsi()
+            .GetSma(10);
+
+        Assert.AreEqual(401, results.Count());
+        Assert.AreEqual(392, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -77,7 +99,7 @@ public class ConnorsRsi : TestBase
         Assert.AreEqual(502 - removePeriods + 1, results.Count);
 
         ConnorsRsiResult last = results.LastOrDefault();
-        Assert.AreEqual(68.8087, NullMath.Round(last.RsiClose, 4));
+        Assert.AreEqual(68.8087, NullMath.Round(last.Rsi, 4));
         Assert.AreEqual(67.4899, NullMath.Round(last.RsiStreak, 4));
         Assert.AreEqual(88.0000, NullMath.Round(last.PercentRank, 4));
         Assert.AreEqual(74.7662, NullMath.Round(last.ConnorsRsi, 4));

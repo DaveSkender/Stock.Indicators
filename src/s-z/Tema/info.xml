@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Triple Exponential Moving Average (TEMA) of the Close price.  Note: TEMA is often confused with the alternative TRIX oscillator.
     <para>
@@ -14,4 +14,4 @@
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <returns>Time series of Triple EMA values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

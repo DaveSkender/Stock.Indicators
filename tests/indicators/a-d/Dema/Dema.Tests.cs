@@ -21,16 +21,38 @@ public class Dema : TestBase
 
         // sample values
         DemaResult r25 = results[25];
-        Assert.AreEqual(215.7605m, NullMath.Round(r25.Dema, 4));
+        Assert.AreEqual(215.7605, NullMath.Round(r25.Dema, 4));
 
         DemaResult r51 = results[51];
-        Assert.AreEqual(225.8259m, NullMath.Round(r51.Dema, 4));
+        Assert.AreEqual(225.8259, NullMath.Round(r51.Dema, 4));
 
         DemaResult r249 = results[249];
-        Assert.AreEqual(258.4452m, NullMath.Round(r249.Dema, 4));
+        Assert.AreEqual(258.4452, NullMath.Round(r249.Dema, 4));
 
         DemaResult r251 = results[501];
-        Assert.AreEqual(241.1677m, NullMath.Round(r251.Dema, 4));
+        Assert.AreEqual(241.1677, NullMath.Round(r251.Dema, 4));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<DemaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetDema(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Dema != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetDema(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -61,7 +83,7 @@ public class Dema : TestBase
         Assert.AreEqual(502 - (40 + 100), results.Count);
 
         DemaResult last = results.LastOrDefault();
-        Assert.AreEqual(241.1677m, NullMath.Round(last.Dema, 4));
+        Assert.AreEqual(241.1677, NullMath.Round(last.Dema, 4));
     }
 
     [TestMethod]

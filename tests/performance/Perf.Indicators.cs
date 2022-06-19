@@ -9,11 +9,16 @@ public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> ho;
+    private static List<Quote> hList;
 
     // SETUP
 
     [GlobalSetup]
-    public void Setup() => h = TestData.GetDefault();
+    public void Setup()
+    {
+        h = TestData.GetDefault();
+        hList = h.ToList();
+    }
 
     [GlobalSetup(Targets = new[]
     {
@@ -58,15 +63,19 @@ public class IndicatorPerformance
     public object GetAwesome() => h.GetAwesome();
 
     [Benchmark]
+#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBeta() => Indicator.GetBeta(h, ho, 20, BetaType.Standard);
 
     [Benchmark]
+#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBetaUp() => Indicator.GetBeta(h, ho, 20, BetaType.Up);
 
     [Benchmark]
+#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBetaDown() => Indicator.GetBeta(h, ho, 20, BetaType.Down);
 
     [Benchmark]
+#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBetaAll() => Indicator.GetBeta(h, ho, 20, BetaType.All);
 
     [Benchmark]
@@ -115,6 +124,20 @@ public class IndicatorPerformance
     public object GetEma() => h.GetEma(14);
 
     [Benchmark]
+    public object GetEmaStream()
+    {
+        EmaBase emaBase = hList.Take(15).InitEma(14);
+
+        for (int i = 15; i < hList.Count; i++)
+        {
+            Quote q = hList[i];
+            emaBase.Add(q);
+        }
+
+        return emaBase.Results;
+    }
+
+    [Benchmark]
     public object GetEpma() => h.GetEpma(14);
 
     [Benchmark]
@@ -157,6 +180,9 @@ public class IndicatorPerformance
     public object GetKeltner() => h.GetKeltner();
 
     [Benchmark]
+    public object GetKvo() => h.GetKvo();
+
+    [Benchmark]
     public object GetMacd() => h.GetMacd();
 
     [Benchmark]
@@ -181,19 +207,23 @@ public class IndicatorPerformance
     public object GetParabolicSar() => h.GetParabolicSar();
 
     [Benchmark]
-    public object GetPivots() => h.GetPivots();
+    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
 
     [Benchmark]
-    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
+    public object GetPivots() => h.GetPivots();
 
     [Benchmark]
     public object GetPmo() => h.GetPmo();
 
     [Benchmark]
+#pragma warning disable CS0618 // Type or member is obsolete
     public object GetPrs() => h.GetPrs(ho);
+#pragma warning restore CS0618 // Type or member is obsolete
 
     [Benchmark]
+#pragma warning disable CS0618 // Type or member is obsolete
     public object GetPrsWithSma() => h.GetPrs(ho, null, 5);
+#pragma warning restore CS0618 // Type or member is obsolete
 
     [Benchmark]
     public object GetPvo() => h.GetPvo();
@@ -226,7 +256,7 @@ public class IndicatorPerformance
     public object GetSma() => h.GetSma(10);
 
     [Benchmark]
-    public object GetSmaExtended() => h.GetSmaExtended(10);
+    public object GetSmaAnalysis() => h.GetSmaAnalysis(10);
 
     [Benchmark]
     public object GetSmi() => h.GetSmi(5, 20, 5, 3);
@@ -262,6 +292,9 @@ public class IndicatorPerformance
     public object GetSuperTrend() => h.GetSuperTrend();
 
     [Benchmark]
+    public object GetT3() => h.GetT3();
+
+    [Benchmark]
     public object GetTema() => h.GetTema(14);
 
     [Benchmark]
@@ -272,9 +305,6 @@ public class IndicatorPerformance
 
     [Benchmark]
     public object GetTsi() => h.GetTsi();
-
-    [Benchmark]
-    public object GetT3() => h.GetT3();
 
     [Benchmark]
     public object GetUlcerIndex() => h.GetUlcerIndex();

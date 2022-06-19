@@ -25,7 +25,7 @@ IEnumerable<BasicData> results =
 
 You must have at least 1 period of `quotes`.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 {% include candlepart-options.md %}
 
@@ -36,7 +36,7 @@ IEnumerable<BasicData>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 
 ### BasicData
@@ -52,12 +52,20 @@ IEnumerable<BasicData>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+### Chaining
+
+Results can be further processed on `Value` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
+// example
+var results = quotes
+    .GetBaseQuote(..)
+    .GetRsi(..);
 
-// calculate HL2 price (average of high and low price)
-IEnumerable<BasicData> results = quotes.GetBaseQuote(CandlePart.HL2);
+// and is equivalent to
+var results = quotes
+    .Use(..)
+    .GetRsi(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

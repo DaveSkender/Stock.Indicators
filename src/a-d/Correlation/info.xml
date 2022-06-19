@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Correlation Coefficient between two quote histories, based on Close price.
     <para>
@@ -19,4 +19,4 @@
   </returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="InvalidQuotesException">Invalid quotes provided.</exception>
-</indicator>
+</info>

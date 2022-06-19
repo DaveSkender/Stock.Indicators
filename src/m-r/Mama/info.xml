@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     MESA Adaptive Moving Average (MAMA) is a 5-period adaptive moving average of high/low price.
     <para>
@@ -15,4 +15,4 @@
   <param name="slowLimit">Slow limit threshold.</param>
   <returns>Time series of MAMA values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

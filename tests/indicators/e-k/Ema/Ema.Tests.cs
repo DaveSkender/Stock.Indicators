@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class Ema : TestBase
+public class EmaTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -21,19 +21,102 @@ public class Ema : TestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.6228m, NullMath.Round(r29.Ema, 4));
+        Assert.AreEqual(216.6228, NullMath.Round(r29.Ema, 4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.3873m, NullMath.Round(r249.Ema, 4));
+        Assert.AreEqual(255.3873, NullMath.Round(r249.Ema, 4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.3519m, NullMath.Round(r501.Ema, 4));
+        Assert.AreEqual(249.3519, NullMath.Round(r501.Ema, 4));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<EmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetEma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetEma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
+    public void Stream()
+    {
+        List<Quote> quotesList = quotes
+            .OrderBy(x => x.Date)
+            .ToList();
+
+        // time-series
+        List<EmaResult> series = quotesList.GetEma(20).ToList();
+
+        // stream simulation
+        EmaBase emaBase = quotesList.Take(25).InitEma(20);
+
+        for (int i = 25; i < series.Count; i++)
+        {
+            Quote q = quotesList[i];
+            emaBase.Add(q);
+            emaBase.Add(q); // redundant
+        }
+
+        List<EmaResult> stream = emaBase.Results.ToList();
+
+        // assertions
+        for (int i = 0; i < series.Count; i++)
+        {
+            EmaResult t = series[i];
+            EmaResult s = stream[i];
+
+            Assert.AreEqual(t.Date, s.Date);
+            Assert.AreEqual(t.Ema, s.Ema);
+        }
+    }
+
+    [TestMethod]
+    public void Chaining()
+    {
+        List<EmaResult> results = quotes
+            .GetRsi(14)
+            .GetEma(20)
+            .ToList();
+
+        // assertions
+        Assert.AreEqual(488, results.Count);
+        Assert.AreEqual(469, results.Where(x => x.Ema != null).Count());
+
+        // sample values
+        EmaResult r18 = results[18];
+        Assert.IsNull(r18.Ema);
+
+        EmaResult r19 = results[19];
+        Assert.AreEqual(67.4565, NullMath.Round(r19.Ema, 4));
+
+        EmaResult r235 = results[235];
+        Assert.AreEqual(70.4659, NullMath.Round(r235.Ema, 4));
+
+        EmaResult r487 = results[487];
+        Assert.AreEqual(37.0728, NullMath.Round(r487.Ema, 4));
     }
 
     [TestMethod]
     public void Custom()
     {
-        List<EmaResult> results = quotes.GetEma(20, CandlePart.Open)
+        List<EmaResult> results = quotes
+            .Use(CandlePart.Open)
+            .GetEma(20)
             .ToList();
 
         // assertions
@@ -45,13 +128,13 @@ public class Ema : TestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.2643m, NullMath.Round(r29.Ema, 4));
+        Assert.AreEqual(216.2643, NullMath.Round(r29.Ema, 4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.4875m, NullMath.Round(r249.Ema, 4));
+        Assert.AreEqual(255.4875, NullMath.Round(r249.Ema, 4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.9157m, NullMath.Round(r501.Ema, 4));
+        Assert.AreEqual(249.9157, NullMath.Round(r501.Ema, 4));
     }
 
     [TestMethod]
@@ -82,7 +165,7 @@ public class Ema : TestBase
         Assert.AreEqual(502 - (20 + 100), results.Count);
 
         EmaResult last = results.LastOrDefault();
-        Assert.AreEqual(249.3519m, NullMath.Round(last.Ema, 4));
+        Assert.AreEqual(249.3519, NullMath.Round(last.Ema, 4));
     }
 
     [TestMethod]
@@ -91,5 +174,10 @@ public class Ema : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetEma(quotes, 0));
+
+        // null quote added
+        EmaBase emaBase = quotes.InitEma(14);
+        Assert.ThrowsException<InvalidQuotesException>(() =>
+        emaBase.Add(null));
     }
 }

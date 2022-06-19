@@ -20,10 +20,32 @@ public class Hma : TestBase
 
         // sample values
         HmaResult r1 = results[149];
-        Assert.AreEqual(236.0835m, NullMath.Round(r1.Hma, 4));
+        Assert.AreEqual(236.0835, NullMath.Round(r1.Hma, 4));
 
         HmaResult r2 = results[501];
-        Assert.AreEqual(235.6972m, NullMath.Round(r2.Hma, 4));
+        Assert.AreEqual(235.6972, NullMath.Round(r2.Hma, 4));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<HmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetHma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetHma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(480, results.Count());
+        Assert.AreEqual(471, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -54,7 +76,7 @@ public class Hma : TestBase
         Assert.AreEqual(480, results.Count);
 
         HmaResult last = results.LastOrDefault();
-        Assert.AreEqual(235.6972m, NullMath.Round(last.Hma, 4));
+        Assert.AreEqual(235.6972, NullMath.Round(last.Hma, 4));
     }
 
     [TestMethod]

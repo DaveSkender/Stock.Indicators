@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Gator Oscillator is an expanded view of Williams Alligator.
     <para>
@@ -12,4 +12,4 @@
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
   <param name="quotes">Historical price quotes.</param>
   <returns>Time series of Gator values.</returns>
-</indicator>
+</info>

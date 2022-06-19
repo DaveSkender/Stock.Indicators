@@ -78,6 +78,17 @@ public class Gator : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<GatorResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetGator();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Upper != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<GatorResult> r = Indicator.GetGator(badQuotes);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Schaff Trend Cycle is a stochastic oscillator view of two converging/diverging exponential moving averages.
     <para>
@@ -16,4 +16,4 @@
   <param name="slowPeriods">Number of periods in the Slow EMA.</param>
   <returns>Time series of MACD values, including MACD, Signal, and Histogram.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

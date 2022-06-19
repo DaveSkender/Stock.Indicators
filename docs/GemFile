@@ -16,4 +16,4 @@ end
 
 # validate URLs with:
 # bundle exec htmlproofer --http-status-ignore '999' _site;
-gem "html-proofer", "~> 3.19"
+gem "html-proofer", "~> 3.19.3"

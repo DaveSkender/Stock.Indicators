@@ -26,15 +26,15 @@ IEnumerable<ParabolicSarResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `accelerationStep` | decimal | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
-| `maxAccelerationFactor` | decimal | Maximimum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
-| `initialFactor` | decimal | Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
+| `accelerationStep` | double | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
+| `maxAccelerationFactor` | double | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
+| `initialFactor` | double | Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
 
 ### Historical quotes requirements
 
 You must have at least two historical quotes to cover the warmup periods; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals, before your intended usage period.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -43,7 +43,7 @@ IEnumerable<ParabolicSarResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first trend will have `null` values since it is not accurate and based on an initial guess.
 
@@ -52,7 +52,7 @@ IEnumerable<ParabolicSarResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sar` | decimal | Stop and Reverse value
+| `Sar` | double | Stop and Reverse value
 | `IsReversal` | bool | Indicates a trend reversal
 
 ### Utilities
@@ -63,13 +63,17 @@ IEnumerable<ParabolicSarResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `Sar` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate ParabolicSar(0.02,0.2)
-IEnumerable<ParabolicSarResult> results
-  = quotes.GetParabolicSar(0.02,0.2);
+// example
+var results = quotes
+    .GetParabolicSar(..)
+    .GetEma(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

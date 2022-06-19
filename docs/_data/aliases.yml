@@ -78,10 +78,6 @@
   permalink: /indicators/Hurst/
   type: price-characteristic
 
-- title: ROC with Bands
-  permalink: /indicators/Roc/
-  type: oscillator
-
 - title: Running Moving Average (RMA)
   permalink: /indicators/Smma/
   type: moving-average

@@ -26,3 +26,8 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Okay for internal test use only.",
     Scope = "member",
     Target = "~M:Internal.Tests.RandomGbm.Price(System.Double,System.Double,System.Double)~System.Double")]
+
+[assembly: SuppressMessage(
+    "Security",
+    "CA5394:Do not use insecure randomness",
+    Justification = "Okay for test rig, non-production code.")]

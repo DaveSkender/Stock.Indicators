@@ -23,11 +23,33 @@ public class Smma : TestBase
         Assert.IsNotNull(results[19].Smma);
 
         // sample values
-        Assert.AreEqual(214.52500m, Math.Round(results[19].Smma.Value, 5));
-        Assert.AreEqual(214.55125m, Math.Round(results[20].Smma.Value, 5));
-        Assert.AreEqual(214.58319m, Math.Round(results[21].Smma.Value, 5));
-        Assert.AreEqual(225.78071m, Math.Round(results[100].Smma.Value, 5));
-        Assert.AreEqual(255.67462m, Math.Round(results[501].Smma.Value, 5));
+        Assert.AreEqual(214.52500, Math.Round(results[19].Smma.Value, 5));
+        Assert.AreEqual(214.55125, Math.Round(results[20].Smma.Value, 5));
+        Assert.AreEqual(214.58319, Math.Round(results[21].Smma.Value, 5));
+        Assert.AreEqual(225.78071, Math.Round(results[100].Smma.Value, 5));
+        Assert.AreEqual(255.67462, Math.Round(results[501].Smma.Value, 5));
+    }
+
+    [TestMethod]
+    public void Use()
+    {
+        IEnumerable<SmmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetSmma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetSmma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -56,7 +78,7 @@ public class Smma : TestBase
 
         // assertions
         Assert.AreEqual(502 - (20 + 100), results.Count);
-        Assert.AreEqual(255.67462m, Math.Round(results.LastOrDefault().Smma.Value, 5));
+        Assert.AreEqual(255.67462, Math.Round(results.LastOrDefault().Smma.Value, 5));
     }
 
     [TestMethod]

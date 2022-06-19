@@ -4,6 +4,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
+#pragma warning disable CS0618 // Type or member is obsolete
 public class Prs : TestBase
 {
     [TestMethod]
@@ -13,7 +14,7 @@ public class Prs : TestBase
         int smaPeriods = 10;
 
         List<PrsResult> results =
-            quotes.GetPrs(otherQuotes, lookbackPeriods, smaPeriods)
+            otherQuotes.GetPrs(quotes, lookbackPeriods, smaPeriods)
             .ToList();
 
         // assertions
@@ -42,6 +43,28 @@ public class Prs : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<PrsResult> results = otherQuotes
+            .Use(CandlePart.Close)
+            .GetPrs(quotes.Use(CandlePart.Close), 20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Where(x => x.Prs != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = otherQuotes
+            .GetPrs(quotes, 20)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<PrsResult> r = Indicator.GetPrs(badQuotes, badQuotes, 15, 4);
@@ -63,22 +86,22 @@ public class Prs : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPrs(quotes, otherQuotes, 0));
+            Indicator.GetPrs(otherQuotes, quotes, 0));
 
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPrs(quotes, otherQuotes, 14, 0));
+            Indicator.GetPrs(otherQuotes, quotes, 14, 0));
 
         // insufficient quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetPrs(quotes, TestData.GetCompare(13), 14));
+            Indicator.GetPrs(TestData.GetCompare(13), quotes, 14));
 
         // insufficient eval quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetPrs(quotes, TestData.GetCompare(300), 14));
+            Indicator.GetPrs(TestData.GetCompare(300), quotes, 14));
 
         // mismatch quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetPrs(mismatchQuotes, otherQuotes, 14));
+            Indicator.GetPrs(otherQuotes, mismatchQuotes, 14));
     }
 }

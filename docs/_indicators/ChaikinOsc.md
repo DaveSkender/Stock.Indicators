@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line](../Adl#content) (ADL).
+Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line]({{site.baseurl}}/indicators/Adl/#content) (ADL).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/264 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/ChaikinOsc.png)
@@ -29,7 +29,7 @@ IEnumerable<ChaikinOscResult> results =
 
 You must have at least `2×S` or `S+100` periods of `quotes`, whichever is more,  to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `S+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -38,7 +38,7 @@ IEnumerable<ChaikinOscResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
@@ -64,12 +64,17 @@ IEnumerable<ChaikinOscResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `Oscillator` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate 20-period Chaikin Oscillator
-IEnumerable<ChaikinOscResult> results = quotes.GetChaikinOsc(20);
+// example
+var results = quotes
+    .GetChaikinOsc(..)
+    .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Ultimate Oscillator uses several lookback periods to weigh buying power against True Range price to produce on oversold / overbought oscillator.
     <para>
@@ -16,4 +16,4 @@
   <param name="longPeriods">Number of periods in the largest window.</param>
   <returns>Time series of Ultimate Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

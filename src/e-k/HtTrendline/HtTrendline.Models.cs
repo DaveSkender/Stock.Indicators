@@ -1,8 +1,10 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class HtlResult : ResultBase
+public sealed class HtlResult : ResultBase, IReusableResult
 {
-    public decimal? Trendline { get; set; }
-    public decimal? SmoothPrice { get; set; }
+    public double? Trendline { get; set; }
+    public double? SmoothPrice { get; set; }
+
+    double? IReusableResult.Value => Trendline;
 }

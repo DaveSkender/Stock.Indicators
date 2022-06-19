@@ -24,10 +24,10 @@ public class Chandeleir : TestBase
 
         // sample values (long)
         ChandelierResult a = longResult[501];
-        Assert.AreEqual(256.5860m, NullMath.Round(a.ChandelierExit, 4));
+        Assert.AreEqual(256.5860, NullMath.Round(a.ChandelierExit, 4));
 
         ChandelierResult b = longResult[492];
-        Assert.AreEqual(259.0480m, NullMath.Round(b.ChandelierExit, 4));
+        Assert.AreEqual(259.0480, NullMath.Round(b.ChandelierExit, 4));
 
         // short
         List<ChandelierResult> shortResult =
@@ -35,7 +35,18 @@ public class Chandeleir : TestBase
             .ToList();
 
         ChandelierResult c = shortResult[501];
-        Assert.AreEqual(246.4240m, NullMath.Round(c.ChandelierExit, 4));
+        Assert.AreEqual(246.4240, NullMath.Round(c.ChandelierExit, 4));
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetChandelier(22)
+            .GetSma(10);
+
+        Assert.AreEqual(481, results.Count());
+        Assert.AreEqual(472, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -67,7 +78,7 @@ public class Chandeleir : TestBase
         Assert.AreEqual(502 - 21, longResult.Count);
 
         ChandelierResult last = longResult.LastOrDefault();
-        Assert.AreEqual(256.5860m, NullMath.Round(last.ChandelierExit, 4));
+        Assert.AreEqual(256.5860, NullMath.Round(last.ChandelierExit, 4));
     }
 
     [TestMethod]

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     The Elder-ray Index depicts buying and selling pressure, also known as Bull and Bear Power.
     <para>
@@ -14,4 +14,4 @@
   <param name="lookbackPeriods">Number of periods for the EMA.</param>
   <returns>Time series of Elder-ray Index values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

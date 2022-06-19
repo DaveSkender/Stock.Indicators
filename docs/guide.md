@@ -14,7 +14,7 @@ redirect_from:
 - [Example usage](#example-usage)
 - [Historical quotes](#historical-quotes)
 - [Using custom quote classes](#using-custom-quote-classes)
-- [Using derived results classes](#using-derived-results-classes)
+- [Using custom results classes](#using-custom-results-classes)
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Candlestick patterns](#candlestick-patterns)
 - [Creating custom indicators]({{site.baseurl}}/custom-indicators/#content)
@@ -107,7 +107,7 @@ Each indicator will need different amounts of price `quotes` to calculate.  You 
 
 :warning: IMPORTANT! **Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system.**  Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
 
-For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occassionally, even more is required for optimal precision.
+For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occasionally, even more is required for optimal precision.
 
 See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
 
@@ -168,16 +168,17 @@ Note the use of explicit interface (property declaration is `IQuote.Date`), this
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 
-## Using derived results classes
+## Using custom results classes
 
-The indicator result (e.g. `EmaResult`) classes can be extended in your code.  There are many ways to do this.  Here's one example:
+The indicator result classes can be customized in your code.  There are many ways to do this, but the benefit of using derived `ResultBase` is that your custom class will inherit all of the [utility results extension methods]({{site.baseurl}}/utilities/#utilities-for-indicator-results).  Here's one example:
 
 ```csharp
-// your custom derived class
-public class MyEma : EmaResult
+// your custom class with an EMA profile
+public class MyEma : ResultBase
 {
-  // my added properties
+  // my properties
   public int MyId { get; set; }
+  public double? Ema { get; set; }
 }
 
 public void MyClass(){
@@ -209,7 +210,7 @@ public void MyClass(){
 
 ## Generating indicator of indicators
 
-If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one, reformat into a synthetic historical quotes, and send it through to another indicator.  Example:
+If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one and chain it to another.  Example:
 
 ```csharp
 // fetch historical quotes from your feed (your method)
@@ -217,30 +218,16 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate RSI of OBV
 IEnumerable<RsiResult> results
-  = quotes.GetObv()
-    .ToQuotes()
+  = quotes
+    .GetObv()
     .GetRsi(14);
-```
 
-When `.ToQuotes()` is not available for an indicator, a workaround is to convert yourself.
-
-```csharp
-// calculate OBV
+// or with two separate operations
 IEnumerable<ObvResult> obvResults = quotes.GetObv();
-
-// convert to synthetic quotes [using LINQ]
-List<Quote> obvQuotes = obvResults
-  .Where(x => x.Obv != null)
-  .Select(x => new Quote
-    {
-      Date = x.Date,
-      Close = x.Obv
-    })
-  .ToList();
-
-// calculate RSI of OBV
-IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
+IEnumerable<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 ```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.
 
 ## Candlestick patterns
 
@@ -281,7 +268,7 @@ The `CandleProperties` class is an extended version of `Quote`, and contains add
 | `LowerWick` | decimal | Lower wick size
 | `BodyPct` | double | `Body/Size`
 | `UpperWickPct` | double | `UpperWick/Size`
-| `LowerWickPct` | double | `Lowerwick/Size`
+| `LowerWickPct` | double | `LowerWick/Size`
 | `IsBullish` | bool | `Close>Open` direction
 | `IsBearish` | bool | `Close<Open` direction
 

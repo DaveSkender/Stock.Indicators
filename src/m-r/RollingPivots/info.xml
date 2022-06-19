@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Rolling Pivot Points is a modern update to traditional fixed calendar window Pivot Points.
     It depicts support and resistance levels, based on a defined rolling window and offset.
@@ -17,4 +17,4 @@
   <param name="pointType">Pivot Point type.</param>
   <returns>Time series of Rolling Pivot Points values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

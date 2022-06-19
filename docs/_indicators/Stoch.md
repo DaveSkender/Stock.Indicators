@@ -41,7 +41,7 @@ IEnumerable<StochResult> results =
 
 You must have at least `N+S` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### MaType options
 
@@ -49,8 +49,8 @@ These are the supported moving average types:
 
 | type | description
 |-- |--
-| `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
+| `MaType.SMA` | [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+| `MaType.SMMA` | [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
 
 ## Response
 
@@ -59,7 +59,7 @@ IEnumerable<StochResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N+S-2` periods will have `null` Oscillator values since there's not enough data to calculate.
 
@@ -74,7 +74,7 @@ IEnumerable<StochResult>
 | `Signal` or `D` | double | %D Simple moving average of Oscillator
 | `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
 
-Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangably with the standard outputs.
+Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangeably with the standard outputs.
 
 ### Utilities
 
@@ -84,12 +84,17 @@ Note: aliases of `K`, `D`, and `J` are also provided.  They can be used intercha
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `Oscillator` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate STO %K(14),%D(3) (slow)
-IEnumerable<StochResult> results = quotes.GetStoch(14,3,3);
+// example
+var results = quotes
+    .GetStoch(..)
+    .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

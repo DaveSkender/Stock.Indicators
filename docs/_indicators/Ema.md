@@ -12,16 +12,12 @@ layout: indicator
 
 ![image]({{site.baseurl}}/assets/charts/Ema.png)
 
-See also related [Double EMA](../Dema#content) and [Triple EMA](../Tema#content).
+See also related [Double EMA]({{site.baseurl}}/indicators/Dema/#content) and [Triple EMA]({{site.baseurl}}/indicators/Tema/#content).
 
 ```csharp
 // usage (with Close price)
 IEnumerable<EmaResult> results =
   quotes.GetEma(lookbackPeriods);
-
-// alternate
-IEnumerable<EmaResult> results =
-  quotes.GetEma(lookbackPeriods, candlePart);
 ```
 
 ## Parameters
@@ -29,15 +25,12 @@ IEnumerable<EmaResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
-| `candlePart` | CandlePart | Optional.  Specify candle part to evaluate.  See [CandlePart options](#candlepart-options) below.  Default is `CandlePart.Close`
 
 ### Historical quotes requirements
 
 You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
-
-{% include candlepart-options.md %}
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -46,7 +39,7 @@ IEnumerable<EmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
@@ -57,7 +50,7 @@ IEnumerable<EmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | decimal | Exponential moving average
+| `Ema` | double | Exponential moving average
 
 ### Utilities
 
@@ -67,12 +60,24 @@ IEnumerable<EmaResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate 20-period EMA
-IEnumerable<EmaResult> results = quotes.GetEma(20);
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetEma(..);
 ```
+
+Results can be further processed on `Ema` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetEma(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

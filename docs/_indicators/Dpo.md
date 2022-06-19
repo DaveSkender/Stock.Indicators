@@ -28,7 +28,7 @@ IEnumerable<DpoResult> results =
 
 You must have at least `N` historical quotes to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -37,7 +37,7 @@ IEnumerable<DpoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first `N/2-2` and last `N/2+1` periods will be `null` since they cannot be calculated.
 
@@ -46,8 +46,8 @@ IEnumerable<DpoResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sma` | decimal | Simple moving average offset by `N/2+1` periods
-| `Dpo` | decimal | Detrended Price Oscillator (DPO)
+| `Sma` | double | Simple moving average offset by `N/2+1` periods
+| `Dpo` | double | Detrended Price Oscillator (DPO)
 
 ### Utilities
 
@@ -56,12 +56,24 @@ IEnumerable<DpoResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate
-IEnumerable<DpoResult> results = quotes.GetDpo(14);
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetDpo(..);
 ```
+
+Results can be further processed on `Dpo` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetDpo(..)
+    .GetRsi(..);
+```
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

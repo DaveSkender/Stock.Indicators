@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Price Relative Strength (PRS), also called Comparative Relative Strength,
     shows the ratio of two quote histories, based on Close price. It is often used to compare
@@ -13,11 +13,11 @@
     </para>
   </summary>
   <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="historyBase">This is usually market index data, but could be any baseline data that you might use for comparison.</param>
-  <param name="historyEval">Historical price quotes for evaluation.</param>
+  <param name="quotesEval">Historical price quotes for evaluation.</param>
+  <param name="quotesBase">This is usually market index data, but could be any baseline data that you might use for comparison.</param>
   <param name="lookbackPeriods">Optional. Number of periods for % difference.</param>
   <param name="smaPeriods">Optional.  Number of periods for a PRS SMA signal line.</param>
   <returns>Time series of PRS values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="InvalidQuotesException">Invalid quotes provided.</exception>
-</indicator>
+</info>

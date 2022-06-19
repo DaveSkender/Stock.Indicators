@@ -24,7 +24,7 @@ IEnumerable<HeikinAshiResult> results =
 
 You must have at least two periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -33,15 +33,10 @@ IEnumerable<HeikinAshiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes.
+- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
 - It does not return a single incremental indicator value.
 - The first period will have `null` values since there's not enough data to calculate.
-- `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.  In other words, you can use it as base quotes for other indicators. Example:
-
-  ```csharp
-  var haQuotes = quotes.GetHeikinAshi();
-  var haRsi = haQuotes.GetRsi(14);
-  ```
+- `HeikinAshiResult` is based on `IQuote`, so it can be used as a direct replacement for `quotes`.
 
 ### HeikinAshiResult
 
@@ -61,12 +56,17 @@ IEnumerable<HeikinAshiResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results are based in `IQuote` and can be further used in any indicator.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate
-IEnumerable<HeikinAshiResult> results = quotes.GetHeikinAshi();
+// example
+var results = quotes
+    .GetHeikinAshi(..)
+    .GetRsi(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

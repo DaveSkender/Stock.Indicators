@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     The Force Index depicts volume-based buying and selling pressure.
     <para>
@@ -14,4 +14,4 @@
   <param name="lookbackPeriods">Number of periods for the EMA of Force Index.</param>
   <returns>Time series of Force Index values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>
