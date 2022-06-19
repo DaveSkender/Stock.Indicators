@@ -51,6 +51,17 @@ public class Smi : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetSmi(14, 20, 5, 3)
+            .GetSma(10);
+
+        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void NoSignal()
     {
         List<SmiResult> results = quotes.GetSmi(5, 20, 20, 1)

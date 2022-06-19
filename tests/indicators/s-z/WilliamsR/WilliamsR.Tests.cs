@@ -28,6 +28,17 @@ public class WilliamsR : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetWilliamsR()
+            .GetSma(10);
+
+        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(badQuotes, 20);

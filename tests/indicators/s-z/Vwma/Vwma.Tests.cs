@@ -31,6 +31,17 @@ public class Vwma : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetVwma(10)
+            .GetSma(10);
+
+        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<VwmaResult> r = badQuotes.GetVwma(15);

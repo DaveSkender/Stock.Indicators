@@ -33,6 +33,28 @@ public class Tema : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<TemaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetTema(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Tema != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetTema(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<TemaResult> r = Indicator.GetTema(badQuotes, 15);

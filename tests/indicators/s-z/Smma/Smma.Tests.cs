@@ -31,6 +31,28 @@ public class Smma : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<SmmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetSmma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetSmma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<SmmaResult> r = Indicator.GetSmma(badQuotes, 15);

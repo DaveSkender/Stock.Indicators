@@ -47,7 +47,29 @@ public class StdDev : TestBase
     }
 
     [TestMethod]
-    public void GetStdDevWithSma()
+    public void Use()
+    {
+        IEnumerable<StdDevResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetStdDev(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetStdDev(10)
+            .GetSma(10);
+
+        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
+    public void WithSma()
     {
         int lookbackPeriods = 10;
         int smaPeriods = 5;

@@ -39,6 +39,28 @@ public class T3 : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<T3Result> results = quotes
+            .Use(CandlePart.Close)
+            .GetT3();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(478, results.Where(x => x.T3 != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetT3()
+            .GetSma(10);
+
+        Assert.AreEqual(478, results.Count());
+        Assert.AreEqual(469, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<T3Result> r = Indicator.GetT3(badQuotes);

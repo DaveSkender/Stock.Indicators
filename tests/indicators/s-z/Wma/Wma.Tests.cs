@@ -27,6 +27,28 @@ public class Wma : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<WmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetWma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetWma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void Chaining()
     {
         List<WmaResult> standard = quotes

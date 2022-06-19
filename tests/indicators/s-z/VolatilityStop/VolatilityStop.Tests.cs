@@ -68,6 +68,17 @@ public class VolatilityStop : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetVolatilityStop()
+            .GetSma(10);
+
+        Assert.AreEqual(448, results.Count());
+        Assert.AreEqual(439, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<VolatilityStopResult> r = Indicator.GetVolatilityStop(badQuotes);

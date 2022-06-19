@@ -44,6 +44,28 @@ public class Slope : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<SlopeResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetSlope(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetSlope(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<SlopeResult> r = badQuotes.GetSlope(15);

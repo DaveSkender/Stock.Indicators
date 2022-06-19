@@ -46,6 +46,28 @@ public class Tsi : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<TsiResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetTsi();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(465, results.Where(x => x.Tsi != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetTsi()
+            .GetSma(10);
+
+        Assert.AreEqual(465, results.Count());
+        Assert.AreEqual(456, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<TsiResult> r = Indicator.GetTsi(badQuotes);

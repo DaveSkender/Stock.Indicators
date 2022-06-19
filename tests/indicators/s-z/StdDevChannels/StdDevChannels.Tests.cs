@@ -107,6 +107,17 @@ public class StdDevChannels : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<StdDevChannelsResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetStdDevChannels(20, 2);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(500, results.Where(x => x.Centerline != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(badQuotes);
