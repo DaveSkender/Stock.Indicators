@@ -63,19 +63,15 @@ public class IndicatorPerformance
     public object GetAwesome() => h.GetAwesome();
 
     [Benchmark]
-#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBeta() => Indicator.GetBeta(h, ho, 20, BetaType.Standard);
 
     [Benchmark]
-#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBetaUp() => Indicator.GetBeta(h, ho, 20, BetaType.Up);
 
     [Benchmark]
-#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBetaDown() => Indicator.GetBeta(h, ho, 20, BetaType.Down);
 
     [Benchmark]
-#pragma warning disable CS0618 // Type or member is obsolete
     public object GetBetaAll() => Indicator.GetBeta(h, ho, 20, BetaType.All);
 
     [Benchmark]
