@@ -59,7 +59,7 @@ Results can be further processed on `Value` with additional chain-enabled indica
 ```csharp
 // example
 var results = quotes
-    .GetBasicData(..)
+    .GetBaseQuote(..)
     .GetRsi(..);
 
 // and is equivalent to

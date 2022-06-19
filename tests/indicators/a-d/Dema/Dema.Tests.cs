@@ -34,6 +34,28 @@ public class Dema : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<DemaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetDema(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Dema != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetDema(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<DemaResult> r = Indicator.GetDema(badQuotes, 15);

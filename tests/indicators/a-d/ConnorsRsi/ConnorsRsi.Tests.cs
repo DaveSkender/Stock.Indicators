@@ -42,6 +42,28 @@ public class ConnorsRsi : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<ConnorsRsiResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetConnorsRsi();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(401, results.Where(x => x.ConnorsRsi != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetConnorsRsi()
+            .GetSma(10);
+
+        Assert.AreEqual(401, results.Count());
+        Assert.AreEqual(392, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(badQuotes, 4, 3, 25);

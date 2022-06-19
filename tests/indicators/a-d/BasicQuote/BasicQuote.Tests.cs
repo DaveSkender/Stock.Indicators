@@ -54,4 +54,24 @@ public class BaseQuoteTests : TestBase
         Assert.AreEqual(244.4433, NullMath.Round(rohl.Value, 4));
         Assert.AreEqual(244.6525, rohlc.Value);
     }
+
+    [TestMethod]
+    public void Use()
+    {
+        var results = quotes
+            .Use(CandlePart.Close);
+
+        Assert.AreEqual(502, results.Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetBaseQuote(CandlePart.Close)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+    }
 }

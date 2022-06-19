@@ -20,7 +20,7 @@ public class ChaikinOsc : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502 - slowPeriods + 1, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(493, results.Where(x => x.Oscillator != null).Count());
 
         // sample value
         ChaikinOscResult r = results[501];
@@ -28,6 +28,17 @@ public class ChaikinOsc : TestBase
         Assert.AreEqual(0.8052, NullMath.Round(r.MoneyFlowMultiplier, 4));
         Assert.AreEqual(118396116.25, NullMath.Round(r.MoneyFlowVolume, 2));
         Assert.AreEqual(-19135200.72, NullMath.Round(r.Oscillator, 2));
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetChaikinOsc(3, 10)
+            .GetSma(10);
+
+        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]

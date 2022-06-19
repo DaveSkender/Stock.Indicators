@@ -44,6 +44,17 @@ public class Alma : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<AlmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetAlma(10, 0.86, 6);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
+    }
+
+    [TestMethod]
     public void Chaining()
     {
         int lookbackPeriods = 10;

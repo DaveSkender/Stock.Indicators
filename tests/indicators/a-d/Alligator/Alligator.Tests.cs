@@ -48,6 +48,17 @@ public class Alligator : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<AlligatorResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetAlligator();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<AlligatorResult> r = badQuotes.GetAlligator(3, 3, 2, 1, 1, 1);

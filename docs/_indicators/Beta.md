@@ -80,7 +80,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotesEval
     .Use(CandlePart.HL2)
-    .GetBeta(quotesMarket, ..);
+    .GetBeta(quotesMarket.Use(CandlePart.HL2), ..);
 ```
 
 Results can be further processed on `Beta` with additional chain-enabled indicators.

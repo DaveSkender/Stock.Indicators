@@ -37,6 +37,28 @@ public class Awesome : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<AwesomeResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetAwesome();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(469, results.Where(x => x.Oscillator != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetAwesome()
+            .GetSma(10);
+
+        Assert.AreEqual(469, results.Count());
+        Assert.AreEqual(460, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<AwesomeResult> r = Indicator.GetAwesome(badQuotes);

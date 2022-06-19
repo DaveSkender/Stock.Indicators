@@ -39,6 +39,17 @@ public class Chandeleir : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetChandelier(22)
+            .GetSma(10);
+
+        Assert.AreEqual(481, results.Count());
+        Assert.AreEqual(472, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<ChandelierResult> r = Indicator.GetChandelier(badQuotes, 15, 2);

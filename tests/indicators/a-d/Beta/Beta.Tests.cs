@@ -113,6 +113,28 @@ public class Beta : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<BetaResult> results = otherQuotes
+            .Use(CandlePart.Close)
+            .GetBeta(quotes.Use(CandlePart.Close), 20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = otherQuotes
+            .GetBeta(quotes, 20)
+            .GetSma(10);
+
+        Assert.AreEqual(482, results.Count());
+        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<BetaResult> r1 = Indicator

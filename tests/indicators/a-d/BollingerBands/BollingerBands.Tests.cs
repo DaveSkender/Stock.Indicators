@@ -44,6 +44,28 @@ public class BollingerBands : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<BollingerBandsResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetBollingerBands();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetBollingerBands()
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(badQuotes, 15, 3);

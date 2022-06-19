@@ -56,6 +56,33 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<DpoResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetDpo(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(489, results.Where(x => x.Dpo != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetDpo(14)
+            .GetSma(10);
+
+        foreach (SmaResult r in results)
+        {
+            Console.WriteLine($"{r.Date} {r.Sma}");
+        }
+
+        Assert.AreEqual(489, results.Where(x => x.Sma is not double.NaN).Count());
+        Assert.AreEqual(480, results.Where(x => x.Sma is not null and not double.NaN).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<DpoResult> r = badQuotes.GetDpo(5);

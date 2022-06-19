@@ -50,6 +50,17 @@ public class Adx : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetAdx(14)
+            .GetSma(10);
+
+        Assert.AreEqual(475, results.Count());
+        Assert.AreEqual(466, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<AdxResult> r = badQuotes.GetAdx(20);

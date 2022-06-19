@@ -46,6 +46,17 @@ public class Atr : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetAtr(10)
+            .GetSma(10);
+
+        Assert.AreEqual(502 - 9, results.Count());
+        Assert.AreEqual(502 - 18, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<AtrResult> r = Indicator.GetAtr(badQuotes, 20);

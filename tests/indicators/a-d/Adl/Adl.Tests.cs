@@ -51,6 +51,20 @@ public class Adl : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetAdl()
+            .GetSma(10);
+
+        // assertions
+
+        // proper quantities
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<AdlResult> r = badQuotes.GetAdl();

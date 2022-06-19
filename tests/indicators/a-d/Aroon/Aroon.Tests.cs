@@ -48,6 +48,17 @@ public class Aroon : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetAroon(25)
+            .GetSma(10);
+
+        Assert.AreEqual(477, results.Count());
+        Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<AroonResult> r = Indicator.GetAroon(badQuotes, 20);
