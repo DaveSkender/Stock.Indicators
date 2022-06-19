@@ -5,7 +5,7 @@ relative_path: performance.md
 layout: page
 ---
 
-# {{ page.title }} for v2.0.1
+# {{ page.title }} for v2.0.0
 
 These are the execution times for the current indicators using two years of historical daily stock quotes (502 periods) with default or typical parameters.
 

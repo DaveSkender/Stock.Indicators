@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable // false positive in QuoteD conversion
 
 // SCHAFF TREND CYCLE (SERIES)
 public static partial class Indicator
@@ -33,9 +32,9 @@ public static partial class Indicator
           .Select(x => new QuoteD
           {
               Date = x.Date,
-              High = (double)x.Macd,
-              Low = (double)x.Macd,
-              Close = (double)x.Macd
+              High = NullMath.Null2NaN(x.Macd),
+              Low = NullMath.Null2NaN(x.Macd),
+              Close = NullMath.Null2NaN(x.Macd)
           })
           .ToList()
           .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.SMA);
