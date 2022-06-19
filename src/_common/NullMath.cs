@@ -20,4 +20,9 @@ internal static class NullMath
         => (value is null)
         ? null
         : Math.Round((double)value, digits);
+
+    internal static double Null2NaN(double? value)
+        => (value is null)
+        ? double.NaN
+        : (double)value;
 }

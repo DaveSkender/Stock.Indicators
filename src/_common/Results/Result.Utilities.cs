@@ -63,8 +63,7 @@ public static partial class Indicator
         for (int i = first; i < bdList.Count; i++)
         {
             IReusableResult? q = bdList[i];
-            double value = (q.Value == null) ? double.NaN : (double)q.Value;
-            prices.Add(new(q.Date, value));
+            prices.Add(new(q.Date, NullMath.Null2NaN(q.Value)));
         }
 
         return prices.OrderBy(x => x.Date).ToList();

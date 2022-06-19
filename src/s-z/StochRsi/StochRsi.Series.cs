@@ -1,5 +1,4 @@
 namespace Skender.Stock.Indicators;
-#nullable disable // false positive in QuoteD conversion
 
 // STOCHASTIC RSI (SERIES)
 public static partial class Indicator
@@ -35,9 +34,9 @@ public static partial class Indicator
             .Select(x => new QuoteD
             {
                 Date = x.Date,
-                High = (double)x.Rsi,
-                Low = (double)x.Rsi,
-                Close = (double)x.Rsi
+                High = NullMath.Null2NaN(x.Rsi),
+                Low = NullMath.Null2NaN(x.Rsi),
+                Close = NullMath.Null2NaN(x.Rsi)
             })
             .ToList()
             .CalcStoch(
