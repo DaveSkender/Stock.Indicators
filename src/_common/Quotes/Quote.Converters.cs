@@ -91,8 +91,7 @@ public static partial class QuoteUtility
             CandlePart.OC2 => (q.Date, (double)(q.Open + q.Close) / 2),
             CandlePart.OHL3 => (q.Date, (double)(q.Open + q.High + q.Low) / 3),
             CandlePart.OHLC4 => (q.Date, (double)(q.Open + q.High + q.Low + q.Close) / 4),
-            _ => throw new ArgumentOutOfRangeException(
-                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 
     // convert TQuote element to basic double class
@@ -111,8 +110,7 @@ public static partial class QuoteUtility
             CandlePart.OC2 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.Close) / 2 },
             CandlePart.OHL3 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low) / 3 },
             CandlePart.OHLC4 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
-            _ => throw new ArgumentOutOfRangeException(
-                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 
     // convert quoteD element to basic tuple
@@ -130,7 +128,6 @@ public static partial class QuoteUtility
             CandlePart.OC2 => (q.Date, (q.Open + q.Close) / 2),
             CandlePart.OHL3 => (q.Date, (q.Open + q.High + q.Low) / 3),
             CandlePart.OHLC4 => (q.Date, (q.Open + q.High + q.Low + q.Close) / 4),
-            _ => throw new ArgumentOutOfRangeException(
-                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 }

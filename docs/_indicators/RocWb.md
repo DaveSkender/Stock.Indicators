@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Rate of Change with Bands](#roc-with-bands), created by Vitali Apirine, is a banded variant of [Rate of Change (ROC)](../Roc/#content).
+[Rate of Change with Bands](#roc-with-bands), created by Vitali Apirine, is a banded variant of [Rate of Change (ROC)](../Roc#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/242 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/RocWb.png)

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='indicator/type[@name="Standard"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Standard"]/*' />
     ///
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -18,7 +18,7 @@ public static partial class Indicator
                 accelerationStep);
 
     // SERIES, from TQuote (alt)
-    /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />
     ///
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,

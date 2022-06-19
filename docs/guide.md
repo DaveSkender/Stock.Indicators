@@ -218,33 +218,16 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 
 // calculate RSI of OBV
 IEnumerable<RsiResult> results
-  = quotes.GetObv()
+  = quotes
+    .GetObv()
     .GetRsi(14);
 
 // or with two separate operations
 IEnumerable<ObvResult> obvResults = quotes.GetObv();
-IEnumerable<RsiResult> results = obvResults.GetRsi(14);
+IEnumerable<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 ```
 
-When chaining is not available for an indicator, a workaround is to convert to a synthetic quote yourself.
-
-```csharp
-// calculate OBV
-IEnumerable<ObvResult> obvResults = quotes.GetObv();
-
-// convert to synthetic quotes [using LINQ]
-List<Quote> obvQuotes = obvResults
-  .Where(x => x.Obv != null)
-  .Select(x => new Quote
-    {
-      Date = x.Date,
-      Close = x.Obv
-    })
-  .ToList();
-
-// calculate RSI of OBV
-IEnumerable<RsiResult> results = obvQuotes.GetRsi(14);
-```
+:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.
 
 ## Candlestick patterns
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Beta shows how strongly one stock responds to systemic volatility of the entire market.
     <para>
@@ -17,4 +17,4 @@
   <returns>Time series of Beta values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="InvalidQuotesException">Invalid quotes provided.</exception>
-</indicator>
+</info>

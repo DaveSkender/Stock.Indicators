@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Standard Deviation Channels are based on an linear regression centerline and standard deviations band widths.
     <para>
@@ -15,4 +15,4 @@
   <param name="standardDeviations">Width of bands. Number of Standard Deviations from the regression line.</param>
   <returns>Time series of Standard Deviation Channels values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Doji is a single candlestick pattern where open and close price are virtually identical, representing market indecision.
     <para>
@@ -14,4 +14,4 @@
   <param name="maxPriceChangePercent">Optional.  Maximum absolute percent difference in open and close price.</param>
   <returns>Time series of Doji values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

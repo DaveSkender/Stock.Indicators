@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='indicator/type[@name="standard"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
     ///
     public static IEnumerable<RenkoResult> GetRenko<TQuote>(
         this IEnumerable<TQuote> quotes,

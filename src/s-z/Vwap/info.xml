@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Volume Weighted Average Price (VWAP) is a Volume weighted average of Close price, typically used on intraday data.
     <para>
@@ -14,4 +14,4 @@
   <param name="startDate">Optional anchor date.  If not provided, the first date in quotes is used.</param>
   <returns>Time series of VWAP values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

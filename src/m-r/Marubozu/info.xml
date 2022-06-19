@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Marubozu is a single candlestick pattern that has no wicks, representing consistent directional movement.
     <para>
@@ -14,4 +14,4 @@
   <param name="minBodyPercent">Optional.  Minimum candle body size as percentage.</param>
   <returns>Time series of Marubozu values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

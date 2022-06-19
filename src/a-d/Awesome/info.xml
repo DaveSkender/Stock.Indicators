@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Awesome Oscillator (aka Super AO) is a measure of the gap between a fast and slow period modified moving average.
     <para>
@@ -15,4 +15,4 @@
   <param name="slowPeriods">Number of periods in the Slow moving average.</param>
   <returns>Time series of Awesome Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

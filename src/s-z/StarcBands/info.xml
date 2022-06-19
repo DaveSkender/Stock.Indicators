@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Stoller Average Range Channel (STARC) Bands, are based on an SMA centerline and ATR band widths.
     <para>
@@ -16,4 +16,4 @@
   <param name="atrPeriods">Number of periods in the ATR evaluation.</param>
   <returns>Time series of STARC Bands values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

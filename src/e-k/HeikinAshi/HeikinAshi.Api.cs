@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='indicator/*' />
+    /// <include file='./info.xml' path='info/*' />
     ///
     public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(
         this IEnumerable<TQuote> quotes)

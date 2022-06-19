@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Percentage Volume Oscillator (PVO) is a simple oscillator view of two converging/diverging exponential moving averages of Volume.
     <para>
@@ -16,4 +16,4 @@
   <param name="signalPeriods">Number of periods for the PVO SMA signal line.</param>
   <returns>Time series of PVO values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

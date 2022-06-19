@@ -30,7 +30,7 @@ public static partial class Indicator
     // STREAM INITIALIZATION, from TQuote
     /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
     ///
-    public static EmaBase InitEma<TQuote>(
+    internal static EmaBase InitEma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
@@ -43,7 +43,7 @@ public static partial class Indicator
     }
 
     // STREAM INITIALIZATION, from CHAIN
-    public static EmaBase InitEma(
+    internal static EmaBase InitEma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods)
     {

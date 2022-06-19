@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Price Relative Strength (PRS), also called Comparative Relative Strength,
     shows the ratio of two quote histories, based on Close price. It is often used to compare
@@ -20,4 +20,4 @@
   <returns>Time series of PRS values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="InvalidQuotesException">Invalid quotes provided.</exception>
-</indicator>
+</info>

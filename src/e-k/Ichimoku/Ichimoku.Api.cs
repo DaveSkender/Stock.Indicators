@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ICHIMOKU CLOUD (API)
 public static partial class Indicator
 {
-    /// <include file='./info.xml' path='indicator/type[@name="Standard"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Standard"]/*' />
     ///
     public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -19,7 +19,7 @@ public static partial class Indicator
                 kijunPeriods,
                 kijunPeriods);
 
-    /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />
     ///
     public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -36,7 +36,7 @@ public static partial class Indicator
                 offsetPeriods,
                 offsetPeriods);
 
-    /// <include file='./info.xml' path='indicator/type[@name="Full"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Full"]/*' />
     ///
     public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
         this IEnumerable<TQuote> quotes,

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote (standard)
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Main"]/*' />
     ///
     public static IEnumerable<StochResult> GetStoch<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -19,7 +19,7 @@ public static partial class Indicator
                 smoothPeriods, 3, 2, MaType.SMA);
 
     // SERIES, from TQuote (extended)
-    /// <include file='./info.xml' path='indicator/type[@name="Extended"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />
     ///
     public static IEnumerable<StochResult> GetStoch<TQuote>(
         this IEnumerable<TQuote> quotes,

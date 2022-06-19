@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Aroon is a simple oscillator view of how long the new high or low price occured over a lookback window.
     <para>
@@ -14,4 +14,4 @@
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <returns>Time series of Aroon Up/Down and Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

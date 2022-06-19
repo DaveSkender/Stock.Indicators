@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Klinger Oscillator depicts volume-based divergence between short and long-term money flow.
     <para>
@@ -16,4 +16,4 @@
   <param name="signalPeriods">Number of periods Signal line.</param>
   <returns>Time series of Klinger Oscillator values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

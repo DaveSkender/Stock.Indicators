@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (API)
 public static partial class Indicator
 {
-    /// <include file='./info.xml' path='indicator/*' />
+    /// <include file='./info.xml' path='info/*' />
     ///
     public static IEnumerable<KamaResult> GetKama<TQuote>(
         this IEnumerable<TQuote> quotes,

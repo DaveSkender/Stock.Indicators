@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='indicator/type[@name="Main"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Main"]/*' />
     ///
     public static IEnumerable<SmaResult> GetSma<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -27,7 +27,7 @@ public static partial class Indicator
             .ToSortedList()
             .CalcSma(lookbackPeriods);
 
-    /// <include file='./info.xml' path='indicator/type[@name="Analysis"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="Analysis"]/*' />
     ///
     // ANALYSIS, from TQuote
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis<TQuote>(

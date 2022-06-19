@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // HURST EXPONENT (API)
 public static partial class Indicator
 {
-    /// <include file='./info.xml' path='indicator/*' />
+    /// <include file='./info.xml' path='info/*' />
     ///
     public static IEnumerable<HurstResult> GetHurst<TQuote>(
         this IEnumerable<TQuote> quotes,

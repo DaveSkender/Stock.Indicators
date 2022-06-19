@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
 
   <type name="WithBands">
     <summary>
@@ -20,4 +20,4 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 
-</indicator>
+</info>

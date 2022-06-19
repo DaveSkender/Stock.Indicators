@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='indicator/type[@name="WithBands"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="WithBands"]/*' />
     ///
     public static IEnumerable<RocWbResult> GetRocWb<TQuote>(
         this IEnumerable<TQuote> quotes,

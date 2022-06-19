@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Balance of Power (aka Balance of Market Power) is a momentum oscillator that depicts the strength of buying and selling pressure.
     <para>
@@ -14,4 +14,4 @@
   <param name="smoothPeriods">Number of periods for smoothing.</param>
   <returns>Time series of BOP values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>
