@@ -25,6 +25,28 @@ public class Hurst : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<HurstResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetHurst(100);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(402, results.Where(x => x.HurstExponent != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetHurst(100)
+            .GetSma(10);
+
+        Assert.AreEqual(402, results.Count());
+        Assert.AreEqual(393, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);

@@ -55,6 +55,28 @@ public class Kama : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<KamaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetKama();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetKama()
+            .GetSma(10);
+
+        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<KamaResult> r = Indicator.GetKama(badQuotes);

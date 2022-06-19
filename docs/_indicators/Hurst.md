@@ -74,7 +74,7 @@ Results can be further processed on `HurstExponent` with additional chain-enable
 // example
 var results = quotes
     .GetHurst(..)
-    .GetRsi(..);
+    .GetSlope(..);
 ```
 
 :warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.

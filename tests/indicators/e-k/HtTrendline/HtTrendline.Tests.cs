@@ -50,6 +50,28 @@ public class HtTrendline : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<HtlResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetHtTrendline();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Where(x => x.Trendline != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetHtTrendline()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<HtlResult> r = Indicator.GetHtTrendline(badQuotes);

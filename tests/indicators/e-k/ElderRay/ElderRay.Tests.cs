@@ -52,6 +52,17 @@ public class ElderRay : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetElderRay(13)
+            .GetSma(10);
+
+        Assert.AreEqual(490, results.Count());
+        Assert.AreEqual(481, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<ElderRayResult> r = Indicator.GetElderRay(badQuotes);

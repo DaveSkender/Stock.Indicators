@@ -36,6 +36,28 @@ public class Epma : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<EpmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetEpma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Epma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetEpma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<EpmaResult> r = Indicator.GetEpma(badQuotes, 15);

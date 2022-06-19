@@ -29,6 +29,17 @@ public class ForceIndex : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetForceIndex(13)
+            .GetSma(10);
+
+        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(badQuotes, 2);

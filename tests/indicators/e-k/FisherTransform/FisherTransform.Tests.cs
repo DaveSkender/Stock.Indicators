@@ -52,6 +52,28 @@ public class FisherTransform : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<FisherTransformResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetFisherTransform(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(501, results.Where(x => x.Fisher != 0).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetFisherTransform(10)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(badQuotes, 9);

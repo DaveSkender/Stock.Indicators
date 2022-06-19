@@ -27,6 +27,28 @@ public class Hma : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<HmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetHma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetHma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(480, results.Count());
+        Assert.AreEqual(471, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<HmaResult> r = Indicator.GetHma(badQuotes, 15);
