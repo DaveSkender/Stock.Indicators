@@ -272,7 +272,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  html-proofer (~> 3.19)
+  html-proofer (~> 3.19.3)
   jekyll-last-modified-at
   jekyll-redirect-from
   jekyll-remote-theme
