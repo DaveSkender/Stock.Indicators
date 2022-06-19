@@ -32,7 +32,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double _) = tpList[i];
 
             AlmaResult r = new()
             {

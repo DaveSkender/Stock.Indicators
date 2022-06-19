@@ -18,7 +18,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double _) = tpList[i];
 
             SlopeResult r = new()
             {
@@ -39,7 +39,7 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                (DateTime pDate, double pValue) = tpList[p];
+                (DateTime _, double pValue) = tpList[p];
 
                 sumX += p + 1d;
                 sumY += pValue;
@@ -55,7 +55,7 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                (DateTime pDate, double pValue) = tpList[p];
+                (DateTime _, double pValue) = tpList[p];
 
                 double devX = p + 1d - avgX;
                 double devY = pValue - avgY;
