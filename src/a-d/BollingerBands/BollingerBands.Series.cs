@@ -12,25 +12,26 @@ public static partial class Indicator
         ValidateBollingerBands(lookbackPeriods, standardDeviations);
 
         // initialize
-        List<BollingerBandsResult> results = new(tpList.Count);
+        int length = tpList.Count;
+        List<BollingerBandsResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 1; i <= tpList.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpList[i - 1];
 
             BollingerBandsResult r = new()
             {
                 Date = date
             };
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods)
             {
                 double[] window = new double[lookbackPeriods];
                 double sum = 0;
                 int n = 0;
 
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                for (int p = i - lookbackPeriods; p < i; p++)
                 {
                     (DateTime _, double pValue) = tpList[p];
                     window[n] = pValue;
