@@ -1,11 +1,13 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
-public class EmaBase
+public class EmaBase : IStreamBase
 {
-    // initialize base
+    // initialize
     public EmaBase(IEnumerable<(DateTime, double)> tpQuotes, int lookbackPeriods)
     {
+        UUID = Guid.NewGuid();
+
         K = 2d / (lookbackPeriods + 1);
 
         ProtectedResults = tpQuotes
@@ -14,10 +16,11 @@ public class EmaBase
     }
 
     // properties
-    internal double K { get; set; }
-    internal List<EmaResult> ProtectedResults { get; set; }
+    public Guid UUID { get; }
+    public IEnumerable<EmaResult> Results { get => ProtectedResults; }
 
-    public IEnumerable<EmaResult> Results => ProtectedResults;
+    private double K { get; set; }
+    private List<EmaResult> ProtectedResults { get; set; }
 
     // methods
     public IEnumerable<EmaResult> Add(
