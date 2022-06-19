@@ -4,7 +4,6 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-#pragma warning disable CS0618 // Type or member is obsolete
 public class Prs : TestBase
 {
     [TestMethod]
