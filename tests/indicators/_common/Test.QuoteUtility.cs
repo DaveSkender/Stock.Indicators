@@ -12,11 +12,11 @@ public class QuoteUtility : TestBase
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
         Random rand = new();
 
-        decimal o = (decimal)rand.NextDouble();
-        decimal h = (decimal)rand.NextDouble();
-        decimal l = (decimal)rand.NextDouble();
-        decimal c = (decimal)rand.NextDouble();
-        decimal v = (decimal)rand.NextDouble();
+        decimal o = 10000m * (decimal)rand.NextDouble();
+        decimal h = 10000m * (decimal)rand.NextDouble();
+        decimal l = 10000m * (decimal)rand.NextDouble();
+        decimal c = 10000m * (decimal)rand.NextDouble();
+        decimal v = 10000m * (decimal)rand.NextDouble();
         decimal hl2 = (h + l) / 2m;
         decimal hlc3 = (h + l + c) / 3m;
         decimal oc2 = (o + c) / 2m;
@@ -34,35 +34,35 @@ public class QuoteUtility : TestBase
         };
 
         Assert.AreEqual(
-            NullMath.Round((double)o, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Open).Item2, 15));
+            NullMath.Round((double)o, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Open).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)h, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.High).Item2, 15));
+            NullMath.Round((double)h, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.High).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)l, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Low).Item2, 15));
+            NullMath.Round((double)l, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Low).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)c, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Close).Item2, 15));
+            NullMath.Round((double)c, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Close).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)v, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Volume).Item2, 15));
+            NullMath.Round((double)v, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Volume).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)hl2, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HL2).Item2, 15));
+            NullMath.Round((double)hl2, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.HL2).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)hlc3, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HLC3).Item2, 15));
+            NullMath.Round((double)hlc3, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.HLC3).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)oc2, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OC2).Item2, 15));
+            NullMath.Round((double)oc2, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.OC2).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)ohl3, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHL3).Item2, 15));
+            NullMath.Round((double)ohl3, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.OHL3).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)ohlc4, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHLC4).Item2, 15));
+            NullMath.Round((double)ohlc4, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.OHLC4).Item2, 10));
     }
 
     [TestMethod]
@@ -71,11 +71,11 @@ public class QuoteUtility : TestBase
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
         Random rand = new();
 
-        double o = rand.NextDouble();
-        double h = rand.NextDouble();
-        double l = rand.NextDouble();
-        double c = rand.NextDouble();
-        double v = rand.NextDouble();
+        double o = 10000 * rand.NextDouble();
+        double h = 10000 * rand.NextDouble();
+        double l = 10000 * rand.NextDouble();
+        double c = 10000 * rand.NextDouble();
+        double v = 10000 * rand.NextDouble();
         double hl2 = (h + l) / 2;
         double hlc3 = (h + l + c) / 3;
         double oc2 = (o + c) / 2;
@@ -93,34 +93,34 @@ public class QuoteUtility : TestBase
         };
 
         Assert.AreEqual(
-            NullMath.Round((double)o, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Open).Item2, 15));
+            NullMath.Round((double)o, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Open).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)h, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.High).Item2, 15));
+            NullMath.Round((double)h, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.High).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)l, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Low).Item2, 15));
+            NullMath.Round((double)l, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Low).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)c, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Close).Item2, 15));
+            NullMath.Round((double)c, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Close).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)v, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Volume).Item2, 15));
+            NullMath.Round((double)v, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.Volume).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)hl2, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HL2).Item2, 15));
+            NullMath.Round((double)hl2, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.HL2).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)hlc3, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HLC3).Item2, 15));
+            NullMath.Round((double)hlc3, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.HLC3).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)oc2, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OC2).Item2, 15));
+            NullMath.Round((double)oc2, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.OC2).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)ohl3, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHL3).Item2, 15));
+            NullMath.Round((double)ohl3, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.OHL3).Item2, 10));
         Assert.AreEqual(
-            NullMath.Round((double)ohlc4, 15),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHLC4).Item2, 15));
+            NullMath.Round((double)ohlc4, 10),
+            NullMath.Round(q.ToBasicTuple(CandlePart.OHLC4).Item2, 10));
     }
 }
