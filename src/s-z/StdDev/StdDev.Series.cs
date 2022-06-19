@@ -33,7 +33,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime dDate, double dValue) = tpList[p];
+                    (DateTime _, double dValue) = tpList[p];
                     periodValues[n] = dValue;
                     sum += dValue;
                     n++;

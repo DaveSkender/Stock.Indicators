@@ -25,7 +25,7 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                (DateTime date, double value) = tpList[p];
+                (DateTime _, double value) = tpList[p];
 
                 sumMad += Math.Abs(value - sma);
                 sumMse += (value - sma) * (value - sma);

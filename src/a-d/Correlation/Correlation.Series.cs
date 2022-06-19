@@ -18,8 +18,8 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime aDate, double aValue) = tpListA[i];
-            (DateTime bDate, double bValue) = tpListB[i];
+            (DateTime aDate, double _) = tpListA[i];
+            (DateTime bDate, double _) = tpListB[i];
 
             if (aDate != bDate)
             {

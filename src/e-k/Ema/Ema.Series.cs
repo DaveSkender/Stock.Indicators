@@ -20,7 +20,7 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime _, double value) = tpList[i];
             lastEma += value;
         }
 

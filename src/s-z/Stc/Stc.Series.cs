@@ -21,7 +21,7 @@ public static partial class Indicator
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double _) = tpList[i];
             results.Add(new StcResult() { Date = date });
         }
 

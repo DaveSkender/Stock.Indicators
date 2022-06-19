@@ -20,7 +20,7 @@ public static partial class Indicator
         // roll through quotes, to get interim synthetic quotes
         for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double _) = tpList[i];
 
             Quote sh = new()
             {

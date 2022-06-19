@@ -26,7 +26,7 @@ public static partial class Indicator
 
             if (i + 1 > lookbackPeriods)
             {
-                (DateTime backDate, double backValue) = tpList[i - lookbackPeriods];
+                (DateTime _, double backValue) = tpList[i - lookbackPeriods];
 
                 result.Roc = (backValue == 0) ? null
                     : 100d * (value - backValue) / backValue;

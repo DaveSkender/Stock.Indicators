@@ -16,7 +16,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double _) = tpList[i];
 
             UlcerIndexResult result = new()
             {
@@ -28,13 +28,13 @@ public static partial class Indicator
                 double sumSquared = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime pDate, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpList[p];
                     int dIndex = p + 1;
 
                     double maxClose = 0;
                     for (int s = i + 1 - lookbackPeriods; s < dIndex; s++)
                     {
-                        (DateTime sDate, double sValue) = tpList[s];
+                        (DateTime _, double sValue) = tpList[s];
                         if (sValue > maxClose)
                         {
                             maxClose = sValue;

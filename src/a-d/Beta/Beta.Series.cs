@@ -48,7 +48,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpListEval[i];
+            (DateTime date, double _) = tpListEval[i];
 
             BetaResult r = new()
             {

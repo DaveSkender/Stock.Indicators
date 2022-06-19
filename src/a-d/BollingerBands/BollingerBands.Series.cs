@@ -32,7 +32,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime pDate, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpList[p];
                     window[n] = pValue;
                     sum += pValue;
                     n++;

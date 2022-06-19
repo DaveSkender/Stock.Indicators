@@ -36,8 +36,8 @@ public static partial class Indicator
 
             if (lookbackPeriods != null && i + 1 > lookbackPeriods)
             {
-                (DateTime boDate, double boValue) = tpListBase[i - (int)lookbackPeriods];
-                (DateTime eoDate, double eoValue) = tpListEval[i - (int)lookbackPeriods];
+                (DateTime _, double boValue) = tpListBase[i - (int)lookbackPeriods];
+                (DateTime _, double eoValue) = tpListEval[i - (int)lookbackPeriods];
 
                 if (boValue != 0 && eoValue != 0)
                 {

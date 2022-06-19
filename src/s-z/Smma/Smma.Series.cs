@@ -40,7 +40,7 @@ public static partial class Indicator
                 double sumClose = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime pDate, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpList[p];
                     sumClose += pValue;
                 }
 

@@ -16,7 +16,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double _) = tpList[i];
 
             SmaResult result = new()
             {
@@ -28,7 +28,7 @@ public static partial class Indicator
                 double sumSma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime pDate, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpList[p];
                     sumSma += pValue;
                 }
 

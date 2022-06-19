@@ -17,7 +17,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double _) = tpList[i];
 
             HurstResult result = new()
             {
@@ -34,7 +34,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime d, double c) = tpList[p];
+                    (DateTime _, double c) = tpList[p];
 
                     // return values
                     values[x] = l != 0 ? (c / l) - 1 : double.NaN;
