@@ -76,4 +76,4 @@ var results = quotes
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
-:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

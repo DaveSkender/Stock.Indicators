@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of Close price over a lookback window.  A [Rate of Change with Bands](#roc-with-bands) variant, created by Vitali Apirine, is also included.
+[Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of Close price over a lookback window.  A [Rate of Change with Bands](../RocWb/#content) variant, created by Vitali Apirine, is also included.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/242 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Roc.png)
@@ -63,34 +63,6 @@ IEnumerable<RocResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## ROC with Bands
-
-![image]({{site.baseurl}}/assets/charts/RocWb.png)
-
-```csharp
-// usage
-IEnumerable<RocWbResult> results =
-  quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
-```
-
-### Parameters with Bands
-
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
-| `emaPeriods` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
-| `stdDevPeriods` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`.
-
-### RocWbResult
-
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal)
-| `RocEma` | double | Exponential moving average (EMA) of `Roc`
-| `UpperBand` | double | Upper band of ROC (overbought indicator)
-| `LowerBand` | double | Lower band of ROC (oversold indicator)
-
 ## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
@@ -111,4 +83,4 @@ var results = quotes
     .GetEma(..);
 ```
 
-:warning: **Warning:** in most cases, fewer elements are returned when using chaining because unusable warmup period `null` values must be removed.
+:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.
