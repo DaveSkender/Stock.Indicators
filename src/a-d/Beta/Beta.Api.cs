@@ -6,7 +6,6 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    [Obsolete("Eval and Market quotes have been reversed in v2!  Ensure you swap parameter location.  This warning will be removed after v2.0.0")]
     public static IEnumerable<BetaResult> GetBeta<TQuote>(
         this IEnumerable<TQuote> quotesEval,
         IEnumerable<TQuote> quotesMarket,
