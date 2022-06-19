@@ -49,8 +49,8 @@ These are the supported moving average types:
 
 | type | description
 |-- |--
-| `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
+| `MaType.SMA` | [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+| `MaType.SMMA` | [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
 
 ## Response
 

@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator](../Alligator#content).
+Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator]({{site.baseurl}}/indicators/Alligator/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Gator.png)
@@ -25,7 +25,7 @@ IEnumerable<GatorResult> results = quotes
 
 ## Historical quotes requirements
 
-If using default settings, you must have at least 121 periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](../Alligator#historical-quotes-requirements) for historical quotes requirements.
+If using default settings, you must have at least 121 periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation]({{site.baseurl}}/indicators/Alligator/#historical-quotes-requirements) for historical quotes requirements.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

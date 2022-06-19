@@ -38,15 +38,15 @@ These are the supported moving average types:
 
 | type | description
 |-- |--
-| `MaType.ALMA` | [Arnaud Legoux Moving Average](../Alma#content)
-| `MaType.DEMA` | [Double Exponential Moving Average](../Dema#content)
-| `MaType.EPMA` | [Endpoint Moving Average](../Epma#content)
-| `MaType.EMA` | [Exponential Moving Average](../Ema#content)
-| `MaType.HMA` | [Hull Moving Average](../Hma#content)
-| `MaType.SMA` | [Simple Moving Average](../Sma#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average](../Smma#content)
-| `MaType.TEMA` | [Triple Exponential Moving Average](../Tema#content)
-| `MaType.WMA` | [Weighted Moving Average](../Wma#content)
+| `MaType.ALMA` | [Arnaud Legoux Moving Average]({{site.baseurl}}/indicators/Alma/#content)
+| `MaType.DEMA` | [Double Exponential Moving Average]({{site.baseurl}}/indicators/Dema/#content)
+| `MaType.EPMA` | [Endpoint Moving Average]({{site.baseurl}}/indicators/Epma/#content)
+| `MaType.EMA` | [Exponential Moving Average]({{site.baseurl}}/indicators/Ema/#content)
+| `MaType.HMA` | [Hull Moving Average]({{site.baseurl}}/indicators/Hma/#content)
+| `MaType.SMA` | [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+| `MaType.SMMA` | [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
+| `MaType.TEMA` | [Triple Exponential Moving Average]({{site.baseurl}}/indicators/Tema/#content)
+| `MaType.WMA` | [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
 
 :warning: For ALMA, default values are used for `offset` and `sigma`.
 

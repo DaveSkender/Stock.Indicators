@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of [Williams Fractal](../Fractal#content).
+Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of [Williams Fractal]({{site.baseurl}}/indicators/Fractal/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/347 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Fcb.png)
@@ -24,7 +24,7 @@ IEnumerable<FcbResult> results =
 | -- |-- |--
 | `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](../Fractal#content) for more information about Fractals and `windowSpan`.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal]({{site.baseurl}}/indicators/Fractal/#content) for more information about Fractals and `windowSpan`.
 
 ### Historical quotes requirements
 

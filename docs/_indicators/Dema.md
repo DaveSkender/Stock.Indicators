@@ -14,7 +14,7 @@ Created by Patrick G. Mulloy, the [Double exponential moving average](https://en
 
 ![image]({{site.baseurl}}/assets/charts/Dema.png)
 
-See also related [EMA](../Ema#content) and [Triple EMA](../Tema#content).
+See also related [EMA]({{site.baseurl}}/indicators/Ema/#content) and [Triple EMA]({{site.baseurl}}/indicators/Tema/#content).
 
 ```csharp
 // usage

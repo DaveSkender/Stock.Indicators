@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by William Blau, the Stochastic Momentum Index (SMI) is a double-smoothed variant of the [Stochastic Oscillator](../Stoch/#content) on a scale from -100 to 100.
+Created by William Blau, the Stochastic Momentum Index (SMI) is a double-smoothed variant of the [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content) on a scale from -100 to 100.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/625 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Smi.png)

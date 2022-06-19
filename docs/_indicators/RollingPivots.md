@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window [Pivot Points](../PivotPoints#content).  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
+Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window [Pivot Points]({{site.baseurl}}/indicators/PivotPoints/#content).  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/RollingPivots.png)
@@ -26,7 +26,7 @@ IEnumerable<RollingPivotsResult> results =
 | `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
 
-For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](../PivotPoints#content) indicator.
+For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points]({{site.baseurl}}/indicators/PivotPoints/#content) indicator.
 
 ### Historical quotes requirements
 
