@@ -28,6 +28,17 @@ public class Mfi : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetMfi()
+            .GetSma(10);
+
+        Assert.AreEqual(488, results.Count());
+        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void SmallLookback()
     {
         int lookbackPeriods = 4;
@@ -82,11 +93,9 @@ public class Mfi : TestBase
         Assert.AreEqual(39.9494, NullMath.Round(last.Mfi, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMfi(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetMfi(quotes, 1));
 }

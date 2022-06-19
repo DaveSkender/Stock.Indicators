@@ -2,9 +2,9 @@
 
 <indicator>
 
-  <type name="Main">
+  <type name="WithBands">
     <summary>
-      Rate of Change (ROC), also known as Momentum Oscillator, is the percent change of Close price over a lookback window.
+      Rate of Change with Bands (ROCWB) is the percent change of Close price over a lookback window with standard deviation bands.
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Roc/#content">documentation</see>
@@ -14,8 +14,9 @@
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <param name="smaPeriods">Optional.  Number of periods for an ROC SMA signal line.</param>
-    <returns>Time series of ROC values.</returns>
+    <param name="emaPeriods">Number of periods for the ROC EMA line.</param>
+    <param name="stdDevPeriods">Number of periods the standard deviation for upper/lower band lines.</param>
+    <returns>Time series of ROCWB values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 

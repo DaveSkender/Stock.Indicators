@@ -63,6 +63,28 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<RsiResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetRsi(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetRsi(14)
+            .GetSma(10);
+
+        Assert.AreEqual(488, results.Count());
+        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<RsiResult> r = badQuotes.GetRsi(20);
@@ -93,11 +115,9 @@ public class Rsi : TestBase
         Assert.AreEqual(42.0773, NullMath.Round(last.Rsi, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetRsi(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetRsi(quotes, 0));
 }

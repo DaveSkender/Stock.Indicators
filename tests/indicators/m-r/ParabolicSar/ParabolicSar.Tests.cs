@@ -83,6 +83,17 @@ public class ParabolicSar : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetParabolicSar()
+            .GetSma(10);
+
+        Assert.AreEqual(488, results.Count());
+        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void InsufficientQuotes()
     {
         double acclerationStep = 0.02;

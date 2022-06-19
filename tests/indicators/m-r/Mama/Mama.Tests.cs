@@ -53,6 +53,28 @@ public class Mama : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<MamaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetMama();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetMama()
+            .GetSma(10);
+
+        Assert.AreEqual(497, results.Count());
+        Assert.AreEqual(488, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<MamaResult> r = Indicator.GetMama(badQuotes);

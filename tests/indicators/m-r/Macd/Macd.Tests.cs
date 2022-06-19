@@ -50,6 +50,28 @@ public class Macd : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<MacdResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetMacd();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(477, results.Where(x => x.Macd != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetMacd()
+            .GetSma(10);
+
+        Assert.AreEqual(477, results.Count());
+        Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<MacdResult> r = Indicator.GetMacd(badQuotes, 10, 20, 5);

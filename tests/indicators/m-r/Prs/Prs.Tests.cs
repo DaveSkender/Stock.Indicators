@@ -43,6 +43,28 @@ public class Prs : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<PrsResult> results = otherQuotes
+            .Use(CandlePart.Close)
+            .GetPrs(quotes.Use(CandlePart.Close), 20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Where(x => x.Prs != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = otherQuotes
+            .GetPrs(quotes, 20)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<PrsResult> r = Indicator.GetPrs(badQuotes, badQuotes, 15, 4);

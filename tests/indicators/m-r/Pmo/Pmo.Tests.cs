@@ -30,6 +30,28 @@ public class Pmo : TestBase
     }
 
     [TestMethod]
+    public void Use()
+    {
+        IEnumerable<PmoResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetPmo();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(448, results.Where(x => x.Pmo != null).Count());
+    }
+
+    [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetPmo()
+            .GetSma(10);
+
+        Assert.AreEqual(448, results.Count());
+        Assert.AreEqual(439, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<PmoResult> r = Indicator.GetPmo(badQuotes, 25, 15, 5);

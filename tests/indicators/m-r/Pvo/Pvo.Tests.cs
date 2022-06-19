@@ -54,6 +54,17 @@ public class Pvo : TestBase
     }
 
     [TestMethod]
+    public void Chained()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetPvo()
+            .GetSma(10);
+
+        Assert.AreEqual(477, results.Count());
+        Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<PvoResult> r = Indicator.GetPvo(badQuotes, 10, 20, 5);
