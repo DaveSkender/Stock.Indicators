@@ -41,8 +41,8 @@ Optional chaining enables advanced uses cases; such as, indicator of indicators,
 // example: advanced chaining (RSI of OBV)
 IEnumerable<RsiResult> results
   = quotes
-    .Obv()
-    .Rsi(14);
+    .GetObv()
+    .GetRsi(14);
 
 // example: use any candle variant
 IEnumerable<EmaResult> results
