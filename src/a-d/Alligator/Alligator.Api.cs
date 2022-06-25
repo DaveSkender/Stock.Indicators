@@ -40,7 +40,8 @@ public static partial class Indicator
                 teethPeriods,
                 teethOffset,
                 lipsPeriods,
-                lipsOffset);
+                lipsOffset)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<AlligatorResult> GetAlligator(
