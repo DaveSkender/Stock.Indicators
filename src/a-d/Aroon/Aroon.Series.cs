@@ -18,10 +18,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AroonResult result = new()
-            {
-                Date = q.Date
-            };
+            AroonResult result = new(q.Date);
 
             // add aroons
             if (i + 1 > lookbackPeriods)

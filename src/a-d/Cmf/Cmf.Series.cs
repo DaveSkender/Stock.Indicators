@@ -23,9 +23,8 @@ public static partial class Indicator
         {
             AdlResult r = adlResults[i];
 
-            CmfResult result = new()
+            CmfResult result = new(r.Date)
             {
-                Date = r.Date,
                 MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                 MoneyFlowVolume = r.MoneyFlowVolume
             };

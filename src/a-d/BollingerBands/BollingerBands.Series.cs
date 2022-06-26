@@ -19,10 +19,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            BollingerBandsResult r = new()
-            {
-                Date = date
-            };
+            BollingerBandsResult r = new(date);
 
             if (i + 1 >= lookbackPeriods)
             {

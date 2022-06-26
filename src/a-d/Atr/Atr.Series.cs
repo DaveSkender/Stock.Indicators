@@ -24,10 +24,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AtrResult result = new()
-            {
-                Date = q.Date
-            };
+            AtrResult result = new(q.Date);
 
             if (i > 0)
             {

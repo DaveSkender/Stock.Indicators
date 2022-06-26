@@ -20,10 +20,7 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            DonchianResult result = new()
-            {
-                Date = q.Date
-            };
+            DonchianResult result = new(q.Date);
 
             if (i >= lookbackPeriods)
             {

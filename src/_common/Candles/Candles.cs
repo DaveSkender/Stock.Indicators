@@ -13,9 +13,8 @@ public static class Candlesticks
         where TQuote : IQuote
     {
         List<CandleResult> candlesList = quotes
-            .Select(x => new CandleResult
+            .Select(x => new CandleResult(x.Date)
             {
-                Date = x.Date,
                 Match = Match.None,
                 Candle = new CandleProperties
                 {

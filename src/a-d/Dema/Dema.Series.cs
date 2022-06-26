@@ -33,10 +33,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            DemaResult result = new()
-            {
-                Date = date
-            };
+            DemaResult result = new(date);
 
             if (i > lookbackPeriods - 1)
             {

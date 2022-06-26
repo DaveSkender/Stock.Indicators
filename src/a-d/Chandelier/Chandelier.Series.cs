@@ -24,10 +24,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ChandelierResult result = new()
-            {
-                Date = q.Date
-            };
+            ChandelierResult result = new(q.Date);
 
             // add exit values
             if (i + 1 >= lookbackPeriods)

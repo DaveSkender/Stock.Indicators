@@ -22,10 +22,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BopResult r = new()
-            {
-                Date = qdList[i].Date
-            };
+            BopResult r = new(qdList[i].Date);
 
             if (i >= smoothPeriods - 1)
             {

@@ -34,10 +34,7 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            AlmaResult r = new()
-            {
-                Date = date
-            };
+            AlmaResult r = new(date);
 
             if (i + 1 >= lookbackPeriods)
             {

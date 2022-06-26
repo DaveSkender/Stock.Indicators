@@ -22,10 +22,7 @@ public static partial class Indicator
             (DateTime date, double value) = tpList[i];
             pr[i] = value;
 
-            AwesomeResult r = new()
-            {
-                Date = date
-            };
+            AwesomeResult r = new(date);
 
             if (i + 1 >= slowPeriods)
             {

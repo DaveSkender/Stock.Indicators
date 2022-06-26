@@ -24,8 +24,9 @@ public class CandleProperties : Quote
 [Serializable]
 public class CandleResult : ResultBase
 {
-    public CandleResult()
+    public CandleResult(DateTime date)
     {
+        Date = date;
         Candle = new CandleProperties();
     }
 
