@@ -45,7 +45,7 @@ public class Wma : TestBase
             .GetWma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Wma != null).Count());
+        Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
     }
 
     [TestMethod]
