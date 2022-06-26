@@ -64,7 +64,18 @@ public class Mama : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<MamaResult> results = quotes
+            .GetSma(1)
+            .GetMama();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetMama()

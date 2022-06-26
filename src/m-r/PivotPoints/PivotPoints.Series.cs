@@ -26,15 +26,6 @@ public static partial class Indicator
 
         int windowId = GetWindowNumber(h0.Date, windowSize);
 
-        if (windowId == 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
-                string.Format(
-                    EnglishCulture,
-                    "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
-                    Enum.GetName(typeof(PeriodSize), windowSize)));
-        }
-
         int windowEval;
         bool firstWindow = true;
 
@@ -215,7 +206,7 @@ public static partial class Indicator
             PivotPointType.Demark => GetPivotPointDemark<TPivotPoint>(open, high, low, close),
             PivotPointType.Fibonacci => GetPivotPointFibonacci<TPivotPoint>(high, low, close),
             PivotPointType.Woodie => GetPivotPointWoodie<TPivotPoint>(open, high, low),
-            _ => default
+            _ => throw new ArgumentOutOfRangeException(nameof(pointType), pointType, "Invalid pointType provided.")
         };
 
     // window size lookup
@@ -226,6 +217,10 @@ public static partial class Indicator
             PeriodSize.Week => EnglishCalendar.GetWeekOfYear(d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
             PeriodSize.Day => d.Day,
             PeriodSize.OneHour => d.Hour,
-            _ => 0
+            _ => throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
+                string.Format(
+                    EnglishCulture,
+                    "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
+                    Enum.GetName(typeof(PeriodSize), windowSize)))
         };
 }
