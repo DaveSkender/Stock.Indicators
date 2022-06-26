@@ -19,10 +19,8 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            WmaResult result = new()
-            {
-                Date = date
-            };
+            WmaResult r = new(date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -33,10 +31,8 @@ public static partial class Indicator
                     wma += pValue * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
 
-                result.Wma = wma;
+                r.Wma = wma;
             }
-
-            results.Add(result);
         }
 
         return results;

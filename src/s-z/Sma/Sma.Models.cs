@@ -16,6 +16,11 @@ public sealed class SmaResult : ResultBase, IReusableResult
 [Serializable]
 public sealed class SmaAnalysis : ResultBase, IReusableResult
 {
+    public SmaAnalysis(DateTime date)
+    {
+        Date = date;
+    }
+
     public double? Sma { get; set; } // simple moving average
     public double? Mad { get; set; } // mean absolute deviation
     public double? Mse { get; set; } // mean square error

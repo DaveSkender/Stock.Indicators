@@ -26,10 +26,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            StochResult result = new()
-            {
-                Date = q.Date
-            };
+            StochResult r = new(q.Date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -51,12 +49,10 @@ public static partial class Indicator
                     }
                 }
 
-                result.Oscillator = lowLow != highHigh
+                r.Oscillator = lowLow != highHigh
                     ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
                     : 0;
             }
-
-            results.Add(result);
         }
 
         // smooth the oscillator

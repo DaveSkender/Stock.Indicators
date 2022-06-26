@@ -12,9 +12,8 @@ public static partial class Indicator
 
         // convert Fast Stochastic to William %R
         return qdList.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
-            .Select(s => new WilliamsResult
+            .Select(s => new WilliamsResult(s.Date)
             {
-                Date = s.Date,
                 WilliamsR = s.Oscillator - 100
             })
             .ToList();

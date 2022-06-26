@@ -18,10 +18,8 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            UlcerIndexResult result = new()
-            {
-                Date = date
-            };
+            UlcerIndexResult r = new(date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -47,10 +45,8 @@ public static partial class Indicator
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
 
-                result.UI = Math.Sqrt(sumSquared / lookbackPeriods);
+                r.UI = Math.Sqrt(sumSquared / lookbackPeriods);
             }
-
-            results.Add(result);
         }
 
         return results;

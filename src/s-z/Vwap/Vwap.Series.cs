@@ -33,10 +33,8 @@ public static partial class Indicator
             double? l = q.Low;
             double? c = q.Close;
 
-            VwapResult r = new()
-            {
-                Date = q.Date
-            };
+            VwapResult r = new(q.Date);
+            results.Add(r);
 
             if (q.Date >= startDate)
             {
@@ -45,8 +43,6 @@ public static partial class Indicator
 
                 r.Vwap = (cumVolume != 0) ? (cumVolumeTP / cumVolume) : null;
             }
-
-            results.Add(r);
         }
 
         return results;

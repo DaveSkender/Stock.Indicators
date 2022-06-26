@@ -36,10 +36,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SmiResult r = new()
-            {
-                Date = q.Date
-            };
+            SmiResult r = new(q.Date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -102,8 +100,6 @@ public static partial class Indicator
                 lastHlEma2 = hlEma2;
                 lastSignal = signal;
             }
-
-            results.Add(r);
         }
 
         return results;

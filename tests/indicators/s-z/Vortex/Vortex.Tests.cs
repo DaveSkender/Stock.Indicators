@@ -72,11 +72,9 @@ public class Vortex : TestBase
         Assert.AreEqual(1.1163, NullMath.Round(last.Nvi, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetVortex(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetVortex(quotes, 1));
 }

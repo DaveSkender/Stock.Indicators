@@ -22,7 +22,7 @@ public static partial class Indicator
         for (int i = 0; i < initPeriods; i++)
         {
             (DateTime date, double _) = tpList[i];
-            results.Add(new StcResult() { Date = date });
+            results.Add(new StcResult(date));
         }
 
         // get stochastic of macd
@@ -44,7 +44,7 @@ public static partial class Indicator
         for (int i = 0; i < stochMacd.Count; i++)
         {
             StochResult r = stochMacd[i];
-            results.Add(new StcResult { Date = r.Date, Stc = r.Oscillator });
+            results.Add(new StcResult(r.Date) { Stc = r.Oscillator });
         }
 
         return results;
