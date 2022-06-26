@@ -58,7 +58,18 @@ public class StdDev : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<StdDevResult> results = quotes
+            .GetSma(1)
+            .GetStdDev(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetStdDev(10)

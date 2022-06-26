@@ -44,7 +44,18 @@ public class Tema : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<TemaResult> results = quotes
+            .GetSma(1)
+            .GetTema(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Tema != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetTema(20)
@@ -85,11 +96,9 @@ public class Tema : TestBase
         Assert.AreEqual(238.7690, NullMath.Round(last.Tema, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetTema(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetTema(quotes, 0));
 }

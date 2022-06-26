@@ -36,7 +36,18 @@ public class UlcerIndex : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<UlcerIndexResult> results = quotes
+            .GetSma(1)
+            .GetUlcerIndex(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetUlcerIndex(14)
@@ -77,11 +88,9 @@ public class UlcerIndex : TestBase
         Assert.AreEqual(5.7255, NullMath.Round(last.UI, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetUlcerIndex(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetUlcerIndex(quotes, 0));
 }

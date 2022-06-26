@@ -54,7 +54,18 @@ public class Trix : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<TrixResult> results = quotes
+            .GetSma(1)
+            .GetTrix(20, 5);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Trix != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetTrix(20, 5)
@@ -97,11 +108,9 @@ public class Trix : TestBase
         Assert.AreEqual(-0.204536, NullMath.Round(last.Signal, 6));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetTrix(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetTrix(quotes, 0));
 }

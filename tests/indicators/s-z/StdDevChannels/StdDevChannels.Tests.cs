@@ -118,6 +118,17 @@ public class StdDevChannels : TestBase
     }
 
     [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<StdDevChannelsResult> results = quotes
+            .GetSma(1)
+            .GetStdDevChannels(20, 2);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(500, results.Where(x => x.Centerline != null).Count());
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(badQuotes);
