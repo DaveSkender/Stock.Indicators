@@ -53,7 +53,18 @@ public class ConnorsRsi : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<ConnorsRsiResult> results = quotes
+            .GetSma(1)
+            .GetConnorsRsi();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(401, results.Where(x => x.ConnorsRsi != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetConnorsRsi()

@@ -51,7 +51,21 @@ public class Alligator : TestBase
     public void Use()
     {
         IEnumerable<AlligatorResult> results = quotes
-            .Use(CandlePart.Close)
+            .Use(CandlePart.HL2)
+            .GetAlligator();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
+
+        AlligatorResult last = results.LastOrDefault();
+        Assert.AreEqual(244.29591, NullMath.Round(last.Lips, 5));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<AlligatorResult> results = quotes
+            .GetSma(1)
             .GetAlligator();
 
         Assert.AreEqual(502, results.Count());

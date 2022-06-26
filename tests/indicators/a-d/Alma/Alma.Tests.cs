@@ -58,7 +58,18 @@ public class Alma : TestBase
     }
 
     [TestMethod]
-    public void Chaining()
+    public void Chainee()
+    {
+        IEnumerable<AlmaResult> results = quotes
+            .GetSma(1)
+            .GetAlma(10, 0.85, 6);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         int lookbackPeriods = 10;
         double offset = 0.85;

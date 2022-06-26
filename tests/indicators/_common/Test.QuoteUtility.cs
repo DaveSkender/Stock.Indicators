@@ -10,13 +10,12 @@ public class QuoteUtility : TestBase
     public void QuoteToBasicTuple()
     {
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
-        Random rand = new();
 
-        decimal o = 10000m * (decimal)rand.NextDouble();
-        decimal h = 10000m * (decimal)rand.NextDouble();
-        decimal l = 10000m * (decimal)rand.NextDouble();
-        decimal c = 10000m * (decimal)rand.NextDouble();
-        decimal v = 10000m * (decimal)rand.NextDouble();
+        decimal l = 111111111111111m;
+        decimal o = 222222222222222m;
+        decimal c = 333333333333333m;
+        decimal h = 444444444444444m;
+        decimal v = 555555555555555m;
         decimal hl2 = (h + l) / 2m;
         decimal hlc3 = (h + l + c) / 3m;
         decimal oc2 = (o + c) / 2m;
@@ -77,13 +76,12 @@ public class QuoteUtility : TestBase
     public void QuoteToBasicData()
     {
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
-        Random rand = new();
 
-        decimal o = 10000m * (decimal)rand.NextDouble();
-        decimal h = 10000m * (decimal)rand.NextDouble();
-        decimal l = 10000m * (decimal)rand.NextDouble();
-        decimal c = 10000m * (decimal)rand.NextDouble();
-        decimal v = 10000m * (decimal)rand.NextDouble();
+        decimal l = 111111111111111m;
+        decimal o = 222222222222222m;
+        decimal c = 333333333333333m;
+        decimal h = 444444444444444m;
+        decimal v = 555555555555555m;
         decimal hl2 = (h + l) / 2m;
         decimal hlc3 = (h + l + c) / 3m;
         decimal oc2 = (o + c) / 2m;
@@ -140,13 +138,12 @@ public class QuoteUtility : TestBase
     public void QuoteDToBasicTuple()
     {
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
-        Random rand = new();
 
-        double o = 10000 * rand.NextDouble();
-        double h = 10000 * rand.NextDouble();
-        double l = 10000 * rand.NextDouble();
-        double c = 10000 * rand.NextDouble();
-        double v = 10000 * rand.NextDouble();
+        double l = 111111111111111;
+        double o = 222222222222222;
+        double c = 333333333333333;
+        double h = 444444444444444;
+        double v = 555555555555555;
         double hl2 = (h + l) / 2;
         double hlc3 = (h + l + c) / 3;
         double oc2 = (o + c) / 2;

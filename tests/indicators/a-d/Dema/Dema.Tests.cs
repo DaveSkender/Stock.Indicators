@@ -45,6 +45,17 @@ public class Dema : TestBase
     }
 
     [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<DemaResult> results = quotes
+            .GetSma(1)
+            .GetDema(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Dema != null).Count());
+    }
+
+    [TestMethod]
     public void Chained()
     {
         IEnumerable<SmaResult> results = quotes
@@ -86,11 +97,9 @@ public class Dema : TestBase
         Assert.AreEqual(241.1677, NullMath.Round(last.Dema, 4));
     }
 
+    // bad lookback period
     [TestMethod]
-    public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetDema(0));
-    }
+    public void Exceptions() =>
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetDema(0));
 }
