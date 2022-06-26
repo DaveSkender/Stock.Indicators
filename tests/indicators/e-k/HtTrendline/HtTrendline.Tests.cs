@@ -61,7 +61,18 @@ public class HtTrendline : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<HtlResult> results = quotes
+            .GetSma(1)
+            .GetHtTrendline();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Where(x => x.Trendline != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetHtTrendline()
