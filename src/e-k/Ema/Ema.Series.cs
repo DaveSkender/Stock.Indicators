@@ -30,7 +30,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
-            EmaResult r = new() { Date = date };
+            EmaResult r = new(date);
 
             if (i + 1 > lookbackPeriods)
             {

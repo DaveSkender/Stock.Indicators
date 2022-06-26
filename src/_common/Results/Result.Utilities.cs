@@ -65,7 +65,6 @@ public static partial class Indicator
         }
 
         Type type = resultsList[0].GetType();
-        Console.WriteLine($"Type name: {type.Name}");
 
         // add plugs for missing values
         if (prepend || append)
