@@ -72,7 +72,7 @@ public class RocWb : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<RocWbResult> results = quotes
             .Use(CandlePart.Close)
@@ -83,7 +83,18 @@ public class RocWb : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<RocWbResult> results = quotes
+            .GetSma(1)
+            .GetRocWb(20, 3, 20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetRocWb(20, 3, 20)

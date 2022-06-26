@@ -51,7 +51,7 @@ public class Smi : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetSmi(14, 20, 5, 3)

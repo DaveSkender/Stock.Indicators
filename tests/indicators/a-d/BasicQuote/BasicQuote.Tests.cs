@@ -56,16 +56,16 @@ public class BaseQuoteTests : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
-        var results = quotes
+        IEnumerable<(DateTime Date, double Value)> results = quotes
             .Use(CandlePart.Close);
 
         Assert.AreEqual(502, results.Count());
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetBaseQuote(CandlePart.Close)

@@ -27,7 +27,7 @@ public class Wma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<WmaResult> results = quotes
             .Use(CandlePart.Close)
@@ -38,7 +38,18 @@ public class Wma : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<WmaResult> results = quotes
+            .GetSma(1)
+            .GetWma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetWma(20)
@@ -102,11 +113,9 @@ public class Wma : TestBase
         Assert.AreEqual(246.5110, NullMath.Round(last.Wma, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetWma(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetWma(quotes, 0));
 }

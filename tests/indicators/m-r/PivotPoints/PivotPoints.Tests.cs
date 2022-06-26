@@ -438,6 +438,10 @@ public class PivotPoints : TestBase
     [TestMethod]
     public void Exceptions()
     {
+        // bad pointtype size
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            quotes.GetPivotPoints(PeriodSize.Week, (PivotPointType)999));
+
         // bad window size
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetPivotPoints(PeriodSize.ThreeMinutes));

@@ -46,7 +46,7 @@ public class Tsi : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<TsiResult> results = quotes
             .Use(CandlePart.Close)
@@ -57,7 +57,18 @@ public class Tsi : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<TsiResult> results = quotes
+            .GetSma(1)
+            .GetTsi();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(465, results.Where(x => x.Tsi != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetTsi()

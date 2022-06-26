@@ -31,7 +31,7 @@ public class Smma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<SmmaResult> results = quotes
             .Use(CandlePart.Close)
@@ -42,7 +42,18 @@ public class Smma : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<SmmaResult> results = quotes
+            .GetSma(1)
+            .GetSmma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetSmma(20)
@@ -81,11 +92,9 @@ public class Smma : TestBase
         Assert.AreEqual(255.67462, Math.Round(results.LastOrDefault().Smma.Value, 5));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSmma(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetSmma(quotes, 0));
 }

@@ -36,7 +36,7 @@ public class Epma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<EpmaResult> results = quotes
             .Use(CandlePart.Close)
@@ -47,7 +47,18 @@ public class Epma : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<EpmaResult> results = quotes
+            .GetSma(1)
+            .GetEpma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Epma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetEpma(20)
@@ -88,11 +99,9 @@ public class Epma : TestBase
         Assert.AreEqual(235.8131, NullMath.Round(last.Epma, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetEpma(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetEpma(quotes, 0));
 }

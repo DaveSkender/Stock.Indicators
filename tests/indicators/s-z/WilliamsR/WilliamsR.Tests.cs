@@ -28,7 +28,7 @@ public class WilliamsR : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetWilliamsR()

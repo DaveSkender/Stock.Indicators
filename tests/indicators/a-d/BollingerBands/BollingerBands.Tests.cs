@@ -44,7 +44,7 @@ public class BollingerBands : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<BollingerBandsResult> results = quotes
             .Use(CandlePart.Close)
@@ -55,7 +55,18 @@ public class BollingerBands : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<BollingerBandsResult> results = quotes
+            .GetSma(1)
+            .GetBollingerBands();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetBollingerBands()

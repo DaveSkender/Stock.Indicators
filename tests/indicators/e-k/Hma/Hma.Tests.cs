@@ -27,7 +27,7 @@ public class Hma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<HmaResult> results = quotes
             .Use(CandlePart.Close)
@@ -38,7 +38,18 @@ public class Hma : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<HmaResult> results = quotes
+            .GetSma(1)
+            .GetHma(19);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(481, results.Where(x => x.Hma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetHma(20)
@@ -79,11 +90,9 @@ public class Hma : TestBase
         Assert.AreEqual(235.6972, NullMath.Round(last.Hma, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetHma(1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetHma(1));
 }
