@@ -58,7 +58,7 @@ public class BaseQuoteTests : TestBase
     [TestMethod]
     public void Use()
     {
-        var results = quotes
+        IEnumerable<(DateTime Date, double Value)> results = quotes
             .Use(CandlePart.Close);
 
         Assert.AreEqual(502, results.Count());
