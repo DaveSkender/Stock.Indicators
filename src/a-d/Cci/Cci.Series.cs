@@ -21,8 +21,8 @@ public static partial class Indicator
             QuoteD q = qdList[i];
             tp[i] = (q.High + q.Low + q.Close) / 3d;
 
-            CciResult result = new(q.Date);
-            results.Add(result);
+            CciResult r = new(q.Date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -44,7 +44,7 @@ public static partial class Indicator
 
                 avgDv /= lookbackPeriods;
 
-                result.Cci = (avgDv == 0) ? double.NaN
+                r.Cci = (avgDv == 0) ? double.NaN
                     : (tp[i] - avgTp) / (0.015 * avgDv);
             }
         }

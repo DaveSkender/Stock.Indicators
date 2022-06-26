@@ -35,6 +35,7 @@ public static partial class Indicator
             (DateTime date, double _) = tpList[i];
 
             AlmaResult r = new(date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -50,8 +51,6 @@ public static partial class Indicator
 
                 r.Alma = weightedSum / norm;
             }
-
-            results.Add(r);
         }
 
         return results;

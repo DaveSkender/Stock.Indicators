@@ -23,6 +23,7 @@ public static partial class Indicator
             pr[i] = value;
 
             AwesomeResult r = new(date);
+            results.Add(r);
 
             if (i + 1 >= slowPeriods)
             {
@@ -42,8 +43,6 @@ public static partial class Indicator
                 r.Oscillator = (sumFast / fastPeriods) - (sumSlow / slowPeriods);
                 r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : double.NaN;
             }
-
-            results.Add(r);
         }
 
         return results;

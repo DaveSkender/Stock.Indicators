@@ -19,10 +19,8 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            HurstResult result = new()
-            {
-                Date = date
-            };
+            HurstResult r = new(date);
+            results.Add(r);
 
             if (i + 1 > lookbackPeriods)
             {
@@ -44,10 +42,8 @@ public static partial class Indicator
                 }
 
                 // calculate hurst exponent
-                result.HurstExponent = CalcHurstWindow(values);
+                r.HurstExponent = CalcHurstWindow(values);
             }
-
-            results.Add(result);
         }
 
         return results;

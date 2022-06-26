@@ -23,6 +23,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             BopResult r = new(qdList[i].Date);
+            results.Add(r);
 
             if (i >= smoothPeriods - 1)
             {
@@ -34,8 +35,6 @@ public static partial class Indicator
 
                 r.Bop = sum / smoothPeriods;
             }
-
-            results.Add(r);
         }
 
         return results;

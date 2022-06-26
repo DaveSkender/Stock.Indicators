@@ -20,6 +20,7 @@ public static partial class Indicator
             (DateTime date, double value) = tpList[i];
 
             BollingerBandsResult r = new(date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -48,8 +49,6 @@ public static partial class Indicator
                 r.ZScore = (stdDev == 0) ? double.NaN : (value - r.Sma) / stdDev;
                 r.Width = (periodAvg == 0) ? double.NaN : (r.UpperBand - r.LowerBand) / periodAvg;
             }
-
-            results.Add(r);
         }
 
         return results;

@@ -21,13 +21,14 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            AdlResult r = adlResults[i];
+            AdlResult adl = adlResults[i];
 
-            CmfResult result = new(r.Date)
+            CmfResult r = new(adl.Date)
             {
-                MoneyFlowMultiplier = r.MoneyFlowMultiplier,
-                MoneyFlowVolume = r.MoneyFlowVolume
+                MoneyFlowMultiplier = adl.MoneyFlowMultiplier,
+                MoneyFlowVolume = adl.MoneyFlowVolume
             };
+            results.Add(r);
 
             if (i >= lookbackPeriods - 1)
             {
@@ -48,11 +49,9 @@ public static partial class Indicator
 
                 if (avgVol != 0)
                 {
-                    result.Cmf = avgMfv / avgVol;
+                    r.Cmf = avgMfv / avgVol;
                 }
             }
-
-            results.Add(result);
         }
 
         return results;

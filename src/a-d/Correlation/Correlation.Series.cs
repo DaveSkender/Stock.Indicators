@@ -28,6 +28,7 @@ public static partial class Indicator
             }
 
             CorrResult r = new(aDate);
+            results.Add(r);
 
             // calculate correlation
             if (i >= lookbackPeriods - 1)
@@ -46,8 +47,6 @@ public static partial class Indicator
 
                 r.PeriodCorrelation(dataA, dataB);
             }
-
-            results.Add(r);
         }
 
         return results;

@@ -23,13 +23,13 @@ public static partial class Indicator
             double mfv = mfm * q.Volume;
             double adl = mfv + prevAdl;
 
-            AdlResult result = new(q.Date)
+            AdlResult r = new(q.Date)
             {
                 MoneyFlowMultiplier = mfm,
                 MoneyFlowVolume = mfv,
                 Adl = adl
             };
-            results.Add(result);
+            results.Add(r);
 
             prevAdl = adl;
 
@@ -42,7 +42,7 @@ public static partial class Indicator
                     sumSma += results[p].Adl;
                 }
 
-                result.AdlSma = sumSma / smaPeriods;
+                r.AdlSma = sumSma / smaPeriods;
             }
         }
 
