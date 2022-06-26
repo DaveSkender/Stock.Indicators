@@ -52,7 +52,7 @@ public class ElderRay : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetElderRay(13)

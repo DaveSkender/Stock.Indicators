@@ -50,7 +50,7 @@ public class Macd : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<MacdResult> results = quotes
             .Use(CandlePart.Close)
@@ -61,7 +61,18 @@ public class Macd : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<MacdResult> results = quotes
+            .GetSma(1)
+            .GetMacd();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(477, results.Where(x => x.Macd != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetMacd()

@@ -37,7 +37,7 @@ public class Awesome : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<AwesomeResult> results = quotes
             .Use(CandlePart.Close)
@@ -48,7 +48,18 @@ public class Awesome : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<AwesomeResult> results = quotes
+            .GetSma(1)
+            .GetAwesome();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(469, results.Where(x => x.Oscillator != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetAwesome()

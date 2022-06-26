@@ -56,7 +56,7 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<DpoResult> results = quotes
             .Use(CandlePart.Close)
@@ -67,7 +67,18 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<DpoResult> results = quotes
+            .GetSma(1)
+            .GetDpo(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(489, results.Where(x => x.Dpo != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetDpo(14)
@@ -99,11 +110,9 @@ public class Dpo : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad SMA period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetDpo(0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetDpo(0));
 }

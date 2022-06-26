@@ -31,7 +31,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<EmaResult> results = quotes
             .Use(CandlePart.Close)
@@ -42,7 +42,18 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<EmaResult> results = quotes
+            .GetSma(1)
+            .GetEma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetEma(20)

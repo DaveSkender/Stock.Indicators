@@ -276,10 +276,21 @@ public class MaEnvelopes : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<MaEnvelopeResult> results = quotes
             .Use(CandlePart.Close)
+            .GetMaEnvelopes(10, 2.5, MaType.SMA);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Centerline != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<MaEnvelopeResult> results = quotes
+            .GetSma(1)
             .GetMaEnvelopes(10, 2.5, MaType.SMA);
 
         Assert.AreEqual(502, results.Count());

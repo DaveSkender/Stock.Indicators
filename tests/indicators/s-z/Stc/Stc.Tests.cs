@@ -47,7 +47,7 @@ public class Stc : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<StcResult> results = quotes
             .Use(CandlePart.Close)
@@ -58,7 +58,18 @@ public class Stc : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<StcResult> results = quotes
+            .GetSma(1)
+            .GetStc(9, 12, 26);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(467, results.Where(x => x.Stc != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetStc(9, 12, 26)

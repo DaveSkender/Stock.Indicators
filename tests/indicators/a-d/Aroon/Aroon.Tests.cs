@@ -48,7 +48,7 @@ public class Aroon : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetAroon(25)

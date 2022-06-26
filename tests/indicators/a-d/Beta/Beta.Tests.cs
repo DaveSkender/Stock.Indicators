@@ -112,7 +112,7 @@ public class Beta : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<BetaResult> results = otherQuotes
             .Use(CandlePart.Close)
@@ -123,7 +123,7 @@ public class Beta : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = otherQuotes
             .GetBeta(quotes, 20)

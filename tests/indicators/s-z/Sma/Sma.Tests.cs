@@ -72,7 +72,7 @@ public class Sma : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<EmaResult> results = quotes
             .GetSma(10)

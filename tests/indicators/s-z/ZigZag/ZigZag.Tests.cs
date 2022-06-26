@@ -118,7 +118,7 @@ public class ZigZag : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetZigZag(EndType.Close, 3)

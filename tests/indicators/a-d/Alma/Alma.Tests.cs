@@ -44,44 +44,44 @@ public class Alma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<AlmaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetAlma(10, 0.86, 6);
+            .GetAlma(10, 0.85, 6);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
+
+        AlmaResult last = results.LastOrDefault();
+        Assert.AreEqual(242.1871, NullMath.Round(last.Alma, 4));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<AlmaResult> results = quotes
+            .GetSma(1)
+            .GetAlma(10, 0.85, 6);
 
         Assert.AreEqual(502, results.Count());
         Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
     }
 
     [TestMethod]
-    public void Chaining()
+    public void Chainor()
     {
         int lookbackPeriods = 10;
         double offset = 0.85;
         double sigma = 6;
 
-        List<AlmaResult> standard = quotes
+        List<SmaResult> results = quotes
             .GetAlma(lookbackPeriods, offset, sigma)
+            .GetSma(10)
             .ToList();
 
-        List<AlmaResult> results = quotes
-            .Use(CandlePart.Close)
-            .GetAlma(lookbackPeriods, offset, sigma)
-            .ToList();
-
-        // assertions
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            AlmaResult s = standard[i];
-            AlmaResult c = results[i];
-
-            Assert.AreEqual(s.Date, c.Date);
-            Assert.AreEqual(s.Alma, c.Alma);
-        }
+        Assert.AreEqual(493, results.Count);
+        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
