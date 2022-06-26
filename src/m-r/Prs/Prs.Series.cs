@@ -27,9 +27,8 @@ public static partial class Indicator
                     "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
             }
 
-            PrsResult r = new()
+            PrsResult r = new(eDate)
             {
-                Date = eDate,
                 Prs = (bValue == 0) ? null : (eValue / bValue) // relative strength ratio
             };
             results.Add(r);

@@ -24,10 +24,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            MfiResult result = new()
-            {
-                Date = q.Date
-            };
+            MfiResult r = new(q.Date);
+            results.Add(r);
 
             // true price
             tp[i] = (q.High + q.Low + q.Close) / 3;
@@ -48,8 +46,6 @@ public static partial class Indicator
             {
                 direction[i] = -1;
             }
-
-            results.Add(result);
 
             prevTP = tp[i];
         }

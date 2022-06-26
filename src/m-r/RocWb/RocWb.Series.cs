@@ -15,9 +15,8 @@ public static partial class Indicator
         // initialize
         List<RocWbResult> results = tpList
             .CalcRoc(lookbackPeriods, null)
-            .Select(x => new RocWbResult
+            .Select(x => new RocWbResult(x.Date)
             {
-                Date = x.Date,
                 Roc = x.Roc
             })
             .ToList();

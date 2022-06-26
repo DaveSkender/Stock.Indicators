@@ -27,25 +27,21 @@ public static partial class Indicator
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
-            PvoResult result = new()
-            {
-                Date = date
-            };
+            PvoResult r = new(date);
+            results.Add(r);
 
             if (i >= slowPeriods - 1)
             {
                 double? pvo = (ds.Ema != 0) ?
                     100 * (double?)((df.Ema - ds.Ema) / ds.Ema) : null;
 
-                result.Pvo = pvo;
+                r.Pvo = pvo;
 
                 // temp data for interim EMA of PVO
                 (DateTime, double) diff = (date, (pvo == null) ? 0 : (double)pvo);
 
                 emaDiff.Add(diff);
             }
-
-            results.Add(result);
         }
 
         // add signal and histogram to result

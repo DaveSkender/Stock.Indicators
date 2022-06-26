@@ -27,27 +27,25 @@ public static partial class Indicator
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
-            MacdResult result = new()
+            MacdResult r = new(date)
             {
-                Date = date,
                 FastEma = df.Ema,
                 SlowEma = ds.Ema
             };
+            results.Add(r);
 
             if (i >= slowPeriods - 1
                 && df.Ema is not null
                 && ds.Ema is not null)
             {
                 double macd = (double)(df.Ema - ds.Ema);
-                result.Macd = macd;
+                r.Macd = macd;
 
                 // temp data for interim EMA of macd
                 (DateTime, double) diff = (date, macd);
 
                 emaDiff.Add(diff);
             }
-
-            results.Add(result);
         }
 
         // add signal and histogram to result
