@@ -50,7 +50,7 @@ public class HtTrendline : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<HtlResult> results = quotes
             .Use(CandlePart.Close)

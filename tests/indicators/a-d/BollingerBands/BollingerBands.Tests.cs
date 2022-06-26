@@ -44,7 +44,7 @@ public class BollingerBands : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<BollingerBandsResult> results = quotes
             .Use(CandlePart.Close)

@@ -52,7 +52,7 @@ public class FisherTransform : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<FisherTransformResult> results = quotes
             .Use(CandlePart.Close)
@@ -63,7 +63,18 @@ public class FisherTransform : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<FisherTransformResult> results = quotes
+            .GetSma(1)
+            .GetFisherTransform(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(501, results.Where(x => x.Fisher != 0).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetFisherTransform(10)
@@ -90,11 +101,9 @@ public class FisherTransform : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetFisherTransform(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetFisherTransform(quotes, 0));
 }

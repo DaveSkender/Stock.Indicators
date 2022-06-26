@@ -42,7 +42,7 @@ public class ConnorsRsi : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<ConnorsRsiResult> results = quotes
             .Use(CandlePart.Close)

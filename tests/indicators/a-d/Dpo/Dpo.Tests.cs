@@ -56,7 +56,7 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<DpoResult> results = quotes
             .Use(CandlePart.Close)

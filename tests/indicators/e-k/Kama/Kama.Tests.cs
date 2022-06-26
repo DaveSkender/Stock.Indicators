@@ -55,7 +55,7 @@ public class Kama : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<KamaResult> results = quotes
             .Use(CandlePart.Close)

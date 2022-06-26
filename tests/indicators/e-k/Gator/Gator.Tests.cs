@@ -78,7 +78,7 @@ public class Gator : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<GatorResult> results = quotes
             .Use(CandlePart.Close)

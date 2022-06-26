@@ -50,7 +50,7 @@ public class Macd : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<MacdResult> results = quotes
             .Use(CandlePart.Close)

@@ -276,7 +276,7 @@ public class MaEnvelopes : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<MaEnvelopeResult> results = quotes
             .Use(CandlePart.Close)

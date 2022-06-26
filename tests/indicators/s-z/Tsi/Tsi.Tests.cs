@@ -46,7 +46,7 @@ public class Tsi : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<TsiResult> results = quotes
             .Use(CandlePart.Close)

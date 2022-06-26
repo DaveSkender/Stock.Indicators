@@ -57,7 +57,7 @@ public class Roc : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<RocResult> results = quotes
             .Use(CandlePart.Close)

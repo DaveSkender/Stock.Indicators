@@ -107,7 +107,7 @@ public class StdDevChannels : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<StdDevChannelsResult> results = quotes
             .Use(CandlePart.Close)

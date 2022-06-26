@@ -43,7 +43,7 @@ public class Trix : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<TrixResult> results = quotes
             .Use(CandlePart.Close)

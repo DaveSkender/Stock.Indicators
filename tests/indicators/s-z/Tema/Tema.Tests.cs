@@ -33,7 +33,7 @@ public class Tema : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<TemaResult> results = quotes
             .Use(CandlePart.Close)

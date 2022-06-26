@@ -31,7 +31,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<EmaResult> results = quotes
             .Use(CandlePart.Close)

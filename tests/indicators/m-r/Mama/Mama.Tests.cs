@@ -53,7 +53,7 @@ public class Mama : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<MamaResult> results = quotes
             .Use(CandlePart.Close)

@@ -31,7 +31,7 @@ public class Smma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<SmmaResult> results = quotes
             .Use(CandlePart.Close)

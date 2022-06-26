@@ -37,7 +37,7 @@ public class Awesome : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<AwesomeResult> results = quotes
             .Use(CandlePart.Close)

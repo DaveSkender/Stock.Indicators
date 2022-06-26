@@ -34,7 +34,7 @@ public class Dema : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<DemaResult> results = quotes
             .Use(CandlePart.Close)

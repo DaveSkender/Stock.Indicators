@@ -47,7 +47,7 @@ public class StdDev : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<StdDevResult> results = quotes
             .Use(CandlePart.Close)

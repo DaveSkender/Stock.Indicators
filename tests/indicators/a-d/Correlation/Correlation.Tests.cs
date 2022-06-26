@@ -37,7 +37,7 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<CorrResult> results = quotes
             .Use(CandlePart.Close)

@@ -39,7 +39,7 @@ public class T3 : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<T3Result> results = quotes
             .Use(CandlePart.Close)

@@ -44,7 +44,7 @@ public class Slope : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<SlopeResult> results = quotes
             .Use(CandlePart.Close)

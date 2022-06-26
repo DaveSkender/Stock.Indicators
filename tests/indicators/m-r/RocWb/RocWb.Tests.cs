@@ -72,7 +72,7 @@ public class RocWb : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<RocWbResult> results = quotes
             .Use(CandlePart.Close)

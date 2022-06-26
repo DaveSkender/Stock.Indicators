@@ -30,7 +30,7 @@ public class Pmo : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<PmoResult> results = quotes
             .Use(CandlePart.Close)

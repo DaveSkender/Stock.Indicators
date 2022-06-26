@@ -63,7 +63,7 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<RsiResult> results = quotes
             .Use(CandlePart.Close)

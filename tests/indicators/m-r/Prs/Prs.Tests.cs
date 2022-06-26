@@ -42,7 +42,7 @@ public class Prs : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<PrsResult> results = otherQuotes
             .Use(CandlePart.Close)

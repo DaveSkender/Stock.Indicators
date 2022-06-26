@@ -44,7 +44,7 @@ public class Alma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<AlmaResult> results = quotes
             .Use(CandlePart.Close)

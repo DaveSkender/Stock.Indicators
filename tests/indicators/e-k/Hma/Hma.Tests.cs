@@ -27,7 +27,7 @@ public class Hma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<HmaResult> results = quotes
             .Use(CandlePart.Close)

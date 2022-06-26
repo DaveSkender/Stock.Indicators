@@ -25,7 +25,7 @@ public class UlcerIndex : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<UlcerIndexResult> results = quotes
             .Use(CandlePart.Close)

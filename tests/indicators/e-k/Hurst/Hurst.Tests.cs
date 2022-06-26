@@ -25,7 +25,7 @@ public class Hurst : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<HurstResult> results = quotes
             .Use(CandlePart.Close)

@@ -27,7 +27,7 @@ public class Wma : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<WmaResult> results = quotes
             .Use(CandlePart.Close)

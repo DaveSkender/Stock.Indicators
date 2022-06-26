@@ -48,7 +48,7 @@ public class Alligator : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<AlligatorResult> results = quotes
             .Use(CandlePart.HL2)
