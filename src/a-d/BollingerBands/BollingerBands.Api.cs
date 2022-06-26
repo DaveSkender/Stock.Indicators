@@ -20,7 +20,8 @@ public static partial class Indicator
         int lookbackPeriods = 20,
         double standardDeviations = 2) => results
             .ToResultTuple()
-            .CalcBollingerBands(lookbackPeriods, standardDeviations);
+            .CalcBollingerBands(lookbackPeriods, standardDeviations)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<BollingerBandsResult> GetBollingerBands(

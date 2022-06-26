@@ -18,7 +18,8 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToResultTuple()
-            .CalcDema(lookbackPeriods);
+            .CalcDema(lookbackPeriods)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<DemaResult> GetDema(

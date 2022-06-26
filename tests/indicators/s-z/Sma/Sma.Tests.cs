@@ -78,7 +78,7 @@ public class Sma : TestBase
             .GetSma(10)
             .GetEma(10);
 
-        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(484, results.Where(x => x.Ema != null).Count());
     }
 
@@ -111,11 +111,9 @@ public class Sma : TestBase
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSma(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetSma(quotes, 0));
 }

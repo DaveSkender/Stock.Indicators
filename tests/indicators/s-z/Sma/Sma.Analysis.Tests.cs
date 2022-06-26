@@ -55,7 +55,7 @@ public class SmaExtended : TestBase
             .GetSmaAnalysis(10)
             .GetEma(10);
 
-        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(484, results.Where(x => x.Ema != null).Count());
     }
 

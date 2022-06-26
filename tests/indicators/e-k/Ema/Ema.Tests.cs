@@ -105,21 +105,21 @@ public class EmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(488, results.Count);
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(469, results.Where(x => x.Ema != null).Count());
 
         // sample values
-        EmaResult r18 = results[18];
-        Assert.IsNull(r18.Ema);
+        EmaResult r32 = results[32];
+        Assert.IsNull(r32.Ema);
 
-        EmaResult r19 = results[19];
-        Assert.AreEqual(67.4565, NullMath.Round(r19.Ema, 4));
+        EmaResult r33 = results[33];
+        Assert.AreEqual(67.4565, NullMath.Round(r33.Ema, 4));
 
-        EmaResult r235 = results[235];
-        Assert.AreEqual(70.4659, NullMath.Round(r235.Ema, 4));
+        EmaResult r249 = results[249];
+        Assert.AreEqual(70.4659, NullMath.Round(r249.Ema, 4));
 
-        EmaResult r487 = results[487];
-        Assert.AreEqual(37.0728, NullMath.Round(r487.Ema, 4));
+        EmaResult r501 = results[501];
+        Assert.AreEqual(37.0728, NullMath.Round(r501.Ema, 4));
     }
 
     [TestMethod]

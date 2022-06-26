@@ -20,7 +20,8 @@ public static partial class Indicator
         int lookbackPeriods,
         int? smaPeriods = null) => results
             .ToResultTuple()
-            .CalcRoc(lookbackPeriods, smaPeriods);
+            .CalcRoc(lookbackPeriods, smaPeriods)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<RocResult> GetRoc(

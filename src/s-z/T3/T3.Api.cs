@@ -20,7 +20,8 @@ public static partial class Indicator
         int lookbackPeriods = 5,
         double volumeFactor = 0.7) => results
             .ToResultTuple()
-            .CalcT3(lookbackPeriods, volumeFactor);
+            .CalcT3(lookbackPeriods, volumeFactor)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<T3Result> GetT3(
