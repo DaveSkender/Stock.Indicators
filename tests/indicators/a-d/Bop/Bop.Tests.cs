@@ -36,7 +36,7 @@ public class Bop : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetBop(14)

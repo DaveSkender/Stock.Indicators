@@ -39,7 +39,7 @@ public class Chandeleir : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetChandelier(22)

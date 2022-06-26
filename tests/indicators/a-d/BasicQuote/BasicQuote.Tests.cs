@@ -65,7 +65,7 @@ public class BaseQuoteTests : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetBaseQuote(CandlePart.Close)

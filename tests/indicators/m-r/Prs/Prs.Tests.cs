@@ -53,7 +53,7 @@ public class Prs : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = otherQuotes
             .GetPrs(quotes, 20)

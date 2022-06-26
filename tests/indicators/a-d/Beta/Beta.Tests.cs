@@ -123,7 +123,7 @@ public class Beta : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = otherQuotes
             .GetBeta(quotes, 20)

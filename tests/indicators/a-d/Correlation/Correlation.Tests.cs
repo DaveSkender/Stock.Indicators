@@ -48,7 +48,7 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetCorrelation(otherQuotes, 20)

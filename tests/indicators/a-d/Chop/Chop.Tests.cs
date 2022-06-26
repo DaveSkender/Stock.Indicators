@@ -34,7 +34,7 @@ public class Chop : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetChop(14)

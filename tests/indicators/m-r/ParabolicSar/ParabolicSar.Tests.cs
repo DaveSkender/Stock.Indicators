@@ -83,7 +83,7 @@ public class ParabolicSar : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetParabolicSar()

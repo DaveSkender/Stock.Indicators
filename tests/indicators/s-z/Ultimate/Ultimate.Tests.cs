@@ -31,7 +31,7 @@ public class Ultimate : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetUltimate()

@@ -35,7 +35,7 @@ public class Cmf : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetCmf(20)

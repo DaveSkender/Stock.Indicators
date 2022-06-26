@@ -42,7 +42,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetEma(20)
