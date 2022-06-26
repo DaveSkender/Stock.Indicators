@@ -81,7 +81,7 @@ public class StochRsi : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetStochRsi(14, 14, 3, 3)

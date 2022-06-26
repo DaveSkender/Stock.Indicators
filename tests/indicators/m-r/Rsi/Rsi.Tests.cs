@@ -55,7 +55,7 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
-    public void CrytoData()
+    public void CryptoData()
     {
         IEnumerable<Quote> btc = TestData.GetBitcoin();
         IEnumerable<RsiResult> r = btc.GetRsi(1);
@@ -63,7 +63,7 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<RsiResult> results = quotes
             .Use(CandlePart.Close)
@@ -74,7 +74,18 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<RsiResult> results = quotes
+            .GetSma(1)
+            .GetRsi(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetRsi(14)

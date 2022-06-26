@@ -50,7 +50,7 @@ public class Adx : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetAdx(14)

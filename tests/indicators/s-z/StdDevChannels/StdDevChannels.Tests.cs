@@ -107,10 +107,21 @@ public class StdDevChannels : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<StdDevChannelsResult> results = quotes
             .Use(CandlePart.Close)
+            .GetStdDevChannels(20, 2);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(500, results.Where(x => x.Centerline != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<StdDevChannelsResult> results = quotes
+            .GetSma(1)
             .GetStdDevChannels(20, 2);
 
         Assert.AreEqual(502, results.Count());

@@ -39,7 +39,7 @@ public class T3 : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<T3Result> results = quotes
             .Use(CandlePart.Close)
@@ -50,7 +50,18 @@ public class T3 : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<T3Result> results = quotes
+            .GetSma(1)
+            .GetT3();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(478, results.Where(x => x.T3 != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetT3()

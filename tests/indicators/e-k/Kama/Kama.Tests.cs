@@ -55,7 +55,7 @@ public class Kama : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<KamaResult> results = quotes
             .Use(CandlePart.Close)
@@ -66,7 +66,18 @@ public class Kama : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<KamaResult> results = quotes
+            .GetSma(1)
+            .GetKama();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetKama()

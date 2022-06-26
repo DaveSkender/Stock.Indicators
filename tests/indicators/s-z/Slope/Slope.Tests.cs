@@ -44,7 +44,7 @@ public class Slope : TestBase
     }
 
     [TestMethod]
-    public void Use()
+    public void UseTuple()
     {
         IEnumerable<SlopeResult> results = quotes
             .Use(CandlePart.Close)
@@ -55,7 +55,18 @@ public class Slope : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainee()
+    {
+        IEnumerable<SlopeResult> results = quotes
+            .GetSma(1)
+            .GetSlope(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetSlope(20)
@@ -107,11 +118,9 @@ public class Slope : TestBase
         Assert.AreEqual(235.8131m, NullMath.Round(last.Line, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSlope(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetSlope(quotes, 0));
 }

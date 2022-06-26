@@ -48,7 +48,7 @@ public class Fractal : TestBase
     [TestMethod]
     public void StandardSpan4()
     {
-        List<FractalResult> results = quotes.GetFractal(4, EndType.HighLow).ToList();
+        List<FractalResult> results = quotes.GetFractal(4, 4, EndType.HighLow).ToList();
 
         // assertions
 
@@ -101,11 +101,9 @@ public class Fractal : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad window span
     [TestMethod]
     public void Exceptions()
-    {
-        // bad window span
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetFractal(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetFractal(quotes, 1));
 }

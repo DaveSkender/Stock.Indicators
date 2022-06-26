@@ -7,7 +7,7 @@ namespace Internal.Tests;
 public class SmaExtended : TestBase
 {
     [TestMethod]
-    public void Extended()
+    public void Analysis()
     {
         List<SmaAnalysis> results = quotes.GetSmaAnalysis(20).ToList();
 
@@ -27,7 +27,29 @@ public class SmaExtended : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void UseTuple()
+    {
+        IEnumerable<SmaAnalysis> results = quotes
+            .Use(CandlePart.Close)
+            .GetSmaAnalysis(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<SmaAnalysis> results = quotes
+            .GetSma(1)
+            .GetSmaAnalysis(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+    }
+
+    [TestMethod]
+    public void Chainor()
     {
         IEnumerable<EmaResult> results = quotes
             .GetSmaAnalysis(10)
@@ -66,11 +88,9 @@ public class SmaExtended : TestBase
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSmaAnalysis(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetSmaAnalysis(quotes, 0));
 }

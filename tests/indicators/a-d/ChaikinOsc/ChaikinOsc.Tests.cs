@@ -31,7 +31,7 @@ public class ChaikinOsc : TestBase
     }
 
     [TestMethod]
-    public void Chained()
+    public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
             .GetChaikinOsc(3, 10)
