@@ -28,9 +28,9 @@ public class AtrWmaResult : ResultBase
 }
 ```
 
-## STEP 2: Create the your custom indicator
+## STEP 2: Create your custom indicator
 
-Create your custom algorithm in the same style as our main library so the API functions identically.
+Create your custom indicator algorithm in the same style as our main library so the API functions identically.
 
 ```csharp
 public static class CustomIndicators
