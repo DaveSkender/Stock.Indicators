@@ -39,7 +39,7 @@ IEnumerable<SuperTrendResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
+- It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
 

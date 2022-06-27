@@ -31,7 +31,7 @@ IEnumerable<HtlResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
+- It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first `6` periods will have `null` values for `SmoothPrice` since there's not enough data to calculate.
 
@@ -72,5 +72,3 @@ var results = quotes
     .GetHtTrendline(..)
     .GetRsi(..);
 ```
-
-:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

@@ -19,7 +19,7 @@ redirect_from:
 `quotes.Use()` can be used before most indicator calls to specify price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
 
 ```csharp
-// example: use HL2 price instead of 
+// example: use HL2 price instead of
 // the standard Close price for RSI
 var results = quotes
   .Use(CandlePart.HL2)
@@ -113,7 +113,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 :warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 
-:warning: WARNING! `.RemoveWarmupPeriods()` will reverse-engineer some parameters in determing the recommended pruning amount.  Consequently, on rare occassions when there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use the `.RemoveWarmupPeriods(removePeriods)` with a specific number of `removePeriods`.
+:warning: WARNING! `.RemoveWarmupPeriods()` will reverse-engineer some parameters in determining the recommended pruning amount.  Consequently, on rare occasions when there are unusual results, there can be an erroneous increase in the amount of pruning.  Using this method on chained indicators without specifying `removePeriods` is strongly discouraged.  If you want more certainty, use the `.RemoveWarmupPeriods(removePeriods)` with a specific number of `removePeriods`.
 
 ### Condense
 

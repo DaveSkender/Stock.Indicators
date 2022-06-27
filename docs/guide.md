@@ -227,8 +227,6 @@ IEnumerable<ObvResult> obvResults = quotes.GetObv();
 IEnumerable<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 ```
 
-:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.
-
 ## Candlestick patterns
 
 [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern) are a unique form of indicator and have a common output model.
