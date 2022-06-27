@@ -38,10 +38,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            TsiResult r = new()
-            {
-                Date = date
-            };
+            TsiResult r = new(date);
             results.Add(r);
 
             // skip first period

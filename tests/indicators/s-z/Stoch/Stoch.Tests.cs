@@ -106,7 +106,7 @@ public class Stoch : TestBase
             .GetStoch()
             .GetSma(10);
 
-        Assert.AreEqual(487, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(478, results.Where(x => x.Sma != null).Count());
     }
 

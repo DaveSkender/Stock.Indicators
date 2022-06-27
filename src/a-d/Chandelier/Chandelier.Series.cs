@@ -24,10 +24,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ChandelierResult result = new()
-            {
-                Date = q.Date
-            };
+            ChandelierResult r = new(q.Date);
+            results.Add(r);
 
             // add exit values
             if (i + 1 >= lookbackPeriods)
@@ -48,7 +46,7 @@ public static partial class Indicator
                             }
                         }
 
-                        result.ChandelierExit = maxHigh - (atr * multiplier);
+                        r.ChandelierExit = maxHigh - (atr * multiplier);
                         break;
 
                     case ChandelierType.Short:
@@ -63,15 +61,13 @@ public static partial class Indicator
                             }
                         }
 
-                        result.ChandelierExit = minLow + (atr * multiplier);
+                        r.ChandelierExit = minLow + (atr * multiplier);
                         break;
 
                     default:
                         break;
                 }
             }
-
-            results.Add(result);
         }
 
         return results;

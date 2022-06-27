@@ -34,7 +34,7 @@ public class WilliamsR : TestBase
             .GetWilliamsR()
             .GetSma(10);
 
-        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
     }
 

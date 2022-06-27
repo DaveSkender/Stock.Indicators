@@ -26,7 +26,8 @@ public static partial class Indicator
             .ToResultTuple()
             .GetAlligator()
             .ToList()
-            .CalcGator();
+            .CalcGator()
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<GatorResult> GetGator(

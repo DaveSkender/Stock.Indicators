@@ -64,11 +64,11 @@ public class Macd : TestBase
     public void Chainee()
     {
         IEnumerable<MacdResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetMacd();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(477, results.Where(x => x.Macd != null).Count());
+        Assert.AreEqual(476, results.Where(x => x.Macd != null).Count());
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class Macd : TestBase
             .GetMacd()
             .GetSma(10);
 
-        Assert.AreEqual(477, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
     }
 

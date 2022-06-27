@@ -124,7 +124,7 @@ public class ZigZag : TestBase
             .GetZigZag(EndType.Close, 3)
             .GetSma(10);
 
-        Assert.AreEqual(234, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(225, results.Where(x => x.Sma != null).Count());
     }
 

@@ -19,20 +19,16 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            RocResult result = new()
-            {
-                Date = date
-            };
+            RocResult r = new(date);
+            results.Add(r);
 
             if (i + 1 > lookbackPeriods)
             {
                 (DateTime _, double backValue) = tpList[i - lookbackPeriods];
 
-                result.Roc = (backValue == 0) ? null
+                r.Roc = (backValue == 0) ? null
                     : 100d * (value - backValue) / backValue;
             }
-
-            results.Add(result);
 
             // optional SMA
             if (smaPeriods != null && i + 1 >= lookbackPeriods + smaPeriods)
@@ -43,7 +39,7 @@ public static partial class Indicator
                     sumSma += results[p].Roc;
                 }
 
-                result.RocSma = sumSma / smaPeriods;
+                r.RocSma = sumSma / smaPeriods;
             }
         }
 

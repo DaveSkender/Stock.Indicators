@@ -68,9 +68,8 @@ public static partial class Indicator
                     decimal brickClose = newBrickQty > 0 ?
                         o + brickSize : o - brickSize;
 
-                    RenkoResult result = new()
+                    RenkoResult result = new(q.Date)
                     {
-                        Date = q.Date,
                         Open = o,
                         High = h,
                         Low = l,

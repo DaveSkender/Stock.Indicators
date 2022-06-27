@@ -58,11 +58,11 @@ public class BollingerBands : TestBase
     public void Chainee()
     {
         IEnumerable<BollingerBandsResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetBollingerBands();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.UpperBand != null).Count());
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class BollingerBands : TestBase
             .GetBollingerBands()
             .GetSma(10);
 
-        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 

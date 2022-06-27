@@ -20,7 +20,8 @@ public static partial class Indicator
         int fastPeriods = 5,
         int slowPeriods = 34) => results
             .ToResultTuple()
-            .CalcAwesome(fastPeriods, slowPeriods);
+            .CalcAwesome(fastPeriods, slowPeriods)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<AwesomeResult> GetAwesome(

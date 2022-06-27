@@ -41,11 +41,11 @@ public class SmaExtended : TestBase
     public void Chainee()
     {
         IEnumerable<SmaAnalysis> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetSmaAnalysis(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Sma != null).Count());
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class SmaExtended : TestBase
             .GetSmaAnalysis(10)
             .GetEma(10);
 
-        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(484, results.Where(x => x.Ema != null).Count());
     }
 

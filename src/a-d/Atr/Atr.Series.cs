@@ -24,10 +24,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AtrResult result = new()
-            {
-                Date = q.Date
-            };
+            AtrResult r = new(q.Date);
+            results.Add(r);
 
             if (i > 0)
             {
@@ -36,14 +34,14 @@ public static partial class Indicator
             }
 
             double tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
-            result.Tr = tr;
+            r.Tr = tr;
 
             if (i + 1 > lookbackPeriods)
             {
                 // calculate ATR
                 double atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
-                result.Atr = atr;
-                result.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                r.Atr = atr;
+                r.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
             else if (i + 1 == lookbackPeriods)
@@ -51,8 +49,8 @@ public static partial class Indicator
                 // initialize ATR
                 sumTr += tr;
                 double atr = sumTr / lookbackPeriods;
-                result.Atr = atr;
-                result.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                r.Atr = atr;
+                r.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
             else
@@ -61,7 +59,6 @@ public static partial class Indicator
                 sumTr += tr;
             }
 
-            results.Add(result);
             prevClose = q.Close;
         }
 

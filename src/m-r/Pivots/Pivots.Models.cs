@@ -1,8 +1,13 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
 public class PivotsResult : ResultBase
 {
+    public PivotsResult(DateTime date)
+    {
+        Date = date;
+    }
+
     public decimal? HighPoint { get; set; }
     public decimal? LowPoint { get; set; }
     public decimal? HighLine { get; set; }

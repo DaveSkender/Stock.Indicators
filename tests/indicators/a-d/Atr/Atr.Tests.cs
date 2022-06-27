@@ -52,7 +52,7 @@ public class Atr : TestBase
             .GetAtr(10)
             .GetSma(10);
 
-        Assert.AreEqual(502 - 9, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(502 - 18, results.Where(x => x.Sma != null).Count());
     }
 

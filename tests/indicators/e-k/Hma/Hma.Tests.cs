@@ -41,11 +41,11 @@ public class Hma : TestBase
     public void Chainee()
     {
         IEnumerable<HmaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetHma(19);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(481, results.Where(x => x.Hma != null).Count());
+        Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class Hma : TestBase
             .GetHma(20)
             .GetSma(10);
 
-        Assert.AreEqual(480, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(471, results.Where(x => x.Sma != null).Count());
     }
 

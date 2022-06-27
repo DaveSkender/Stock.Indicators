@@ -45,7 +45,7 @@ public class Chandeleir : TestBase
             .GetChandelier(22)
             .GetSma(10);
 
-        Assert.AreEqual(481, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(472, results.Where(x => x.Sma != null).Count());
     }
 

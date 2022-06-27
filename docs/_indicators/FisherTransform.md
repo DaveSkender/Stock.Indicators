@@ -37,7 +37,7 @@ IEnumerable<FisherTransformResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
+- It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
 :hourglass: **Convergence Warning**: The first `N+15` warmup periods will have unusable decreasing magnitude, convergence-related precision errors that can be as high as ~25% deviation in earlier indicator values.
@@ -83,5 +83,3 @@ var results = quotes
     .GetFisherTransform(..)
     .GetRsi(..);
 ```
-
-:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

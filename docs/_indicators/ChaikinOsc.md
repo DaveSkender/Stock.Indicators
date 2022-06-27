@@ -38,7 +38,7 @@ IEnumerable<ChaikinOscResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
-- It always returns the same number of elements as there are in the historical quotes when not chained from another indicator.
+- It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
@@ -76,5 +76,3 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
-
-:warning: **Warning:** fewer results are returned from chained indicators because unusable warmup period `null` values are removed.

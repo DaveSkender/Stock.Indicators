@@ -61,11 +61,11 @@ public class Alma : TestBase
     public void Chainee()
     {
         IEnumerable<AlmaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetAlma(10, 0.85, 6);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Alma != null).Count());
+        Assert.AreEqual(492, results.Where(x => x.Alma != null).Count());
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class Alma : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(493, results.Count);
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
     }
 

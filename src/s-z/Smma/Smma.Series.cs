@@ -22,16 +22,14 @@ public static partial class Indicator
             double smma = double.NaN;
             (DateTime date, double value) = tpList[i];
 
-            SmmaResult result = new()
-            {
-                Date = date
-            };
+            SmmaResult r = new(date);
+            results.Add(r);
 
             // calculate SMMA
             if (i + 1 > lookbackPeriods)
             {
                 smma = ((prevValue * (lookbackPeriods - 1)) + value) / lookbackPeriods;
-                result.Smma = smma;
+                r.Smma = smma;
             }
 
             // first SMMA calculated as simple SMA
@@ -45,11 +43,10 @@ public static partial class Indicator
                 }
 
                 smma = sumClose / lookbackPeriods;
-                result.Smma = smma;
+                r.Smma = smma;
             }
 
             prevValue = smma;
-            results.Add(result);
         }
 
         return results;

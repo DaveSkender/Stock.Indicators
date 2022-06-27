@@ -166,11 +166,11 @@ public class Gator : TestBase
     public void Chainee()
     {
         IEnumerable<GatorResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetGator();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Upper != null).Count());
+        Assert.AreEqual(481, results.Where(x => x.Upper != null).Count());
     }
 
     [TestMethod]

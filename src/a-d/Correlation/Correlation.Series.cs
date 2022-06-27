@@ -27,10 +27,8 @@ public static partial class Indicator
                     "Date sequence does not match.  Correlation requires matching dates in provided histories.");
             }
 
-            CorrResult r = new()
-            {
-                Date = aDate
-            };
+            CorrResult r = new(aDate);
+            results.Add(r);
 
             // calculate correlation
             if (i >= lookbackPeriods - 1)
@@ -49,8 +47,6 @@ public static partial class Indicator
 
                 r.PeriodCorrelation(dataA, dataB);
             }
-
-            results.Add(r);
         }
 
         return results;

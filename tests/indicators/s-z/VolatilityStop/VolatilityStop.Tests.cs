@@ -74,7 +74,7 @@ public class VolatilityStop : TestBase
             .GetVolatilityStop()
             .GetSma(10);
 
-        Assert.AreEqual(448, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(439, results.Where(x => x.Sma != null).Count());
     }
 

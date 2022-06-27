@@ -47,11 +47,11 @@ public class Tema : TestBase
     public void Chainee()
     {
         IEnumerable<TemaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetTema(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Tema != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Tema != null).Count());
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class Tema : TestBase
             .GetTema(20)
             .GetSma(10);
 
-        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 

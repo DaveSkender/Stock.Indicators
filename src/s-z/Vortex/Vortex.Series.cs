@@ -27,15 +27,12 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            VortexResult result = new()
-            {
-                Date = q.Date
-            };
+            VortexResult r = new(q.Date);
+            results.Add(r);
 
             // skip first period
             if (i == 0)
             {
-                results.Add(result);
                 prevHigh = q.High;
                 prevLow = q.Low;
                 prevClose = q.Close;
@@ -70,12 +67,10 @@ public static partial class Indicator
 
                 if (sumTr is not 0)
                 {
-                    result.Pvi = sumPvm / sumTr;
-                    result.Nvi = sumNvm / sumTr;
+                    r.Pvi = sumPvm / sumTr;
+                    r.Nvi = sumNvm / sumTr;
                 }
             }
-
-            results.Add(result);
         }
 
         return results;

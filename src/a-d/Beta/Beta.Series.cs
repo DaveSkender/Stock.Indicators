@@ -50,9 +50,8 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpListEval[i];
 
-            BetaResult r = new()
+            BetaResult r = new(date)
             {
-                Date = date,
                 ReturnsEval = evalReturns[i],
                 ReturnsMrkt = mrktReturns[i]
             };
@@ -106,7 +105,7 @@ public static partial class Indicator
         // note: BetaType.All is ineligible for this method
 
         // initialize
-        CorrResult c = new();
+        CorrResult c = new(r.Date);
 
         List<double> dataA = new(lookbackPeriods);
         List<double> dataB = new(lookbackPeriods);

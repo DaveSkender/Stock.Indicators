@@ -61,11 +61,11 @@ public class Stc : TestBase
     public void Chainee()
     {
         IEnumerable<StcResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetStc(9, 12, 26);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(467, results.Where(x => x.Stc != null).Count());
+        Assert.AreEqual(466, results.Where(x => x.Stc != null).Count());
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class Stc : TestBase
             .GetStc(9, 12, 26)
             .GetSma(10);
 
-        Assert.AreEqual(467, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(458, results.Where(x => x.Sma != null).Count());
     }
 

@@ -54,7 +54,7 @@ public class Aroon : TestBase
             .GetAroon(25)
             .GetSma(10);
 
-        Assert.AreEqual(477, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
     }
 

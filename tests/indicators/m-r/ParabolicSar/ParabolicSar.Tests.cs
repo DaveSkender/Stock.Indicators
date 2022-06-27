@@ -89,7 +89,7 @@ public class ParabolicSar : TestBase
             .GetParabolicSar()
             .GetSma(10);
 
-        Assert.AreEqual(488, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
     }
 

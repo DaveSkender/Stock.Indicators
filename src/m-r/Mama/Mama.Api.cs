@@ -20,7 +20,8 @@ public static partial class Indicator
         double fastLimit = 0.5,
         double slowLimit = 0.05) => results
             .ToResultTuple()
-            .CalcMama(fastLimit, slowLimit);
+            .CalcMama(fastLimit, slowLimit)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<MamaResult> GetMama(

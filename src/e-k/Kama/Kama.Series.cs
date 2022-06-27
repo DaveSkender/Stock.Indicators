@@ -23,10 +23,8 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            KamaResult r = new()
-            {
-                Date = date
-            };
+            KamaResult r = new(date);
+            results.Add(r);
 
             if (i + 1 > erPeriods)
             {
@@ -67,8 +65,6 @@ public static partial class Indicator
             {
                 r.Kama = value;
             }
-
-            results.Add(r);
         }
 
         return results;

@@ -20,7 +20,8 @@ public static partial class Indicator
         int lookbackPeriods,
         int? signalPeriods = null) => results
             .ToResultTuple()
-            .CalcTrix(lookbackPeriods, signalPeriods);
+            .CalcTrix(lookbackPeriods, signalPeriods)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<TrixResult> GetTrix(

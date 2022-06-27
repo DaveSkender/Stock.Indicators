@@ -34,11 +34,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AdxResult result = new()
-            {
-                Date = q.Date
-            };
-            results.Add(result);
+            AdxResult r = new(q.Date);
+            results.Add(r);
 
             // skip first period
             if (i == 0)
@@ -104,8 +101,8 @@ public static partial class Indicator
             double pdi = 100 * pdm / (double)trs;
             double mdi = 100 * mdm / (double)trs;
 
-            result.Pdi = pdi;
-            result.Mdi = mdi;
+            r.Pdi = pdi;
+            r.Mdi = mdi;
 
             // calculate ADX
             double dx = (pdi + mdi == 0)
@@ -116,11 +113,11 @@ public static partial class Indicator
             if (i + 1 > 2 * lookbackPeriods)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
-                result.Adx = adx;
+                r.Adx = adx;
 
                 double? priorAdx = results[i + 1 - lookbackPeriods].Adx;
 
-                result.Adxr = (adx + priorAdx) / 2;
+                r.Adxr = (adx + priorAdx) / 2;
                 prevAdx = adx;
             }
 
@@ -129,7 +126,7 @@ public static partial class Indicator
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;
-                result.Adx = adx;
+                r.Adx = adx;
                 prevAdx = adx;
             }
 

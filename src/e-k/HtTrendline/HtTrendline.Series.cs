@@ -36,10 +36,8 @@ public static partial class Indicator
             (DateTime date, double value) = tpList[i];
             pr[i] = value;
 
-            HtlResult r = new()
-            {
-                Date = date,
-            };
+            HtlResult r = new(date);
+            results.Add(r);
 
             if (i > 5)
             {
@@ -133,8 +131,6 @@ public static partial class Indicator
 
                 sd[i] = 0;
             }
-
-            results.Add(r);
         }
 
         return results;

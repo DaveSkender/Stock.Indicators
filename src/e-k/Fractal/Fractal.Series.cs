@@ -21,10 +21,8 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            FractalResult r = new()
-            {
-                Date = q.Date
-            };
+            FractalResult r = new(q.Date);
+            results.Add(r);
 
             if (i + 1 > leftSpan && i + 1 <= quotesList.Count - rightSpan)
             {
@@ -78,8 +76,6 @@ public static partial class Indicator
                     r.FractalBull = evalLow;
                 }
             }
-
-            results.Add(r);
         }
 
         return results;

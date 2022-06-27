@@ -22,7 +22,8 @@ public static partial class Indicator
         int smoothPeriods = 20,
         int signalPeriods = 10) => results
             .ToResultTuple()
-            .CalcPmo(timePeriods, smoothPeriods, signalPeriods);
+            .CalcPmo(timePeriods, smoothPeriods, signalPeriods)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<PmoResult> GetPmo(
