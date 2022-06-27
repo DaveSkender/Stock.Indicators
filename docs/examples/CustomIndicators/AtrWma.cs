@@ -6,7 +6,7 @@ namespace Custom.Stock.Indicators;
 // This inherits many of the extension methods, like .RemoveWarmupPeriods()
 public class AtrWmaResult : ResultBase
 {
-    public decimal? AtrWma { get; set; }
+    public double? AtrWma { get; set; }
 }
 
 public static class CustomIndicators
@@ -43,13 +43,13 @@ public static class CustomIndicators
             // only do calculations after uncalculable periods
             if (i >= lookbackPeriods - 1)
             {
-                decimal? sumWma = 0;
-                decimal? sumAtr = 0;
+                double? sumWma = 0;
+                double? sumAtr = 0;
 
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    decimal close = quotesList[p].Close;
-                    decimal? atr = atrResults[p]?.Atr;
+                    double close = (double)quotesList[p].Close;
+                    double? atr = atrResults[p]?.Atr;
 
                     sumWma += atr * close;
                     sumAtr += atr;
