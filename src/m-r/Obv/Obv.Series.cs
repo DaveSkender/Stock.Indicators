@@ -34,12 +34,11 @@ public static partial class Indicator
                 obv -= q.Volume;
             }
 
-            ObvResult result = new()
+            ObvResult r = new(q.Date)
             {
-                Date = q.Date,
                 Obv = obv
             };
-            results.Add(result);
+            results.Add(r);
 
             prevClose = q.Close;
 
@@ -52,7 +51,7 @@ public static partial class Indicator
                     sumSma += results[p].Obv;
                 }
 
-                result.ObvSma = sumSma / smaPeriods;
+                r.ObvSma = sumSma / smaPeriods;
             }
         }
 

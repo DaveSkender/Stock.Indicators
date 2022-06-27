@@ -58,7 +58,7 @@ public class Klinger : TestBase
             .GetKvo()
             .GetSma(10);
 
-        Assert.AreEqual(446, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(437, results.Where(x => x.Sma != null).Count());
     }
 

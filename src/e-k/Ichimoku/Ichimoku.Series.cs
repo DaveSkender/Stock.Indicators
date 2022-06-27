@@ -32,17 +32,14 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            IchimokuResult result = new()
-            {
-                Date = q.Date
-            };
-            results.Add(result);
+            IchimokuResult r = new(q.Date);
+            results.Add(r);
 
             // tenkan-sen conversion line
-            CalcIchimokuTenkanSen(i, quotesList, result, tenkanPeriods);
+            CalcIchimokuTenkanSen(i, quotesList, r, tenkanPeriods);
 
             // kijun-sen base line
-            CalcIchimokuKijunSen(i, quotesList, result, kijunPeriods);
+            CalcIchimokuKijunSen(i, quotesList, r, kijunPeriods);
 
             // senkou span A
             if (i >= senkouStartPeriod)
@@ -51,17 +48,17 @@ public static partial class Indicator
 
                 if (skq != null && skq.TenkanSen != null && skq.KijunSen != null)
                 {
-                    result.SenkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
+                    r.SenkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
                 }
             }
 
             // senkou span B
-            CalcIchimokuSenkouB(i, quotesList, result, senkouOffset, senkouBPeriods);
+            CalcIchimokuSenkouB(i, quotesList, r, senkouOffset, senkouBPeriods);
 
             // chikou line
             if (i + chikouOffset < quotesList.Count)
             {
-                result.ChikouSpan = quotesList[i + chikouOffset].Close;
+                r.ChikouSpan = quotesList[i + chikouOffset].Close;
             }
         }
 

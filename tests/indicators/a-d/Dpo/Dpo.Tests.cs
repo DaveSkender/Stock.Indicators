@@ -28,9 +28,8 @@ public class Dpo : TestBase
                 Close = csv[5].ToDecimal()
             });
 
-            exp.Add(new DpoResult
+            exp.Add(new DpoResult(date)
             {
-                Date = date,
                 Sma = csv[6].ToDoubleNull(),
                 Dpo = csv[7].ToDoubleNull()
             });
@@ -70,11 +69,11 @@ public class Dpo : TestBase
     public void Chainee()
     {
         IEnumerable<DpoResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetDpo(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(489, results.Where(x => x.Dpo != null).Count());
+        Assert.AreEqual(488, results.Where(x => x.Dpo != null).Count());
     }
 
     [TestMethod]
@@ -84,12 +83,8 @@ public class Dpo : TestBase
             .GetDpo(14)
             .GetSma(10);
 
-        foreach (SmaResult r in results)
-        {
-            Console.WriteLine($"{r.Date} {r.Sma}");
-        }
-
-        Assert.AreEqual(489, results.Where(x => x.Sma is not double.NaN).Count());
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(494, results.Where(x => x.Sma is not double.NaN).Count());
         Assert.AreEqual(480, results.Where(x => x.Sma is not null and not double.NaN).Count());
     }
 

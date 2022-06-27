@@ -34,10 +34,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            RsiResult r = new()
-            {
-                Date = date
-            };
+            RsiResult r = new(date);
             results.Add(r);
 
             gain[i] = (value > lastValue) ? value - lastValue : 0;

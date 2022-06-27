@@ -61,11 +61,11 @@ public class StdDev : TestBase
     public void Chainee()
     {
         IEnumerable<StdDevResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetStdDev(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
+        Assert.AreEqual(492, results.Where(x => x.StdDev != null).Count());
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class StdDev : TestBase
             .GetStdDev(10)
             .GetSma(10);
 
-        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
     }
 

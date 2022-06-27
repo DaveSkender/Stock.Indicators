@@ -32,10 +32,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KeltnerResult result = new()
-            {
-                Date = q.Date
-            };
+            KeltnerResult r = new(q.Date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -43,14 +41,12 @@ public static partial class Indicator
                 AtrResult atr = atrResults[i];
                 double? atrSpan = atr.Atr * multiplier;
 
-                result.UpperBand = ema.Ema + atrSpan;
-                result.LowerBand = ema.Ema - atrSpan;
-                result.Centerline = ema.Ema;
-                result.Width = (result.Centerline == 0) ? null
-                    : (result.UpperBand - result.LowerBand) / result.Centerline;
+                r.UpperBand = ema.Ema + atrSpan;
+                r.LowerBand = ema.Ema - atrSpan;
+                r.Centerline = ema.Ema;
+                r.Width = (r.Centerline == 0) ? null
+                    : (r.UpperBand - r.LowerBand) / r.Centerline;
             }
-
-            results.Add(result);
         }
 
         return results;

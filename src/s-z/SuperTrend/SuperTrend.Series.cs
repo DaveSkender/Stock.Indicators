@@ -24,10 +24,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SuperTrendResult r = new()
-            {
-                Date = q.Date
-            };
+            SuperTrendResult r = new(q.Date);
+            results.Add(r);
 
             if (i >= lookbackPeriods - 1)
             {
@@ -74,8 +72,6 @@ public static partial class Indicator
                     isBullish = true;
                 }
             }
-
-            results.Add(r);
         }
 
         return results;

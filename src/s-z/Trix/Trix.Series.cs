@@ -34,10 +34,8 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            TrixResult result = new()
-            {
-                Date = date
-            };
+            TrixResult r = new(date);
+            results.Add(r);
 
             if (i >= lookbackPeriods)
             {
@@ -45,15 +43,13 @@ public static partial class Indicator
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
                 double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
-                result.Ema3 = ema3;
-                result.Trix = 100 * (ema3 - lastEma3) / lastEma3;
+                r.Ema3 = ema3;
+                r.Trix = 100 * (ema3 - lastEma3) / lastEma3;
 
                 lastEma1 = ema1;
                 lastEma2 = ema2;
                 lastEma3 = ema3;
             }
-
-            results.Add(result);
 
             // optional SMA signal
             CalcTrixSignal(signalPeriods, i, lookbackPeriods, results);

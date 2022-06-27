@@ -35,10 +35,8 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            TemaResult result = new()
-            {
-                Date = date
-            };
+            TemaResult r = new(date);
+            results.Add(r);
 
             if (i > lookbackPeriods - 1)
             {
@@ -46,7 +44,7 @@ public static partial class Indicator
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
                 double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
-                result.Tema = (3 * ema1) - (3 * ema2) + ema3;
+                r.Tema = (3 * ema1) - (3 * ema2) + ema3;
 
                 lastEma1 = ema1;
                 lastEma2 = ema2;
@@ -54,10 +52,8 @@ public static partial class Indicator
             }
             else if (i == lookbackPeriods - 1)
             {
-                result.Tema = (3 * lastEma1) - (3 * lastEma2) + lastEma3;
+                r.Tema = (3 * lastEma1) - (3 * lastEma2) + lastEma3;
             }
-
-            results.Add(result);
         }
 
         return results;

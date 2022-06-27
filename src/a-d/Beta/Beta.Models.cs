@@ -3,6 +3,11 @@ namespace Skender.Stock.Indicators;
 [Serializable]
 public sealed class BetaResult : ResultBase, IReusableResult
 {
+    public BetaResult(DateTime date)
+    {
+        Date = date;
+    }
+
     public double? Beta { get; set; }
     public double? BetaUp { get; set; }
     public double? BetaDown { get; set; }

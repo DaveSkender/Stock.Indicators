@@ -56,7 +56,7 @@ public class Adx : TestBase
             .GetAdx(14)
             .GetSma(10);
 
-        Assert.AreEqual(475, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(466, results.Where(x => x.Sma != null).Count());
     }
 

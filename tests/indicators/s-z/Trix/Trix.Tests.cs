@@ -57,11 +57,11 @@ public class Trix : TestBase
     public void Chainee()
     {
         IEnumerable<TrixResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetTrix(20, 5);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Trix != null).Count());
+        Assert.AreEqual(481, results.Where(x => x.Trix != null).Count());
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Trix : TestBase
             .GetTrix(20, 5)
             .GetSma(10);
 
-        Assert.AreEqual(482, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
     }
 

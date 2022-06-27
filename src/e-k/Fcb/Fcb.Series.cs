@@ -25,10 +25,8 @@ public static partial class Indicator
         {
             FractalResult f = fractals[i];
 
-            FcbResult r = new()
-            {
-                Date = f.Date
-            };
+            FcbResult r = new(f.Date);
+            results.Add(r);
 
             if (i >= 2 * windowSpan)
             {
@@ -40,8 +38,6 @@ public static partial class Indicator
                 r.UpperBand = upperLine;
                 r.LowerBand = lowerLine;
             }
-
-            results.Add(r);
         }
 
         return results;

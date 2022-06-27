@@ -5,6 +5,11 @@ namespace Skender.Stock.Indicators;
 [Serializable]
 public sealed class StochResult : ResultBase, IReusableResult
 {
+    public StochResult(DateTime date)
+    {
+        Date = date;
+    }
+
     public double? Oscillator { get; set; }
     public double? Signal { get; set; }
     public double? PercentJ { get; set; }

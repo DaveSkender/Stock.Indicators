@@ -24,6 +24,97 @@ public static partial class Indicator
                 "If specified, the Remove Periods value must be greater than or equal to 0.")
             : results.Remove(removePeriods);
 
+    // SYNC INDEX - RESIZE TO MATCH OTHER
+    public static IEnumerable<TResultR> SyncIndex<TResultR, TResultM>(
+        this IEnumerable<TResultR> results,
+        IEnumerable<TResultM> resultsToMatch,
+        SyncType syncType = SyncType.FullMatch)
+        where TResultR : IResult
+        where TResultM : IResult
+    {
+        // initialize
+        List<TResultR> resultsList = results.ToSortedList();
+        List<TResultM> matchList = resultsToMatch.ToSortedList();
+
+        if (matchList.Count == 0 || resultsList.Count == 0)
+        {
+            return new List<TResultR>();
+        }
+
+        bool prepend = false;
+        bool append = false;
+        bool remove = false;
+
+        switch (syncType)
+        {
+            case SyncType.Prepend:
+                prepend = true;
+                break;
+
+            case SyncType.AppendOnly:
+                prepend = append = true;
+                break;
+
+            case SyncType.RemoveOnly:
+                remove = true;
+                break;
+
+            case SyncType.FullMatch:
+                prepend = append = remove = true;
+                break;
+        }
+
+        Type type = resultsList[0].GetType();
+
+        // add plugs for missing values
+        if (prepend || append)
+        {
+            List<TResultR> toAppend = new();
+
+            for (int i = 0; i < matchList.Count; i++)
+            {
+                TResultM? m = matchList[i];
+                TResultR? r = resultsList.Find(m.Date);
+
+                if (r is null)
+                {
+                    TResultR? n = (TResultR?)Activator.CreateInstance(type, m.Date);
+                    if (n != null)
+                    {
+                        toAppend.Add(n);
+                    }
+                }
+                else if (!append)
+                {
+                    break;
+                }
+            }
+
+            resultsList.AddRange(toAppend);
+        }
+
+        // remove unmatched results
+        if (remove)
+        {
+            List<TResultR> toRemove = new();
+
+            for (int i = 0; i < resultsList.Count; i++)
+            {
+                TResultR? r = resultsList[i];
+                TResultM? m = matchList.Find(r.Date);
+
+                if (m is null)
+                {
+                    toRemove.Add(r);
+                }
+            }
+
+            resultsList.RemoveAll(x => toRemove.Contains(x));
+        }
+
+        return resultsList.ToSortedList();
+    }
+
     // REMOVE RESULTS
     private static List<TResult> Remove<TResult>(
         this IEnumerable<TResult> results,
@@ -68,4 +159,11 @@ public static partial class Indicator
 
         return prices.OrderBy(x => x.Date).ToList();
     }
+
+    // RETURN SORTED LIST of RESULTS
+    internal static List<TResult> ToSortedList<TResult>(
+        this IEnumerable<TResult> results)
+        where TResult : IResult => results
+            .OrderBy(x => x.Date)
+            .ToList();
 }

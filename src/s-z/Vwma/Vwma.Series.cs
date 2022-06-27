@@ -19,10 +19,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            VwmaResult result = new()
-            {
-                Date = q.Date
-            };
+            VwmaResult r = new(q.Date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -38,10 +36,8 @@ public static partial class Indicator
                     sumVl += v;
                 }
 
-                result.Vwma = sumVl != 0 ? (sumCl / sumVl) : null;
+                r.Vwma = sumVl != 0 ? (sumCl / sumVl) : null;
             }
-
-            results.Add(result);
         }
 
         return results;

@@ -39,11 +39,11 @@ public class UlcerIndex : TestBase
     public void Chainee()
     {
         IEnumerable<UlcerIndexResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetUlcerIndex(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
+        Assert.AreEqual(488, results.Where(x => x.UI != null).Count());
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class UlcerIndex : TestBase
             .GetUlcerIndex(14)
             .GetSma(10);
 
-        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
     }
 

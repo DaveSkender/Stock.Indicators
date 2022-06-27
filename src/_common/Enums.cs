@@ -23,6 +23,18 @@ public enum EndType
     HighLow = 1
 }
 
+public enum Match
+{
+    BullConfirmed = 200,
+    BullSignal = 100,
+    BullBasis = 10,
+    Neutral = 1,
+    None = 0,
+    BearBasis = -10,
+    BearSignal = -100,
+    BearConfirmed = -200
+}
+
 public enum MaType
 {
     ALMA,
@@ -54,14 +66,10 @@ public enum PeriodSize
     OneMinute
 }
 
-public enum Match
+public enum SyncType
 {
-    BullConfirmed = 200,
-    BullSignal = 100,
-    BullBasis = 10,
-    Neutral = 1,
-    None = 0,
-    BearBasis = -10,
-    BearSignal = -100,
-    BearConfirmed = -200
+    Prepend,
+    AppendOnly,
+    RemoveOnly,
+    FullMatch
 }

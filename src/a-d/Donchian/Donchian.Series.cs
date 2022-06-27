@@ -20,10 +20,8 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            DonchianResult result = new()
-            {
-                Date = q.Date
-            };
+            DonchianResult r = new(q.Date);
+            results.Add(r);
 
             if (i >= lookbackPeriods)
             {
@@ -46,14 +44,12 @@ public static partial class Indicator
                     }
                 }
 
-                result.UpperBand = highHigh;
-                result.LowerBand = lowLow;
-                result.Centerline = (result.UpperBand + result.LowerBand) / 2m;
-                result.Width = (result.Centerline == 0) ? null
-                    : (result.UpperBand - result.LowerBand) / result.Centerline;
+                r.UpperBand = highHigh;
+                r.LowerBand = lowLow;
+                r.Centerline = (r.UpperBand + r.LowerBand) / 2m;
+                r.Width = (r.Centerline == 0) ? null
+                    : (r.UpperBand - r.LowerBand) / r.Centerline;
             }
-
-            results.Add(result);
         }
 
         return results;

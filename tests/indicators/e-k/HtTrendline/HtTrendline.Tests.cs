@@ -64,11 +64,11 @@ public class HtTrendline : TestBase
     public void Chainee()
     {
         IEnumerable<HtlResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetHtTrendline();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(502, results.Where(x => x.Trendline != null).Count());
+        Assert.AreEqual(501, results.Where(x => x.Trendline != null).Count());
     }
 
     [TestMethod]

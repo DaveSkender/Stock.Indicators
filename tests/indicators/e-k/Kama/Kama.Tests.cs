@@ -69,11 +69,11 @@ public class Kama : TestBase
     public void Chainee()
     {
         IEnumerable<KamaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetKama();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
+        Assert.AreEqual(492, results.Where(x => x.Kama != null).Count());
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public class Kama : TestBase
             .GetKama()
             .GetSma(10);
 
-        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
     }
 

@@ -42,7 +42,7 @@ public class Hurst : TestBase
             .GetHurst(100)
             .GetSma(10);
 
-        Assert.AreEqual(402, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(393, results.Where(x => x.Sma != null).Count());
     }
 

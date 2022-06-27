@@ -87,7 +87,7 @@ public class StochRsi : TestBase
             .GetStochRsi(14, 14, 3, 3)
             .GetSma(10);
 
-        Assert.AreEqual(473, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(464, results.Where(x => x.Sma != null).Count());
     }
 

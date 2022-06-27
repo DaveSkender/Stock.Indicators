@@ -20,10 +20,8 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            StdDevResult result = new()
-            {
-                Date = date,
-            };
+            StdDevResult r = new(date);
+            results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -41,14 +39,12 @@ public static partial class Indicator
 
                 double periodAvg = sum / lookbackPeriods;
 
-                result.StdDev = periodValues.StdDev();
-                result.Mean = periodAvg;
+                r.StdDev = periodValues.StdDev();
+                r.Mean = periodAvg;
 
-                result.ZScore = (result.StdDev == 0) ? double.NaN
-                    : (value - periodAvg) / result.StdDev;
+                r.ZScore = (r.StdDev == 0) ? double.NaN
+                    : (value - periodAvg) / r.StdDev;
             }
-
-            results.Add(result);
 
             // optional SMA
             if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 2)
@@ -59,7 +55,7 @@ public static partial class Indicator
                     sumSma += results[p].StdDev;
                 }
 
-                result.StdDevSma = sumSma / smaPeriods;
+                r.StdDevSma = sumSma / smaPeriods;
             }
         }
 

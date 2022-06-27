@@ -7,9 +7,8 @@ public static partial class Indicator
         this List<AlligatorResult> alligator)
     {
         List<GatorResult> results = alligator
-        .Select(x => new GatorResult
+        .Select(x => new GatorResult(x.Date)
         {
-            Date = x.Date,
             Upper = NullMath.Abs(x.Jaw - x.Teeth),
             Lower = -NullMath.Abs(x.Teeth - x.Lips)
         })

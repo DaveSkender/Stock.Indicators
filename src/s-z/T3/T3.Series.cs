@@ -29,10 +29,8 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
-            T3Result r = new()
-            {
-                Date = date
-            };
+            T3Result r = new(date);
+            results.Add(r);
 
             // first smoothing
             if (i > lookbackPeriods - 1)
@@ -141,8 +139,6 @@ public static partial class Indicator
                     sum2 = e1 = sum1 / lookbackPeriods;
                 }
             }
-
-            results.Add(r);
         }
 
         return results;

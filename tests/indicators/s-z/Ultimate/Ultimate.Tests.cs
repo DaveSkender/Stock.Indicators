@@ -37,7 +37,7 @@ public class Ultimate : TestBase
             .GetUltimate()
             .GetSma(10);
 
-        Assert.AreEqual(474, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(465, results.Where(x => x.Sma != null).Count());
     }
 

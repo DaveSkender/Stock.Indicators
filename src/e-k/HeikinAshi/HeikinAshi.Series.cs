@@ -34,16 +34,15 @@ public static partial class Indicator
             decimal[] arrL = { q.Low, open, close };
             decimal low = arrL.Min();
 
-            HeikinAshiResult result = new()
+            HeikinAshiResult r = new(q.Date)
             {
-                Date = q.Date,
                 Open = open,
                 High = high,
                 Low = low,
                 Close = close,
                 Volume = q.Volume
             };
-            results.Add(result);
+            results.Add(r);
 
             // save for next iteration
             prevOpen = open;

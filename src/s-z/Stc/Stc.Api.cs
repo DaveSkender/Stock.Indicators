@@ -22,7 +22,8 @@ public static partial class Indicator
         int fastPeriods = 23,
         int slowPeriods = 50) => results
             .ToResultTuple()
-            .CalcStc(cyclePeriods, fastPeriods, slowPeriods);
+            .CalcStc(cyclePeriods, fastPeriods, slowPeriods)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<StcResult> GetStc(

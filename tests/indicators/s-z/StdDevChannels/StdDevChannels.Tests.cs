@@ -121,7 +121,7 @@ public class StdDevChannels : TestBase
     public void Chainee()
     {
         IEnumerable<StdDevChannelsResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetStdDevChannels(20, 2);
 
         Assert.AreEqual(502, results.Count());

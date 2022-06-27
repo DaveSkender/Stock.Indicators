@@ -64,16 +64,14 @@ public static partial class Indicator
 
         for (int i = 0; i < roc.Count; i++)
         {
-            RocResult r = roc[i];
+            RocResult rocResult = roc[i];
 
-            PmoResult result = new()
-            {
-                Date = r.Date
-            };
+            PmoResult r = new(rocResult.Date);
+            results.Add(r);
 
             if (i + 1 > startIndex)
             {
-                result.RocEma = (r.Roc * smoothingMultiplier) + (lastRocEma * (1 - smoothingMultiplier));
+                r.RocEma = (rocResult.Roc * smoothingMultiplier) + (lastRocEma * (1 - smoothingMultiplier));
             }
             else if (i + 1 == startIndex)
             {
@@ -84,12 +82,11 @@ public static partial class Indicator
                     sumRoc += d.Roc;
                 }
 
-                result.RocEma = sumRoc / timePeriods;
+                r.RocEma = sumRoc / timePeriods;
             }
 
-            lastRocEma = result.RocEma;
-            result.RocEma *= 10;
-            results.Add(result);
+            lastRocEma = r.RocEma;
+            r.RocEma *= 10;
         }
 
         return results;

@@ -53,11 +53,11 @@ public class T3 : TestBase
     public void Chainee()
     {
         IEnumerable<T3Result> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetT3();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(478, results.Where(x => x.T3 != null).Count());
+        Assert.AreEqual(477, results.Where(x => x.T3 != null).Count());
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class T3 : TestBase
             .GetT3()
             .GetSma(10);
 
-        Assert.AreEqual(478, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(469, results.Where(x => x.Sma != null).Count());
     }
 

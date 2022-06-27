@@ -57,7 +57,7 @@ public class Smi : TestBase
             .GetSmi(14, 20, 5, 3)
             .GetSma(10);
 
-        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
     }
 

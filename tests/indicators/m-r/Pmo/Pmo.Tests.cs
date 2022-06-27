@@ -44,11 +44,11 @@ public class Pmo : TestBase
     public void Chainee()
     {
         IEnumerable<PmoResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetPmo();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(448, results.Where(x => x.Pmo != null).Count());
+        Assert.AreEqual(447, results.Where(x => x.Pmo != null).Count());
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class Pmo : TestBase
             .GetPmo()
             .GetSma(10);
 
-        Assert.AreEqual(448, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(439, results.Where(x => x.Sma != null).Count());
     }
 

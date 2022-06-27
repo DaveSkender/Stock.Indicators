@@ -60,11 +60,11 @@ public class Tsi : TestBase
     public void Chainee()
     {
         IEnumerable<TsiResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetTsi();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(465, results.Where(x => x.Tsi != null).Count());
+        Assert.AreEqual(464, results.Where(x => x.Tsi != null).Count());
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class Tsi : TestBase
             .GetTsi()
             .GetSma(10);
 
-        Assert.AreEqual(465, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(456, results.Where(x => x.Sma != null).Count());
     }
 

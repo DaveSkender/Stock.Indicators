@@ -20,7 +20,8 @@ public static partial class Indicator
         int lookbackPeriods,
         int? smaPeriods = null) => results
             .ToResultTuple()
-            .CalcStdDev(lookbackPeriods, smaPeriods);
+            .CalcStdDev(lookbackPeriods, smaPeriods)
+            .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<StdDevResult> GetStdDev(

@@ -86,11 +86,11 @@ public class RocWb : TestBase
     public void Chainee()
     {
         IEnumerable<RocWbResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetRocWb(20, 3, 20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(481, results.Where(x => x.Roc != null).Count());
     }
 
     [TestMethod]
@@ -100,7 +100,7 @@ public class RocWb : TestBase
             .GetRocWb(20, 3, 20)
             .GetSma(10);
 
-        Assert.AreEqual(482, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
     }
 

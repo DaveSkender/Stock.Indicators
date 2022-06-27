@@ -60,7 +60,7 @@ public class EmaBase : IStreamBase
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
             double newEma = Increment(tuple.Value, lastEma, K);
 
-            EmaResult r = new() { Date = tuple.Date, Ema = newEma };
+            EmaResult r = new(tuple.Date) { Ema = newEma };
             ProtectedResults.Add(r);
         }
 

@@ -290,11 +290,11 @@ public class MaEnvelopes : TestBase
     public void Chainee()
     {
         IEnumerable<MaEnvelopeResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetMaEnvelopes(10, 2.5, MaType.SMA);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(492, results.Where(x => x.Centerline != null).Count());
     }
 
     [TestMethod]

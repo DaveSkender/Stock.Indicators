@@ -33,27 +33,23 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            DemaResult result = new()
-            {
-                Date = date
-            };
+            DemaResult r = new(date);
+            results.Add(r);
 
             if (i > lookbackPeriods - 1)
             {
                 double? ema1 = lastEma1 + (k * (value - lastEma1));
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
 
-                result.Dema = (2d * ema1) - ema2;
+                r.Dema = (2d * ema1) - ema2;
 
                 lastEma1 = ema1;
                 lastEma2 = ema2;
             }
             else if (i == lookbackPeriods - 1)
             {
-                result.Dema = (2d * lastEma1) - lastEma2;
+                r.Dema = (2d * lastEma1) - lastEma2;
             }
-
-            results.Add(result);
         }
 
         return results;

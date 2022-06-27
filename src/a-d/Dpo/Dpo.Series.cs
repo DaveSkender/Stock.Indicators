@@ -22,10 +22,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            DpoResult r = new()
-            {
-                Date = date
-            };
+            DpoResult r = new(date);
             results.Add(r);
 
             if (i >= lookbackPeriods - offset - 1 && i < length - offset)

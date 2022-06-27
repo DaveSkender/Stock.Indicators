@@ -22,7 +22,7 @@ public static partial class Indicator
         for (int i = 0; i < initPeriods; i++)
         {
             (DateTime date, double _) = tpList[i];
-            results.Add(new StochRsiResult() { Date = date });
+            results.Add(new StochRsiResult(date));
         }
 
         // get Stochastic of RSI
@@ -49,9 +49,8 @@ public static partial class Indicator
         for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
         {
             StochResult r = stoResults[i - rsiPeriods];
-            results.Add(new StochRsiResult
+            results.Add(new StochRsiResult(r.Date)
             {
-                Date = r.Date,
                 StochRsi = r.Oscillator,
                 Signal = r.Signal
             });
