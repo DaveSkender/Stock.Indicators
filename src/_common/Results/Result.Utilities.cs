@@ -24,6 +24,21 @@ public static partial class Indicator
                 "If specified, the Remove Periods value must be greater than or equal to 0.")
             : results.Remove(removePeriods);
 
+    // CONDENSE (REMOVE null and NaN results)
+    public static IEnumerable<TResult> Condense<TResult>(
+        this IEnumerable<TResult> results)
+        where TResult : IReusableResult
+    {
+        List<TResult> resultsList = results
+            .ToList();
+
+        _ = resultsList
+            .RemoveAll(match:
+                x => x.Value == null || double.IsNaN((double)x.Value));
+
+        return resultsList.ToSortedList();
+    }
+
     // SYNC INDEX - RESIZE TO MATCH OTHER
     public static IEnumerable<TResultR> SyncIndex<TResultR, TResultM>(
         this IEnumerable<TResultR> results,
