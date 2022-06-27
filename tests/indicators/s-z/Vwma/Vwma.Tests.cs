@@ -37,7 +37,7 @@ public class Vwma : TestBase
             .GetVwma(10)
             .GetSma(10);
 
-        Assert.AreEqual(493, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
     }
 

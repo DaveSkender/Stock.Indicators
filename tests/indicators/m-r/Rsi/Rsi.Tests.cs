@@ -77,11 +77,11 @@ public class Rsi : TestBase
     public void Chainee()
     {
         IEnumerable<RsiResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetRsi(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
+        Assert.AreEqual(487, results.Where(x => x.Rsi != null).Count());
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class Rsi : TestBase
             .GetRsi(14)
             .GetSma(10);
 
-        Assert.AreEqual(488, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
     }
 

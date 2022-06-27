@@ -50,11 +50,11 @@ public class Epma : TestBase
     public void Chainee()
     {
         IEnumerable<EpmaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetEpma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Epma != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Epma != null).Count());
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class Epma : TestBase
             .GetEpma(20)
             .GetSma(10);
 
-        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 

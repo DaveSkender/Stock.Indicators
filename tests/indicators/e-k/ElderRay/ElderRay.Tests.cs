@@ -58,7 +58,7 @@ public class ElderRay : TestBase
             .GetElderRay(13)
             .GetSma(10);
 
-        Assert.AreEqual(490, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(481, results.Where(x => x.Sma != null).Count());
     }
 

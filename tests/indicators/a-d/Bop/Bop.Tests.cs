@@ -42,7 +42,7 @@ public class Bop : TestBase
             .GetBop(14)
             .GetSma(10);
 
-        Assert.AreEqual(489, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
     }
 

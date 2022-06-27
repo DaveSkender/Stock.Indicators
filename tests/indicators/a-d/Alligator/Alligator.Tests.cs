@@ -65,11 +65,11 @@ public class Alligator : TestBase
     public void Chainee()
     {
         IEnumerable<AlligatorResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetAlligator();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
+        Assert.AreEqual(481, results.Where(x => x.Jaw != null).Count());
     }
 
     [TestMethod]

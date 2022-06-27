@@ -67,11 +67,11 @@ public class Mama : TestBase
     public void Chainee()
     {
         IEnumerable<MamaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetMama();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
+        Assert.AreEqual(496, results.Where(x => x.Mama != null).Count());
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class Mama : TestBase
             .GetMama()
             .GetSma(10);
 
-        Assert.AreEqual(497, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(488, results.Where(x => x.Sma != null).Count());
     }
 

@@ -56,11 +56,11 @@ public class ConnorsRsi : TestBase
     public void Chainee()
     {
         IEnumerable<ConnorsRsiResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetConnorsRsi();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(401, results.Where(x => x.ConnorsRsi != null).Count());
+        Assert.AreEqual(400, results.Where(x => x.ConnorsRsi != null).Count());
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class ConnorsRsi : TestBase
             .GetConnorsRsi()
             .GetSma(10);
 
-        Assert.AreEqual(401, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(392, results.Where(x => x.Sma != null).Count());
     }
 

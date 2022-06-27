@@ -45,11 +45,11 @@ public class EmaTests : TestBase
     public void Chainee()
     {
         IEnumerable<EmaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetEma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Ema != null).Count());
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class EmaTests : TestBase
             .GetEma(20)
             .GetSma(10);
 
-        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 

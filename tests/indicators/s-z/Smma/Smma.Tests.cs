@@ -45,11 +45,11 @@ public class Smma : TestBase
     public void Chainee()
     {
         IEnumerable<SmmaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetSmma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Smma != null).Count());
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class Smma : TestBase
             .GetSmma(20)
             .GetSma(10);
 
-        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 

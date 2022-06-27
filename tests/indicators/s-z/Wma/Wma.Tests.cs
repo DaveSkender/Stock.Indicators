@@ -41,11 +41,11 @@ public class Wma : TestBase
     public void Chainee()
     {
         IEnumerable<WmaResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetWma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Wma != null).Count());
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class Wma : TestBase
             .GetWma(20)
             .GetSma(10);
 
-        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 

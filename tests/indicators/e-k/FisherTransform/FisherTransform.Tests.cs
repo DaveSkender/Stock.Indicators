@@ -66,7 +66,7 @@ public class FisherTransform : TestBase
     public void Chainee()
     {
         IEnumerable<FisherTransformResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetFisherTransform(10);
 
         Assert.AreEqual(502, results.Count());

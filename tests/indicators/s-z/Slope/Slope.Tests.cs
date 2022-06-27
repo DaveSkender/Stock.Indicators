@@ -58,11 +58,11 @@ public class Slope : TestBase
     public void Chainee()
     {
         IEnumerable<SlopeResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetSlope(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
+        Assert.AreEqual(482, results.Where(x => x.Slope != null).Count());
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class Slope : TestBase
             .GetSlope(20)
             .GetSma(10);
 
-        Assert.AreEqual(483, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
     }
 

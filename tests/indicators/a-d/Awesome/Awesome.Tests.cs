@@ -51,11 +51,11 @@ public class Awesome : TestBase
     public void Chainee()
     {
         IEnumerable<AwesomeResult> results = quotes
-            .GetSma(1)
+            .GetSma(2)
             .GetAwesome();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(469, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(468, results.Where(x => x.Oscillator != null).Count());
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class Awesome : TestBase
             .GetAwesome()
             .GetSma(10);
 
-        Assert.AreEqual(469, results.Count());
+        Assert.AreEqual(502, results.Count());
         Assert.AreEqual(460, results.Where(x => x.Sma != null).Count());
     }
 
