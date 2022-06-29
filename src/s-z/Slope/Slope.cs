@@ -14,7 +14,8 @@ public static partial class Indicator
         // convert quotes
         List<(DateTime Date, double Value)> tpList
             = quotes.ToBasicTuple(candlePart);
-        List<BasicData> bdList = quotes.ToBasicClass(candlePart);
+
+        // List<BasicData> bdList = quotes.ToBasicClass(candlePart);
 
         // check parameter arguments
         ValidateSlope(lookbackPeriods);
