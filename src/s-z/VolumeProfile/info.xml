@@ -17,7 +17,7 @@
     </para>
   </summary>
   <param name="quotes">Historical price quotes.</param>
-  <param name="precision">Price increment = 10^(-precision). Precision 3 = 0.001</param>
+  <param name="precision">Width of each volume slice.</param>
   <returns>Time series of volume-per-price values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </indicator>

@@ -12,25 +12,27 @@ public class VpvrResult : ResultBase
             throw new ArgumentNullException(nameof(quote));
         }
 
-        if (previousResult is null)
-        {
-            throw new ArgumentNullException(nameof(previousResult));
-        }
-
         Date = quote.Date;
         High = quote.High;
         Low = quote.Low;
         Volume = quote.Volume;
     }
 
-    internal int currentPrecision;
     private VpvrResult previousResult;
 
     public decimal High { get; private set; }
     public decimal Low { get; private set; }
     public decimal Volume { get; private set; }
     public IEnumerable<VpvrValue> VolumeProfile { get; internal set; }
-    public IEnumerable<VpvrValue> CumulativeVolumeProfile => cumulativeVolumeProfile.Select((kvp) => new VpvrValue(kvp.Key, kvp.Value));
+    public IEnumerable<VpvrValue> CumulativeVolumeProfile
+    {
+        get
+        {
+            List<VpvrValue> vpvrValues = cumulativeVolumeProfile.Select((kvp) => new VpvrValue(kvp.Key, kvp.Value)).ToList();
+            vpvrValues.Sort((first, second) => first.Price.CompareTo(second.Price));
+            return vpvrValues;
+        }
+    }
     private Dictionary<decimal, decimal> cumulativeVolumeProfile
     {
         get
