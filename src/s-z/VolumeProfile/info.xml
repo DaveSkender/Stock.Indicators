@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<indicator>
+  <summary>
+    Volume Profile breaks down historical volume data by price. The length of the bars represents the volume traded at each price, and indicates prices where significant support/resistance was encountered.
+    Institutions do not create new orders based on the real-time price, at maximum precision, at a specific moment. Expecting to make X% profit, they post orders for Y volume, at Z price, then wait.
+    The volume above/below that price is immediately consumed, as a taker, creating a void in the available volume around that price.
+    As other investors adjust their orders to undercut, or "me too," that same price, the volume available concentrates around that price even further, expanding the void.
+    Those orders, and the voids between them, appear as hills and valleys in the volume profile, representing normal volatility.
+    Over time, the hills around those prices turn into tall mountains, with steep cliffs.
+    A gap between any two such cliffs indicates that wicking is likely to occur between them.
+    To profit, place limit orders at the prices with the longest volume profile bars. (Not financial advice!) :)
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/VolumeProfile/#content">documentation</see>
+      for more information.
+    </para>
+  </summary>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="precision">Price increment = 10^(-precision). Precision 3 = 0.001</param>
+  <returns>Time series of volume-per-price values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+</indicator>
