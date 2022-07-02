@@ -38,6 +38,9 @@
     <None Update="_common\data\bitcoin.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="_common\data\btcusdnan.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="_common\data\compare.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

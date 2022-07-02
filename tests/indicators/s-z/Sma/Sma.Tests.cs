@@ -111,6 +111,19 @@ public class Sma : TestBase
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<SmaResult> results = TestData.GetBtcUsdNan()
+            .GetSma(50);
+
+        List<SmaResult> nansList = results
+            .Where(x => x.Sma == double.NaN)
+            .ToList();
+
+        Assert.AreEqual(0, nansList.Count);
+    }
+
     // bad lookback period
     [TestMethod]
     public void Exceptions()
