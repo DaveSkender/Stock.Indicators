@@ -21,7 +21,7 @@ public class ParabolicSar : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Sar != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -58,7 +58,7 @@ public class ParabolicSar : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Sar != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -90,7 +90,7 @@ public class ParabolicSar : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class ParabolicSar : TestBase
 
         // proper quantities
         Assert.AreEqual(10, results.Count);
-        Assert.AreEqual(0, results.Where(x => x.Sar != null).Count());
+        Assert.AreEqual(0, results.Count(x => x.Sar != null));
     }
 
     [TestMethod]
@@ -119,6 +119,7 @@ public class ParabolicSar : TestBase
     {
         IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Sar == double.NaN));
     }
 
     [TestMethod]

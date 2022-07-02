@@ -18,12 +18,12 @@ public class BollingerBands : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.LowerBand != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.PercentB != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.ZScore != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.Width != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(483, results.Count(x => x.LowerBand != null));
+        Assert.AreEqual(483, results.Count(x => x.PercentB != null));
+        Assert.AreEqual(483, results.Count(x => x.ZScore != null));
+        Assert.AreEqual(483, results.Count(x => x.Width != null));
 
         // sample values
         BollingerBandsResult r1 = results[249];
@@ -51,7 +51,7 @@ public class BollingerBands : TestBase
             .GetBollingerBands();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class BollingerBands : TestBase
             .GetBollingerBands();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.UpperBand != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class BollingerBands : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -81,6 +81,7 @@ public class BollingerBands : TestBase
     {
         IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(badQuotes, 15, 3);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperBand == double.NaN));
     }
 
     [TestMethod]

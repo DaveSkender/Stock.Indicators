@@ -16,8 +16,8 @@ public class Pmo : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(448, results.Where(x => x.Pmo != null).Count());
-        Assert.AreEqual(439, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(448, results.Count(x => x.Pmo != null));
+        Assert.AreEqual(439, results.Count(x => x.Signal != null));
 
         // sample values
         PmoResult r1 = results[92];
@@ -37,7 +37,7 @@ public class Pmo : TestBase
             .GetPmo();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(448, results.Where(x => x.Pmo != null).Count());
+        Assert.AreEqual(448, results.Count(x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public class Pmo : TestBase
             .GetPmo();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(447, results.Where(x => x.Pmo != null).Count());
+        Assert.AreEqual(447, results.Count(x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class Pmo : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(439, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(439, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -67,6 +67,7 @@ public class Pmo : TestBase
     {
         IEnumerable<PmoResult> r = Indicator.GetPmo(badQuotes, 25, 15, 5);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Pmo == double.NaN));
     }
 
     [TestMethod]

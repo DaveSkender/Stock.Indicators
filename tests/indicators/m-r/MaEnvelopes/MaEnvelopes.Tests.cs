@@ -18,7 +18,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -49,7 +49,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[38];
@@ -80,7 +80,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -111,7 +111,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -142,7 +142,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r2 = results[149];
@@ -168,7 +168,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -199,7 +199,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -230,7 +230,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[57];
@@ -261,7 +261,7 @@ public class MaEnvelopes : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[149];
@@ -283,7 +283,7 @@ public class MaEnvelopes : TestBase
             .GetMaEnvelopes(10, 2.5, MaType.SMA);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -294,7 +294,7 @@ public class MaEnvelopes : TestBase
             .GetMaEnvelopes(10, 2.5, MaType.SMA);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(492, results.Where(x => x.Centerline != null).Count());
+        Assert.AreEqual(492, results.Count(x => x.Centerline != null));
     }
 
     [TestMethod]

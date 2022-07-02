@@ -20,7 +20,7 @@ public class SuperTrend : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Where(x => x.SuperTrend != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.SuperTrend != null));
 
         // sample values
         SuperTrendResult r1 = results[12];

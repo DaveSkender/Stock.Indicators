@@ -16,7 +16,7 @@ public class Tema : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Tema != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Tema != null));
 
         // sample values
         TemaResult r25 = results[25];
@@ -40,7 +40,7 @@ public class Tema : TestBase
             .GetTema(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Tema != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Tema != null));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Tema : TestBase
             .GetTema(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Tema != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Tema != null));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class Tema : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -70,6 +70,7 @@ public class Tema : TestBase
     {
         IEnumerable<TemaResult> r = Indicator.GetTema(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Tema == double.NaN));
     }
 
     [TestMethod]

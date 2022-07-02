@@ -16,8 +16,8 @@ public class Fcb : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(493, results.Where(x => x.LowerBand != null).Count());
+        Assert.AreEqual(497, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(493, results.Count(x => x.LowerBand != null));
 
         // sample values
         FcbResult r1 = results[4];
@@ -77,11 +77,9 @@ public class Fcb : TestBase
         Assert.AreEqual(229.42m, last.LowerBand);
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetFcb(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetFcb(quotes, 1));
 }

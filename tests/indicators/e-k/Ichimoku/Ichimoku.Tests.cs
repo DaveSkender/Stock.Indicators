@@ -22,11 +22,11 @@ public class Ichimoku : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(494, results.Where(x => x.TenkanSen != null).Count());
-        Assert.AreEqual(477, results.Where(x => x.KijunSen != null).Count());
-        Assert.AreEqual(451, results.Where(x => x.SenkouSpanA != null).Count());
-        Assert.AreEqual(425, results.Where(x => x.SenkouSpanB != null).Count());
-        Assert.AreEqual(476, results.Where(x => x.ChikouSpan != null).Count());
+        Assert.AreEqual(494, results.Count(x => x.TenkanSen != null));
+        Assert.AreEqual(477, results.Count(x => x.KijunSen != null));
+        Assert.AreEqual(451, results.Count(x => x.SenkouSpanA != null));
+        Assert.AreEqual(425, results.Count(x => x.SenkouSpanB != null));
+        Assert.AreEqual(476, results.Count(x => x.ChikouSpan != null));
 
         // sample values
         IchimokuResult r1 = results[51];

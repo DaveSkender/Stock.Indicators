@@ -21,8 +21,8 @@ public class Kama : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Where(x => x.ER != null).Count());
-        Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
+        Assert.AreEqual(492, results.Count(x => x.ER != null));
+        Assert.AreEqual(493, results.Count(x => x.Kama != null));
 
         // sample values
         KamaResult r1 = results[8];
@@ -62,7 +62,7 @@ public class Kama : TestBase
             .GetKama();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Kama != null));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Kama : TestBase
             .GetKama();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(492, results.Where(x => x.Kama != null).Count());
+        Assert.AreEqual(492, results.Count(x => x.Kama != null));
     }
 
     [TestMethod]
@@ -84,7 +84,7 @@ public class Kama : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -92,6 +92,7 @@ public class Kama : TestBase
     {
         IEnumerable<KamaResult> r = Indicator.GetKama(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Kama == double.NaN));
     }
 
     [TestMethod]

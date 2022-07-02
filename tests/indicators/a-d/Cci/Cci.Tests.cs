@@ -16,7 +16,7 @@ public class Cci : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Cci != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Cci != null));
 
         // sample value
         CciResult r = results[501];
@@ -31,7 +31,7 @@ public class Cci : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -39,6 +39,7 @@ public class Cci : TestBase
     {
         IEnumerable<CciResult> r = Indicator.GetCci(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Cci == double.NaN));
     }
 
     [TestMethod]
@@ -65,11 +66,9 @@ public class Cci : TestBase
         Assert.AreEqual(-52.9946, NullMath.Round(last.Cci, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetCci(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetCci(quotes, 0));
 }

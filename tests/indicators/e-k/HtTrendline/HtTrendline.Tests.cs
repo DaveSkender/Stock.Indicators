@@ -16,8 +16,8 @@ public class HtTrendline : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Where(x => x.Trendline != null).Count());
-        Assert.AreEqual(496, results.Where(x => x.SmoothPrice != null).Count());
+        Assert.AreEqual(502, results.Count(x => x.Trendline != null));
+        Assert.AreEqual(496, results.Count(x => x.SmoothPrice != null));
 
         // sample values
         HtlResult r1 = results[5];
@@ -57,7 +57,7 @@ public class HtTrendline : TestBase
             .GetHtTrendline();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(502, results.Where(x => x.Trendline != null).Count());
+        Assert.AreEqual(502, results.Count(x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class HtTrendline : TestBase
             .GetHtTrendline();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(501, results.Where(x => x.Trendline != null).Count());
+        Assert.AreEqual(501, results.Count(x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class HtTrendline : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -87,6 +87,7 @@ public class HtTrendline : TestBase
     {
         IEnumerable<HtlResult> r = Indicator.GetHtTrendline(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Trendline == double.NaN));
     }
 
     [TestMethod]

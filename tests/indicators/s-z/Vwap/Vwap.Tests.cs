@@ -20,7 +20,7 @@ public class Vwap : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(391, results.Count);
-        Assert.AreEqual(391, results.Where(x => x.Vwap != null).Count());
+        Assert.AreEqual(391, results.Count(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[0];
@@ -49,7 +49,7 @@ public class Vwap : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(391, results.Count);
-        Assert.AreEqual(361, results.Where(x => x.Vwap != null).Count());
+        Assert.AreEqual(361, results.Count(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[29];
@@ -73,7 +73,7 @@ public class Vwap : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -81,6 +81,7 @@ public class Vwap : TestBase
     {
         IEnumerable<VwapResult> r = Indicator.GetVwap(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Vwap == double.NaN));
     }
 
     [TestMethod]

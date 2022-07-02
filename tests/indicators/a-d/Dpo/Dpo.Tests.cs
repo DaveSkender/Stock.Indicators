@@ -62,7 +62,7 @@ public class Dpo : TestBase
             .GetDpo(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(489, results.Where(x => x.Dpo != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Dpo : TestBase
             .GetDpo(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(488, results.Where(x => x.Dpo != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -84,8 +84,8 @@ public class Dpo : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(494, results.Where(x => x.Sma is not double.NaN).Count());
-        Assert.AreEqual(480, results.Where(x => x.Sma is not null and not double.NaN).Count());
+        Assert.AreEqual(494, results.Count(x => x.Sma is not double.NaN));
+        Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]
@@ -93,6 +93,7 @@ public class Dpo : TestBase
     {
         IEnumerable<DpoResult> r = badQuotes.GetDpo(5);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Dpo == double.NaN));
     }
 
     [TestMethod]

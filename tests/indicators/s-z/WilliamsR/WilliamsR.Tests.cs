@@ -17,7 +17,7 @@ public class WilliamsR : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Where(x => x.WilliamsR != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.WilliamsR != null));
 
         // sample values
         WilliamsResult r1 = results[343];
@@ -35,7 +35,7 @@ public class WilliamsR : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -43,6 +43,7 @@ public class WilliamsR : TestBase
     {
         IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.WilliamsR == double.NaN));
     }
 
     [TestMethod]

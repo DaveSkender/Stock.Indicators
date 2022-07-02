@@ -16,7 +16,7 @@ public class SmaExtended : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample value
         SmaAnalysis r = results[501];
@@ -34,7 +34,7 @@ public class SmaExtended : TestBase
             .GetSmaAnalysis(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class SmaExtended : TestBase
             .GetSmaAnalysis(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -56,7 +56,7 @@ public class SmaExtended : TestBase
             .GetEma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(484, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(484, results.Count(x => x.Ema != null));
     }
 
     [TestMethod]
@@ -64,6 +64,7 @@ public class SmaExtended : TestBase
     {
         IEnumerable<SmaAnalysis> r = Indicator.GetSmaAnalysis(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Mape == double.NaN));
     }
 
     [TestMethod]

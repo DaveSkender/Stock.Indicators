@@ -24,10 +24,10 @@ public class Keltner : TestBase
         Assert.AreEqual(502, results.Count);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.Centerline != null).Count());
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.LowerBand != null).Count());
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.Width != null).Count());
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.Centerline != null));
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.LowerBand != null));
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.Width != null));
 
         // sample value
         KeltnerResult r1 = results[485];
@@ -48,6 +48,7 @@ public class Keltner : TestBase
     {
         IEnumerable<KeltnerResult> r = Indicator.GetKeltner(badQuotes, 10, 3, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperBand == double.NaN));
     }
 
     [TestMethod]

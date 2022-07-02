@@ -15,7 +15,7 @@ public class Cmf : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Cmf != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Cmf != null));
 
         // sample values
         CmfResult r1 = results[49];
@@ -42,7 +42,7 @@ public class Cmf : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -50,6 +50,7 @@ public class Cmf : TestBase
     {
         IEnumerable<CmfResult> r = Indicator.GetCmf(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Cmf == double.NaN));
     }
 
     [TestMethod]
@@ -85,11 +86,9 @@ public class Cmf : TestBase
         Assert.AreEqual(-0.123754, NullMath.Round(last.Cmf, 6));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetCmf(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetCmf(quotes, 0));
 }

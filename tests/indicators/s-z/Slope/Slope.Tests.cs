@@ -16,9 +16,9 @@ public class Slope : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.StdDev != null).Count());
-        Assert.AreEqual(20, results.Where(x => x.Line != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Slope != null));
+        Assert.AreEqual(483, results.Count(x => x.StdDev != null));
+        Assert.AreEqual(20, results.Count(x => x.Line != null));
 
         // sample values
         SlopeResult r1 = results[249];
@@ -51,7 +51,7 @@ public class Slope : TestBase
             .GetSlope(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Slope != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class Slope : TestBase
             .GetSlope(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Slope != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Slope : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -81,6 +81,7 @@ public class Slope : TestBase
     {
         IEnumerable<SlopeResult> r = badQuotes.GetSlope(15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Slope == double.NaN));
     }
 
     [TestMethod]

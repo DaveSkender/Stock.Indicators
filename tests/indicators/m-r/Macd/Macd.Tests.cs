@@ -22,9 +22,9 @@ public class Macd : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Where(x => x.Macd != null).Count());
-        Assert.AreEqual(469, results.Where(x => x.Signal != null).Count());
-        Assert.AreEqual(469, results.Where(x => x.Histogram != null).Count());
+        Assert.AreEqual(477, results.Count(x => x.Macd != null));
+        Assert.AreEqual(469, results.Count(x => x.Signal != null));
+        Assert.AreEqual(469, results.Count(x => x.Histogram != null));
 
         // sample values
         MacdResult r49 = results[49];
@@ -57,7 +57,7 @@ public class Macd : TestBase
             .GetMacd();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(477, results.Where(x => x.Macd != null).Count());
+        Assert.AreEqual(477, results.Count(x => x.Macd != null));
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class Macd : TestBase
             .GetMacd();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(476, results.Where(x => x.Macd != null).Count());
+        Assert.AreEqual(476, results.Count(x => x.Macd != null));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class Macd : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -87,6 +87,7 @@ public class Macd : TestBase
     {
         IEnumerable<MacdResult> r = Indicator.GetMacd(badQuotes, 10, 20, 5);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Macd == double.NaN));
     }
 
     [TestMethod]

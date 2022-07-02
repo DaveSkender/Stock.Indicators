@@ -17,7 +17,7 @@ public class EmaTests : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -38,7 +38,7 @@ public class EmaTests : TestBase
             .GetEma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Ema != null));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class EmaTests : TestBase
             .GetEma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Ema != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class EmaTests : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class EmaTests : TestBase
 
         // assertions
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(469, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(469, results.Count(x => x.Ema != null));
 
         // sample values
         EmaResult r32 = results[32];
@@ -135,7 +135,7 @@ public class EmaTests : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -153,6 +153,7 @@ public class EmaTests : TestBase
     {
         IEnumerable<EmaResult> r = Indicator.GetEma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Ema == double.NaN));
     }
 
     [TestMethod]

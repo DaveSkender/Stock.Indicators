@@ -16,7 +16,7 @@ public class Epma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Epma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Epma != null));
 
         // sample values
         EpmaResult r1 = results[18];
@@ -43,7 +43,7 @@ public class Epma : TestBase
             .GetEpma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Epma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Epma != null));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Epma : TestBase
             .GetEpma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Epma != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Epma != null));
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class Epma : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -73,6 +73,7 @@ public class Epma : TestBase
     {
         IEnumerable<EpmaResult> r = Indicator.GetEpma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Epma == double.NaN));
     }
 
     [TestMethod]

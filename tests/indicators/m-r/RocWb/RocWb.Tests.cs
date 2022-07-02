@@ -16,10 +16,10 @@ public class RocWb : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
-        Assert.AreEqual(480, results.Where(x => x.RocEma != null).Count());
-        Assert.AreEqual(463, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(463, results.Where(x => x.LowerBand != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.AreEqual(480, results.Count(x => x.RocEma != null));
+        Assert.AreEqual(463, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(463, results.Count(x => x.LowerBand != null));
 
         // sample values
         RocWbResult r19 = results[19];
@@ -79,7 +79,7 @@ public class RocWb : TestBase
             .GetRocWb(20, 3, 20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class RocWb : TestBase
             .GetRocWb(20, 3, 20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(481, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(481, results.Count(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class RocWb : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -109,6 +109,7 @@ public class RocWb : TestBase
     {
         IEnumerable<RocWbResult> r = Indicator.GetRocWb(badQuotes, 35, 3, 35);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Roc == double.NaN));
     }
 
     [TestMethod]

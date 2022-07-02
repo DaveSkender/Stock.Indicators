@@ -15,7 +15,7 @@ public class Obv : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Where(x => x.ObvSma == null).Count());
+        Assert.AreEqual(502, results.Count(x => x.ObvSma == null));
 
         // sample values
         ObvResult r1 = results[249];
@@ -36,7 +36,7 @@ public class Obv : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.ObvSma != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.ObvSma != null));
 
         // sample values
         ObvResult r1 = results[501];
@@ -52,7 +52,7 @@ public class Obv : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -60,6 +60,7 @@ public class Obv : TestBase
     {
         IEnumerable<ObvResult> r = badQuotes.GetObv();
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
     }
 
     [TestMethod]
@@ -79,11 +80,9 @@ public class Obv : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad SMA period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetObv(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetObv(quotes, 0));
 }

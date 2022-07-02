@@ -16,7 +16,7 @@ public class Wma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Wma != null));
 
         // sample values
         WmaResult r1 = results[149];
@@ -34,7 +34,7 @@ public class Wma : TestBase
             .GetWma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class Wma : TestBase
             .GetWma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Wma != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -56,7 +56,7 @@ public class Wma : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -87,6 +87,7 @@ public class Wma : TestBase
     {
         IEnumerable<WmaResult> r = Indicator.GetWma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Wma == double.NaN));
     }
 
     [TestMethod]

@@ -16,7 +16,7 @@ public class Vortex : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Pvi != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Pvi != null));
 
         // sample values
         VortexResult r1 = results[13];
@@ -45,6 +45,7 @@ public class Vortex : TestBase
     {
         IEnumerable<VortexResult> r = Indicator.GetVortex(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Pvi == double.NaN));
     }
 
     [TestMethod]

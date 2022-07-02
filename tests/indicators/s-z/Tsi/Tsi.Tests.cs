@@ -16,8 +16,8 @@ public class Tsi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(465, results.Where(x => x.Tsi != null).Count());
-        Assert.AreEqual(459, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
+        Assert.AreEqual(459, results.Count(x => x.Signal != null));
 
         // sample values
         TsiResult r2 = results[37];
@@ -53,7 +53,7 @@ public class Tsi : TestBase
             .GetTsi();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(465, results.Where(x => x.Tsi != null).Count());
+        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class Tsi : TestBase
             .GetTsi();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(464, results.Where(x => x.Tsi != null).Count());
+        Assert.AreEqual(464, results.Count(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class Tsi : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(456, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(456, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -83,6 +83,7 @@ public class Tsi : TestBase
     {
         IEnumerable<TsiResult> r = Indicator.GetTsi(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Tsi == double.NaN));
     }
 
     [TestMethod]

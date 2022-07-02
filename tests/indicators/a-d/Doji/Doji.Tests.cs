@@ -15,7 +15,7 @@ public class Doji : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(112, results.Where(x => x.Match != Match.None).Count());
+        Assert.AreEqual(112, results.Count(x => x.Match != Match.None));
 
         // sample values
         CandleResult r1 = results[1];

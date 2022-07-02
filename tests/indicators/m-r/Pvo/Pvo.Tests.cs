@@ -22,9 +22,9 @@ public class Pvo : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Where(x => x.Pvo != null).Count());
-        Assert.AreEqual(469, results.Where(x => x.Signal != null).Count());
-        Assert.AreEqual(469, results.Where(x => x.Histogram != null).Count());
+        Assert.AreEqual(477, results.Count(x => x.Pvo != null));
+        Assert.AreEqual(469, results.Count(x => x.Signal != null));
+        Assert.AreEqual(469, results.Count(x => x.Histogram != null));
 
         // sample values
         PvoResult r1 = results[24];
@@ -61,7 +61,7 @@ public class Pvo : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -69,6 +69,7 @@ public class Pvo : TestBase
     {
         IEnumerable<PvoResult> r = Indicator.GetPvo(badQuotes, 10, 20, 5);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Pvo == double.NaN));
     }
 
     [TestMethod]

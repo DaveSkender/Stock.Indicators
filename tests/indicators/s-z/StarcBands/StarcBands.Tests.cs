@@ -23,9 +23,9 @@ public class StarcBands : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.LowerBand != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(483, results.Count(x => x.LowerBand != null));
 
         // sample value
         StarcBandsResult r1 = results[18];
@@ -59,6 +59,7 @@ public class StarcBands : TestBase
     {
         IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(badQuotes, 10, 3, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperBand == double.NaN));
     }
 
     [TestMethod]

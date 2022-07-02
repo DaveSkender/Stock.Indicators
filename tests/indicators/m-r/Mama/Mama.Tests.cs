@@ -20,7 +20,7 @@ public class Mama : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
+        Assert.AreEqual(497, results.Count(x => x.Mama != null));
 
         // sample values
         MamaResult r1 = results[4];
@@ -60,7 +60,7 @@ public class Mama : TestBase
             .GetMama();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(497, results.Where(x => x.Mama != null).Count());
+        Assert.AreEqual(497, results.Count(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Mama : TestBase
             .GetMama();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(496, results.Where(x => x.Mama != null).Count());
+        Assert.AreEqual(496, results.Count(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class Mama : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(488, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -90,6 +90,7 @@ public class Mama : TestBase
     {
         IEnumerable<MamaResult> r = Indicator.GetMama(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Mama == double.NaN));
     }
 
     [TestMethod]

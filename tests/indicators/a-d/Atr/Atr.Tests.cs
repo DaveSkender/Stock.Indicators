@@ -16,7 +16,7 @@ public class Atr : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502 - 13, results.Where(x => x.Atr != null).Count());
+        Assert.AreEqual(502 - 13, results.Count(x => x.Atr != null));
 
         // sample values
         AtrResult r1 = results[12];
@@ -53,7 +53,7 @@ public class Atr : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(502 - 18, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(502 - 18, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -61,6 +61,7 @@ public class Atr : TestBase
     {
         IEnumerable<AtrResult> r = Indicator.GetAtr(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Atr == double.NaN));
     }
 
     [TestMethod]
