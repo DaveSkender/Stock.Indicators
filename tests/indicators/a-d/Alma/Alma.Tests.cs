@@ -89,7 +89,7 @@ public class Alma : TestBase
     {
         IEnumerable<AlmaResult> r = Indicator.GetAlma(badQuotes, 14, 0.5, 3);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Alma == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
     }
 
     [TestMethod]
@@ -114,6 +114,20 @@ public class Alma : TestBase
 
         AlmaResult last = results.LastOrDefault();
         Assert.AreEqual(242.1871, NullMath.Round(last.Alma, 4));
+    }
+
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<AlmaResult> r1 = TestData.GetBtcUsdNan()
+            .GetAlma(9, 0.85, 6);
+
+        Assert.AreEqual(0, r1.Count(x => x.Alma is double and double.NaN));
+
+        IEnumerable<AlmaResult> r2 = TestData.GetBtcUsdNan()
+            .GetAlma(20, 0.85, 6);
+
+        Assert.AreEqual(0, r2.Count(x => x.Alma is double and double.NaN));
     }
 
     [TestMethod]

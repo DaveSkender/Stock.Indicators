@@ -100,7 +100,7 @@ public class Rsi : TestBase
     {
         IEnumerable<RsiResult> r = badQuotes.GetRsi(20);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Rsi == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]
@@ -125,6 +125,15 @@ public class Rsi : TestBase
 
         RsiResult last = results.LastOrDefault();
         Assert.AreEqual(42.0773, NullMath.Round(last.Rsi, 4));
+    }
+
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
+            .GetRsi(14);
+
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     // bad lookback period
