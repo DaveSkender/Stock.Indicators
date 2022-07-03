@@ -22,8 +22,8 @@ public class StochRsi : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(475, results.Where(x => x.StochRsi != null).Count());
-        Assert.AreEqual(473, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
+        Assert.AreEqual(473, results.Count(x => x.Signal != null));
 
         // sample values
         StochRsiResult r1 = results[31];
@@ -59,8 +59,8 @@ public class StochRsi : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Where(x => x.StochRsi != null).Count());
-        Assert.AreEqual(471, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(473, results.Count(x => x.StochRsi != null));
+        Assert.AreEqual(471, results.Count(x => x.Signal != null));
 
         // sample values
         StochRsiResult r1 = results[31];
@@ -88,7 +88,7 @@ public class StochRsi : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(464, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(464, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -96,6 +96,7 @@ public class StochRsi : TestBase
     {
         IEnumerable<StochRsiResult> r = Indicator.GetStochRsi(badQuotes, 15, 20, 3, 2);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
     }
 
     [TestMethod]

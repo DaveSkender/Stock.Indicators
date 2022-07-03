@@ -49,7 +49,7 @@ public static partial class Indicator
                     n++;
                 }
 
-                r.Alma = weightedSum / norm;
+                r.Alma = (weightedSum / norm).NaN2Null();
             }
         }
 

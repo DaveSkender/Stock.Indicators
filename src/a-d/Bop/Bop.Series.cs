@@ -33,7 +33,7 @@ public static partial class Indicator
                     sum += raw[p];
                 }
 
-                r.Bop = sum / smoothPeriods;
+                r.Bop = (sum / smoothPeriods).NaN2Null();
             }
         }
 

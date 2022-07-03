@@ -12,7 +12,8 @@ public static partial class Indicator
         ValidateHma(lookbackPeriods);
 
         // initialize
-        List<Quote> synthHistory = new();
+        int shiftQty = lookbackPeriods - 1;
+        List<(DateTime, double)> synthHistory = new();
 
         List<WmaResult> wmaN1 = tpList.GetWma(lookbackPeriods).ToList();
         List<WmaResult> wmaN2 = tpList.GetWma(lookbackPeriods / 2).ToList();
@@ -22,24 +23,20 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            Quote sh = new()
-            {
-                Date = date
-            };
-
             WmaResult w1 = wmaN1[i];
             WmaResult w2 = wmaN2[i];
 
-            if (i >= lookbackPeriods - 1 && w1.Wma != null && w2.Wma != null)
+            if (i >= shiftQty)
             {
-                sh.Close = (decimal)((w2.Wma * 2d) - w1.Wma);
+                (DateTime, double) sh
+                    = new(date, (w2.Wma.Null2NaN() * 2d) - w1.Wma.Null2NaN());
+
                 synthHistory.Add(sh);
             }
         }
 
         // add back truncated null results
         int sqN = (int)Math.Sqrt(lookbackPeriods);
-        int shiftQty = lookbackPeriods - 1;
 
         List<HmaResult> results = tpList
             .Take(shiftQty)
@@ -47,7 +44,7 @@ public static partial class Indicator
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
-        List<HmaResult> hmaResults = synthHistory.GetWma(sqN)
+        List<HmaResult> hmaResults = synthHistory.CalcWma(sqN)
             .Select(x => new HmaResult(x.Date)
             {
                 Hma = x.Wma
@@ -56,7 +53,7 @@ public static partial class Indicator
 
         // add WMA to results
         results.AddRange(hmaResults);
-        results = results.OrderBy(x => x.Date).ToList();
+        results = results.ToSortedList();
 
         return results;
     }

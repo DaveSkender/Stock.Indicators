@@ -16,9 +16,9 @@ public class Alligator : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
-        Assert.AreEqual(490, results.Where(x => x.Teeth != null).Count());
-        Assert.AreEqual(495, results.Where(x => x.Lips != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
+        Assert.AreEqual(490, results.Count(x => x.Teeth != null));
+        Assert.AreEqual(495, results.Count(x => x.Lips != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[19].Jaw);
@@ -55,10 +55,19 @@ public class Alligator : TestBase
             .GetAlligator();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
 
         AlligatorResult last = results.LastOrDefault();
         Assert.AreEqual(244.29591, NullMath.Round(last.Lips, 5));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<AlligatorResult> r = tupleNanny.GetAlligator();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Lips is double and double.NaN));
     }
 
     [TestMethod]
@@ -69,7 +78,7 @@ public class Alligator : TestBase
             .GetAlligator();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(481, results.Where(x => x.Jaw != null).Count());
+        Assert.AreEqual(481, results.Count(x => x.Jaw != null));
     }
 
     [TestMethod]
@@ -80,7 +89,7 @@ public class Alligator : TestBase
             .GetAlligator();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Jaw != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Jaw != null));
     }
 
     [TestMethod]
@@ -88,6 +97,7 @@ public class Alligator : TestBase
     {
         IEnumerable<AlligatorResult> r = badQuotes.GetAlligator(3, 3, 2, 1, 1, 1);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Jaw is double and double.NaN));
     }
 
     [TestMethod]
@@ -98,6 +108,20 @@ public class Alligator : TestBase
 
         IEnumerable<AlligatorResult> r1 = onequote.GetAlligator();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<AlligatorResult> r = quotes.GetAlligator()
+            .Condense();
+
+        Assert.AreEqual(495, r.Count());
+
+        AlligatorResult last = r.LastOrDefault();
+        Assert.AreEqual(260.98953, NullMath.Round(last.Jaw, 5));
+        Assert.AreEqual(253.53576, NullMath.Round(last.Teeth, 5));
+        Assert.AreEqual(244.29591, NullMath.Round(last.Lips, 5));
     }
 
     [TestMethod]

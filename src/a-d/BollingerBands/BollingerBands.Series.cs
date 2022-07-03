@@ -36,8 +36,8 @@ public static partial class Indicator
                     n++;
                 }
 
-                double? periodAvg = sum / lookbackPeriods;
-                double? stdDev = Functions.StdDev(window);
+                double? periodAvg = (sum / lookbackPeriods).NaN2Null();
+                double? stdDev = Functions.StdDev(window).NaN2Null();
 
                 r.Sma = periodAvg;
                 r.UpperBand = periodAvg + (standardDeviations * stdDev);
@@ -46,8 +46,8 @@ public static partial class Indicator
                 r.PercentB = (r.UpperBand == r.LowerBand) ? null
                     : (value - r.LowerBand) / (r.UpperBand - r.LowerBand);
 
-                r.ZScore = (stdDev == 0) ? double.NaN : (value - r.Sma) / stdDev;
-                r.Width = (periodAvg == 0) ? double.NaN : (r.UpperBand - r.LowerBand) / periodAvg;
+                r.ZScore = (stdDev == 0) ? null : (value - r.Sma) / stdDev;
+                r.Width = (periodAvg == 0) ? null : (r.UpperBand - r.LowerBand) / periodAvg;
             }
         }
 

@@ -15,7 +15,7 @@ public class Adl : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Where(x => x.AdlSma == null).Count());
+        Assert.AreEqual(502, results.Count(x => x.AdlSma == null));
 
         // sample values
         AdlResult r1 = results[249];
@@ -40,7 +40,7 @@ public class Adl : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.AdlSma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.AdlSma != null));
 
         // sample value
         AdlResult r = results[501];
@@ -61,7 +61,7 @@ public class Adl : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -69,6 +69,7 @@ public class Adl : TestBase
     {
         IEnumerable<AdlResult> r = badQuotes.GetAdl();
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Adl)));
     }
 
     [TestMethod]
@@ -95,11 +96,9 @@ public class Adl : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad SMA period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAdl(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetAdl(quotes, 0));
 }

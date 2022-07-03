@@ -16,7 +16,7 @@ public class Awesome : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(469, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
 
         // sample values
         AwesomeResult r1 = results[32];
@@ -44,7 +44,16 @@ public class Awesome : TestBase
             .GetAwesome();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(469, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<AwesomeResult> r = tupleNanny.GetAwesome();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
@@ -55,7 +64,7 @@ public class Awesome : TestBase
             .GetAwesome();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(468, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(468, results.Count(x => x.Oscillator != null));
     }
 
     [TestMethod]
@@ -66,7 +75,7 @@ public class Awesome : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(460, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(460, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -74,6 +83,7 @@ public class Awesome : TestBase
     {
         IEnumerable<AwesomeResult> r = Indicator.GetAwesome(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]

@@ -16,8 +16,8 @@ public class StdDev : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
-        Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
+        Assert.AreEqual(493, results.Count(x => x.ZScore != null));
         Assert.AreEqual(false, results.Any(x => x.StdDevSma != null));
 
         // sample values
@@ -54,7 +54,16 @@ public class StdDev : TestBase
             .GetStdDev(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<StdDevResult> r = tupleNanny.GetStdDev(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.StdDev is double and double.NaN));
     }
 
     [TestMethod]
@@ -65,7 +74,7 @@ public class StdDev : TestBase
             .GetStdDev(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(492, results.Where(x => x.StdDev != null).Count());
+        Assert.AreEqual(492, results.Count(x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -76,7 +85,7 @@ public class StdDev : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -91,9 +100,9 @@ public class StdDev : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Where(x => x.StdDev != null).Count());
-        Assert.AreEqual(493, results.Where(x => x.ZScore != null).Count());
-        Assert.AreEqual(489, results.Where(x => x.StdDevSma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
+        Assert.AreEqual(493, results.Count(x => x.ZScore != null));
+        Assert.AreEqual(489, results.Count(x => x.StdDevSma != null));
 
         // sample values
         StdDevResult r1 = results[19];
@@ -112,6 +121,7 @@ public class StdDev : TestBase
     {
         IEnumerable<StdDevResult> r = badQuotes.GetStdDev(15, 3);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.StdDev is double and double.NaN));
     }
 
     [TestMethod]

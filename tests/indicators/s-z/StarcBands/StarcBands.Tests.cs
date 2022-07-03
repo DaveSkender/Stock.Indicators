@@ -23,9 +23,9 @@ public class StarcBands : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Centerline != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(483, results.Where(x => x.LowerBand != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(483, results.Count(x => x.LowerBand != null));
 
         // sample value
         StarcBandsResult r1 = results[18];
@@ -59,6 +59,7 @@ public class StarcBands : TestBase
     {
         IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(badQuotes, 10, 3, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]
@@ -69,6 +70,28 @@ public class StarcBands : TestBase
 
         IEnumerable<StarcBandsResult> r1 = onequote.GetStarcBands();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        int smaPeriods = 20;
+        int multiplier = 2;
+        int atrPeriods = 14;
+        int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
+
+        List<StarcBandsResult> results =
+            quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
+                .Condense()
+                .ToList();
+
+        // assertions
+        Assert.AreEqual(502 - lookbackPeriods + 1, results.Count);
+
+        StarcBandsResult last = results.LastOrDefault();
+        Assert.AreEqual(251.8600, NullMath.Round(last.Centerline, 4));
+        Assert.AreEqual(264.1595, NullMath.Round(last.UpperBand, 4));
+        Assert.AreEqual(239.5605, NullMath.Round(last.LowerBand, 4));
     }
 
     [TestMethod]

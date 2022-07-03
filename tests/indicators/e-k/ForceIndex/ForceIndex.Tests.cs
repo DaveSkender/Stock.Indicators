@@ -16,7 +16,7 @@ public class ForceIndex : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(489, r.Where(x => x.ForceIndex != null).Count());
+        Assert.AreEqual(489, r.Count(x => x.ForceIndex != null));
 
         // sample values
         Assert.IsNull(r[12].ForceIndex);
@@ -36,7 +36,7 @@ public class ForceIndex : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -44,6 +44,7 @@ public class ForceIndex : TestBase
     {
         IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(badQuotes, 2);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.ForceIndex is double and double.NaN));
     }
 
     [TestMethod]
@@ -70,11 +71,9 @@ public class ForceIndex : TestBase
         Assert.AreEqual(-16824018.428, Math.Round(last.ForceIndex.Value, 3));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetForceIndex(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetForceIndex(quotes, 0));
 }

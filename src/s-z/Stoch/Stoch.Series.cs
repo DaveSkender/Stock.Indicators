@@ -52,6 +52,9 @@ public static partial class Indicator
                 r.Oscillator = lowLow != highHigh
                     ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
                     : 0;
+
+                // reclaim nulls from NaNs
+                r.Oscillator = NullMath.NaN2Null(r.Oscillator);
             }
         }
 

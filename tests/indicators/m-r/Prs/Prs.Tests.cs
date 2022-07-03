@@ -22,7 +22,7 @@ public class Prs : TestBase
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Prs != null));
-        Assert.AreEqual(493, results.Where(x => x.PrsSma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.PrsSma != null));
 
         // sample values
         PrsResult r1 = results[8];
@@ -49,7 +49,16 @@ public class Prs : TestBase
             .GetPrs(quotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(502, results.Where(x => x.Prs != null).Count());
+        Assert.AreEqual(502, results.Count(x => x.Prs != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<PrsResult> r = tupleNanny.GetPrs(tupleNanny, 6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
     }
 
     [TestMethod]
@@ -60,7 +69,7 @@ public class Prs : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -68,6 +77,7 @@ public class Prs : TestBase
     {
         IEnumerable<PrsResult> r = Indicator.GetPrs(badQuotes, badQuotes, 15, 4);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
     }
 
     [TestMethod]

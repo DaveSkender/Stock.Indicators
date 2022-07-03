@@ -16,7 +16,7 @@ public class Rsi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[13];
@@ -44,7 +44,7 @@ public class Rsi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Where(x => x.Rsi != null).Count());
+        Assert.AreEqual(501, results.Count(x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[28];
@@ -70,7 +70,16 @@ public class Rsi : TestBase
             .GetRsi(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(488, results.Where(x => x.Rsi != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Rsi != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<RsiResult> r = tupleNanny.GetRsi(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]
@@ -81,7 +90,7 @@ public class Rsi : TestBase
             .GetRsi(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(487, results.Where(x => x.Rsi != null).Count());
+        Assert.AreEqual(487, results.Count(x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -92,7 +101,16 @@ public class Rsi : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
+            .GetRsi(14);
+
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]
@@ -100,6 +118,7 @@ public class Rsi : TestBase
     {
         IEnumerable<RsiResult> r = badQuotes.GetRsi(20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]

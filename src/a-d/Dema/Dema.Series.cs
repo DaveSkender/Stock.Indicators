@@ -41,7 +41,7 @@ public static partial class Indicator
                 double? ema1 = lastEma1 + (k * (value - lastEma1));
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
 
-                r.Dema = (2d * ema1) - ema2;
+                r.Dema = ((2d * ema1) - ema2).NaN2Null();
 
                 lastEma1 = ema1;
                 lastEma2 = ema2;

@@ -16,10 +16,10 @@ public class Gator : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Upper != null).Count());
-        Assert.AreEqual(490, results.Where(x => x.Lower != null).Count());
-        Assert.AreEqual(481, results.Where(x => x.UpperIsExpanding != null).Count());
-        Assert.AreEqual(489, results.Where(x => x.LowerIsExpanding != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Upper != null));
+        Assert.AreEqual(490, results.Count(x => x.Lower != null));
+        Assert.AreEqual(481, results.Count(x => x.UpperIsExpanding != null));
+        Assert.AreEqual(489, results.Count(x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -90,10 +90,10 @@ public class Gator : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Upper != null).Count());
-        Assert.AreEqual(490, results.Where(x => x.Lower != null).Count());
-        Assert.AreEqual(481, results.Where(x => x.UpperIsExpanding != null).Count());
-        Assert.AreEqual(489, results.Where(x => x.LowerIsExpanding != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Upper != null));
+        Assert.AreEqual(490, results.Count(x => x.Lower != null));
+        Assert.AreEqual(481, results.Count(x => x.UpperIsExpanding != null));
+        Assert.AreEqual(489, results.Count(x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -159,7 +159,16 @@ public class Gator : TestBase
             .GetGator();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Upper != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Upper != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<GatorResult> r = tupleNanny.GetGator();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
     }
 
     [TestMethod]
@@ -170,7 +179,7 @@ public class Gator : TestBase
             .GetGator();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(481, results.Where(x => x.Upper != null).Count());
+        Assert.AreEqual(481, results.Count(x => x.Upper != null));
     }
 
     [TestMethod]
@@ -178,6 +187,7 @@ public class Gator : TestBase
     {
         IEnumerable<GatorResult> r = Indicator.GetGator(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
     }
 
     [TestMethod]
@@ -191,14 +201,29 @@ public class Gator : TestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Condense()
     {
-        List<GatorResult> results = quotes.GetGator()
-            .RemoveWarmupPeriods()
-            .ToList();
+        IEnumerable<GatorResult> results = quotes.GetGator()
+            .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 150, results.Count);
+        Assert.AreEqual(490, results.Count());
+
+        GatorResult last = results.LastOrDefault();
+        Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
+        Assert.AreEqual(-9.2399, Math.Round(last.Lower.Value, 4));
+        Assert.IsTrue(last.UpperIsExpanding);
+        Assert.IsTrue(last.LowerIsExpanding);
+    }
+
+    [TestMethod]
+    public void Removed()
+    {
+        IEnumerable<GatorResult> results = quotes.GetGator()
+            .RemoveWarmupPeriods();
+
+        // assertions
+        Assert.AreEqual(502 - 150, results.Count());
 
         GatorResult last = results.LastOrDefault();
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));

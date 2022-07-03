@@ -116,7 +116,7 @@ public class PublicClassTests
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];

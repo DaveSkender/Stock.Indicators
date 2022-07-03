@@ -17,7 +17,7 @@ public class FisherTransform : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Where(x => x.Fisher != 0).Count());
+        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
 
         // sample values
         Assert.AreEqual(0, results[0].Fisher);
@@ -59,7 +59,16 @@ public class FisherTransform : TestBase
             .GetFisherTransform(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(501, results.Where(x => x.Fisher != 0).Count());
+        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<FisherTransformResult> r = tupleNanny.GetFisherTransform(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
     }
 
     [TestMethod]
@@ -70,7 +79,7 @@ public class FisherTransform : TestBase
             .GetFisherTransform(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(501, results.Where(x => x.Fisher != 0).Count());
+        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
     }
 
     [TestMethod]
@@ -81,7 +90,7 @@ public class FisherTransform : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(493, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -89,6 +98,7 @@ public class FisherTransform : TestBase
     {
         IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(badQuotes, 9);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
     }
 
     [TestMethod]

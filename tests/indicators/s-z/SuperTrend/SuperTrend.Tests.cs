@@ -20,7 +20,7 @@ public class SuperTrend : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Where(x => x.SuperTrend != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.SuperTrend != null));
 
         // sample values
         SuperTrendResult r1 = results[12];
@@ -81,6 +81,26 @@ public class SuperTrend : TestBase
 
         IEnumerable<SuperTrendResult> r1 = onequote.GetSuperTrend();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        int lookbackPeriods = 14;
+        double multiplier = 3;
+
+        List<SuperTrendResult> results =
+            quotes.GetSuperTrend(lookbackPeriods, multiplier)
+             .Condense()
+             .ToList();
+
+        // assertions
+        Assert.AreEqual(489, results.Count);
+
+        SuperTrendResult last = results.LastOrDefault();
+        Assert.AreEqual(250.7954m, NullMath.Round(last.SuperTrend, 4));
+        Assert.AreEqual(last.SuperTrend, last.UpperBand);
+        Assert.AreEqual(null, last.LowerBand);
     }
 
     [TestMethod]

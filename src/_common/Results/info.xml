@@ -15,6 +15,31 @@
     <param name="lookupDate">Exact date to lookup.</param>
     <returns>First indicator result on the date specified.</returns>
   </type>
+  <type name="Condense">
+    <summary>
+      Removes non-essential records containing null values.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#condense">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <param name="results">Indicator results to evaluate.</param>
+    <returns>Time series of indicator results, condensed.</returns>
+  </type>
+  <type name="CondenseT">
+    <summary>
+      Removes non-essential records containing null or NaN values.
+      <para>
+        See
+        <see href="https://daveskender.github.io/Stock.Indicators/utilities/#condense">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <typeparam name="TResult">Any result type.</typeparam>
+    <param name="results">Indicator results to evaluate.</param>
+    <returns>Time series of indicator results, condensed.</returns>
+  </type>
   <type name="Prune">
     <summary>
       Removes the recommended quantity of results from the beginning of the results list.
@@ -27,7 +52,7 @@
     <param name="results">Indicator results to evaluate.</param>
     <returns>Time series of indicator results, pruned.</returns>
   </type>
-  <type name="PruneSpecific">
+  <type name="PruneT">
     <summary>
       Removes a specific quantity of results from the beginning of the results list.
       <para>

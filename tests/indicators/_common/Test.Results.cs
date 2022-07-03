@@ -46,6 +46,26 @@ public class Results : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        List<AdxResult> x = quotes.GetAdx(14).ToList();
+
+        // make a few more in the middle null and NaN
+        x[249].Adx = null;
+        x[345].Adx = double.NaN;
+
+        IEnumerable<AdxResult> r = x.Condense();
+
+        // assertions
+        Assert.AreEqual(473, r.Count());
+
+        AdxResult last = r.LastOrDefault();
+        Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
+        Assert.AreEqual(31.1510, NullMath.Round(last.Mdi, 4));
+        Assert.AreEqual(34.2987, NullMath.Round(last.Adx, 4));
+    }
+
+    [TestMethod]
     public void SyncIndex()
     {
         // baseline for comparison
@@ -78,7 +98,7 @@ public class Results : TestBase
         List<EmaResult> prepend = eval.SyncIndex(baseline, SyncType.Prepend).ToList();
 
         Assert.AreEqual(9, prepend.Count);
-        Assert.AreEqual(3, prepend.Where(x => x.Ema is null).Count());
+        Assert.AreEqual(3, prepend.Count(x => x.Ema is null));
 
         for (int i = 0; i < 6; i++)
         {
@@ -92,7 +112,7 @@ public class Results : TestBase
         List<EmaResult> append = eval.SyncIndex(baseline, SyncType.AppendOnly).ToList();
 
         Assert.AreEqual(10, append.Count);
-        Assert.AreEqual(4, append.Where(x => x.Ema is null).Count());
+        Assert.AreEqual(4, append.Count(x => x.Ema is null));
 
         for (int i = 0; i < 8; i++)
         {
@@ -108,17 +128,17 @@ public class Results : TestBase
         List<EmaResult> remove = eval.SyncIndex(baseline, SyncType.RemoveOnly).ToList();
 
         Assert.AreEqual(6, remove.Count);
-        Assert.AreEqual(0, remove.Where(x => x.Ema is null).Count());
-        Assert.AreEqual(0, remove.Where(x =>
-            x.Date == DateTime.Parse("1/10/2000", EnglishCulture)).Count());
+        Assert.AreEqual(0, remove.Count(x => x.Ema is null));
+        Assert.AreEqual(0, remove.Count(x =>
+            x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 
         // full option
         List<EmaResult> fullmatch = eval.SyncIndex(baseline, SyncType.FullMatch).ToList();
 
         Assert.AreEqual(9, fullmatch.Count);
-        Assert.AreEqual(3, fullmatch.Where(x => x.Ema is null).Count());
-        Assert.AreEqual(0, fullmatch.Where(x =>
-            x.Date == DateTime.Parse("1/10/2000", EnglishCulture)).Count());
+        Assert.AreEqual(3, fullmatch.Count(x => x.Ema is null));
+        Assert.AreEqual(0, fullmatch.Count(x =>
+            x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 
         for (int i = 0; i < baseline.Count; i++)
         {

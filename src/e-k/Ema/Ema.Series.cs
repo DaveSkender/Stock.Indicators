@@ -31,19 +31,18 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
             EmaResult r = new(date);
+            results.Add(r);
 
             if (i + 1 > lookbackPeriods)
             {
                 double ema = EmaBase.Increment(value, lastEma, k);
-                r.Ema = ema;
+                r.Ema = ema.NaN2Null();
                 lastEma = ema;
             }
             else if (i == lookbackPeriods - 1)
             {
-                r.Ema = lastEma;
+                r.Ema = lastEma.NaN2Null();
             }
-
-            results.Add(r);
         }
 
         return results;

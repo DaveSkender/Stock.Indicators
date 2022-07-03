@@ -22,7 +22,7 @@ public class RollingPivots : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[19];
@@ -98,7 +98,7 @@ public class RollingPivots : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(38, results.Count);
-        Assert.AreEqual(28, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(28, results.Count(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[9];
@@ -173,7 +173,7 @@ public class RollingPivots : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[19];
@@ -260,7 +260,7 @@ public class RollingPivots : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(300, results.Count);
-        Assert.AreEqual(241, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(241, results.Count(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[58];
@@ -337,7 +337,7 @@ public class RollingPivots : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(1564, results.Count);
-        Assert.AreEqual(1173, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(1173, results.Count(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r2 = results[390];

@@ -24,10 +24,10 @@ public class Keltner : TestBase
         Assert.AreEqual(502, results.Count);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.Centerline != null).Count());
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.LowerBand != null).Count());
-        Assert.AreEqual(warmupPeriod, results.Where(x => x.Width != null).Count());
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.Centerline != null));
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.LowerBand != null));
+        Assert.AreEqual(warmupPeriod, results.Count(x => x.Width != null));
 
         // sample value
         KeltnerResult r1 = results[485];
@@ -48,6 +48,7 @@ public class Keltner : TestBase
     {
         IEnumerable<KeltnerResult> r = Indicator.GetKeltner(badQuotes, 10, 3, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]
@@ -58,6 +59,29 @@ public class Keltner : TestBase
 
         IEnumerable<KeltnerResult> r1 = onequote.GetKeltner();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        int emaPeriods = 20;
+        int multiplier = 2;
+        int atrPeriods = 10;
+        int n = Math.Max(emaPeriods, atrPeriods);
+
+        List<KeltnerResult> results =
+            quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
+                .Condense()
+                .ToList();
+
+        // assertions
+        Assert.AreEqual(483, results.Count);
+
+        KeltnerResult last = results.LastOrDefault();
+        Assert.AreEqual(262.1873, NullMath.Round(last.UpperBand, 4));
+        Assert.AreEqual(249.3519, NullMath.Round(last.Centerline, 4));
+        Assert.AreEqual(236.5165, NullMath.Round(last.LowerBand, 4));
+        Assert.AreEqual(0.102950, NullMath.Round(last.Width, 6));
     }
 
     [TestMethod]

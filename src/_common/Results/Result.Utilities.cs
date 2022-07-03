@@ -13,7 +13,7 @@ public static partial class Indicator
         where TResult : IResult => results.FirstOrDefault(x => x.Date == lookupDate);
 
     // REMOVE SPECIFIC PERIODS extension
-    /// <include file='./info.xml' path='info/type[@name="PruneSpecific"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="PruneT"]/*' />
     ///
     public static IEnumerable<TResult> RemoveWarmupPeriods<TResult>(
         this IEnumerable<TResult> results,
@@ -23,6 +23,23 @@ public static partial class Indicator
             ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
                 "If specified, the Remove Periods value must be greater than or equal to 0.")
             : results.Remove(removePeriods);
+
+    // CONDENSE (REMOVE null and NaN results)
+    /// <include file='./info.xml' path='info/type[@name="CondenseT"]/*' />
+    ///
+    public static IEnumerable<TResult> Condense<TResult>(
+        this IEnumerable<TResult> results)
+        where TResult : IReusableResult
+    {
+        List<TResult> resultsList = results
+            .ToList();
+
+        _ = resultsList
+            .RemoveAll(match:
+                x => x.Value is null || x.Value is double and double.NaN);
+
+        return resultsList.ToSortedList();
+    }
 
     // SYNC INDEX - RESIZE TO MATCH OTHER
     public static IEnumerable<TResultR> SyncIndex<TResultR, TResultM>(
@@ -115,6 +132,32 @@ public static partial class Indicator
         return resultsList.ToSortedList();
     }
 
+    // CONVERT TO TUPLE
+    internal static List<(DateTime Date, double Value)> ToResultTuple(
+        this IEnumerable<IReusableResult> basicData)
+    {
+        List<(DateTime Date, double Value)> prices = new();
+        List<IReusableResult>? bdList = basicData.ToList();
+
+        // find first non-nulled
+        int first = bdList.FindIndex(x => x.Value != null);
+
+        for (int i = first; i < bdList.Count; i++)
+        {
+            IReusableResult? q = bdList[i];
+            prices.Add(new(q.Date, NullMath.Null2NaN(q.Value)));
+        }
+
+        return prices.OrderBy(x => x.Date).ToList();
+    }
+
+    // RETURN SORTED LIST of RESULTS
+    internal static List<TResult> ToSortedList<TResult>(
+        this IEnumerable<TResult> results)
+        where TResult : IResult => results
+            .OrderBy(x => x.Date)
+            .ToList();
+
     // REMOVE RESULTS
     private static List<TResult> Remove<TResult>(
         this IEnumerable<TResult> results,
@@ -140,31 +183,4 @@ public static partial class Indicator
             return resultsList;
         }
     }
-
-    // CONVERT TO TUPLE
-    internal static List<(DateTime Date, double Value)> ToResultTuple(
-        this IEnumerable<IReusableResult> basicData)
-    {
-        List<(DateTime Date, double Value)> prices = new();
-        List<IReusableResult>? bdList = basicData.ToList();
-
-        // find first non-nulled
-        int first = bdList.FindIndex(x => x.Value != null);
-
-        for (int i = first; i < bdList.Count; i++)
-        {
-            IReusableResult? q = bdList[i];
-            double value = (q.Value == null) ? double.NaN : (double)q.Value;
-            prices.Add(new(q.Date, value));
-        }
-
-        return prices.OrderBy(x => x.Date).ToList();
-    }
-
-    // RETURN SORTED LIST of RESULTS
-    internal static List<TResult> ToSortedList<TResult>(
-        this IEnumerable<TResult> results)
-        where TResult : IResult => results
-            .OrderBy(x => x.Date)
-            .ToList();
 }

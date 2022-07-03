@@ -16,7 +16,7 @@ public class Smma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Smma != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[18].Smma);
@@ -38,7 +38,16 @@ public class Smma : TestBase
             .GetSmma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Smma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Smma != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<SmmaResult> r = tupleNanny.GetSmma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Smma is double and double.NaN));
     }
 
     [TestMethod]
@@ -49,7 +58,7 @@ public class Smma : TestBase
             .GetSmma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Smma != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Smma != null));
     }
 
     [TestMethod]
@@ -60,7 +69,7 @@ public class Smma : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -68,6 +77,7 @@ public class Smma : TestBase
     {
         IEnumerable<SmmaResult> r = Indicator.GetSmma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Smma is double and double.NaN));
     }
 
     [TestMethod]

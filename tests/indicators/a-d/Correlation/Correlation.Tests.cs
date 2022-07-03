@@ -16,7 +16,7 @@ public class Correlation : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Correlation != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
 
         // sample values
         CorrResult r18 = results[18];
@@ -44,7 +44,16 @@ public class Correlation : TestBase
             .GetCorrelation(otherQuotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(483, results.Where(x => x.Correlation != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<CorrResult> r = tupleNanny.GetCorrelation(tupleNanny, 6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
     }
 
     [TestMethod]
@@ -55,7 +64,7 @@ public class Correlation : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(474, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -63,6 +72,7 @@ public class Correlation : TestBase
     {
         IEnumerable<CorrResult> r = Indicator.GetCorrelation(badQuotes, badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
     }
 
     [TestMethod]
