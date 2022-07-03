@@ -65,14 +65,14 @@ public static partial class Indicator
                     as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
 
                     double tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : double.NaN;
-                    r.Tsi = tsi;
+                    r.Tsi = tsi.NaN2Null();
 
                     // signal line
                     if (signalPeriods > 0)
                     {
                         if (i >= lookbackPeriods + smoothPeriods + signalPeriods - 1)
                         {
-                            r.Signal = ((tsi - results[i - 1].Signal) * multS)
+                            r.Signal = ((tsi - results[i - 1].Signal) * multS).NaN2Null()
                                      + results[i - 1].Signal;
                         }
 

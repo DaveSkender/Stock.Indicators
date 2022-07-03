@@ -16,8 +16,8 @@ public class Fractal : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(63, results.Where(x => x.FractalBear != null).Count());
-        Assert.AreEqual(71, results.Where(x => x.FractalBull != null).Count());
+        Assert.AreEqual(63, results.Count(x => x.FractalBear != null));
+        Assert.AreEqual(71, results.Count(x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[1];
@@ -55,8 +55,8 @@ public class Fractal : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(35, results.Where(x => x.FractalBear != null).Count());
-        Assert.AreEqual(34, results.Where(x => x.FractalBull != null).Count());
+        Assert.AreEqual(35, results.Count(x => x.FractalBear != null));
+        Assert.AreEqual(34, results.Count(x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[3];
@@ -99,6 +99,15 @@ public class Fractal : TestBase
 
         IEnumerable<FractalResult> r1 = onequote.GetFractal();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<FractalResult> r = quotes.GetFractal()
+            .Condense();
+
+        Assert.AreEqual(129, r.Count());
     }
 
     // bad window span

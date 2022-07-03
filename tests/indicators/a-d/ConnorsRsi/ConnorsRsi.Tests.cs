@@ -23,7 +23,7 @@ public class ConnorsRsi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results1.Count);
-        Assert.AreEqual(502 - startPeriod + 1, results1.Where(x => x.ConnorsRsi != null).Count());
+        Assert.AreEqual(502 - startPeriod + 1, results1.Count(x => x.ConnorsRsi != null));
 
         // sample value
         ConnorsRsiResult r1 = results1[501];
@@ -49,7 +49,16 @@ public class ConnorsRsi : TestBase
             .GetConnorsRsi();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(401, results.Where(x => x.ConnorsRsi != null).Count());
+        Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<ConnorsRsiResult> r = tupleNanny.GetConnorsRsi();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.ConnorsRsi is double and double.NaN));
     }
 
     [TestMethod]
@@ -60,7 +69,7 @@ public class ConnorsRsi : TestBase
             .GetConnorsRsi();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(400, results.Where(x => x.ConnorsRsi != null).Count());
+        Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
     }
 
     [TestMethod]
@@ -71,7 +80,7 @@ public class ConnorsRsi : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(392, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(392, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -79,6 +88,7 @@ public class ConnorsRsi : TestBase
     {
         IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(badQuotes, 4, 3, 25);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]

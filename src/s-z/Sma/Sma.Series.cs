@@ -30,7 +30,7 @@ public static partial class Indicator
                     sumSma += pValue;
                 }
 
-                result.Sma = sumSma / lookbackPeriods;
+                result.Sma = (sumSma / lookbackPeriods).NaN2Null();
             }
         }
 

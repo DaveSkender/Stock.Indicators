@@ -20,7 +20,7 @@ public class PivotPoints : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
@@ -105,7 +105,7 @@ public class PivotPoints : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(38, results.Count);
-        Assert.AreEqual(33, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(33, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[4];
@@ -178,7 +178,7 @@ public class PivotPoints : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
@@ -267,7 +267,7 @@ public class PivotPoints : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(300, results.Count);
-        Assert.AreEqual(241, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(241, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[58];
@@ -342,7 +342,7 @@ public class PivotPoints : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(1564, results.Count);
-        Assert.AreEqual(1173, results.Where(x => x.PP != null).Count());
+        Assert.AreEqual(1173, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[390];

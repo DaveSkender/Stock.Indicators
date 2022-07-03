@@ -16,7 +16,7 @@ public class Bop : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Where(x => x.Bop != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.Bop != null));
 
         // sample values
         BopResult r1 = results[12];
@@ -43,7 +43,16 @@ public class Bop : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<BopResult> r = TestData.GetBtcUsdNan()
+            .GetBop(50);
+
+        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
     }
 
     [TestMethod]
@@ -51,6 +60,7 @@ public class Bop : TestBase
     {
         IEnumerable<BopResult> r = Indicator.GetBop(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
     }
 
     [TestMethod]
@@ -77,11 +87,9 @@ public class Bop : TestBase
         Assert.AreEqual(-0.292788, NullMath.Round(last.Bop, 6));
     }
 
+    // bad smoothing period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetBop(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetBop(quotes, 0));
 }

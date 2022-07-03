@@ -17,7 +17,7 @@ public class Vwma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Where(x => x.Vwma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Vwma != null));
 
         // sample values
         VwmaResult r8 = results[8];
@@ -38,7 +38,7 @@ public class Vwma : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -46,6 +46,7 @@ public class Vwma : TestBase
     {
         IEnumerable<VwmaResult> r = badQuotes.GetVwma(15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Vwma is double and double.NaN));
     }
 
     [TestMethod]

@@ -17,7 +17,7 @@ public class Ultimate : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Where(x => x.Ultimate != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Ultimate != null));
 
         // sample values
         UltimateResult r1 = results[74];
@@ -38,7 +38,7 @@ public class Ultimate : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(465, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(465, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -46,6 +46,7 @@ public class Ultimate : TestBase
     {
         IEnumerable<UltimateResult> r = Indicator.GetUltimate(badQuotes, 1, 2, 3);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Ultimate is double and double.NaN));
     }
 
     [TestMethod]

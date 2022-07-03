@@ -44,8 +44,8 @@ public static partial class Indicator
 
                 avgDv /= lookbackPeriods;
 
-                r.Cci = (avgDv == 0) ? double.NaN
-                    : (tp[i] - avgTp) / (0.015 * avgDv);
+                r.Cci = (avgDv == 0) ? null
+                    : ((tp[i] - avgTp) / (0.015 * avgDv)).NaN2Null();
             }
         }
 

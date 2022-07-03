@@ -17,10 +17,10 @@ public class Donchian : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Centerline != null).Count());
-        Assert.AreEqual(482, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(482, results.Where(x => x.LowerBand != null).Count());
-        Assert.AreEqual(482, results.Where(x => x.Width != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Centerline != null));
+        Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(482, results.Count(x => x.LowerBand != null));
+        Assert.AreEqual(482, results.Count(x => x.Width != null));
 
         // sample values
         DonchianResult r1 = results[19];
@@ -72,14 +72,29 @@ public class Donchian : TestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Condense()
     {
-        List<DonchianResult> results = quotes.GetDonchian(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+        IEnumerable<DonchianResult> r = quotes.GetDonchian(20)
+            .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 20, results.Count);
+        Assert.AreEqual(502 - 20, r.Count());
+
+        DonchianResult last = r.LastOrDefault();
+        Assert.AreEqual(251.5050m, NullMath.Round(last.Centerline, 4));
+        Assert.AreEqual(273.5900m, NullMath.Round(last.UpperBand, 4));
+        Assert.AreEqual(229.4200m, NullMath.Round(last.LowerBand, 4));
+        Assert.AreEqual(0.175623m, NullMath.Round(last.Width, 6));
+    }
+
+    [TestMethod]
+    public void Removed()
+    {
+        IEnumerable<DonchianResult> results = quotes.GetDonchian(20)
+            .RemoveWarmupPeriods();
+
+        // assertions
+        Assert.AreEqual(502 - 20, results.Count());
 
         DonchianResult last = results.LastOrDefault();
         Assert.AreEqual(251.5050m, NullMath.Round(last.Centerline, 4));
@@ -88,11 +103,9 @@ public class Donchian : TestBase
         Assert.AreEqual(0.175623m, NullMath.Round(last.Width, 6));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetDonchian(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetDonchian(quotes, 0));
 }

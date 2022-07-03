@@ -17,7 +17,7 @@ public class Chop : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Chop != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Chop != null));
 
         // sample values
         ChopResult r1 = results[13];
@@ -41,7 +41,7 @@ public class Chop : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class Chop : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Where(x => x.Chop != null).Count());
+        Assert.AreEqual(500, results.Count(x => x.Chop != null));
     }
 
     [TestMethod]
@@ -63,6 +63,7 @@ public class Chop : TestBase
     {
         IEnumerable<ChopResult> r = Indicator.GetChop(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Chop is double and double.NaN));
     }
 
     [TestMethod]
@@ -89,11 +90,9 @@ public class Chop : TestBase
         Assert.AreEqual(38.6526, NullMath.Round(last.Chop, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetChop(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetChop(quotes, 1));
 }

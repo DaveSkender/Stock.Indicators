@@ -16,7 +16,7 @@ public class T3 : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(478, results.Where(x => x.T3 != null).Count());
+        Assert.AreEqual(478, results.Count(x => x.T3 != null));
 
         // sample values
         T3Result r1 = results[23];
@@ -46,7 +46,16 @@ public class T3 : TestBase
             .GetT3();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(478, results.Where(x => x.T3 != null).Count());
+        Assert.AreEqual(478, results.Count(x => x.T3 != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<T3Result> r = tupleNanny.GetT3();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
     }
 
     [TestMethod]
@@ -57,7 +66,7 @@ public class T3 : TestBase
             .GetT3();
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(477, results.Where(x => x.T3 != null).Count());
+        Assert.AreEqual(477, results.Count(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -68,7 +77,7 @@ public class T3 : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(469, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(469, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -76,6 +85,7 @@ public class T3 : TestBase
     {
         IEnumerable<T3Result> r = Indicator.GetT3(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
     }
 
     [TestMethod]

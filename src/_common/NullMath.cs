@@ -21,8 +21,18 @@ internal static class NullMath
         ? null
         : Math.Round((double)value, digits);
 
-    internal static double Null2NaN(double? value)
+    internal static double Null2NaN(this double? value)
         => (value is null)
         ? double.NaN
         : (double)value;
+
+    internal static double? NaN2Null(this double? value)
+        => (value is double and double.NaN)
+        ? null
+        : value;
+
+    internal static double? NaN2Null(this double value)
+        => (value is double and double.NaN)
+        ? null
+        : value;
 }

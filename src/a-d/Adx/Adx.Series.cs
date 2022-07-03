@@ -22,12 +22,12 @@ public static partial class Indicator
         double? prevTrs = 0; // smoothed
         double prevPdm = 0;
         double prevMdm = 0;
-        double? prevAdx = 0;
+        double prevAdx = 0;
 
         double? sumTr = 0;
         double sumPdm = 0;
         double sumMdm = 0;
-        double? sumDx = 0;
+        double sumDx = 0;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -107,8 +107,8 @@ public static partial class Indicator
             // calculate ADX
             double dx = (pdi + mdi == 0)
                 ? double.NaN
-                : 100 * Math.Abs((double)(pdi - mdi)) / (pdi + mdi);
-            double? adx;
+                : 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
+            double adx;
 
             if (i + 1 > 2 * lookbackPeriods)
             {

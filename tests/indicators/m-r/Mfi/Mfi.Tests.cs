@@ -17,7 +17,7 @@ public class Mfi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Mfi != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[439];
@@ -35,7 +35,7 @@ public class Mfi : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(479, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class Mfi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(498, results.Where(x => x.Mfi != null).Count());
+        Assert.AreEqual(498, results.Count(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[31];
@@ -66,6 +66,7 @@ public class Mfi : TestBase
     {
         IEnumerable<MfiResult> r = Indicator.GetMfi(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Mfi is double and double.NaN));
     }
 
     [TestMethod]

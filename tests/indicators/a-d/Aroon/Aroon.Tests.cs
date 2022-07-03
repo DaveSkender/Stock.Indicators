@@ -16,9 +16,9 @@ public class Aroon : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Where(x => x.AroonUp != null).Count());
-        Assert.AreEqual(477, results.Where(x => x.AroonDown != null).Count());
-        Assert.AreEqual(477, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(477, results.Count(x => x.AroonUp != null));
+        Assert.AreEqual(477, results.Count(x => x.AroonDown != null));
+        Assert.AreEqual(477, results.Count(x => x.Oscillator != null));
 
         // sample values
         AroonResult r1 = results[210];
@@ -55,7 +55,7 @@ public class Aroon : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(468, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -63,6 +63,7 @@ public class Aroon : TestBase
     {
         IEnumerable<AroonResult> r = Indicator.GetAroon(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
@@ -91,11 +92,9 @@ public class Aroon : TestBase
         Assert.AreEqual(-60, last.Oscillator);
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAroon(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetAroon(quotes, 0));
 }

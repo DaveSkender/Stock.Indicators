@@ -15,7 +15,7 @@ public class Marubozu : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(6, results.Where(x => x.Match != Match.None).Count());
+        Assert.AreEqual(6, results.Count(x => x.Match != Match.None));
 
         // sample values
         CandleResult r31 = results[31];

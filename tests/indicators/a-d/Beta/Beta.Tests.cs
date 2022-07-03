@@ -18,9 +18,9 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
-        Assert.AreEqual(482, results.Where(x => x.BetaUp != null).Count());
-        Assert.AreEqual(482, results.Where(x => x.BetaDown != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Beta != null));
+        Assert.AreEqual(482, results.Count(x => x.BetaUp != null));
+        Assert.AreEqual(482, results.Count(x => x.BetaDown != null));
 
         // sample values
         BetaResult r19 = results[19];
@@ -66,7 +66,7 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Beta != null));
 
         // sample value
         BetaResult r = results[501];
@@ -85,7 +85,7 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.BetaUp != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.BetaUp != null));
 
         // sample value
         BetaResult r = results[501];
@@ -104,7 +104,7 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.BetaDown != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.BetaDown != null));
 
         // sample value
         BetaResult r = results[501];
@@ -119,7 +119,16 @@ public class Beta : TestBase
             .GetBeta(quotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Beta != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<BetaResult> r = tupleNanny.GetBeta(tupleNanny, 6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Beta is double and double.NaN));
     }
 
     [TestMethod]
@@ -130,7 +139,7 @@ public class Beta : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -139,14 +148,17 @@ public class Beta : TestBase
         IEnumerable<BetaResult> r1 = Indicator
             .GetBeta(badQuotes, badQuotes, 15, BetaType.Standard);
         Assert.AreEqual(502, r1.Count());
+        Assert.AreEqual(0, r1.Count(x => x.Beta is double and double.NaN));
 
         IEnumerable<BetaResult> r2 = Indicator
             .GetBeta(badQuotes, badQuotes, 15, BetaType.Up);
         Assert.AreEqual(502, r2.Count());
+        Assert.AreEqual(0, r2.Count(x => x.BetaUp is double and double.NaN));
 
         IEnumerable<BetaResult> r3 = Indicator
             .GetBeta(badQuotes, badQuotes, 15, BetaType.Down);
         Assert.AreEqual(502, r3.Count());
+        Assert.AreEqual(0, r3.Count(x => x.BetaDown is double and double.NaN));
     }
 
     [TestMethod]
@@ -207,7 +219,7 @@ public class Beta : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Beta != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Beta != null));
 
         // sample value
         BetaResult r = results[501];

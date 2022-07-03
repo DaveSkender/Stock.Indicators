@@ -32,7 +32,16 @@ public class Hurst : TestBase
             .GetHurst(100);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(402, results.Where(x => x.HurstExponent != null).Count());
+        Assert.AreEqual(402, results.Count(x => x.HurstExponent != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<HurstResult> r = tupleNanny.GetHurst(100);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
     }
 
     [TestMethod]
@@ -43,7 +52,7 @@ public class Hurst : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(393, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(393, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -51,6 +60,7 @@ public class Hurst : TestBase
     {
         IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
     }
 
     [TestMethod]
@@ -77,11 +87,9 @@ public class Hurst : TestBase
         Assert.AreEqual(0.483563, NullMath.Round(last.HurstExponent, 6));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetHurst(quotes, 99));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetHurst(quotes, 99));
 }

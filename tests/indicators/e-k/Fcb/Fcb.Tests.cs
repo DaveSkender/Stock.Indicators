@@ -16,8 +16,8 @@ public class Fcb : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Where(x => x.UpperBand != null).Count());
-        Assert.AreEqual(493, results.Where(x => x.LowerBand != null).Count());
+        Assert.AreEqual(497, results.Count(x => x.UpperBand != null));
+        Assert.AreEqual(493, results.Count(x => x.LowerBand != null));
 
         // sample values
         FcbResult r1 = results[4];
@@ -63,14 +63,13 @@ public class Fcb : TestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Condense()
     {
-        List<FcbResult> results = quotes.GetFcb(2)
-            .RemoveWarmupPeriods()
-            .ToList();
+        IEnumerable<FcbResult> results = quotes.GetFcb(2)
+            .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count);
+        Assert.AreEqual(502 - 5, results.Count());
 
         FcbResult last = results.LastOrDefault();
         Assert.AreEqual(262.47m, last.UpperBand);
@@ -78,10 +77,22 @@ public class Fcb : TestBase
     }
 
     [TestMethod]
-    public void Exceptions()
+    public void Removed()
     {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetFcb(quotes, 1));
+        IEnumerable<FcbResult> results = quotes.GetFcb(2)
+            .RemoveWarmupPeriods();
+
+        // assertions
+        Assert.AreEqual(502 - 5, results.Count());
+
+        FcbResult last = results.LastOrDefault();
+        Assert.AreEqual(262.47m, last.UpperBand);
+        Assert.AreEqual(229.42m, last.LowerBand);
     }
+
+    // bad lookback period
+    [TestMethod]
+    public void Exceptions()
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetFcb(quotes, 1));
 }

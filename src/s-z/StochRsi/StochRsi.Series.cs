@@ -29,14 +29,13 @@ public static partial class Indicator
         List<StochResult> stoResults =
             tpList
             .CalcRsi(rsiPeriods)
-            .Remove(rsiPeriods)
-            .Where(x => x.Rsi is not null)
+            .Remove(Math.Min(rsiPeriods, length))
             .Select(x => new QuoteD
             {
                 Date = x.Date,
-                High = NullMath.Null2NaN(x.Rsi),
-                Low = NullMath.Null2NaN(x.Rsi),
-                Close = NullMath.Null2NaN(x.Rsi)
+                High = x.Rsi.Null2NaN(),
+                Low = x.Rsi.Null2NaN(),
+                Close = x.Rsi.Null2NaN()
             })
             .ToList()
             .CalcStoch(

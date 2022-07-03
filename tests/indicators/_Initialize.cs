@@ -26,4 +26,5 @@ public abstract class TestBase
     internal static readonly IEnumerable<Quote> noquotes = new List<Quote>();
     internal static readonly IEnumerable<Quote> onequote = TestData.GetDefault(1);
     internal static readonly IEnumerable<Quote> randomQuotes = TestData.GetRandom(1000);
+    internal static readonly IEnumerable<(DateTime, double)> tupleNanny = TestData.GetTupleNaN();
 }

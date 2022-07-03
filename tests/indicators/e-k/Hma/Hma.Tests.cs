@@ -16,7 +16,7 @@ public class Hma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Hma != null));
 
         // sample values
         HmaResult r1 = results[149];
@@ -34,7 +34,16 @@ public class Hma : TestBase
             .GetHma(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<HmaResult> r = tupleNanny.GetHma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
     }
 
     [TestMethod]
@@ -45,7 +54,7 @@ public class Hma : TestBase
             .GetHma(19);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Hma != null));
     }
 
     [TestMethod]
@@ -56,7 +65,7 @@ public class Hma : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(471, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(471, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -64,6 +73,7 @@ public class Hma : TestBase
     {
         IEnumerable<HmaResult> r = Indicator.GetHma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
     }
 
     [TestMethod]
