@@ -57,6 +57,15 @@ public class Tsi : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<TsiResult> r = tupleNanny.GetTsi();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<TsiResult> results = quotes
@@ -83,7 +92,7 @@ public class Tsi : TestBase
     {
         IEnumerable<TsiResult> r = Indicator.GetTsi(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Tsi == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
     }
 
     [TestMethod]

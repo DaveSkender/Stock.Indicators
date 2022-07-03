@@ -56,7 +56,7 @@ public class BaseQuoteTests : TestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void Use()
     {
         IEnumerable<(DateTime Date, double Value)> results = quotes
             .Use(CandlePart.Close);

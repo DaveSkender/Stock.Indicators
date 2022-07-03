@@ -47,6 +47,15 @@ public class Bop : TestBase
     }
 
     [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<BopResult> r = TestData.GetBtcUsdNan()
+            .GetBop(50);
+
+        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<BopResult> r = Indicator.GetBop(badQuotes);
@@ -76,15 +85,6 @@ public class Bop : TestBase
 
         BopResult last = results.LastOrDefault();
         Assert.AreEqual(-0.292788, NullMath.Round(last.Bop, 6));
-    }
-
-    [TestMethod]
-    public void NaN()
-    {
-        IEnumerable<BopResult> r = TestData.GetBtcUsdNan()
-            .GetBop(50);
-
-        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
     }
 
     // bad smoothing period

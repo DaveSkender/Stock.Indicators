@@ -53,6 +53,15 @@ public class ConnorsRsi : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<ConnorsRsiResult> r = tupleNanny.GetConnorsRsi();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.ConnorsRsi is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<ConnorsRsiResult> results = quotes
@@ -79,7 +88,7 @@ public class ConnorsRsi : TestBase
     {
         IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(badQuotes, 4, 3, 25);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Rsi == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]

@@ -61,6 +61,15 @@ public class HtTrendline : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<HtlResult> r = tupleNanny.GetHtTrendline();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Trendline is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<HtlResult> results = quotes
@@ -87,7 +96,7 @@ public class HtTrendline : TestBase
     {
         IEnumerable<HtlResult> r = Indicator.GetHtTrendline(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Trendline == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Trendline is double and double.NaN));
     }
 
     [TestMethod]

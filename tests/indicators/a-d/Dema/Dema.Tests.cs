@@ -45,6 +45,15 @@ public class Dema : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<DemaResult> r = tupleNanny.GetDema(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<DemaResult> results = quotes
@@ -71,7 +80,7 @@ public class Dema : TestBase
     {
         IEnumerable<DemaResult> r = Indicator.GetDema(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Dema == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
     }
 
     [TestMethod]

@@ -47,6 +47,15 @@ public class Epma : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<EpmaResult> r = tupleNanny.GetEpma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<EpmaResult> results = quotes
@@ -73,7 +82,7 @@ public class Epma : TestBase
     {
         IEnumerable<EpmaResult> r = Indicator.GetEpma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Epma == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
     }
 
     [TestMethod]

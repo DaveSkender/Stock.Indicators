@@ -44,6 +44,15 @@ public class Tema : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<TemaResult> r = tupleNanny.GetTema(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<TemaResult> results = quotes
@@ -70,7 +79,7 @@ public class Tema : TestBase
     {
         IEnumerable<TemaResult> r = Indicator.GetTema(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Tema == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
     }
 
     [TestMethod]

@@ -39,6 +39,16 @@ public class EmaTests : TestBase
 
         Assert.AreEqual(502, results.Count());
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<EmaResult> r = tupleNanny.GetEma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
     }
 
     [TestMethod]
@@ -50,6 +60,7 @@ public class EmaTests : TestBase
 
         Assert.AreEqual(502, results.Count());
         Assert.AreEqual(482, results.Count(x => x.Ema != null));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
     }
 
     [TestMethod]
@@ -61,6 +72,7 @@ public class EmaTests : TestBase
 
         Assert.AreEqual(502, results.Count());
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.AreEqual(0, results.Count(x => x.Sma is double and double.NaN));
     }
 
     [TestMethod]
@@ -107,6 +119,7 @@ public class EmaTests : TestBase
         // assertions
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(469, results.Count(x => x.Ema != null));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
 
         // sample values
         EmaResult r32 = results[32];
@@ -153,7 +166,7 @@ public class EmaTests : TestBase
     {
         IEnumerable<EmaResult> r = Indicator.GetEma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Ema == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
     }
 
     [TestMethod]

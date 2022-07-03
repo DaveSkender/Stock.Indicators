@@ -122,10 +122,83 @@ internal class TestData
 
     // BTCUSD, 69288 records, 15-minute bars
     internal static IEnumerable<Quote> GetBtcUsdNan(int bars = 69288)
-        => File.ReadAllLines("_common/data/btcusdnan.csv")
+        => File.ReadAllLines("_common/data/btcusd15x69k.csv")
             .Skip(1)
             .Select(v => Importer.QuoteFromCsv(v))
             .OrderByDescending(x => x.Date)
             .Take(bars)
             .ToList();
+
+    // TUPLE with NaNs
+    internal static IEnumerable<(DateTime, double)> GetTupleNaN()
+    {
+        List<(DateTime, double)> tpList = new(200);
+
+        DateTime date = DateTime.UtcNow;
+
+        // sequential
+        for (int i = 0; i < 25; i++)
+        {
+            date = date.AddDays(1);
+            double value = date.ToFileTime() / 1000d;
+
+            tpList.Add(new(date, value));
+        }
+
+        // sequential negative
+        for (int i = 0; i < 25; i++)
+        {
+            date = date.AddDays(1);
+            double value = -date.ToFileTime() / 1000d;
+
+            tpList.Add(new(date, value));
+        }
+
+        // sequential 0
+        for (int i = 0; i < 25; i++)
+        {
+            date = date.AddDays(1);
+            double value = 0;
+
+            tpList.Add(new(date, value));
+        }
+
+        // sequential -10
+        for (int i = 0; i < 25; i++)
+        {
+            date = date.AddDays(1);
+            double value = -10;
+
+            tpList.Add(new(date, value));
+        }
+
+        // sequential 10
+        for (int i = 0; i < 25; i++)
+        {
+            date = date.AddDays(1);
+            double value = 10;
+
+            tpList.Add(new(date, value));
+        }
+
+        // some NaNs
+        for (int i = 0; i < 25; i++)
+        {
+            date = date.AddDays(1);
+            double value = double.NaN;
+
+            tpList.Add(new(date, value));
+        }
+
+        // more sequential
+        for (int i = 0; i < 50; i++)
+        {
+            date = date.AddDays(1);
+            double value = date.ToFileTime() / 1000d;
+
+            tpList.Add(new(date, value));
+        }
+
+        return tpList;
+    }
 }

@@ -118,6 +118,16 @@ public class StdDevChannels : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<StdDevChannelsResult> r
+            = tupleNanny.GetStdDevChannels(6, 1.1);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<StdDevChannelsResult> results = quotes
@@ -133,7 +143,7 @@ public class StdDevChannels : TestBase
     {
         IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.UpperChannel == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
     }
 
     [TestMethod]

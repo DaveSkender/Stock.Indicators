@@ -54,6 +54,15 @@ public class Trix : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<TrixResult> r = tupleNanny.GetTrix(6, 2);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<TrixResult> results = quotes
@@ -80,7 +89,7 @@ public class Trix : TestBase
     {
         IEnumerable<TrixResult> r = Indicator.GetTrix(badQuotes, 15, 2);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Trix == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
     }
 
     [TestMethod]

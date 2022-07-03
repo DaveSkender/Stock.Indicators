@@ -61,6 +61,15 @@ public class Macd : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<MacdResult> r = tupleNanny.GetMacd();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Macd is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<MacdResult> results = quotes
@@ -87,7 +96,7 @@ public class Macd : TestBase
     {
         IEnumerable<MacdResult> r = Indicator.GetMacd(badQuotes, 10, 20, 5);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Macd == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Macd is double and double.NaN));
     }
 
     [TestMethod]

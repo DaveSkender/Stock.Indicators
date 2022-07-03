@@ -36,6 +36,15 @@ public class UlcerIndex : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<UlcerIndexResult> r = tupleNanny.GetUlcerIndex(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<UlcerIndexResult> results = quotes
@@ -62,7 +71,7 @@ public class UlcerIndex : TestBase
     {
         IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.UI == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
     }
 
     [TestMethod]

@@ -100,7 +100,7 @@ public class Smi : TestBase
     {
         IEnumerable<SmiResult> r = badQuotes.GetSmi(5, 5, 1, 5);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Smi == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Smi is double and double.NaN));
     }
 
     [TestMethod]

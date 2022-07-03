@@ -69,7 +69,7 @@ public class Pvo : TestBase
     {
         IEnumerable<PvoResult> r = Indicator.GetPvo(badQuotes, 10, 20, 5);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Pvo == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Pvo is double and double.NaN));
     }
 
     [TestMethod]

@@ -45,7 +45,7 @@ public class Vortex : TestBase
     {
         IEnumerable<VortexResult> r = Indicator.GetVortex(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Pvi == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Pvi is double and double.NaN));
     }
 
     [TestMethod]

@@ -67,7 +67,7 @@ public class Klinger : TestBase
     {
         IEnumerable<KvoResult> r = Indicator.GetKvo(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Oscillator == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]

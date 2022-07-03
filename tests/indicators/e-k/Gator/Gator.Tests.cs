@@ -163,6 +163,15 @@ public class Gator : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<GatorResult> r = tupleNanny.GetGator();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<GatorResult> results = quotes
@@ -178,7 +187,7 @@ public class Gator : TestBase
     {
         IEnumerable<GatorResult> r = Indicator.GetGator(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Upper == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
     }
 
     [TestMethod]

@@ -46,7 +46,7 @@ public class Ultimate : TestBase
     {
         IEnumerable<UltimateResult> r = Indicator.GetUltimate(badQuotes, 1, 2, 3);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Ultimate == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Ultimate is double and double.NaN));
     }
 
     [TestMethod]

@@ -63,7 +63,7 @@ public class Chop : TestBase
     {
         IEnumerable<ChopResult> r = Indicator.GetChop(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Chop == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Chop is double and double.NaN));
     }
 
     [TestMethod]

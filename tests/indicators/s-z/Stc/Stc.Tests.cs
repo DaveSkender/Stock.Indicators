@@ -58,6 +58,15 @@ public class Stc : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<StcResult> r = tupleNanny.GetStc();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<StcResult> results = quotes
@@ -84,7 +93,7 @@ public class Stc : TestBase
     {
         IEnumerable<StcResult> r = badQuotes.GetStc(10, 23, 50);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Stc == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
     }
 
     [TestMethod]

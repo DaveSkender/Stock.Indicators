@@ -66,7 +66,7 @@ public class Mfi : TestBase
     {
         IEnumerable<MfiResult> r = Indicator.GetMfi(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Mfi == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Mfi is double and double.NaN));
     }
 
     [TestMethod]

@@ -63,6 +63,15 @@ public class FisherTransform : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<FisherTransformResult> r = tupleNanny.GetFisherTransform(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<FisherTransformResult> results = quotes
@@ -89,7 +98,7 @@ public class FisherTransform : TestBase
     {
         IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(badQuotes, 9);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Fisher == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
     }
 
     [TestMethod]

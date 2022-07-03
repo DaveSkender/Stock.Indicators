@@ -83,6 +83,15 @@ public class RocWb : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<RocWbResult> r = tupleNanny.GetRocWb(6, 2, 10);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<RocWbResult> results = quotes
@@ -109,7 +118,7 @@ public class RocWb : TestBase
     {
         IEnumerable<RocWbResult> r = Indicator.GetRocWb(badQuotes, 35, 3, 35);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Roc == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 
     [TestMethod]

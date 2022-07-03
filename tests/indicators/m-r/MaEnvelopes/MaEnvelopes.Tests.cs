@@ -287,6 +287,16 @@ public class MaEnvelopes : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<MaEnvelopeResult> r
+            = tupleNanny.GetMaEnvelopes(8, 2.5, MaType.ALMA);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperEnvelope is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<MaEnvelopeResult> results = quotes

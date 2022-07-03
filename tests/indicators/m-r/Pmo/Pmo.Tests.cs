@@ -41,6 +41,15 @@ public class Pmo : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<PmoResult> r = tupleNanny.GetPmo();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Pmo is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<PmoResult> results = quotes
@@ -67,7 +76,7 @@ public class Pmo : TestBase
     {
         IEnumerable<PmoResult> r = Indicator.GetPmo(badQuotes, 25, 15, 5);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Pmo == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Pmo is double and double.NaN));
     }
 
     [TestMethod]

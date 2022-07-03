@@ -83,7 +83,7 @@ public class VolatilityStop : TestBase
     {
         IEnumerable<VolatilityStopResult> r = Indicator.GetVolatilityStop(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Sar == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sar is double and double.NaN));
     }
 
     [TestMethod]

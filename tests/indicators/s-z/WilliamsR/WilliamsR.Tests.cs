@@ -43,7 +43,7 @@ public class WilliamsR : TestBase
     {
         IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.WilliamsR == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.WilliamsR is double and double.NaN));
     }
 
     [TestMethod]

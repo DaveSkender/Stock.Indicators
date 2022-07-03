@@ -59,7 +59,7 @@ public class StarcBands : TestBase
     {
         IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(badQuotes, 10, 3, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.UpperBand == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]

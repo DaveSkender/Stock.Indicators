@@ -53,6 +53,15 @@ public class Prs : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<PrsResult> r = tupleNanny.GetPrs(tupleNanny, 6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         IEnumerable<SmaResult> results = otherQuotes
@@ -68,7 +77,7 @@ public class Prs : TestBase
     {
         IEnumerable<PrsResult> r = Indicator.GetPrs(badQuotes, badQuotes, 15, 4);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Prs == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
     }
 
     [TestMethod]

@@ -46,7 +46,7 @@ public class Vwma : TestBase
     {
         IEnumerable<VwmaResult> r = badQuotes.GetVwma(15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Vwma == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Vwma is double and double.NaN));
     }
 
     [TestMethod]

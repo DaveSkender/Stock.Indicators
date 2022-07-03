@@ -66,6 +66,15 @@ public class Kama : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<KamaResult> r = tupleNanny.GetKama();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<KamaResult> results = quotes
@@ -92,7 +101,7 @@ public class Kama : TestBase
     {
         IEnumerable<KamaResult> r = Indicator.GetKama(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Kama == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
     }
 
     [TestMethod]

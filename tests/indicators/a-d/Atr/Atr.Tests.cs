@@ -61,7 +61,7 @@ public class Atr : TestBase
     {
         IEnumerable<AtrResult> r = Indicator.GetAtr(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Atr == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Atr is double and double.NaN));
     }
 
     [TestMethod]

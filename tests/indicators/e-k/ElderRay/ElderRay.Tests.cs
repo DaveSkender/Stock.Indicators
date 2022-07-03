@@ -67,7 +67,7 @@ public class ElderRay : TestBase
     {
         IEnumerable<ElderRayResult> r = Indicator.GetElderRay(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.BullPower == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.BullPower is double and double.NaN));
     }
 
     [TestMethod]

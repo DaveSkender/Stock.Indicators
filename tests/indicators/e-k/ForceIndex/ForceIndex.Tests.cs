@@ -44,7 +44,7 @@ public class ForceIndex : TestBase
     {
         IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(badQuotes, 2);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.ForceIndex == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.ForceIndex is double and double.NaN));
     }
 
     [TestMethod]

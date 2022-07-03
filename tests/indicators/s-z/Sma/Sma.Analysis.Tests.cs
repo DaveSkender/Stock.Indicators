@@ -38,6 +38,15 @@ public class SmaExtended : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<SmaAnalysis> r = tupleNanny.GetSmaAnalysis(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Mse is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<SmaAnalysis> results = quotes
@@ -64,7 +73,7 @@ public class SmaExtended : TestBase
     {
         IEnumerable<SmaAnalysis> r = Indicator.GetSmaAnalysis(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Mape == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Mape is double and double.NaN));
     }
 
     [TestMethod]

@@ -58,6 +58,15 @@ public class Alma : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<AlmaResult> r = tupleNanny.GetAlma();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<AlmaResult> results = quotes
@@ -82,6 +91,20 @@ public class Alma : TestBase
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<AlmaResult> r1 = TestData.GetBtcUsdNan()
+            .GetAlma(9, 0.85, 6);
+
+        Assert.AreEqual(0, r1.Count(x => x.Alma is double and double.NaN));
+
+        IEnumerable<AlmaResult> r2 = TestData.GetBtcUsdNan()
+            .GetAlma(20, 0.85, 6);
+
+        Assert.AreEqual(0, r2.Count(x => x.Alma is double and double.NaN));
     }
 
     [TestMethod]
@@ -114,20 +137,6 @@ public class Alma : TestBase
 
         AlmaResult last = results.LastOrDefault();
         Assert.AreEqual(242.1871, NullMath.Round(last.Alma, 4));
-    }
-
-    [TestMethod]
-    public void NaN()
-    {
-        IEnumerable<AlmaResult> r1 = TestData.GetBtcUsdNan()
-            .GetAlma(9, 0.85, 6);
-
-        Assert.AreEqual(0, r1.Count(x => x.Alma is double and double.NaN));
-
-        IEnumerable<AlmaResult> r2 = TestData.GetBtcUsdNan()
-            .GetAlma(20, 0.85, 6);
-
-        Assert.AreEqual(0, r2.Count(x => x.Alma is double and double.NaN));
     }
 
     [TestMethod]

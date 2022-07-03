@@ -48,6 +48,15 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<CorrResult> r = tupleNanny.GetCorrelation(tupleNanny, 6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
@@ -63,7 +72,7 @@ public class Correlation : TestBase
     {
         IEnumerable<CorrResult> r = Indicator.GetCorrelation(badQuotes, badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Correlation == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
     }
 
     [TestMethod]

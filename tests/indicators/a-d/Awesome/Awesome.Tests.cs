@@ -48,6 +48,15 @@ public class Awesome : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<AwesomeResult> r = tupleNanny.GetAwesome();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<AwesomeResult> results = quotes
@@ -74,7 +83,7 @@ public class Awesome : TestBase
     {
         IEnumerable<AwesomeResult> r = Indicator.GetAwesome(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Oscillator == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]

@@ -119,7 +119,7 @@ public class ParabolicSar : TestBase
     {
         IEnumerable<ParabolicSarResult> r = Indicator.GetParabolicSar(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Sar == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sar is double and double.NaN));
     }
 
     [TestMethod]

@@ -68,6 +68,15 @@ public class Roc : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<RocResult> r = tupleNanny.GetRoc(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<RocResult> results = quotes
@@ -94,7 +103,7 @@ public class Roc : TestBase
     {
         IEnumerable<RocResult> r = Indicator.GetRoc(badQuotes, 35, 2);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Roc == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 
     [TestMethod]

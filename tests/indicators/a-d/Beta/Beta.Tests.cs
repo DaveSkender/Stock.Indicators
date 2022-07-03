@@ -123,6 +123,15 @@ public class Beta : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<BetaResult> r = tupleNanny.GetBeta(tupleNanny, 6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Beta is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         IEnumerable<SmaResult> results = otherQuotes
@@ -139,17 +148,17 @@ public class Beta : TestBase
         IEnumerable<BetaResult> r1 = Indicator
             .GetBeta(badQuotes, badQuotes, 15, BetaType.Standard);
         Assert.AreEqual(502, r1.Count());
-        Assert.AreEqual(0, r1.Count(x => x.Beta == double.NaN));
+        Assert.AreEqual(0, r1.Count(x => x.Beta is double and double.NaN));
 
         IEnumerable<BetaResult> r2 = Indicator
             .GetBeta(badQuotes, badQuotes, 15, BetaType.Up);
         Assert.AreEqual(502, r2.Count());
-        Assert.AreEqual(0, r2.Count(x => x.BetaUp == double.NaN));
+        Assert.AreEqual(0, r2.Count(x => x.BetaUp is double and double.NaN));
 
         IEnumerable<BetaResult> r3 = Indicator
             .GetBeta(badQuotes, badQuotes, 15, BetaType.Down);
         Assert.AreEqual(502, r3.Count());
-        Assert.AreEqual(0, r3.Count(x => x.BetaDown == double.NaN));
+        Assert.AreEqual(0, r3.Count(x => x.BetaDown is double and double.NaN));
     }
 
     [TestMethod]

@@ -66,6 +66,15 @@ public class Dpo : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<DpoResult> r = tupleNanny.GetDpo(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<DpoResult> results = quotes
@@ -93,7 +102,7 @@ public class Dpo : TestBase
     {
         IEnumerable<DpoResult> r = badQuotes.GetDpo(5);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Dpo == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
     }
 
     [TestMethod]

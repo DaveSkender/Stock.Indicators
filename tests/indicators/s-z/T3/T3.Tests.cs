@@ -50,6 +50,15 @@ public class T3 : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<T3Result> r = tupleNanny.GetT3();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<T3Result> results = quotes
@@ -76,7 +85,7 @@ public class T3 : TestBase
     {
         IEnumerable<T3Result> r = Indicator.GetT3(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.T3 == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
     }
 
     [TestMethod]

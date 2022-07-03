@@ -55,6 +55,15 @@ public class BollingerBands : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<BollingerBandsResult> r = tupleNanny.GetBollingerBands();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<BollingerBandsResult> results = quotes
@@ -81,7 +90,7 @@ public class BollingerBands : TestBase
     {
         IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(badQuotes, 15, 3);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.UpperBand == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]

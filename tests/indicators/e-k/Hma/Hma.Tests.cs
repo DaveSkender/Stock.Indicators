@@ -38,6 +38,15 @@ public class Hma : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<HmaResult> r = tupleNanny.GetHma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<HmaResult> results = quotes
@@ -64,7 +73,7 @@ public class Hma : TestBase
     {
         IEnumerable<HmaResult> r = Indicator.GetHma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Hma == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
     }
 
     [TestMethod]

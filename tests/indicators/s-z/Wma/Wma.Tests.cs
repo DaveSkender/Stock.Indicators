@@ -38,6 +38,15 @@ public class Wma : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<WmaResult> r = tupleNanny.GetWma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<WmaResult> results = quotes
@@ -87,7 +96,7 @@ public class Wma : TestBase
     {
         IEnumerable<WmaResult> r = Indicator.GetWma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Wma == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
     }
 
     [TestMethod]

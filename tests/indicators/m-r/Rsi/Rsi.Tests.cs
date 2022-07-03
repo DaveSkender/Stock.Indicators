@@ -74,6 +74,15 @@ public class Rsi : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<RsiResult> r = tupleNanny.GetRsi(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<RsiResult> results = quotes
@@ -93,6 +102,15 @@ public class Rsi : TestBase
 
         Assert.AreEqual(502, results.Count());
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
+            .GetRsi(14);
+
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]
@@ -125,15 +143,6 @@ public class Rsi : TestBase
 
         RsiResult last = results.LastOrDefault();
         Assert.AreEqual(42.0773, NullMath.Round(last.Rsi, 4));
-    }
-
-    [TestMethod]
-    public void NaN()
-    {
-        IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
-            .GetRsi(14);
-
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     // bad lookback period

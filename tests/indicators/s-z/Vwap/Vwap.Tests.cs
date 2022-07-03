@@ -81,7 +81,7 @@ public class Vwap : TestBase
     {
         IEnumerable<VwapResult> r = Indicator.GetVwap(badQuotes);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Vwap == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Vwap is double and double.NaN));
     }
 
     [TestMethod]

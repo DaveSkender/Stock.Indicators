@@ -36,6 +36,15 @@ public class Hurst : TestBase
     }
 
     [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<HurstResult> r = tupleNanny.GetHurst(10);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
@@ -51,7 +60,7 @@ public class Hurst : TestBase
     {
         IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.HurstExponent == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
     }
 
     [TestMethod]

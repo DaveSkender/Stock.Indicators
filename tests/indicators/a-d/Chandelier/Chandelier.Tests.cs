@@ -54,7 +54,7 @@ public class Chandeleir : TestBase
     {
         IEnumerable<ChandelierResult> r = Indicator.GetChandelier(badQuotes, 15, 2);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.ChandelierExit == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double and double.NaN));
     }
 
     [TestMethod]

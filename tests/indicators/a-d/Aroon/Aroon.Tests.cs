@@ -63,7 +63,7 @@ public class Aroon : TestBase
     {
         IEnumerable<AroonResult> r = Indicator.GetAroon(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Oscillator == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]

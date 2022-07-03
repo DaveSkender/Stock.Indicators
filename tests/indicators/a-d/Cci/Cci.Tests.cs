@@ -39,7 +39,7 @@ public class Cci : TestBase
     {
         IEnumerable<CciResult> r = Indicator.GetCci(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Cci == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Cci is double and double.NaN));
     }
 
     [TestMethod]

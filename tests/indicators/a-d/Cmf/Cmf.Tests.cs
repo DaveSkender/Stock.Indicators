@@ -50,7 +50,7 @@ public class Cmf : TestBase
     {
         IEnumerable<CmfResult> r = Indicator.GetCmf(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
-        Assert.AreEqual(0, r.Count(x => x.Cmf == double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Cmf is double and double.NaN));
     }
 
     [TestMethod]
