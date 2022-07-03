@@ -49,6 +49,7 @@ IEnumerable<ChopResult>
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)

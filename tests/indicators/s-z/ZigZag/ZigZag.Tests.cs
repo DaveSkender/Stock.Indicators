@@ -182,6 +182,17 @@ public class ZigZag : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        List<ZigZagResult> results = quotes.GetZigZag(EndType.Close, 3)
+            .Condense()
+            .ToList();
+
+        // assertions
+        Assert.AreEqual(14, results.Count());
+    }
+
+    [TestMethod]
     public void SchrodingerScenario()
     {
         string json = File.ReadAllText("./s-z/ZigZag/data.schrodinger.json");
