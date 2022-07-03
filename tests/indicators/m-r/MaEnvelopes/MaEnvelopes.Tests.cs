@@ -336,6 +336,15 @@ public class MaEnvelopes : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<MaEnvelopeResult> r = quotes.GetMaEnvelopes(20, 2.5, MaType.SMA)
+            .Condense();
+
+        Assert.AreEqual(483, r.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad offset period

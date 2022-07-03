@@ -83,6 +83,15 @@ public class Ichimoku : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<IchimokuResult> r = quotes.GetIchimoku()
+            .Condense();
+
+        Assert.AreEqual(502, r.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad signal period

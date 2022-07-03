@@ -59,6 +59,21 @@ public class Vortex : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        List<VortexResult> results = quotes.GetVortex(14)
+            .Condense()
+            .ToList();
+
+        // assertions
+        Assert.AreEqual(502 - 14, results.Count);
+
+        VortexResult last = results.LastOrDefault();
+        Assert.AreEqual(0.8712, NullMath.Round(last.Pvi, 4));
+        Assert.AreEqual(1.1163, NullMath.Round(last.Nvi, 4));
+    }
+
+    [TestMethod]
     public void Removed()
     {
         List<VortexResult> results = quotes.GetVortex(14)

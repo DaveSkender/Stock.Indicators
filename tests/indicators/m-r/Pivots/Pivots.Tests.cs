@@ -107,6 +107,15 @@ public class Pivots : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<PivotsResult> r = quotes.GetPivots(4, 4, 20, EndType.HighLow)
+            .Condense();
+
+        Assert.AreEqual(67, r.Count());
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad left span

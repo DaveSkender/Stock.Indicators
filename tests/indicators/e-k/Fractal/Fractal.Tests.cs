@@ -101,6 +101,15 @@ public class Fractal : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<FractalResult> r = quotes.GetFractal()
+            .Condense();
+
+        Assert.AreEqual(129, r.Count());
+    }
+
     // bad window span
     [TestMethod]
     public void Exceptions()

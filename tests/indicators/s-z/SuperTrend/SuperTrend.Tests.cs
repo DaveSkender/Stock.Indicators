@@ -84,6 +84,26 @@ public class SuperTrend : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        int lookbackPeriods = 14;
+        double multiplier = 3;
+
+        List<SuperTrendResult> results =
+            quotes.GetSuperTrend(lookbackPeriods, multiplier)
+             .Condense()
+             .ToList();
+
+        // assertions
+        Assert.AreEqual(489, results.Count);
+
+        SuperTrendResult last = results.LastOrDefault();
+        Assert.AreEqual(250.7954m, NullMath.Round(last.SuperTrend, 4));
+        Assert.AreEqual(last.SuperTrend, last.UpperBand);
+        Assert.AreEqual(null, last.LowerBand);
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int lookbackPeriods = 14;

@@ -73,6 +73,28 @@ public class StarcBands : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        int smaPeriods = 20;
+        int multiplier = 2;
+        int atrPeriods = 14;
+        int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
+
+        List<StarcBandsResult> results =
+            quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
+                .Condense()
+                .ToList();
+
+        // assertions
+        Assert.AreEqual(502 - lookbackPeriods + 1, results.Count);
+
+        StarcBandsResult last = results.LastOrDefault();
+        Assert.AreEqual(251.8600, NullMath.Round(last.Centerline, 4));
+        Assert.AreEqual(264.1595, NullMath.Round(last.UpperBand, 4));
+        Assert.AreEqual(239.5605, NullMath.Round(last.LowerBand, 4));
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int smaPeriods = 20;

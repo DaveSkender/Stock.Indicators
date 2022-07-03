@@ -63,14 +63,27 @@ public class Fcb : TestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Condense()
     {
-        List<FcbResult> results = quotes.GetFcb(2)
-            .RemoveWarmupPeriods()
-            .ToList();
+        IEnumerable<FcbResult> results = quotes.GetFcb(2)
+            .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count);
+        Assert.AreEqual(502 - 5, results.Count());
+
+        FcbResult last = results.LastOrDefault();
+        Assert.AreEqual(262.47m, last.UpperBand);
+        Assert.AreEqual(229.42m, last.LowerBand);
+    }
+
+    [TestMethod]
+    public void Removed()
+    {
+        IEnumerable<FcbResult> results = quotes.GetFcb(2)
+            .RemoveWarmupPeriods();
+
+        // assertions
+        Assert.AreEqual(502 - 5, results.Count());
 
         FcbResult last = results.LastOrDefault();
         Assert.AreEqual(262.47m, last.UpperBand);

@@ -62,6 +62,29 @@ public class Keltner : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        int emaPeriods = 20;
+        int multiplier = 2;
+        int atrPeriods = 10;
+        int n = Math.Max(emaPeriods, atrPeriods);
+
+        List<KeltnerResult> results =
+            quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
+                .Condense()
+                .ToList();
+
+        // assertions
+        Assert.AreEqual(483, results.Count);
+
+        KeltnerResult last = results.LastOrDefault();
+        Assert.AreEqual(262.1873, NullMath.Round(last.UpperBand, 4));
+        Assert.AreEqual(249.3519, NullMath.Round(last.Centerline, 4));
+        Assert.AreEqual(236.5165, NullMath.Round(last.LowerBand, 4));
+        Assert.AreEqual(0.102950, NullMath.Round(last.Width, 6));
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int emaPeriods = 20;

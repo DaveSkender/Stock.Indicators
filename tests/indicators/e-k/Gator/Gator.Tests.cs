@@ -201,14 +201,29 @@ public class Gator : TestBase
     }
 
     [TestMethod]
-    public void Removed()
+    public void Condense()
     {
-        List<GatorResult> results = quotes.GetGator()
-            .RemoveWarmupPeriods()
-            .ToList();
+        IEnumerable<GatorResult> results = quotes.GetGator()
+            .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 150, results.Count);
+        Assert.AreEqual(490, results.Count());
+
+        GatorResult last = results.LastOrDefault();
+        Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
+        Assert.AreEqual(-9.2399, Math.Round(last.Lower.Value, 4));
+        Assert.IsTrue(last.UpperIsExpanding);
+        Assert.IsTrue(last.LowerIsExpanding);
+    }
+
+    [TestMethod]
+    public void Removed()
+    {
+        IEnumerable<GatorResult> results = quotes.GetGator()
+            .RemoveWarmupPeriods();
+
+        // assertions
+        Assert.AreEqual(502 - 150, results.Count());
 
         GatorResult last = results.LastOrDefault();
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));

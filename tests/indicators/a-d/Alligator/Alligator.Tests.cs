@@ -111,6 +111,20 @@ public class Alligator : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<AlligatorResult> r = quotes.GetAlligator()
+            .Condense();
+
+        Assert.AreEqual(495, r.Count());
+
+        AlligatorResult last = r.LastOrDefault();
+        Assert.AreEqual(260.98953, NullMath.Round(last.Jaw, 5));
+        Assert.AreEqual(253.53576, NullMath.Round(last.Teeth, 5));
+        Assert.AreEqual(244.29591, NullMath.Round(last.Lips, 5));
+    }
+
+    [TestMethod]
     public void Removed()
     {
         IEnumerable<AlligatorResult> r = quotes.GetAlligator(13, 8)

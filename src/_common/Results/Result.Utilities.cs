@@ -13,7 +13,7 @@ public static partial class Indicator
         where TResult : IResult => results.FirstOrDefault(x => x.Date == lookupDate);
 
     // REMOVE SPECIFIC PERIODS extension
-    /// <include file='./info.xml' path='info/type[@name="PruneSpecific"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="PruneT"]/*' />
     ///
     public static IEnumerable<TResult> RemoveWarmupPeriods<TResult>(
         this IEnumerable<TResult> results,
@@ -25,6 +25,8 @@ public static partial class Indicator
             : results.Remove(removePeriods);
 
     // CONDENSE (REMOVE null and NaN results)
+    /// <include file='./info.xml' path='info/type[@name="CondenseT"]/*' />
+    ///
     public static IEnumerable<TResult> Condense<TResult>(
         this IEnumerable<TResult> results)
         where TResult : IReusableResult

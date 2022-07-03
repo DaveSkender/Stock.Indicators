@@ -157,6 +157,26 @@ public class StdDevChannels : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        int lookbackPeriods = 20;
+        double standardDeviations = 2;
+
+        List<StdDevChannelsResult> results =
+            quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
+                .Condense()
+                .ToList();
+
+        // assertions
+        Assert.AreEqual(500, results.Count);
+        StdDevChannelsResult last = results.LastOrDefault();
+        Assert.AreEqual(235.8131, NullMath.Round(last.Centerline, 4));
+        Assert.AreEqual(257.6536, NullMath.Round(last.UpperChannel, 4));
+        Assert.AreEqual(213.9727, NullMath.Round(last.LowerChannel, 4));
+        Assert.IsFalse(last.BreakPoint);
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int lookbackPeriods = 20;
