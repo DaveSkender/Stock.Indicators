@@ -51,7 +51,7 @@ IEnumerable<StarcBandsResult>
 | -- |-- |--
 | `Date` | DateTime | Date
 | `UpperBand` | decimal | Upper STARC band
-| `Centerline` | decimal | SMA of Close price
+| `Centerline` | decimal | SMA of price
 | `LowerBand` | decimal | Lower STARC band
 
 ### Utilities

@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified weighted average of `Close` price that reduces lag.
+Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified weighted average of price that reduces lag.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/252 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Hma.png)
@@ -57,7 +57,7 @@ IEnumerable<HmaResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-### Chaining
+## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
 

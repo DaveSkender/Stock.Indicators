@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of Close price over a rolling lookback window.  Also known as Historical Volatility (HV).
+[Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/239 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/StdDev.png)
@@ -52,9 +52,9 @@ IEnumerable<StdDevResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `StdDev` | double | Standard Deviation of Close price over `N` lookback periods
-| `Mean` | double | Mean value of Close price over `N` lookback periods
-| `ZScore` | double | Z-Score of current Close price (number of standard deviations from mean)
+| `StdDev` | double | Standard Deviation of price over `N` lookback periods
+| `Mean` | double | Mean value of price over `N` lookback periods
+| `ZScore` | double | Z-Score of current price (number of standard deviations from mean)
 | `StdDevSma` | double | Moving average (SMA) of `StdDev` based on `smaPeriods` periods, if specified
 
 ### Utilities

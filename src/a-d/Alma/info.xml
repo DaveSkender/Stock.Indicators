@@ -3,7 +3,7 @@
 <info>
   <summary>
     Arnaud Legoux Moving Average (ALMA) is a Gaussian distribution
-    weighted moving average of Close price over a lookback window.
+    weighted moving average of price over a lookback window.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/Alma/#content">documentation</see>

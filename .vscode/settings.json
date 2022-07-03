@@ -68,6 +68,7 @@
     "Hutson",
     "Ichimoku",
     "intraday",
+    "jemoji",
     "Kaby",
     "Keltner",
     "kijun",
@@ -81,6 +82,7 @@
     "lookback",
     "Loukas",
     "LSMA",
+    "LWMA",
     "Macd",
     "Mape",
     "Markowitz",
@@ -116,6 +118,7 @@
     "Vitali",
     "Vwap",
     "Vwma",
+    "webp",
     "Woodie"
   ],
   "cSpell.ignorePaths": [

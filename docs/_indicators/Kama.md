@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of Close price over configurable lookback periods.
+Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of price over configurable lookback periods.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/210 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Kama.png)

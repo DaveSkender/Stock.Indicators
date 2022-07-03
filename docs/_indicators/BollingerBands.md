@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) depict volatility as standard deviation boundary lines from a moving average of Close price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
+Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) depict volatility as standard deviation boundary lines from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/267 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/BollingerBands.png)
@@ -47,11 +47,11 @@ IEnumerable<BollingerBandsResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Sma` | double | Simple moving average (SMA) of Close price (center line)
+| `Sma` | double | Simple moving average (SMA) of price (center line)
 | `UpperBand` | double | Upper line is `D` standard deviations above the SMA
 | `LowerBand` | double | Lower line is `D` standard deviations below the SMA
 | `PercentB` | double | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)`
-| `ZScore` | double | Z-Score of current Close price (number of standard deviations from mean)
+| `ZScore` | double | Z-Score of current price (number of standard deviations from mean)
 | `Width` | double | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
 
 ### Utilities

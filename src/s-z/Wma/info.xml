@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    Weighted Moving Average (WMA) is the linear weighted average of Close price over N lookback periods. This also called Linear Weighted Moving Average (LWMA).
+    Weighted Moving Average (WMA) is the linear weighted average of price over N lookback periods. This also called Linear Weighted Moving Average (LWMA).
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/Wma/#content">documentation</see>
