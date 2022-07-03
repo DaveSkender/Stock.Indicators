@@ -21,7 +21,7 @@ Explore more information:
 
 ## Samples
 
-![image](examples.png)
+![image](examples.webp)
 
 ### Basic usage
 
