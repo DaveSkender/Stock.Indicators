@@ -22,8 +22,8 @@ public class Stoch : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(487, results.Where(x => x.Oscillator != null).Count());
-        Assert.AreEqual(485, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(487, results.Count(x => x.Oscillator != null));
+        Assert.AreEqual(485, results.Count(x => x.Signal != null));
 
         // sample values
         StochResult r15 = results[15];
@@ -64,8 +64,8 @@ public class Stoch : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(494, results.Where(x => x.K != null).Count());
-        Assert.AreEqual(494, results.Where(x => x.D != null).Count());
+        Assert.AreEqual(494, results.Count(x => x.K != null));
+        Assert.AreEqual(494, results.Count(x => x.D != null));
 
         // sample values
         StochResult r7 = results[7];
@@ -107,7 +107,7 @@ public class Stoch : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(478, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(478, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -174,6 +174,7 @@ public class Stoch : TestBase
     {
         IEnumerable<StochResult> r = Indicator.GetStoch(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]

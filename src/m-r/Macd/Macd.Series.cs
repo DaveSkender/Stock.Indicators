@@ -34,12 +34,10 @@ public static partial class Indicator
             };
             results.Add(r);
 
-            if (i >= slowPeriods - 1
-                && df.Ema is not null
-                && ds.Ema is not null)
+            if (i >= slowPeriods - 1)
             {
-                double macd = (double)(df.Ema - ds.Ema);
-                r.Macd = macd;
+                double macd = (df.Ema - ds.Ema).Null2NaN();
+                r.Macd = macd.NaN2Null();
 
                 // temp data for interim EMA of macd
                 (DateTime, double) diff = (date, macd);
@@ -56,8 +54,8 @@ public static partial class Indicator
             MacdResult r = results[d];
             EmaResult ds = emaSignal[d + 1 - slowPeriods];
 
-            r.Signal = ds.Ema;
-            r.Histogram = r.Macd - r.Signal;
+            r.Signal = ds.Ema.NaN2Null();
+            r.Histogram = (r.Macd - r.Signal).NaN2Null();
         }
 
         return results;

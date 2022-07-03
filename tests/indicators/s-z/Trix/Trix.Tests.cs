@@ -16,9 +16,9 @@ public class Trix : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Ema3 != null).Count());
-        Assert.AreEqual(482, results.Where(x => x.Trix != null).Count());
-        Assert.AreEqual(478, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Ema3 != null));
+        Assert.AreEqual(482, results.Count(x => x.Trix != null));
+        Assert.AreEqual(478, results.Count(x => x.Signal != null));
 
         // sample values
         TrixResult r24 = results[24];
@@ -50,7 +50,16 @@ public class Trix : TestBase
             .GetTrix(20, 5);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Trix != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Trix != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<TrixResult> r = tupleNanny.GetTrix(6, 2);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
     }
 
     [TestMethod]
@@ -61,7 +70,7 @@ public class Trix : TestBase
             .GetTrix(20, 5);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(481, results.Where(x => x.Trix != null).Count());
+        Assert.AreEqual(481, results.Count(x => x.Trix != null));
     }
 
     [TestMethod]
@@ -72,7 +81,7 @@ public class Trix : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -80,6 +89,7 @@ public class Trix : TestBase
     {
         IEnumerable<TrixResult> r = Indicator.GetTrix(badQuotes, 15, 2);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
     }
 
     [TestMethod]

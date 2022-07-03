@@ -16,7 +16,7 @@ public class Roc : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Roc != null));
         Assert.AreEqual(false, results.Any(x => x.RocSma != null));
 
         // sample values
@@ -43,8 +43,8 @@ public class Roc : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
-        Assert.AreEqual(478, results.Where(x => x.RocSma != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.AreEqual(478, results.Count(x => x.RocSma != null));
 
         // sample values
         RocResult r1 = results[29];
@@ -64,7 +64,16 @@ public class Roc : TestBase
             .GetRoc(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(482, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<RocResult> r = tupleNanny.GetRoc(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 
     [TestMethod]
@@ -75,7 +84,7 @@ public class Roc : TestBase
             .GetRoc(20);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(481, results.Where(x => x.Roc != null).Count());
+        Assert.AreEqual(481, results.Count(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -86,7 +95,7 @@ public class Roc : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(473, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -94,6 +103,7 @@ public class Roc : TestBase
     {
         IEnumerable<RocResult> r = Indicator.GetRoc(badQuotes, 35, 2);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 
     [TestMethod]

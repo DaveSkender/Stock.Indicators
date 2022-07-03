@@ -12,22 +12,16 @@ public class Pivots : TestBase
         List<PivotsResult> results = quotes.GetPivots(4, 4, 20, EndType.HighLow)
             .ToList();
 
-        // foreach (PivotsResult r in results)
-        // {
-        //    Console.WriteLine($"{r.Date:d},{r.HighPoint:N2},{r.HighTrend},{r.HighLine:N4},"
-        //                     + $"{r.LowPoint:N2},{r.LowTrend},{r.LowLine:N4}");
-        // }
-
         // assertions
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(35, results.Where(x => x.HighPoint != null).Count());
-        Assert.AreEqual(333, results.Where(x => x.HighTrend != null).Count());
-        Assert.AreEqual(338, results.Where(x => x.HighLine != null).Count());
-        Assert.AreEqual(34, results.Where(x => x.LowPoint != null).Count());
-        Assert.AreEqual(328, results.Where(x => x.LowTrend != null).Count());
-        Assert.AreEqual(333, results.Where(x => x.LowLine != null).Count());
+        Assert.AreEqual(35, results.Count(x => x.HighPoint != null));
+        Assert.AreEqual(333, results.Count(x => x.HighTrend != null));
+        Assert.AreEqual(338, results.Count(x => x.HighLine != null));
+        Assert.AreEqual(34, results.Count(x => x.LowPoint != null));
+        Assert.AreEqual(328, results.Count(x => x.LowTrend != null));
+        Assert.AreEqual(333, results.Count(x => x.LowLine != null));
 
         // sample values
         PivotsResult r3 = results[3];
@@ -110,6 +104,15 @@ public class Pivots : TestBase
 
         IEnumerable<PivotsResult> r1 = onequote.GetPivots();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<PivotsResult> r = quotes.GetPivots(4, 4, 20, EndType.HighLow)
+            .Condense();
+
+        Assert.AreEqual(67, r.Count());
     }
 
     [TestMethod]

@@ -88,10 +88,10 @@ public static partial class Indicator
         double cov = avgAB - (avgA * avgB);
         double divisor = Math.Sqrt(varA * varB);
 
-        r.VarianceA = varA;
-        r.VarianceB = varB;
-        r.Covariance = cov;
-        r.Correlation = (divisor == 0) ? double.NaN : cov / divisor;
+        r.VarianceA = varA.NaN2Null();
+        r.VarianceB = varB.NaN2Null();
+        r.Covariance = cov.NaN2Null();
+        r.Correlation = (divisor == 0) ? null : (cov / divisor).NaN2Null();
         r.RSquared = r.Correlation * r.Correlation;
     }
 

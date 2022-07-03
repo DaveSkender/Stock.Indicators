@@ -42,28 +42,28 @@ public static partial class Indicator
                 {
                     // efficiency ratio
                     double er = change / sumPV;
-                    r.ER = er;
+                    r.ER = er.NaN2Null();
 
                     // smoothing constant
                     double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
                     double? pk = results[i - 1].Kama;  // prior KAMA
-                    r.Kama = pk + (sc * sc * (value - pk));
+                    r.Kama = (pk + (sc * sc * (value - pk))).NaN2Null();
                 }
 
                 // handle flatline case
                 else
                 {
                     r.ER = 0;
-                    r.Kama = value;
+                    r.Kama = value.NaN2Null();
                 }
             }
 
             // initial value
             else if (i + 1 == erPeriods)
             {
-                r.Kama = value;
+                r.Kama = value.NaN2Null();
             }
         }
 

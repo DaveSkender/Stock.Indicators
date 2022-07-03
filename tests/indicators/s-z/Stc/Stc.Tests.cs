@@ -27,7 +27,7 @@ public class Stc : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(467, results.Where(x => x.Stc != null).Count());
+        Assert.AreEqual(467, results.Count(x => x.Stc != null));
 
         // sample values
         StcResult r34 = results[34];
@@ -54,7 +54,16 @@ public class Stc : TestBase
             .GetStc(9, 12, 26);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(467, results.Where(x => x.Stc != null).Count());
+        Assert.AreEqual(467, results.Count(x => x.Stc != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<StcResult> r = tupleNanny.GetStc();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
     }
 
     [TestMethod]
@@ -65,7 +74,7 @@ public class Stc : TestBase
             .GetStc(9, 12, 26);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(466, results.Where(x => x.Stc != null).Count());
+        Assert.AreEqual(466, results.Count(x => x.Stc != null));
     }
 
     [TestMethod]
@@ -76,7 +85,7 @@ public class Stc : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(458, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(458, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -84,6 +93,7 @@ public class Stc : TestBase
     {
         IEnumerable<StcResult> r = badQuotes.GetStc(10, 23, 50);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
     }
 
     [TestMethod]

@@ -80,6 +80,18 @@ IEnumerable<Quote> validatedQuotes = quotes.Validate();
 
 ## Utilities for indicator results
 
+### Condense
+
+`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+
+```csharp
+// example: only show Marubozu signals
+IEnumerable<CandleResult> results
+  = quotes.GetMarubozu(..).Condense();
+```
+
+:warning: WARNING! In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
+
 ### Find indicator result by date
 
 `results.Find(lookupDate)` is a simple lookup for your indicator results collection.  Just specify the date you want returned.
@@ -100,13 +112,11 @@ SmaResult result = results.Find(lookupDate);
 ```csharp
 // auto remove recommended warmup periods
 IEnumerable<AdxResult> results =
-  quotes.GetAdx(14)
-    .RemoveWarmupPeriods();
+  quotes.GetAdx(14).RemoveWarmupPeriods();
 
 // remove user-specific quantity of periods
 IEnumerable<AdxResult> results =
-  quotes.GetAdx(14)
-    .RemoveWarmupPeriods(50);
+  quotes.GetAdx(14).RemoveWarmupPeriods(50);
 ```
 
 See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
@@ -114,18 +124,3 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 :warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 
 :warning: WARNING! `.RemoveWarmupPeriods()` will reverse-engineer some parameters in determining the recommended pruning amount.  Consequently, on rare occasions when there are unusual results, there can be an erroneous increase in the amount of pruning.  Using this method on chained indicators without specifying `removePeriods` is strongly discouraged.  If you want more certainty, use the `.RemoveWarmupPeriods(removePeriods)` with a specific number of `removePeriods`.
-
-### Condense
-
-`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
-
-```csharp
-// example: only show Marubozu signals
-IEnumerable<CandleResult> results
-  = quotes.GetMarubozu(..)
-    .Condense();
-```
-
-Currently, `.Condense()` is only available on a select few indicators.  If you find an indicator that is a good candidate for this utility, please [submit an Issue]({{site.github.repository_url}}/issues).
-
-:warning: WARNING! In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.

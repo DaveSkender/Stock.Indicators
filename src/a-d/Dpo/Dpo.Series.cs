@@ -29,7 +29,7 @@ public static partial class Indicator
             {
                 SmaResult s = sma[i + offset];
                 r.Sma = s.Sma;
-                r.Dpo = s.Sma is null ? null : value - s.Sma;
+                r.Dpo = s.Sma is null ? null : (value - s.Sma).NaN2Null();
             }
         }
 

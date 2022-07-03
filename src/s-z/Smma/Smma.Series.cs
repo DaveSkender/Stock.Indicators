@@ -29,7 +29,7 @@ public static partial class Indicator
             if (i + 1 > lookbackPeriods)
             {
                 smma = ((prevValue * (lookbackPeriods - 1)) + value) / lookbackPeriods;
-                r.Smma = smma;
+                r.Smma = smma.NaN2Null();
             }
 
             // first SMMA calculated as simple SMA
@@ -43,7 +43,7 @@ public static partial class Indicator
                 }
 
                 smma = sumClose / lookbackPeriods;
-                r.Smma = smma;
+                r.Smma = smma.NaN2Null();
             }
 
             prevValue = smma;

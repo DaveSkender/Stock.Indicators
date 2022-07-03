@@ -42,7 +42,7 @@ public static partial class Indicator
                 }
 
                 // calculate hurst exponent
-                r.HurstExponent = CalcHurstWindow(values);
+                r.HurstExponent = CalcHurstWindow(values).NaN2Null();
             }
         }
 

@@ -20,7 +20,7 @@ public class ChaikinOsc : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Oscillator != null));
 
         // sample value
         ChaikinOscResult r = results[501];
@@ -38,7 +38,7 @@ public class ChaikinOsc : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(484, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -46,6 +46,7 @@ public class ChaikinOsc : TestBase
     {
         IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(badQuotes, 5, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]

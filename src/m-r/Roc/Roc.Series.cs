@@ -27,7 +27,7 @@ public static partial class Indicator
                 (DateTime _, double backValue) = tpList[i - lookbackPeriods];
 
                 r.Roc = (backValue == 0) ? null
-                    : 100d * (value - backValue) / backValue;
+                    : (100d * (value - backValue) / backValue).NaN2Null();
             }
 
             // optional SMA

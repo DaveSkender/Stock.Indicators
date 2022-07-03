@@ -17,7 +17,7 @@ public class UlcerIndex : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.UI != null));
 
         // sample value
         UlcerIndexResult r = results[501];
@@ -32,7 +32,16 @@ public class UlcerIndex : TestBase
             .GetUlcerIndex(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(489, results.Where(x => x.UI != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.UI != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<UlcerIndexResult> r = tupleNanny.GetUlcerIndex(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
     }
 
     [TestMethod]
@@ -43,7 +52,7 @@ public class UlcerIndex : TestBase
             .GetUlcerIndex(14);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(488, results.Where(x => x.UI != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.UI != null));
     }
 
     [TestMethod]
@@ -54,7 +63,7 @@ public class UlcerIndex : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -62,6 +71,7 @@ public class UlcerIndex : TestBase
     {
         IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
     }
 
     [TestMethod]

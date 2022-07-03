@@ -35,13 +35,13 @@ public static partial class Indicator
             }
 
             // mean absolute deviation
-            r.Mad = sumMad / lookbackPeriods;
+            r.Mad = (sumMad / lookbackPeriods).NaN2Null();
 
             // mean squared error
-            r.Mse = sumMse / lookbackPeriods;
+            r.Mse = (sumMse / lookbackPeriods).NaN2Null();
 
             // mean absolute percent error
-            r.Mape = sumMape / lookbackPeriods;
+            r.Mape = (sumMape / lookbackPeriods).NaN2Null();
         }
 
         return results;

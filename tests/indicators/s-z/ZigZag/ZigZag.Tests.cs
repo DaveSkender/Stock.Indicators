@@ -19,10 +19,10 @@ public class ZigZag : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(234, results.Where(x => x.ZigZag != null).Count());
-        Assert.AreEqual(234, results.Where(x => x.RetraceHigh != null).Count());
-        Assert.AreEqual(221, results.Where(x => x.RetraceLow != null).Count());
-        Assert.AreEqual(14, results.Where(x => x.PointType != null).Count());
+        Assert.AreEqual(234, results.Count(x => x.ZigZag != null));
+        Assert.AreEqual(234, results.Count(x => x.RetraceHigh != null));
+        Assert.AreEqual(221, results.Count(x => x.RetraceLow != null));
+        Assert.AreEqual(14, results.Count(x => x.PointType != null));
 
         // sample values
         ZigZagResult r0 = results[249];
@@ -74,10 +74,10 @@ public class ZigZag : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(463, results.Where(x => x.ZigZag != null).Count());
-        Assert.AreEqual(463, results.Where(x => x.RetraceHigh != null).Count());
-        Assert.AreEqual(442, results.Where(x => x.RetraceLow != null).Count());
-        Assert.AreEqual(30, results.Where(x => x.PointType != null).Count());
+        Assert.AreEqual(463, results.Count(x => x.ZigZag != null));
+        Assert.AreEqual(463, results.Count(x => x.RetraceHigh != null));
+        Assert.AreEqual(442, results.Count(x => x.RetraceLow != null));
+        Assert.AreEqual(30, results.Count(x => x.PointType != null));
 
         // sample values
         ZigZagResult r38 = results[38];
@@ -125,7 +125,7 @@ public class ZigZag : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(225, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(225, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -179,6 +179,17 @@ public class ZigZag : TestBase
 
         IEnumerable<ZigZagResult> r1 = onequote.GetZigZag();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        List<ZigZagResult> results = quotes.GetZigZag(EndType.Close, 3)
+            .Condense()
+            .ToList();
+
+        // assertions
+        Assert.AreEqual(14, results.Count());
     }
 
     [TestMethod]

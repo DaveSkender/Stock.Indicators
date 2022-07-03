@@ -45,7 +45,7 @@ public static partial class Indicator
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
 
-                r.UI = Math.Sqrt(sumSquared / lookbackPeriods);
+                r.UI = Math.Sqrt(sumSquared / lookbackPeriods).NaN2Null();
             }
         }
 

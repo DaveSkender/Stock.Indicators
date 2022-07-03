@@ -17,8 +17,8 @@ public class Smi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Where(x => x.Smi != null).Count());
-        Assert.AreEqual(489, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.Smi != null));
+        Assert.AreEqual(489, results.Count(x => x.Signal != null));
 
         // sample values
         SmiResult r12 = results[12];
@@ -58,7 +58,7 @@ public class Smi : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(480, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -100,6 +100,7 @@ public class Smi : TestBase
     {
         IEnumerable<SmiResult> r = badQuotes.GetSmi(5, 5, 1, 5);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Smi is double and double.NaN));
     }
 
     [TestMethod]

@@ -17,8 +17,8 @@ public class Adx : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(475, results.Where(x => x.Adx != null).Count());
-        Assert.AreEqual(462, results.Where(x => x.Adxr != null).Count());
+        Assert.AreEqual(475, results.Count(x => x.Adx != null));
+        Assert.AreEqual(462, results.Count(x => x.Adxr != null));
 
         // sample values
         AdxResult r19 = results[19];
@@ -57,7 +57,7 @@ public class Adx : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(466, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(466, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -65,6 +65,7 @@ public class Adx : TestBase
     {
         IEnumerable<AdxResult> r = badQuotes.GetAdx(20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
     }
 
     [TestMethod]

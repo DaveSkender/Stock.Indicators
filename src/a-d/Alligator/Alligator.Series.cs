@@ -60,6 +60,8 @@ public static partial class Indicator
                     double? prevValue = results[i + jawOffset - 1].Jaw;
                     jawResult.Jaw = ((prevValue * (jawPeriods - 1)) + pr[i]) / jawPeriods;
                 }
+
+                jawResult.Jaw = jawResult.Jaw.NaN2Null();
             }
 
             // only calculate teeth if the array offset is still in valid range
@@ -86,6 +88,8 @@ public static partial class Indicator
                     double? prevValue = results[i + teethOffset - 1].Teeth;
                     teethResult.Teeth = ((prevValue * (teethPeriods - 1)) + pr[i]) / teethPeriods;
                 }
+
+                teethResult.Teeth = teethResult.Teeth.NaN2Null();
             }
 
             // only calculate lips if the array offset is still in valid range
@@ -112,6 +116,8 @@ public static partial class Indicator
                     double? prevValue = results[i + lipsOffset - 1].Lips;
                     lipsResult.Lips = ((prevValue * (lipsPeriods - 1)) + pr[i]) / lipsPeriods;
                 }
+
+                lipsResult.Lips = lipsResult.Lips.NaN2Null();
             }
         }
 

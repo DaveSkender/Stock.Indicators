@@ -71,7 +71,7 @@ public static partial class Indicator
                 double avg2 = (sumTR2 == 0) ? double.NaN : sumBP2 / sumTR2;
                 double avg3 = (sumTR3 == 0) ? double.NaN : sumBP3 / sumTR3;
 
-                r.Ultimate = 100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d;
+                r.Ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).NaN2Null();
             }
 
             priorClose = q.Close;

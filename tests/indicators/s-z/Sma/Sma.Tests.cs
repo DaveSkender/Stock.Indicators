@@ -17,7 +17,7 @@ public class Sma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -37,7 +37,7 @@ public class Sma : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -57,7 +57,7 @@ public class Sma : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Sma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
         SmaResult r24 = results[24];
@@ -79,7 +79,25 @@ public class Sma : TestBase
             .GetEma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(484, results.Where(x => x.Ema != null).Count());
+        Assert.AreEqual(484, results.Count(x => x.Ema != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<SmaResult> r = tupleNanny.GetSma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void NaN()
+    {
+        IEnumerable<SmaResult> r = TestData.GetBtcUsdNan()
+            .GetSma(50);
+
+        Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
     }
 
     [TestMethod]
@@ -87,6 +105,7 @@ public class Sma : TestBase
     {
         IEnumerable<SmaResult> r = Indicator.GetSma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
     }
 
     [TestMethod]
