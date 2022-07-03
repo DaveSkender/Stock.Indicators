@@ -64,7 +64,7 @@ IEnumerable<StochRsiResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-### Chaining
+## Chaining
 
 Results can be further processed on `StochRsi` with additional chain-enabled indicators.
 

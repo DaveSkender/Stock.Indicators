@@ -56,7 +56,7 @@ IEnumerable<HmaResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-### Chaining
+## Chaining
 
 This indicator may be generated from any chain-enabled indicator or method.
 
