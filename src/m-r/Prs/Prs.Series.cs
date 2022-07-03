@@ -29,7 +29,7 @@ public static partial class Indicator
 
             PrsResult r = new(eDate)
             {
-                Prs = (bValue == 0) ? null : (eValue / bValue) // relative strength ratio
+                Prs = (bValue == 0) ? null : (eValue / bValue).NaN2Null() // relative strength ratio
             };
             results.Add(r);
 
@@ -43,7 +43,7 @@ public static partial class Indicator
                     double? pctB = (bValue - boValue) / boValue;
                     double? pctE = (eValue - eoValue) / eoValue;
 
-                    r.PrsPercent = pctE - pctB;
+                    r.PrsPercent = (pctE - pctB).NaN2Null();
                 }
             }
 
@@ -57,7 +57,7 @@ public static partial class Indicator
                     sumRs += d.Prs;
                 }
 
-                r.PrsSma = sumRs / smaPeriods;
+                r.PrsSma = (sumRs / smaPeriods).NaN2Null();
             }
         }
 

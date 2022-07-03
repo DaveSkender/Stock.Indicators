@@ -38,7 +38,7 @@ public class Hurst : TestBase
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<HurstResult> r = tupleNanny.GetHurst(10);
+        IEnumerable<HurstResult> r = tupleNanny.GetHurst(100);
 
         Assert.AreEqual(200, r.Count());
         Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));

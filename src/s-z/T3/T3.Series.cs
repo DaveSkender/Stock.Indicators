@@ -63,7 +63,7 @@ public static partial class Indicator
                                     e6 += k * (e5 - e6);
 
                                     // T3 moving average
-                                    r.T3 = (c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3);
+                                    r.T3 = ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null();
                                 }
 
                                 // sixth warmup
@@ -76,7 +76,7 @@ public static partial class Indicator
                                         e6 = sum6 / lookbackPeriods;
 
                                         // initial T3 moving average
-                                        r.T3 = (c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3);
+                                        r.T3 = ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null();
                                     }
                                 }
                             }

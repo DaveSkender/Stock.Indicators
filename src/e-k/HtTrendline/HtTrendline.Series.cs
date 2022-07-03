@@ -85,7 +85,7 @@ public static partial class Indicator
                 sd[i] = (0.33 * pd[i]) + (0.67 * sd[i - 1]);
 
                 // smooth dominant cycle period
-                int dcPeriods = (int)(sd[i] + 0.5);
+                int dcPeriods = (int)(double.IsNaN(sd[i]) ? 0 : sd[i] + 0.5);
                 double sumPr = 0;
                 for (int d = i - dcPeriods + 1; d <= i; d++)
                 {
@@ -105,16 +105,16 @@ public static partial class Indicator
 
                 // final indicators
                 r.Trendline = i >= 11 // 12th bar
-                    ? ((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d
-                    : pr[i];
+                    ? (((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d).NaN2Null()
+                    : pr[i].NaN2Null();
 
-                r.SmoothPrice = ((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10d;
+                r.SmoothPrice = (((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10d).NaN2Null();
             }
 
             // initialization period
             else
             {
-                r.Trendline = pr[i];
+                r.Trendline = pr[i].NaN2Null();
                 r.SmoothPrice = null;
 
                 pd[i] = 0;

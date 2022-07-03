@@ -99,8 +99,8 @@ public static partial class Indicator
                 double alpha = Math.Max(fastLimit / delta, slowLimit);
 
                 // final indicators
-                r.Mama = (alpha * pr[i]) + ((1d - alpha) * results[i - 1].Mama);
-                r.Fama = (0.5d * alpha * r.Mama) + ((1d - (0.5d * alpha)) * results[i - 1].Fama);
+                r.Mama = ((alpha * pr[i]) + ((1d - alpha) * results[i - 1].Mama)).NaN2Null();
+                r.Fama = ((0.5d * alpha * r.Mama) + ((1d - (0.5d * alpha)) * results[i - 1].Fama)).NaN2Null();
             }
 
             // initialization period
@@ -110,7 +110,7 @@ public static partial class Indicator
 
                 if (i == 5)
                 {
-                    r.Mama = sumPr / 6d;
+                    r.Mama = (sumPr / 6d).NaN2Null();
                     r.Fama = r.Mama;
                 }
 

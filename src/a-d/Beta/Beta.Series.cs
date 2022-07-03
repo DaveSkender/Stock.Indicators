@@ -140,7 +140,7 @@ public static partial class Indicator
             // calculate beta
             if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
             {
-                double? beta = c.Covariance / c.VarianceA;
+                double? beta = (c.Covariance / c.VarianceA).NaN2Null();
 
                 if (type == BetaType.Standard)
                 {

@@ -61,18 +61,18 @@ public static partial class Indicator
                 sumSqXY += devX * devY;
             }
 
-            r.Slope = sumSqXY / sumSqX;
-            r.Intercept = avgY - (r.Slope * avgX);
+            r.Slope = (sumSqXY / sumSqX).NaN2Null();
+            r.Intercept = (avgY - (r.Slope * avgX)).NaN2Null();
 
             // calculate Standard Deviation and R-Squared
             double stdDevX = Math.Sqrt(sumSqX / lookbackPeriods);
             double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
-            r.StdDev = stdDevY;
+            r.StdDev = stdDevY.NaN2Null();
 
             if (stdDevX * stdDevY != 0)
             {
                 double arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
-                r.RSquared = arrr * arrr;
+                r.RSquared = (arrr * arrr).NaN2Null();
             }
         }
 
@@ -83,7 +83,7 @@ public static partial class Indicator
             for (int p = length - lookbackPeriods; p < length; p++)
             {
                 SlopeResult d = results[p];
-                d.Line = (decimal?)((last?.Slope * (p + 1)) + last?.Intercept);
+                d.Line = (decimal?)((last?.Slope * (p + 1)) + last?.Intercept).NaN2Null();
             }
         }
 

@@ -40,8 +40,8 @@ public static partial class Indicator
                     }
                 }
 
-                r.Oscillator = (sumFast / fastPeriods) - (sumSlow / slowPeriods);
-                r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : double.NaN;
+                r.Oscillator = ((sumFast / fastPeriods) - (sumSlow / slowPeriods)).NaN2Null();
+                r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : null;
             }
         }
 

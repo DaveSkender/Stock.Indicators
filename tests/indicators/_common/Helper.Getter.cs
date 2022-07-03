@@ -133,6 +133,7 @@ internal class TestData
     internal static IEnumerable<(DateTime, double)> GetTupleNaN()
     {
         List<(DateTime, double)> tpList = new(200);
+        double timeFactor = 10000000d;
 
         DateTime date = DateTime.UtcNow;
 
@@ -140,7 +141,7 @@ internal class TestData
         for (int i = 0; i < 25; i++)
         {
             date = date.AddDays(1);
-            double value = date.ToFileTime() / 1000d;
+            double value = date.ToFileTime() / timeFactor;
 
             tpList.Add(new(date, value));
         }
@@ -149,7 +150,7 @@ internal class TestData
         for (int i = 0; i < 25; i++)
         {
             date = date.AddDays(1);
-            double value = -date.ToFileTime() / 1000d;
+            double value = -date.ToFileTime() / timeFactor;
 
             tpList.Add(new(date, value));
         }
@@ -194,7 +195,7 @@ internal class TestData
         for (int i = 0; i < 50; i++)
         {
             date = date.AddDays(1);
-            double value = date.ToFileTime() / 1000d;
+            double value = date.ToFileTime() / timeFactor;
 
             tpList.Add(new(date, value));
         }

@@ -44,8 +44,8 @@ public static partial class Indicator
                 xv[i] = (xv[i] > 0.99) ? 0.999 : xv[i];
                 xv[i] = (xv[i] < -0.99) ? -0.999 : xv[i];
 
-                r.Fisher = (0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
-                      + (0.5 * results[i - 1].Fisher);
+                r.Fisher = ((0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
+                      + (0.5 * results[i - 1].Fisher)).NaN2Null();
 
                 r.Trigger = results[i - 1].Fisher;
             }

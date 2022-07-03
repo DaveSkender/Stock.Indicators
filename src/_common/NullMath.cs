@@ -30,4 +30,9 @@ internal static class NullMath
         => (value is double and double.NaN)
         ? null
         : value;
+
+    internal static double? NaN2Null(this double value)
+        => (value is double and double.NaN)
+        ? null
+        : value;
 }

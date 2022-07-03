@@ -43,8 +43,8 @@ public static partial class Indicator
                 double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
                 double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
-                r.Ema3 = ema3;
-                r.Trix = 100 * (ema3 - lastEma3) / lastEma3;
+                r.Ema3 = ema3.NaN2Null();
+                r.Trix = (100d * (ema3 - lastEma3) / lastEma3).NaN2Null();
 
                 lastEma1 = ema1;
                 lastEma2 = ema2;

@@ -24,14 +24,14 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double? wma = 0;
+                double wma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     (DateTime _, double pValue) = tpList[p];
                     wma += pValue * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
 
-                r.Wma = wma;
+                r.Wma = wma.NaN2Null();
             }
         }
 

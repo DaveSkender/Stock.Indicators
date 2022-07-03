@@ -85,7 +85,7 @@ public class RocWb : TestBase
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<RocWbResult> r = tupleNanny.GetRocWb(6, 2, 10);
+        IEnumerable<RocWbResult> r = tupleNanny.GetRocWb(6, 7, 5);
 
         Assert.AreEqual(200, r.Count());
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));

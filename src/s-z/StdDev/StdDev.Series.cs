@@ -39,10 +39,10 @@ public static partial class Indicator
 
                 double periodAvg = sum / lookbackPeriods;
 
-                r.StdDev = periodValues.StdDev();
-                r.Mean = periodAvg;
+                r.StdDev = periodValues.StdDev().NaN2Null();
+                r.Mean = periodAvg.NaN2Null();
 
-                r.ZScore = (r.StdDev == 0) ? double.NaN
+                r.ZScore = (r.StdDev == 0) ? null
                     : (value - periodAvg) / r.StdDev;
             }
 
@@ -55,7 +55,7 @@ public static partial class Indicator
                     sumSma += results[p].StdDev;
                 }
 
-                r.StdDevSma = sumSma / smaPeriods;
+                r.StdDevSma = (sumSma / smaPeriods).NaN2Null();
             }
         }
 

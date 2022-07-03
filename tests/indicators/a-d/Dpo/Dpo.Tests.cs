@@ -93,7 +93,6 @@ public class Dpo : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(494, results.Count(x => x.Sma is not double.NaN));
         Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
     }
 

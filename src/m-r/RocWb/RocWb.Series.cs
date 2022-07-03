@@ -102,7 +102,7 @@ public static partial class Indicator
         if (stdDevPeriods <= 0 || stdDevPeriods > lookbackPeriods)
         {
             throw new ArgumentOutOfRangeException(nameof(stdDevPeriods), stdDevPeriods,
-                "Standard Deviation periods must be greater than 0 and not more than lookback period for ROC with Bands.");
+                "Standard Deviation periods must be greater than 0 and less than lookback period for ROC with Bands.");
         }
     }
 }

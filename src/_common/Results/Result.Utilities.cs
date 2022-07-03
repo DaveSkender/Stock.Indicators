@@ -34,7 +34,7 @@ public static partial class Indicator
 
         _ = resultsList
             .RemoveAll(match:
-                x => x.Value == null || double.IsNaN((double)x.Value));
+                x => x.Value == null || x.Value is double and double.NaN);
 
         return resultsList.ToSortedList();
     }
