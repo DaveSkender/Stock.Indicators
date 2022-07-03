@@ -34,7 +34,7 @@ public static partial class Indicator
 
         _ = resultsList
             .RemoveAll(match:
-                x => x.Value == null || x.Value is double and double.NaN);
+                x => x.Value is null || x.Value is double and double.NaN);
 
         return resultsList.ToSortedList();
     }
@@ -130,32 +130,6 @@ public static partial class Indicator
         return resultsList.ToSortedList();
     }
 
-    // REMOVE RESULTS
-    private static List<TResult> Remove<TResult>(
-        this IEnumerable<TResult> results,
-        int removePeriods)
-        where TResult : IResult
-    {
-        List<TResult> resultsList = results.ToList();
-
-        if (resultsList.Count <= removePeriods)
-        {
-            return new List<TResult>();
-        }
-        else
-        {
-            if (removePeriods > 0)
-            {
-                for (int i = 0; i < removePeriods; i++)
-                {
-                    resultsList.RemoveAt(0);
-                }
-            }
-
-            return resultsList;
-        }
-    }
-
     // CONVERT TO TUPLE
     internal static List<(DateTime Date, double Value)> ToResultTuple(
         this IEnumerable<IReusableResult> basicData)
@@ -181,4 +155,30 @@ public static partial class Indicator
         where TResult : IResult => results
             .OrderBy(x => x.Date)
             .ToList();
+
+    // REMOVE RESULTS
+    private static List<TResult> Remove<TResult>(
+        this IEnumerable<TResult> results,
+        int removePeriods)
+        where TResult : IResult
+    {
+        List<TResult> resultsList = results.ToList();
+
+        if (resultsList.Count <= removePeriods)
+        {
+            return new List<TResult>();
+        }
+        else
+        {
+            if (removePeriods > 0)
+            {
+                for (int i = 0; i < removePeriods; i++)
+                {
+                    resultsList.RemoveAt(0);
+                }
+            }
+
+            return resultsList;
+        }
+    }
 }

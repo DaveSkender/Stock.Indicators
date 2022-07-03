@@ -46,6 +46,26 @@ public class Results : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        List<AdxResult> x = quotes.GetAdx(14).ToList();
+
+        // make a few more in the middle null and NaN
+        x[249].Adx = null;
+        x[345].Adx = double.NaN;
+
+        IEnumerable<AdxResult> r = x.Condense();
+
+        // assertions
+        Assert.AreEqual(473, r.Count());
+
+        AdxResult last = r.LastOrDefault();
+        Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
+        Assert.AreEqual(31.1510, NullMath.Round(last.Mdi, 4));
+        Assert.AreEqual(34.2987, NullMath.Round(last.Adx, 4));
+    }
+
+    [TestMethod]
     public void SyncIndex()
     {
         // baseline for comparison
