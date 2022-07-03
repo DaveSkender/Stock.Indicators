@@ -184,9 +184,8 @@ public class ZigZag : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<ZigZagResult> results = quotes.GetZigZag(EndType.Close, 3)
-            .Condense()
-            .ToList();
+        IEnumerable<ZigZagResult> results = quotes.GetZigZag(EndType.Close, 3)
+            .Condense();
 
         // assertions
         Assert.AreEqual(14, results.Count());
