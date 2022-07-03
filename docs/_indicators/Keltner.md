@@ -51,7 +51,7 @@ IEnumerable<KeltnerResult>
 | -- |-- |--
 | `Date` | DateTime | Date
 | `UpperBand` | double | Upper band of Keltner Channel
-| `Centerline` | double | EMA of Close price
+| `Centerline` | double | EMA of price
 | `LowerBand` | double | Lower band of Keltner Channel
 | `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
 

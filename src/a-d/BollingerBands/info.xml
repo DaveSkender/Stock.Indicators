@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    Bollinger Bands&#174; depict volatility as standard deviation boundary lines from a moving average of Close price.
+    Bollinger Bands&#174; depict volatility as standard deviation boundary lines from a moving average of price.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/BollingerBands/#content">documentation</see>

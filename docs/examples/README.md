@@ -18,7 +18,7 @@ For more information on how to use this library overall, see the [Guide and Pro 
 
 To run the sample projects:
 
-1. [Download the ZIP file](Skender.Stock.Indicators-Examples.zip) and extract consents
+1. [Download the ZIP file](Skender.Stock.Indicators-Examples.zip) and extract contents
 2. Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
 3. Review the code in the `Program.cs` file
 4. Run the `ConsoleApp` by any one of the following methods:

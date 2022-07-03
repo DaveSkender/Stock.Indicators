@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    Triple EMA Oscillator (TRIX) is the rate of change for a 3 EMA smoothing of the Close price over a lookback window. TRIX is often confused with TEMA.
+    Triple EMA Oscillator (TRIX) is the rate of change for a 3 EMA smoothing of the price over a lookback window. TRIX is often confused with TEMA.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/Trix/#content">documentation</see>

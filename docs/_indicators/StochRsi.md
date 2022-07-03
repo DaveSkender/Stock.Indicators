@@ -53,7 +53,7 @@ IEnumerable<StochRsiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `StochRsi` | double | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of Close price
+| `StochRsi` | double | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price
 | `Signal` | double | %D Signal Line = Simple moving average of %K based on `G` periods
 
 ### Utilities
@@ -65,7 +65,7 @@ IEnumerable<StochRsiResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-### Chaining
+## Chaining
 
 Results can be further processed on `StochRsi` with additional chain-enabled indicators.
 

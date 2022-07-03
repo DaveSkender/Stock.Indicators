@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    Triple Exponential Moving Average (TEMA) of the Close price.  Note: TEMA is often confused with the alternative TRIX oscillator.
+    Triple Exponential Moving Average (TEMA) of the price.  Note: TEMA is often confused with the alternative TRIX oscillator.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/Tema/#content">documentation</see>

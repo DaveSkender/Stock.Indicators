@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    Slope of the best fit line is determined by an ordinary least-squares simple linear regression on Close price.
+    Slope of the best fit line is determined by an ordinary least-squares simple linear regression on price.
     It can be used to help identify trend strength and direction.
     <para>
       See

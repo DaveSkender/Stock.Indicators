@@ -49,7 +49,7 @@ IEnumerable<ElderRayResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema` | double | Exponential moving average of Close price
+| `Ema` | double | Exponential moving average
 | `BullPower` | double | Bull Power
 | `BearPower` | double | Bear Power
 

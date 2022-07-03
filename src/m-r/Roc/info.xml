@@ -4,7 +4,7 @@
 
   <type name="Main">
     <summary>
-      Rate of Change (ROC), also known as Momentum Oscillator, is the percent change of Close price over a lookback window.
+      Rate of Change (ROC), also known as Momentum Oscillator, is the percent change of price over a lookback window.
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Roc/#content">documentation</see>
