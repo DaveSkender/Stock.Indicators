@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    Moving Average Envelopes is a price band overlay that is offset from the moving average of Close price over a lookback window.
+    Moving Average Envelopes is a price band overlay that is offset from the moving average of price over a lookback window.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/MaEnvelopes/#content">documentation</see>

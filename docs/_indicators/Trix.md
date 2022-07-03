@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the Close price over a lookback window.  TRIX is often confused with [TEMA]({{site.baseurl}}/indicators/Tema/#content).
+Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_analysis)) is the rate of change for a 3 EMA smoothing of the price over a lookback window.  TRIX is often confused with [TEMA]({{site.baseurl}}/indicators/Tema/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/234 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Trix.png)
@@ -53,7 +53,7 @@ IEnumerable<TrixResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ema3` | decimal | 3 EMAs of the Close price
+| `Ema3` | decimal | 3 EMAs of the price
 | `Trix` | decimal | Rate of Change of 3 EMAs
 | `Signal` | decimal | SMA of `Trix` based on `signalPeriods` periods, if specified
 

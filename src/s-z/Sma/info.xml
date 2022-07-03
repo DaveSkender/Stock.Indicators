@@ -4,7 +4,7 @@
 
   <type name="Main">
     <summary>
-      Simple Moving Average (SMA) of the Close price or any other specified OHLCV element.
+      Simple Moving Average (SMA) of the price.
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Sma/#content">documentation</see>
@@ -20,7 +20,7 @@
 
   <type name="Analysis">
     <summary>
-      Simple Moving Average (SMA) is the average of Close price over a lookback window.  This extended variant includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
+      Simple Moving Average (SMA) is the average of price over a lookback window.  This extended variant includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Sma/#content">documentation</see>

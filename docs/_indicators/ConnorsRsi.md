@@ -22,7 +22,7 @@ IEnumerable<ConnorsRsiResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `rsiPeriods` | int | Lookback period (`R`) for the close price RSI.  Must be greater than 1.  Default is 3.
+| `rsiPeriods` | int | Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3.
 | `streakPeriods` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
 | `rankPeriods` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.
 

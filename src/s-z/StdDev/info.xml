@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    Rolling Standard Deviation of Close price over a lookback window.
+    Rolling Standard Deviation of price over a lookback window.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/StdDev/#content">documentation</see>
