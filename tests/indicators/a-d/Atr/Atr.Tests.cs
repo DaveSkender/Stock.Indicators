@@ -16,7 +16,7 @@ public class Atr : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502 - 13, results.Count(x => x.Atr != null));
+        Assert.AreEqual(489, results.Count(x => x.Atr != null));
 
         // sample values
         AtrResult r1 = results[12];
