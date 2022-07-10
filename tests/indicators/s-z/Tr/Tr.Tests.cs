@@ -38,7 +38,7 @@ public class Tr : TestBase
     [TestMethod]
     public void Chainor()
     {
-        var results = quotes
+        List<SmmaResult> results = quotes
             .GetTr()
             .GetSmma(14)
             .ToList();
@@ -79,19 +79,5 @@ public class Tr : TestBase
 
         IEnumerable<TrResult> r1 = onequote.GetTr();
         Assert.AreEqual(1, r1.Count());
-    }
-
-    [TestMethod]
-    public void Removed()
-    {
-        List<TrResult> results = quotes.GetTr()
-            .RemoveWarmupPeriods()
-            .ToList();
-
-        // assertions
-        Assert.AreEqual(502, results.Count);
-
-        TrResult last = results.LastOrDefault();
-        Assert.AreEqual(2.67, NullMath.Round(last.Tr, 8));
     }
 }

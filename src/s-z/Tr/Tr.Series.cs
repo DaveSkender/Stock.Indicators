@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE TRUE RANGE (SERIES)
+// TRUE RANGE (SERIES)
 public static partial class Indicator
 {
     // calculate series

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE TRUE RANGE (API)
+// TRUE RANGE (API)
 public static partial class Indicator
 {
     // SERIES, from TQuote
