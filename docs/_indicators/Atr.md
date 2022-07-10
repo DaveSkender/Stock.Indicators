@@ -7,15 +7,23 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by J. Welles Wilder, [Average True Range](https://en.wikipedia.org/wiki/Average_true_range) is a measure of volatility that captures gaps and limits between periods.
+Created by J. Welles Wilder, True Range and [Average True Range](https://en.wikipedia.org/wiki/Average_true_range) is a measure of volatility that captures gaps and limits between periods.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/269 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Atr.png)
 
 ```csharp
-// usage
+// standard usage
 IEnumerable<AtrResult> results =
   quotes.GetAtr(lookbackPeriods);
+
+// ATR with custom moving average
+IEnumerable<SmmaResult> results =
+  quotes.GetTr().GetSmma(lookbackPeriods);
+
+// raw True Range (TR) only
+IEnumerable<TrResult> results =
+  quote.GetTr();
 ```
 
 ## Parameters
