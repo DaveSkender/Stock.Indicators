@@ -86,6 +86,10 @@
   permalink: /indicators/SuperTrend/
   type: stop-and-reverse
 
+- title: True Range (TR)
+  permalink: /indicators/Atr/
+  type: price-characteristic
+
 - title: Z-Score
   permalink: /indicators/StdDev/
   type: numerical-analysis

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<info>
+  <summary>
+    True Range (TR) is a measure of volatility that captures gaps and limits between periods.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Atr/#content">documentation</see>
+      for more information.
+    </para>
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <returns>Time series of True Range (TR) values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+</info>
