@@ -3,50 +3,53 @@ namespace Skender.Stock.Indicators;
 // RELATIVE STRENGTH INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static List<RsiResult> CalcRsi(
-        this List<(DateTime Date, double Value)> tpList,
+    internal static IEnumerable<RsiResult> CalcRsi(
+        this IEnumerable<(DateTime Date, double Value)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateRsi(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
         double avgGain = 0;
         double avgLoss = 0;
 
-        List<RsiResult> results = new(length);
-        double[] gain = new double[length]; // gain
-        double[] loss = new double[length]; // loss
-        double lastValue;
-
-        if (length == 0)
-        {
-            return results;
-        }
-        else
-        {
-            lastValue = tpList[0].Value;
-        }
+        double lastValue = 0;
+        bool isFirst = true;
+        double alpha = 1.0d / lookbackPeriods;
 
         // roll through quotes
-        for (int i = 0; i < length; i++)
+        int i = 0;
+
+        foreach ((DateTime date, double value) in tpList)
         {
-            (DateTime date, double value) = tpList[i];
-
             RsiResult r = new(date);
-            results.Add(r);
 
-            gain[i] = (value > lastValue) ? value - lastValue : 0;
-            loss[i] = (value < lastValue) ? lastValue - value : 0;
-            lastValue = value;
-
-            // calculate RSI
-            if (i > lookbackPeriods)
+            if (isFirst)
             {
-                avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
-                avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
+                lastValue = value;
+                isFirst = false;
+                yield return r;
+                continue;
+            }
 
+            double gain = (value > lastValue) ? (value - lastValue) : 0;
+            double loss = (value < lastValue) ? (lastValue - value) : 0;
+            
+            i++;
+            if (i <= lookbackPeriods)
+            {
+                avgGain += gain / lookbackPeriods;
+                avgLoss += loss / lookbackPeriods;
+            }
+            else if (i > lookbackPeriods)
+            {
+                avgGain = (alpha * gain) + ((1 - alpha) * avgGain);
+                avgLoss = (alpha * loss) + ((1 - alpha) * avgLoss);
+            }
+
+            if (i >= lookbackPeriods)
+            {
                 if (avgLoss > 0)
                 {
                     double rs = avgGain / avgLoss;
@@ -58,26 +61,10 @@ public static partial class Indicator
                 }
             }
 
-            // initialize average gain
-            else if (i == lookbackPeriods)
-            {
-                double sumGain = 0;
-                double sumLoss = 0;
+            lastValue = value;
 
-                for (int p = 1; p <= lookbackPeriods; p++)
-                {
-                    sumGain += gain[p];
-                    sumLoss += loss[p];
-                }
-
-                avgGain = sumGain / lookbackPeriods;
-                avgLoss = sumLoss / lookbackPeriods;
-
-                r.Rsi = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
-            }
+            yield return r;
         }
-
-        return results;
     }
 
     // parameter validation

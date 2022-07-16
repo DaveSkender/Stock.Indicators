@@ -23,7 +23,7 @@ public static partial class Indicator
             .Select(x => (x.Date, (double)x.Streak))
             .ToList();
 
-        List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);
+        List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods).ToList();
 
         // compose final results
         for (int p = streakPeriods + 2; p < length; p++)
@@ -49,7 +49,7 @@ public static partial class Indicator
         int rankPeriods)
     {
         // initialize
-        List<RsiResult> rsiResults = CalcRsi(tpList, rsiPeriods);
+        List<RsiResult> rsiResults = CalcRsi(tpList, rsiPeriods).ToList();
 
         int length = tpList.Count;
         List<ConnorsRsiResult> results = new(length);
