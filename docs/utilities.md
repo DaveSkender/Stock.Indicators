@@ -77,7 +77,7 @@ IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
 // advanced validation
 IEnumerable<Quote> validatedQuotes = quotes.Validate();
 
-// and can be used inline with chaning
+// and can be used inline with chaining
 var results = quotes
   .Validate()
   .Use(CandlePart.HL2)
