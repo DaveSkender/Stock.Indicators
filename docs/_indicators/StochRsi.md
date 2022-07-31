@@ -67,6 +67,15 @@ See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetStochRsi(..);
+```
+
 Results can be further processed on `StochRsi` with additional chain-enabled indicators.
 
 ```csharp
@@ -75,5 +84,3 @@ var results = quotes
     .GetStochRsi(..)
     .GetSlope(..);
 ```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

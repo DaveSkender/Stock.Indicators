@@ -19,4 +19,33 @@ public static partial class Indicator
                 stochPeriods,
                 signalPeriods,
                 smoothPeriods);
+
+    // SERIES, from CHAIN
+    public static IEnumerable<StochRsiResult> GetStochRsi(
+        this IEnumerable<IReusableResult> results,
+        int rsiPeriods,
+        int stochPeriods,
+        int signalPeriods,
+        int smoothPeriods) => results
+            .ToResultTuple()
+            .CalcStochRsi(
+                rsiPeriods,
+                stochPeriods,
+                signalPeriods,
+                smoothPeriods)
+            .SyncIndex(results, SyncType.Prepend);
+
+    // SERIES, from TUPLE
+    public static IEnumerable<StochRsiResult> GetStochRsi(
+        this IEnumerable<(DateTime, double)> priceTuples,
+        int rsiPeriods,
+        int stochPeriods,
+        int signalPeriods,
+        int smoothPeriods) => priceTuples
+            .ToSortedList()
+            .CalcStochRsi(
+                rsiPeriods,
+                stochPeriods,
+                signalPeriods,
+                smoothPeriods);
 }
