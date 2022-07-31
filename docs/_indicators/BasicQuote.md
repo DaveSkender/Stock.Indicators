@@ -59,12 +59,12 @@ Results can be further processed on `Value` with additional chain-enabled indica
 ```csharp
 // example
 var results = quotes
-    .GetBaseQuote(..)
+    .GetBaseQuote(CandlePart.OHLC4)
     .GetRsi(..);
 
 // and is equivalent to
 var results = quotes
-    .Use(..)
+    .Use(CandlePart.OHLC4)
     .GetRsi(..);
 ```
 
