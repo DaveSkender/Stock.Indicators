@@ -41,11 +41,10 @@ jobs:
       - name: Test for broken URLs
         working-directory: docs
         run: |
-          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer \
+          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer _site \
             --assume-extension \
-            --http-status-ignore "403,429,999" \
-            --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000" \
-            _site
+            --http-status-ignore "403,429,503,999" \
+            --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000"
 
       - name: Show environment
         working-directory: docs
