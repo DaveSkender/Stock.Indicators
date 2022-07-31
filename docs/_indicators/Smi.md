@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by William Blau, the Stochastic Momentum Index (SMI) is a double-smoothed variant of the [Stochastic Oscillator](../Stoch/#content) on a scale from -100 to 100.
+Created by William Blau, the Stochastic Momentum Index (SMI) is a double-smoothed variant of the [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content) on a scale from -100 to 100.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/625 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Smi.png)
@@ -32,7 +32,7 @@ IEnumerable<SmiResult> results =
 
 You must have at least `N+100` periods of `quotes` to cover the convergence periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -52,23 +52,27 @@ IEnumerable<SmiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Smi` | decimal | Stochastic Momentum Index (SMI)
-| `Signal` | decimal | Signal line: an Exponential Moving Average (EMA) of SMI
+| `Smi` | double | Stochastic Momentum Index (SMI)
+| `Signal` | double | Signal line: an Exponential Moving Average (EMA) of SMI
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `Smi` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate SMI(14,20,5,3)
-IEnumerable<SmiResult> results = quotes.GetSmi(14,20,5,3);
+// example
+var results = quotes
+    .GetSmi(..)
+    .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

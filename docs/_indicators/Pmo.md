@@ -30,7 +30,7 @@ IEnumerable<PmoResult> results =
 
 You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S`,`2×T`, or `T+100` to cover the convergence periods.  Since this uses multiple smoothing operations, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -55,18 +55,29 @@ IEnumerable<PmoResult>
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetPmo(..);
+```
 
-// calculate 20-period PMO
-IEnumerable<PmoResult> results = quotes.GetPmo(35,20,10);
+Results can be further processed on `Pmo` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetPmo(..)
+    .GetRsi(..);
 ```

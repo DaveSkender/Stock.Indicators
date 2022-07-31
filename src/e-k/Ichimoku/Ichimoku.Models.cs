@@ -1,8 +1,13 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class IchimokuResult : ResultBase
+public sealed class IchimokuResult : ResultBase
 {
+    public IchimokuResult(DateTime date)
+    {
+        Date = date;
+    }
+
     public decimal? TenkanSen { get; set; } // conversion line
     public decimal? KijunSen { get; set; } // base line
     public decimal? SenkouSpanA { get; set; } // leading span A

@@ -1,7 +1,14 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class SmmaResult : ResultBase
+public sealed class SmmaResult : ResultBase, IReusableResult
 {
-    public decimal? Smma { get; set; }
+    public SmmaResult(DateTime date)
+    {
+        Date = date;
+    }
+
+    public double? Smma { get; set; }
+
+    double? IReusableResult.Value => Smma;
 }

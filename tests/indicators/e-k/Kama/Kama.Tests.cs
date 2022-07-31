@@ -21,8 +21,8 @@ public class Kama : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Where(x => x.ER != null).Count());
-        Assert.AreEqual(493, results.Where(x => x.Kama != null).Count());
+        Assert.AreEqual(492, results.Count(x => x.ER != null));
+        Assert.AreEqual(493, results.Count(x => x.Kama != null));
 
         // sample values
         KamaResult r1 = results[8];
@@ -31,27 +31,69 @@ public class Kama : TestBase
 
         KamaResult r2 = results[9];
         Assert.AreEqual(null, r2.ER);
-        Assert.AreEqual(213.75m, r2.Kama);
+        Assert.AreEqual(213.7500, NullMath.Round(r2.Kama, 4));
 
         KamaResult r3 = results[10];
-        Assert.AreEqual(0.2465, Math.Round((double)r3.ER, 4));
-        Assert.AreEqual(213.7713m, Math.Round((decimal)r3.Kama, 4));
+        Assert.AreEqual(0.2465, NullMath.Round(r3.ER, 4));
+        Assert.AreEqual(213.7713, NullMath.Round(r3.Kama, 4));
 
         KamaResult r4 = results[24];
-        Assert.AreEqual(0.2136, Math.Round((double)r4.ER, 4));
-        Assert.AreEqual(214.7423m, Math.Round((decimal)r4.Kama, 4));
+        Assert.AreEqual(0.2136, NullMath.Round(r4.ER, 4));
+        Assert.AreEqual(214.7423, NullMath.Round(r4.Kama, 4));
 
         KamaResult r5 = results[149];
-        Assert.AreEqual(0.3165, Math.Round((double)r5.ER, 4));
-        Assert.AreEqual(235.5510m, Math.Round((decimal)r5.Kama, 4));
+        Assert.AreEqual(0.3165, NullMath.Round(r5.ER, 4));
+        Assert.AreEqual(235.5510, NullMath.Round(r5.Kama, 4));
 
         KamaResult r6 = results[249];
-        Assert.AreEqual(0.3182, Math.Round((double)r6.ER, 4));
-        Assert.AreEqual(256.0898m, Math.Round((decimal)r6.Kama, 4));
+        Assert.AreEqual(0.3182, NullMath.Round(r6.ER, 4));
+        Assert.AreEqual(256.0898, NullMath.Round(r6.Kama, 4));
 
         KamaResult r7 = results[501];
-        Assert.AreEqual(0.2214, Math.Round((double)r7.ER, 4));
-        Assert.AreEqual(240.1138m, Math.Round((decimal)r7.Kama, 4));
+        Assert.AreEqual(0.2214, NullMath.Round(r7.ER, 4));
+        Assert.AreEqual(240.1138, NullMath.Round(r7.Kama, 4));
+    }
+
+    [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<KamaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetKama();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Count(x => x.Kama != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<KamaResult> r = tupleNanny.GetKama();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<KamaResult> results = quotes
+            .GetSma(2)
+            .GetKama();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(492, results.Count(x => x.Kama != null));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetKama()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -59,6 +101,7 @@ public class Kama : TestBase
     {
         IEnumerable<KamaResult> r = Indicator.GetKama(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
     }
 
     [TestMethod]
@@ -86,8 +129,8 @@ public class Kama : TestBase
         Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
 
         KamaResult last = results.LastOrDefault();
-        Assert.AreEqual(0.2214, Math.Round((double)last.ER, 4));
-        Assert.AreEqual(240.1138m, Math.Round((decimal)last.Kama, 4));
+        Assert.AreEqual(0.2214, NullMath.Round(last.ER, 4));
+        Assert.AreEqual(240.1138, NullMath.Round(last.Kama, 4));
     }
 
     [TestMethod]

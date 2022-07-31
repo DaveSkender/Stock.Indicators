@@ -16,7 +16,7 @@ public class Correlation : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Correlation != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
 
         // sample values
         CorrResult r18 = results[18];
@@ -24,16 +24,47 @@ public class Correlation : TestBase
         Assert.IsNull(r18.RSquared);
 
         CorrResult r19 = results[19];
-        Assert.AreEqual(0.6933, Math.Round((double)r19.Correlation, 4));
-        Assert.AreEqual(0.4806, Math.Round((double)r19.RSquared, 4));
+        Assert.AreEqual(0.6933, NullMath.Round(r19.Correlation, 4));
+        Assert.AreEqual(0.4806, NullMath.Round(r19.RSquared, 4));
 
         CorrResult r257 = results[257];
-        Assert.AreEqual(-0.1347, Math.Round((double)r257.Correlation, 4));
-        Assert.AreEqual(0.0181, Math.Round((double)r257.RSquared, 4));
+        Assert.AreEqual(-0.1347, NullMath.Round(r257.Correlation, 4));
+        Assert.AreEqual(0.0181, NullMath.Round(r257.RSquared, 4));
 
         CorrResult r501 = results[501];
-        Assert.AreEqual(0.8460, Math.Round((double)r501.Correlation, 4));
-        Assert.AreEqual(0.7157, Math.Round((double)r501.RSquared, 4));
+        Assert.AreEqual(0.8460, NullMath.Round(r501.Correlation, 4));
+        Assert.AreEqual(0.7157, NullMath.Round(r501.RSquared, 4));
+    }
+
+    [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<CorrResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetCorrelation(otherQuotes.Use(CandlePart.Close), 20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<CorrResult> r = tupleNanny.GetCorrelation(tupleNanny, 6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetCorrelation(otherQuotes, 20)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -41,6 +72,7 @@ public class Correlation : TestBase
     {
         IEnumerable<CorrResult> r = Indicator.GetCorrelation(badQuotes, badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
     }
 
     [TestMethod]
@@ -72,8 +104,8 @@ public class Correlation : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         CorrResult last = results.LastOrDefault();
-        Assert.AreEqual(0.8460, Math.Round((double)last.Correlation, 4));
-        Assert.AreEqual(0.7157, Math.Round((double)last.RSquared, 4));
+        Assert.AreEqual(0.8460, NullMath.Round(last.Correlation, 4));
+        Assert.AreEqual(0.7157, NullMath.Round(last.RSquared, 4));
     }
 
     [TestMethod]

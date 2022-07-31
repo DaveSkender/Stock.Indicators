@@ -16,14 +16,79 @@ public class Wma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Wma != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Wma != null));
 
         // sample values
         WmaResult r1 = results[149];
-        Assert.AreEqual(235.5253m, Math.Round((decimal)r1.Wma, 4));
+        Assert.AreEqual(235.5253, NullMath.Round(r1.Wma, 4));
 
         WmaResult r2 = results[501];
-        Assert.AreEqual(246.5110m, Math.Round((decimal)r2.Wma, 4));
+        Assert.AreEqual(246.5110, NullMath.Round(r2.Wma, 4));
+    }
+
+    [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<WmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetWma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(483, results.Count(x => x.Wma != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<WmaResult> r = tupleNanny.GetWma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<WmaResult> results = quotes
+            .GetSma(2)
+            .GetWma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Count(x => x.Wma != null));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetWma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
+    public void Chaining()
+    {
+        List<WmaResult> standard = quotes
+            .GetWma(17)
+            .ToList();
+
+        List<WmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetWma(17)
+            .ToList();
+
+        // assertions
+        for (int i = 0; i < results.Count; i++)
+        {
+            WmaResult s = standard[i];
+            WmaResult c = results[i];
+
+            Assert.AreEqual(s.Date, c.Date);
+            Assert.AreEqual(s.Wma, c.Wma);
+        }
     }
 
     [TestMethod]
@@ -31,6 +96,7 @@ public class Wma : TestBase
     {
         IEnumerable<WmaResult> r = Indicator.GetWma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
     }
 
     [TestMethod]
@@ -54,14 +120,12 @@ public class Wma : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         WmaResult last = results.LastOrDefault();
-        Assert.AreEqual(246.5110m, Math.Round((decimal)last.Wma, 4));
+        Assert.AreEqual(246.5110, NullMath.Round(last.Wma, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetWma(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetWma(quotes, 0));
 }

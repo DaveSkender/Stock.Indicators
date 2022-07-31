@@ -1,18 +1,24 @@
 ---
 title: Example usage code
 permalink: /examples/
-layout: default
+relative_path: examples/README.md
+layout: page
 ---
 
 # {{ page.title }}
 
-To help you get started, here is a simple .NET 6.0 C# console application that you can review as a complete minimal working example.
-There are two minimalist example projects in this Solution: 1) a basic `ConsoleApp`, and 2) a bit more advanced `Backtest`.  Start with the `ConsoleApp` if you are a newbie.
+To help you get started, here are a few minimalist .NET 6.0 C# projects that you can review.  They are complete working examples.
+
+- `ConsoleApp` is a minimalize example of how to use the library (start here)
+- `Backtest` is a slightly more complicated example of how to analyze results
+- `CustomIndicatorsLibrary` shows how you can [create your own custom indicators]({{site.baseurl}}/custom-indicators/#content)
+- `CustomIndicatorsUsage` shows how you'd use a custom indicator just like any other in the main library
+
 For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
 
-To run the sample app:
+To run the sample projects:
 
-1. [Download](Skender.Stock.Indicators-Examples.zip) the ZIP file and extract contents
+1. [Download the ZIP file](Skender.Stock.Indicators-Examples.zip) and extract contents
 2. Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
 3. Review the code in the `Program.cs` file
 4. Run the `ConsoleApp` by any one of the following methods:

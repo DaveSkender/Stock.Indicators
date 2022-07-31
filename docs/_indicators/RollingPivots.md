@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window [Pivot Points](../PivotPoints#content).  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
+Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window [Pivot Points]({{site.baseurl}}/indicators/PivotPoints/#content).  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/RollingPivots.png)
@@ -26,13 +26,13 @@ IEnumerable<RollingPivotsResult> results =
 | `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.
 | `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
 
-For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](../PivotPoints#content) indicator.
+For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points]({{site.baseurl}}/indicators/PivotPoints/#content) indicator.
 
 ### Historical quotes requirements
 
 You must have at least `W+F` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ### PivotPointType options
 
@@ -76,13 +76,6 @@ IEnumerable<RollingPivotsResult>
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
 
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate Woodie-style 14 period Rolling Pivot Points
-IEnumerable<RollingPivotsResult> results
-  = quotes.GetRollingPivots(14,0,PivotPointType.Woodie);
-```
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.

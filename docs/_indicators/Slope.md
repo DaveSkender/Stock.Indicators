@@ -7,9 +7,10 @@ layout: indicator
 
 # {{ page.title }}
 
-[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on Close price.  It can be used to help identify trend strength and direction.  Standard Deviation, R&sup2;, and a best-fit `Line` (for last lookback segment) are also output.  See also [Standard Deviation Channels](../StdDevChannels#content) for an alternative depiction.
+[Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on price.  It can be used to help identify trend strength and direction.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/241 "Community discussion about this indicator")
 
+![image]({{site.baseurl}}/assets/charts/Linear.png)
 ![image]({{site.baseurl}}/assets/charts/Slope.png)
 
 ```csharp
@@ -28,7 +29,7 @@ IEnumerable<SlopeResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -48,26 +49,37 @@ IEnumerable<SlopeResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Slope` | double | Slope `m` of the best-fit line of Close price
+| `Slope` | double | Slope `m` of the best-fit line of price
 | `Intercept` | double | Y-Intercept `b` of the best-fit line
-| `StdDev` | double | Standard Deviation of Close price over `N` lookback periods
+| `StdDev` | double | Standard Deviation of price over `N` lookback periods
 | `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination
 | `Line` | decimal | Best-fit line `y` over the last 'N' periods (i.e. `y=mx+b` using last period values)
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
+// example
+var results = quotes
+    .GetEma(..)
+    .GetSlope(..);
+```
 
-// calculate 20-period Slope
-IEnumerable<SlopeResult> results = quotes.GetSlope(20);
+Results can be further processed on `Slope` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetSlope(..)
+    .GetRsi(..);
 ```

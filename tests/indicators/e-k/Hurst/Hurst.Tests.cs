@@ -21,24 +21,38 @@ public class Hurst : TestBase
 
         // sample value
         HurstResult r15820 = results[15820];
-        Assert.AreEqual(0.483563m, Math.Round((decimal)r15820.HurstExponent, 6));
+        Assert.AreEqual(0.483563, NullMath.Round(r15820.HurstExponent, 6));
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void UseTuple()
     {
-        List<Quote> newQuotes = longestQuotes
-            .GetHurst(longestQuotes.Count() - 1)
-            .ConvertToQuotes()
-            .ToList();
+        IEnumerable<HurstResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetHurst(100);
 
-        Assert.AreEqual(1, newQuotes.Count);
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(402, results.Count(x => x.HurstExponent != null));
+    }
 
-        Quote q = newQuotes.LastOrDefault();
-        Assert.AreEqual(0.483563m, Math.Round(q.Open, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.High, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.Low, 6));
-        Assert.AreEqual(0.483563m, Math.Round(q.Close, 6));
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<HurstResult> r = tupleNanny.GetHurst(100);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetHurst(100)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(393, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -46,6 +60,7 @@ public class Hurst : TestBase
     {
         IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
     }
 
     [TestMethod]
@@ -69,14 +84,12 @@ public class Hurst : TestBase
         Assert.AreEqual(1, results.Count);
 
         HurstResult last = results.LastOrDefault();
-        Assert.AreEqual(0.483563m, Math.Round((decimal)last.HurstExponent, 6));
+        Assert.AreEqual(0.483563, NullMath.Round(last.HurstExponent, 6));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetHurst(quotes, 99));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetHurst(quotes, 99));
 }

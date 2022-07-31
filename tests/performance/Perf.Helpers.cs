@@ -11,66 +11,31 @@ public class HelperPerformance
 {
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> i;
-    private static IEnumerable<ObvResult> obv;
 
     [GlobalSetup]
-    public void Setup()
-    {
-        h = TestData.GetDefault();
-    }
+    public void Setup() => h = TestData.GetDefault();
 
     [Benchmark]
-    public object SortToList()
-    {
-        return h.SortToList();
-    }
+    public object SortToList() => h.ToSortedList();
 
     [Benchmark]
-    public object ConvertToList()
-    {
-        return h.ConvertToList();
-    }
+    public object ToListQuoteD() => h.ToQuoteD();
 
     [Benchmark]
-    public object Validate()
-    {
-        return h.Validate();
-    }
+    public object Validate() => h.Validate();
 
     [GlobalSetup(Targets = new[] { nameof(Aggregate) })]
-    public void SetupIntraday()
-    {
-        i = TestData.GetIntraday();
-    }
+    public void SetupIntraday() => i = TestData.GetIntraday();
 
     [Benchmark]
-    public object Aggregate()
-    {
-        return i.Aggregate(PeriodSize.FifteenMinutes);
-    }
+    public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);
 
     [Benchmark]
-    public object ConvertToBasic()
-    {
-        return h.ConvertToBasic();
-    }
+    public object ToBasicData() => h.ToBasicData(CandlePart.Close);
 
     [Benchmark]
-    public object ConvertToCandles()
-    {
-        return h.ConvertToCandleResults();
-    }
-
-    [GlobalSetup(Targets = new[] { nameof(ConvertToQuotes) })]
-    public void SetupQuotes()
-    {
-        h = TestData.GetDefault();
-        obv = h.GetObv();
-    }
+    public object ToBasicTuple() => h.ToBasicTuple(CandlePart.Close);
 
     [Benchmark]
-    public object ConvertToQuotes()
-    {
-        return obv.ConvertToQuotes();
-    }
+    public object ToCandleResults() => h.ToCandleResults();
 }

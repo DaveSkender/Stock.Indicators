@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 internal static class Functions
 {
     // STANDARD DEVIATION
-    internal static double StdDev(double[] values)
+    internal static double StdDev(this double[] values)
     {
         // ref: https://stackoverflow.com/questions/2253874/standard-deviation-in-linq
         // and then modified to an iterative model without LINQ, for performance improvement
@@ -75,19 +75,14 @@ internal static class Functions
 
     // DATE ROUNDING
     internal static DateTime RoundDown(this DateTime dateTime, TimeSpan interval)
-    {
-        return interval == TimeSpan.Zero ?
-
-              dateTime
-
-            : dateTime
-                .AddTicks(-(dateTime.Ticks % interval.Ticks));
-    }
+        => interval == TimeSpan.Zero
+        ? dateTime
+        : dateTime
+            .AddTicks(-(dateTime.Ticks % interval.Ticks));
 
     // PERIOD-SIZE to TIMESPAN CONVERSION
     internal static TimeSpan ToTimeSpan(this PeriodSize periodSize)
-    {
-        return periodSize switch
+        => periodSize switch
         {
             PeriodSize.OneMinute => TimeSpan.FromMinutes(1),
             PeriodSize.TwoMinutes => TimeSpan.FromMinutes(2),
@@ -102,7 +97,6 @@ internal static class Functions
             PeriodSize.Week => TimeSpan.FromDays(7),
             _ => TimeSpan.Zero
         };
-    }
 
     // DETERMINE DECIMAL PLACES
     internal static int GetDecimalPlaces(this decimal n)

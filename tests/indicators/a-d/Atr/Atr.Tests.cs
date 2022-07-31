@@ -16,33 +16,44 @@ public class Atr : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502 - 13, results.Where(x => x.Atr != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.Atr != null));
 
         // sample values
         AtrResult r1 = results[12];
-        Assert.AreEqual(1.32m, r1.Tr);
+        Assert.AreEqual(1.32, NullMath.Round(r1.Tr, 8));
         Assert.AreEqual(null, r1.Atr);
         Assert.AreEqual(null, r1.Atrp);
 
         AtrResult r2 = results[13];
-        Assert.AreEqual(1.45m, r2.Tr);
-        Assert.AreEqual(1.3371m, Math.Round((decimal)r2.Atr, 4));
-        Assert.AreEqual(0.6258m, Math.Round((decimal)r2.Atrp, 4));
+        Assert.AreEqual(1.45, NullMath.Round(r2.Tr, 8));
+        Assert.AreEqual(1.3371, NullMath.Round(r2.Atr, 4));
+        Assert.AreEqual(0.6258, NullMath.Round(r2.Atrp, 4));
 
         AtrResult r3 = results[24];
-        Assert.AreEqual(0.88m, r3.Tr);
-        Assert.AreEqual(1.3201m, Math.Round((decimal)r3.Atr, 4));
-        Assert.AreEqual(0.6104m, Math.Round((decimal)r3.Atrp, 4));
+        Assert.AreEqual(0.88, NullMath.Round(r3.Tr, 8));
+        Assert.AreEqual(1.3201, NullMath.Round(r3.Atr, 4));
+        Assert.AreEqual(0.6104, NullMath.Round(r3.Atrp, 4));
 
         AtrResult r4 = results[249];
-        Assert.AreEqual(0.58m, r4.Tr);
-        Assert.AreEqual(1.3381m, Math.Round((decimal)r4.Atr, 4));
-        Assert.AreEqual(0.5187m, Math.Round((decimal)r4.Atrp, 4));
+        Assert.AreEqual(0.58, NullMath.Round(r4.Tr, 8));
+        Assert.AreEqual(1.3381, NullMath.Round(r4.Atr, 4));
+        Assert.AreEqual(0.5187, NullMath.Round(r4.Atrp, 4));
 
         AtrResult r5 = results[501];
-        Assert.AreEqual(2.67m, r5.Tr);
-        Assert.AreEqual(6.1497m, Math.Round((decimal)r5.Atr, 4));
-        Assert.AreEqual(2.5072m, Math.Round((decimal)r5.Atrp, 4));
+        Assert.AreEqual(2.67, NullMath.Round(r5.Tr, 8));
+        Assert.AreEqual(6.1497, NullMath.Round(r5.Atr, 4));
+        Assert.AreEqual(2.5072, NullMath.Round(r5.Atrp, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetAtr(10)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502 - 18, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -50,6 +61,7 @@ public class Atr : TestBase
     {
         IEnumerable<AtrResult> r = Indicator.GetAtr(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Atr is double and double.NaN));
     }
 
     [TestMethod]
@@ -73,16 +85,14 @@ public class Atr : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         AtrResult last = results.LastOrDefault();
-        Assert.AreEqual(2.67m, last.Tr);
-        Assert.AreEqual(6.1497m, Math.Round((decimal)last.Atr, 4));
-        Assert.AreEqual(2.5072m, Math.Round((decimal)last.Atrp, 4));
+        Assert.AreEqual(2.67, NullMath.Round(last.Tr, 8));
+        Assert.AreEqual(6.1497, NullMath.Round(last.Atr, 4));
+        Assert.AreEqual(2.5072, NullMath.Round(last.Atrp, 4));
     }
 
+    // bad lookback period
     [TestMethod]
-    public void Exceptions()
-    {
-        // bad lookback period
+    public void Exceptions() =>
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetAtr(quotes, 1));
-    }
 }

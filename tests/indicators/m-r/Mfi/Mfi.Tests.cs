@@ -17,14 +17,25 @@ public class Mfi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Mfi != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[439];
-        Assert.AreEqual(69.0622m, Math.Round((decimal)r1.Mfi, 4));
+        Assert.AreEqual(69.0622, NullMath.Round(r1.Mfi, 4));
 
         MfiResult r2 = results[501];
-        Assert.AreEqual(39.9494m, Math.Round((decimal)r2.Mfi, 4));
+        Assert.AreEqual(39.9494, NullMath.Round(r2.Mfi, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetMfi()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -40,14 +51,14 @@ public class Mfi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(498, results.Where(x => x.Mfi != null).Count());
+        Assert.AreEqual(498, results.Count(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[31];
-        Assert.AreEqual(100m, Math.Round((decimal)r1.Mfi, 4));
+        Assert.AreEqual(100, NullMath.Round(r1.Mfi, 4));
 
         MfiResult r2 = results[43];
-        Assert.AreEqual(0m, Math.Round((decimal)r2.Mfi, 4));
+        Assert.AreEqual(0, NullMath.Round(r2.Mfi, 4));
     }
 
     [TestMethod]
@@ -55,15 +66,16 @@ public class Mfi : TestBase
     {
         IEnumerable<MfiResult> r = Indicator.GetMfi(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Mfi is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        var r0 = noquotes.GetMfi();
+        IEnumerable<MfiResult> r0 = noquotes.GetMfi();
         Assert.AreEqual(0, r0.Count());
 
-        var r1 = onequote.GetMfi();
+        IEnumerable<MfiResult> r1 = onequote.GetMfi();
         Assert.AreEqual(1, r1.Count());
     }
 
@@ -79,14 +91,12 @@ public class Mfi : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         MfiResult last = results.LastOrDefault();
-        Assert.AreEqual(39.9494m, Math.Round((decimal)last.Mfi, 4));
+        Assert.AreEqual(39.9494, NullMath.Round(last.Mfi, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMfi(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetMfi(quotes, 1));
 }

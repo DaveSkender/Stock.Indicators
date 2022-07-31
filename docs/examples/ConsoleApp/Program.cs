@@ -32,7 +32,7 @@ public class Program
         DateTime lookupDate = DateTime
             .Parse("2021-08-12T17:08:17.9746795+02:00", CultureInfo.InvariantCulture);
 
-        decimal? specificSma = results.Find(lookupDate).Sma;
+        double? specificSma = results.Find(lookupDate).Sma;
 
         Console.WriteLine();
         Console.WriteLine("SMA on Specific Date ------------------");
@@ -64,7 +64,7 @@ public class Program
             Quote q = quotesList[i];
             SmaResult r = resultsList[i];
 
-            bool isBullish = q.Close > r.Sma;
+            bool isBullish = (double)q.Close > r.Sma;
 
             Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}"
                             + $" and Bullishness is {isBullish}");

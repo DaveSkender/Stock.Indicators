@@ -1,8 +1,13 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class SuperTrendResult : ResultBase
+public sealed class SuperTrendResult : ResultBase
 {
+    public SuperTrendResult(DateTime date)
+    {
+        Date = date;
+    }
+
     public decimal? SuperTrend { get; set; }
     public decimal? UpperBand { get; set; }
     public decimal? LowerBand { get; set; }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
-    Correlation Coefficient between two quote histories, based on Close price.
+    Correlation Coefficient between two quote histories, based on price.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/Correlation/#content">documentation</see>
@@ -19,4 +19,4 @@
   </returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   <exception cref="InvalidQuotesException">Invalid quotes provided.</exception>
-</indicator>
+</info>

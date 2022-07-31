@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
-    Ulcer Index (UI) is a measure of downside Close price volatility over a lookback window.
+    Ulcer Index (UI) is a measure of downside price volatility over a lookback window.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/UlcerIndex/#content">documentation</see>
@@ -14,4 +14,4 @@
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <returns>Time series of Ulcer Index values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

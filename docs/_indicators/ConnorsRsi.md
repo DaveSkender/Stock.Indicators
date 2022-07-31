@@ -22,7 +22,7 @@ IEnumerable<ConnorsRsiResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `rsiPeriods` | int | Lookback period (`R`) for the close price RSI.  Must be greater than 1.  Default is 3.
+| `rsiPeriods` | int | Lookback period (`R`) for the price RSI.  Must be greater than 1.  Default is 3.
 | `streakPeriods` | int | Lookback period (`S`) for the streak RSI.  Must be greater than 1.  Default is 2.
 | `rankPeriods` | int | Lookback period (`P`) for the Percentile Rank.  Must be greater than 1.  Default is 100.
 
@@ -30,7 +30,7 @@ IEnumerable<ConnorsRsiResult> results =
 
 `N` is the greater of `R+100`, `S`, and `P+2`.  You must have at least `N` periods of `quotes` to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `N+150` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -50,26 +50,36 @@ IEnumerable<ConnorsRsiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `RsiClose` | double | RSI(`R`) of the Close price.
+| `Rsi` | double | RSI(`R`) of the price.
 | `RsiStreak` | double | RSI(`S`) of the Streak.
 | `PercentRank` | double | Percentile rank of the period gain value.
 | `ConnorsRsi` | double | ConnorsRSI
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetConnorsRsi(..);
+```
 
-// calculate ConnorsRsi(3,2.100)
-IEnumerable<ConnorsRsiResult> results
-  = quotes.GetConnorsRsi(3,2,100);
+Results can be further processed on `ConnorsRsi` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetConnorsRsi(..)
+    .GetSma(..);
 ```

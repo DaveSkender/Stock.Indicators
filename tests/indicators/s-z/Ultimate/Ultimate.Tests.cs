@@ -17,17 +17,28 @@ public class Ultimate : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Where(x => x.Ultimate != null).Count());
+        Assert.AreEqual(474, results.Count(x => x.Ultimate != null));
 
         // sample values
         UltimateResult r1 = results[74];
-        Assert.AreEqual(51.7770m, Math.Round((decimal)r1.Ultimate, 4));
+        Assert.AreEqual(51.7770, NullMath.Round(r1.Ultimate, 4));
 
         UltimateResult r2 = results[249];
-        Assert.AreEqual(45.3121m, Math.Round((decimal)r2.Ultimate, 4));
+        Assert.AreEqual(45.3121, NullMath.Round(r2.Ultimate, 4));
 
         UltimateResult r3 = results[501];
-        Assert.AreEqual(49.5257m, Math.Round((decimal)r3.Ultimate, 4));
+        Assert.AreEqual(49.5257, NullMath.Round(r3.Ultimate, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetUltimate()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(465, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -35,6 +46,7 @@ public class Ultimate : TestBase
     {
         IEnumerable<UltimateResult> r = Indicator.GetUltimate(badQuotes, 1, 2, 3);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Ultimate is double and double.NaN));
     }
 
     [TestMethod]
@@ -58,7 +70,7 @@ public class Ultimate : TestBase
         Assert.AreEqual(502 - 28, results.Count);
 
         UltimateResult last = results.LastOrDefault();
-        Assert.AreEqual(49.5257m, Math.Round((decimal)last.Ultimate, 4));
+        Assert.AreEqual(49.5257, NullMath.Round(last.Ultimate, 4));
     }
 
     [TestMethod]

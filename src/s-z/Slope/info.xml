@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
-    Slope of the best fit line is determined by an ordinary least-squares simple linear regression on Close price.
+    Slope of the best fit line is determined by an ordinary least-squares simple linear regression on price.
     It can be used to help identify trend strength and direction.
     <para>
       See
@@ -15,4 +15,4 @@
   <param name="lookbackPeriods">Number of periods in the lookback window.</param>
   <returns>Time series of Slope values, including Slope, Standard Deviation, R², and a best-fit Line (for the last lookback segment).</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

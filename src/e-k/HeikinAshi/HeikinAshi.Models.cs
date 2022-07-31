@@ -1,8 +1,13 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class HeikinAshiResult : ResultBase
+public sealed class HeikinAshiResult : ResultBase, IQuote
 {
+    public HeikinAshiResult(DateTime date)
+    {
+        Date = date;
+    }
+
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }

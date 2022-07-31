@@ -1,4 +1,6 @@
-# local dev: bundle exec jekyll serve
+# Ref: https://jekyllrb.com/docs/usage/
+# Ref: https://github.com/pages-themes/cayman
+# Local dev: bundle exec jekyll serve
 
 title: "Stock Indicators for .NET"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
@@ -22,7 +24,7 @@ google_analytics: G-7602GXEZ0R
 exclude: [
   "*.json",
   "*.lock",
-  "*.yml", 
+  "*.yml",
   "*.pptx",
   ".offline",
   "contributing.md",
@@ -42,6 +44,13 @@ include: [
 ]
 
 permalink: pretty
+
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      layout: "base"
 
 # page collections
 collections:

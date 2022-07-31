@@ -1,9 +1,16 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class ChandelierResult : ResultBase
+public sealed class ChandelierResult : ResultBase, IReusableResult
 {
-    public decimal? ChandelierExit { get; set; }
+    public ChandelierResult(DateTime date)
+    {
+        Date = date;
+    }
+
+    public double? ChandelierExit { get; set; }
+
+    double? IReusableResult.Value => ChandelierExit;
 }
 
 public enum ChandelierType

@@ -16,11 +16,22 @@ public class Cci : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Where(x => x.Cci != null).Count());
+        Assert.AreEqual(483, results.Count(x => x.Cci != null));
 
         // sample value
         CciResult r = results[501];
-        Assert.AreEqual(-52.9946, Math.Round((double)r.Cci, 4));
+        Assert.AreEqual(-52.9946, NullMath.Round(r.Cci, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetCci(20)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -28,6 +39,7 @@ public class Cci : TestBase
     {
         IEnumerable<CciResult> r = Indicator.GetCci(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Cci is double and double.NaN));
     }
 
     [TestMethod]
@@ -51,14 +63,12 @@ public class Cci : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         CciResult last = results.LastOrDefault();
-        Assert.AreEqual(-52.9946, Math.Round((double)last.Cci, 4));
+        Assert.AreEqual(-52.9946, NullMath.Round(last.Cci, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetCci(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetCci(quotes, 0));
 }

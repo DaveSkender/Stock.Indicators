@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Smoothed Moving Average](https://en.wikipedia.org/wiki/Moving_average#Modified_moving_average) is the average of Close price over a lookback window using a smoothing method.  SMMA is also known as modified moving average (MMA) and running moving average (RMA).
+[Smoothed Moving Average](https://en.wikipedia.org/wiki/Moving_average#Modified_moving_average) is the average of price over a lookback window using a smoothing method.  SMMA is also known as modified moving average (MMA) and running moving average (RMA).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/375 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Smma.png)
@@ -29,7 +29,7 @@ IEnumerable<SmmaResult> results =
 
 You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -49,22 +49,33 @@ IEnumerable<SmmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Smma` | decimal | Smoothed moving average
+| `Smma` | double | Smoothed moving average
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetSmma(..);
+```
 
-// calculate 20-period SMMA
-IEnumerable<SmmaResult> results = quotes.GetSmma(20);
+Results can be further processed on `Smma` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetSmma(..)
+    .GetRsi(..);
 ```

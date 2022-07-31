@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Price Momentum Oscillator (PMO) is double-smoothed ROC based momentum indicator.
     <para>
@@ -16,4 +16,4 @@
   <param name="signalPeriods">Number of periods for Signal line EMA.</param>
   <returns>Time series of PMO values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

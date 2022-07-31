@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<info>
+  <summary>
+    Double Exponential Moving Average (DEMA) of the price.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Dema/#content">documentation</see>
+      for more information.
+    </para>
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+  <returns>Time series of Double EMA values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+</info>

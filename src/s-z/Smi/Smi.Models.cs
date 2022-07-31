@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-/// <include file='./info.xml' path='indicator/type[@name="Results"]/*' />
-///
 [Serializable]
-public class SmiResult : ResultBase
+public sealed class SmiResult : ResultBase, IReusableResult
 {
-    public decimal? Smi { get; set; }
-    public decimal? Signal { get; set; }
+    public SmiResult(DateTime date)
+    {
+        Date = date;
+    }
+
+    public double? Smi { get; set; }
+    public double? Signal { get; set; }
+
+    double? IReusableResult.Value => Smi;
 }

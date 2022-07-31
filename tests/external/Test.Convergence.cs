@@ -8,7 +8,7 @@ namespace External.Other;
 public class Convergence : TestBase
 {
     private static readonly int[] QuotesQuantities =
-    new int[] { 5, 14, 28, 40, 50, 75, 100, 120, 150, 200, 250, 350, 500, 600, 700, 800, 900, 1000 };
+    new int[] { 5, 14, 28, 40, 50, 75, 100, 110, 120, 130, 140, 150, 160, 175, 200, 250, 350, 500, 600, 700, 800, 900, 1000 };
 
     [TestMethod]
     public void Adx()
@@ -71,12 +71,12 @@ public class Convergence : TestBase
     }
 
     [TestMethod]
-    public void DoubleEma()
+    public void Dema()
     {
         foreach (int qty in QuotesQuantities)
         {
             IEnumerable<Quote> quotes = TestData.GetLongish(qty);
-            IEnumerable<DemaResult> r = quotes.GetDoubleEma(15);
+            IEnumerable<DemaResult> r = quotes.GetDema(15);
 
             DemaResult l = r.LastOrDefault();
             Console.WriteLine(
@@ -225,7 +225,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
             IEnumerable<RsiResult> r = quotes.GetRsi(14);
 
             RsiResult l = r.LastOrDefault();
@@ -240,7 +240,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetDefault(10 + qty);
+            IEnumerable<Quote> quotes = TestData.GetDefault(qty);
             IEnumerable<SmiResult> r = quotes.GetSmi(14, 20, 5, 3);
 
             SmiResult l = r.LastOrDefault();
@@ -270,7 +270,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
             IEnumerable<StarcBandsResult> r = quotes.GetStarcBands(20);
 
             StarcBandsResult l = r.LastOrDefault();
@@ -285,7 +285,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities.Where(x => x <= 502))
         {
-            IEnumerable<Quote> quotes = TestData.GetDefault(10 + qty);
+            IEnumerable<Quote> quotes = TestData.GetDefault(qty);
             IEnumerable<StochRsiResult> r = quotes.GetStochRsi(14, 14, 3, 1);
 
             StochRsiResult l = r.LastOrDefault();
@@ -300,7 +300,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
             IEnumerable<T3Result> r = quotes.GetT3(20);
 
             T3Result l = r.LastOrDefault();
@@ -311,12 +311,12 @@ public class Convergence : TestBase
     }
 
     [TestMethod]
-    public void TripleEma()
+    public void Tema()
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
-            IEnumerable<TemaResult> r = quotes.GetTripleEma(15);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<TemaResult> r = quotes.GetTema(15);
 
             TemaResult l = r.LastOrDefault();
             Console.WriteLine(
@@ -330,7 +330,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
             IEnumerable<TrixResult> r = quotes.GetTrix(15);
 
             TrixResult l = r.LastOrDefault();
@@ -360,7 +360,7 @@ public class Convergence : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(10 + qty);
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
             IEnumerable<VortexResult> r = quotes.GetVortex(14);
 
             VortexResult l = r.LastOrDefault();

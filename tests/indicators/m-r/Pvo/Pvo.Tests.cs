@@ -22,9 +22,9 @@ public class Pvo : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Where(x => x.Pvo != null).Count());
-        Assert.AreEqual(469, results.Where(x => x.Signal != null).Count());
-        Assert.AreEqual(469, results.Where(x => x.Histogram != null).Count());
+        Assert.AreEqual(477, results.Count(x => x.Pvo != null));
+        Assert.AreEqual(469, results.Count(x => x.Signal != null));
+        Assert.AreEqual(469, results.Count(x => x.Histogram != null));
 
         // sample values
         PvoResult r1 = results[24];
@@ -33,24 +33,35 @@ public class Pvo : TestBase
         Assert.AreEqual(null, r1.Histogram);
 
         PvoResult r2 = results[33];
-        Assert.AreEqual(1.5795m, Math.Round((decimal)r2.Pvo, 4));
-        Assert.AreEqual(-3.5530m, Math.Round((decimal)r2.Signal, 4));
-        Assert.AreEqual(5.1325m, Math.Round((decimal)r2.Histogram, 4));
+        Assert.AreEqual(1.5795, NullMath.Round(r2.Pvo, 4));
+        Assert.AreEqual(-3.5530, NullMath.Round(r2.Signal, 4));
+        Assert.AreEqual(5.1325, NullMath.Round(r2.Histogram, 4));
 
         PvoResult r3 = results[149];
-        Assert.AreEqual(-7.1910m, Math.Round((decimal)r3.Pvo, 4));
-        Assert.AreEqual(-5.1159m, Math.Round((decimal)r3.Signal, 4));
-        Assert.AreEqual(-2.0751m, Math.Round((decimal)r3.Histogram, 4));
+        Assert.AreEqual(-7.1910, NullMath.Round(r3.Pvo, 4));
+        Assert.AreEqual(-5.1159, NullMath.Round(r3.Signal, 4));
+        Assert.AreEqual(-2.0751, NullMath.Round(r3.Histogram, 4));
 
         PvoResult r4 = results[249];
-        Assert.AreEqual(-6.3667m, Math.Round((decimal)r4.Pvo, 4));
-        Assert.AreEqual(1.7333m, Math.Round((decimal)r4.Signal, 4));
-        Assert.AreEqual(-8.1000m, Math.Round((decimal)r4.Histogram, 4));
+        Assert.AreEqual(-6.3667, NullMath.Round(r4.Pvo, 4));
+        Assert.AreEqual(1.7333, NullMath.Round(r4.Signal, 4));
+        Assert.AreEqual(-8.1000, NullMath.Round(r4.Histogram, 4));
 
         PvoResult r5 = results[501];
-        Assert.AreEqual(10.4395m, Math.Round((decimal)r5.Pvo, 4));
-        Assert.AreEqual(12.2681m, Math.Round((decimal)r5.Signal, 4));
-        Assert.AreEqual(-1.8286m, Math.Round((decimal)r5.Histogram, 4));
+        Assert.AreEqual(10.4395, NullMath.Round(r5.Pvo, 4));
+        Assert.AreEqual(12.2681, NullMath.Round(r5.Signal, 4));
+        Assert.AreEqual(-1.8286, NullMath.Round(r5.Histogram, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetPvo()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -58,6 +69,7 @@ public class Pvo : TestBase
     {
         IEnumerable<PvoResult> r = Indicator.GetPvo(badQuotes, 10, 20, 5);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Pvo is double and double.NaN));
     }
 
     [TestMethod]
@@ -86,9 +98,9 @@ public class Pvo : TestBase
         Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
 
         PvoResult last = results.LastOrDefault();
-        Assert.AreEqual(10.4395m, Math.Round((decimal)last.Pvo, 4));
-        Assert.AreEqual(12.2681m, Math.Round((decimal)last.Signal, 4));
-        Assert.AreEqual(-1.8286m, Math.Round((decimal)last.Histogram, 4));
+        Assert.AreEqual(10.4395, NullMath.Round(last.Pvo, 4));
+        Assert.AreEqual(12.2681, NullMath.Round(last.Signal, 4));
+        Assert.AreEqual(-1.8286, NullMath.Round(last.Histogram, 4));
     }
 
     [TestMethod]

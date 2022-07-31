@@ -15,7 +15,7 @@ public class Obv : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Where(x => x.ObvSma == null).Count());
+        Assert.AreEqual(502, results.Count(x => x.ObvSma == null));
 
         // sample values
         ObvResult r1 = results[249];
@@ -36,7 +36,7 @@ public class Obv : TestBase
 
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.ObvSma != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.ObvSma != null));
 
         // sample values
         ObvResult r1 = results[501];
@@ -45,20 +45,14 @@ public class Obv : TestBase
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void Chainor()
     {
-        List<Quote> newQuotes = quotes.GetObv()
-            .ConvertToQuotes()
-            .ToList();
+        IEnumerable<SmaResult> results = quotes
+            .GetObv()
+            .GetSma(10);
 
-        // assertions
-        Assert.AreEqual(502, newQuotes.Count);
-
-        Quote q1 = newQuotes[249];
-        Assert.AreEqual(1780918888m, q1.Close);
-
-        Quote q2 = newQuotes[501];
-        Assert.AreEqual(539843504m, q2.Close);
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -66,6 +60,7 @@ public class Obv : TestBase
     {
         IEnumerable<ObvResult> r = badQuotes.GetObv();
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
     }
 
     [TestMethod]
@@ -85,11 +80,9 @@ public class Obv : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad SMA period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetObv(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetObv(quotes, 0));
 }

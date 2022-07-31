@@ -17,7 +17,7 @@ public class FisherTransform : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Where(x => x.Fisher != 0).Count());
+        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
 
         // sample values
         Assert.AreEqual(0, results[0].Fisher);
@@ -52,10 +52,53 @@ public class FisherTransform : TestBase
     }
 
     [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<FisherTransformResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetFisherTransform(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<FisherTransformResult> r = tupleNanny.GetFisherTransform(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<FisherTransformResult> results = quotes
+            .GetSma(2)
+            .GetFisherTransform(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetFisherTransform(10)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(badQuotes, 9);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
     }
 
     [TestMethod]
@@ -68,11 +111,9 @@ public class FisherTransform : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetFisherTransform(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetFisherTransform(quotes, 0));
 }

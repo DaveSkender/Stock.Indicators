@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<info>
+  <summary>
+    Doji is a single candlestick pattern where open and close price are virtually identical, representing market indecision.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Patterns/Doji/#content">documentation</see>
+      for more information.
+    </para>
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="maxPriceChangePercent">Optional.  Maximum absolute percent difference in open and close price.</param>
+  <returns>Time series of Doji values.</returns>
+  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+</info>

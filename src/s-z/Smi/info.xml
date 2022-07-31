@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
 
   <type name="Main">
     <summary>
@@ -20,28 +20,4 @@
     <returns>Time series of Stochastic Momentum Index values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-
-  <type name="Results">
-    <summary>
-      Stochastic indicator results outputs.
-      <para>
-        See
-        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smi/#response">documentation</see>
-        for more information.
-      </para>
-    </summary>
-    <remarks>
-      <list type="table">
-        <item>
-          <term>Smi</term>
-          <description>Stochastic Momentum Index.</description>
-        </item>
-        <item>
-          <term>Signal</term>
-          <description>Exponential moving average (EMA) of SMI.</description>
-        </item>
-      </list>
-    </remarks>
-  </type>
-
-</indicator>
+</info>

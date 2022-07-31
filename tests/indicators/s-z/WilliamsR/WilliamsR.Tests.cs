@@ -17,14 +17,25 @@ public class WilliamsR : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Where(x => x.WilliamsR != null).Count());
+        Assert.AreEqual(489, results.Count(x => x.WilliamsR != null));
 
         // sample values
         WilliamsResult r1 = results[343];
-        Assert.AreEqual(-19.8211m, Math.Round((decimal)r1.WilliamsR, 4));
+        Assert.AreEqual(-19.8211, NullMath.Round(r1.WilliamsR, 4));
 
         WilliamsResult r2 = results[501];
-        Assert.AreEqual(-52.0121m, Math.Round((decimal)r2.WilliamsR, 4));
+        Assert.AreEqual(-52.0121, NullMath.Round(r2.WilliamsR, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetWilliamsR()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -32,6 +43,7 @@ public class WilliamsR : TestBase
     {
         IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.WilliamsR is double and double.NaN));
     }
 
     [TestMethod]
@@ -55,14 +67,12 @@ public class WilliamsR : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         WilliamsResult last = results.LastOrDefault();
-        Assert.AreEqual(-52.0121m, Math.Round((decimal)last.WilliamsR, 4));
+        Assert.AreEqual(-52.0121, NullMath.Round(last.WilliamsR, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetWilliamsR(quotes, 0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetWilliamsR(0));
 }

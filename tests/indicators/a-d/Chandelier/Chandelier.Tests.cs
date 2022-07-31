@@ -20,14 +20,14 @@ public class Chandeleir : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, longResult.Count);
-        Assert.AreEqual(481, longResult.Where(x => x.ChandelierExit != null).Count());
+        Assert.AreEqual(481, longResult.Count(x => x.ChandelierExit != null));
 
         // sample values (long)
         ChandelierResult a = longResult[501];
-        Assert.AreEqual(256.5860m, Math.Round((decimal)a.ChandelierExit, 4));
+        Assert.AreEqual(256.5860, NullMath.Round(a.ChandelierExit, 4));
 
         ChandelierResult b = longResult[492];
-        Assert.AreEqual(259.0480m, Math.Round((decimal)b.ChandelierExit, 4));
+        Assert.AreEqual(259.0480, NullMath.Round(b.ChandelierExit, 4));
 
         // short
         List<ChandelierResult> shortResult =
@@ -35,7 +35,18 @@ public class Chandeleir : TestBase
             .ToList();
 
         ChandelierResult c = shortResult[501];
-        Assert.AreEqual(246.4240m, Math.Round((decimal)c.ChandelierExit, 4));
+        Assert.AreEqual(246.4240, NullMath.Round(c.ChandelierExit, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetChandelier(22)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(472, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -43,6 +54,7 @@ public class Chandeleir : TestBase
     {
         IEnumerable<ChandelierResult> r = Indicator.GetChandelier(badQuotes, 15, 2);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double and double.NaN));
     }
 
     [TestMethod]
@@ -67,7 +79,7 @@ public class Chandeleir : TestBase
         Assert.AreEqual(502 - 21, longResult.Count);
 
         ChandelierResult last = longResult.LastOrDefault();
-        Assert.AreEqual(256.5860m, Math.Round((decimal)last.ChandelierExit, 4));
+        Assert.AreEqual(256.5860, NullMath.Round(last.ChandelierExit, 4));
     }
 
     [TestMethod]

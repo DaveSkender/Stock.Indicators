@@ -1,6 +1,6 @@
 ---
 title: Correlation Coefficient
-description: Correlation Coefficient and R-Squared (Coefficient of Determination)
+description: Pearson Correlation Coefficient and R-Squared (Coefficient of Determination)
 permalink: /indicators/Correlation/
 type: numerical-analysis
 layout: indicator
@@ -8,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) between two quote histories, based on Close price.  R-Squared (R&sup2;), Variance, and Covariance are also output.
+Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear correlation between two quote histories.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/259 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Correlation.png)
@@ -16,7 +16,7 @@ layout: indicator
 ```csharp
 // usage
 IEnumerable<CorrResult> results =
-  quotesA.GetCorr(quotesB, lookbackPeriods);
+  quotesA.GetCorrelation(quotesB, lookbackPeriods);
 ```
 
 ## Parameters
@@ -56,20 +56,29 @@ IEnumerable<CorrResult>
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> historySPX = GetHistoryFromFeed("SPX");
-IEnumerable<Quote> historyTSLA = GetHistoryFromFeed("TSLA");
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetCorrelation(quotesMarket.Use(CandlePart.HL2),20);
+```
 
-// calculate 20-period Correlation
-IEnumerable<CorrResult> results
-  = historySPX.GetCorr(historyTSLA,20);
+Results can be further processed on `Correlation` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetCorrelation(..)
+    .GetSlope(..);
 ```

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     SuperTrend attempts to determine the primary trend of Close prices by using
     Average True Range (ATR) band thresholds. It can indicate a buy/sell signal or a
@@ -17,4 +17,4 @@
   <param name="multiplier">Multiplier sets the ATR band width.</param>
   <returns>Time series of SuperTrend values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

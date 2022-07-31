@@ -12,22 +12,16 @@ public class Pivots : TestBase
         List<PivotsResult> results = quotes.GetPivots(4, 4, 20, EndType.HighLow)
             .ToList();
 
-        // foreach (PivotsResult r in results)
-        // {
-        //    Console.WriteLine($"{r.Date:d},{r.HighPoint:N2},{r.HighTrend},{r.HighLine:N4},"
-        //                     + $"{r.LowPoint:N2},{r.LowTrend},{r.LowLine:N4}");
-        // }
-
         // assertions
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(35, results.Where(x => x.HighPoint != null).Count());
-        Assert.AreEqual(333, results.Where(x => x.HighTrend != null).Count());
-        Assert.AreEqual(338, results.Where(x => x.HighLine != null).Count());
-        Assert.AreEqual(34, results.Where(x => x.LowPoint != null).Count());
-        Assert.AreEqual(328, results.Where(x => x.LowTrend != null).Count());
-        Assert.AreEqual(333, results.Where(x => x.LowLine != null).Count());
+        Assert.AreEqual(35, results.Count(x => x.HighPoint != null));
+        Assert.AreEqual(333, results.Count(x => x.HighTrend != null));
+        Assert.AreEqual(338, results.Count(x => x.HighLine != null));
+        Assert.AreEqual(34, results.Count(x => x.LowPoint != null));
+        Assert.AreEqual(328, results.Count(x => x.LowTrend != null));
+        Assert.AreEqual(333, results.Count(x => x.LowLine != null));
 
         // sample values
         PivotsResult r3 = results[3];
@@ -52,7 +46,7 @@ public class Pivots : TestBase
         Assert.AreEqual(233.02m, r120.HighLine);
         Assert.AreEqual(null, r120.LowPoint);
         Assert.AreEqual(PivotTrend.LL, r120.LowTrend);
-        Assert.AreEqual(228.9671m, Math.Round((decimal)r120.LowLine, 4));
+        Assert.AreEqual(228.9671m, NullMath.Round(r120.LowLine, 4));
 
         PivotsResult r180 = results[180];
         Assert.AreEqual(239.74m, r180.HighPoint);
@@ -60,7 +54,7 @@ public class Pivots : TestBase
         Assert.AreEqual(239.74m, r180.HighLine);
         Assert.AreEqual(null, r180.LowPoint);
         Assert.AreEqual(PivotTrend.HL, r180.LowTrend);
-        Assert.AreEqual(236.7050m, Math.Round((decimal)r180.LowLine, 4));
+        Assert.AreEqual(236.7050m, NullMath.Round(r180.LowLine, 4));
 
         PivotsResult r250 = results[250];
         Assert.AreEqual(null, r250.HighPoint);
@@ -76,7 +70,7 @@ public class Pivots : TestBase
         Assert.AreEqual(274.14m, r472.HighLine);
         Assert.AreEqual(null, r472.LowPoint);
         Assert.AreEqual(PivotTrend.HL, r472.LowTrend);
-        Assert.AreEqual(255.8078m, Math.Round((decimal)r472.LowLine, 4));
+        Assert.AreEqual(255.8078m, NullMath.Round(r472.LowLine, 4));
 
         PivotsResult r497 = results[497];
         Assert.AreEqual(null, r497.HighPoint);
@@ -110,6 +104,15 @@ public class Pivots : TestBase
 
         IEnumerable<PivotsResult> r1 = onequote.GetPivots();
         Assert.AreEqual(1, r1.Count());
+    }
+
+    [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<PivotsResult> r = quotes.GetPivots(4, 4, 20, EndType.HighLow)
+            .Condense();
+
+        Assert.AreEqual(67, r.Count());
     }
 
     [TestMethod]

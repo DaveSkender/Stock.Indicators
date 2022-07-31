@@ -2,9 +2,17 @@
   permalink: /indicators/ElderRay/
   type: price-characteristic
 
+- title: Directional Movement Index (DMI)
+  permalink: /indicators/Adx/
+  type: price-trend
+  
 - title: Historical Volatility (HV)
   permalink: /indicators/StdDev/
   type: price-characteristic
+
+- title: Hurst Exponent
+  permalink: /indicators/Hurst/
+  type: price-trend
 
 - title: KDJ Index
   permalink: /indicators/Stoch/
@@ -14,9 +22,53 @@
   permalink: /indicators/Epma/
   type: moving-average
 
+- title: Linear Regression (best-fit line)
+  permalink: /indicators/Slope/
+  type: numerical-analysis
+
+- title: Mean absolute deviation
+  permalink: /indicators/Sma/
+  type: numerical-analysis
+
+- title: Mean square error
+  permalink: /indicators/Sma/
+  type: numerical-analysis
+
+- title: Mean absolute percentage error
+  permalink: /indicators/Sma/
+  type: numerical-analysis
+
+- title: Modified Moving Average (MMA)
+  permalink: /indicators/Smma/
+  type: moving-average
+
 - title: Momentum Oscillator
   permalink: /indicators/Roc/
   type: price-characteristic
+
+- title: Normalized Average True Range
+  permalink: /indicators/Atr/
+  type: price-characteristic
+
+- title: HL2
+  permalink: /indicators/BasicQuote/
+  type: price-transform
+
+- title: HLC3
+  permalink: /indicators/BasicQuote/
+  type: price-transform
+
+- title: OC2
+  permalink: /indicators/BasicQuote/
+  type: price-transform
+
+- title: OHL3
+  permalink: /indicators/BasicQuote/
+  type: price-transform
+
+- title: OHLC4
+  permalink: /indicators/BasicQuote/
+  type: price-transform
 
 - title: Price Channels
   permalink: /indicators/Donchian/
@@ -30,10 +82,18 @@
   permalink: /indicators/Hurst/
   type: price-characteristic
 
-- title: ROC with Bands
-  permalink: /indicators/Roc/
-  type: oscillator
+- title: Running Moving Average (RMA)
+  permalink: /indicators/Smma/
+  type: moving-average
 
 - title: SuperTrend
   permalink: /indicators/SuperTrend/
   type: stop-and-reverse
+
+- title: True Range (TR)
+  permalink: /indicators/Atr/
+  type: price-characteristic
+
+- title: Z-Score
+  permalink: /indicators/StdDev/
+  type: numerical-analysis

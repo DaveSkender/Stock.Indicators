@@ -17,17 +17,28 @@ public class Vwma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Where(x => x.Vwma != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Vwma != null));
 
         // sample values
         VwmaResult r8 = results[8];
         Assert.IsNull(r8.Vwma);
 
-        Assert.AreEqual(213.981942m, Math.Round(results[9].Vwma.Value, 6));
-        Assert.AreEqual(215.899211m, Math.Round(results[24].Vwma.Value, 6));
-        Assert.AreEqual(226.302760m, Math.Round(results[99].Vwma.Value, 6));
-        Assert.AreEqual(257.053654m, Math.Round(results[249].Vwma.Value, 6));
-        Assert.AreEqual(242.101548m, Math.Round(results[501].Vwma.Value, 6));
+        Assert.AreEqual(213.981942, NullMath.Round(results[9].Vwma, 6));
+        Assert.AreEqual(215.899211, NullMath.Round(results[24].Vwma, 6));
+        Assert.AreEqual(226.302760, NullMath.Round(results[99].Vwma, 6));
+        Assert.AreEqual(257.053654, NullMath.Round(results[249].Vwma, 6));
+        Assert.AreEqual(242.101548, NullMath.Round(results[501].Vwma, 6));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetVwma(10)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -35,6 +46,7 @@ public class Vwma : TestBase
     {
         IEnumerable<VwmaResult> r = badQuotes.GetVwma(15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Vwma is double and double.NaN));
     }
 
     [TestMethod]
@@ -58,14 +70,12 @@ public class Vwma : TestBase
         Assert.AreEqual(502 - 9, results.Count);
 
         VwmaResult last = results.LastOrDefault();
-        Assert.AreEqual(242.101548m, Math.Round(last.Vwma.Value, 6));
+        Assert.AreEqual(242.101548, NullMath.Round(last.Vwma, 6));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetVwma(0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetVwma(0));
 }

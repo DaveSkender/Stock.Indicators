@@ -9,6 +9,7 @@ public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> ho;
+    private static List<Quote> hList;
 
     // SETUP
 
@@ -16,6 +17,7 @@ public class IndicatorPerformance
     public void Setup()
     {
         h = TestData.GetDefault();
+        hList = h.ToList();
     }
 
     [GlobalSetup(Targets = new[]
@@ -37,536 +39,289 @@ public class IndicatorPerformance
     // BENCHMARKS
 
     [Benchmark]
-    public object GetAdl()
-    {
-        return h.GetAdl();
-    }
+    public object GetAdl() => h.GetAdl();
 
     [Benchmark]
-    public object GetAdlWithSma()
-    {
-        return h.GetAdl(14);
-    }
+    public object GetAdlWithSma() => h.GetAdl(14);
 
     [Benchmark]
-    public object GetAdx()
-    {
-        return h.GetAdx();
-    }
+    public object GetAdx() => h.GetAdx();
 
     [Benchmark]
-    public object GetAlligator()
-    {
-        return h.GetAlligator();
-    }
+    public object GetAlligator() => h.GetAlligator();
 
     [Benchmark]
-    public object GetAlma()
-    {
-        return h.GetAlma();
-    }
+    public object GetAlma() => h.GetAlma();
 
     [Benchmark]
-    public object GetAroon()
-    {
-        return h.GetAroon();
-    }
+    public object GetAroon() => h.GetAroon();
 
     [Benchmark]
-    public object GetAtr()
-    {
-        return h.GetAtr();
-    }
+    public object GetAtr() => h.GetAtr();
 
     [Benchmark]
-    public object GetAwesome()
-    {
-        return h.GetAwesome();
-    }
+    public object GetAwesome() => h.GetAwesome();
 
     [Benchmark]
-    public object GetBeta()
-    {
-        return Indicator.GetBeta(h, ho, 20, BetaType.Standard);
-    }
+    public object GetBeta() => Indicator.GetBeta(h, ho, 20, BetaType.Standard);
 
     [Benchmark]
-    public object GetBetaUp()
-    {
-        return Indicator.GetBeta(h, ho, 20, BetaType.Up);
-    }
+    public object GetBetaUp() => Indicator.GetBeta(h, ho, 20, BetaType.Up);
 
     [Benchmark]
-    public object GetBetaDown()
-    {
-        return Indicator.GetBeta(h, ho, 20, BetaType.Down);
-    }
+    public object GetBetaDown() => Indicator.GetBeta(h, ho, 20, BetaType.Down);
 
     [Benchmark]
-    public object GetBetaAll()
-    {
-        return Indicator.GetBeta(h, ho, 20, BetaType.All);
-    }
+    public object GetBetaAll() => Indicator.GetBeta(h, ho, 20, BetaType.All);
 
     [Benchmark]
-    public object GetBollingerBands()
-    {
-        return h.GetBollingerBands();
-    }
+    public object GetBollingerBands() => h.GetBollingerBands();
 
     [Benchmark]
-    public object GetBop()
-    {
-        return h.GetBop();
-    }
+    public object GetBop() => h.GetBop();
 
     [Benchmark]
-    public object GetCci()
-    {
-        return h.GetCci();
-    }
+    public object GetCci() => h.GetCci();
 
     [Benchmark]
-    public object GetChaikinOsc()
-    {
-        return h.GetChaikinOsc();
-    }
+    public object GetChaikinOsc() => h.GetChaikinOsc();
 
     [Benchmark]
-    public object GetChandelier()
-    {
-        return h.GetChandelier();
-    }
+    public object GetChandelier() => h.GetChandelier();
 
     [Benchmark]
-    public object GetChop()
-    {
-        return h.GetChop();
-    }
+    public object GetChop() => h.GetChop();
 
     [Benchmark]
-    public object GetCmf()
-    {
-        return h.GetCmf();
-    }
+    public object GetCmf() => h.GetCmf();
 
     [Benchmark]
-    public object GetConnorsRsi()
-    {
-        return h.GetConnorsRsi();
-    }
+    public object GetConnorsRsi() => h.GetConnorsRsi();
 
     [Benchmark]
-    public object GetCorrelation()
-    {
-        return h.GetCorrelation(ho, 20);
-    }
+    public object GetCorrelation() => h.GetCorrelation(ho, 20);
 
     [Benchmark]
-    public object GetDonchian()
-    {
-        return h.GetDonchian();
-    }
+    public object GetDema() => h.GetDema(14);
 
     [Benchmark]
-    public object GetDoubleEma()
-    {
-        return h.GetDoubleEma(14);
-    }
+    public object GetDoji() => h.GetDoji();
 
     [Benchmark]
-    public object GetDpo()
-    {
-        return h.GetDpo(14);
-    }
+    public object GetDonchian() => h.GetDonchian();
 
     [Benchmark]
-    public object GetElderRay()
-    {
-        return h.GetElderRay();
-    }
+    public object GetDpo() => h.GetDpo(14);
 
     [Benchmark]
-    public object GetEma()
-    {
-        return h.GetEma(14);
-    }
+    public object GetElderRay() => h.GetElderRay();
 
     [Benchmark]
-    public object GetEpma()
-    {
-        return h.GetEpma(14);
-    }
+    public object GetEma() => h.GetEma(14);
 
     [Benchmark]
-    public object GetFcb()
+    public object GetEmaStream()
     {
-        return h.GetFcb(14);
+        EmaBase emaBase = hList.Take(15).InitEma(14);
+
+        for (int i = 15; i < hList.Count; i++)
+        {
+            Quote q = hList[i];
+            emaBase.Add(q);
+        }
+
+        return emaBase.Results;
     }
 
     [Benchmark]
-    public object GetFisherTransform()
-    {
-        return h.GetFisherTransform(10);
-    }
+    public object GetEpma() => h.GetEpma(14);
 
     [Benchmark]
-    public object GetForceIndex()
-    {
-        return h.GetForceIndex(13);
-    }
+    public object GetFcb() => h.GetFcb(14);
 
     [Benchmark]
-    public object GetFractal()
-    {
-        return h.GetFractal();
-    }
+    public object GetFisherTransform() => h.GetFisherTransform(10);
 
     [Benchmark]
-    public object GetGator()
-    {
-        return h.GetGator();
-    }
+    public object GetForceIndex() => h.GetForceIndex(13);
 
     [Benchmark]
-    public object GetHeikinAshi()
-    {
-        return h.GetHeikinAshi();
-    }
+    public object GetFractal() => h.GetFractal();
 
     [Benchmark]
-    public object GetHma()
-    {
-        return h.GetHma(14);
-    }
+    public object GetGator() => h.GetGator();
 
     [Benchmark]
-    public object GetHtTrendline()
-    {
-        return h.GetHtTrendline();
-    }
+    public object GetHeikinAshi() => h.GetHeikinAshi();
 
     [Benchmark]
-    public object GetHurst()
-    {
-        return h.GetHurst();
-    }
+    public object GetHma() => h.GetHma(14);
 
     [Benchmark]
-    public object GetIchimoku()
-    {
-        return h.GetIchimoku();
-    }
+    public object GetHtTrendline() => h.GetHtTrendline();
 
     [Benchmark]
-    public object GetKama()
-    {
-        return h.GetKama();
-    }
+    public object GetHurst() => h.GetHurst();
 
     [Benchmark]
-    public object GetKlinger()
-    {
-        return h.GetKvo();
-    }
+    public object GetIchimoku() => h.GetIchimoku();
 
     [Benchmark]
-    public object GetKeltner()
-    {
-        return h.GetKeltner();
-    }
+    public object GetKama() => h.GetKama();
 
     [Benchmark]
-    public object GetMacd()
-    {
-        return h.GetMacd();
-    }
+    public object GetKlinger() => h.GetKvo();
 
     [Benchmark]
-    public object GetMaEnvelopes()
-    {
-        return h.GetMaEnvelopes(20, 2.5, MaType.SMA);
-    }
+    public object GetKeltner() => h.GetKeltner();
 
     [Benchmark]
-    public object GetMama()
-    {
-        return h.GetMama();
-    }
+    public object GetKvo() => h.GetKvo();
 
     [Benchmark]
-    public object GetMarubozu()
-    {
-        return h.GetMarubozu();
-    }
+    public object GetMacd() => h.GetMacd();
 
     [Benchmark]
-    public object GetMfi()
-    {
-        return h.GetMfi();
-    }
+    public object GetMaEnvelopes() => h.GetMaEnvelopes(20, 2.5, MaType.SMA);
 
     [Benchmark]
-    public object GetObv()
-    {
-        return h.GetObv();
-    }
+    public object GetMama() => h.GetMama();
 
     [Benchmark]
-    public object GetObvWithSma()
-    {
-        return h.GetObv(14);
-    }
+    public object GetMarubozu() => h.GetMarubozu();
 
     [Benchmark]
-    public object GetParabolicSar()
-    {
-        return h.GetParabolicSar();
-    }
+    public object GetMfi() => h.GetMfi();
 
     [Benchmark]
-    public object GetPivots()
-    {
-        return h.GetPivots();
-    }
+    public object GetObv() => h.GetObv();
 
     [Benchmark]
-    public object GetPivotPoints()
-    {
-        return h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
-    }
+    public object GetObvWithSma() => h.GetObv(14);
 
     [Benchmark]
-    public object GetPmo()
-    {
-        return h.GetPmo();
-    }
+    public object GetParabolicSar() => h.GetParabolicSar();
 
     [Benchmark]
-    public object GetPrs()
-    {
-        return h.GetPrs(ho);
-    }
+    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
 
     [Benchmark]
-    public object GetPrsWithSma()
-    {
-        return h.GetPrs(ho, null, 5);
-    }
+    public object GetPivots() => h.GetPivots();
 
     [Benchmark]
-    public object GetPvo()
-    {
-        return h.GetPvo();
-    }
+    public object GetPmo() => h.GetPmo();
 
     [Benchmark]
-    public object GetRenko()
-    {
-        return h.GetRenko(2.5m);
-    }
+    public object GetPrs() => h.GetPrs(ho);
 
     [Benchmark]
-    public object GetRenkoAtr()
-    {
-        return h.GetRenko(14);
-    }
+    public object GetPrsWithSma() => h.GetPrs(ho, null, 5);
 
     [Benchmark]
-    public object GetRoc()
-    {
-        return h.GetRoc(20);
-    }
+    public object GetPvo() => h.GetPvo();
 
     [Benchmark]
-    public object GetRocWb()
-    {
-        return h.GetRocWb(12, 3, 12);
-    }
+    public object GetRenko() => h.GetRenko(2.5m);
 
     [Benchmark]
-    public object GetRocWithSma()
-    {
-        return h.GetRoc(20, 14);
-    }
+    public object GetRenkoAtr() => h.GetRenko(14);
 
     [Benchmark]
-    public object GetRollingPivots()
-    {
-        return h.GetRollingPivots(14, 1);
-    }
+    public object GetRoc() => h.GetRoc(20);
 
     [Benchmark]
-    public object GetRsi()
-    {
-        return h.GetRsi();
-    }
+    public object GetRocWb() => h.GetRocWb(12, 3, 12);
 
     [Benchmark]
-    public object GetSlope()
-    {
-        return h.GetSlope(20);
-    }
+    public object GetRocWithSma() => h.GetRoc(20, 14);
 
     [Benchmark]
-    public object GetSma()
-    {
-        return h.GetSma(10);
-    }
+    public object GetRollingPivots() => h.GetRollingPivots(14, 1);
 
     [Benchmark]
-    public object GetSmaExtended()
-    {
-        return h.GetSmaExtended(10);
-    }
+    public object GetRsi() => h.GetRsi();
 
     [Benchmark]
-    public object GetSmi()
-    {
-        return h.GetSmi(5, 20, 5, 3);
-    }
+    public object GetSlope() => h.GetSlope(20);
 
     [Benchmark]
-    public object GetSmma()
-    {
-        return h.GetSmma(10);
-    }
+    public object GetSma() => h.GetSma(10);
 
     [Benchmark]
-    public object GetStarcBands()
-    {
-        return h.GetStarcBands();
-    }
+    public object GetSmaAnalysis() => h.GetSmaAnalysis(10);
 
     [Benchmark]
-    public object GetStc()
-    {
-        return h.GetStc();
-    }
+    public object GetSmi() => h.GetSmi(5, 20, 5, 3);
 
     [Benchmark]
-    public object GetStdDev()
-    {
-        return h.GetStdDev(20);
-    }
+    public object GetSmma() => h.GetSmma(10);
 
     [Benchmark]
-    public object GetStdDevWithSma()
-    {
-        return h.GetStdDev(20, 14);
-    }
+    public object GetStarcBands() => h.GetStarcBands();
 
     [Benchmark]
-    public object GetStdDevChannels()
-    {
-        return h.GetStdDevChannels();
-    }
+    public object GetStc() => h.GetStc();
 
     [Benchmark]
-    public object GetStoch()
-    {
-        return h.GetStoch();
-    }
+    public object GetStdDev() => h.GetStdDev(20);
 
     [Benchmark]
-    public object GetStochSMMA()
-    {
-        return h.GetStoch(9, 3, 3, 3, 2, MaType.SMMA);
-    }
+    public object GetStdDevWithSma() => h.GetStdDev(20, 14);
 
     [Benchmark]
-    public object GetStochRsi()
-    {
-        return h.GetStochRsi(14, 14, 3);
-    }
+    public object GetStdDevChannels() => h.GetStdDevChannels();
 
     [Benchmark]
-    public object GetSuperTrend()
-    {
-        return h.GetSuperTrend();
-    }
+    public object GetStoch() => h.GetStoch();
 
     [Benchmark]
-    public object GetTripleEma()
-    {
-        return h.GetTripleEma(14);
-    }
+    public object GetStochSMMA() => h.GetStoch(9, 3, 3, 3, 2, MaType.SMMA);
 
     [Benchmark]
-    public object GetTrix()
-    {
-        return h.GetTrix(14);
-    }
+    public object GetStochRsi() => h.GetStochRsi(14, 14, 3);
 
     [Benchmark]
-    public object GetTrixWithSma()
-    {
-        return h.GetTrix(14, 5);
-    }
+    public object GetSuperTrend() => h.GetSuperTrend();
 
     [Benchmark]
-    public object GetTsi()
-    {
-        return h.GetTsi();
-    }
+    public object GetT3() => h.GetT3();
 
     [Benchmark]
-    public object GetT3()
-    {
-        return h.GetT3();
-    }
+    public object GetTema() => h.GetTema(14);
 
     [Benchmark]
-    public object GetUlcerIndex()
-    {
-        return h.GetUlcerIndex();
-    }
+    public object GetTrix() => h.GetTrix(14);
 
     [Benchmark]
-    public object GetUltimate()
-    {
-        return h.GetUltimate();
-    }
+    public object GetTrixWithSma() => h.GetTrix(14, 5);
 
     [Benchmark]
-    public object GetVolatilityStop()
-    {
-        return h.GetVolatilityStop();
-    }
+    public object GetTsi() => h.GetTsi();
 
     [Benchmark]
-    public object GetVortex()
-    {
-        return h.GetVortex(14);
-    }
+    public object GetUlcerIndex() => h.GetUlcerIndex();
 
     [Benchmark]
-    public object GetVwap()
-    {
-        return h.GetVwap();
-    }
+    public object GetUltimate() => h.GetUltimate();
 
     [Benchmark]
-    public object GetVwma()
-    {
-        return h.GetVwma(14);
-    }
+    public object GetVolatilityStop() => h.GetVolatilityStop();
 
     [Benchmark]
-    public object GetWilliamsR()
-    {
-        return h.GetWilliamsR();
-    }
+    public object GetVortex() => h.GetVortex(14);
 
     [Benchmark]
-    public object GetWma()
-    {
-        return h.GetWma(14);
-    }
+    public object GetVwap() => h.GetVwap();
 
     [Benchmark]
-    public object GetZigZag()
-    {
-        return h.GetZigZag();
-    }
+    public object GetVwma() => h.GetVwma(14);
+
+    [Benchmark]
+    public object GetWilliamsR() => h.GetWilliamsR();
+
+    [Benchmark]
+    public object GetWma() => h.GetWma(14);
+
+    [Benchmark]
+    public object GetZigZag() => h.GetZigZag();
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <type name="Main">
     <summary>
-      Smoothed Moving Average (SMMA) is the average of Close price over a lookback window using a smoothing method.
+      Smoothed Moving Average (SMMA) is the average of price over a lookback window using a smoothing method.
       <para>
         See
         <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smma/#content">documentation</see>
@@ -16,4 +16,4 @@
     <returns>Time series of SMMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-</indicator>
+</info>

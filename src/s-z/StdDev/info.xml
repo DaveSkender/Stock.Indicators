@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
-    Rolling Standard Deviation of Close price over a lookback window.
+    Rolling Standard Deviation of price over a lookback window.
     <para>
       See
       <see href="https://daveskender.github.io/Stock.Indicators/indicators/StdDev/#content">documentation</see>
@@ -15,4 +15,4 @@
   <param name="smaPeriods">Optional.  Number of periods in the Standard Deviation SMA signal line.</param>
   <returns>Time series of Standard Deviations values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

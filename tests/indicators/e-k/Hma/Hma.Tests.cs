@@ -16,14 +16,56 @@ public class Hma : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Where(x => x.Hma != null).Count());
+        Assert.AreEqual(480, results.Count(x => x.Hma != null));
 
         // sample values
         HmaResult r1 = results[149];
-        Assert.AreEqual(236.0835m, Math.Round((decimal)r1.Hma, 4));
+        Assert.AreEqual(236.0835, NullMath.Round(r1.Hma, 4));
 
         HmaResult r2 = results[501];
-        Assert.AreEqual(235.6972m, Math.Round((decimal)r2.Hma, 4));
+        Assert.AreEqual(235.6972, NullMath.Round(r2.Hma, 4));
+    }
+
+    [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<HmaResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetHma(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<HmaResult> r = tupleNanny.GetHma(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<HmaResult> results = quotes
+            .GetSma(2)
+            .GetHma(19);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetHma(20)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(471, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -31,6 +73,7 @@ public class Hma : TestBase
     {
         IEnumerable<HmaResult> r = Indicator.GetHma(badQuotes, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
     }
 
     [TestMethod]
@@ -54,14 +97,12 @@ public class Hma : TestBase
         Assert.AreEqual(480, results.Count);
 
         HmaResult last = results.LastOrDefault();
-        Assert.AreEqual(235.6972m, Math.Round((decimal)last.Hma, 4));
+        Assert.AreEqual(235.6972, NullMath.Round(last.Hma, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetHma(1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetHma(1));
 }

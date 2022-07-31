@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     True Strength Index (TSI) is a momentum oscillator that depicts trends in price changes.
     <para>
@@ -16,4 +16,4 @@
   <param name="signalPeriods">Number of periods in the TSI SMA signal line.</param>
   <returns>Time series of TSI values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

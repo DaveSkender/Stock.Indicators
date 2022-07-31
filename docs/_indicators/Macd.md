@@ -13,7 +13,7 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 ![image]({{site.baseurl}}/assets/charts/Macd.png)
 
 ```csharp
-// usage
+// usage (with Close price)
 IEnumerable<MacdResult> results =
   quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
 ```
@@ -30,7 +30,7 @@ IEnumerable<MacdResult> results =
 
 You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -50,26 +50,37 @@ IEnumerable<MacdResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Macd` | decimal | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
-| `Signal` | decimal | Moving average of the `MACD` line
-| `Histogram` | decimal | Gap between of the `MACD` and `Signal` line
-| `FastEma` | decimal | Fast Exponential Moving Average
-| `SlowEma` | decimal | Slow Exponential Moving Average
+| `Macd` | double | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
+| `Signal` | double | Moving average of the `MACD` line
+| `Histogram` | double | Gap between of the `MACD` and `Signal` line
+| `FastEma` | double | Fast Exponential Moving Average
+| `SlowEma` | double | Slow Exponential Moving Average
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetMacd(..);
+```
 
-// calculate MACD(12,26,9)
-IEnumerable<MacdResult> results = quotes.GetMacd(12,26,9);
+Results can be further processed on `Macd` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetMacd(..)
+    .GetSlope(..);
 ```

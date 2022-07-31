@@ -1,4 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes;
 using Internal.Tests;
 using Skender.Stock.Indicators;
 
@@ -18,15 +18,10 @@ public class InternalsPerformance
 
     [GlobalSetup(Targets = new[] { nameof(StdDev) })]
     public void Setup()
-    {
-        values = TestData.GetLongish(Periods)
+        => values = TestData.GetLongish(Periods)
             .Select(x => (double)x.Close)
             .ToArray();
-    }
 
     [Benchmark]
-    public object StdDev()
-    {
-        return Functions.StdDev(values);
-    }
+    public object StdDev() => Functions.StdDev(values);
 }

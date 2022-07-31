@@ -3,6 +3,6 @@
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Price` | decimal | Indicates the candle `Close` price when a signal is present
-| `Signal` | [Signal]({{site.baseurl}}/guide/#signal) | Generated signal type
-| `Candle` | [Candle]({{site.baseurl}}/guide/#candle) | Candle properties
+| `Price` | decimal | Price of the most relevant OHLC candle element when a signal is present
+| `Match` | [Match]({{site.baseurl}}/guide/#match) | Generated signal type
+| `Candle` | [CandleProperties]({{site.baseurl}}/guide/#candle) | Candle properties

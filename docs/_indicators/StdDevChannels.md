@@ -29,7 +29,7 @@ IEnumerable<StdDevChannelsResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -49,32 +49,35 @@ IEnumerable<StdDevChannelsResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Centerline` | decimal | Linear regression line (center line)
-| `UpperChannel` | decimal | Upper line is `D` standard deviations above the center line
-| `LowerChannel` | decimal | Lower line is `D` standard deviations below the center line
+| `Centerline` | double | Linear regression line (center line)
+| `UpperChannel` | double | Upper line is `D` standard deviations above the center line
+| `LowerChannel` | double | Lower line is `D` standard deviations below the center line
 | `BreakPoint` | bool | Helper information.  Indicates first point in new window.
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
-
-```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate StdDevChannels(20,2)
-IEnumerable<StdDevChannelsResult> results
-  = quotes.GetStdDevChannels(20,2);
-```
-
 ## Alternative depiction for full quotes variant
 
 If you specify `null` for the `lookbackPeriods`, you will get a regression line over the entire provided `quotes`.
 
 ![image]({{site.baseurl}}/assets/charts/StdDevChannelsFull.png)
+
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
+
+```csharp
+// example
+var results = quotesEval
+    .Use(CandlePart.HL2)
+    .GetStdDevChannels(..);
+```
+
+Results **cannot** be further chained with additional transforms.

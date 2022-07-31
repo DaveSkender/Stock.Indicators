@@ -30,7 +30,7 @@ IEnumerable<PvoResult> results =
 
 You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `S+P+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -50,24 +50,28 @@ IEnumerable<PvoResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Pvo` | decimal | Normalized difference between two Volume moving averages
-| `Signal` | decimal | Moving average of the `Pvo` line
-| `Histogram` | decimal | Gap between of the `Pvo` and `Signal` line
+| `Pvo` | double | Normalized difference between two Volume moving averages
+| `Signal` | double | Moving average of the `Pvo` line
+| `Histogram` | double | Gap between of the `Pvo` and `Signal` line
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+Results can be further processed on `Pvo` with additional chain-enabled indicators.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
-// calculate Pvo(12,26,9)
-IEnumerable<PvoResult> results = quotes.GetPvo(12,26,9);
+// example
+var results = quotes
+    .GetPvo(..)
+    .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

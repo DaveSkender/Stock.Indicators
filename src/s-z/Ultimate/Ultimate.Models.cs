@@ -1,7 +1,14 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class UltimateResult : ResultBase
+public sealed class UltimateResult : ResultBase, IReusableResult
 {
-    public decimal? Ultimate { get; set; }
+    public UltimateResult(DateTime date)
+    {
+        Date = date;
+    }
+
+    public double? Ultimate { get; set; }
+
+    double? IReusableResult.Value => Ultimate;
 }

@@ -16,33 +16,75 @@ public class Tsi : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(465, results.Where(x => x.Tsi != null).Count());
-        Assert.AreEqual(459, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
+        Assert.AreEqual(459, results.Count(x => x.Signal != null));
 
         // sample values
         TsiResult r2 = results[37];
-        Assert.AreEqual(53.1204, Math.Round((double)r2.Tsi, 4));
+        Assert.AreEqual(53.1204, NullMath.Round(r2.Tsi, 4));
         Assert.AreEqual(null, r2.Signal);
 
         TsiResult r3a = results[43];
-        Assert.AreEqual(46.0960, Math.Round((double)r3a.Tsi, 4));
-        Assert.AreEqual(51.6916, Math.Round((double)r3a.Signal, 4));
+        Assert.AreEqual(46.0960, NullMath.Round(r3a.Tsi, 4));
+        Assert.AreEqual(51.6916, NullMath.Round(r3a.Signal, 4));
 
         TsiResult r3b = results[44];
-        Assert.AreEqual(42.5121, Math.Round((double)r3b.Tsi, 4));
-        Assert.AreEqual(49.3967, Math.Round((double)r3b.Signal, 4));
+        Assert.AreEqual(42.5121, NullMath.Round(r3b.Tsi, 4));
+        Assert.AreEqual(49.3967, NullMath.Round(r3b.Signal, 4));
 
         TsiResult r4 = results[149];
-        Assert.AreEqual(29.0936, Math.Round((double)r4.Tsi, 4));
-        Assert.AreEqual(28.0134, Math.Round((double)r4.Signal, 4));
+        Assert.AreEqual(29.0936, NullMath.Round(r4.Tsi, 4));
+        Assert.AreEqual(28.0134, NullMath.Round(r4.Signal, 4));
 
         TsiResult r5 = results[249];
-        Assert.AreEqual(41.9232, Math.Round((double)r5.Tsi, 4));
-        Assert.AreEqual(42.4063, Math.Round((double)r5.Signal, 4));
+        Assert.AreEqual(41.9232, NullMath.Round(r5.Tsi, 4));
+        Assert.AreEqual(42.4063, NullMath.Round(r5.Signal, 4));
 
         TsiResult r6 = results[501];
-        Assert.AreEqual(-28.3513, Math.Round((double)r6.Tsi, 4));
-        Assert.AreEqual(-29.3597, Math.Round((double)r6.Signal, 4));
+        Assert.AreEqual(-28.3513, NullMath.Round(r6.Tsi, 4));
+        Assert.AreEqual(-29.3597, NullMath.Round(r6.Signal, 4));
+    }
+
+    [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<TsiResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetTsi();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<TsiResult> r = tupleNanny.GetTsi();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<TsiResult> results = quotes
+            .GetSma(2)
+            .GetTsi();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(464, results.Count(x => x.Tsi != null));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetTsi()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(456, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -50,6 +92,7 @@ public class Tsi : TestBase
     {
         IEnumerable<TsiResult> r = Indicator.GetTsi(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
     }
 
     [TestMethod]
@@ -80,8 +123,8 @@ public class Tsi : TestBase
         Assert.AreEqual(502 - (25 + 13 + 250), results.Count);
 
         TsiResult last = results.LastOrDefault();
-        Assert.AreEqual(-28.3513, Math.Round((double)last.Tsi, 4));
-        Assert.AreEqual(-29.3597, Math.Round((double)last.Signal, 4));
+        Assert.AreEqual(-28.3513, NullMath.Round(last.Tsi, 4));
+        Assert.AreEqual(-29.3597, NullMath.Round(last.Signal, 4));
     }
 
     [TestMethod]

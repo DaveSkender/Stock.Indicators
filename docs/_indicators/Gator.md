@@ -7,7 +7,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator](../Alligator#content).
+Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator]({{site.baseurl}}/indicators/Alligator/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Gator.png)
@@ -25,9 +25,9 @@ IEnumerable<GatorResult> results = quotes
 
 ## Historical quotes requirements
 
-If using default settings, you must have at least 121 periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](../Alligator#historical-quotes-requirements) for historical quotes requirements.
+If using default settings, you must have at least 121 periods of `quotes`. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation]({{site.baseurl}}/indicators/Alligator/#historical-quotes-requirements) for historical quotes requirements.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -54,18 +54,22 @@ IEnumerable<GatorResult>
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
-
-// calculate the Gator Oscillator
-IEnumerable<GatorResult> results = quotes.GetGator();
+// example
+var results = quotes
+    .Use(CandlePart.HLC3)
+    .GetGator();
 ```
+
+Results **cannot** be further chained with additional transforms.

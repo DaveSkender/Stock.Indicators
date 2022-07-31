@@ -1,35 +1,163 @@
 {
-    // file settings
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 3000,
-    "files.encoding": "utf8",
-    "files.exclude": {
-        "**/.vs/**": true,
-        "**/bin/**": true,
-        "**/obj/**": true,
-        "**/TestResults/**": true,
-        "**/*.csproj.user": true
-    },
-
-    // search settings, auto excludes files.exclude
-    "search.exclude": {
-        "**/_site/**": true
-    },
-
-    // editor settings
-    "editor.codeLens": false,
-    "editor.bracketPairColorization.enabled": true,
-    "editor.guides.bracketPairs": "active",
-    "editor.formatOnPaste": true,
-    "terminal.integrated.defaultProfile.windows": "Git Bash",
-
-    // language settings
-    "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
-    "scss.validate": false, // false-positives on SCSS files with Jekyll front matter
-
-    // markdown settings
-    "markdownlint.config": {
-        "MD033": false,     // no-inline-html
-        "MD025": false      // single-title/single-h1 --> fails with front-matter
-    }
+  // file settings
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 3000,
+  "files.encoding": "utf8",
+  "files.exclude": {
+    "**/.vs/**": true,
+    "**/bin/**": true,
+    "**/obj/**": true,
+    "**/TestResults/**": true,
+    "**/*.csproj.user": true
+  },
+  // search settings, auto excludes files.exclude
+  "search.exclude": {
+    "**/_site/**": true
+  },
+  // editor settings
+  "editor.codeLens": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.formatOnPaste": true,
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  // language settings
+  "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
+  "scss.validate": false, // false-positives on SCSS files with Jekyll front matter
+  // markdown settings
+  "markdownlint.config": {
+    "MD033": false, // no-inline-html
+    "MD025": false // single-title/single-h1 --> fails with front-matter
+  },
+  // dictionary exceptions
+  "cSpell.words": [
+    "adxr",
+    "Apirine",
+    "Arnaud",
+    "Aroon",
+    "Ashi",
+    "Atrp",
+    "backtesting",
+    "betatype",
+    "Blau",
+    "Bollinger",
+    "Botes",
+    "candlepart",
+    "Chaikin",
+    "Chande",
+    "chandeliertype",
+    "chartable",
+    "chikou",
+    "daveskender",
+    "Dema",
+    "Detrended",
+    "Dimitrios",
+    "Doji",
+    "Donchian",
+    "Dreiss",
+    "Ehlers",
+    "endfor",
+    "endtype",
+    "Epma",
+    "Etienne",
+    "FAMA",
+    "forex",
+    "Goichi",
+    "Heikin",
+    "Homma",
+    "Hosoda",
+    "Hutson",
+    "Ichimoku",
+    "intraday",
+    "jemoji",
+    "Kaby",
+    "Keltner",
+    "kijun",
+    "Kinkō",
+    "Klinger",
+    "Kouzis",
+    "Kroll",
+    "Legoux",
+    "Levshin",
+    "LINQ",
+    "lookback",
+    "Loukas",
+    "LSMA",
+    "LWMA",
+    "Macd",
+    "Mape",
+    "Markowitz",
+    "Marubozu",
+    "matype",
+    "Mrkt",
+    "Mulloy",
+    "Munehisa",
+    "noquotes",
+    "octocat",
+    "OHLC",
+    "OHLCV",
+    "onequote",
+    "pivottrend",
+    "Quong",
+    "Renko",
+    "Seban",
+    "senkou",
+    "Siepman",
+    "Skender",
+    "Smma",
+    "Soudack",
+    "Starc",
+    "Stoch",
+    "Swenlin",
+    "Tema",
+    "tenkan",
+    "Tillson",
+    "trendline",
+    "Trix",
+    "TSLA",
+    "Tushar",
+    "Vitali",
+    "Vwap",
+    "Vwma",
+    "webp",
+    "Woodie"
+  ],
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    "src",
+    "tests"
+  ],
+  "cSpell.enableFiletypes": [
+    "!asciidoc",
+    "!c",
+    "!cpp",
+    "!csharp",
+    "!css",
+    "!elixir",
+    "!git-commit",
+    "!go",
+    "!graphql",
+    "!handlebars",
+    "!haskell",
+    "!jade",
+    "!java",
+    "!javascript",
+    "!javascriptreact",
+    "!jsonc",
+    "!latex",
+    "!less",
+    "!pug",
+    "!python",
+    "!restructuredtext",
+    "!rust",
+    "!scala",
+    "!swift",
+    "!typescript",
+    "!typescriptreact",
+    "!vue"
+  ]
 }

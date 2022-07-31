@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<indicator>
+<info>
   <summary>
     Chandelier Exit is typically used for stop-loss and can be computed for both long or short types.
     <para>
@@ -16,4 +16,4 @@
   <param name="type">Short or Long variant selection.</param>
   <returns>Time series of Chandelier Exit values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-</indicator>
+</info>

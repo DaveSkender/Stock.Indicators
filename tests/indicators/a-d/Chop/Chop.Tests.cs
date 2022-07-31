@@ -17,20 +17,31 @@ public class Chop : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Where(x => x.Chop != null).Count());
+        Assert.AreEqual(488, results.Count(x => x.Chop != null));
 
         // sample values
         ChopResult r1 = results[13];
         Assert.AreEqual(null, r1.Chop);
 
         ChopResult r2 = results[14];
-        Assert.AreEqual(69.9967m, Math.Round((decimal)r2.Chop, 4));
+        Assert.AreEqual(69.9967, NullMath.Round(r2.Chop, 4));
 
         ChopResult r3 = results[249];
-        Assert.AreEqual(41.8499m, Math.Round((decimal)r3.Chop, 4));
+        Assert.AreEqual(41.8499, NullMath.Round(r3.Chop, 4));
 
         ChopResult r4 = results[501];
-        Assert.AreEqual(38.6526m, Math.Round((decimal)r4.Chop, 4));
+        Assert.AreEqual(38.6526, NullMath.Round(r4.Chop, 4));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetChop(14)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -44,7 +55,7 @@ public class Chop : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Where(x => x.Chop != null).Count());
+        Assert.AreEqual(500, results.Count(x => x.Chop != null));
     }
 
     [TestMethod]
@@ -52,6 +63,7 @@ public class Chop : TestBase
     {
         IEnumerable<ChopResult> r = Indicator.GetChop(badQuotes, 20);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Chop is double and double.NaN));
     }
 
     [TestMethod]
@@ -75,14 +87,12 @@ public class Chop : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         ChopResult last = results.LastOrDefault();
-        Assert.AreEqual(38.6526m, Math.Round((decimal)last.Chop, 4));
+        Assert.AreEqual(38.6526, NullMath.Round(last.Chop, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetChop(quotes, 1));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Indicator.GetChop(quotes, 1));
 }

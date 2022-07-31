@@ -10,13 +10,29 @@ public enum CandlePart
     Low,
     Close,
     Volume,
-    HL2
+    HL2,
+    HLC3,
+    OC2,
+    OHL3,
+    OHLC4
 }
 
 public enum EndType
 {
     Close = 0,
     HighLow = 1
+}
+
+public enum Match
+{
+    BullConfirmed = 200,
+    BullSignal = 100,
+    BullBasis = 10,
+    Neutral = 1,
+    None = 0,
+    BearBasis = -10,
+    BearSignal = -100,
+    BearConfirmed = -200
 }
 
 public enum MaType
@@ -50,13 +66,10 @@ public enum PeriodSize
     OneMinute
 }
 
-public enum Signal
+public enum SyncType
 {
-    BullConfirmed = 200,
-    BullSignal = 100,
-    BullBasis = 10,
-    None = 0,
-    BearBasis = -10,
-    BearSignal = -100,
-    BearConfirmed = -200
+    Prepend,
+    AppendOnly,
+    RemoveOnly,
+    FullMatch
 }

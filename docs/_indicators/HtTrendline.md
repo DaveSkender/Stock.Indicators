@@ -22,7 +22,7 @@ IEnumerable<HtlResult> results =
 
 You must have at least `100` periods of `quotes` to cover the warmup periods.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -42,23 +42,34 @@ IEnumerable<HtlResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Trendline` | decimal | HT Trendline
-| `SmoothPrice` | decimal | Weighted moving average of `(H+L)/2` price
+| `Trendline` | double | HT Trendline
+| `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
+// example
+var results = quotes
+    .Use(CandlePart.HLC3)
+    .GetHtTrendline(..);
+```
 
-// calculate HT Trendline
-IEnumerable<HtlResult> results = quotes.GetHtTrendline();
+Results can be further processed on `Trendline` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetHtTrendline(..)
+    .GetRsi(..);
 ```

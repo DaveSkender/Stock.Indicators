@@ -1,7 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class StcResult : ResultBase
+public sealed class StcResult : ResultBase, IReusableResult
 {
-    public decimal? Stc { get; set; }
+    public StcResult(DateTime date)
+    {
+        Date = date;
+    }
+
+    public double? Stc { get; set; }
+
+    double? IReusableResult.Value => Stc;
 }

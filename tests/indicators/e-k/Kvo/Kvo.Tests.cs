@@ -18,8 +18,8 @@ public class Klinger : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(446, results.Where(x => x.Oscillator != null).Count());
-        Assert.AreEqual(434, results.Where(x => x.Signal != null).Count());
+        Assert.AreEqual(446, results.Count(x => x.Oscillator != null));
+        Assert.AreEqual(434, results.Count(x => x.Signal != null));
 
         // sample values
         KvoResult r55 = results[55];
@@ -52,10 +52,22 @@ public class Klinger : TestBase
     }
 
     [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetKvo()
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(437, results.Count(x => x.Sma != null));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<KvoResult> r = Indicator.GetKvo(badQuotes);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]

@@ -16,9 +16,9 @@ public class Alligator : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Where(x => x.Jaw != null).Count());
-        Assert.AreEqual(490, results.Where(x => x.Teeth != null).Count());
-        Assert.AreEqual(495, results.Where(x => x.Lips != null).Count());
+        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
+        Assert.AreEqual(490, results.Count(x => x.Teeth != null));
+        Assert.AreEqual(495, results.Count(x => x.Lips != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[19].Jaw);
@@ -31,20 +31,65 @@ public class Alligator : TestBase
         Assert.IsNotNull(results[7].Lips);
 
         // sample values
-        Assert.AreEqual(213.81269m, Math.Round(results[20].Jaw.Value, 5));
-        Assert.AreEqual(213.79287m, Math.Round(results[21].Jaw.Value, 5));
-        Assert.AreEqual(225.60571m, Math.Round(results[99].Jaw.Value, 5));
-        Assert.AreEqual(260.98953m, Math.Round(results[501].Jaw.Value, 5));
+        Assert.AreEqual(213.81269, NullMath.Round(results[20].Jaw, 5));
+        Assert.AreEqual(213.79287, NullMath.Round(results[21].Jaw, 5));
+        Assert.AreEqual(225.60571, NullMath.Round(results[99].Jaw, 5));
+        Assert.AreEqual(260.98953, NullMath.Round(results[501].Jaw, 5));
 
-        Assert.AreEqual(213.69938m, Math.Round(results[12].Teeth.Value, 5));
-        Assert.AreEqual(213.80008m, Math.Round(results[13].Teeth.Value, 5));
-        Assert.AreEqual(226.12157m, Math.Round(results[99].Teeth.Value, 5));
-        Assert.AreEqual(253.53576m, Math.Round(results[501].Teeth.Value, 5));
+        Assert.AreEqual(213.699375, NullMath.Round(results[12].Teeth, 6));
+        Assert.AreEqual(213.80008, NullMath.Round(results[13].Teeth, 5));
+        Assert.AreEqual(226.12157, NullMath.Round(results[99].Teeth, 5));
+        Assert.AreEqual(253.53576, NullMath.Round(results[501].Teeth, 5));
 
-        Assert.AreEqual(213.63500m, Math.Round(results[7].Lips.Value, 5));
-        Assert.AreEqual(213.74900m, Math.Round(results[8].Lips.Value, 5));
-        Assert.AreEqual(226.35353m, Math.Round(results[99].Lips.Value, 5));
-        Assert.AreEqual(244.29591m, Math.Round(results[501].Lips.Value, 5));
+        Assert.AreEqual(213.63500, NullMath.Round(results[7].Lips, 5));
+        Assert.AreEqual(213.74900, NullMath.Round(results[8].Lips, 5));
+        Assert.AreEqual(226.35353, NullMath.Round(results[99].Lips, 5));
+        Assert.AreEqual(244.29591, NullMath.Round(results[501].Lips, 5));
+    }
+
+    [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<AlligatorResult> results = quotes
+            .Use(CandlePart.HL2)
+            .GetAlligator();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
+
+        AlligatorResult last = results.LastOrDefault();
+        Assert.AreEqual(244.29591, NullMath.Round(last.Lips, 5));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<AlligatorResult> r = tupleNanny.GetAlligator();
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Lips is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<AlligatorResult> results = quotes
+            .GetSma(2)
+            .GetAlligator();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(481, results.Count(x => x.Jaw != null));
+    }
+
+    [TestMethod]
+    public void Sync()
+    {
+        IEnumerable<AlligatorResult> results = quotes
+            .GetSma(3)
+            .GetAlligator();
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(480, results.Count(x => x.Jaw != null));
     }
 
     [TestMethod]
@@ -52,6 +97,7 @@ public class Alligator : TestBase
     {
         IEnumerable<AlligatorResult> r = badQuotes.GetAlligator(3, 3, 2, 1, 1, 1);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Jaw is double and double.NaN));
     }
 
     [TestMethod]
@@ -65,6 +111,20 @@ public class Alligator : TestBase
     }
 
     [TestMethod]
+    public void Condense()
+    {
+        IEnumerable<AlligatorResult> r = quotes.GetAlligator()
+            .Condense();
+
+        Assert.AreEqual(495, r.Count());
+
+        AlligatorResult last = r.LastOrDefault();
+        Assert.AreEqual(260.98953, NullMath.Round(last.Jaw, 5));
+        Assert.AreEqual(253.53576, NullMath.Round(last.Teeth, 5));
+        Assert.AreEqual(244.29591, NullMath.Round(last.Lips, 5));
+    }
+
+    [TestMethod]
     public void Removed()
     {
         IEnumerable<AlligatorResult> r = quotes.GetAlligator(13, 8)
@@ -73,9 +133,9 @@ public class Alligator : TestBase
         Assert.AreEqual(502 - 21 - 250, r.Count());
 
         AlligatorResult last = r.LastOrDefault();
-        Assert.AreEqual(260.98953m, Math.Round((decimal)last.Jaw, 5));
-        Assert.AreEqual(253.53576m, Math.Round((decimal)last.Teeth, 5));
-        Assert.AreEqual(244.29591m, Math.Round((decimal)last.Lips, 5));
+        Assert.AreEqual(260.98953, NullMath.Round(last.Jaw, 5));
+        Assert.AreEqual(253.53576, NullMath.Round(last.Teeth, 5));
+        Assert.AreEqual(244.29591, NullMath.Round(last.Lips, 5));
     }
 
     [TestMethod]

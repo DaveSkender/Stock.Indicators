@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<info>
+  <summary>
+    A simple quote transform.
+    <para>
+      See
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/BasicQuote/#content">documentation</see>
+      for more information.
+    </para>
+  </summary>
+  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+  <param name="quotes">Historical price quotes.</param>
+  <param name="candlePart">The OHLCV element or simply calculated value type.</param>
+  <returns>Time series of Basic Quote values.</returns>
+  <exception cref="InvalidQuotesException">Invalid candle part provided.</exception>
+</info>

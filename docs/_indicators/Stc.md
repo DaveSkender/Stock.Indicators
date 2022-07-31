@@ -30,7 +30,7 @@ IEnumerable<StcResult> results =
 
 You must have at least `2×(S+C)` or `S+C+100` worth of `quotes`, whichever is more, to cover the convergence periods.  Since this uses a smoothing technique, we recommend you use at least `S+C+250` data points prior to the intended usage date for better precision.
 
-`quotes` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -50,22 +50,33 @@ IEnumerable<StcResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Stc` | decimal | Schaff Trend Cycle
+| `Stc` | double | Schaff Trend Cycle
 
 ### Utilities
 
+- [.Condense()]({{site.baseurl}}/utilities#condense)
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
-## Example
+## Chaining
+
+This indicator may be generated from any chain-enabled indicator or method.
 
 ```csharp
-// fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+// example
+var results = quotes
+    .Use(CandlePart.HL2)
+    .GetStc(..);
+```
 
-// calculate STC(12,26,9)
-IEnumerable<StcResult> results = quotes.GetStc(10,23,50);
+Results can be further processed on `Stc` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetStc(..)
+    .GetRsi(..);
 ```

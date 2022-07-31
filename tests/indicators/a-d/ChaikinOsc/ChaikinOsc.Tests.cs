@@ -20,14 +20,25 @@ public class ChaikinOsc : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502 - slowPeriods + 1, results.Where(x => x.Oscillator != null).Count());
+        Assert.AreEqual(493, results.Count(x => x.Oscillator != null));
 
         // sample value
         ChaikinOscResult r = results[501];
-        Assert.AreEqual(3439986548.42, Math.Round(r.Adl, 2));
-        Assert.AreEqual(0.8052, Math.Round(r.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, Math.Round(r.MoneyFlowVolume, 2));
-        Assert.AreEqual(-19135200.72, Math.Round((double)r.Oscillator, 2));
+        Assert.AreEqual(3439986548.42, NullMath.Round(r.Adl, 2));
+        Assert.AreEqual(0.8052, NullMath.Round(r.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, NullMath.Round(r.MoneyFlowVolume, 2));
+        Assert.AreEqual(-19135200.72, NullMath.Round(r.Oscillator, 2));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetChaikinOsc(3, 10)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -35,6 +46,7 @@ public class ChaikinOsc : TestBase
     {
         IEnumerable<ChaikinOscResult> r = Indicator.GetChaikinOsc(badQuotes, 5, 15);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
@@ -61,10 +73,10 @@ public class ChaikinOsc : TestBase
         Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
 
         ChaikinOscResult last = results.LastOrDefault();
-        Assert.AreEqual(3439986548.42, Math.Round(last.Adl, 2));
-        Assert.AreEqual(0.8052, Math.Round(last.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, Math.Round(last.MoneyFlowVolume, 2));
-        Assert.AreEqual(-19135200.72, Math.Round((double)last.Oscillator, 2));
+        Assert.AreEqual(3439986548.42, NullMath.Round(last.Adl, 2));
+        Assert.AreEqual(0.8052, NullMath.Round(last.MoneyFlowMultiplier, 4));
+        Assert.AreEqual(118396116.25, NullMath.Round(last.MoneyFlowVolume, 2));
+        Assert.AreEqual(-19135200.72, NullMath.Round(last.Oscillator, 2));
     }
 
     [TestMethod]

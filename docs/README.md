@@ -12,6 +12,7 @@ Explore more information:
 
 - [Indicators and overlays]({{site.baseurl}}/indicators/#content)
 - [Guide and Pro tips]({{site.baseurl}}/guide/#content)
+- [Utilities and Helper functions]({{site.baseurl}}/utilities/#content)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
 - [Example usage code]({{site.baseurl}}/examples/#content)
 - [Release notes]({{site.github.repository_url}}/releases)
@@ -20,9 +21,9 @@ Explore more information:
 
 ## Samples
 
-![image](examples.png)
+![image](examples.webp)
 
-### Example usage
+### Basic usage
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -33,15 +34,32 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
+### Advanced usage
+
+Optional chaining enables advanced uses cases; such as, indicator of indicators, slope (direction) of any result, or moving average of an indicator.
+
+```csharp
+// example: advanced chaining (RSI of OBV)
+IEnumerable<RsiResult> results
+  = quotes
+    .GetObv()
+    .GetRsi(14);
+
+// example: use any candle variant
+IEnumerable<EmaResult> results
+  = quotes
+    .Use(CandlePart.HL2)
+    .GetEma(20);
+```
+
 See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.
 
 ## Frameworks targeted
 
-- .NET 6.0, 5.0
-- .NET Core 3.1
+- .NET 7.0, 6.0, 5.0
 - .NET Standard 2.1, 2.0
 
-The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
+The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.  A [Stock Indicators for Python](https://daveskender.github.io/Stock.Indicators.Python/) PyPI package is also available.
 
 ## License
 

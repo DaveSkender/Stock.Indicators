@@ -28,11 +28,10 @@ public class Dpo : TestBase
                 Close = csv[5].ToDecimal()
             });
 
-            exp.Add(new DpoResult
+            exp.Add(new DpoResult(date)
             {
-                Date = date,
-                Sma = csv[6].ToDecimalNull(),
-                Dpo = csv[7].ToDecimalNull()
+                Sma = csv[6].ToDoubleNull(),
+                Dpo = csv[7].ToDoubleNull()
             });
         }
 
@@ -50,22 +49,51 @@ public class Dpo : TestBase
             DpoResult a = act[i];
 
             Assert.AreEqual(e.Date, a.Date);
-            Assert.AreEqual(e.Sma, a.Sma.NullRound(5), $"at index {i}");
-            Assert.AreEqual(e.Dpo, a.Dpo.NullRound(5), $"at index {i}");
+            Assert.AreEqual(e.Sma, NullMath.Round(a.Sma, 5), $"at index {i}");
+            Assert.AreEqual(e.Dpo, NullMath.Round(a.Dpo, 5), $"at index {i}");
         }
     }
 
     [TestMethod]
-    public void ConvertToQuotes()
+    public void UseTuple()
     {
-        List<Quote> newQuotes = quotes.GetDpo(14)
-            .ConvertToQuotes()
-            .ToList();
+        IEnumerable<DpoResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetDpo(14);
 
-        Assert.AreEqual(489, newQuotes.Count);
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(489, results.Count(x => x.Dpo != null));
+    }
 
-        Quote q = newQuotes.LastOrDefault();
-        Assert.AreEqual(2.18214m, Math.Round(q.Close, 5));
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<DpoResult> r = tupleNanny.GetDpo(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<DpoResult> results = quotes
+            .GetSma(2)
+            .GetDpo(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(488, results.Count(x => x.Dpo != null));
+    }
+
+    [TestMethod]
+    public void Chainor()
+    {
+        IEnumerable<SmaResult> results = quotes
+            .GetDpo(14)
+            .GetSma(10);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]
@@ -73,6 +101,7 @@ public class Dpo : TestBase
     {
         IEnumerable<DpoResult> r = badQuotes.GetDpo(5);
         Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
     }
 
     [TestMethod]
@@ -85,11 +114,9 @@ public class Dpo : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
+    // bad SMA period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetDpo(0));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetDpo(0));
 }

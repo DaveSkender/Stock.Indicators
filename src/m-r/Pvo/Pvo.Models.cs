@@ -1,9 +1,16 @@
-﻿namespace Skender.Stock.Indicators;
+namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class PvoResult : ResultBase
+public sealed class PvoResult : ResultBase, IReusableResult
 {
-    public decimal? Pvo { get; set; }
-    public decimal? Signal { get; set; }
-    public decimal? Histogram { get; set; }
+    public PvoResult(DateTime date)
+    {
+        Date = date;
+    }
+
+    public double? Pvo { get; set; }
+    public double? Signal { get; set; }
+    public double? Histogram { get; set; }
+
+    double? IReusableResult.Value => Pvo;
 }
