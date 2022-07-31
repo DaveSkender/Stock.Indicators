@@ -81,6 +81,17 @@ public class StochRsi : TestBase
     }
 
     [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<StochRsiResult> results = quotes
+            .GetSma(2)
+            .GetStochRsi(14, 14, 3, 1);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(474, results.Count(x => x.StochRsi != null));
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
