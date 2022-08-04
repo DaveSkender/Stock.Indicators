@@ -113,11 +113,11 @@ public static partial class Indicator
             if (i + 1 > 2 * lookbackPeriods)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
-                r.Adx = adx;
+                r.Adx = adx.NaN2Null();
 
                 double? priorAdx = results[i + 1 - lookbackPeriods].Adx;
 
-                r.Adxr = (adx + priorAdx) / 2;
+                r.Adxr = (adx.NaN2Null() + priorAdx) / 2;
                 prevAdx = adx;
             }
 
@@ -126,7 +126,7 @@ public static partial class Indicator
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;
-                r.Adx = adx;
+                r.Adx = adx.NaN2Null();
                 prevAdx = adx;
             }
 
