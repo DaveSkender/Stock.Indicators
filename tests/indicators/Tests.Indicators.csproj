@@ -32,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="a-d\Adx\issue859quotes.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="_common\data\bad.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

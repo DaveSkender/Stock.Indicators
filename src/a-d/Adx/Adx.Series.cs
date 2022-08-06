@@ -117,7 +117,7 @@ public static partial class Indicator
 
                 double? priorAdx = results[i + 1 - lookbackPeriods].Adx;
 
-                r.Adxr = (adx.NaN2Null() + priorAdx) / 2;
+                r.Adxr = (adx + priorAdx).NaN2Null() / 2;
                 prevAdx = adx;
             }
 

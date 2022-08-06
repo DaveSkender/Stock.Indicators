@@ -86,6 +86,19 @@ public class Adx : TestBase
     }
 
     [TestMethod]
+    public void Issue859()
+    {
+        IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
+            .Skip(1)
+            .Select(v => Importer.QuoteFromCsv(v))
+            .OrderByDescending(x => x.Date);
+
+        List<AdxResult> r = test859.GetAdx(14).ToList();
+
+        Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Removed()
     {
         IEnumerable<AdxResult> r = quotes.GetAdx(14)
