@@ -18,6 +18,15 @@ internal class TestData
     internal static IEnumerable<Quote> GetRandom(int days = 502)
         => new RandomGbm(bars: days);
 
+    // ZEROS (200)
+    internal static IEnumerable<Quote> GetZeros(int days = 200)
+        => File.ReadAllLines("_common/data/zeros.csv")
+            .Skip(1)
+            .Select(v => Importer.QuoteFromCsv(v))
+            .OrderByDescending(x => x.Date)
+            .Take(days)
+            .ToList();
+
     // BAD DATA
     internal static IEnumerable<Quote> GetBad(int days = 502)
         => File.ReadAllLines("_common/data/bad.csv")
