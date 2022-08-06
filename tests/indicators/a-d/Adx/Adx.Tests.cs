@@ -96,6 +96,16 @@ public class Adx : TestBase
         List<AdxResult> r = test859.GetAdx(14).ToList();
 
         Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
+        Assert.AreEqual(595, r.Count);
+    }
+
+    [TestMethod]
+    public void Zeroes()
+    {
+        List<AdxResult> r = zeroesQuotes.GetAdx(14).ToList();
+
+        Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
+        Assert.AreEqual(200, r.Count);
     }
 
     [TestMethod]
