@@ -10,8 +10,6 @@ public static partial class Indicator
         // initialize
         List<TrResult> results = new(qdList.Count);
         double prevClose = 0;
-        double highMinusPrevClose = 0;
-        double lowMinusPrevClose = 0;
 
         // roll through quotes
         for (int i = 0; i < qdList.Count; i++)
@@ -21,13 +19,17 @@ public static partial class Indicator
             TrResult r = new(q.Date);
             results.Add(r);
 
-            if (i > 0)
+            if (i is 0)
             {
-                highMinusPrevClose = Math.Abs(q.High - prevClose);
-                lowMinusPrevClose = Math.Abs(q.Low - prevClose);
+                r.Tr = q.High - q.Low;
+                prevClose = q.Close;
+                continue;
             }
 
-            r.Tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
+            double hmpc = Math.Abs(q.High - prevClose);
+            double lmpc = Math.Abs(q.Low - prevClose);
+
+            r.Tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
 
             prevClose = q.Close;
         }
