@@ -13,8 +13,8 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<AdxResult> results = new(length);
-        List<AtrResult> atr = qdList
-            .CalcAtr(lookbackPeriods)
+        List<TrResult> truerange = qdList
+            .CalcTr()
             .ToList();
 
         double prevHigh = 0;
@@ -45,7 +45,7 @@ public static partial class Indicator
                 continue;
             }
 
-            double? tr = atr[i].Tr;
+            double? tr = truerange[i].Tr;
 
             double pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
                 Math.Max(q.High - prevHigh, 0) : 0;
