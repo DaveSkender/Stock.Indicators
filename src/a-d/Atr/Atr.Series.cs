@@ -27,7 +27,6 @@ public static partial class Indicator
 
             if (i is 0)
             {
-               prevClose = q.Close;
                continue;
             }
 
