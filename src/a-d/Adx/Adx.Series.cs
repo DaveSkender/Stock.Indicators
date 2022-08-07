@@ -98,7 +98,7 @@ public static partial class Indicator
             prevPdm = pdm;
             prevMdm = mdm;
 
-            if (trs is 0 or null)
+            if (trs is 0)
             {
                 continue;
             }
@@ -111,9 +111,12 @@ public static partial class Indicator
             r.Mdi = mdi;
 
             // calculate ADX
-            double dx = (pdi + mdi == 0)
-                ? double.NaN
-                : 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
+            double dx = (pdi == mdi)
+                ? 0
+                : (pdi + mdi != 0)
+                ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
+                : double.NaN;
+            
             double adx;
 
             if (i + 1 > 2 * lookbackPeriods)
