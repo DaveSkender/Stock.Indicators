@@ -14,12 +14,9 @@ public static partial class Indicator
         int length = qdList.Count;
         List<AdxResult> results = new(length);
 
-        double prevClose = 0;
-        double highMinusPrevClose = 0;
-        double lowMinusPrevClose = 0;
-        
         double prevHigh = 0;
         double prevLow = 0;
+        double prevClose = 0;
         double prevTrs = 0; // smoothed
         double prevPdm = 0;
         double prevMdm = 0;
@@ -47,21 +44,20 @@ public static partial class Indicator
                 continue;
             }
 
-            highMinusPrevClose = Math.Abs(q.High - prevClose);
-            lowMinusPrevClose = Math.Abs(q.Low - prevClose);
+            double hmpc = Math.Abs(q.High - prevClose);
+            double lmpc = Math.Abs(q.Low - prevClose);
+            double hmph = q.High - prevHigh;
+            double plml = prevLow - q.Low;
 
-            double tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
-
-            double pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
-                Math.Max(q.High - prevHigh, 0) : 0;
-
-            double mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
-                Math.Max(prevLow - q.Low, 0) : 0;
+            double pdm1 = hmph > plml ? Math.Max(hmph, 0) : 0;
+            double mdm1 = plml > hmph ? Math.Max(plml, 0) : 0;
 
             prevHigh = q.High;
             prevLow = q.Low;
             prevClose = q.Close;
 
+            double tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
+            
             // initialization period
             if (i <= lookbackPeriods)
             {
