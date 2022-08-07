@@ -11,7 +11,7 @@ public static partial class Indicator
         List<TrResult> results = new(qdList.Count);
         double prevClose = 0;
 
-        // roll through quote
+        // roll through quotes
         for (int i = 0; i < qdList.Count; i++)
         {
             QuoteD q = qdList[i];
@@ -21,6 +21,7 @@ public static partial class Indicator
 
             if (i is 0)
             {
+               prevClose = q.Close;
                continue;
             }
 
