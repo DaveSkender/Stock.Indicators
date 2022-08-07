@@ -13,18 +13,19 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<AdxResult> results = new(length);
-        List<TrResult> truerange = qdList
-            .CalcTr()
-            .ToList();
 
+        double prevClose = 0;
+        double highMinusPrevClose = 0;
+        double lowMinusPrevClose = 0;
+        
         double prevHigh = 0;
         double prevLow = 0;
-        double? prevTrs = 0; // smoothed
+        double prevTrs = 0; // smoothed
         double prevPdm = 0;
         double prevMdm = 0;
         double prevAdx = 0;
 
-        double? sumTr = 0;
+        double sumTr = 0;
         double sumPdm = 0;
         double sumMdm = 0;
         double sumDx = 0;
@@ -42,10 +43,14 @@ public static partial class Indicator
             {
                 prevHigh = q.High;
                 prevLow = q.Low;
+                prevClose = q.Close;
                 continue;
             }
 
-            double? tr = truerange[i].Tr;
+            highMinusPrevClose = Math.Abs(q.High - prevClose);
+            lowMinusPrevClose = Math.Abs(q.Low - prevClose);
+
+            double tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
 
             double pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
                 Math.Max(q.High - prevHigh, 0) : 0;
@@ -55,6 +60,7 @@ public static partial class Indicator
 
             prevHigh = q.High;
             prevLow = q.Low;
+            prevClose = q.Close;
 
             // initialization period
             if (i <= lookbackPeriods)
@@ -71,7 +77,7 @@ public static partial class Indicator
             }
 
             // smoothed true range and directional movement
-            double? trs;
+            double trs;
             double pdm;
             double mdm;
 
@@ -98,8 +104,8 @@ public static partial class Indicator
             }
 
             // directional increments
-            double pdi = 100 * pdm / (double)trs;
-            double mdi = 100 * mdm / (double)trs;
+            double pdi = 100 * pdm / trs;
+            double mdi = 100 * mdm / trs;
 
             r.Pdi = pdi;
             r.Mdi = mdi;
