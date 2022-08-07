@@ -21,8 +21,9 @@ public static partial class Indicator
 
             if (i is 0)
             {
-               prevClose = q.Close;
-               continue;
+                r.Tr = q.High - q.Low;
+                prevClose = q.Close;
+                continue;
             }
 
             double hmpc = Math.Abs(q.High - prevClose);

@@ -49,6 +49,8 @@ public static partial class Indicator
             double hmph = q.High - prevHigh;
             double plml = prevLow - q.Low;
 
+            double tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
+
             double pdm1 = hmph > plml ? Math.Max(hmph, 0) : 0;
             double mdm1 = plml > hmph ? Math.Max(plml, 0) : 0;
 
@@ -56,8 +58,6 @@ public static partial class Indicator
             prevLow = q.Low;
             prevClose = q.Close;
 
-            double tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
-            
             // initialization period
             if (i <= lookbackPeriods)
             {
@@ -112,10 +112,10 @@ public static partial class Indicator
                 : (pdi + mdi != 0)
                 ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
                 : double.NaN;
-            
+
             double adx;
 
-            if (i > 2 * lookbackPeriods - 1)
+            if (i > (2 * lookbackPeriods) - 1)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
                 r.Adx = adx.NaN2Null();
@@ -127,7 +127,7 @@ public static partial class Indicator
             }
 
             // initial ADX
-            else if (i == 2 * lookbackPeriods - 1)
+            else if (i == (2 * lookbackPeriods) - 1)
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;
