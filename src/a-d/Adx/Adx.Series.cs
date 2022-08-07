@@ -71,7 +71,7 @@ public static partial class Indicator
             }
 
             // skip DM initialization period
-            if (i + 1 <= lookbackPeriods)
+            if (i <= lookbackPeriods - 1)
             {
                 continue;
             }
@@ -119,7 +119,7 @@ public static partial class Indicator
             
             double adx;
 
-            if (i + 1 > 2 * lookbackPeriods)
+            if (i > 2 * lookbackPeriods - 1)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
                 r.Adx = adx.NaN2Null();
@@ -131,7 +131,7 @@ public static partial class Indicator
             }
 
             // initial ADX
-            else if (i + 1 == 2 * lookbackPeriods)
+            else if (i == 2 * lookbackPeriods - 1)
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;
