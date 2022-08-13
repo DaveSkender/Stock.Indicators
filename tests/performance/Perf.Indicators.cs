@@ -290,6 +290,9 @@ public class IndicatorPerformance
     public object GetTema() => h.GetTema(14);
 
     [Benchmark]
+    public object GetTr() => h.GetTr();
+
+    [Benchmark]
     public object GetTrix() => h.GetTrix(14);
 
     [Benchmark]

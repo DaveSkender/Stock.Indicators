@@ -13,18 +13,16 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<AdxResult> results = new(length);
-        List<AtrResult> atr = qdList
-            .CalcAtr(lookbackPeriods)
-            .ToList();
 
         double prevHigh = 0;
         double prevLow = 0;
-        double? prevTrs = 0; // smoothed
+        double prevClose = 0;
+        double prevTrs = 0; // smoothed
         double prevPdm = 0;
         double prevMdm = 0;
         double prevAdx = 0;
 
-        double? sumTr = 0;
+        double sumTr = 0;
         double sumPdm = 0;
         double sumMdm = 0;
         double sumDx = 0;
@@ -42,19 +40,23 @@ public static partial class Indicator
             {
                 prevHigh = q.High;
                 prevLow = q.Low;
+                prevClose = q.Close;
                 continue;
             }
 
-            double? tr = atr[i].Tr;
+            double hmpc = Math.Abs(q.High - prevClose);
+            double lmpc = Math.Abs(q.Low - prevClose);
+            double hmph = q.High - prevHigh;
+            double plml = prevLow - q.Low;
 
-            double pdm1 = (q.High - prevHigh) > (prevLow - q.Low) ?
-                Math.Max(q.High - prevHigh, 0) : 0;
+            double tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
 
-            double mdm1 = (prevLow - q.Low) > (q.High - prevHigh) ?
-                Math.Max(prevLow - q.Low, 0) : 0;
+            double pdm1 = hmph > plml ? Math.Max(hmph, 0) : 0;
+            double mdm1 = plml > hmph ? Math.Max(plml, 0) : 0;
 
             prevHigh = q.High;
             prevLow = q.Low;
+            prevClose = q.Close;
 
             // initialization period
             if (i <= lookbackPeriods)
@@ -65,13 +67,13 @@ public static partial class Indicator
             }
 
             // skip DM initialization period
-            if (i + 1 <= lookbackPeriods)
+            if (i <= lookbackPeriods - 1)
             {
                 continue;
             }
 
             // smoothed true range and directional movement
-            double? trs;
+            double trs;
             double pdm;
             double mdm;
 
@@ -92,41 +94,44 @@ public static partial class Indicator
             prevPdm = pdm;
             prevMdm = mdm;
 
-            if (trs is 0 or null)
+            if (trs is 0)
             {
                 continue;
             }
 
             // directional increments
-            double pdi = 100 * pdm / (double)trs;
-            double mdi = 100 * mdm / (double)trs;
+            double pdi = 100 * pdm / trs;
+            double mdi = 100 * mdm / trs;
 
             r.Pdi = pdi;
             r.Mdi = mdi;
 
             // calculate ADX
-            double dx = (pdi + mdi == 0)
-                ? double.NaN
-                : 100 * Math.Abs(pdi - mdi) / (pdi + mdi);
+            double dx = (pdi == mdi)
+                ? 0
+                : (pdi + mdi != 0)
+                ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
+                : double.NaN;
+
             double adx;
 
-            if (i + 1 > 2 * lookbackPeriods)
+            if (i > (2 * lookbackPeriods) - 1)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
-                r.Adx = adx;
+                r.Adx = adx.NaN2Null();
 
                 double? priorAdx = results[i + 1 - lookbackPeriods].Adx;
 
-                r.Adxr = (adx + priorAdx) / 2;
+                r.Adxr = (adx + priorAdx).NaN2Null() / 2;
                 prevAdx = adx;
             }
 
             // initial ADX
-            else if (i + 1 == 2 * lookbackPeriods)
+            else if (i == (2 * lookbackPeriods) - 1)
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;
-                r.Adx = adx;
+                r.Adx = adx.NaN2Null();
                 prevAdx = adx;
             }
 

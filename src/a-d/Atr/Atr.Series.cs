@@ -15,13 +15,12 @@ public static partial class Indicator
         List<AtrResult> results = new(qdList.Count);
         double prevAtr = 0;
         double prevClose = 0;
-        double highMinusPrevClose = 0;
-        double lowMinusPrevClose = 0;
         double sumTr = 0;
 
         // roll through quotes
         for (int i = 0; i < qdList.Count; i++)
         {
+            double hmpc, lmpc;
             QuoteD q = qdList[i];
 
             AtrResult r = new(q.Date);
@@ -29,11 +28,15 @@ public static partial class Indicator
 
             if (i > 0)
             {
-                highMinusPrevClose = Math.Abs(q.High - prevClose);
-                lowMinusPrevClose = Math.Abs(q.Low - prevClose);
+                hmpc = Math.Abs(q.High - prevClose);
+                lmpc = Math.Abs(q.Low - prevClose);
+            }
+            else
+            {
+                hmpc = lmpc = 0;
             }
 
-            double tr = Math.Max(q.High - q.Low, Math.Max(highMinusPrevClose, lowMinusPrevClose));
+            double tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
             r.Tr = tr;
 
             if (i + 1 > lookbackPeriods)
