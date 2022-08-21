@@ -130,6 +130,9 @@ csharp_style_var_for_built_in_types = false:warning
 csharp_style_var_when_type_is_apparent = false:warning
 csharp_style_var_elsewhere = false:suggestion
 csharp_indent_case_contents = true
+csharp_style_prefer_top_level_statements = false:silent
+csharp_style_prefer_utf8_string_literals = true:suggestion
+csharp_preserve_single_line_statements = false
 
 [*.{cs,vb}]
 dotnet_style_namespace_match_folder= false:silent

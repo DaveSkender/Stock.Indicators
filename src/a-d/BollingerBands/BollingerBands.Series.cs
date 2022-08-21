@@ -37,7 +37,7 @@ public static partial class Indicator
                 }
 
                 double? periodAvg = (sum / lookbackPeriods).NaN2Null();
-                double? stdDev = Functions.StdDev(window).NaN2Null();
+                double? stdDev = window.StdDev().NaN2Null();
 
                 r.Sma = periodAvg;
                 r.UpperBand = periodAvg + (standardDeviations * stdDev);
