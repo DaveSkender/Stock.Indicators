@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
-# windows compatibilty pack
-gem 'wdm', '>= 0.1.1' if Gem.win_platform?
+gem 'eventmachine', '1.2.7', git: 'https://github.com/eventmachine/eventmachine', tag: 'v1.2.7'
+gem 'wdm', '>= 0.1.1' if Gem.win_platform? # windows compatibilty pack
+gem 'faraday-retry'
 
 # jekyll plugins
 # local dev: bundle exec jekyll serve

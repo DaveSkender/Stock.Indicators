@@ -20,11 +20,30 @@ public static partial class QuoteUtility
             .Select(x => x.ToBasicTuple(candlePart));
 
     // sort quotes
-    internal static List<TQuote> ToSortedList<TQuote>(
+    public static List<TQuote> ToSortedList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
             .OrderBy(x => x.Date)
             .ToList();
+
+    // TUPLE QUOTES
+
+    // convert quotes to tuple list
+    public static List<(DateTime, double)> ToBasicTuple<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote => quotes
+            .OrderBy(x => x.Date)
+            .Select(x => x.ToBasicTuple(candlePart))
+            .ToList();
+
+    // convert tuples to list, with sorting
+    public static List<(DateTime, double)> ToSortedList(
+        this IEnumerable<(DateTime date, double value)> tuples) => tuples
+            .OrderBy(x => x.date)
+            .ToList();
+
+    // DOUBLE QUOTES
 
     // convert to quotes in double precision
     internal static List<QuoteD> ToQuoteD<TQuote>(
@@ -42,23 +61,6 @@ public static partial class QuoteUtility
             .OrderBy(x => x.Date)
             .ToList();
 
-    // convert TQuotes to basic quotes list
-    internal static IEnumerable<BasicData> ToBasicData<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .Select(q => q.ToBasicData(candlePart));
-
-    // convert quotes to tuple list
-    internal static List<(DateTime, double)> ToBasicTuple<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .Select(x => x.ToBasicTuple(candlePart))
-            .ToList();
-
     // convert quoteD list to tuples
     internal static List<(DateTime, double)> ToBasicTuple(
         this List<QuoteD> qdList,
@@ -67,16 +69,10 @@ public static partial class QuoteUtility
             .Select(x => x.ToBasicTuple(candlePart))
             .ToList();
 
-    // convert tuples to list, with sorting
-    internal static List<(DateTime, double)> ToSortedList(
-        this IEnumerable<(DateTime date, double value)> tuples) => tuples
-            .OrderBy(x => x.date)
-            .ToList();
-
     /* ELEMENTS */
 
     // convert TQuote element to basic tuple
-    internal static (DateTime, double) ToBasicTuple<TQuote>(
+    internal static (DateTime date, double value) ToBasicTuple<TQuote>(
         this TQuote q,
         CandlePart candlePart)
         where TQuote : IQuote => candlePart switch

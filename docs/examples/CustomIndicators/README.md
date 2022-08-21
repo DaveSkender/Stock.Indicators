@@ -43,8 +43,7 @@ public static class CustomIndicators
     {
         // sort quotes and convert to list
         List<TQuote> quotesList = quotes
-            .OrderBy(x => x.Date)
-            .ToList();
+            .ToSortedList();
 
         // initialize results
         List<AtrWmaResult> results = new(quotesList.Count);
@@ -64,7 +63,7 @@ public static class CustomIndicators
                 Date = q.Date
             };
 
-            // only do calculations after uncalculable periods
+            // only do calculations after incalculable periods
             if (i >= lookbackPeriods - 1)
             {
                 decimal? sumWma = 0;

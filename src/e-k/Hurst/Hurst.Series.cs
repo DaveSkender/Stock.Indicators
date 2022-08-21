@@ -136,7 +136,7 @@ public static partial class Indicator
 
         // hurst exponent
         // TODO: apply Anis-Lloyd corrected R/S Hurst?
-        return Functions.Slope(logSize, logRs);
+        return Numerics.Slope(logSize, logRs);
     }
 
     // parameter validation

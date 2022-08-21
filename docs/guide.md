@@ -252,23 +252,7 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 
 The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Open` | decimal | Open price
-| `High` | decimal | High price
-| `Low` | decimal | Low price
-| `Close` | decimal | Close price
-| `Volume` | decimal | Volume
-| `Size` | decimal | `High-Low`
-| `Body` | decimal | `|Open-Close|`
-| `UpperWick` | decimal | Upper wick size
-| `LowerWick` | decimal | Lower wick size
-| `BodyPct` | double | `Body/Size`
-| `UpperWickPct` | double | `UpperWick/Size`
-| `LowerWickPct` | double | `LowerWick/Size`
-| `IsBullish` | bool | `Close>Open` direction
-| `IsBearish` | bool | `Close<Open` direction
+{% include candle-properties.md %}
 
 ## Utilities
 

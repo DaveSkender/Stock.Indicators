@@ -133,10 +133,10 @@ public static partial class Indicator
     }
 
     // CONVERT TO TUPLE
-    internal static List<(DateTime Date, double Value)> ToResultTuple(
+    public static List<(DateTime Date, double Value)> ToResultTuple(
         this IEnumerable<IReusableResult> basicData)
     {
-        List<(DateTime Date, double Value)> prices = new();
+        List<(DateTime date, double value)> prices = new();
         List<IReusableResult>? bdList = basicData.ToList();
 
         // find first non-nulled
@@ -148,11 +148,11 @@ public static partial class Indicator
             prices.Add(new(q.Date, NullMath.Null2NaN(q.Value)));
         }
 
-        return prices.OrderBy(x => x.Date).ToList();
+        return prices.OrderBy(x => x.date).ToList();
     }
 
     // RETURN SORTED LIST of RESULTS
-    internal static List<TResult> ToSortedList<TResult>(
+    public static List<TResult> ToSortedList<TResult>(
         this IEnumerable<TResult> results)
         where TResult : IResult => results
             .OrderBy(x => x.Date)

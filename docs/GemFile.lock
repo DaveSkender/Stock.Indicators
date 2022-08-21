@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/eventmachine/eventmachine
+  revision: 9cb13a8a62363df5ebcc414169a3deb2c1608528
+  tag: v1.2.7
+  specs:
+    eventmachine (1.2.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -23,12 +30,13 @@ GEM
       http_parser.rb (~> 0)
     ethon (0.15.0)
       ffi (>= 1.15.0)
-    eventmachine (1.2.7-x64-mingw32)
     execjs (2.8.1)
     faraday (2.5.2)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.0)
+    faraday-retry (2.0.0)
+      faraday (~> 2.0)
     ffi (1.15.5-x64-mingw32)
     forwardable-extended (2.6.0)
     gemoji (3.0.1)
@@ -271,6 +279,8 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  eventmachine (= 1.2.7)!
+  faraday-retry
   github-pages
   html-proofer (~> 3.19.3)
   jekyll-last-modified-at

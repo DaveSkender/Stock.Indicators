@@ -22,15 +22,17 @@ plugins:
 google_analytics: G-7602GXEZ0R
 
 exclude: [
+  "*.cs",
+  "*.csproj",
   "*.json",
   "*.lock",
   "*.yml",
   "*.pptx",
+  "*.sln",
   ".offline",
   "contributing.md",
   "examples/Backtest",
   "examples/ConsoleApp",
-  "examples/*.sln",
   "GemFile",
   "node_modules",
   "vendor"

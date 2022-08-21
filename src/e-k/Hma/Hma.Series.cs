@@ -53,9 +53,8 @@ public static partial class Indicator
 
         // add WMA to results
         results.AddRange(hmaResults);
-        results = results.ToSortedList();
 
-        return results;
+        return results.ToSortedList();
     }
 
     // parameter validation
