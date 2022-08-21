@@ -1,5 +1,5 @@
 ---
-title: Utilities and Helpers
+title: Utilities and helpers
 permalink: /utilities/
 relative_path: utilities.md
 layout: page
@@ -9,9 +9,9 @@ redirect_from:
 
 # {{ page.title }}
 
-- [for Historical Quotes](#utilities-for-historical-quotes)
-- [for Indicator Results](#utilities-for-indicator-results)
-- [for Numerical analysis](#utilities-for-numerical-analysis)
+- [for historical quotes](#utilities-for-historical-quotes)
+- [for indicator results](#utilities-for-indicator-results)
+- [for numerical analysis](#utilities-for-numerical-analysis)
 
 ## Utilities for historical quotes
 
@@ -31,11 +31,11 @@ var results = quotes
 
 ### Using tuple quotes
 
-`quotes.ToBasicTuple()` is a method for converting any `TQuote` collection to a simple `(DateTime, double)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `List`.  Most indicators in our library will accept the tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
+`quotes.ToBasicTuple()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `List`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
 
 ### Sort quotes
 
-`quotes.ToSortedList()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `List` sorted by ascending `Date`.  If you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content), it's important to work through `quotes` in the proper sequence.
+`quotes.ToSortedList()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `List` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
 
 ### Resize quote history
 
@@ -79,19 +79,19 @@ IEnumerable<Quote> dayBarQuotes =
 
 `quote.ToCandle()` and `quotes.ToCandles()` converts a quote class into an extended quote with additional calculated candle properties.
 
-{% include candle-properties.md %}
-
-```csharp
-# single quote
+``` csharp
+// single quote
 CandleProperties candle = quote.ToCandle();
 
-# collection of quotes
+// collection of quotes
 IEnumerable<CandleProperties> candles = quotes.ToCandles();
 ```
 
+{% include candle-properties.md %}
+
 ### Validate quote history
 
-`quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes` (historical quotes).  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes data can produce unexpected results.
+`quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
 
 ```csharp
 // fetch historical quotes from your favorite feed
@@ -144,40 +144,41 @@ IEnumerable<AdxResult> results =
   quotes.GetAdx(14).RemoveWarmupPeriods();
 
 // remove user-specific quantity of periods
+int n = 14;
 IEnumerable<AdxResult> results =
-  quotes.GetAdx(14).RemoveWarmupPeriods(50);
+  quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
 See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
 
-:warning: Note: `.RemoveWarmupPeriods()` is not available on indicators that do not have any recommended pruning; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
+:warning: Note: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 
-:warning: WARNING! `.RemoveWarmupPeriods()` will reverse-engineer some parameters in determining the recommended pruning amount.  Consequently, on rare occasions when there are unusual results, there can be an erroneous increase in the amount of pruning.  Using this method on chained indicators without specifying `removePeriods` is strongly discouraged.  If you want more certainty, use the `.RemoveWarmupPeriods(removePeriods)` with a specific number of `removePeriods`.
+:warning: WARNING! Without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
 
 ### Using tuple results
 
-`quotes.ToBasicTuple()` is a method for converting any `TQuote` collection to a simple `(DateTime, double)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `List`.  Most indicators in our library will accept the tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
+`results.ToBasicTuple()` is a method for converting results collections with a primary return value to a simple `(DateTime Date, double Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `List`.  Chainable indicators in our library will accept this tuple format as a replacement for `quotes`.  This conversion is not required for normal use; however, it may be useful for users who create [custom indicators]({{site.baseurl}}/custom-indicators/#content);
 
 ### Sort results
 
-`quotes.ToSortedList()` sorts any collection of indicator results and returns it as a `List` sorted by ascending `Date`.  If you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content), it's important to return results and expected proper sequence.  Results returned from the library indicators are already sorted, so you'd only potentially need this if you're creating custom indicators.
+`results.ToSortedList()` sorts any collection of indicator results and returns it as a `List` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 
-This library also includes several tools that we use internally to calculate the data.  These can be useful if you are creating your own [custom indicators]({{site.baseurl}}/custom-indicators/).
+This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators]({{site.baseurl}}/custom-indicators/).
 
-### General numerical methods
+### Numerical methods
 
-| method | description
+| method | example usage
 | -- |--
-| Slope | `double[] valuesA = { 1, 2, 5, 4, 1 };`<br>`double[] valuesB = { 4, 7, 8, 1, 1 };`<br>`double slope = Slope(valuesA, valuesB);`
+| Slope | `double[] xValues = { 1, 2, 5, 4, 1 };`<br>`double[] yValues = { 4, 7, 8, 1, 1 };`<br>`double slope = Slope(xValues, yValues);`
 | Standard deviation | `double[] values = { 1, 2, 3, 4, 5 };`<br>`double sd = values.StdDev();`
 
 ### NullMath
 
 Most `NullMath` methods work exactly like the `System.Math` library in C#, except these will return `null` if a `null` is provided.  The `System.Math` library infamously does not allow `null` values, so you'd always need to apply defensive code.  This class does that defensive `null` handling for you.
 
-| method | description
+| method | example usage
 | -- |--
 | Abs | `var abs = NullMath.Abs(-25)` » `25`<br>`var abs = NullMath.Abs(null)` » `null`
 | Round | `var rnd = NullMath.Round(1.234, 1)` » `1.2`<br>`var rnd = NullMath.Round(null, 1)` » `null`

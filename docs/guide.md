@@ -18,7 +18,7 @@ redirect_from:
 - [Generating indicator of indicators](#generating-indicator-of-indicators)
 - [Candlestick patterns](#candlestick-patterns)
 - [Creating custom indicators]({{site.baseurl}}/custom-indicators/#content)
-- [Utilities and Helper functions]({{site.baseurl}}/utilities/#content)
+- [Utilities and helper functions]({{site.baseurl}}/utilities/#content)
 - [Contributing guidelines]({{site.github.repository_url}}/blob/main/docs/contributing.md#readme)
 
 ## Getting started

@@ -1,6 +1,6 @@
 # Ref: https://jekyllrb.com/docs/usage/
 # Ref: https://github.com/pages-themes/cayman
-# Local dev: bundle exec jekyll serve
+# Local dev: bundle exec jekyll serve --livereload
 
 title: "Stock Indicators for .NET"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
