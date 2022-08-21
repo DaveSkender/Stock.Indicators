@@ -34,6 +34,26 @@ public class HeikinAshi : TestBase
     }
 
     [TestMethod]
+    public void ToQuotes()
+    {
+        List<HeikinAshiResult> results = quotes.GetHeikinAshi().ToList();
+        List<Quote> haQuotes = results.ToQuotes();
+
+        for (int i = 0; i < results.Count; i++)
+        {
+            HeikinAshiResult r = results[i];
+            Quote q = haQuotes[i];
+
+            Assert.AreEqual(r.Date, q.Date);
+            Assert.AreEqual(r.Open, q.Open);
+            Assert.AreEqual(r.High, q.High);
+            Assert.AreEqual(r.Low, q.Low);
+            Assert.AreEqual(r.Close, q.Close);
+            Assert.AreEqual(r.Volume, q.Volume);
+        }
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(badQuotes);

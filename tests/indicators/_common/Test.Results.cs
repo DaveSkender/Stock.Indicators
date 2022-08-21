@@ -147,5 +147,15 @@ public class Results : TestBase
 
             Assert.AreEqual(b.Date, r.Date);
         }
+
+        // no results
+        List<SmaResult> noBaseline = new();
+        List<EmaResult> noEval = new();
+
+        IEnumerable<EmaResult> noBaseResults = eval.SyncIndex(noBaseline);
+        IEnumerable<EmaResult> noEvalResults = noEval.SyncIndex(baseline);
+
+        Assert.IsFalse(noBaseResults.Any());
+        Assert.IsFalse(noEvalResults.Any());
     }
 }
