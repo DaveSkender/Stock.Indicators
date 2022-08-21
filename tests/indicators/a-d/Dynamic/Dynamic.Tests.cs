@@ -58,20 +58,6 @@ public class Dynamic : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
-    [TestMethod]
-    public void Removed()
-    {
-        List<DynamicResult> results = quotes.GetDynamic(14)
-            .RemoveWarmupPeriods()
-            .ToList();
-
-        // assertions
-        Assert.AreEqual(501, results.Count);
-
-        DynamicResult last = results.LastOrDefault();
-        Assert.AreEqual(245.7356, NullMath.Round(last.Dynamic, 4));
-    }
-
     // bad lookback period
     [TestMethod]
     public void Exceptions()
