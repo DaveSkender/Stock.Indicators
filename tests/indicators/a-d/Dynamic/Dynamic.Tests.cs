@@ -30,6 +30,38 @@ public class Dynamic : TestBase
     }
 
     [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<DynamicResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetDynamic(20);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
+        Assert.AreEqual(0, results.Count(x => x.Dynamic is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<DynamicResult> r = tupleNanny.GetDynamic(6);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<DynamicResult> results = quotes
+            .GetSma(10)
+            .GetDynamic(14);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(492, results.Count(x => x.Dynamic != null));
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         IEnumerable<SmaResult> results = quotes
