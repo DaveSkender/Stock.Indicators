@@ -9,5 +9,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
-            .ToBasicData(candlePart);
+            .Select(q => q.ToBasicData(candlePart))
+            .OrderBy(x => x.Date);
 }

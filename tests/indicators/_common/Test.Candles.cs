@@ -78,4 +78,11 @@ public class Candles : TestBase
         Assert.IsTrue(r501.Candle.IsBullish);
         Assert.IsFalse(r501.Candle.IsBearish);
     }
+
+    [TestMethod]
+    public void ToCandles()
+    {
+        IEnumerable<CandleProperties> candles = quotes.ToCandles();
+        Assert.AreEqual(quotes.Count(), candles.Count());
+    }
 }

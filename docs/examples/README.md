@@ -9,7 +9,7 @@ layout: page
 
 To help you get started, here are a few minimalist .NET 6.0 C# projects that you can review.  They are complete working examples.
 
-- `ConsoleApp` is a minimalize example of how to use the library (start here)
+- `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
 - `CustomIndicatorsLibrary` shows how you can [create your own custom indicators]({{site.baseurl}}/custom-indicators/#content)
 - `CustomIndicatorsUsage` shows how you'd use a custom indicator just like any other in the main library
