@@ -237,15 +237,48 @@ public class Beta : TestBase
     }
 
     [TestMethod]
+    public void NoMatch()
+    {
+        List<Quote> quoteA = new()
+        {
+            new Quote { Date = DateTime.Parse("1/1/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/2/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/3/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/4/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/5/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/6/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/7/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/8/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/9/2020"), Close = 1234 }
+        };
+
+        List<Quote> quoteB = new()
+        {
+            new Quote { Date = DateTime.Parse("1/1/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/2/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/3/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("2/4/2020"), Close = 1234 }, // abberrant
+            new Quote { Date = DateTime.Parse("1/5/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/6/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/7/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/8/2020"), Close = 1234 },
+            new Quote { Date = DateTime.Parse("1/9/2020"), Close = 1234 }
+        };
+
+        _ = Assert.ThrowsException<InvalidQuotesException>(()
+            => quoteA.GetBeta(quoteB, 3));
+    }
+
+    [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetBeta(quotes, otherQuotes, 0));
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetBeta(otherQuotes, 0));
 
         // bad evaluation quotes
         IEnumerable<Quote> eval = TestData.GetCompare(300);
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetBeta(quotes, eval, 30));
+        _ = Assert.ThrowsException<InvalidQuotesException>(()
+            => quotes.GetBeta(eval, 30));
     }
 }

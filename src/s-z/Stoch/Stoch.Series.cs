@@ -154,10 +154,6 @@ public static partial class Indicator
                 smooth[i] = k;
             }
         }
-        else
-        {
-            return results;
-        }
 
         // replace oscillator
         for (int i = 0; i < length; i++)
