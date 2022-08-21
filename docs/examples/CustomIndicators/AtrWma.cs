@@ -19,8 +19,7 @@ public static class CustomIndicators
     {
         // sort quotes and convert to list
         List<TQuote> quotesList = quotes
-            .OrderBy(x => x.Date)
-            .ToList();
+            .ToSortedList();
 
         // initialize results
         List<AtrWmaResult> results = new(quotesList.Count);
