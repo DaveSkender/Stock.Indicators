@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-internal static class Functions
+public static class Numerics
 {
     // STANDARD DEVIATION
-    internal static double StdDev(this double[] values)
+    public static double StdDev(this double[] values)
     {
         // ref: https://stackoverflow.com/questions/2253874/standard-deviation-in-linq
         // and then modified to an iterative model without LINQ, for performance improvement
@@ -34,7 +34,7 @@ internal static class Functions
     }
 
     // SLOPE of BEST FIT LINE
-    internal static double Slope(double[] x, double[] y)
+    public static double Slope(double[] x, double[] y)
     {
         // TODO: add better error handling for mismatch size arrays
 

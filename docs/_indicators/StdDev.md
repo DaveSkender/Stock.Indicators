@@ -18,7 +18,7 @@ layout: indicator
 IEnumerable<StdDevResult> results =
   quotes.GetStdDev(lookbackPeriods);
 
-// usage with optional SMA of STDEV (shown above)
+// usage with optional SMA of SD (shown above)
 IEnumerable<StdDevResult> results =
   quotes.GetStdDev(lookbackPeriods, smaPeriods);
 ```

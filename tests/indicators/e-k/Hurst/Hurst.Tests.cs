@@ -56,6 +56,17 @@ public class Hurst : TestBase
     }
 
     [TestMethod]
+    public void Chainee()
+    {
+        IEnumerable<HurstResult> results = quotes
+            .GetSma(10)
+            .GetHurst(100);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(393, results.Count(x => x.HurstExponent != null));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         IEnumerable<HurstResult> r = Indicator.GetHurst(badQuotes, 150);

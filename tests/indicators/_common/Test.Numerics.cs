@@ -1,10 +1,11 @@
+using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Internal.Tests;
 
 [TestClass]
-public class FunctionsTests : TestBase
+public class NumericsTests : TestBase
 {
     private readonly double[] closePrice = longishQuotes
         .Select(x => (double)x.Close)
@@ -13,7 +14,7 @@ public class FunctionsTests : TestBase
     [TestMethod]
     public void StdDev()
     {
-        double sd = Functions.StdDev(closePrice);
+        double sd = closePrice.StdDev();
 
         // assertions
         Assert.AreEqual(633.932098287, Math.Round(sd, 9));

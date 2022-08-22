@@ -117,8 +117,7 @@ public class Program
         string json = File.ReadAllText("quotes.data.json");
 
         List<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Date)
-            .ToList();
+            .ToSortedList();
 
         return quotes;
     }

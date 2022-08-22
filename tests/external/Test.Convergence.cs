@@ -86,6 +86,21 @@ public class Convergence : TestBase
     }
 
     [TestMethod]
+    public void Dynamic()
+    {
+        foreach (int qty in QuotesQuantities)
+        {
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<DynamicResult> r = quotes.GetDynamic(100);
+
+            DynamicResult l = r.LastOrDefault();
+            Console.WriteLine(
+                "DYNAMIC(15) on {0:d} with {1,4} periods: {2:N8}",
+                l.Date, quotes.Count(), l.Dynamic);
+        }
+    }
+
+    [TestMethod]
     public void Ema()
     {
         foreach (int qty in QuotesQuantities)

@@ -7,7 +7,33 @@ public static class Candlesticks
             .Where(candle => candle.Match != Match.None)
             .ToList();
 
-    // convert/sort quotes into candles
+    public static CandleProperties ToCandle<TQuote>(
+        this TQuote quote)
+        where TQuote : IQuote => new()
+        {
+            Date = quote.Date,
+            Open = quote.Open,
+            High = quote.High,
+            Low = quote.Low,
+            Close = quote.Close,
+            Volume = quote.Volume
+        };
+
+    // convert/sort quotes into candles list
+    public static IEnumerable<CandleProperties> ToCandles<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
+    {
+        List<CandleProperties> candlesList = quotes
+            .Select(x => x.ToCandle())
+            .OrderBy(x => x.Date)
+            .ToList();
+
+        // validate
+        return candlesList;
+    }
+
+    // convert/sort quotes into candle results
     internal static List<CandleResult> ToCandleResults<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
@@ -16,15 +42,7 @@ public static class Candlesticks
             .Select(x => new CandleResult(x.Date)
             {
                 Match = Match.None,
-                Candle = new CandleProperties
-                {
-                    Date = x.Date,
-                    Open = x.Open,
-                    High = x.High,
-                    Low = x.Low,
-                    Close = x.Close,
-                    Volume = x.Volume
-                }
+                Candle = x.ToCandle()
             })
             .OrderBy(x => x.Date)
             .ToList();

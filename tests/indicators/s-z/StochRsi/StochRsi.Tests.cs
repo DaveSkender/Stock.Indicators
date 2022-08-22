@@ -81,6 +81,27 @@ public class StochRsi : TestBase
     }
 
     [TestMethod]
+    public void UseTuple()
+    {
+        IEnumerable<StochRsiResult> results = quotes
+            .Use(CandlePart.Close)
+            .GetStochRsi(14, 14, 3, 1);
+
+        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
+        Assert.AreEqual(0, results.Count(x => x.StochRsi is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void TupleNaN()
+    {
+        IEnumerable<StochRsiResult> r = tupleNanny.GetStochRsi(14, 14, 3, 1);
+
+        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
+    }
+
+    [TestMethod]
     public void Chainee()
     {
         IEnumerable<StochRsiResult> results = quotes
