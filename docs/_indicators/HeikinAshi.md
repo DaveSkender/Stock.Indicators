@@ -53,10 +53,10 @@ IEnumerable<HeikinAshiResult>
 
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
-- .ToQuotes() to convert to a `Quote` list.  Example:
+- .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp
-  List<Quote> results = quotes.GetHeikinAshi().ToQuotes();
+  IEnumerable<Quote> results = quotes.GetHeikinAshi().ToQuotes();
   ```
 
 See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
