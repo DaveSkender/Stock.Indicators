@@ -37,7 +37,7 @@ public class HeikinAshi : TestBase
     public void ToQuotes()
     {
         List<HeikinAshiResult> results = quotes.GetHeikinAshi().ToList();
-        List<Quote> haQuotes = results.ToQuotes();
+        List<Quote> haQuotes = results.ToQuotes().ToList();
 
         for (int i = 0; i < results.Count; i++)
         {
