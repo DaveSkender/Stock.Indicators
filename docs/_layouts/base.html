@@ -17,15 +17,15 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}">
 <link rel="mask-icon" href="{{ '/assets/icons/safari-pinned-tab.svg' | relative_url }}" color="#424242">
 
-{% if site.google_analytics and site.github.source.branch == 'main' %}
+{% if site.ga_tag and site.github.source.branch == 'main' %}
 
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{site.google_analytics}}"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id={{site.ga_tag}}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
-  gtag('config', '{{site.google_analytics}}');
+  gtag('config', '{{site.ga_tag}}');
 </script>
 
 <!-- Clarity -->
