@@ -1,5 +1,6 @@
 ---
 title: Vortex Indicator (VI)
+description: Created by Etienne Botes and Douglas Siepman, the Vortex Indicator is a measure of price directional movement.  It includes positive and negative indicators, and is often used to identify trends and reversals.
 permalink: /indicators/Vortex/
 image: /assets/charts/Vortex.png
 type: price-trend

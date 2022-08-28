@@ -1,5 +1,6 @@
 ---
 title: STARC Bands
+description: Created by Manning Stoller, the Stoller Average Range Channel (STARC) Bands are financial market price ranges based on an simple moving average centerline and Average True Range (ATR) band widths.  Keltner Channels are the EMA centerline equivalent.
 permalink: /indicators/StarcBands/
 image: /assets/charts/StarcBands.png
 type: price-channel
@@ -8,7 +9,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are based on an SMA centerline and ATR band widths.  See also [Keltner Channels]({{site.baseurl}}/indicators/Keltner/#content) for an EMA centerline equivalent.
+Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are price ranges based on an SMA centerline and ATR band widths.  See also [Keltner Channels]({{site.baseurl}}/indicators/Keltner/#content) for an EMA centerline equivalent.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/292 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})

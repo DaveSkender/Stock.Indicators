@@ -1,5 +1,6 @@
 ---
 title: Moving Average Envelopes
+description:  Moving Average Envelopes is a price band channel overlay that is offset from the moving average of price.
 permalink: /indicators/MaEnvelopes/
 image: /assets/charts/MaEnvelopes.png
 type: price-channel
@@ -8,7 +9,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band overlay that is offset from the moving average of price over a lookback window.
+[Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/288 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})

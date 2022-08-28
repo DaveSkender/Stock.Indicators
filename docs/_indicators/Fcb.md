@@ -1,5 +1,6 @@
 ---
 title: Fractal Chaos Bands (FCB)
+description: Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of Williams Fractal.
 permalink: /indicators/Fcb/
 image: /assets/charts/Fcb.png
 type: price-channel

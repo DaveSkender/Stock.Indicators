@@ -1,5 +1,6 @@
 ---
 title: Price Relative Strength (PRS)
+description: Price Relative Strength, also called Comparative Relative Strength, shows the ratio of two quote histories, based on price.  It is often used to compare against a market index or sector ETF.  When using the optional lookback window, this also returns relative percent change over the specified periods.  This is not the same as the more prevalent Relative Strength Index (RSI).
 permalink: /indicators/Prs/
 image: /assets/charts/Prs.png
 type: price-characteristic

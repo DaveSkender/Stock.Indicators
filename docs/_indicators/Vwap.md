@@ -1,5 +1,6 @@
 ---
 title: Volume Weighted Average Price (VWAP)
+description: The Volume Weighted Average Price is a volume weighted average of price, typically used on intraday data. Trading above or below the VWAP line can assist in finding favorable short-term trading windows.
 permalink: /indicators/Vwap/
 image: /assets/charts/Vwap.png
 type: moving-average

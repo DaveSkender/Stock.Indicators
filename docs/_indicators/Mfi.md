@@ -1,5 +1,6 @@
 ---
 title: Money Flow Index (MFI)
+description: Created by Quong and Soudack, the Money Flow Index is a price-volume oscillator that shows buying and selling momentum.
 permalink: /indicators/Mfi/
 image: /assets/charts/Mfi.png
 type: volume-based

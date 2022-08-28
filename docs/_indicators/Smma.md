@@ -1,6 +1,6 @@
 ---
 title: Smoothed Moving Average (SMMA)
-description: Smoothed Moving Average (SMMA), Modified Moving Average (MMA), Running Moving Average (RMA)
+description: Smoothed Moving Average (SMMA), Modified Moving Average (MMA), Running Moving Average (RMA) are all the same simple rolling moving average of financial market prices.  New values are calculated based on the last known value only, making a more efficient but less accurate method for computing an average.
 permalink: /indicators/Smma/
 image: /assets/charts/Smma.png
 type: moving-average

@@ -1,5 +1,6 @@
 ---
 title: Parabolic SAR
+description: Created by J. Welles Wilder, Parabolic SAR (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.  It can be used to identify trend direction, reversals, and stop-loss signals.
 permalink: /indicators/ParabolicSar/
 image: /assets/charts/ParabolicSar.png
 type: stop-and-reverse

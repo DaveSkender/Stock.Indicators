@@ -1,5 +1,6 @@
 ---
 title: Hull Moving Average (HMA)
+description: Created by Alan Hull, the Hull Moving Average is a modified weighted average of price that reduces lag.
 permalink: /indicators/Hma/
 image: /assets/charts/Hma.png
 type: moving-average

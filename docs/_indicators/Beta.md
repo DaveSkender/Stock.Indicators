@@ -1,6 +1,6 @@
 ---
 title: Beta Coefficient
-description: Beta Coefficient with Beta+/Beta-
+description: Beta Coefficient with Beta+/Beta- shows how strongly one asset's price responds to systemic volatility of the entire market.  Upside Beta (Beta+) and Downside Beta (Beta-),  popularized by Harry M. Markowitz, are also included.
 permalink: /indicators/Beta/
 image: /assets/charts/Beta.png
 type: numerical-analysis

@@ -1,6 +1,6 @@
 ---
 title: Standard Deviation (volatility)
-description: Standard Deviation, Historical Volatility (HV)
+description: Standard Deviation represents the volatility of historical financial market prices.  It is also known as Historical Volatility (HV).
 permalink: /indicators/StdDev/
 image: /assets/charts/StdDev.png
 type: numerical-analysis

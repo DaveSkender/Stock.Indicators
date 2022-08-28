@@ -1,5 +1,6 @@
 ---
 title: Rolling Pivot Points
+description: Rolling Pivot Points is a modern update to traditional fixed calendar window Pivot Points.  It depicts support and resistance levels, based on a defined rolling window and offset.
 permalink: /indicators/RollingPivots/
 image: /assets/charts/RollingPivots.png
 type: price-channel

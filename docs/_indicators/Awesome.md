@@ -1,6 +1,6 @@
 ---
 title: Awesome Oscillator (AO)
-description: Awesome Oscillator (AO), also known as Super AO
+description: Created by Bill Williams, the Awesome Oscillator (AO), also known as Super AO, is a measure of the gap between a fast and slow period modified moving average.
 permalink: /indicators/Awesome/
 image: /assets/charts/Awesome.png
 type: oscillator

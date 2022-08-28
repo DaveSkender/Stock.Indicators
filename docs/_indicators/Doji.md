@@ -1,5 +1,6 @@
 ---
 title: Doji
+description: Doji is a single-bar candlestick pattern where open and close price are virtually identical, representing market indecision.
 permalink: /indicators/Doji/
 image: /assets/charts/Doji.png
 layout: indicator
@@ -8,7 +9,7 @@ type: candlestick-pattern
 
 # {{ page.title }}
 
-[Doji](https://en.wikipedia.org/wiki/Doji) is a single candlestick pattern where open and close price are virtually identical, representing market indecision.
+[Doji](https://en.wikipedia.org/wiki/Doji) is a single-bar candlestick pattern where open and close price are virtually identical, representing market indecision.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/734 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})

@@ -1,5 +1,6 @@
 ---
 title: McGinley Dynamic
+description: Created by John R. McGinley, the McGinley Dynamic is a more responsive variant of exponential moving average.
 permalink: /indicators/Dynamic/
 image: /assets/charts/Dynamic.png
 type: moving-average

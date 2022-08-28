@@ -33,7 +33,7 @@ public static partial class Indicator
             if (i >= slowPeriods - 1)
             {
                 double? pvo = (ds.Ema != 0) ?
-                    100 * (double?)((df.Ema - ds.Ema) / ds.Ema) : null;
+                    100 * ((df.Ema - ds.Ema) / ds.Ema) : null;
 
                 r.Pvo = pvo;
 
@@ -52,7 +52,7 @@ public static partial class Indicator
             PvoResult r = results[d];
             EmaResult ds = emaSignal[d + 1 - slowPeriods];
 
-            r.Signal = (double?)ds.Ema;
+            r.Signal = ds.Ema;
             r.Histogram = r.Pvo - r.Signal;
         }
 

@@ -1,6 +1,6 @@
 ---
 title: Rate of Change (ROC)
-description: Rate of Change (ROC), Momentum Oscillator, and ROC with Bands
+description: Rate of Change, also known as Momentum Oscillator, is the percent change of price over a lookback window.
 permalink: /indicators/Roc/
 image: /assets/charts/Roc.png
 type: price-characteristic

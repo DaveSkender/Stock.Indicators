@@ -1,5 +1,6 @@
 ---
 title: Chaikin Oscillator
+description: Created by Marc Chaikin, the Chaikin Oscillator is the difference between fast and slow Exponential Moving Averages (EMA) of an Accumulation / Distribution Line (ADL).
 permalink: /indicators/ChaikinOsc/
 image: /assets/charts/ChaikinOsc.png
 type: volume-based

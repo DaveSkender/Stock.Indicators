@@ -1,5 +1,6 @@
 ---
 title: Ehlers Fisher Transform
+description: Created by John Ehlers, the Fisher Transform converts financial market prices into a Gaussian normal distribution.
 permalink: /indicators/FisherTransform/
 image: /assets/charts/FisherTransform.png
 type: price-transform

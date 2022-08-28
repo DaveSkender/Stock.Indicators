@@ -1,5 +1,6 @@
 ---
 title: Relative Strength Index (RSI)
+description: Created by J. Welles Wilder, the Relative Strength Index is an oscillator that measures strength of the winning/losing price streak on a scale of 0 to 100, to depict overbought and oversold conditions.
 permalink: /indicators/Rsi/
 image: /assets/charts/Rsi.png
 type: oscillator
@@ -8,7 +9,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.
+Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) is an oscillator that measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/224 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})

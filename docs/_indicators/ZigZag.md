@@ -1,5 +1,6 @@
 ---
 title: Zig Zag
+description: Zig Zag is a financial market price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
 permalink: /indicators/ZigZag/
 image: /assets/charts/ZigZag.png
 type: price-transform

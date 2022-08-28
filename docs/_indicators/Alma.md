@@ -1,5 +1,6 @@
 ---
 title: Arnaud Legoux Moving Average (ALMA)
+description: Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, ALMA is a normal Gaussian distribution weighted moving average of price.
 permalink: /indicators/Alma/
 image: /assets/charts/Alma.png
 type: moving-average
@@ -8,7 +9,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA]({{site.github.repository_url}}/files/5654531/ALMA-Arnaud-Legoux-Moving-Average.pdf) is a Gaussian distribution weighted moving average of price.
+Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA]({{site.github.repository_url}}/files/5654531/ALMA-Arnaud-Legoux-Moving-Average.pdf) is a normal Gaussian distribution weighted moving average of price.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/209 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})

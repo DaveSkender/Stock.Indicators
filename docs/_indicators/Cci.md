@@ -1,5 +1,6 @@
 ---
 title: Commodity Channel Index (CCI)
+description: Created by Donald Lambert, the Commodity Channel Index is an oscillator depicting deviation from typical price range, often used to identify cyclical trends.
 permalink: /indicators/Cci/
 image: /assets/charts/Cci.png
 type: oscillator

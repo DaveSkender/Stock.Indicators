@@ -1,5 +1,6 @@
 ---
 title: Choppiness Index
+description: Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppiness on a scale of 0 to 100, to depict steady trends versus conditions of choppiness.
 permalink: /indicators/Chop/
 image: /assets/charts/Chop.png
 type: price-characteristic

@@ -1,5 +1,6 @@
 ---
 title: Renko Chart
+description: The Renko Chart is a Japanese price transformed candlestick pattern that uses "bricks" to show a defined increment of change over a non-linear time series.  Transitions can use either Close or High/Low price values.  An Average True Range (ATR) variant is also provided where brick size is determined by current Average True Range values.
 permalink: /indicators/Renko/
 image: /assets/charts/Renko.png
 type: price-transform
@@ -8,7 +9,7 @@ layout: indicator
 
 # {{ page.title }}
 
-The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese price transformed candlestick pattern that uses "bricks" to show a defined increment of change over a non-linear time series.  Transitions can use either `Close` or `High/Low` price values.  An [ATR variant](#atr-variant) is also provided where brick size is determined by Average True Range values.
+The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese price transformed candlestick pattern that uses "bricks" to show a defined increment of change over a non-linear time series.  Transitions can use either `Close` or `High/Low` price values.  An [ATR variant](#atr-variant) is also provided where brick size is determined by current Average True Range values.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/478 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})

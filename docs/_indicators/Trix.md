@@ -1,5 +1,6 @@
 ---
 title: Triple EMA Oscillator (TRIX)
+description: Created by Jack Hutson, TRIX is a rolling rate of change for a 3 EMA smoothing of the price over a lookback window.  TRIX is often confused with Triple EMA (TEMA).
 permalink: /indicators/Trix/
 image: /assets/charts/Trix.png
 type: oscillator

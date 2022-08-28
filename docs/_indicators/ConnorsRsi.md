@@ -1,5 +1,6 @@
 ---
 title: ConnorsRSI
+description: Created by Laurence Connors, the ConnorsRSI is a composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.
 permalink: /indicators/ConnorsRsi/
 image: /assets/charts/ConnorsRsi.png
 type: oscillator

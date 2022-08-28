@@ -1,5 +1,6 @@
 ---
 title: Klinger Volume Oscillator
+description: Created by Stephen Klinger, the Klinger Volume Oscillator depicts volume-based trend reversal and divergence between short and long-term money flow.
 permalink: /indicators/Kvo/
 image: /assets/charts/Kvo.png
 type: volume-based

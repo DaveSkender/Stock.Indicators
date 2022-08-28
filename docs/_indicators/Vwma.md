@@ -1,5 +1,6 @@
 ---
 title: Volume Weighted Moving Average (VWMA)
+description: Volume Weighted Moving Average is the volume adjusted average price over a lookback window.
 permalink: /indicators/Vwma/
 image: /assets/charts/Vwma.png
 type: moving-average

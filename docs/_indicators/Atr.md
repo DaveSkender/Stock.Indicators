@@ -1,5 +1,6 @@
 ---
 title: Average True Range (ATR)
+description: Created by J. Welles Wilder, True Range and Average True Range is a measure of volatility that captures gaps and limits between periods.
 permalink: /indicators/Atr/
 image: /assets/charts/Atr.png
 type: price-characteristic

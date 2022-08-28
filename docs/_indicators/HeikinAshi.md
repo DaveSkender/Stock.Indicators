@@ -1,5 +1,6 @@
 ---
 title: Heikin-Ashi
+description: Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that transforms prices based on prior period prices for smoothing.
 permalink: /indicators/HeikinAshi/
 image: /assets/charts/HeikinAshi.png
 type: price-transform
@@ -10,7 +11,7 @@ redirect_from:
 
 # {{ page.title }}
 
-Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that uses prior day for smoothing.
+Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern based on prior period prices for smoothing.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/254 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})
