@@ -1,6 +1,7 @@
 ---
 title: Average True Range (ATR)
 permalink: /indicators/Atr/
+image: /assets/charts/Atr.png
 type: price-characteristic
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by J. Welles Wilder, True Range and [Average True Range](https://en.wikipedia.org/wiki/Average_true_range) is a measure of volatility that captures gaps and limits between periods.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/269 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Atr.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // standard usage

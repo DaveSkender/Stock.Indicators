@@ -1,6 +1,7 @@
 ---
 title: Williams Fractal
 permalink: /indicators/Fractal/
+image: /assets/charts/Fractal.png
 type: price-pattern
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/255 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Fractal.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

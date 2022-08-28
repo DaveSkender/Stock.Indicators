@@ -2,6 +2,7 @@
 title: ROC with Bands
 description: Rate of Change (ROC) with Bands
 permalink: /indicators/RocWb/
+image: /assets/charts/RocWb.png
 type: price-characteristic
 layout: indicator
 ---
@@ -11,7 +12,7 @@ layout: indicator
 [Rate of Change with Bands](#roc-with-bands), created by Vitali Apirine, is a banded variant of [Rate of Change (ROC)]({{site.baseurl}}/indicators/Roc/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/242 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/RocWb.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

@@ -1,6 +1,7 @@
 ---
 title: Pivot Points
 permalink: /indicators/PivotPoints/
+image: /assets/charts/PivotPoints.png
 type: price-channel
 layout: indicator
 ---
@@ -11,7 +12,7 @@ layout: indicator
 See also the alternative [Rolling Pivot Points]({{site.baseurl}}/indicators/RollingPivots/#content) variant for a modern update that uses a rolling window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/PivotPoints.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

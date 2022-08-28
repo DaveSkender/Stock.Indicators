@@ -1,6 +1,7 @@
 ---
 title: Gator Oscillator
 permalink: /indicators/Gator/
+image: /assets/charts/Gator.png
 type: price-trend
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by Bill Williams, the Gator Oscillator is an expanded view of [Williams Alligator]({{site.baseurl}}/indicators/Alligator/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Gator.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

@@ -1,6 +1,7 @@
 ---
 title: Hilbert Transform Instantaneous Trendline
 permalink: /indicators/HtTrendline/
+image: /assets/charts/HtTrendline.png
 type: moving-average
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that uses signal processing to reduce noise.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/363 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/HtTrendline.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

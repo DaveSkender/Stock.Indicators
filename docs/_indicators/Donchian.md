@@ -2,6 +2,7 @@
 title: Donchian Channels
 description: Donchian Channels (Price Channels)
 permalink: /indicators/Donchian/
+image: /assets/charts/Donchian.png
 type: price-channel
 layout: indicator
 ---
@@ -11,7 +12,7 @@ layout: indicator
 Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel), also called Price Channels, are derived from highest High and lowest Low values over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/257 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Donchian.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

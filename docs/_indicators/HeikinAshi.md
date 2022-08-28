@@ -1,6 +1,7 @@
 ---
 title: Heikin-Ashi
 permalink: /indicators/HeikinAshi/
+image: /assets/charts/HeikinAshi.png
 type: price-transform
 layout: indicator
 redirect_from:
@@ -12,7 +13,7 @@ redirect_from:
 Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern that uses prior day for smoothing.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/254 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/HeikinAshi.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

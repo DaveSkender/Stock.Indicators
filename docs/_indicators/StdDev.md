@@ -2,6 +2,7 @@
 title: Standard Deviation (volatility)
 description: Standard Deviation, Historical Volatility (HV)
 permalink: /indicators/StdDev/
+image: /assets/charts/StdDev.png
 type: numerical-analysis
 layout: indicator
 ---
@@ -11,7 +12,7 @@ layout: indicator
 [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/239 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/StdDev.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

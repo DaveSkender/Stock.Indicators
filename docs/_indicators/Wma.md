@@ -1,6 +1,7 @@
 ---
 title: Weighted Moving Average (WMA)
 permalink: /indicators/Wma/
+image: /assets/charts/Wma.png
 type: moving-average
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 [Weighted Moving Average](https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average) is the linear weighted average of price over a lookback window.  This also called Linear Weighted Moving Average (LWMA).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/227 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Wma.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)

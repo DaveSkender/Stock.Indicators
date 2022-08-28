@@ -1,6 +1,7 @@
 ---
 title: Bollinger Bands&#174;
 permalink: /indicators/BollingerBands/
+image: /assets/charts/BollingerBands.png
 type: price-channel
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) depict volatility as standard deviation boundary lines from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/267 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/BollingerBands.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

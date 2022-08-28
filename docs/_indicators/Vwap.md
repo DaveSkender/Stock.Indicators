@@ -1,6 +1,7 @@
 ---
 title: Volume Weighted Average Price (VWAP)
 permalink: /indicators/Vwap/
+image: /assets/charts/Vwap.png
 type: moving-average
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighted_average_price) is a Volume weighted average of price, typically used on intraday data.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/310 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Vwap.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

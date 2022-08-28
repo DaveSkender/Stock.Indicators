@@ -1,6 +1,7 @@
 ---
 title: Moving Average Convergence/Divergence (MACD)
 permalink: /indicators/Macd/
+image: /assets/charts/Macd.png
 type: price-trend
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple oscillator view of two converging/diverging exponential moving averages.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/248 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Macd.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)

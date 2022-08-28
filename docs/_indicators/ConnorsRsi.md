@@ -1,6 +1,7 @@
 ---
 title: ConnorsRSI
 permalink: /indicators/ConnorsRsi/
+image: /assets/charts/ConnorsRsi.png
 type: oscillator
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf) is a composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.  See [analysis](https://alvarezquanttrading.com/blog/connorsrsi-analysis).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/260 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/ConnorsRsi.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

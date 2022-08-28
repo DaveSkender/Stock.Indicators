@@ -1,6 +1,7 @@
 ---
 title: Ulcer Index (UI)
 permalink: /indicators/UlcerIndex/
+image: /assets/charts/UlcerIndex.png
 type: price-characteristic
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_index) is a measure of downside price volatility over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/232 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/UlcerIndex.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

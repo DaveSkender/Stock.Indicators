@@ -1,6 +1,7 @@
 ---
 title: STARC Bands
 permalink: /indicators/StarcBands/
+image: /assets/charts/StarcBands.png
 type: price-channel
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by Manning Stoller, [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are based on an SMA centerline and ATR band widths.  See also [Keltner Channels]({{site.baseurl}}/indicators/Keltner/#content) for an EMA centerline equivalent.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/292 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/StarcBands.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

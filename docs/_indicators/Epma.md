@@ -2,11 +2,12 @@
 title: Endpoint Moving Average (EPMA)
 description: Endpoint Moving Average (EPMA) and Least Squares Moving Average (LSMA)
 permalink: /indicators/Epma/
+image: /assets/charts/Epma.png
 type: moving-average
 layout: indicator
 ---
 
-# {{ page.title }}
+![image]({{site.baseurl}}{{page.image}})
 
 Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA), plots the projected last point of a linear regression lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/371 "Community discussion about this indicator")

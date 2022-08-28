@@ -1,6 +1,7 @@
 ---
 title: Force Index
 permalink: /indicators/ForceIndex/
+image: /assets/charts/ForceIndex.png
 type: volume-based
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/382 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/ForceIndex.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

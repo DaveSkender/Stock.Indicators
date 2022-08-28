@@ -1,6 +1,7 @@
 ---
 title: Slope and Linear Regression
 permalink: /indicators/Slope/
+image: /assets/charts/Linear.png
 type: numerical-analysis
 layout: indicator
 ---

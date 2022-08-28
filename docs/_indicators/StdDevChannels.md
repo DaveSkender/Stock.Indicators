@@ -1,6 +1,7 @@
 ---
 title: Standard Deviation Channels
 permalink: /indicators/StdDevChannels/
+image: /assets/charts/StdDevChannels.png
 type: price-channel
 layout: indicator
 ---
@@ -10,7 +11,7 @@ layout: indicator
 Standard Deviation Channels are based on an linear regression centerline and standard deviations band widths.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/368 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/StdDevChannels.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

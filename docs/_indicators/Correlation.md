@@ -2,6 +2,7 @@
 title: Correlation Coefficient
 description: Pearson Correlation Coefficient and R-Squared (Coefficient of Determination)
 permalink: /indicators/Correlation/
+image: /assets/charts/Correlation.png
 type: numerical-analysis
 layout: indicator
 ---
@@ -11,7 +12,7 @@ layout: indicator
 Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear correlation between two quote histories.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/259 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Correlation.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

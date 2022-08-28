@@ -1,6 +1,7 @@
 ---
 title: Triple Exponential Moving Average (TEMA)
 permalink: /indicators/Tema/
+image: /assets/charts/Tema.png
 type: moving-average
 layout: indicator
 redirect_from:
@@ -13,7 +14,7 @@ Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en
 Note: TEMA is often confused with the alternative [TRIX]({{site.baseurl}}/indicators/Trix/#content) oscillator.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Tema.png)
+![image]({{site.baseurl}}{{page.image}})
 
 See also related [EMA]({{site.baseurl}}/indicators/Ema/#content) and [Double EMA]({{site.baseurl}}/indicators/Dema/#content).
 
