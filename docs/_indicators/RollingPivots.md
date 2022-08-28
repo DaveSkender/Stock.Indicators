@@ -1,6 +1,8 @@
 ---
 title: Rolling Pivot Points
+description: Rolling Pivot Points is a modern update to traditional fixed calendar window Pivot Points.  It depicts support and resistance levels, based on a defined rolling window and offset.
 permalink: /indicators/RollingPivots/
+image: /assets/charts/RollingPivots.png
 type: price-channel
 layout: indicator
 ---
@@ -10,7 +12,7 @@ layout: indicator
 Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window [Pivot Points]({{site.baseurl}}/indicators/PivotPoints/#content).  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/RollingPivots.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

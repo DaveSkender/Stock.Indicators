@@ -1,6 +1,8 @@
 ---
 title: Double Exponential Moving Average (DEMA)
+description: Created by Patrick G. Mulloy, the Double Exponential Moving Average is a faster smoothed EMA of financial market prices.
 permalink: /indicators/Dema/
+image: /assets/charts/Dema.png
 type: moving-average
 layout: indicator
 redirect_from:
@@ -12,7 +14,7 @@ redirect_from:
 Created by Patrick G. Mulloy, the [Double exponential moving average](https://en.wikipedia.org/wiki/Double_exponential_moving_average) is a faster smoothed EMA of the price over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/807 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Dema.png)
+![image]({{site.baseurl}}{{page.image}})
 
 See also related [EMA]({{site.baseurl}}/indicators/Ema/#content) and [Triple EMA]({{site.baseurl}}/indicators/Tema/#content).
 

@@ -1,7 +1,8 @@
 ---
 title: Ichimoku Cloud
-description: Ichimoku Cloud (Ichimoku Kinkō Hyō)
+description: Created by Goichi Hosoda (細田悟一, Hosoda Goichi), Ichimoku Cloud, also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
 permalink: /indicators/Ichimoku/
+image: /assets/charts/Ichimoku.png
 type: price-trend
 layout: indicator
 ---
@@ -11,7 +12,7 @@ layout: indicator
 Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D), also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/251 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Ichimoku.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

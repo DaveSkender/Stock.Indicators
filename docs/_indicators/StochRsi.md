@@ -1,6 +1,9 @@
 ---
 title: Stochastic RSI
+description: Created by by Tushar Chande and Stanley Kroll, Stochastic RSI is a Stochastic Oscillator interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional Stochastic Oscillator.
+
 permalink: /indicators/StochRsi/
+image: /assets/charts/StochRsi.png
 type: oscillator
 layout: indicator
 ---
@@ -10,7 +13,7 @@ layout: indicator
 Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/236 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/StochRsi.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

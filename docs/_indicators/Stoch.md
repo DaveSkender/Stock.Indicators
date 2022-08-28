@@ -1,7 +1,8 @@
 ---
 title: Stochastic Oscillator
-description: Stochastic Oscillator and KDJ Index
+description: Created by George Lane, the Stochastic Oscillator is a momentum oscillator that compares current financial market price with recent highs and lows and is presented on a scale of 0 to 100.  %J is also included for the KDJ Index extension.
 permalink: /indicators/Stoch/
+image: /assets/charts/Stoch.png
 type: oscillator
 layout: indicator
 redirect_from:
@@ -10,10 +11,10 @@ redirect_from:
 
 # {{ page.title }}
 
-Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator) is a momentum indicator that looks back `N` periods to produce a scale of 0 to 100.  %J is also included for the KDJ Index extension.
+Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator) is a momentum oscillator that compares current price with recent highs and lows and is presented on a scale of 0 to 100.  %J is also included for the KDJ Index extension.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/237 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Stoch.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (standard)

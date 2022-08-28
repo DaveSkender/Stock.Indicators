@@ -1,16 +1,18 @@
 ---
 title: Hilbert Transform Instantaneous Trendline
+description: Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.
 permalink: /indicators/HtTrendline/
+image: /assets/charts/HtTrendline.png
 type: moving-average
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that uses signal processing to reduce noise.
+Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/363 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/HtTrendline.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

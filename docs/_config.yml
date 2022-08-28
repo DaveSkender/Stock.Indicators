@@ -4,14 +4,41 @@
 
 title: "Stock Indicators for .NET"
 tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
+locale: en_US
+
+# social media information
+image:
+  path: /assets/social-banner.png
+  height: 640
+  width: 1280
+
+logo: /assets/icons/android-chrome-192x192.png"
+
+social:
+  name: Dave Skender
+  links:
+    - https://twitter.com/daveskender
+    - https://www.linkedin.com/in/skender
+    - https://github.com/DaveSkender
+
+author:
+  name: Dave Skender
+  twitter: daveskender
+
+twitter:
+  username: daveskender
+  card: summary
+
+# https://github.com/pages-themes/cayman
+remote_theme: pages-themes/cayman@v0.2.0
 
 # override built-in github url because it does not fetch in build tests
 github:
   repository_url: "https://github.com/DaveSkender/Stock.Indicators"
 
-# https://github.com/pages-themes/cayman
-remote_theme: pages-themes/cayman@v0.2.0
+ga_tag: G-7602GXEZ0R
 
+# site plugins and settings
 plugins:
   - jemoji
   - jekyll-remote-theme
@@ -19,7 +46,6 @@ plugins:
   - jekyll-last-modified-at
   - jekyll-redirect-from
 
-google_analytics: G-7602GXEZ0R
 
 exclude: [
   "*.cs",
@@ -53,6 +79,7 @@ defaults:
       path: "" # an empty string here means all files in the project
     values:
       layout: "base"
+      image: /assets/social-banner.png
 
 # page collections
 collections:
