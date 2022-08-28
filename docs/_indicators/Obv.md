@@ -1,6 +1,8 @@
 ---
 title: On-Balance Volume (OBV)
+description: Popularized by Joseph Granville, On-balance Volume is a rolling accumulation of volume based on Close price direction.
 permalink: /indicators/Obv/
+image: /assets/charts/Obv.png
 type: volume-based
 layout: indicator
 ---
@@ -10,7 +12,7 @@ layout: indicator
 Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wiki/On-balance_volume) is a rolling accumulation of volume based on Close price direction.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/246 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Obv.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

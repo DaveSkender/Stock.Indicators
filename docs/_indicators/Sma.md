@@ -2,6 +2,7 @@
 title: Simple Moving Average (SMA)
 description: Simple moving average.  Extended to include mean absolute deviation, mean square error, and mean absolute percentage error
 permalink: /indicators/Sma/
+image: /assets/charts/Sma.png
 type: moving-average
 layout: indicator
 redirect_from:
@@ -13,7 +14,7 @@ redirect_from:
 [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) is the average price over a lookback window.  An [extended analysis](#analysis) option includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/240 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Sma.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)
