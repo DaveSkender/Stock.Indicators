@@ -2,7 +2,7 @@
 [![Nuget](https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 [![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
 
-![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/assets/social-banner.png)
+[![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/assets/social-banner.png)](https://daveskender.github.io/Stock.Indicators/)
 
 # Stock Indicators for .NET
 
