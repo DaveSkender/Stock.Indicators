@@ -2,7 +2,7 @@
 
 <info>
   <summary>
-    SuperTrend attempts to determine the primary trend of Close prices by using
+    SuperTrend attempts to determine the primary trend of HL2 prices by using
     Average True Range (ATR) band thresholds. It can indicate a buy/sell signal or a
     trailing stop when the trend changes.
     <para>
