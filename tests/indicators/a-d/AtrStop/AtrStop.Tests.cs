@@ -17,7 +17,6 @@ public class AtrStop : TestBase
             .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.AtrStop != null));
 
@@ -63,44 +62,38 @@ public class AtrStop : TestBase
             .GetAtrStop(lookbackPeriods, multiplier, EndType.HighLow)
             .ToList();
 
-        foreach (AtrStopResult r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.BuyStop:N8},{r.SellStop:N8},{r.AtrStop:N8}");
-        }
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.AtrStop != null));
 
         // sample values
-        AtrStopResult r1 = results[12];
+        AtrStopResult r1 = results[19];
         Assert.AreEqual(null, r1.AtrStop);
         Assert.AreEqual(null, r1.BuyStop);
         Assert.AreEqual(null, r1.SellStop);
 
-        AtrStopResult r2 = results[13];
-        Assert.AreEqual(209.5436m, NullMath.Round(r2.AtrStop, 4));
+        AtrStopResult r2 = results[20];
+        Assert.AreEqual(210.2514m, NullMath.Round(r2.AtrStop, 4));
         Assert.AreEqual(null, r2.BuyStop);
         Assert.AreEqual(r2.AtrStop, r2.SellStop);
 
-        AtrStopResult r3 = results[151];
-        Assert.AreEqual(232.8519m, NullMath.Round(r3.AtrStop, 4));
+        AtrStopResult r3 = results[69];
+        Assert.AreEqual(221.0329m, NullMath.Round(r3.AtrStop, 4));
         Assert.AreEqual(null, r3.BuyStop);
         Assert.AreEqual(r3.AtrStop, r3.SellStop);
 
-        AtrStopResult r4 = results[152];
-        Assert.AreEqual(237.6436m, NullMath.Round(r4.AtrStop, 4));
+        AtrStopResult r4 = results[70];
+        Assert.AreEqual(226.4734m, NullMath.Round(r4.AtrStop, 4));
         Assert.AreEqual(r4.AtrStop, r4.BuyStop);
         Assert.AreEqual(null, r4.SellStop);
 
         AtrStopResult r5 = results[249];
-        Assert.AreEqual(253.8008m, NullMath.Round(r5.AtrStop, 4));
+        Assert.AreEqual(253.4863m, NullMath.Round(r5.AtrStop, 4));
         Assert.AreEqual(null, r5.BuyStop);
         Assert.AreEqual(r5.AtrStop, r5.SellStop);
 
         AtrStopResult r6 = results[501];
-        Assert.AreEqual(250.7954m, NullMath.Round(r6.AtrStop, 4));
+        Assert.AreEqual(252.6932m, NullMath.Round(r6.AtrStop, 4));
         Assert.AreEqual(r6.AtrStop, r6.BuyStop);
         Assert.AreEqual(null, r6.SellStop);
     }

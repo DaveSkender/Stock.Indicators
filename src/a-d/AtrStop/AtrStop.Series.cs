@@ -33,9 +33,22 @@ public static partial class Indicator
                 double? atr = atrResults[i].Atr;
                 QuoteD p = qdList[i - 1];
 
-                // potential bands
-                double? upperEval = q.Close + (multiplier * atr);
-                double? lowerEval = q.Close - (multiplier * atr);
+                double? upperEval;
+                double? lowerEval;
+
+                // potential bands for CLOSE
+                if (endType == EndType.Close)
+                {
+                    upperEval = q.Close + (multiplier * atr);
+                    lowerEval = q.Close - (multiplier * atr);
+                }
+
+                // potential bands for HIGH/LOW
+                else
+                {
+                    upperEval = q.High + (multiplier * atr);
+                    lowerEval = q.Low - (multiplier * atr);
+                }
 
                 // initial values
                 if (i == lookbackPeriods - 1)
@@ -46,65 +59,31 @@ public static partial class Indicator
                     lowerBand = lowerEval;
                 }
 
-                // USING CLOSE TRIGGER
-                if (endType == EndType.Close)
+                // new upper band
+                if (upperEval < upperBand || p.Close > upperBand)
                 {
-                    // new upper band
-                    if (upperEval < upperBand || p.Close > upperBand)
-                    {
-                        upperBand = upperEval;
-                    }
-
-                    // new lower band
-                    if (lowerEval > lowerBand || p.Close < lowerBand)
-                    {
-                        lowerBand = lowerEval;
-                    }
-
-                    // trailing stop
-                    if (q.Close <= (isBullish ? lowerBand : upperBand))
-                    {
-                        r.AtrStop = (decimal?)upperBand;
-                        r.BuyStop = (decimal?)upperBand;
-                        isBullish = false;
-                    }
-                    else
-                    {
-                        r.AtrStop = (decimal?)lowerBand;
-                        r.SellStop = (decimal?)lowerBand;
-                        isBullish = true;
-                    }
+                    upperBand = upperEval;
                 }
 
-                //// USING HIGH/LOW TRIGGER
-                //else
-                //{
-                //    // new upper band
-                //    if (upperEval < upperBand || p.High > upperBand)
-                //    {
-                //        upperBand = upperEval;
-                //    }
+                // new lower band
+                if (lowerEval > lowerBand || p.Close < lowerBand)
+                {
+                    lowerBand = lowerEval;
+                }
 
-                //    // new lower band
-                //    if (lowerEval > lowerBand || p.Low < lowerBand)
-                //    {
-                //        lowerBand = lowerEval;
-                //    }
-
-                //    // trailing stop
-                //    if (q.Low <= (isBullish ? lowerBand : upperBand))
-                //    {
-                //        r.AtrStop = (decimal?)upperBand;
-                //        r.BuyStop = (decimal?)upperBand;
-                //        isBullish = false;
-                //    }
-                //    else
-                //    {
-                //        r.AtrStop = (decimal?)lowerBand;
-                //        r.SellStop = (decimal?)lowerBand;
-                //        isBullish = true;
-                //    }
-                //}
+                // trailing stop
+                if (q.Close <= (isBullish ? lowerBand : upperBand))
+                {
+                    r.AtrStop = (decimal?)upperBand;
+                    r.BuyStop = (decimal?)upperBand;
+                    isBullish = false;
+                }
+                else
+                {
+                    r.AtrStop = (decimal?)lowerBand;
+                    r.SellStop = (decimal?)lowerBand;
+                    isBullish = true;
+                }
             }
         }
 

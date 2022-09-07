@@ -15,7 +15,7 @@
   <param name="quotes">Historical price quotes.</param>
   <param name="lookbackPeriods">Number of periods for ATR.</param>
   <param name="multiplier">Multiplier sets the ATR band width.</param>
-  <param name="endType">Sets triggering candle part (Close or High/Low).</param>
+  <param name="endType">Sets basis for stop offsets (Close or High/Low).</param>
   <returns>Time series of AtrStop values.</returns>
   <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
 </info>

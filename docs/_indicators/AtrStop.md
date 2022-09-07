@@ -26,7 +26,7 @@ IEnumerable<AtrStopResult> results =
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 21.
 | `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
-| `endType` | EndType | Determines whether `Close` or `High/Low` are used to trigger stops.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used as basis for stop offset.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
 
 ### Historical quotes requirements
 
@@ -38,8 +38,8 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 
 | type | description
 |-- |--
-| `EndType.Close` | Stop triggered by `Close` price (default)
-| `EndType.HighLow` | Stop triggered by `High` or `Low` price
+| `EndType.Close` | Stop offset from `Close` price (default)
+| `EndType.HighLow` | Stop offset from `High` or `Low` price
 
 ## Response
 
