@@ -1,3 +1,7 @@
+- title: ATR Trailing Stop
+  permalink: /indicators/AtrStop/
+  type: stop-and-reverse
+
 - title: Bull and Bear Power
   permalink: /indicators/ElderRay/
   type: price-characteristic
@@ -5,7 +9,7 @@
 - title: Directional Movement Index (DMI)
   permalink: /indicators/Adx/
   type: price-trend
-  
+
 - title: Historical Volatility (HV)
   permalink: /indicators/StdDev/
   type: price-characteristic

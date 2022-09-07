@@ -60,6 +60,9 @@ public class IndicatorPerformance
     public object GetAtr() => h.GetAtr();
 
     [Benchmark]
+    public object GetAtrStop() => h.GetAtrStop();
+
+    [Benchmark]
     public object GetAwesome() => h.GetAwesome();
 
     [Benchmark]
