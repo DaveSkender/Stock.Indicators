@@ -1,31 +1,32 @@
 ---
-title: SuperTrend
-description: Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of financial market prices by using Average True Range (ATR) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
-permalink: /indicators/SuperTrend/
-image: /assets/charts/SuperTrend.png
+title: ATR Trailing Stop
+description: Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of financial market prices by using Average True Range (ATR) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
+permalink: /indicators/AtrStop/
+image: /assets/charts/AtrStop.png
 type: price-trend
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/235 "Community discussion about this indicator")
+Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
+[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/724 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
-IEnumerable<SuperTrendResult> results =
-  quotes.GetSuperTrend(lookbackPeriods, multiplier);
+IEnumerable<AtrStopResult> results =
+  quotes.GetAtrStop(lookbackPeriods, multiplier, endType);
 ```
 
 ## Parameters
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
+| `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 21.
 | `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
+| `endType` | EndType | Determines whether `Close` or `High/Low` are used to trigger stops.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
 
 ### Historical quotes requirements
 
@@ -33,29 +34,36 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
+### EndType options
+
+| type | description
+|-- |--
+| `EndType.Close` | Stop triggered by `Close` price (default)
+| `EndType.HighLow` | Stop triggered by `High` or `Low` price
+
 ## Response
 
 ```csharp
-IEnumerable<SuperTrendResult>
+IEnumerable<AtrStopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first `N-1` periods will have `null` SuperTrend values since there's not enough data to calculate.
+- The first `N-1` periods will have `null` AtrStop values since there's not enough data to calculate.
 
 :hourglass: **Convergence Warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 
-### SuperTrendResult
+### AtrStopResult
 
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `SuperTrend` | decimal | SuperTrend line contains both Upper and Lower segments
-| `UpperBand` | decimal | Upper band only (bearish/red)
-| `LowerBand` | decimal | Lower band only (bullish/green)
+| `AtrStop` | decimal | ATR Trailing Stop line contains both Upper and Lower segments
+| `BuyStop` | decimal | Upper band only (bearish/red)
+| `SellStop` | decimal | Lower band only (bullish/green)
 
-`UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `SuperTrend` is the contiguous combination of both upper and lower line data.
+`BuyStop` and `SellStop` values are provided to differentiate buy vs sell stop lines and to clearly demark trend reversal.  `AtrStop` is the contiguous combination of both upper and lower line data.
 
 ### Utilities
 
