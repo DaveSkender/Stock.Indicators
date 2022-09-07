@@ -1,18 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// SUPERTREND (SERIES)
+// ATR TRAILING STOP (SERIES)
 public static partial class Indicator
 {
-    internal static List<SuperTrendResult> CalcSuperTrend(
+    internal static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> qdList,
         int lookbackPeriods,
-        double multiplier)
+        double multiplier,
+        EndType endType)
     {
         // check parameter arguments
-        ValidateSuperTrend(lookbackPeriods, multiplier);
+        ValidateAtrStop(lookbackPeriods, multiplier);
 
         // initialize
-        List<SuperTrendResult> results = new(qdList.Count);
+        List<AtrStopResult> results = new(qdList.Count);
         List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
@@ -24,51 +25,63 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SuperTrendResult r = new(q.Date);
+            AtrStopResult r = new(q.Date);
             results.Add(r);
 
             if (i >= lookbackPeriods - 1)
             {
-                double? mid = (q.High + q.Low) / 2;
                 double? atr = atrResults[i].Atr;
-                double? prevClose = qdList[i - 1].Close;
+                QuoteD p = qdList[i - 1];
 
-                // potential bands
-                double? upperEval = mid + (multiplier * atr);
-                double? lowerEval = mid - (multiplier * atr);
+                double? upperEval;
+                double? lowerEval;
+
+                // potential bands for CLOSE
+                if (endType == EndType.Close)
+                {
+                    upperEval = q.Close + (multiplier * atr);
+                    lowerEval = q.Close - (multiplier * atr);
+                }
+
+                // potential bands for HIGH/LOW
+                else
+                {
+                    upperEval = q.High + (multiplier * atr);
+                    lowerEval = q.Low - (multiplier * atr);
+                }
 
                 // initial values
                 if (i == lookbackPeriods - 1)
                 {
-                    isBullish = q.Close >= mid;
+                    isBullish = q.Close >= p.Close;
 
                     upperBand = upperEval;
                     lowerBand = lowerEval;
                 }
 
                 // new upper band
-                if (upperEval < upperBand || prevClose > upperBand)
+                if (upperEval < upperBand || p.Close > upperBand)
                 {
                     upperBand = upperEval;
                 }
 
                 // new lower band
-                if (lowerEval > lowerBand || prevClose < lowerBand)
+                if (lowerEval > lowerBand || p.Close < lowerBand)
                 {
                     lowerBand = lowerEval;
                 }
 
-                // supertrend
+                // trailing stop
                 if (q.Close <= (isBullish ? lowerBand : upperBand))
                 {
-                    r.SuperTrend = (decimal?)upperBand;
-                    r.UpperBand = (decimal?)upperBand;
+                    r.AtrStop = (decimal?)upperBand;
+                    r.BuyStop = (decimal?)upperBand;
                     isBullish = false;
                 }
                 else
                 {
-                    r.SuperTrend = (decimal?)lowerBand;
-                    r.LowerBand = (decimal?)lowerBand;
+                    r.AtrStop = (decimal?)lowerBand;
+                    r.SellStop = (decimal?)lowerBand;
                     isBullish = true;
                 }
             }
@@ -78,7 +91,7 @@ public static partial class Indicator
     }
 
     // parameter validation
-    private static void ValidateSuperTrend(
+    private static void ValidateAtrStop(
         int lookbackPeriods,
         double multiplier)
     {
@@ -86,13 +99,13 @@ public static partial class Indicator
         if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for SuperTrend.");
+                "Lookback periods must be greater than 1 for ATR Trailing Stop.");
         }
 
         if (multiplier <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for SuperTrend.");
+                "Multiplier must be greater than 0 for ATR Trailing Stop.");
         }
     }
 }
