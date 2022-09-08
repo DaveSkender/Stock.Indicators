@@ -60,8 +60,8 @@ IEnumerable<AtrStopResult>
 | -- |-- |--
 | `Date` | DateTime | Date
 | `AtrStop` | decimal | ATR Trailing Stop line contains both Upper and Lower segments
-| `BuyStop` | decimal | Upper band only (bearish/red)
-| `SellStop` | decimal | Lower band only (bullish/green)
+| `BuyStop` | decimal | Upper band only (green)
+| `SellStop` | decimal | Lower band only (red)
 
 `BuyStop` and `SellStop` values are provided to differentiate buy vs sell stop lines and to clearly demark trend reversal.  `AtrStop` is the contiguous combination of both upper and lower line data.
 
