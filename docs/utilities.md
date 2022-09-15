@@ -1,6 +1,6 @@
 ---
 title: Utilities and helpers
-description: The Stock Indicators for .NET library includes utilities to help you use and transform historical prices quotes and indicator results.  We have also made available the internal tools the methods we use, to help when creating your own custom indicators.
+description: The Stock Indicators for .NET library includes utilities to help you use and transform historical prices quotes and indicator results, and to create custom indicators.
 permalink: /utilities/
 relative_path: utilities.md
 layout: page
