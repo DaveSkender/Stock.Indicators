@@ -132,5 +132,5 @@ public class Slope : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetSlope(quotes, 0));
+            => quotes.GetSlope(1));
 }

@@ -25,7 +25,7 @@ IEnumerable<SlopeResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1.
 
 ### Historical quotes requirements
 
