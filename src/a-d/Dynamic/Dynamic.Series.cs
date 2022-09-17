@@ -5,10 +5,11 @@ public static partial class Indicator
 {
     internal static List<DynamicResult> CalcDynamic(
         this List<(DateTime, double)> tpList,
-        int lookbackPeriods)
+        int lookbackPeriods,
+        double kFactor)
     {
         // check parameter arguments
-        ValidateDynamic(lookbackPeriods);
+        ValidateDynamic(lookbackPeriods, kFactor);
 
         // initialize
         int iStart = 1;
@@ -39,7 +40,7 @@ public static partial class Indicator
             else
             {
                 double md = prevMD + ((value - prevMD) /
-                    (0.6 * lookbackPeriods * Math.Pow(value / prevMD, 4)));
+                    (kFactor * lookbackPeriods * Math.Pow(value / prevMD, 4)));
 
                 if (i >= iStart)
                 {
@@ -55,13 +56,20 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateDynamic(
-        int lookbackPeriods)
+        int lookbackPeriods,
+        double kFactor)
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for DYNAMIC.");
+        }
+
+        if (kFactor <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(kFactor), kFactor,
+                "K-Factor range adjustment must be greater than 0 for DYNAMIC.");
         }
     }
 }
