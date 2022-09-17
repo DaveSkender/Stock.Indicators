@@ -5,7 +5,8 @@ public static partial class Indicator
 {
     internal static List<DynamicResult> CalcDynamic(
         this List<(DateTime, double)> tpList,
-        int lookbackPeriods)
+        int lookbackPeriods,
+        double kFactor)
     {
         // check parameter arguments
         ValidateDynamic(lookbackPeriods);
@@ -39,7 +40,7 @@ public static partial class Indicator
             else
             {
                 double md = prevMD + ((value - prevMD) /
-                    (0.6 * lookbackPeriods * Math.Pow(value / prevMD, 4)));
+                    (kFactor * lookbackPeriods * Math.Pow(value / prevMD, 4)));
 
                 if (i >= iStart)
                 {
