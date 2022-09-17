@@ -25,7 +25,7 @@ IEnumerable<DynamicResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
-| `kFactor` | double | Optional.  Range adjustment factor (`K`).  Default is 0.6
+| `kFactor` | double | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6
 
 ### Historical quotes requirements
 
