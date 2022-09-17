@@ -35,6 +35,8 @@ You must have at least `2` periods of `quotes`, to cover the initialization peri
 
 ### Pro tips
 
+> Use a `kFactor` value of `1` if you do not want to adjust the `N` value.
+>
 > McGinley suggests that using a `K` value of 60% (0.6) allows you to use a `N` equivalent to other moving averages.  For example, DYNAMIC(20,0.6) is comparable to EMA(20); conversely, DYNAMIC(20,1) uses the raw 1:1 `N` value and is not equivalent.
 
 ## Response
