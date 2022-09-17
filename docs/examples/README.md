@@ -1,5 +1,6 @@
 ---
 title: Example usage code
+description: The Stock Indicators for .NET library is a simple yet flexible tool to help you build your financial market systems.  Here's a few complete working examples that you can download and try yourself.
 permalink: /examples/
 relative_path: examples/README.md
 layout: page
