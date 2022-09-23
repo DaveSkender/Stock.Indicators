@@ -5,8 +5,6 @@ permalink: /indicators/HeikinAshi/
 image: /assets/charts/HeikinAshi.png
 type: price-transform
 layout: indicator
-redirect_from:
- - /Indicators/HeikinAshi/
 ---
 
 # {{ page.title }}
