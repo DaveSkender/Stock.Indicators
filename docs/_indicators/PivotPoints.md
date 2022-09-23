@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 [Pivot Points](https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)) depict support and resistance levels, based on prior calendar windows.  You can specify window size (e.g. month, week, day, etc) and any of the traditional Floor Trading, Camarilla, Demark, Fibonacci, and Woodie variants.
-See also the alternative [Rolling Pivot Points]({{site.baseurl}}/indicators/RollingPivots/#content) variant for a modern update that uses a rolling window.
+
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})
