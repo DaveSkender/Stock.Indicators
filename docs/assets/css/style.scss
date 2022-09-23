@@ -143,7 +143,12 @@ h5 {
   }
 
   // paragraphs
-  // p { }
+  p {
+    // inline code
+    code {
+      font-size: 1.0rem;
+    }
+  }
 
   // links
   a {

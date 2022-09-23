@@ -144,7 +144,7 @@ SmaResult result = results.Find(lookupDate);
 IEnumerable<AdxResult> results =
   quotes.GetAdx(14).RemoveWarmupPeriods();
 
-// remove user-specific quantity of periods
+// remove a specific quantity of periods
 int n = 14;
 IEnumerable<AdxResult> results =
   quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
