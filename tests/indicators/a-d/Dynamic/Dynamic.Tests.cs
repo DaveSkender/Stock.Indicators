@@ -90,9 +90,15 @@ public class Dynamic : TestBase
         Assert.AreEqual(1, r1.Count());
     }
 
-    // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetDynamic(quotes, 0));
+    {
+        // bad lookback period
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetDynamic(0));
+
+        // bad k-factor
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetDynamic(14, 0));
+    }
 }

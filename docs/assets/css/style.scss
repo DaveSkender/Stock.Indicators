@@ -142,8 +142,14 @@ h5 {
     padding-top: 32px;
   }
 
-  // paragraphs
-  // p { }
+  // paragraphs and list items
+  p,
+  li {
+    // inline code
+    code {
+      font-size: 1.0rem;
+    }
+  }
 
   // links
   a {

@@ -8,23 +8,26 @@ public static partial class Indicator
     ///
     public static IEnumerable<DynamicResult> GetDynamic<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
+        int lookbackPeriods,
+        double kFactor = 0.6)
         where TQuote : IQuote => quotes
             .ToBasicTuple(CandlePart.Close)
-            .CalcDynamic(lookbackPeriods);
+            .CalcDynamic(lookbackPeriods, kFactor);
 
     // SERIES, from CHAIN
     public static IEnumerable<DynamicResult> GetDynamic(
         this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
+        int lookbackPeriods,
+        double kFactor = 0.6) => results
             .ToResultTuple()
-            .CalcDynamic(lookbackPeriods)
+            .CalcDynamic(lookbackPeriods, kFactor)
             .SyncIndex(results, SyncType.Prepend);
 
     // SERIES, from TUPLE
     public static IEnumerable<DynamicResult> GetDynamic(
         this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
+        int lookbackPeriods,
+        double kFactor = 0.6) => priceTuples
             .ToSortedList()
-            .CalcDynamic(lookbackPeriods);
+            .CalcDynamic(lookbackPeriods, kFactor);
 }

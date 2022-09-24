@@ -14,8 +14,6 @@ layout: indicator
 
 ![image]({{site.baseurl}}{{page.image}})
 
-See also related [Double EMA]({{site.baseurl}}/indicators/Dema/#content) and [Triple EMA]({{site.baseurl}}/indicators/Tema/#content).
-
 ```csharp
 // usage (with Close price)
 IEnumerable<EmaResult> results =
