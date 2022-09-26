@@ -126,11 +126,25 @@ public class IndicatorPerformance
     public object GetEma() => h.GetEma(14);
 
     [Benchmark]
-    public object GetEmaStream()
+    public object GetEmaStreamInit()
     {
         EmaBase emaBase = hList.Take(15).InitEma(14);
 
         for (int i = 15; i < hList.Count; i++)
+        {
+            Quote q = hList[i];
+            _ = emaBase.Add(q);
+        }
+
+        return emaBase.Results;
+    }
+
+    [Benchmark]
+    public object GetEmaStreamEmpty()
+    {
+        EmaBase emaBase = new(14);
+
+        for (int i = 0; i < hList.Count; i++)
         {
             Quote q = hList[i];
             _ = emaBase.Add(q);

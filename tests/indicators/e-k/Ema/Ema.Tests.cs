@@ -31,6 +31,32 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
+    public void UsePart()
+    {
+        List<EmaResult> results = quotes
+            .Use(CandlePart.Open)
+            .GetEma(20)
+            .ToList();
+
+        // assertions
+
+        // proper quantities
+        // should always be the same number of results as there is quotes
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+
+        // sample values
+        EmaResult r29 = results[29];
+        Assert.AreEqual(216.2643, NullMath.Round(r29.Ema, 4));
+
+        EmaResult r249 = results[249];
+        Assert.AreEqual(255.4875, NullMath.Round(r249.Ema, 4));
+
+        EmaResult r501 = results[501];
+        Assert.AreEqual(249.9157, NullMath.Round(r501.Ema, 4));
+    }
+
+    [TestMethod]
     public void UseTuple()
     {
         IEnumerable<EmaResult> results = quotes
@@ -76,40 +102,7 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void Stream()
-    {
-        List<Quote> quotesList = quotes
-            .OrderBy(x => x.Date)
-            .ToList();
-
-        // time-series
-        List<EmaResult> series = quotesList.GetEma(20).ToList();
-
-        // stream simulation
-        EmaBase emaBase = quotesList.Take(25).InitEma(20);
-
-        for (int i = 25; i < series.Count; i++)
-        {
-            Quote q = quotesList[i];
-            emaBase.Add(q);
-            emaBase.Add(q); // redundant
-        }
-
-        List<EmaResult> stream = emaBase.Results.ToList();
-
-        // assertions
-        for (int i = 0; i < series.Count; i++)
-        {
-            EmaResult t = series[i];
-            EmaResult s = stream[i];
-
-            Assert.AreEqual(t.Date, s.Date);
-            Assert.AreEqual(t.Ema, s.Ema);
-        }
-    }
-
-    [TestMethod]
-    public void Chaining()
+    public void ChaineeMore()
     {
         List<EmaResult> results = quotes
             .GetRsi(14)
@@ -136,29 +129,81 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void Custom()
+    public void StreamInitBase()
     {
-        List<EmaResult> results = quotes
-            .Use(CandlePart.Open)
-            .GetEma(20)
+        List<Quote> quotesList = quotes
+            .OrderBy(x => x.Date)
             .ToList();
 
-        // assertions
+        // time-series, for comparison
+        List<EmaResult> series = quotesList.GetEma(20).ToList();
 
-        // proper quantities
-        // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        // stream simulation
+        EmaBase emaBase = quotesList.Take(25).InitEma(20);
+        int[] dups = new int[] { 33, 67, 111, 250, 251 };
 
-        // sample values
-        EmaResult r29 = results[29];
-        Assert.AreEqual(216.2643, NullMath.Round(r29.Ema, 4));
+        for (int i = 25; i < series.Count; i++)
+        {
+            Quote q = quotesList[i];
+            _ = emaBase.Add(q);
 
-        EmaResult r249 = results[249];
-        Assert.AreEqual(255.4875, NullMath.Round(r249.Ema, 4));
+            // duplicate value
+            if (dups.Contains(i))
+            {
+                _ = emaBase.Add(q);
+            }
+        }
 
-        EmaResult r501 = results[501];
-        Assert.AreEqual(249.9157, NullMath.Round(r501.Ema, 4));
+        List<EmaResult> stream = emaBase.Results.ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < series.Count; i++)
+        {
+            EmaResult t = series[i];
+            EmaResult s = stream[i];
+
+            Assert.AreEqual(t.Date, s.Date);
+            Assert.AreEqual(t.Ema, s.Ema);
+        }
+    }
+
+    [TestMethod]
+    public void StreamInitEmpty()
+    {
+        List<Quote> quotesList = quotes
+            .OrderBy(x => x.Date)
+            .ToList();
+
+        // time-series, for comparison
+        List<EmaResult> series = quotesList.GetEma(20).ToList();
+
+        // stream simulation
+        EmaBase emaBase = new(20);
+        int[] dups = new int[] { 3, 7, 11, 250, 251 };
+
+        for (int i = 0; i < series.Count; i++)
+        {
+            Quote q = quotesList[i];
+            _ = emaBase.Add(q);
+
+            // duplicate value
+            if (dups.Contains(i))
+            {
+                _ = emaBase.Add(q);
+            }
+        }
+
+        List<EmaResult> stream = emaBase.Results.ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < series.Count; i++)
+        {
+            EmaResult t = series[i];
+            EmaResult s = stream[i];
+
+            Assert.AreEqual(t.Date, s.Date);
+            Assert.AreEqual(t.Ema, s.Ema);
+        }
     }
 
     [TestMethod]
@@ -197,12 +242,12 @@ public class EmaTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Indicator.GetEma(quotes, 0));
 
         // null quote added
         EmaBase emaBase = quotes.InitEma(14);
-        Assert.ThrowsException<InvalidQuotesException>(() =>
+        _ = Assert.ThrowsException<InvalidQuotesException>(() =>
         emaBase.Add(null));
     }
 }

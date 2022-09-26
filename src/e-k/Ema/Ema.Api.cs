@@ -40,7 +40,16 @@ public static partial class Indicator
         List<(DateTime, double)> tpList
             = quotes.ToBasicTuple(CandlePart.Close);
 
-        return new EmaBase(tpList, lookbackPeriods);
+        // new base instance
+        EmaBase baseEma = new(lookbackPeriods);
+
+        // prime the results
+        for (int i = 0; i < tpList.Count; i++)
+        {
+            _ = baseEma.Add(tpList[i]);
+        }
+
+        return baseEma;
     }
 
     // STREAM INITIALIZATION, from CHAIN
@@ -52,6 +61,15 @@ public static partial class Indicator
         List<(DateTime, double)> tpList
             = results.ToResultTuple();
 
-        return new EmaBase(tpList, lookbackPeriods);
+        // new base instance
+        EmaBase baseEma = new(lookbackPeriods);
+
+        // prime the results
+        for (int i = 0; i < tpList.Count; i++)
+        {
+            _ = baseEma.Add(tpList[i]);
+        }
+
+        return baseEma;
     }
 }
