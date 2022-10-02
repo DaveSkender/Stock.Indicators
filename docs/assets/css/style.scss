@@ -1,6 +1,5 @@
 ---
 ---
-
 // JEKYLL THEME STYLE OVERRIDES
 
 @import "jekyll-theme-cayman";
@@ -35,8 +34,9 @@ $mobile-breakpoint: 376px;
 
 .project-name {
   color: $color-primary-light;
-  font-size: 2rem;
-  margin: 0;
+  font-size: 2.2rem;
+  line-height: 1.5rem;
+  margin: 12px 0;
 
   // adjust for screen size
   @include small {
@@ -55,8 +55,7 @@ $mobile-breakpoint: 376px;
 
 .project-tagline {
   font-size: 1rem;
-  margin-bottom: 12px;
-  margin-top: 0;
+  margin: 12px 0;
 
   // adjust for screen size
   @include small {
@@ -65,14 +64,21 @@ $mobile-breakpoint: 376px;
 }
 
 // BUTTONS
+
+.btn-container {
+  margin: 12px 0;
+}
+
 .btn {
+  margin: 0;
+
   @include small {
     display: inline-block;
     width: auto;
     padding: 0.6rem 0.9rem;
 
     + .btn {
-      margin-top: 0;
+      margin-top: 0.5rem;
       margin-left: 0;
     }
   }
@@ -96,16 +102,22 @@ $mobile-breakpoint: 376px;
 
 h1 {
   font-size: 2rem;
+  line-height: 1.8rem;
 }
+
 h2 {
   font-size: 1.5rem;
+  line-height: 1.5rem;
 }
+
 h3 {
   font-size: 1.25rem;
 }
+
 h4 {
   font-size: 1.1rem;
 }
+
 h5 {
   font-size: 1.1rem;
 }
@@ -130,8 +142,14 @@ h5 {
     padding-top: 32px;
   }
 
-  // paragraphs
-  // p { }
+  // paragraphs and list items
+  p,
+  li {
+    // inline code
+    code {
+      font-size: 1.0rem;
+    }
+  }
 
   // links
   a {
@@ -164,7 +182,7 @@ h5 {
   td,
   th {
     font-size: 1rem;
-    
+
     code {
       font-size: 1rem;
     }
@@ -286,6 +304,7 @@ h5 {
       text-decoration: none;
     }
   }
+
   // .prev { }
   .next {
     padding-left: 1rem;

@@ -30,7 +30,7 @@ public static partial class Indicator
             if (i >= lookbackPeriods - 1)
             {
                 double? mid = (q.High + q.Low) / 2;
-                double? atr = (double?)atrResults[i].Atr;
+                double? atr = atrResults[i].Atr;
                 double? prevClose = qdList[i - 1].Close;
 
                 // potential bands

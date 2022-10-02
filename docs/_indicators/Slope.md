@@ -1,6 +1,8 @@
 ---
 title: Slope and Linear Regression
+description: Slope of the best fit line is determined by an ordinary least-squares simple linear regression on price.  It can be used to help identify trend strength and direction.  This indicator can be used to produce both a rolling slope value and a straight line through a specified lookback window.
 permalink: /indicators/Slope/
+image: /assets/charts/Linear.png
 type: numerical-analysis
 layout: indicator
 ---
@@ -23,7 +25,7 @@ IEnumerable<SlopeResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 0.
+| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1.
 
 ### Historical quotes requirements
 

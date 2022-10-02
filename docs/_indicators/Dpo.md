@@ -1,6 +1,8 @@
 ---
 title: Detrended Price Oscillator (DPO)
+description: Detrended Price Oscillator depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
 permalink: /indicators/Dpo/
+image: /assets/charts/Dpo.png
 type: oscillator
 layout: indicator
 ---
@@ -10,7 +12,7 @@ layout: indicator
 [Detrended Price Oscillator](https://en.wikipedia.org/wiki/Detrended_price_oscillator) depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/551 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Dpo.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

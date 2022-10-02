@@ -1,6 +1,8 @@
 ---
 title: Kaufman's Adaptive Moving Average (KAMA)
+description: Created by Perry Kaufman, KAMA is an volatility adaptive (adjusted) moving average of price over configurable lookback periods.
 permalink: /indicators/Kama/
+image: /assets/charts/Kama.png
 type: moving-average
 layout: indicator
 ---
@@ -10,7 +12,7 @@ layout: indicator
 Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of price over configurable lookback periods.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/210 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Kama.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

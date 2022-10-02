@@ -1,5 +1,6 @@
 ---
 title: Basic Quote Transforms
+description: Basic quote transforms (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
 permalink: /indicators/BasicQuote/
 type: price-transform
 layout: indicator
@@ -7,7 +8,7 @@ layout: indicator
 
 # {{ page.title }}
 
-Returns a basic quote transform.
+Returns a basic quote transform (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
 
 ```csharp
 // usage

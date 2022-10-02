@@ -1,16 +1,18 @@
 ---
 title: Keltner Channels
+description: Created by Chester W. Keltner, the Keltner Channels price range overlay is based on an EMA centerline and Average True Range (ATR) band widths.  STARC Bands are the SMA centerline equivalent.
 permalink: /indicators/Keltner/
+image: /assets/charts/Keltner.png
 type: price-channel
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.  See also [STARC Bands]({{site.baseurl}}/indicators/StarcBands/#content) for an SMA centerline equivalent.
+Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.  See also <a href="{{site.baseurl}}/indicators/StarcBands/#content" rel="nofollow">STARC Bands</a> for an SMA centerline equivalent.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/249 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Keltner.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

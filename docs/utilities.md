@@ -1,5 +1,6 @@
 ---
 title: Utilities and helpers
+description: The Stock Indicators for .NET library includes utilities to help you use and transform historical prices quotes and indicator results, and to create custom indicators.
 permalink: /utilities/
 relative_path: utilities.md
 layout: page
@@ -143,7 +144,7 @@ SmaResult result = results.Find(lookupDate);
 IEnumerable<AdxResult> results =
   quotes.GetAdx(14).RemoveWarmupPeriods();
 
-// remove user-specific quantity of periods
+// remove a specific quantity of periods
 int n = 14;
 IEnumerable<AdxResult> results =
   quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
@@ -171,7 +172,7 @@ This library also includes several tools that we use internally to calculate ind
 
 | method | example usage
 | -- |--
-| Slope | `double[] xValues = { 1, 2, 5, 4, 1 };`<br>`double[] yValues = { 4, 7, 8, 1, 1 };`<br>`double slope = Slope(xValues, yValues);`
+| Slope | `double[] xValues = { 1, 2, 5, 4, 1 };`<br>`double[] yValues = { 4, 7, 8, 1, 1 };`<br>`double slope = Numerics.Slope(xValues, yValues);`
 | Standard deviation | `double[] values = { 1, 2, 3, 4, 5 };`<br>`double sd = values.StdDev();`
 
 ### NullMath

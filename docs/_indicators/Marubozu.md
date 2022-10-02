@@ -1,16 +1,18 @@
 ---
 title: Marubozu
+description: Marubozu is a single-bar candlestick pattern that has no wicks, representing consistent directional movement.
 permalink: /indicators/Marubozu/
+image: /assets/charts/Marubozu.png
 layout: indicator
 type: candlestick-pattern
 ---
 
 # {{ page.title }}
 
-[Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single candlestick pattern that has no wicks, representing consistent directional movement.
+[Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single-bar candlestick pattern that has no wicks, representing consistent directional movement.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/512 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Marubozu.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

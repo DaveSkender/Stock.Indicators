@@ -1,18 +1,18 @@
 ---
 title: Exponential Moving Average (EMA)
+description: Exponentially [weighted] Moving Average is a rolling moving average that puts more weight on current price.
 permalink: /indicators/Ema/
+image: /assets/charts/Ema.png
 type: moving-average
 layout: indicator
 ---
 
 # {{ page.title }}
 
-[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) price over a lookback window.
+[Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) is a rolling moving average that puts more weight on current price.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Ema.png)
-
-See also related [Double EMA]({{site.baseurl}}/indicators/Dema/#content) and [Triple EMA]({{site.baseurl}}/indicators/Tema/#content).
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)

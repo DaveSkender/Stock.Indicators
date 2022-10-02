@@ -60,6 +60,9 @@ public class IndicatorPerformance
     public object GetAtr() => h.GetAtr();
 
     [Benchmark]
+    public object GetAtrStop() => h.GetAtrStop();
+
+    [Benchmark]
     public object GetAwesome() => h.GetAwesome();
 
     [Benchmark]
@@ -96,6 +99,9 @@ public class IndicatorPerformance
     public object GetCmf() => h.GetCmf();
 
     [Benchmark]
+    public object GetCmo() => h.GetCmo(14);
+
+    [Benchmark]
     public object GetConnorsRsi() => h.GetConnorsRsi();
 
     [Benchmark]
@@ -127,7 +133,7 @@ public class IndicatorPerformance
         for (int i = 15; i < hList.Count; i++)
         {
             Quote q = hList[i];
-            emaBase.Add(q);
+            _ = emaBase.Add(q);
         }
 
         return emaBase.Results;

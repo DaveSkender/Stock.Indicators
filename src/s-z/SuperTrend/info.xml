@@ -2,8 +2,8 @@
 
 <info>
   <summary>
-    SuperTrend attempts to determine the primary trend of Close prices by using
-    Average True Range (ATR) band thresholds. It can indicate a buy/sell signal or a
+    SuperTrend attempts to determine the primary trend of prices by using
+    Average True Range (ATR) band thresholds around an HL2 midline. It can indicate a buy/sell signal or a
     trailing stop when the trend changes.
     <para>
       See

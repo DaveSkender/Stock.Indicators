@@ -1,17 +1,18 @@
 ---
 title: SuperTrend
+description: Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of financial market prices by using Average True Range (ATR) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 permalink: /indicators/SuperTrend/
+image: /assets/charts/SuperTrend.png
 type: price-trend
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds.
-It can indicate a buy/sell signal or a trailing stop when the trend changes.
+Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/235 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/SuperTrend.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

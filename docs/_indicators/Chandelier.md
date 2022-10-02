@@ -1,16 +1,19 @@
 ---
 title: Chandelier Exit
+description: Created by Charles Le Beau, the Chandelier Exit is an adjusted Average True Range (ATR) offset from price that is typically used for stop-loss and can be computed for both long or short types.
+
 permalink: /indicators/Chandelier/
+image: /assets/charts/Chandelier.png
 type: stop-and-reverse
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit) is typically used for stop-loss and can be computed for both long or short types.
+Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit) is an adjusted Average True Range (ATR) offset from price that is is typically used for stop-loss and can be computed for both long or short types.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/263 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Chandelier.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

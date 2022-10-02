@@ -1,16 +1,18 @@
 ---
 title: Pivots
+description: Pivots is an extended customizable version of Williams Fractal that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 permalink: /indicators/Pivots/
+image: /assets/charts/Pivots.png
 type: price-pattern
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Pivots is an extended version of [Williams Fractal]({{site.baseurl}}/indicators/Fractal/#content) that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
+Pivots is an extended customizable version of <a href="{{site.baseurl}}/indicators/Fractal/#content" rel="nofollow">Williams Fractal</a> that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/436 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Pivots.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

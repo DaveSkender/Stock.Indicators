@@ -1,6 +1,8 @@
 ---
 title: McGinley Dynamic
+description: Created by John R. McGinley, the McGinley Dynamic is a more responsive variant of exponential moving average.
 permalink: /indicators/Dynamic/
+image: /assets/charts/Dynamic.png
 type: moving-average
 layout: indicator
 ---
@@ -10,12 +12,12 @@ layout: indicator
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/866 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Dynamic.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)
 IEnumerable<DynamicResult> results =
-  quotes.GetDynamic(lookbackPeriods);
+  quotes.GetDynamic(lookbackPeriods, kFactor);
 ```
 
 ## Parameters
@@ -23,12 +25,19 @@ IEnumerable<DynamicResult> results =
 | name | type | notes
 | -- |-- |--
 | `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+| `kFactor` | double | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6
 
 ### Historical quotes requirements
 
 You must have at least `2` periods of `quotes`, to cover the initialization periods.  Since this uses a smoothing technique, we recommend you use at least `4×N` data points prior to the intended usage date for better precision.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+
+### Pro tips
+
+> Use a `kFactor` value of `1` if you do not want to adjust the `N` value.
+>
+> McGinley suggests that using a `K` value of 60% (0.6) allows you to use a `N` equivalent to other moving averages.  For example, DYNAMIC(20,0.6) is comparable to EMA(20); conversely, DYNAMIC(20,1) uses the raw 1:1 `N` value and is not equivalent.
 
 ## Response
 

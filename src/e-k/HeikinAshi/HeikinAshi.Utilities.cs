@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // convert results to quotes
-    internal static List<Quote> ToQuotes(
+    public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<HeikinAshiResult> results)
       => results
         .Select(x => new Quote

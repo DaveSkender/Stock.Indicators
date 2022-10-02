@@ -1,7 +1,8 @@
 ---
 title: Beta Coefficient
-description: Beta Coefficient with Beta+/Beta-
+description: Beta Coefficient with Beta+/Beta- shows how strongly one asset's price responds to systemic volatility of the entire market.  Upside Beta (Beta+) and Downside Beta (Beta-),  popularized by Harry M. Markowitz, are also included.
 permalink: /indicators/Beta/
+image: /assets/charts/Beta.png
 type: numerical-analysis
 layout: indicator
 ---
@@ -11,7 +12,7 @@ layout: indicator
 [Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/268 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Beta.png)
+![image]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -39,6 +40,12 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 | `Up` | Upside Beta only.  Uses historical quotes from market up bars only.
 | `Down` | Downside Beta only.  Uses historical quotes from market down bars only.
 | `All` | Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
+
+### Pro tips
+
+> Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have smaller bars, use the [Aggregate()]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
+>
+> [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
 
 ## Response
 
@@ -92,8 +99,3 @@ var results = quotesEval
     .GetBeta(quotesMarket, ..)
     .GetSlope(..);
 ```
-
-## Pro tips
-
-- Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have daily bars, use the [quotes.Aggregate(PeriodSize.Monthly)]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
-- [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.

@@ -33,7 +33,7 @@ public static partial class Indicator
             double sumX = 0;
             double sumY = 0;
 
-            for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+            for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
                 (DateTime _, double pValue) = tpList[p];
 
@@ -49,7 +49,7 @@ public static partial class Indicator
             double sumSqY = 0;
             double sumSqXY = 0;
 
-            for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+            for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
                 (DateTime _, double pValue) = tpList[p];
 
@@ -95,10 +95,10 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        if (lookbackPeriods <= 0)
+        if (lookbackPeriods <= 1)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Slope/Linear Regression.");
+                "Lookback periods must be greater than 1 for Slope/Linear Regression.");
         }
     }
 }
