@@ -55,7 +55,7 @@ IEnumerable<PivotsResult>
 - It does not return a single incremental indicator value.
 - The first `L` and last `R` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
-:paintbrush: **Repaint Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Fractals are retroactively identified.
+> :paintbrush: **Repaint warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Fractals are retroactively identified.
 
 ### PivotsResult
 

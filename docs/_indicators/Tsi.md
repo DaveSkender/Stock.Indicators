@@ -47,7 +47,7 @@ IEnumerable<TsiResult>
 - The first `N+M-1` periods will have `null` values since there's not enough data to calculate.
 - `Signal` will be `null` for all periods if `signalPeriods=0`.
 
-:hourglass: **Convergence Warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### TsiResult
 

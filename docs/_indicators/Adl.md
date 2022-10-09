@@ -56,7 +56,7 @@ IEnumerable<AdlResult>
 | `Adl` | double | Accumulation Distribution Line (ADL)
 | `AdlSma` | double | Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
 
-:warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
+> :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 
 ### Utilities
 

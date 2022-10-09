@@ -55,7 +55,7 @@ IEnumerable<ObvResult>
 | `Obv` | double | On-balance Volume
 | `ObvSma` | double | Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
 
-:warning: **Warning**: absolute values in OBV are somewhat meaningless, so use with caution.
+> :warning: **Warning**: absolute values in OBV are somewhat meaningless. Use with caution.
 
 ### Utilities
 

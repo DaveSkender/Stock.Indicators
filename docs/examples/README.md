@@ -24,11 +24,10 @@ To run the sample projects:
 3. Review the code in the `Program.cs` file
 4. Run the `ConsoleApp` by any one of the following methods:
    - pressing the `CTRL+F5` key
+   - execute `dotnet run` CLI command in the `ConsoleApp` folder
    - clicking the play button
 
      ![how to execute the code](run.png)
-
-   - execute `dotnet run` CLI command in the `ConsoleApp` folder
 
 ## Console output
 
