@@ -52,7 +52,7 @@ IEnumerable<AtrStopResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` AtrStop values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
+> :hourglass: **Convergence warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 
 ### AtrStopResult
 

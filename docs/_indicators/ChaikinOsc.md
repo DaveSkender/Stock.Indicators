@@ -44,7 +44,7 @@ IEnumerable<ChaikinOscResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ChaikinOscResult
 
@@ -56,7 +56,7 @@ IEnumerable<ChaikinOscResult>
 | `Adl` | double | Accumulation Distribution Line (ADL)
 | `Oscillator` | double | Chaikin Oscillator
 
-:warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless, so use with caution.
+> :warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless, so use with caution.
 
 ### Utilities
 

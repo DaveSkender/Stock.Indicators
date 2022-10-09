@@ -46,7 +46,7 @@ IEnumerable<PvoResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` slow periods will have `null` values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `S+P+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### PvoResult
 

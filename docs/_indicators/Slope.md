@@ -44,7 +44,7 @@ IEnumerable<SlopeResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
 
-:paintbrush: **Repaint Warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
+> :paintbrush: **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
 
 ### SlopeResult
 

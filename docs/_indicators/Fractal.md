@@ -53,7 +53,7 @@ IEnumerable<FractalResult>
 - It does not return a single incremental indicator value.
 - The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
-:paintbrush: **Repaint Warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
+> :paintbrush: **Repaint warning**: this price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
 
 ### FractalResult
 
