@@ -1,5 +1,5 @@
 ---
-title: Moving Average Convergence/Divergence (MACD)
+title: Moving Average Convergence / Divergence (MACD)
 description: Created by Gerald Appel, MACD is a simple oscillator view of two converging / diverging exponential moving averages and their differences.
 permalink: /indicators/Macd/
 image: /assets/charts/Macd.png

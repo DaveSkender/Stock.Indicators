@@ -1,5 +1,5 @@
 ---
-title: Accumulation/Distribution Line (ADL)
+title: Accumulation / Distribution Line (ADL)
 description: Created by Marc Chaikin, the Accumulation / Distribution Line is a rolling accumulation of Chaikin Money Flow Volume.  It can be a leading momentum indicator for financial market price movements.
 permalink: /indicators/Adl/
 image: /assets/charts/Adl.png
