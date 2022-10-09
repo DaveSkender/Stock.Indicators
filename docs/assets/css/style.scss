@@ -11,7 +11,7 @@ $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
 $color-primary-hover: #bdbdbd;
-$color-accent: #33691e; // headers, code comments
+$color-accent: #33691e;
 $color-body-font: #424242;
 $color-code: #212121;
 $color-rouge: #f8f8f8; // code block backgrounds
@@ -135,7 +135,7 @@ h5 {
   h3,
   h4,
   h5 {
-    color: $color-accent;
+    color: $color-primary-dark;
   }
 
   h1 {
@@ -192,6 +192,15 @@ h5 {
 
   td {
     vertical-align: top;
+  }
+
+  // quote blocks
+  blockquote {
+    color: $color-accent;
+    margin-inline-end: auto;
+    background-color: $color-rouge;
+    padding: 1rem 0.5rem 1rem 1rem;
+    font-size: 1rem;
   }
 
   // code blocks
@@ -362,8 +371,8 @@ h5 {
   text-align: center;
   line-height: 1.2;
 
-  width: 9rem;
-  height: 5rem;
+  width: 11.6rem;
+  height: 6rem;
   margin: 0.7rem;
   padding: 0.8rem;
   border-radius: 1.5rem;
@@ -381,23 +390,25 @@ h5 {
       0px 6px 28px 2px rgba(0, 0, 0, 0.12);
 
     background-color: $color-rouge;
+    text-decoration: none !important;
+    color: $color-accent;
     cursor: pointer;
   }
 
   &:active {
     box-shadow:
-        0px 15px 15px -3px rgba(0, 0, 0, 0.2),
-        0px 24px 30px 1px rgba(0, 0, 0, 0.14),
-        0px 9px 40px 2px rgba(0, 0, 0, 0.12);
+      0px 15px 15px -3px rgba(0, 0, 0, 0.2),
+      0px 24px 30px 1px rgba(0, 0, 0, 0.14),
+      0px 9px 40px 2px rgba(0, 0, 0, 0.12);
 
     background-color: $color-primary-light;
   }
 
   .choice-body {
-    margin: auto;
-    font-size: 0.8rem;
     color: $color-body-font;
+    font-size: 1.0rem;
 
+    margin: auto;
     overflow: hidden;
     text-overflow: ellipsis;
   }
