@@ -77,7 +77,7 @@ $mobile-breakpoint: 376px;
     width: auto;
     padding: 0.6rem 0.9rem;
 
-    + .btn {
+    +.btn {
       margin-top: 0.5rem;
       margin-left: 0;
     }
@@ -145,6 +145,7 @@ h5 {
   // paragraphs and list items
   p,
   li {
+
     // inline code
     code {
       font-size: 1.0rem;
@@ -331,5 +332,119 @@ h5 {
         text-decoration: none;
       }
     }
+  }
+}
+// SEARCH BAR
+
+.searchbar-container {
+
+  max-width: 20rem;
+  margin: 0 auto;
+
+  .gsc-control-cse {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0.5rem 0 0 0;
+    line-height: 1.1;
+
+    form.gsc-search-box {
+
+      margin: 0;
+
+      td.gsc-input {
+        padding-right: 0;
+
+        .gsc-input-box {
+          padding: 0;
+          border: none;
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+
+          td.gsib_a,
+          td.gsib_b {
+            padding: 5px 9px;
+            font-size: 16px;
+
+            input.gsc-input {
+              color: $color-body-font;
+              border: none;
+              height: 28px;
+            }
+
+            .gscb_a {
+              // canceller
+              line-height: unset;
+              font-size: 16px;
+              color: $color-primary-dark;
+            }
+          }
+        }
+      }
+
+      td.gsc-search-button {
+        border: none;
+        padding: 0;
+        margin: 0;
+        background-color: none;
+
+        .gsc-search-button {
+          padding: 6px 9px;
+          border: none;
+          border-top-right-radius: 5px;
+          border-bottom-right-radius: 5px;
+          color: rgba(255, 255, 255, 0.7);
+          background-color: rgba(255, 255, 255, 0.25);
+          font-size: 0;
+        }
+
+        button {
+          height: 28px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+// results pane
+.gsc-results-wrapper-overlay {
+  background-color: $color-primary-light !important;
+}
+
+.gs-result {
+  color: unset;
+
+  .gs-title {
+    text-align: left;
+
+    a,
+    b {
+      color: #1e6bb8 !important;
+    }
+  }
+
+  .gsc-url-top {
+    margin-bottom: 0.5rem;
+
+    .gs-visibleUrl {
+      color: $color-accent !important;
+      font-size: 0.8rem;
+    }
+  }
+
+  .gs-image-box {
+    margin-right: 0.4rem;
+    width: unset;
+
+    .gs-image img {
+      max-height: unset;
+      max-width: 250px;
+      border: none;
+    }
+  }
+
+  .gs-web-image-box {
+    width: unset;
   }
 }
