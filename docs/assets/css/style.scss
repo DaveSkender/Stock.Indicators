@@ -360,7 +360,7 @@ h5 {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.2;
 
   width: 9rem;
   height: 5rem;
@@ -395,17 +395,10 @@ h5 {
 
   .choice-body {
     margin: auto;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: $color-body-font;
 
     overflow: hidden;
     text-overflow: ellipsis;
   }
-}
-.choice-active {
-  // @include mat.elevation(16);
-}
-
-.choice-inactive {
-  // @include mat.elevation(4);
 }
