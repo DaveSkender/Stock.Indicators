@@ -353,8 +353,7 @@ h5 {
   display: flex;
   flex-wrap: wrap;
 
-  :first-child {
-    // override base
+  :first-child { // override base
     margin-top: auto;
   }
 
@@ -374,7 +373,7 @@ h5 {
   width: 11.6rem;
   height: 6rem;
 
-  margin: 0.7rem;
+  margin: 0.65rem;
   padding: 0.8rem;
   border-radius: 1.2rem;
 
