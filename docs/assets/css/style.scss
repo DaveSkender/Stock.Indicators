@@ -348,13 +348,28 @@ h5 {
 
 // CHOICE and SELECTION
 
+// pipe style lists (used in footer)
+
+.pipe-list {
+  padding-top: 0 !important;
+  line-height: 1.2em;
+  text-align: center;
+
+  li {
+    display: inline;
+
+    &:not(:last-child):after {
+      content: " | ";
+    }
+  }
+}
+
 .choice-container {
   min-width: 20rem;
   display: flex;
   flex-wrap: wrap;
 
-  :first-child {
-    // override base
+  :first-child { // override base
     margin-top: auto;
   }
 
@@ -374,7 +389,7 @@ h5 {
   width: 11.6rem;
   height: 6rem;
 
-  margin: 0.7rem;
+  margin: 0.65rem;
   padding: 0.8rem;
   border-radius: 1.2rem;
 
