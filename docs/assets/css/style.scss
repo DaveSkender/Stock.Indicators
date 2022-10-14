@@ -196,7 +196,7 @@ h5 {
 
   // quote blocks
   blockquote {
-    color: $color-accent;
+    color: $color-primary-dark;
     margin-inline-end: auto;
     background-color: $color-rouge;
     padding: 1rem 0.5rem 1rem 1rem;
@@ -368,6 +368,7 @@ h5 {
 .choice-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   :first-child { // override base
     margin-top: auto;
