@@ -49,10 +49,10 @@ IEnumerable<CorrResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `VarianceA` | double | Variance of A based on `N` lookback periods
-| `VarianceB` | double | Variance of B based on `N` lookback periods
-| `Covariance` | double | Covariance of A+B based on `N` lookback periods
-| `Correlation` | double | Correlation `R` based on `N` lookback periods
+| `VarianceA` | double | Variance of A
+| `VarianceB` | double | Variance of B
+| `Covariance` | double | Covariance of A+B
+| `Correlation` | double | Correlation `R`
 | `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation).
 
 ### Utilities
