@@ -50,10 +50,10 @@ IEnumerable<AdxResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Pdi` | double | Plus Directional Index (+DI) for `N` lookback periods
-| `Mdi` | double | Minus Directional Index (-DI) for `N` lookback periods
-| `Adx` | double | Average Directional Index (ADX) for `N` lookback periods
-| `Adxr` | double | Average Directional Index Rating (ADXR) for `N` lookback periods
+| `Pdi` | double | Plus Directional Index (+DI)
+| `Mdi` | double | Minus Directional Index (-DI)
+| `Adx` | double | Average Directional Index (ADX)
+| `Adxr` | double | Average Directional Index Rating (ADXR)
 
 ### Utilities
 
