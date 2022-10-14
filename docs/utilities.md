@@ -18,7 +18,7 @@ redirect_from:
 
 ### Use alternate price
 
-`quotes.Use()` can be used before most indicator calls to specify price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
+`quotes.Use()` can be used before most indicator calls to specify which price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
 
 ```csharp
 // example: use HL2 price instead of
@@ -78,7 +78,7 @@ IEnumerable<Quote> dayBarQuotes =
 
 ### Extended candle properties
 
-`quote.ToCandle()` and `quotes.ToCandles()` converts a quote class into an extended quote with additional calculated candle properties.
+`quote.ToCandle()` and `quotes.ToCandles()` converts a quote class into an extended quote format with additional calculated candle properties.
 
 ``` csharp
 // single quote
