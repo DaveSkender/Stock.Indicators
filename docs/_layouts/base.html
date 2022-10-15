@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-{% if site.branch != "main" or page.noindex == true %}
+{% if site.github.source.branch != "main" or page.noindex == true %}
 <!-- exclude from search indexing -->
 <meta name="robots" content="noindex, nofollow">
 {% endif %}
