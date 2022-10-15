@@ -17,7 +17,7 @@ Explore more information:
 - [Example usage code]({{site.baseurl}}/examples/#content)
 - [Release notes]({{site.github.repository_url}}/releases)
 - [Discussions]({{site.github.repository_url}}/discussions)
-- [Contributing guidelines]({{site.github.repository_url}}/blob/main/docs/contributing.md#readme)
+- [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 
 ## Samples
 
