@@ -53,8 +53,8 @@ IEnumerable<StdDevResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `StdDev` | double | Standard Deviation of price over `N` lookback periods
-| `Mean` | double | Mean value of price over `N` lookback periods
+| `StdDev` | double | Standard Deviation of price
+| `Mean` | double | Mean value of price
 | `ZScore` | double | Z-Score of current price (number of standard deviations from mean)
 | `StdDevSma` | double | Moving average (SMA) of `StdDev` based on `smaPeriods` periods, if specified
 

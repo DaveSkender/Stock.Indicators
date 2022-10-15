@@ -50,7 +50,7 @@ IEnumerable<UltimateResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Ultimate` | double | Simple moving average for `N` lookback periods
+| `Ultimate` | double | Ultimate Oscillator
 
 ### Utilities
 

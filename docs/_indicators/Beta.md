@@ -63,7 +63,7 @@ IEnumerable<BetaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Beta` | double | Beta coefficient based on `N` lookback periods
+| `Beta` | double | Beta coefficient based
 | `BetaUp` | double | Beta+ (Up Beta)
 | `BetaDown` | double | Beta- (Down Beta)
 | `Ratio` | double | Beta ratio is `BetaUp/BetaDown`

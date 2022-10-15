@@ -48,7 +48,7 @@ IEnumerable<HmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Hma` | double | Hull moving average for `N` lookback periods
+| `Hma` | double | Hull moving average
 
 ### Utilities
 

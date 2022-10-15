@@ -48,7 +48,7 @@ IEnumerable<VwmaResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Vwma` | double | Volume Weighted Moving Average for `N` lookback periods
+| `Vwma` | double | Volume Weighted Moving Average
 
 ### Utilities
 

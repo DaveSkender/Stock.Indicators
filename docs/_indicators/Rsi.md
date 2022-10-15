@@ -50,7 +50,7 @@ IEnumerable<RsiResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Rsi` | double | RSI over prior `N` lookback periods
+| `Rsi` | double | Relative Strength Index
 
 ### Utilities
 

@@ -48,7 +48,7 @@ IEnumerable<CciResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Cci` | double | CCI value for `N` lookback periods
+| `Cci` | double | Commodity Channel Index
 
 ### Utilities
 
