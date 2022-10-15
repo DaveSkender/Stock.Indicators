@@ -80,3 +80,28 @@ var results = quotes
     .GetEma(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+This indicator supports streaming from live and real-time feeds of stock quotes so you can increment results one quote at a time.
+
+```csharp
+// example
+// initialization with a baseline set of quotes
+var emaBase = quotes.InitEma(14);
+
+// full-series results, will auto-update with .Add() increments
+results = emaBase.Results;
+
+// increment results
+emaBase.Add(quote);
+```
+
+Results can also be initialized without quotes (not recommended in most cases).
+
+``` csharp
+// initialization with no quotes (alternate method)
+var emaBase = new EmaBase(14);
+```
+
+> :warning: **Warning!** Results will be null before reaching a calculable period.
