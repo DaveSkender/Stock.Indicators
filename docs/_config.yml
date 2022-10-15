@@ -56,7 +56,6 @@ exclude: [
   "*.pptx",
   "*.sln",
   ".offline",
-  "contributing.md",
   "examples/Backtest",
   "examples/ConsoleApp",
   "GemFile",
@@ -68,7 +67,8 @@ include: [
   "guide.md",
   "indicators.html",
   "performance.md",
-  "utilities.md"
+  "utilities.md",
+  "contributing.md"
 ]
 
 permalink: pretty

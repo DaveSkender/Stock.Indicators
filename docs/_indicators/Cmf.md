@@ -50,7 +50,7 @@ IEnumerable<CmfResult>
 | `Date` | DateTime | Date
 | `MoneyFlowMultiplier` | double | Money Flow Multiplier
 | `MoneyFlowVolume` | double | Money Flow Volume
-| `Cmf` | double | Chaikin Money Flow = SMA of MFV for `N` lookback periods
+| `Cmf` | double | Chaikin Money Flow = SMA of MFV
 
 > :warning: **Warning**: absolute values in MFV and CMF are somewhat meaningless.  Use with caution.
 

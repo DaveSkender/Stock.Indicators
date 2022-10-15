@@ -70,7 +70,7 @@ IEnumerable<MaEnvelopeResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Centerline` | double | Moving average for `N` lookback periods
+| `Centerline` | double | Moving average
 | `UpperEnvelope` | double | Upper envelope band
 | `LowerEnvelope` | double | Lower envelope band
 

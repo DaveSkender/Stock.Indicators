@@ -10,14 +10,16 @@ redirect_from:
 <h1>{{ page.title }}</h1>
 
 <!-- table of contents -->
-<nav role="navigation" aria-label="indicator category page menu" class="choice-container">
-  {% for c in site.data.categories %}
-  <a class="choice-card" href="{{site.baseurl}}{{page.permalink}}#{{c.type}}">
-    <div class="choice-body" style="font-size: 1.1rem;">
-      {{ c.name }}
-    </div>
-  </a>
-  {% endfor %}
+<nav role="navigation" aria-label="indicator category page menu">
+  <ul class="pipe-list">
+    {% for c in site.data.categories %}
+    <li>
+      <a href="{{site.baseurl}}{{page.permalink}}#{{c.type}}">
+        {{ c.name }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
 </nav>
 
 <!-- categories -->

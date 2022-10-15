@@ -71,7 +71,7 @@ IEnumerable<StochResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Oscillator` or `K` | double | %K Oscillator over prior `N` lookback periods
+| `Oscillator` or `K` | double | %K Oscillator
 | `Signal` or `D` | double | %D Simple moving average of Oscillator
 | `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
 
