@@ -5,7 +5,7 @@
     Correlation Coefficient between two quote histories, based on price.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Correlation/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Correlation/#content">documentation</see>
       for more information.
     </para>
   </summary>

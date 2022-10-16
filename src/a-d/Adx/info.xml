@@ -6,7 +6,7 @@
     It includes upward and downward indicators, and is often used to measure strength of trend.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Adx/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Adx/#content">documentation</see>
       for more information.
     </para>
   </summary>

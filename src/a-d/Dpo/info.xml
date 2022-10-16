@@ -5,7 +5,7 @@
     Detrended Price Oscillator (DPO) depicts the difference between price and an offset simple moving average.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Dpo/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Dpo/#content">documentation</see>
       for more information.
     </para>
   </summary>

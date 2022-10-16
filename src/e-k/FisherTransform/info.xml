@@ -5,7 +5,7 @@
     Ehlers Fisher Transform converts prices into a Gaussian normal distribution.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/FisherTransform/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/FisherTransform/#content">documentation</see>
       for more information.
     </para>
   </summary>

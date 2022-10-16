@@ -5,7 +5,7 @@
     True Range (TR) is a measure of volatility that captures gaps and limits between periods.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Atr/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Atr/#content">documentation</see>
       for more information.
     </para>
   </summary>

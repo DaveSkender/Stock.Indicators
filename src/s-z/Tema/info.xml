@@ -5,7 +5,7 @@
     Triple Exponential Moving Average (TEMA) of the price.  Note: TEMA is often confused with the alternative TRIX oscillator.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Tema/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Tema/#content">documentation</see>
       for more information.
     </para>
   </summary>

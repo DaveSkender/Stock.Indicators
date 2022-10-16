@@ -49,7 +49,7 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the [repo documentation](https://daveskender.github.io/Stock.Indicators/performance/).
+Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the [repo documentation](https://dotnet.stockindicators.dev/performance/).
 
 ```bash
 # run all performance benchmarks

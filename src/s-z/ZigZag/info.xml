@@ -5,7 +5,7 @@
     Zig Zag is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/ZigZag/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/ZigZag/#content">documentation</see>
       for more information.
     </para>
   </summary>

@@ -10,11 +10,11 @@ layout: page
 
 At some point in your journey, you may want to create your own custom indicators.
 The following is an example of how you'd create your own.
-This example is also included in our [example usage code](https://daveskender.github.io/Stock.Indicators/examples/#content).
+This example is also included in our [example usage code](https://dotnet.stockindicators.dev/examples/#content).
 
 ## STEP 1: Create the Results class
 
-Create your results class by extending the library `ResultBase` class.  This will allow you to inherit many of the [utility functions](https://daveskender.github.io/Stock.Indicators/utilities/#utilities-for-indicator-results), such as `RemoveWarmupPeriods()`.
+Create your results class by extending the library `ResultBase` class.  This will allow you to inherit many of the [utility functions](https://dotnet.stockindicators.dev/utilities/#utilities-for-indicator-results), such as `RemoveWarmupPeriods()`.
 
 ```csharp
 using Skender.Stock.Indicators;

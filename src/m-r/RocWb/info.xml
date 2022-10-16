@@ -7,7 +7,7 @@
       Rate of Change with Bands (ROCWB) is the percent change of price over a lookback window with standard deviation bands.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Roc/#content">documentation</see>
+        <see href="https://dotnet.stockindicators.dev/indicators/Roc/#content">documentation</see>
         for more information.
       </para>
     </summary>
