@@ -5,7 +5,7 @@
     Stoller Average Range Channel (STARC) Bands, are based on an SMA centerline and ATR band widths.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/StarcBands/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/StarcBands/#content">documentation</see>
       for more information.
     </para>
   </summary>

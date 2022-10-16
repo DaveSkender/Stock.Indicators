@@ -5,7 +5,7 @@
     Ultimate Oscillator uses several lookback periods to weigh buying power against True Range price to produce on oversold / overbought oscillator.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ultimate/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Ultimate/#content">documentation</see>
       for more information.
     </para>
   </summary>

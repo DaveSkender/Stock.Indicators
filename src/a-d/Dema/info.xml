@@ -5,7 +5,7 @@
     Double Exponential Moving Average (DEMA) of the price.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Dema/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Dema/#content">documentation</see>
       for more information.
     </para>
   </summary>

@@ -5,7 +5,7 @@
     Ulcer Index (UI) is a measure of downside price volatility over a lookback window.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/UlcerIndex/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/UlcerIndex/#content">documentation</see>
       for more information.
     </para>
   </summary>

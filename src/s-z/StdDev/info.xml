@@ -5,7 +5,7 @@
     Rolling Standard Deviation of price over a lookback window.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/StdDev/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/StdDev/#content">documentation</see>
       for more information.
     </para>
   </summary>

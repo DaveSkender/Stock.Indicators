@@ -5,7 +5,7 @@
     Aroon is a simple oscillator view of how long the new high or low price occured over a lookback window.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Aroon/#content">documentation</see>
+      <see href="https://dotnet.stockindicators.dev/indicators/Aroon/#content">documentation</see>
       for more information.
     </para>
   </summary>
