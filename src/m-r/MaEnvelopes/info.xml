@@ -5,7 +5,7 @@
     Moving Average Envelopes is a price band overlay that is offset from the moving average of price over a lookback window.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/MaEnvelopes/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/MaEnvelopes/#content">documentation</see>
       for more information.
     </para>
   </summary>

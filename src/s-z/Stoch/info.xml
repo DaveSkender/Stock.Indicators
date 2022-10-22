@@ -8,7 +8,7 @@
       %J is also included for the KDJ Index extension.
       <para>
         See
-        <see href="https://dotnet.stockindicators.dev/indicators/Stoch/#content">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#content">documentation</see>
         for more information.
       </para>
     </summary>
@@ -27,7 +27,7 @@
       %J is also included for the KDJ Index extension.
       <para>
         See
-        <see href="https://dotnet.stockindicators.dev/indicators/Stoch/#content">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#content">documentation</see>
         for more information.
       </para>
     </summary>
@@ -48,7 +48,7 @@
       Stochastic indicator results includes aliases for those who prefer the simpler K,D,J outputs.
       <para>
         See
-        <see href="https://dotnet.stockindicators.dev/indicators/Stoch/#response">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Stoch/#response">documentation</see>
         for more information.
       </para>
     </summary>

@@ -6,7 +6,7 @@
     It depicts support and resistance levels, based on a defined rolling window and offset.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/RollingPivots/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/RollingPivots/#content">documentation</see>
       for more information.
     </para>
   </summary>

@@ -5,7 +5,7 @@
     Hurst Exponent is a measure of randomness, trending, and mean-reverting tendencies of incremental return values.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/Hurst/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Hurst/#content">documentation</see>
       for more information.
     </para>
   </summary>

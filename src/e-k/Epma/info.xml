@@ -5,7 +5,7 @@
     Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA), plots the projected last point of a linear regression lookback window.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/Slope/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Slope/#content">documentation</see>
       for more information.
     </para>
   </summary>

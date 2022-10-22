@@ -6,7 +6,7 @@
       Smoothed Moving Average (SMMA) is the average of price over a lookback window using a smoothing method.
       <para>
         See
-        <see href="https://dotnet.stockindicators.dev/indicators/Smma/#content">documentation</see>
+        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smma/#content">documentation</see>
         for more information.
       </para>
     </summary>
