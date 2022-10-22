@@ -6,7 +6,7 @@
     on a scale of 0 to 100, to depict overbought and oversold conditions.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/Rsi/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Rsi/#content">documentation</see>
       for more information.
     </para>
   </summary>

@@ -5,7 +5,7 @@
     Standard Deviation Channels are based on an linear regression centerline and standard deviations band widths.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/StdDevChannels/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/StdDevChannels/#content">documentation</see>
       for more information.
     </para>
   </summary>

@@ -5,7 +5,7 @@
     Stochastic RSI is a Stochastic interpretation of the Relative Strength Index.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/StochRsi/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/StochRsi/#content">documentation</see>
       for more information.
     </para>
   </summary>

@@ -5,7 +5,7 @@
     Accumulation/Distribution Line (ADL) is a rolling accumulation of Chaikin Money Flow Volume.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/Adl/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Adl/#content">documentation</see>
       for more information.
     </para>
   </summary>
