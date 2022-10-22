@@ -10,14 +10,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcUlcerIndex(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<UlcerIndexResult> GetUlcerIndex(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcUlcerIndex(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

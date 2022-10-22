@@ -12,7 +12,7 @@ public static partial class Indicator
         int streakPeriods = 2,
         int rankPeriods = 100)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
     // SERIES, from CHAIN
@@ -21,7 +21,7 @@ public static partial class Indicator
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

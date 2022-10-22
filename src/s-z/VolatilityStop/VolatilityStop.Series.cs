@@ -10,7 +10,7 @@ public static partial class Indicator
     {
         // convert quotes
         List<(DateTime, double)> tpList = qdList
-            .ToBasicTuple(CandlePart.Close);
+            .ToTuple(CandlePart.Close);
 
         // check parameter arguments
         ValidateVolatilityStop(lookbackPeriods, multiplier);

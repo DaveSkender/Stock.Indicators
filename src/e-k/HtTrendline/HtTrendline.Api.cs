@@ -9,13 +9,13 @@ public static partial class Indicator
     public static IEnumerable<HtlResult> GetHtTrendline<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.HL2)
+            .ToTuple(CandlePart.HL2)
             .CalcHtTrendline();
 
     // SERIES, from CHAIN
     public static IEnumerable<HtlResult> GetHtTrendline(
         this IEnumerable<IReusableResult> results) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcHtTrendline()
             .SyncIndex(results, SyncType.Prepend);
 

@@ -10,14 +10,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcSma(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<SmaResult> GetSma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcSma(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 
@@ -35,14 +35,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcSmaAnalysis(lookbackPeriods);
 
     // ANALYSIS, from CHAIN
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcSmaAnalysis(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

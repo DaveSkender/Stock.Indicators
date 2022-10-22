@@ -39,3 +39,10 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Not really an issue.",
     Scope = "member",
     Target = "~F:Skender.Stock.Indicators.ChandelierType.Short")]
+
+[assembly: SuppressMessage(
+    "StyleCop.CSharp.SpacingRules",
+    "SA1008:Opening parenthesis should be spaced correctly",
+    Justification = "Not compatible with `or` statement (Microsoft bug)",
+    Scope = "member",
+    Target = "~M:Skender.Stock.Indicators.Indicator.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]

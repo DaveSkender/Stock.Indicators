@@ -12,7 +12,7 @@ public static partial class Indicator
         int smoothPeriods = 20,
         int signalPeriods = 10)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcPmo(timePeriods, smoothPeriods, signalPeriods);
 
     // SERIES, from CHAIN
@@ -21,7 +21,7 @@ public static partial class Indicator
         int timePeriods = 35,
         int smoothPeriods = 20,
         int signalPeriods = 10) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcPmo(timePeriods, smoothPeriods, signalPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

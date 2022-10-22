@@ -10,14 +10,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcDema(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<DemaResult> GetDema(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcDema(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

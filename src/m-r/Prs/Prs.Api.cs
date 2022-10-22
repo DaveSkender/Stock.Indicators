@@ -14,9 +14,9 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         List<(DateTime, double)> tpListBase = quotesBase
-            .ToBasicTuple(CandlePart.Close);
+            .ToTuple(CandlePart.Close);
         List<(DateTime, double)> tpListEval = quotesEval
-            .ToBasicTuple(CandlePart.Close);
+            .ToTuple(CandlePart.Close);
 
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
     }

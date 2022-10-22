@@ -12,7 +12,7 @@ public static partial class Indicator
         int slowPeriods = 26,
         int signalPeriods = 9)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcMacd(fastPeriods, slowPeriods, signalPeriods);
 
     // SERIES, from CHAIN
@@ -21,7 +21,7 @@ public static partial class Indicator
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcMacd(fastPeriods, slowPeriods, signalPeriods)
             .SyncIndex(results, SyncType.Prepend);
 
