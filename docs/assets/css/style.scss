@@ -180,7 +180,7 @@ h5 {
 
     // inline code
     code {
-      font-size: 1.0em;
+      font-size: 1em;
     }
   }
 
@@ -259,7 +259,7 @@ h5 {
   code {
     // baseline font color
     color: $code-text-color;
-    font-size: 1.1rem;
+    font-size: 1rem;
 
     // comments
     .c,
@@ -393,6 +393,7 @@ h5 {
   li {
     display: inline;
     white-space: nowrap;
+    font-size: 1em;
 
     border-style: solid;
     border-width: 2.5px;
