@@ -41,8 +41,8 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 | `Down` | Downside Beta only.  Uses historical quotes from market down bars only.
 | `All` | Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
 
-### Pro tips
-
+> :information_source: **Pro tip**
+>
 > Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have smaller bars, use the [Aggregate()]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
 >
 > [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
