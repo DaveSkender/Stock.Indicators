@@ -22,7 +22,7 @@ redirect_from:
   <a href="#candlestick-patterns"><li>Candlestick patterns</li></a>
   <a href="{{site.baseurl}}/custom-indicators/#content"><li>Creating custom indicators</li></a>
   <a href="{{site.baseurl}}/utilities/#content"><li>Utilities and helper functions</li></a>
-  <a href="{{site.baseurl}}/contributing/#content"><li>Contributing guidelines</li></a>
+  <a href="{{site.baseurl}}/contributing/"><li>Contributing guidelines</li></a>
 </ul>
 </nav>
 
