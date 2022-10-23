@@ -36,7 +36,7 @@ public static partial class Indicator
 
         _ = resultsList
             .RemoveAll(match:
-                x => x.Value is null || x.Value is double and double.NaN);
+                x => x.Value is null or (double and double.NaN));
 
         return resultsList.ToSortedList();
     }
@@ -126,26 +126,44 @@ public static partial class Indicator
                 }
             }
 
-            resultsList.RemoveAll(x => toRemove.Contains(x));
+            _ = resultsList.RemoveAll(x => toRemove.Contains(x));
         }
 
         return resultsList.ToSortedList();
     }
 
-    // CONVERT TO TUPLE
-    public static List<(DateTime Date, double Value)> ToResultTuple(
-        this IEnumerable<IReusableResult> basicData)
+    // CONVERT TO TUPLE (default with pruning)
+    public static List<(DateTime Date, double Value)> ToTuple(
+        this IEnumerable<IReusableResult> reusable)
     {
         List<(DateTime date, double value)> prices = new();
-        List<IReusableResult>? bdList = basicData.ToList();
+        List<IReusableResult> reList = reusable.ToList();
 
         // find first non-nulled
-        int first = bdList.FindIndex(x => x.Value != null);
+        int first = reList.FindIndex(x => x.Value != null);
 
-        for (int i = first; i < bdList.Count; i++)
+        for (int i = first; i < reList.Count; i++)
         {
-            IReusableResult? q = bdList[i];
-            prices.Add(new(q.Date, NullMath.Null2NaN(q.Value)));
+            IReusableResult? r = reList[i];
+            prices.Add(new(r.Date, r.Value.Null2NaN()));
+        }
+
+        return prices.OrderBy(x => x.date).ToList();
+    }
+
+    // CONVERT TO TUPLE with nullable value option and no pruning
+    public static List<(DateTime Date, double? Value)> ToTuple(
+        this IEnumerable<IReusableResult> reusable,
+        NullTo nullTo)
+    {
+        List<IReusableResult> reList = reusable.ToList();
+        int length = reList.Count;
+        List<(DateTime date, double? value)> prices = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            IReusableResult r = reList[i];
+            prices.Add(new(r.Date, (nullTo == NullTo.NaN) ? r.Value.Null2NaN() : r.Value));
         }
 
         return prices.OrderBy(x => x.date).ToList();

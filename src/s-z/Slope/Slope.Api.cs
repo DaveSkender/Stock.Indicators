@@ -10,14 +10,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcSlope(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<SlopeResult> GetSlope(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcSlope(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

@@ -9,7 +9,7 @@ public static partial class Indicator
     public static IEnumerable<GatorResult> GetGator<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.HL2)
+            .ToTuple(CandlePart.HL2)
             .GetAlligator()
             .ToList()
             .CalcGator();
@@ -23,7 +23,7 @@ public static partial class Indicator
     // SERIES, from CHAIN
     public static IEnumerable<GatorResult> GetGator(
         this IEnumerable<IReusableResult> results) => results
-            .ToResultTuple()
+            .ToTuple()
             .GetAlligator()
             .ToList()
             .CalcGator()

@@ -14,10 +14,10 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         List<(DateTime, double)> tpListEval
-            = quotesEval.ToBasicTuple(CandlePart.Close);
+            = quotesEval.ToTuple(CandlePart.Close);
 
         List<(DateTime, double)> tpListMrkt
-            = quotesMarket.ToBasicTuple(CandlePart.Close);
+            = quotesMarket.ToTuple(CandlePart.Close);
 
         // to enable typical 'this' extension
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);

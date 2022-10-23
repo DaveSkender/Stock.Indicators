@@ -50,6 +50,12 @@ public enum MaType
     WMA
 }
 
+public enum NullTo
+{
+    NaN,
+    Null
+}
+
 public enum PeriodSize
 {
     Month,

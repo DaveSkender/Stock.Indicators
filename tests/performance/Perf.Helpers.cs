@@ -31,7 +31,7 @@ public class HelperPerformance
     public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);
 
     [Benchmark]
-    public object ToBasicTuple() => h.ToBasicTuple(CandlePart.Close);
+    public object ToTuple() => h.ToTuple(CandlePart.Close);
 
     [Benchmark]
     public object ToCandleResults() => h.ToCandleResults();
