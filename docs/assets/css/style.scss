@@ -1,45 +1,76 @@
 ---
 ---
-// JEKYLL THEME STYLE OVERRIDES
 
-@import "jekyll-theme-cayman";
-
+// custom palette
 // https://material.io/resources/color
 // https://www.materialpalette.com/colors
 // using GREY, BLUE, and LIGHT GREEN palettes
+
 $color-primary: #424242;
 $color-primary-dark: #212121;
 $color-primary-light: #e0e0e0;
 $color-primary-hover: #bdbdbd;
-$color-accent: #33691e;
-$color-body-font: #424242;
-$color-code: #212121;
-$color-rouge: #f8f8f8; // code block backgrounds
+$code-comment-color: #33691e;
 
-$mobile-breakpoint: 376px;
+// JEKYLL THEME STYLE OVERRIDES
+// https://github.com/pages-themes/cayman/blob/master/_sass/jekyll-theme-cayman.scss
+
+// Breakpoints
+$large-breakpoint: 64em;
+$medium-breakpoint: 40em;
+$mobile-breakpoint: 24em; // custom
+
+// @include large: > large breakpoint
+// @include medium: between large and medium breakpoint
+// @include small: < medium breakpoint
+// @include mobile: < mobile breakpoint
 
 @mixin mobile {
   @media screen and (max-width: #{$mobile-breakpoint}) {
     @content;
   }
 }
+// Headers
+$header-heading-color: $color-primary-light;
+$header-bg-color: $color-primary;
+$header-bg-color-secondary: $color-primary-dark;
+
+// Text
+$section-headings-color: $header-bg-color-secondary;
+$body-text-color: $color-primary;
+$body-link-color: #1565c0;
+$body-link-hover-color: #1e88e5; // custom
+$blockquote-text-color: $color-primary-dark;
+
+// Code
+$code-bg-color: #f8f8f8;
+$code-text-color: $color-primary-dark;
+
+// Borders
+$border-color: #dce6f0;
+$table-border-color: #e9ebec;
+$hr-border-color: #eff0f1;
+
+@import "jekyll-theme-cayman";
+
+
+// OVERRIDES
+////////////////////////////////////////////
 
 // HEADER
 
 .page-header {
   padding: 10px;
-  background-color: $color-primary;
-  background-image: linear-gradient(120deg, $color-primary, $color-primary-dark);
+  background-image: linear-gradient(120deg, $header-bg-color, $header-bg-color-secondary);
 }
 
 .project-name {
-  color: $color-primary-light;
   font-size: 2.2rem;
   line-height: 1.5rem;
   margin: 12px 0;
 
   // adjust for screen size
-  @include small {
+  @include mobile {
     font-size: 1.5rem;
   }
 
@@ -127,7 +158,7 @@ h5 {
   padding-top: 0;
 
   // base fonts
-  color: $color-body-font;
+  color: $body-text-color;
 
   // headers
   h1,
@@ -149,25 +180,25 @@ h5 {
 
     // inline code
     code {
-      font-size: 1.0rem;
+      font-size: 1.0em;
     }
   }
 
   // links
   a {
     text-decoration: none;
-    color: #1565c0;
+    color: $body-link-color;
 
     &:hover {
       text-decoration: underline;
-      color: #1e88e5;
+      color: $body-link-hover-color;
     }
   }
 
   // emoji
   img.emoji {
-    height: 1rem;
-    width: 1rem;
+    height: 1em;
+    width: 1em;
     padding: 0;
     margin: 0;
   }
@@ -186,7 +217,7 @@ h5 {
     font-size: 1rem;
 
     code {
-      font-size: 1rem;
+      font-size: 1em;
     }
   }
 
@@ -196,35 +227,38 @@ h5 {
 
   // quote blocks
   blockquote {
-    color: $color-primary-dark;
     margin-inline-end: auto;
-    background-color: $color-rouge;
+    background-color: $code-bg-color;
     padding: 1rem 0.5rem 1rem 1rem;
     font-size: 1rem;
+
+    code{
+      font-size: 1em;
+    }
   }
 
   // code blocks
   .highlight {
-    color: $color-code;
-    background-color: $color-rouge;
+    color: $code-text-color;
+    background-color: $code-bg-color;
   }
 
   .highlighter-rouge {
-    background-color: $color-rouge;
+    background-color: $code-bg-color;
   }
 
   pre {
-    color: $color-code;
-    background-color: $color-rouge;
+    color: $code-text-color;
+    background-color: $code-bg-color;
 
     code {
-      color: $color-code;
+      color: $code-text-color;
     }
   }
 
   code {
     // baseline font color
-    color: $color-code;
+    color: $code-text-color;
     font-size: 1.1rem;
 
     // comments
@@ -232,7 +266,7 @@ h5 {
     .c1,
     .cm,
     .go {
-      color: $color-accent;
+      color: $code-comment-color;
     }
 
     // normal text and objects/types
@@ -241,7 +275,7 @@ h5 {
     .nb,
     .nn,
     .gp {
-      color: $color-code;
+      color: $code-text-color;
     }
 
     // parentheses and brackets
@@ -252,19 +286,19 @@ h5 {
     // base declarations (using, public, etc)
     .k {
       font-weight: normal;
-      color: #1565c0;
+      color: $body-link-color;
     }
 
     // base types (int, decimal, etc)
     .kt {
       font-weight: normal;
-      color: #1565c0;
+      color: $body-link-color;
     }
 
     // normal commandline
     .nv,
     .nx {
-      color: $color-code;
+      color: $code-text-color;
     }
 
     // normal functions/classes
@@ -349,19 +383,33 @@ h5 {
 
 // CHOICE and SELECTION
 
-// pipe style lists (used in footer)
+// pipe style lists (outline tags for navigation)
 
 .pipe-list {
   padding-top: 0 !important;
-  line-height: 1.5em;
+  line-height: 2.6em;
   text-align: center;
 
   li {
     display: inline;
     white-space: nowrap;
 
-    &:not(:last-child):after {
-      content: " | ";
+    border-style: solid;
+    border-width: 2.5px;
+    border-radius: 0.25em;
+    border-color: $border-color;
+    padding: 0.25em 0.5em;
+
+    margin: 0.5em 0.25em;
+
+    &:hover {
+      box-shadow:
+        0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+      background-color: $code-bg-color;
+      text-decoration: none !important;
+      cursor: pointer;
     }
   }
 }
@@ -395,7 +443,7 @@ h5 {
   padding: 0.7rem;
   border-radius: 1.2rem;
 
-  @include small {
+  @include mobile {
     display: block;
     text-align: left;
 
@@ -419,9 +467,8 @@ h5 {
       0px 16px 20px 1px rgba(0, 0, 0, 0.14),
       0px 6px 28px 2px rgba(0, 0, 0, 0.12);
 
-    background-color: $color-rouge;
+    background-color: $code-bg-color;
     text-decoration: none !important;
-    color: $color-accent;
     cursor: pointer;
   }
 
@@ -435,7 +482,7 @@ h5 {
   }
 
   .choice-body {
-    color: $color-body-font;
+    color: $body-text-color;
     font-size: 1.0rem;
 
     margin: auto;

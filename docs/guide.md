@@ -10,17 +10,21 @@ redirect_from:
 
 # {{ page.title }}
 
-- [Installation and setup](#installation-and-setup)
-- [Prerequisite data](#prerequisite-data)
-- [Example usage](#example-usage)
-- [Historical quotes](#historical-quotes)
-- [Using custom quote classes](#using-custom-quote-classes)
-- [Using custom results classes](#using-custom-results-classes)
-- [Generating indicator of indicators](#generating-indicator-of-indicators)
-- [Candlestick patterns](#candlestick-patterns)
-- [Creating custom indicators]({{site.baseurl}}/custom-indicators/#content)
-- [Utilities and helper functions]({{site.baseurl}}/utilities/#content)
-- [Contributing guidelines]({{site.github.repository_url}}/blob/main/docs/contributing.md#readme)
+<nav role="navigation" aria-label="guide page menu">
+<ul class="pipe-list">
+  <a href="#installation-and-setup"><li>Installation and setup</li></a>
+  <a href="#prerequisite-data"><li>Prerequisite data</li></a>
+  <a href="#example-usage"><li>Example usage</li></a>
+  <a href="#historical-quotes"><li>Historical quotes</li></a>
+  <a href="#using-custom-quote-classes"><li>Using custom quote classes</li></a>
+  <a href="#using-custom-results-classes"><li>Using custom results classes</li></a>
+  <a href="#generating-indicator-of-indicators"><li>Generating indicator of indicators</li></a>
+  <a href="#candlestick-patterns"><li>Candlestick patterns</li></a>
+  <a href="{{site.baseurl}}/custom-indicators/#content"><li>Creating custom indicators</li></a>
+  <a href="{{site.baseurl}}/utilities/#content"><li>Utilities and helper functions</li></a>
+  <a href="{{site.baseurl}}/contributing/#content"><li>Contributing guidelines</li></a>
+</ul>
+</nav>
 
 ## Getting started
 
