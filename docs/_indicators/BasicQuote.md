@@ -51,7 +51,7 @@ IEnumerable<BasicData>
 
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
