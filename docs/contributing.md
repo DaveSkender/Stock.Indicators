@@ -1,3 +1,11 @@
+---
+title: Contributing guidelines
+description: This NuGet package is an open-source project. Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
+permalink: /contributing/
+relative_path: contributing.md
+layout: page
+---
+
 # Contributing guidelines
 
 [![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/main?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main)
