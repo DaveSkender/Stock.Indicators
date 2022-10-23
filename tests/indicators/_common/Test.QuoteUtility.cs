@@ -7,7 +7,7 @@ namespace Internal.Tests;
 public class QuoteUtility : TestBase
 {
     [TestMethod]
-    public void QuoteToBasicTuple()
+    public void QuoteToTuple()
     {
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
 
@@ -34,38 +34,38 @@ public class QuoteUtility : TestBase
 
         Assert.AreEqual(
             NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Open).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Open).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.High).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.High).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Low).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Low).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Close).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Close).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Volume).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Volume).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HL2).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.HL2).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HLC3).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.HLC3).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OC2).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.OC2).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHL3).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.OHL3).value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHLC4).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.OHLC4).value, 10));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            q.ToBasicTuple((CandlePart)999));
+            q.ToTuple((CandlePart)999));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
@@ -135,7 +135,7 @@ public class QuoteUtility : TestBase
     }
 
     [TestMethod]
-    public void QuoteDToBasicTuple()
+    public void QuoteDToTuple()
     {
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
 
@@ -162,37 +162,37 @@ public class QuoteUtility : TestBase
 
         Assert.AreEqual(
             NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Open).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Open).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.High).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.High).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Low).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Low).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Close).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Close).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.Volume).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.Volume).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HL2).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.HL2).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.HLC3).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.HLC3).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OC2).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.OC2).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHL3).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.OHL3).Item2, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToBasicTuple(CandlePart.OHLC4).Item2, 10));
+            NullMath.Round(q.ToTuple(CandlePart.OHLC4).Item2, 10));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            q.ToBasicTuple((CandlePart)999));
+            q.ToTuple((CandlePart)999));
     }
 }

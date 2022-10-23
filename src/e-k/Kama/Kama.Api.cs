@@ -11,7 +11,7 @@ public static partial class Indicator
         int fastPeriods = 2,
         int slowPeriods = 30)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcKama(erPeriods, fastPeriods, slowPeriods);
 
     // SERIES, from CHAIN
@@ -20,7 +20,7 @@ public static partial class Indicator
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcKama(erPeriods, fastPeriods, slowPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

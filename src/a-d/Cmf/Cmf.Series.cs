@@ -8,7 +8,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // convert quotes
-        List<(DateTime, double)> tpList = qdList.ToBasicTuple(CandlePart.Volume);
+        List<(DateTime, double)> tpList = qdList.ToTuple(CandlePart.Volume);
 
         // check parameter arguments
         ValidateCmf(lookbackPeriods);

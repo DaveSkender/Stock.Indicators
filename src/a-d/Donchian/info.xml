@@ -5,7 +5,7 @@
     Donchian Channels, also called Price Channels, are derived from highest High and lowest Low values over a lookback window.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/Donchian/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Donchian/#content">documentation</see>
       for more information.
     </para>
   </summary>

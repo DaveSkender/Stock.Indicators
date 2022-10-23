@@ -12,7 +12,7 @@ public static partial class Indicator
         int smoothPeriods = 13,
         int signalPeriods = 7)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
     // SERIES, from CHAIN
@@ -21,7 +21,7 @@ public static partial class Indicator
         int lookbackPeriods = 25,
         int smoothPeriods = 13,
         int signalPeriods = 7) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

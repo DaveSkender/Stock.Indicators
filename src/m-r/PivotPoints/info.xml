@@ -5,7 +5,7 @@
     Pivot Points depict support and resistance levels, based on the prior lookback window. You can specify window size (e.g. month, week, day, etc).
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/PivotPoints/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/PivotPoints/#content">documentation</see>
       for more information.
     </para>
   </summary>

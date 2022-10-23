@@ -5,7 +5,7 @@
     Price Momentum Oscillator (PMO) is double-smoothed ROC based momentum indicator.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/Pmo/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Pmo/#content">documentation</see>
       for more information.
     </para>
   </summary>

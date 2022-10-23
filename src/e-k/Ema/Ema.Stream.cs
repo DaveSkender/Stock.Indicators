@@ -29,7 +29,7 @@ internal class EmaBase
             throw new InvalidQuotesException(nameof(quote), quote, "No quote provided.");
         }
 
-        (DateTime Date, double Value) tuple = quote.ToBasicTuple(candlePart);
+        (DateTime Date, double Value) tuple = quote.ToTuple(candlePart);
         return Add(tuple);
     }
 

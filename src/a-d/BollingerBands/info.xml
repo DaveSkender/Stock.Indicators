@@ -5,7 +5,7 @@
     Bollinger Bands&#174; depict volatility as standard deviation boundary lines from a moving average of price.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/BollingerBands/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/BollingerBands/#content">documentation</see>
       for more information.
     </para>
   </summary>

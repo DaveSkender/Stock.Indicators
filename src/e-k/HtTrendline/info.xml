@@ -5,7 +5,7 @@
     Hilbert Transform Instantaneous Trendline (HTL) is a 5-period trendline of high/low price that uses signal processing to reduce noise.
     <para>
       See
-      <see href="https://dotnet.stockindicators.dev/indicators/HtTrendline/#content">documentation</see>
+      <see href="https://daveskender.github.io/Stock.Indicators/indicators/HtTrendline/#content">documentation</see>
       for more information.
     </para>
   </summary>
