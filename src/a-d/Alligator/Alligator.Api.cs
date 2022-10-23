@@ -15,7 +15,7 @@ public static partial class Indicator
         int lipsPeriods = 5,
         int lipsOffset = 3)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.HL2)
+            .ToTuple(CandlePart.HL2)
             .CalcAlligator(
                 jawPeriods,
                 jawOffset,
@@ -33,7 +33,7 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcAlligator(
                 jawPeriods,
                 jawOffset,

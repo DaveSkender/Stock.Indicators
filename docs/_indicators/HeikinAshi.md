@@ -59,7 +59,7 @@ IEnumerable<HeikinAshiResult>
   IEnumerable<Quote> results = quotes.GetHeikinAshi().ToQuotes();
   ```
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

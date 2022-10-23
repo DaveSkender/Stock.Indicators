@@ -37,6 +37,7 @@ github:
   repository_url: https://github.com/DaveSkender/Stock.Indicators
 
 ga_tag: G-7602GXEZ0R
+clarity: false
 
 # site plugins and settings
 plugins:

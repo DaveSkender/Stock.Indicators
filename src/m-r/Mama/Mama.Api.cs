@@ -11,7 +11,7 @@ public static partial class Indicator
         double fastLimit = 0.5,
         double slowLimit = 0.05)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.HL2)
+            .ToTuple(CandlePart.HL2)
             .CalcMama(fastLimit, slowLimit);
 
     // SERIES, from CHAIN
@@ -19,7 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         double fastLimit = 0.5,
         double slowLimit = 0.05) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcMama(fastLimit, slowLimit)
             .SyncIndex(results, SyncType.Prepend);
 

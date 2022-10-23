@@ -10,14 +10,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcEma(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcEma(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 
@@ -38,7 +38,7 @@ public static partial class Indicator
     {
         // convert quotes
         List<(DateTime, double)> tpList
-            = quotes.ToBasicTuple(CandlePart.Close);
+            = quotes.ToTuple(CandlePart.Close);
 
         // new base instance
         EmaBase baseEma = new(lookbackPeriods);
@@ -59,7 +59,7 @@ public static partial class Indicator
     {
         // convert results
         List<(DateTime, double)> tpList
-            = results.ToResultTuple();
+            = results.ToTuple();
 
         // new base instance
         EmaBase baseEma = new(lookbackPeriods);

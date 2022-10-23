@@ -32,7 +32,7 @@ var results = quotes
 
 ### Using tuple quotes
 
-`quotes.ToBasicTuple()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `List`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
+`quotes.ToTuple()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `List`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
 
 ### Sort quotes
 
@@ -153,12 +153,25 @@ IEnumerable<AdxResult> results =
 See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
 
 > :information_source: **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
-
-> :warning: **Warning**: Without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
+>
+> :warning: **Warning**: without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
 
 ### Using tuple results
 
-`results.ToBasicTuple()` is a method for converting results collections with a primary return value to a simple `(DateTime Date, double Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `List`.  Chainable indicators in our library will accept this tuple format as a replacement for `quotes`.  This conversion is not required for normal use; however, it may be useful for users who create [custom indicators]({{site.baseurl}}/custom-indicators/#content);
+`results.ToTuple(nullTo)` is a method for converting results collections to a simpler `(DateTime Date, double? Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `List`.
+
+This is not required in normal use; however, the last option may be useful for users who create [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+
+A few options to consider:
+
+- Use a `nullTo` value of `NullTo.Null` if you want to persist `null` values
+- Use a `nullTo` value of `NullTo.NaN` if you want `null` values converted to nullable `double.NaN`
+- Omit the `nullTo` value entirely if you want a format that is compatible with chaining:
+  - warmup `null` values removed,
+  - `null` values as `double.NaN`, and
+  - all values as non-nullable `double`
+
+> :warning: **Warning**: warmup periods are pruned when omitting a `nullTo` value, resulting in fewer records.
 
 ### Sort results
 

@@ -17,7 +17,7 @@ public static partial class QuoteUtility
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
-            .Select(x => x.ToBasicTuple(candlePart));
+            .Select(x => x.ToTuple(candlePart));
 
     // sort quotes
     public static List<TQuote> ToSortedList<TQuote>(
@@ -29,12 +29,12 @@ public static partial class QuoteUtility
     // TUPLE QUOTES
 
     // convert quotes to tuple list
-    public static List<(DateTime, double)> ToBasicTuple<TQuote>(
+    public static List<(DateTime, double)> ToTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote => quotes
             .OrderBy(x => x.Date)
-            .Select(x => x.ToBasicTuple(candlePart))
+            .Select(x => x.ToTuple(candlePart))
             .ToList();
 
     // convert tuples to list, with sorting
@@ -62,17 +62,17 @@ public static partial class QuoteUtility
             .ToList();
 
     // convert quoteD list to tuples
-    internal static List<(DateTime, double)> ToBasicTuple(
+    internal static List<(DateTime, double)> ToTuple(
         this List<QuoteD> qdList,
         CandlePart candlePart) => qdList
             .OrderBy(x => x.Date)
-            .Select(x => x.ToBasicTuple(candlePart))
+            .Select(x => x.ToTuple(candlePart))
             .ToList();
 
     /* ELEMENTS */
 
     // convert TQuote element to basic tuple
-    internal static (DateTime date, double value) ToBasicTuple<TQuote>(
+    internal static (DateTime date, double value) ToTuple<TQuote>(
         this TQuote q,
         CandlePart candlePart)
         where TQuote : IQuote => candlePart switch
@@ -110,7 +110,7 @@ public static partial class QuoteUtility
         };
 
     // convert quoteD element to basic tuple
-    internal static (DateTime, double) ToBasicTuple(
+    internal static (DateTime, double) ToTuple(
         this QuoteD q,
         CandlePart candlePart) => candlePart switch
         {

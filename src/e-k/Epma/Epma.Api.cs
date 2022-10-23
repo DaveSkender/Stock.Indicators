@@ -10,14 +10,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcEpma(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<EpmaResult> GetEpma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcEpma(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

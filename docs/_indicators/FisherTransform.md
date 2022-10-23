@@ -65,7 +65,7 @@ quotes.GetFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

@@ -54,7 +54,7 @@ public static partial class Indicator
                     : 0;
 
                 // reclaim nulls from NaNs
-                r.Oscillator = NullMath.NaN2Null(r.Oscillator);
+                r.Oscillator = r.Oscillator.NaN2Null();
             }
         }
 

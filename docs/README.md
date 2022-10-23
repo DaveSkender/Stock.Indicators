@@ -77,7 +77,7 @@ This software is crafted with care by unpaid enthusiasts who appreciate all form
 
 ## :octocat: Contributing
 
-This NuGet package is an open-source project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.github.repository_url}}/blob/main/docs/contributing.md#readme) and [the backlog](https://github.com/users/DaveSkender/projects/1).
+This NuGet package is an open-source project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
 Special thanks to all of our community code contributors!
 

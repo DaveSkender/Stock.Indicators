@@ -11,7 +11,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double kFactor = 0.6)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcDynamic(lookbackPeriods, kFactor);
 
     // SERIES, from CHAIN
@@ -19,7 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods,
         double kFactor = 0.6) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcDynamic(lookbackPeriods, kFactor)
             .SyncIndex(results, SyncType.Prepend);
 
