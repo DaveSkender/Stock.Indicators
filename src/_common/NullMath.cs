@@ -6,17 +6,17 @@ namespace Skender.Stock.Indicators;
 // we're building nullable equivalents here.
 public static class NullMath
 {
-    public static double? Abs(double? value)
+    public static double? Abs(this double? value)
         => (value is null)
         ? null
         : value < 0 ? (double)-value : (double)value;
 
-    public static decimal? Round(decimal? value, int digits)
+    public static decimal? Round(this decimal? value, int digits)
         => (value is null)
         ? null
         : Math.Round((decimal)value, digits);
 
-    public static double? Round(double? value, int digits)
+    public static double? Round(this double? value, int digits)
         => (value is null)
         ? null
         : Math.Round((double)value, digits);
