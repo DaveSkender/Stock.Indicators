@@ -1,4 +1,4 @@
-name: Analyze
+name: CodeQL
 runs-on: ubuntu-latest
 permissions:
   actions: read
