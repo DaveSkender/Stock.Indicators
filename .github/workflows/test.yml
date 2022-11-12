@@ -43,7 +43,7 @@ jobs:
         run: |
           BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer _site \
             --assume-extension \
-            --http-status-ignore "403,429,503,999" \
+            --http-status-ignore "403,406,429,503,999" \
             --url-swap "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000"
 
       - name: Show environment
