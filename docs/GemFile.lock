@@ -28,13 +28,13 @@ GEM
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
-    ethon (0.15.0)
+    ethon (0.16.0)
       ffi (>= 1.15.0)
     execjs (2.8.1)
     faraday (2.6.0)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
-    faraday-net_http (3.0.1)
+    faraday-net_http (3.0.2)
     faraday-retry (2.0.0)
       faraday (~> 2.0)
     ffi (1.15.5-x64-mingw32)
@@ -273,7 +273,7 @@ GEM
     unicode-display_width (1.8.0)
     wdm (0.1.1)
     yell (2.2.2)
-    zeitwerk (2.6.1)
+    zeitwerk (2.6.6)
 
 PLATFORMS
   x64-mingw32
