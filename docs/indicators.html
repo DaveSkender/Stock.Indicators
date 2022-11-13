@@ -25,36 +25,29 @@ redirect_from:
 <!-- categories -->
 {% for c in site.data.categories %}
 <h2 id="{{c.type}}">{{c.name}}</h2>
-<nav role="navigation" aria-label="{{c.name}} indicators" class="choice-container">
+<nav role="navigation" aria-label="{{c.name}} indicators">
   {% assign indicators = site.indicators | where: "type", c.type %}
   {% assign aliases = site.data.aliases | where: "type", c.type %}
   {% assign all = indicators | concat: aliases | sort: "title" %}
-
-  {% for i in all %}
-  <a class="choice-card" href="{{site.baseurl}}{{i.permalink}}#content">
-    <div class="choice-body">
-      {{ i.title }}
-    </div>
-  </a>
-  {% endfor %}
+  <ul>
+    {% for i in all %}
+    <li><a href="{{site.baseurl}}{{i.permalink}}#content">{{i.title}}</a></li>
+    {% endfor %}
+  </ul>
 </nav>
 
 <!-- subcategories -->
 {% for s in c.subcategories %}
 <h3 id="{{s.type}}">{{s.name}}</h3>
-<nav role="navigation" aria-label="{{s.name}} indicators" class="choice-container">
+<nav role="navigation" aria-label="{{s.name}} indicators">
   {% assign indicators = site.indicators | where: "type", s.type %}
   {% assign aliases = site.data.aliases | where: "type", s.type %}
   {% assign all = indicators | concat: aliases | sort: "title" %}
-
-  {% for i in all %}
-  <a class="choice-card" href="{{site.baseurl}}{{i.permalink}}#content">
-    <div class="choice-body">
-      {{ i.title }}
-    </div>
-  </a>
-  {% endfor%}
+  <ul>
+    {% for i in all %}
+    <li><a href="{{site.baseurl}}{{i.permalink}}#content">{{i.title}}</a></li>
+    {% endfor%}
+  </ul>
 </nav>
 {% endfor %}
-
 {% endfor %}

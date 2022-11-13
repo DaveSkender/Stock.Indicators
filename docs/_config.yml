@@ -47,7 +47,6 @@ plugins:
   - jekyll-last-modified-at
   - jekyll-redirect-from
 
-
 exclude: [
   "*.cs",
   "*.csproj",
@@ -65,11 +64,11 @@ exclude: [
 ]
 
 include: [
+  "contributing.md",
   "guide.md",
   "indicators.html",
   "performance.md",
-  "utilities.md",
-  "contributing.md"
+  "utilities.md"
 ]
 
 permalink: pretty

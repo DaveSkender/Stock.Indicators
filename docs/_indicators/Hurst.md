@@ -1,7 +1,6 @@
 ---
 title: Hurst Exponent
 description: Hurst Exponent (H) with Rescaled Range Analysis is a random-walk path analysis that measures trending and mean-reverting tendencies of incremental return values.  When H is greater than 0.5 it depicts trending.  When H is less than 0.5 it is is more likely to revert to the mean.  When H is around 0.5 it represents a random walk.
-
 permalink: /indicators/Hurst/
 image: /assets/charts/Hurst.png
 type: price-characteristic
