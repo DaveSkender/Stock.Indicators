@@ -56,7 +56,9 @@ IEnumerable<HeikinAshiResult>
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp
-  IEnumerable<Quote> results = quotes.GetHeikinAshi().ToQuotes();
+  IEnumerable<Quote> results = quotes
+    .GetHeikinAshi()
+    .ToQuotes();
   ```
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
