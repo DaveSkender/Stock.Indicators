@@ -33,13 +33,14 @@ public static partial class Indicator
             }
             else
             {
-                hmpc = lmpc = 0;
+                prevClose = q.Close;
+                continue;
             }
 
             double tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
             r.Tr = tr;
 
-            if (i + 1 > lookbackPeriods)
+            if (i > lookbackPeriods)
             {
                 // calculate ATR
                 double atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
@@ -47,7 +48,7 @@ public static partial class Indicator
                 r.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
-            else if (i + 1 == lookbackPeriods)
+            else if (i == lookbackPeriods)
             {
                 // initialize ATR
                 sumTr += tr;
@@ -61,8 +62,6 @@ public static partial class Indicator
                 // only used for periods before ATR initialization
                 sumTr += tr;
             }
-
-            prevClose = q.Close;
         }
 
         return results;
