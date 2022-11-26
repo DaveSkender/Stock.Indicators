@@ -11,11 +11,6 @@ public class HtTrendline : TestBase
     {
         List<HtlResult> results = quotes.GetHtTrendline().ToList();
 
-        foreach (var r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.DcPeriods},{r.Trendline:N4}");
-        }
-
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
