@@ -6,6 +6,10 @@
   permalink: /indicators/ElderRay/
   type: price-characteristic
 
+- title: Dominant Cycle Periods
+  permalink: /indicators/HtTrendline/
+  type: price-characteristic
+
 - title: Directional Movement Index (DMI)
   permalink: /indicators/Adx/
   type: price-trend
