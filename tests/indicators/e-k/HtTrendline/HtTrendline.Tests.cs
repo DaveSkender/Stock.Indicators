@@ -11,42 +11,56 @@ public class HtTrendline : TestBase
     {
         List<HtlResult> results = quotes.GetHtTrendline().ToList();
 
-        // assertions
+        foreach (var r in results)
+        {
+            Console.WriteLine($"{r.Date:d},{r.DcPeriods},{r.Trendline:N4}");
+        }
 
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(495, results.Count(x => x.DcPeriods != null));
         Assert.AreEqual(502, results.Count(x => x.Trendline != null));
         Assert.AreEqual(496, results.Count(x => x.SmoothPrice != null));
 
         // sample values
-        HtlResult r1 = results[5];
-        Assert.AreEqual(214.205, r1.Trendline);
-        Assert.AreEqual(null, r1.SmoothPrice);
+        HtlResult r5 = results[5];
+        Assert.AreEqual(null, r5.DcPeriods);
+        Assert.AreEqual(214.205, r5.Trendline);
+        Assert.AreEqual(null, r5.SmoothPrice);
 
-        HtlResult r2 = results[6];
-        Assert.AreEqual(213.84, r2.Trendline);
-        Assert.AreEqual(214.071, r2.SmoothPrice);
+        HtlResult r6 = results[6];
+        Assert.AreEqual(null, r6.DcPeriods);
+        Assert.AreEqual(213.84, r6.Trendline);
+        Assert.AreEqual(214.071, r6.SmoothPrice);
 
-        HtlResult r3 = results[11];
-        Assert.AreEqual(213.9502, NullMath.Round(r3.Trendline, 4));
-        Assert.AreEqual(213.8460, NullMath.Round(r3.SmoothPrice, 4));
+        HtlResult r7 = results[7];
+        Assert.AreEqual(1, r7.DcPeriods);
 
-        HtlResult r4 = results[25];
-        Assert.AreEqual(215.3948, NullMath.Round(r4.Trendline, 4));
-        Assert.AreEqual(216.3365, NullMath.Round(r4.SmoothPrice, 4));
+        HtlResult r11 = results[11];
+        Assert.AreEqual(3, r11.DcPeriods);
+        Assert.AreEqual(213.9502, NullMath.Round(r11.Trendline, 4));
+        Assert.AreEqual(213.8460, NullMath.Round(r11.SmoothPrice, 4));
 
-        HtlResult r5 = results[149];
-        Assert.AreEqual(233.9410, NullMath.Round(r5.Trendline, 4));
-        Assert.AreEqual(235.8570, NullMath.Round(r5.SmoothPrice, 4));
+        HtlResult r25 = results[25];
+        Assert.AreEqual(14, r25.DcPeriods);
+        Assert.AreEqual(215.3948, NullMath.Round(r25.Trendline, 4));
+        Assert.AreEqual(216.3365, NullMath.Round(r25.SmoothPrice, 4));
 
-        HtlResult r6 = results[249];
-        Assert.AreEqual(253.8788, NullMath.Round(r6.Trendline, 4));
-        Assert.AreEqual(257.5825, NullMath.Round(r6.SmoothPrice, 4));
+        HtlResult r149 = results[149];
+        Assert.AreEqual(24, r149.DcPeriods);
+        Assert.AreEqual(233.9410, NullMath.Round(r149.Trendline, 4));
+        Assert.AreEqual(235.8570, NullMath.Round(r149.SmoothPrice, 4));
 
-        HtlResult r7 = results[501];
-        Assert.AreEqual(252.2172, NullMath.Round(r7.Trendline, 4));
-        Assert.AreEqual(242.3435, NullMath.Round(r7.SmoothPrice, 4));
+        HtlResult r249 = results[249];
+        Assert.AreEqual(25, r249.DcPeriods);
+        Assert.AreEqual(253.8788, NullMath.Round(r249.Trendline, 4));
+        Assert.AreEqual(257.5825, NullMath.Round(r249.SmoothPrice, 4));
+
+        HtlResult r501 = results[501];
+        Assert.AreEqual(20, r501.DcPeriods);
+        Assert.AreEqual(252.2172, NullMath.Round(r501.Trendline, 4));
+        Assert.AreEqual(242.3435, NullMath.Round(r501.SmoothPrice, 4));
     }
 
     [TestMethod]
