@@ -1,12 +1,12 @@
 ---
-title: Custom Indicators
+title: Custom indicators
 description: The Stock Indicators for .NET library includes extra features to make it easy for you to extend and to add your own custom indicators.  Here's an example.
 permalink: /custom-indicators/
 relative_path: examples/CustomIndicators/README.md
 layout: page
 ---
 
-# Custom Indicators
+# Custom indicators
 
 At some point in your journey, you may want to create your own custom indicators.
 The following is an example of how you'd create your own.
