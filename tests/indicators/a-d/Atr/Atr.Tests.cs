@@ -11,11 +11,6 @@ public class Atr : TestBase
     {
         List<AtrResult> results = quotes.GetAtr(14).ToList();
 
-        foreach(var r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.Tr:N4},{r.Atr:N4},{r.Atrp:N4}");
-        }
-
         // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Atr != null));
