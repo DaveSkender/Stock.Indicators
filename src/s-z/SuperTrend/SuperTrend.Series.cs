@@ -27,7 +27,7 @@ public static partial class Indicator
             SuperTrendResult r = new(q.Date);
             results.Add(r);
 
-            if (i >= lookbackPeriods - 1)
+            if (i >= lookbackPeriods)
             {
                 double? mid = (q.High + q.Low) / 2;
                 double? atr = atrResults[i].Atr;
@@ -38,7 +38,7 @@ public static partial class Indicator
                 double? lowerEval = mid - (multiplier * atr);
 
                 // initial values
-                if (i == lookbackPeriods - 1)
+                if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= mid;
 

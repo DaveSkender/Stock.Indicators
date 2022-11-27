@@ -20,7 +20,7 @@ public class Chandeleir : TestBase
         // proper quantities
         // should always be the same number of results as there is quotes
         Assert.AreEqual(502, longResult.Count);
-        Assert.AreEqual(481, longResult.Count(x => x.ChandelierExit != null));
+        Assert.AreEqual(480, longResult.Count(x => x.ChandelierExit != null));
 
         // sample values (long)
         ChandelierResult a = longResult[501];
@@ -46,7 +46,7 @@ public class Chandeleir : TestBase
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(472, results.Count(x => x.Sma != null));
+        Assert.AreEqual(471, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class Chandeleir : TestBase
                 .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 21, longResult.Count);
+        Assert.AreEqual(502 - 22, longResult.Count);
 
         ChandelierResult last = longResult.LastOrDefault();
         Assert.AreEqual(256.5860, NullMath.Round(last.ChandelierExit, 4));
