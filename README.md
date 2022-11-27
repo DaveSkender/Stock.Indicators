@@ -16,7 +16,7 @@ Visit our project site for more information:
 - [Overview](https://dotnet.stockindicators.dev/)
 - [Indicators and overlays](https://dotnet.stockindicators.dev/indicators/)
 - [Guide and Pro tips](https://dotnet.stockindicators.dev/guide/)
-- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
+- [Demo site](https://charts.stockindicators.dev/) (a stock chart)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Contributing](https://dotnet.stockindicators.dev/contributing/)
