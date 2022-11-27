@@ -71,7 +71,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
-Results can be further processed on `Atrp` with additional chain-enabled indicators.
+Results can be further processed on `ChandelierExit` with additional chain-enabled indicators.
 
 ```csharp
 // example

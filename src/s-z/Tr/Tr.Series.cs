@@ -21,7 +21,6 @@ public static partial class Indicator
 
             if (i is 0)
             {
-                r.Tr = q.High - q.Low;
                 prevClose = q.Close;
                 continue;
             }
