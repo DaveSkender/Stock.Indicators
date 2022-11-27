@@ -13,8 +13,8 @@ public static partial class Indicator
 
         // initialize
         List<AtrResult> results = new(qdList.Count);
-        double prevAtr = 0;
-        double prevClose = 0;
+        double prevAtr = double.NaN;
+        double prevClose = double.NaN;
         double sumTr = 0;
 
         // roll through quotes
@@ -62,6 +62,8 @@ public static partial class Indicator
                 // only used for periods before ATR initialization
                 sumTr += tr;
             }
+
+            prevClose = q.Close;
         }
 
         return results;
