@@ -1,7 +1,7 @@
 [![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/assets/social-banner.png)](https://daveskender.github.io/Stock.Indicators/)
 
 [![GitHub Stars](https://img.shields.io/github/stars/DaveSkender/Stock.Indicators?logo=github&label=Stars)](https://github.com/DaveSkender/Stock.Indicators)
-[![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package)](https://www.nuget.org/packages/Skender.Stock.Indicators)
+[![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=Nuget)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 [![Nuget](https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 [![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
 
@@ -13,10 +13,10 @@ It can be used in any market analysis software using standard [OHLCV price quote
 
 Visit our project site for more information:
 
-- [Overview](https://daveskender.github.io/Stock.Indicators/)
-- [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/indicators/)
-- [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/guide/)
-- [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
+- [Overview](https://dotnet.stockindicators.dev/)
+- [Indicators and overlays](https://dotnet.stockindicators.dev/indicators/)
+- [Guide and Pro tips](https://dotnet.stockindicators.dev/guide/)
+- [Demo site](https://charts.stockindicators.dev/) (a stock chart)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
-- [Contributing](https://github.com/DaveSkender/Stock.Indicators/blob/main/docs/contributing.md#readme)
+- [Contributing](https://dotnet.stockindicators.dev/contributing/)
