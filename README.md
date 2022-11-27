@@ -13,10 +13,10 @@ It can be used in any market analysis software using standard [OHLCV price quote
 
 Visit our project site for more information:
 
-- [Overview](https://daveskender.github.io/Stock.Indicators/)
-- [Indicators and overlays](https://daveskender.github.io/Stock.Indicators/indicators/)
-- [Guide and Pro tips](https://daveskender.github.io/Stock.Indicators/guide/)
+- [Overview](https://dotnet.stockindicators.dev/)
+- [Indicators and overlays](https://dotnet.stockindicators.dev/indicators/)
+- [Guide and Pro tips](https://dotnet.stockindicators.dev/guide/)
 - [Demo site](https://stock-charts.azurewebsites.net) (a stock chart)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
-- [Contributing](https://github.com/DaveSkender/Stock.Indicators/blob/main/docs/contributing.md#readme)
+- [Contributing](https://dotnet.stockindicators.dev/contributing/)
