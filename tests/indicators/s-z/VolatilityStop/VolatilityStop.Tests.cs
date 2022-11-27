@@ -13,10 +13,7 @@ public class VolatilityStop : TestBase
             quotes.GetVolatilityStop(14, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(448, results.Count(x => x.Sar != null));
 
@@ -28,15 +25,15 @@ public class VolatilityStop : TestBase
         Assert.IsNull(r53.UpperBand);
 
         VolatilityStopResult r54 = results[54];
-        Assert.AreEqual(226.2177, NullMath.Round(r54.Sar, 4));
+        Assert.AreEqual(226.2118, NullMath.Round(r54.Sar, 4));
         Assert.AreEqual(false, r54.IsStop);
-        Assert.AreEqual(226.2177, NullMath.Round(r54.UpperBand, 4));
+        Assert.AreEqual(226.2118, NullMath.Round(r54.UpperBand, 4));
         Assert.IsNull(r54.LowerBand);
 
         VolatilityStopResult r55 = results[55];
-        Assert.AreEqual(226.2178, NullMath.Round(r55.Sar, 4));
+        Assert.AreEqual(226.2124, NullMath.Round(r55.Sar, 4));
         Assert.AreEqual(false, r55.IsStop);
-        Assert.AreEqual(226.2178, NullMath.Round(r55.UpperBand, 4));
+        Assert.AreEqual(226.2124, NullMath.Round(r55.UpperBand, 4));
         Assert.IsNull(r55.LowerBand);
 
         VolatilityStopResult r168 = results[168];

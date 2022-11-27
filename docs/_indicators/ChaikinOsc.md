@@ -56,7 +56,7 @@ IEnumerable<ChaikinOscResult>
 | `Adl` | double | Accumulation Distribution Line (ADL)
 | `Oscillator` | double | Chaikin Oscillator
 
-> :warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless, so use with caution.
+> :warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
 
 ### Utilities
 

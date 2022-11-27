@@ -28,7 +28,7 @@ public static partial class Indicator
             results.Add(r);
 
             // add exit values
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods)
             {
                 double? atr = atrResult[i].Atr;
 

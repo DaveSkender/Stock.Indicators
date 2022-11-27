@@ -103,6 +103,8 @@ public static partial class Indicator
 
                 it[i] = dcPeriods > 0 ? sumPr / dcPeriods : pr[i];
 
+                r.DcPeriods = dcPeriods > 0 ? dcPeriods : null;
+
                 // final indicators
                 r.Trendline = i >= 11 // 12th bar
                     ? (((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d).NaN2Null()
