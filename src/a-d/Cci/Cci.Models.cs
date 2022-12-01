@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class CciResult : ResultBase, IReusableResult
+public class CciResult : ResultBase, IReusableResult
 {
     public CciResult(DateTime date)
     {

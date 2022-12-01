@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class SmaResult : ResultBase, IReusableResult
+public class SmaResult : ResultBase, IReusableResult
 {
     public SmaResult(DateTime date)
     {
@@ -14,7 +14,7 @@ public sealed class SmaResult : ResultBase, IReusableResult
 }
 
 [Serializable]
-public sealed class SmaAnalysis : ResultBase, IReusableResult
+public class SmaAnalysis : ResultBase, IReusableResult
 {
     public SmaAnalysis(DateTime date)
     {

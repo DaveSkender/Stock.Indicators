@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class FcbResult : ResultBase
+public class FcbResult : ResultBase
 {
     public FcbResult(DateTime date)
     {

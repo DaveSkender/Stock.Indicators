@@ -12,11 +12,10 @@ internal class MyQuote : Quote
     public decimal? MyClose { get; set; }
 }
 
-internal class MyEma : ResultBase
+internal class MyEma : EmaResult
 {
     public int Id { get; set; }
     public bool MyProperty { get; set; }
-    public double? Ema { get; set; }
 }
 
 internal class MyGenericQuote : IQuote

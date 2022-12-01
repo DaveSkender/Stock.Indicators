@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class StochRsiResult : ResultBase, IReusableResult
+public class StochRsiResult : ResultBase, IReusableResult
 {
     public StochRsiResult(DateTime date)
     {

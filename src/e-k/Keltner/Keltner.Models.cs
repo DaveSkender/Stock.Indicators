@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class KeltnerResult : ResultBase
+public class KeltnerResult : ResultBase
 {
     public KeltnerResult(DateTime date)
     {

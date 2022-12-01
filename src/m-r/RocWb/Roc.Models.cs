@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class RocWbResult : ResultBase, IReusableResult
+public class RocWbResult : ResultBase, IReusableResult
 {
     public RocWbResult(DateTime date)
     {

@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class DynamicResult : ResultBase, IReusableResult
+public class DynamicResult : ResultBase, IReusableResult
 {
     public DynamicResult(DateTime date)
     {

@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class ParabolicSarResult : ResultBase, IReusableResult
+public class ParabolicSarResult : ResultBase, IReusableResult
 {
     public ParabolicSarResult(DateTime date)
     {

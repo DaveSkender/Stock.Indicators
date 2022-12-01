@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class ZigZagResult : ResultBase, IReusableResult
+public class ZigZagResult : ResultBase, IReusableResult
 {
     public ZigZagResult(DateTime date)
     {
