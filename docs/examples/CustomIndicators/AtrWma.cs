@@ -4,9 +4,12 @@ namespace Custom.Stock.Indicators;
 
 // Custom results class
 // This inherits many of the extension methods, like .RemoveWarmupPeriods()
-public class AtrWmaResult : ResultBase
+public class AtrWmaResult : ResultBase, IReusableResult
 {
     public double? AtrWma { get; set; }
+    
+    // to enable further chaining
+    double? IReusableResult.Value => AtrWma;
 }
 
 public static class CustomIndicators
