@@ -1,8 +1,8 @@
 # Stock Indicators for .NET
 
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package" width="155" height="20"></a>
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads" width="125" height="20"></a>
-<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab"><img src="https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage" width="149" height="20"></a>
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package" alt="NuGet package badge" width="155" height="20" /></a>
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads" alt="Package downloads badge" width="125" height="20" /></a>
+<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab"><img src="https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage" alt="Test code coverage badge" width="149" height="20" /></a>
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
@@ -21,7 +21,7 @@ Explore more information:
 
 ## Samples
 
-![image](examples.webp)
+<img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" />
 
 ### Basic usage
 
@@ -63,7 +63,7 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 ## License
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
+<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="Apache 2.0 license badge" width="124" height="20" /></a>
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
@@ -84,7 +84,7 @@ Special thanks to all of our community code contributors!
 <ul class="list-style-none">
 {% for contributor in site.github.contributors %}
   <li class="d-inline-block">
-     <a href="{{ contributor.html_url }}"><img src="{{ contributor.avatar_url }}&s=75" width="75" height="75" class="circle" alt="{{ contributor.login }}" /></a>
+     <a href="{{ contributor.html_url }}"><img data-src="{{ contributor.avatar_url }}&s=75" width="75" height="75" class="circle lazyload" alt="{{ contributor.login }} avatar" /></a>
   </li>
 {% endfor %}
 </ul>
