@@ -43,6 +43,7 @@ IEnumerable<SlopeResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
+- `Line` values are only provided for the last `N` periods of your quote history
 
 > :paintbrush: **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
 
@@ -55,7 +56,7 @@ IEnumerable<SlopeResult>
 | `Intercept` | double | Y-Intercept `b` of the best-fit line
 | `StdDev` | double | Standard Deviation of price over `N` lookback periods
 | `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination
-| `Line` | decimal | Best-fit line `y` over the last 'N' periods (i.e. `y=mx+b` using last period values)
+| `Line` | decimal | Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values)
 
 ### Utilities
 
