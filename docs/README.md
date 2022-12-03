@@ -21,7 +21,7 @@ Explore more information:
 
 ## Samples
 
-<img data-src="examples.webp" height="1591" width="1443" alt="sample indicators shown in chart" class="lazyload" />
+<img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
 
 ### Basic usage
 

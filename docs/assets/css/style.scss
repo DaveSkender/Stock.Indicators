@@ -30,6 +30,7 @@ $mobile-breakpoint: 24em; // custom
     @content;
   }
 }
+
 // Headers
 $header-heading-color: $color-primary-light;
 $header-bg-color: $color-primary;
@@ -208,6 +209,10 @@ h5 {
   ol {
     li {
       padding-bottom: 6px;
+
+      @include mobile {
+        padding-top: 2px;
+      }
     }
   }
 
@@ -232,7 +237,7 @@ h5 {
     padding: 1rem 0.5rem 1rem 1rem;
     font-size: 1rem;
 
-    code{
+    code {
       font-size: 1em;
     }
   }
@@ -390,7 +395,7 @@ h5 {
 
 .pipe-list {
   padding-top: 0 !important;
-  line-height: 2.6em;
+  padding-inline-start: 0;
   text-align: center;
 
   li {
@@ -401,6 +406,8 @@ h5 {
     margin: 0.5em 0.25em;
 
     a {
+      line-height: 2.6em;
+
       border-style: solid;
       border-width: 2.5px;
       border-radius: 0.25em;
