@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class StarcBandsResult : ResultBase
+public sealed class StarcBandsResult : ResultBase
 {
     public StarcBandsResult(DateTime date)
     {

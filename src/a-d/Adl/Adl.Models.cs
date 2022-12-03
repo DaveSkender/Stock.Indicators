@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class AdlResult : ResultBase, IReusableResult
+public sealed class AdlResult : ResultBase, IReusableResult
 {
     public AdlResult(DateTime date)
     {

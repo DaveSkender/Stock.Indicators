@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class AtrStopResult : ResultBase
+public sealed class AtrStopResult : ResultBase
 {
     public AtrStopResult(DateTime date)
     {

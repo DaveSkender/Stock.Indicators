@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class BetaResult : ResultBase, IReusableResult
+public sealed class BetaResult : ResultBase, IReusableResult
 {
     public BetaResult(DateTime date)
     {

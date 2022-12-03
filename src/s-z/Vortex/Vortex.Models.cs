@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class VortexResult : ResultBase
+public sealed class VortexResult : ResultBase
 {
     public VortexResult(DateTime date)
     {

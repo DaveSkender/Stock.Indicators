@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class DonchianResult : ResultBase
+public sealed class DonchianResult : ResultBase
 {
     public DonchianResult(DateTime date)
     {

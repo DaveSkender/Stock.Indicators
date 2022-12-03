@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class DpoResult : ResultBase, IReusableResult
+public sealed class DpoResult : ResultBase, IReusableResult
 {
     public DpoResult(DateTime date)
     {

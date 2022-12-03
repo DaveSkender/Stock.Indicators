@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class TemaResult : ResultBase, IReusableResult
+public sealed class TemaResult : ResultBase, IReusableResult
 {
     public TemaResult(DateTime date)
     {

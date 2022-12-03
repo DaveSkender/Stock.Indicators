@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class ChaikinOscResult : ResultBase, IReusableResult
+public sealed class ChaikinOscResult : ResultBase, IReusableResult
 {
     public ChaikinOscResult(DateTime date)
     {

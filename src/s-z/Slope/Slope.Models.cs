@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class SlopeResult : ResultBase, IReusableResult
+public sealed class SlopeResult : ResultBase, IReusableResult
 {
     public SlopeResult(DateTime date)
     {

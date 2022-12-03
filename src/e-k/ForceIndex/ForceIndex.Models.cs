@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class ForceIndexResult : ResultBase, IReusableResult
+public sealed class ForceIndexResult : ResultBase, IReusableResult
 {
     public ForceIndexResult(DateTime date)
     {

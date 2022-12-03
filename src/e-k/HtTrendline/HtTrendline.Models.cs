@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class HtlResult : ResultBase, IReusableResult
+public sealed class HtlResult : ResultBase, IReusableResult
 {
     public HtlResult(DateTime date)
     {

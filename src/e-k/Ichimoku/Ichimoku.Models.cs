@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class IchimokuResult : ResultBase
+public sealed class IchimokuResult : ResultBase
 {
     public IchimokuResult(DateTime date)
     {

@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class StdDevChannelsResult : ResultBase
+public sealed class StdDevChannelsResult : ResultBase
 {
     public StdDevChannelsResult(DateTime date)
     {

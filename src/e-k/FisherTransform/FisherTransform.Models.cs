@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class FisherTransformResult : ResultBase, IReusableResult
+public sealed class FisherTransformResult : ResultBase, IReusableResult
 {
     public FisherTransformResult(DateTime date)
     {

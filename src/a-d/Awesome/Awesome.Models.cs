@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class AwesomeResult : ResultBase, IReusableResult
+public sealed class AwesomeResult : ResultBase, IReusableResult
 {
     public AwesomeResult(DateTime date)
     {

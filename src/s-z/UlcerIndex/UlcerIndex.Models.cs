@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class UlcerIndexResult : ResultBase, IReusableResult
+public sealed class UlcerIndexResult : ResultBase, IReusableResult
 {
     public UlcerIndexResult(DateTime date)
     {

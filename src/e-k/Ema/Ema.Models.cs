@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class EmaResult : ResultBase, IReusableResult
+public sealed class EmaResult : ResultBase, IReusableResult
 {
     public EmaResult(DateTime date)
     {

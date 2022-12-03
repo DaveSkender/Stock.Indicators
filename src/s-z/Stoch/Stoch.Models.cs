@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <include file='./info.xml' path='info/type[@name="Results"]/*' />
 ///
 [Serializable]
-public class StochResult : ResultBase, IReusableResult
+public sealed class StochResult : ResultBase, IReusableResult
 {
     public StochResult(DateTime date)
     {

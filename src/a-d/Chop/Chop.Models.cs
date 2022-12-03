@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class ChopResult : ResultBase, IReusableResult
+public sealed class ChopResult : ResultBase, IReusableResult
 {
     public ChopResult(DateTime date)
     {

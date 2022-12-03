@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class CorrResult : ResultBase, IReusableResult
+public sealed class CorrResult : ResultBase, IReusableResult
 {
     public CorrResult(DateTime date)
     {

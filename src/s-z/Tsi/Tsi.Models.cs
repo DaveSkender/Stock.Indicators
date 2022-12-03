@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class TsiResult : ResultBase, IReusableResult
+public sealed class TsiResult : ResultBase, IReusableResult
 {
     public TsiResult(DateTime date)
     {

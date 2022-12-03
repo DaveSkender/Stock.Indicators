@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class RenkoResult : ResultBase, IQuote
+public sealed class RenkoResult : ResultBase, IQuote
 {
     public RenkoResult(DateTime date)
     {

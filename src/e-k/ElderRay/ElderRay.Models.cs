@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class ElderRayResult : ResultBase, IReusableResult
+public sealed class ElderRayResult : ResultBase, IReusableResult
 {
     public ElderRayResult(DateTime date)
     {

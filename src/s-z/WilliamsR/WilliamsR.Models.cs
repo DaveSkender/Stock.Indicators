@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class WilliamsResult : ResultBase, IReusableResult
+public sealed class WilliamsResult : ResultBase, IReusableResult
 {
     public WilliamsResult(DateTime date)
     {

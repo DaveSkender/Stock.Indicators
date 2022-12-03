@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class VwmaResult : ResultBase, IReusableResult
+public sealed class VwmaResult : ResultBase, IReusableResult
 {
     public VwmaResult(DateTime date)
     {

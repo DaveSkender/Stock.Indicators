@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class FractalResult : ResultBase
+public sealed class FractalResult : ResultBase
 {
     public FractalResult(DateTime date)
     {
