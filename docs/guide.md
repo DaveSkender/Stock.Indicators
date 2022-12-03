@@ -12,17 +12,17 @@ redirect_from:
 
 <nav role="navigation" aria-label="guide page menu">
 <ul class="pipe-list">
-  <a href="#installation-and-setup"><li>Installation and setup</li></a>
-  <a href="#prerequisite-data"><li>Prerequisite data</li></a>
-  <a href="#example-usage"><li>Example usage</li></a>
-  <a href="#historical-quotes"><li>Historical quotes</li></a>
-  <a href="#using-custom-quote-classes"><li>Using custom quote classes</li></a>
-  <a href="#using-custom-results-classes"><li>Using custom results classes</li></a>
-  <a href="#generating-indicator-of-indicators"><li>Generating indicator of indicators</li></a>
-  <a href="#candlestick-patterns"><li>Candlestick patterns</li></a>
-  <a href="{{site.baseurl}}/custom-indicators/#content"><li>Creating custom indicators</li></a>
-  <a href="{{site.baseurl}}/utilities/#content"><li>Utilities and helper functions</li></a>
-  <a href="{{site.baseurl}}/contributing/#content"><li>Contributing guidelines</li></a>
+  <li><a href="#installation-and-setup">Installation and setup</a></li>
+  <li><a href="#prerequisite-data">Prerequisite data</a></li>
+  <li><a href="#example-usage">Example usage</a></li>
+  <li><a href="#historical-quotes">Historical quotes</a></li>
+  <li><a href="#using-custom-quote-classes">Using custom quote classes</a></li>
+  <li><a href="#using-custom-results-classes">Using custom results classes</a></li>
+  <li><a href="#generating-indicator-of-indicators">Generating indicator of indicators</a></li>
+  <li><a href="#candlestick-patterns">Candlestick patterns</a></li>
+  <li><a href="{{site.baseurl}}/custom-indicators/#content">Creating custom indicators</a></li>
+  <li><a href="{{site.baseurl}}/utilities/#content">Utilities and helper functions</a></li>
+  <li><a href="{{site.baseurl}}/contributing/#content">Contributing guidelines</a></li>
 </ul>
 </nav>
 
