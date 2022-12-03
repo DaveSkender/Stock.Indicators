@@ -13,11 +13,11 @@ redirect_from:
 <nav role="navigation" aria-label="indicator category page menu">
   <ul class="pipe-list">
     {% for c in site.data.categories %}
-    <a href="{{site.baseurl}}{{page.permalink}}#{{c.type}}">
-      <li>
+    <li>
+      <a href="{{site.baseurl}}{{page.permalink}}#{{c.type}}">
         {{ c.name }}
-      </li>
-    </a>
+      </a>
+    </li>
     {% endfor %}
   </ul>
 </nav>
