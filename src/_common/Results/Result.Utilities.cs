@@ -36,7 +36,7 @@ public static partial class Indicator
 
         _ = resultsList
             .RemoveAll(match:
-                x => x.Value is null or (double and double.NaN));
+                x => x.ChainValue is null or (double and double.NaN));
 
         return resultsList.ToSortedList();
     }
@@ -140,12 +140,12 @@ public static partial class Indicator
         List<IReusableResult> reList = reusable.ToList();
 
         // find first non-nulled
-        int first = reList.FindIndex(x => x.Value != null);
+        int first = reList.FindIndex(x => x.ChainValue != null);
 
         for (int i = first; i < reList.Count; i++)
         {
             IReusableResult? r = reList[i];
-            prices.Add(new(r.Date, r.Value.Null2NaN()));
+            prices.Add(new(r.Date, r.ChainValue.Null2NaN()));
         }
 
         return prices.OrderBy(x => x.date).ToList();
@@ -163,7 +163,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             IReusableResult r = reList[i];
-            prices.Add(new(r.Date, (nullTo == NullTo.NaN) ? r.Value.Null2NaN() : r.Value));
+            prices.Add(new(r.Date, (nullTo == NullTo.NaN) ? r.ChainValue.Null2NaN() : r.Value));
         }
 
         return prices.OrderBy(x => x.date).ToList();
