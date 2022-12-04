@@ -163,7 +163,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             IReusableResult r = reList[i];
-            prices.Add(new(r.Date, (nullTo == NullTo.NaN) ? r.ChainValue.Null2NaN() : r.Value));
+            prices.Add(new(r.Date, (nullTo == NullTo.NaN) ? r.ChainValue.Null2NaN() : r.ChainValue));
         }
 
         return prices.OrderBy(x => x.date).ToList();
