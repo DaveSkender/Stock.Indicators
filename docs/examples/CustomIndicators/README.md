@@ -21,11 +21,14 @@ using Skender.Stock.Indicators;
 namespace Custom.Stock.Indicators;
 
 // custom results class
-public class AtrWmaResult : ResultBase
+public class AtrWmaResult : ResultBase, IReusableResult
 {
-    // date property is inherited here,
-    // so you only need to add custom items
-    public decimal? AtrWma { get; set; }
+  // date property is inherited here,
+  // so you only need to add custom items
+  public double? AtrWma { get; set; }
+
+  // to enable further chaining
+  double? IReusableResult.Value => AtrWma;
 }
 ```
 
@@ -36,58 +39,58 @@ Create your custom indicator algorithm in the same style as our main library so 
 ```csharp
 public static class CustomIndicators
 {
-    // Custom ATR WMA calculation
-    public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
+  // Custom ATR WMA calculation
+  public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
+    this IEnumerable<TQuote> quotes,
+    int lookbackPeriods)
+    where TQuote : IQuote
+  {
+    // sort quotes and convert to list
+    List<TQuote> quotesList = quotes
+      .ToSortedList();
+
+    // initialize results
+    List<AtrWmaResult> results = new(quotesList.Count);
+
+    // perform pre-requisite calculations to get ATR values
+    List<AtrResult> atrResults = quotes
+      .GetAtr(lookbackPeriods)
+      .ToList();
+
+    // roll through quotes
+    for (int i = 0; i < quotesList.Count; i++)
     {
-        // sort quotes and convert to list
-        List<TQuote> quotesList = quotes
-            .ToSortedList();
+      TQuote q = quotesList[i];
 
-        // initialize results
-        List<AtrWmaResult> results = new(quotesList.Count);
+      AtrWmaResult r = new()
+      {
+        Date = q.Date
+      };
 
-        // perform pre-requisite calculations to get ATR values
-        List<AtrResult> atrResults = quotes
-            .GetAtr(lookbackPeriods)
-            .ToList();
+      // only do calculations after uncalculable periods
+      if (i >= lookbackPeriods - 1)
+      {
+        double? sumWma = 0;
+        double? sumAtr = 0;
 
-        // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int p = i - lookbackPeriods + 1; p <= i; p++)
         {
-            TQuote q = quotesList[i];
+          double close = (double)quotesList[p].Close;
+          double? atr = atrResults[p]?.Atr;
 
-            AtrWmaResult r = new()
-            {
-                Date = q.Date
-            };
-
-            // only do calculations after incalculable periods
-            if (i >= lookbackPeriods - 1)
-            {
-                decimal? sumWma = 0;
-                decimal? sumAtr = 0;
-
-                for (int p = i - lookbackPeriods + 1; p <= i; p++)
-                {
-                    decimal close = quotesList[p].Close;
-                    decimal? atr = atrResults[p]?.Atr;
-
-                    sumWma += atr * close;
-                    sumAtr += atr;
-                }
-
-                r.AtrWma = sumWma / sumAtr;
-            }
-
-            // add record to results
-            results.Add(r);
+          sumWma += atr * close;
+          sumAtr += atr;
         }
 
-        return results;
+        r.AtrWma = sumWma / sumAtr;
+      }
+
+      // add record to results
+      results.Add(r);
     }
+
+    return results;
+  }
 }
 ```
 
@@ -108,7 +111,7 @@ IEnumerable<AtrWmaResult> results = quotes.GetAtrWma(10);
 // use results as needed for your use case (example only)
 foreach (AtrWmaResult r in results)
 {
-    Console.WriteLine($"ATR WMA on {r.Date:d} was ${r.AtrWma:N4}");
+  Console.WriteLine($"ATR WMA on {r.Date:d} was ${r.AtrWma:N4}");
 }
 ```
 
