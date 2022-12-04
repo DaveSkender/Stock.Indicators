@@ -37,7 +37,9 @@ public class AtrWmaResult : ResultBase, IReusableResult
 Create your custom indicator algorithm in the same style as our main library so the API functions identically.
 
 ```csharp
-public static class CustomIndicators
+namespace Custom.Stock.Indicators;
+
+public static class CustomIndicator
 {
   // Custom ATR WMA calculation
   public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
