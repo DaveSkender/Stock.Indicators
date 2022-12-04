@@ -10,5 +10,5 @@ public sealed class WmaResult : ResultBase, IReusableResult
 
     public double? Wma { get; set; }
 
-    double? IReusableResult.Value => Wma;
+    double? IReusableResult.ChainValue => Wma;
 }

@@ -16,5 +16,5 @@ public sealed class BollingerBandsResult : ResultBase, IReusableResult
     public double? ZScore { get; set; }
     public double? Width { get; set; }
 
-    double? IReusableResult.Value => PercentB;
+    double? IReusableResult.ChainValue => PercentB;
 }

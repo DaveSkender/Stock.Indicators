@@ -9,7 +9,7 @@ public interface IResult
 
 public interface IReusableResult : IResult
 {
-    public double? Value { get; }
+    public double? ChainValue { get; }
 }
 
 [Serializable]

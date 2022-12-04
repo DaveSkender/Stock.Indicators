@@ -13,5 +13,5 @@ public sealed class AdlResult : ResultBase, IReusableResult
     public double Adl { get; set; }
     public double? AdlSma { get; set; }
 
-    double? IReusableResult.Value => Adl;
+    double? IReusableResult.ChainValue => Adl;
 }

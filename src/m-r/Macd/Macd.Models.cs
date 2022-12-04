@@ -16,5 +16,5 @@ public sealed class MacdResult : ResultBase, IReusableResult
     public double? FastEma { get; set; }
     public double? SlowEma { get; set; }
 
-    double? IReusableResult.Value => Macd;
+    double? IReusableResult.ChainValue => Macd;
 }

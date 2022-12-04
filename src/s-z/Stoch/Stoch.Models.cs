@@ -19,5 +19,5 @@ public sealed class StochResult : ResultBase, IReusableResult
     public double? D => Signal;
     public double? J => PercentJ;
 
-    double? IReusableResult.Value => Oscillator;
+    double? IReusableResult.ChainValue => Oscillator;
 }

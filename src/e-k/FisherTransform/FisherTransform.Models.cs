@@ -11,5 +11,5 @@ public sealed class FisherTransformResult : ResultBase, IReusableResult
     public double? Fisher { get; set; }
     public double? Trigger { get; set; }
 
-    double? IReusableResult.Value => Fisher;
+    double? IReusableResult.ChainValue => Fisher;
 }

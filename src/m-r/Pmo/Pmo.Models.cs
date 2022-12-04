@@ -14,5 +14,5 @@ public sealed class PmoResult : ResultBase, IReusableResult
     // internal use only
     internal double? RocEma { get; set; }
 
-    double? IReusableResult.Value => Pmo;
+    double? IReusableResult.ChainValue => Pmo;
 }

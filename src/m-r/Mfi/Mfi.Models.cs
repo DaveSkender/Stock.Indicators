@@ -10,5 +10,5 @@ public sealed class MfiResult : ResultBase, IReusableResult
 
     public double? Mfi { get; set; }
 
-    double? IReusableResult.Value => Mfi;
+    double? IReusableResult.ChainValue => Mfi;
 }

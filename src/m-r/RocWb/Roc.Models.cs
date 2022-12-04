@@ -13,5 +13,5 @@ public sealed class RocWbResult : ResultBase, IReusableResult
     public double? UpperBand { get; set; }
     public double? LowerBand { get; set; }
 
-    double? IReusableResult.Value => Roc;
+    double? IReusableResult.ChainValue => Roc;
 }

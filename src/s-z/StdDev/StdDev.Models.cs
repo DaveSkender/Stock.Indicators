@@ -13,5 +13,5 @@ public sealed class StdDevResult : ResultBase, IReusableResult
     public double? ZScore { get; set; }
     public double? StdDevSma { get; set; }
 
-    double? IReusableResult.Value => StdDev;
+    double? IReusableResult.ChainValue => StdDev;
 }

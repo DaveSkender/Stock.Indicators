@@ -11,7 +11,7 @@ public class AtrWmaResult : ResultBase, IReusableResult
     public double? AtrWma { get; set; }
 
     // to enable further chaining
-    double? IReusableResult.Value => AtrWma;
+    double? IReusableResult.ChainValue => AtrWma;
 }
 
 public static class CustomIndicators

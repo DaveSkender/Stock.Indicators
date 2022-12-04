@@ -10,5 +10,5 @@ public sealed class CmoResult : ResultBase, IReusableResult
 
     public double? Cmo { get; set; }
 
-    double? IReusableResult.Value => Cmo;
+    double? IReusableResult.ChainValue => Cmo;
 }

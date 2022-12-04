@@ -12,5 +12,5 @@ public sealed class ElderRayResult : ResultBase, IReusableResult
     public double? BullPower { get; set; }
     public double? BearPower { get; set; }
 
-    double? IReusableResult.Value => BullPower + BearPower;
+    double? IReusableResult.ChainValue => BullPower + BearPower;
 }

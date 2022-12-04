@@ -10,5 +10,5 @@ public sealed class DemaResult : ResultBase, IReusableResult
 
     public double? Dema { get; set; }
 
-    double? IReusableResult.Value => Dema;
+    double? IReusableResult.ChainValue => Dema;
 }

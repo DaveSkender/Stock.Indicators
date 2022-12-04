@@ -10,7 +10,7 @@ public sealed class ChandelierResult : ResultBase, IReusableResult
 
     public double? ChandelierExit { get; set; }
 
-    double? IReusableResult.Value => ChandelierExit;
+    double? IReusableResult.ChainValue => ChandelierExit;
 }
 
 public enum ChandelierType

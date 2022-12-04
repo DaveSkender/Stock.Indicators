@@ -12,5 +12,5 @@ public sealed class TrixResult : ResultBase, IReusableResult
     public double? Trix { get; set; }
     public double? Signal { get; set; }
 
-    double? IReusableResult.Value => Trix;
+    double? IReusableResult.ChainValue => Trix;
 }
