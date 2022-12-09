@@ -17,7 +17,7 @@ public static partial class Indicator
         double prevValue = double.NaN;
 
         // add initial record
-        if (length > 1)
+        if (length > 0)
         {
             results.Add(new CmoResult(tpList[0].Item1));
             ticks.Add((null, double.NaN));
