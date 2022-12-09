@@ -16,16 +16,22 @@ public static partial class Indicator
         List<(bool? isUp, double value)> ticks = new(length);
         double prevValue = double.NaN;
 
-        // add initial record
-        if (length > 0)
+        // add initial two record
+        if (length >= 2)
         {
+            // first bar
             results.Add(new CmoResult(tpList[0].Item1));
-            ticks.Add((null, tpList[0].Item2));
-            prevValue = tpList[0].Item2;
+            ticks.Add((null, double.NaN));
+            
+            // second bar
+            results.Add(new CmoResult(tpList[1].Item1));
+            ticks.Add((null, tpList[1].Item2 - tpList[0].Item2));
+            
+            prevValue = tpList[1].Item2;
         }
 
         // roll through quotes
-        for (int i = 1; i < length; i++)
+        for (int i = 2; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
 
@@ -34,16 +40,16 @@ public static partial class Indicator
             ticks.Add((
                   value > prevValue ? true 
                 : value < prevValue ? false 
-                : null, value));
+                : null, value - prevValue));
 
             if (i >= lookbackPeriods)
             {
                 double sH = 0;
                 double sL = 0;
 
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (bool? isUp, double pValue) = ticks[p];
+                    (bool? isUp, double pDiff) = ticks[p];
 
                     if (isUp is null)
                     {
@@ -51,15 +57,17 @@ public static partial class Indicator
                     }
                     else if (isUp == true)
                     {
-                        sH += pValue;
+                        sH += pDiff;
                     }
                     else
                     {
-                        sL += pValue;
+                        sL += pDiff;
                     }
                 }
 
-                r.Cmo = (sH + sL != 0) ? NullMath.NaN2Null(100 * (sH - sL) / (sH + sL)) : null;
+                r.Cmo = (sH + sL != 0)
+                    ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
+                    : null;
             }
 
             prevValue = value;
