@@ -16,22 +16,17 @@ public static partial class Indicator
         List<(bool? isUp, double value)> ticks = new(length);
         double prevValue = double.NaN;
 
-        // add initial two record
-        if (length >= 2)
+        // add initial record
+        if (length > 1)
         {
-            // first bar
             results.Add(new CmoResult(tpList[0].Item1));
             ticks.Add((null, double.NaN));
-            
-            // second bar
-            results.Add(new CmoResult(tpList[1].Item1));
-            ticks.Add((null, tpList[1].Item2 - tpList[0].Item2));
-            
-            prevValue = tpList[1].Item2;
+
+            prevValue = tpList[0].Item2;
         }
 
         // roll through quotes
-        for (int i = 2; i < length; i++)
+        for (int i = 1; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
 
@@ -40,7 +35,7 @@ public static partial class Indicator
             ticks.Add((
                   value > prevValue ? true 
                 : value < prevValue ? false 
-                : null, value - prevValue));
+                : null, Math.Abs(value - prevValue)));
 
             if (i >= lookbackPeriods)
             {
