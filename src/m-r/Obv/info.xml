@@ -5,7 +5,7 @@
     On-balance Volume (OBV) is a rolling accumulation of volume based on Close price direction.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Obv/#content">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Obv/#content?utm_source=library">documentation</see>
       for more information.
     </para>
   </summary>

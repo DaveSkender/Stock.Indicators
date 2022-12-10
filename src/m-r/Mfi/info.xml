@@ -5,7 +5,7 @@
     Money Flow Index (MFI) is a price-volume oscillator that shows buying and selling momentum.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Mfi/#content">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Mfi/#content?utm_source=library">documentation</see>
       for more information.
     </para>
   </summary>
