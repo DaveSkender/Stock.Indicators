@@ -33,8 +33,8 @@ public static partial class Indicator
             CmoResult r = new(date);
             results.Add(r);
             ticks.Add((
-                  value > prevValue ? true 
-                : value < prevValue ? false 
+                  value > prevValue ? true
+                : value < prevValue ? false
                 : null, Math.Abs(value - prevValue)));
 
             if (i >= lookbackPeriods)
