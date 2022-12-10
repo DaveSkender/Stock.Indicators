@@ -1,11 +1,11 @@
-name: test doc site
+name: test docs
 on:
   pull_request:
     branches: [main]
 
 jobs:
   testing:
-    name: a11y and URLs
+    name: URLs
     runs-on: ubuntu-latest
 
     steps:
@@ -34,10 +34,6 @@ jobs:
         working-directory: docs
         run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll build
 
-      - name: Serve site
-        working-directory: docs
-        run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll serve --detach
-
       - name: Test for broken URLs
         working-directory: docs
         run: |
@@ -45,14 +41,4 @@ jobs:
             --assume-extension \
             --http-status-ignore "403,406,429,503,999" \
             --url-swap "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000"
-
-      - name: Show environment
-        working-directory: docs
-        run: npx pa11y --environment
-
-      - name: Test accessibility
-        working-directory: docs
-        run: |
-          npx pa11y-ci \
-            --sitemap http://127.0.0.1:4000/sitemap.xml \
-            --sitemap-exclude "/*.pdf"
+            --ignore-urls "https\://fonts.gstatic.com"
