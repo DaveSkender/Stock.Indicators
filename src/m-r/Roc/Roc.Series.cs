@@ -26,12 +26,13 @@ public static partial class Indicator
             {
                 (DateTime _, double backValue) = tpList[i - lookbackPeriods];
 
+                r.Momentum = (value - backValue).NaN2Null();
                 r.Roc = (backValue == 0) ? null
-                    : (100d * (value - backValue) / backValue).NaN2Null();
+                    : (100d * r.Momentum / backValue).NaN2Null();
             }
 
             // optional SMA
-            if (smaPeriods != null && i + 1 >= lookbackPeriods + smaPeriods)
+            if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 1)
             {
                 double? sumSma = 0;
                 for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
