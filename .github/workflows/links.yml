@@ -40,7 +40,7 @@ jobs:
           BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer _site \
             --assume-extension \
             --ignore-status-codes "403,406,429,503,999" \
-            --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
-            --ignore-urls "https\://fonts.gstatic.com" \
+            --swap-urls "https\://dotnet.stockindicators.dev:" \
+            --ignore-urls "/fonts.gstatic.com/" \
             --enforce_https false
 

@@ -38,7 +38,7 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 ## Project management
 
 - Planned work is managed in [the backlog](https://github.com/users/DaveSkender/projects/1).
-- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
+- Work items are primarily entered as Notes (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
 
 ## Developing
 
@@ -92,13 +92,6 @@ When adding or updating indicators:
 
 ```bash
 npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
-```
-
-### Testing for broken URLs
-
-```bash
-cd docs
-bundle exec htmlproofer _site
 ```
 
 ## Submitting changes
