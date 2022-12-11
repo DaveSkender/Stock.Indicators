@@ -9,24 +9,31 @@ public class Roc : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<RocResult> results = quotes.GetRoc(20).ToList();
-
-        // assertions
+        List<RocResult> results = quotes
+            .GetRoc(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(482, results.Count(x => x.Momentum != null));
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
         Assert.AreEqual(false, results.Any(x => x.RocSma != null));
 
         // sample values
-        RocResult r1 = results[249];
-        Assert.AreEqual(2.4827, NullMath.Round(r1.Roc, 4));
-        Assert.AreEqual(null, r1.RocSma);
+        RocResult r49 = results[49];
+        Assert.AreEqual(4.96, r49.Momentum.Round(4));
+        Assert.AreEqual(2.2465, r49.Roc.Round(4));
+        Assert.AreEqual(null, r49.RocSma);
 
-        RocResult r2 = results[501];
-        Assert.AreEqual(-8.2482, NullMath.Round(r2.Roc, 4));
-        Assert.AreEqual(null, r2.RocSma);
+        RocResult r249 = results[249];
+        Assert.AreEqual(6.25, r249.Momentum.Round(4));
+        Assert.AreEqual(2.4827, r249.Roc.Round(4));
+        Assert.AreEqual(null, r249.RocSma);
+
+        RocResult r501 = results[501];
+        Assert.AreEqual(-22.05, r501.Momentum.Round(4));
+        Assert.AreEqual(-8.2482, r501.Roc.Round(4));
+        Assert.AreEqual(null, r501.RocSma);
     }
 
     [TestMethod]
@@ -35,25 +42,23 @@ public class Roc : TestBase
         int lookbackPeriods = 20;
         int smaPeriods = 5;
 
-        List<RocResult> results = Indicator.GetRoc(quotes, lookbackPeriods, smaPeriods)
+        List<RocResult> results = quotes
+            .GetRoc(lookbackPeriods, smaPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
         Assert.AreEqual(478, results.Count(x => x.RocSma != null));
 
         // sample values
         RocResult r1 = results[29];
-        Assert.AreEqual(3.2936, NullMath.Round(r1.Roc, 4));
-        Assert.AreEqual(2.1558, NullMath.Round(r1.RocSma, 4));
+        Assert.AreEqual(3.2936, r1.Roc.Round(4));
+        Assert.AreEqual(2.1558, r1.RocSma.Round(4));
 
         RocResult r2 = results[501];
-        Assert.AreEqual(-8.2482, NullMath.Round(r2.Roc, 4));
-        Assert.AreEqual(-8.4828, NullMath.Round(r2.RocSma, 4));
+        Assert.AreEqual(-8.2482, r2.Roc.Round(4));
+        Assert.AreEqual(-8.4828, r2.RocSma.Round(4));
     }
 
     [TestMethod]
@@ -127,7 +132,7 @@ public class Roc : TestBase
         Assert.AreEqual(502 - 20, results.Count);
 
         RocResult last = results.LastOrDefault();
-        Assert.AreEqual(-8.2482, NullMath.Round(last.Roc, 4));
+        Assert.AreEqual(-8.2482, last.Roc.Round(4));
         Assert.AreEqual(null, last.RocSma);
     }
 
