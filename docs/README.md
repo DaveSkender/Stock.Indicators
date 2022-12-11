@@ -30,7 +30,7 @@ Explore more information:
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
-See more [examples of usage]({{site.baseurl}}/guide/#example-usage).
+See more [usage examples]({{site.baseurl}}/guide/#example-usage).
 
 ## Use chaining for unique insights
 
