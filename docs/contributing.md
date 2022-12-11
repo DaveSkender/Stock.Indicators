@@ -38,7 +38,7 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 ## Project management
 
 - Planned work is managed in [the backlog](https://github.com/users/DaveSkender/projects/1).
-- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
+- Work items are primarily entered as Notes (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
 
 ## Developing
 
@@ -94,18 +94,11 @@ When adding or updating indicators:
 npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
 ```
 
-### Testing for broken URLs
-
-```bash
-cd docs
-bundle exec htmlproofer _site
-```
-
 ## Submitting changes
 
 By submitting changes to this repo you are also acknowledging and agree to the terms in both the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org) and the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).  These are standard open-source terms and conditions.
 
-When ready, submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests)).
+When ready, submit a Pull Request with a clear list of what you've done (read more about [pull requests](https://help.github.com/pull-requests)).
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
 After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.

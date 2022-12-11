@@ -6,7 +6,7 @@
     weighted moving average of price over a lookback window.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Alma/#content">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Alma/#content?utm_source=library">documentation</see>
       for more information.
     </para>
   </summary>

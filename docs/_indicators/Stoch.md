@@ -5,8 +5,6 @@ permalink: /indicators/Stoch/
 image: /assets/charts/Stoch.png
 type: oscillator
 layout: indicator
-redirect_from:
- - /indicators/Stochastic/README.md
 ---
 
 # {{ page.title }}

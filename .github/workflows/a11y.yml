@@ -1,0 +1,50 @@
+name: test docs
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  testing:
+    name: a11y
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: docs
+          ruby-version: 2.7.0
+          bundler-cache: true
+
+      - name: Install GEMs
+        working-directory: docs
+        run: |
+          pwd
+          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle install
+
+      - name: Build site
+        working-directory: docs
+        run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll build
+
+      - name: Serve site
+        working-directory: docs
+        run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll serve --detach
+
+      - name: Show environment
+        working-directory: docs
+        run: npx pa11y --environment
+
+      - name: Test accessibility
+        working-directory: docs
+        run: |
+          npx pa11y-ci \
+            --sitemap http://127.0.0.1:4000/sitemap.xml \
+            --sitemap-exclude "/*.pdf"
