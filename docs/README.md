@@ -19,11 +19,11 @@ Explore more information:
 - [Discussions]({{site.github.repository_url}}/discussions)
 - [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 
-## Samples
+## Reputable and extensible technical indicators
 
 <img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
 
-### Basic usage
+### Easy to add to your trading systems
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -34,7 +34,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
-### Advanced usage
+### Use chaining to create unique insights
 
 Optional chaining enables advanced uses cases; such as, indicator of indicators, [slope]({{site.baseurl}}/indicators/Slope/#content) (direction) of any result, or [moving average]({{site.baseurl}}/indicators/#moving-average) of an indicator.
 
@@ -54,28 +54,28 @@ IEnumerable<EmaResult> results
 
 See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.
 
-## Frameworks targeted
+## We use modern .NET frameworks
 
 - .NET 7.0, 6.0
 - .NET Standard 2.1, 2.0
 
 The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 
-## License
+## Licensed for everyone
 
 <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="Apache 2.0 license badge" width="124" height="20" /></a>
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
-## :phone: Contact us
+## :phone: Ask for help or join in our open discussions
 
 [Start a new discussion, ask a question]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
-## :heart: Patronage
+## :heart: Give back with patronage
 
 This software is crafted with care by unpaid enthusiasts who appreciate all forms of encouragement.  If you or your organization use any of my projects or like what we're doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.  If you want to buy me a beer or are interest in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.  Thank you for your support!
 
-## :octocat: Contributing
+## :octocat: Contribute to the project
 
 This NuGet package is an open-source project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
