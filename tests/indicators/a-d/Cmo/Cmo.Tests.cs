@@ -9,7 +9,9 @@ public class Cmo : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CmoResult> results = quotes.GetCmo(14).ToList();
+        List<CmoResult> results = quotes
+            .GetCmo(14)
+            .ToList();
 
         foreach (CmoResult r in results)
         {
@@ -25,13 +27,13 @@ public class Cmo : TestBase
         Assert.IsNull(r13.Cmo);
 
         CmoResult r14 = results[14];
-        Assert.AreEqual(7.8500, NullMath.Round(r14.Cmo, 4));
+        Assert.AreEqual(24.1081, NullMath.Round(r14.Cmo, 4));
 
         CmoResult r249 = results[249];
-        Assert.AreEqual(14.2981, NullMath.Round(r249.Cmo, 4));
+        Assert.AreEqual(48.9614, NullMath.Round(r249.Cmo, 4));
 
         CmoResult r501 = results[501];
-        Assert.AreEqual(-27.7873, NullMath.Round(r501.Cmo, 4));
+        Assert.AreEqual(-26.7502, NullMath.Round(r501.Cmo, 4));
     }
 
     [TestMethod]
@@ -105,7 +107,7 @@ public class Cmo : TestBase
         Assert.AreEqual(488, results.Count);
 
         CmoResult last = results.LastOrDefault();
-        Assert.AreEqual(-27.7873, NullMath.Round(last.Cmo, 4));
+        Assert.AreEqual(-26.7502, NullMath.Round(last.Cmo, 4));
     }
 
     // bad lookback period
