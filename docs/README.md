@@ -26,13 +26,11 @@ Explore more information:
 ## Easy to use in your software
 
 ```csharp
-using Skender.Stock.Indicators;
-
-// use quotes from your own source
-
 // example: get 20-period simple moving average
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
+
+See more [examples of usage]({{site.baseurl}}/guide/#example-usage).
 
 ## Use chaining for unique insights
 
