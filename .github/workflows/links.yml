@@ -30,13 +30,6 @@ jobs:
           pwd
           BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle install
 
-      - name: Cache HTMLProofer
-        id: cache-htmlproofer
-        uses: actions/cache@v2
-        with:
-          path: tmp/.htmlproofer
-          key: ${{ runner.os }}-htmlproofer
-
       - name: Build site
         working-directory: docs
         run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll build
@@ -52,4 +45,4 @@ jobs:
             --assume-extension \
             --http-status-ignore "403,406,429,503,999" \
             --url-swap "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000"
-            --url-ignore "/fonts.gstatic.com/,/performance/"
+            --url-ignore "/fonts.gstatic.com/"
