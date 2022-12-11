@@ -50,7 +50,7 @@
   permalink: /indicators/Smma/
   type: moving-average
 
-- title: Momentum
+- title: Momentum Oscillator
   permalink: /indicators/Roc/
   type: price-characteristic
 
