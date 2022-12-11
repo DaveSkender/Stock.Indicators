@@ -5,7 +5,7 @@
     Hull Moving Average (HMA) is a modified weighted average of price over N lookback periods that reduces lag.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Hma/#content">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Hma/#content?utm_source=library">documentation</see>
       for more information.
     </para>
   </summary>

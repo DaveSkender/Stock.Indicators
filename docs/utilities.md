@@ -4,8 +4,6 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 permalink: /utilities/
 relative_path: utilities.md
 layout: page
-redirect_from:
- - /docs/UTILITIES.html
 ---
 
 # {{ page.title }}

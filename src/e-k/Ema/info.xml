@@ -6,7 +6,7 @@
       Exponential Moving Average (EMA) of price or any other specified OHLCV element.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#content">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/indicators/Ema/#content?utm_source=library">documentation</see>
         for more information.
       </para>
     </summary>
@@ -21,7 +21,7 @@
       Extablish a streaming base for Exponential Moving Average (EMA).
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Ema/#streaming">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library">documentation</see>
         for more information.
       </para>
     </summary>
