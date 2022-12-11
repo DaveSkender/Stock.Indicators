@@ -19,11 +19,11 @@ Explore more information:
 - [Discussions]({{site.github.repository_url}}/discussions)
 - [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 
-## Reputable and extensible financial technical indicators
+## Reputable and extensible technical indicators
 
 <img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
 
-### Easy to use in your trading systems
+## Easy to use in your trading systems
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -34,7 +34,7 @@ using Skender.Stock.Indicators;
 IEnumerable<SmaResult> results = quotes.GetSma(20);
 ```
 
-### Use chaining to create unique insights
+## Use chaining to create unique insights
 
 Optional chaining enables advanced uses cases; such as, indicator of indicators, [slope]({{site.baseurl}}/indicators/Slope/#content) (direction) of any result, or [moving average]({{site.baseurl}}/indicators/#moving-average) of an indicator.
 
@@ -67,7 +67,7 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
-## :phone: Ask for help or join in open discussions
+## :speech_balloon: Join in community discussions and get help
 
 [Start a new discussion, ask a question]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
