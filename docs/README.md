@@ -28,7 +28,7 @@ Explore more information:
 ```csharp
 using Skender.Stock.Indicators;
 
-[..]  // prerequisite: get historical quotes from your own source
+// use quotes from your own source
 
 // example: get 20-period simple moving average
 IEnumerable<SmaResult> results = quotes.GetSma(20);
