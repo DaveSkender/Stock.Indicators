@@ -4,8 +4,6 @@ description: The Stock Indicators for .NET library is built for speed and produc
 permalink: /performance/
 relative_path: performance.md
 layout: page
-noindex: true
-sitemap: false
 ---
 
 # {{ page.title }} for v2.3.1

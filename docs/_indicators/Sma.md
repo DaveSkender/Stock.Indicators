@@ -5,8 +5,6 @@ permalink: /indicators/Sma/
 image: /assets/charts/Sma.png
 type: moving-average
 layout: indicator
-redirect_from:
- - /indicators/VolSma/
 ---
 
 # {{ page.title }}
