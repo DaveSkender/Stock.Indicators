@@ -9,7 +9,7 @@
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
-It can be used in any market analysis software using standard [OHLCV price quotes](https://dotnet.StockIndicators.dev/guide/#historical-quotes) for equities, commodities, forex, cryptocurrencies, and others.  We had private trading algorithms, machine learning, and charting systems in mind when originally creating this library.  [Stock Indicators for Python](https://dotnet.StockIndicators.dev.Python/) is also available.
+It can be used in any market analysis software using standard [OHLCV price quotes](https://dotnet.StockIndicators.dev/guide/#historical-quotes) for equities, commodities, forex, cryptocurrencies, and others.  We had private trading algorithms, machine learning, and charting systems in mind when originally creating this library.  [Stock Indicators for Python](https://python.StockIndicators.dev/) is also available.
 
 Visit our project site for more information:
 
