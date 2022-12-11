@@ -54,7 +54,7 @@ IEnumerable<EmaResult> results
 
 See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.
 
-## Built with modern .NET frameworks
+## Built for modern .NET frameworks
 
 - .NET 7.0, 6.0
 - .NET Standard 2.1, 2.0
