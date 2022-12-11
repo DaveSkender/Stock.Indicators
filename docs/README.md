@@ -19,7 +19,7 @@ Explore more information:
 - [Discussions]({{site.github.repository_url}}/discussions)
 - [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 
-## Reputable and extensible technical indicators
+## Reputable and extensible indicators
 
 <img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
 
