@@ -19,11 +19,11 @@ Explore more information:
 - [Discussions]({{site.github.repository_url}}/discussions)
 - [Contributing guidelines]({{site.baseurl}}/contributing/#content)
 
-## Reputable and extensible technical indicators
+## Reputable and extensible financial technical indicators
 
 <img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
 
-### Easy to add to your trading systems
+### Easy to use in your trading systems
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -54,7 +54,7 @@ IEnumerable<EmaResult> results
 
 See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicators and overlays]({{site.baseurl}}/indicators/#content) for more information.
 
-## We use modern .NET frameworks
+## Built with modern .NET frameworks
 
 - .NET 7.0, 6.0
 - .NET Standard 2.1, 2.0
@@ -67,13 +67,13 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
-## :phone: Ask for help or join in our open discussions
+## :phone: Ask for help or join in open discussions
 
 [Start a new discussion, ask a question]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 ## :heart: Give back with patronage
 
-This software is crafted with care by unpaid enthusiasts who appreciate all forms of encouragement.  If you or your organization use any of my projects or like what we're doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.  If you want to buy me a beer or are interest in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.  Thank you for your support!
+This software is crafted with care by unpaid enthusiasts who appreciate all forms of encouragement.  If you or your organization use any of my projects or like what we're doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.  If you want to buy me a beer or are interest in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender) - we'll reinvest your contributions.  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.  Thank you for your support!
 
 ## :octocat: Contribute to the project
 
