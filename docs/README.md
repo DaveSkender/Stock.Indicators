@@ -23,7 +23,7 @@ Explore more information:
 
 <img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
 
-## Easy to use in your software
+## Easy to use in your application
 
 ```csharp
 // example: get 20-period simple moving average
