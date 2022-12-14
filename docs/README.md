@@ -23,7 +23,7 @@ Explore more information:
 
 <img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
 
-## Easy to use in your software
+## Easy to use in your application
 
 ```csharp
 // example: get 20-period simple moving average
@@ -65,15 +65,15 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
-## :speech_balloon: Join in community discussions and get help
+## Join in community discussions :speech_balloon:
 
-[Start a new discussion, ask a question]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+Need help?  [Start a new discussion, ask a question]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
-## :heart: Give back with patronage
+## Give back with patronage :heart:
 
 This software is crafted with care by unpaid enthusiasts who appreciate all forms of encouragement.  If you or your organization use any of my projects or like what we're doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.  If you want to buy me a beer or are interest in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender) - we'll reinvest your contributions.  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.  Thank you for your support!
 
-## :octocat: Contribute to the project
+## Contribute to the project :octocat:
 
 This NuGet package is an open-source project.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
