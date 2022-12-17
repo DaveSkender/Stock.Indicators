@@ -47,6 +47,7 @@
     "chandeliertype",
     "chartable",
     "chikou",
+    "Cobertura",
     "daveskender",
     "Dema",
     "Detrended",
@@ -93,6 +94,7 @@
     "Mrkt",
     "Mulloy",
     "Munehisa",
+    "nupkg",
     "Quong",
     "Renko",
     "Schaff",
@@ -101,6 +103,7 @@
     "Siepman",
     "Skender",
     "Smma",
+    "snupkg",
     "Soudack",
     "Starc",
     "Stoch",
@@ -116,6 +119,7 @@
     "Vitali",
     "Vwap",
     "Vwma",
+    "warnaserror",
     "Woodie"
   ],
   "cSpell.ignorePaths": [
