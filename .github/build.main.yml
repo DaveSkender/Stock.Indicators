@@ -38,7 +38,7 @@ steps:
     inputs:
       command: "build"
       projects: "**/*.csproj"
-      arguments: |
+      arguments: >
         --configuration $(BuildConfiguration)
         /p:Version=$(GitVersion.NuGetVersion)
         /p:ContinuousIntegrationBuild=true"
@@ -50,7 +50,7 @@ steps:
       command: test
       testRunTitle: "Indicator Tests"
       projects: "tests/indicators/Tests.Indicators.csproj"
-      arguments: |
+      arguments: >
         --configuration $(BuildConfiguration)
         --no-restore
         --no-build
@@ -64,7 +64,7 @@ steps:
       command: test
       testRunTitle: "External Tests"
       projects: "tests/external/Tests.Other.csproj"
-      arguments: |
+      arguments: >
         --configuration $(BuildConfiguration)
         --no-restore
         --no-build
