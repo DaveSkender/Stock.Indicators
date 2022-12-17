@@ -41,7 +41,7 @@ steps:
       arguments: >
         --configuration $(BuildConfiguration)
         /p:Version=$(GitVersion.NuGetVersion)
-        /p:ContinuousIntegrationBuild=true"
+        /p:ContinuousIntegrationBuild=true
         /warnaserror
 
   - task: DotNetCoreCLI@2
@@ -55,7 +55,7 @@ steps:
         --no-restore
         --no-build
         --collect:"XPlat Code Coverage"
-        -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+        --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
         publishTestResults: true
 
   - task: DotNetCoreCLI@2
