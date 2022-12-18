@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace Skender.Stock.Indicators;
@@ -20,7 +21,7 @@ public static partial class QuoteUtility
             .Select(x => x.ToTuple(candlePart));
 
     // sort quotes
-    public static List<TQuote> ToSortedList<TQuote>(
+    internal static List<TQuote> ToSortedList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
             .OrderBy(x => x.Date)
@@ -29,7 +30,15 @@ public static partial class QuoteUtility
     // TUPLE QUOTES
 
     // convert quotes to tuple list
-    public static List<(DateTime, double)> ToTuple<TQuote>(
+    public static Collection<(DateTime, double)> ToTupleCollection<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote
+        => quotes
+            .ToTuple(candlePart)
+            .ToCollection();
+
+    internal static List<(DateTime, double)> ToTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote => quotes
@@ -38,8 +47,15 @@ public static partial class QuoteUtility
             .ToList();
 
     // convert tuples to list, with sorting
-    public static List<(DateTime, double)> ToSortedList(
-        this IEnumerable<(DateTime date, double value)> tuples) => tuples
+    public static Collection<(DateTime, double)> ToSortedCollection(
+        this IEnumerable<(DateTime date, double value)> tuples)
+        => tuples
+            .ToSortedList()
+            .ToCollection();
+
+    internal static List<(DateTime, double)> ToSortedList(
+        this IEnumerable<(DateTime date, double value)> tuples)
+        => tuples
             .OrderBy(x => x.date)
             .ToList();
 

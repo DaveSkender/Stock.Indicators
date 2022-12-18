@@ -30,7 +30,7 @@ var results = quotes
 
 ### Using tuple quotes
 
-`quotes.ToTuple()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `Collection`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
+`quotes.ToTupleCollection()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `Collection`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
 
 ### Sort quotes
 
@@ -156,7 +156,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ### Using tuple results
 
-`results.ToTuple(nullTo)` is a method for converting results collections to a simpler `(DateTime Date, double? Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
+`results.ToTupleCollection(nullTo)` is a method for converting results collections to a simpler `(DateTime Date, double? Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
 
 This is not required in normal use; however, the last option may be useful for users who create [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
