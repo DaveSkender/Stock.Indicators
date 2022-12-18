@@ -8,7 +8,7 @@ layout: page
 
 # {{ page.title }}
 
-To help you get started, here are a few minimalist .NET 6.0 C# projects that you can review.  They are complete working examples.
+To help you get started, here are a few minimalist .NET 7.0 C# projects that you can review.  They are complete working examples.
 
 - `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
