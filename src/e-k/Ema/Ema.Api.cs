@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
@@ -25,7 +27,7 @@ public static partial class Indicator
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcEma(lookbackPeriods);
 
     // STREAM INITIALIZATION, from TQuote
@@ -37,10 +39,10 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // convert quotes
-        List<(DateTime, double)> tpList
+        Collection<(DateTime, double)> tpColl
             = quotes.ToTuple(CandlePart.Close);
 
-        return new EmaBase(tpList, lookbackPeriods);
+        return new EmaBase(tpColl, lookbackPeriods);
     }
 
     // STREAM INITIALIZATION, from CHAIN
@@ -49,9 +51,9 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // convert results
-        List<(DateTime, double)> tpList
+        Collection<(DateTime, double)> tpColl
             = results.ToTuple();
 
-        return new EmaBase(tpList, lookbackPeriods);
+        return new EmaBase(tpColl, lookbackPeriods);
     }
 }

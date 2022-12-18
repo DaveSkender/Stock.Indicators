@@ -10,6 +10,6 @@ public static partial class Indicator
         int atrPeriods,
         EndType endType = EndType.Close)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcRenkoAtr(atrPeriods, endType);
 }

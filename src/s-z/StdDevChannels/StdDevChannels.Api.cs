@@ -28,6 +28,6 @@ public static partial class Indicator
         this IEnumerable<(DateTime, double)> priceTuples,
         int? lookbackPeriods = 20,
         double stdDeviations = 2) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcStdDevChannels(lookbackPeriods, stdDeviations);
 }

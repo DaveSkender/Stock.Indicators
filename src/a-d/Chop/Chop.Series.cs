@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // CHOPPINESS INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static List<ChopResult> CalcChop(
-        this List<QuoteD> qdList,
+    internal static Collection<ChopResult> CalcChop(
+        this Collection<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -17,7 +19,7 @@ public static partial class Indicator
         double range;
 
         int length = qdList.Count;
-        List<ChopResult> results = new(length);
+        Collection<ChopResult> results = new();
         double[] trueHigh = new double[length];
         double[] trueLow = new double[length];
         double[] trueRange = new double[length];

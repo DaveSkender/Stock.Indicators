@@ -25,7 +25,7 @@ public static partial class Indicator
     public static IEnumerable<SmaResult> GetSma(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcSma(lookbackPeriods);
 
     /// <include file='./info.xml' path='info/type[@name="Analysis"]/*' />
@@ -50,6 +50,6 @@ public static partial class Indicator
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcSmaAnalysis(lookbackPeriods);
 }

@@ -1,11 +1,13 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // PRICE RELATIVE STRENGTH (SERIES)
 public static partial class Indicator
 {
-    internal static List<PrsResult> CalcPrs(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListBase,
+    internal static Collection<PrsResult> CalcPrs(
+        Collection<(DateTime, double)> tpListEval,
+        Collection<(DateTime, double)> tpListBase,
         int? lookbackPeriods = null,
         int? smaPeriods = null)
     {
@@ -13,7 +15,7 @@ public static partial class Indicator
         ValidatePriceRelative(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
 
         // initialize
-        List<PrsResult> results = new(tpListEval.Count);
+        Collection<PrsResult> results = new();
 
         // roll through quotes
         for (int i = 0; i < tpListEval.Count; i++)
@@ -66,8 +68,8 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidatePriceRelative(
-        List<(DateTime, double)> quotesEval,
-        List<(DateTime, double)> quotesBase,
+        Collection<(DateTime, double)> quotesEval,
+        Collection<(DateTime, double)> quotesBase,
         int? lookbackPeriods,
         int? smaPeriods)
     {

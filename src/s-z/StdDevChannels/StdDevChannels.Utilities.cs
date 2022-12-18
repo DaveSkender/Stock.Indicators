@@ -18,7 +18,7 @@ public static partial class Indicator
             && x.Centerline is null
             && x.BreakPoint is false);
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 
     // remove recommended periods

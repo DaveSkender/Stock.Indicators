@@ -22,6 +22,6 @@ public static partial class Indicator
     // SERIES, from TUPLE
     public static IEnumerable<HtlResult> GetHtTrendline(
         this IEnumerable<(DateTime, double)> priceTuples) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcHtTrendline();
 }

@@ -1,27 +1,32 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // STANDARD DEVIATION CHANNELS
 public static partial class Indicator
 {
-    internal static List<StdDevChannelsResult> CalcStdDevChannels(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<StdDevChannelsResult> CalcStdDevChannels(
+        this Collection<(DateTime, double)> tpColl,
         int? lookbackPeriods,
         double stdDeviations)
     {
         // assume whole quotes when lookback is null
-        lookbackPeriods ??= tpList.Count;
+        lookbackPeriods ??= tpColl.Count;
 
         // check parameter arguments
         ValidateStdDevChannels(lookbackPeriods, stdDeviations);
 
         // initialize
-        List<SlopeResult> slopeResults = tpList
+        Collection<SlopeResult> slopeResults = tpColl
             .CalcSlope((int)lookbackPeriods);
 
         int length = slopeResults.Count;
-        List<StdDevChannelsResult> results = slopeResults
-            .Select(x => new StdDevChannelsResult(x.Date))
-            .ToList();
+        Collection<StdDevChannelsResult> results = new();
+
+        foreach (SlopeResult x in slopeResults)
+        {
+            results.Add(new StdDevChannelsResult(x.Date));
+        }
 
         // roll through quotes in reverse
         for (int w = length - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)

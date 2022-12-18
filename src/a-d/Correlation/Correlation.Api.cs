@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // CORRELATION COEFFICIENT (API)
@@ -12,10 +14,10 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote
     {
-        List<(DateTime, double)> tpListA
+        Collection<(DateTime, double)> tpListA
             = quotesA.ToTuple(CandlePart.Close);
 
-        List<(DateTime, double)> tpListB
+        Collection<(DateTime, double)> tpListB
             = quotesB.ToTuple(CandlePart.Close);
 
         return CalcCorrelation(tpListA, tpListB, lookbackPeriods);
@@ -27,8 +29,8 @@ public static partial class Indicator
         IEnumerable<(DateTime, double)> tuplesB,
         int lookbackPeriods)
     {
-        List<(DateTime, double)> tpListA = tuplesA.ToSortedList();
-        List<(DateTime, double)> tpListB = tuplesB.ToSortedList();
+        Collection<(DateTime, double)> tpListA = tuplesA.ToSortedCollection();
+        Collection<(DateTime, double)> tpListB = tuplesB.ToSortedCollection();
 
         return CalcCorrelation(tpListA, tpListB, lookbackPeriods);
     }

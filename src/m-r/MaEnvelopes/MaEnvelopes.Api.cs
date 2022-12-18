@@ -31,6 +31,6 @@ public static partial class Indicator
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 }

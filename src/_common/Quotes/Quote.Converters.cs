@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace Skender.Stock.Indicators;
@@ -20,54 +21,90 @@ public static partial class QuoteUtility
             .Select(x => x.ToTuple(candlePart));
 
     // sort quotes
-    public static List<TQuote> ToSortedList<TQuote>(
+    public static Collection<TQuote> ToSortedCollection<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .ToList();
+        where TQuote : IQuote
+    {
+        Collection<TQuote> coll = new();
+        foreach (TQuote q in quotes.OrderBy(x => x.Date))
+        {
+            coll.Add(q);
+        }
+
+        return coll;
+    }
 
     // TUPLE QUOTES
 
     // convert quotes to tuple list
-    public static List<(DateTime, double)> ToTuple<TQuote>(
+    public static Collection<(DateTime, double)> ToTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .Select(x => x.ToTuple(candlePart))
-            .ToList();
+        where TQuote : IQuote
+    {
+        Collection<(DateTime, double)> coll = new();
+
+        foreach (TQuote q in quotes.OrderBy(x => x.Date))
+        {
+            coll.Add(q.ToTuple(candlePart));
+        }
+
+        return coll;
+    }
 
     // convert tuples to list, with sorting
-    public static List<(DateTime, double)> ToSortedList(
-        this IEnumerable<(DateTime date, double value)> tuples) => tuples
-            .OrderBy(x => x.date)
-            .ToList();
+    public static Collection<(DateTime, double)> ToSortedCollection(
+        this IEnumerable<(DateTime date, double value)> tuples)
+    {
+        Collection<(DateTime, double)> coll = new();
+
+        foreach ((DateTime date, double value) q in tuples.OrderBy(x => x.date))
+        {
+            coll.Add(q);
+        }
+
+        return coll;
+    }
 
     // DOUBLE QUOTES
 
     // convert to quotes in double precision
-    internal static List<QuoteD> ToQuoteD<TQuote>(
+    internal static Collection<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .Select(x => new QuoteD
+        where TQuote : IQuote
+    {
+        Collection<QuoteD> coll = new();
+
+        foreach (TQuote? q in quotes.OrderBy(x => x.Date))
+        {
+            coll.Add(new QuoteD
             {
-                Date = x.Date,
-                Open = (double)x.Open,
-                High = (double)x.High,
-                Low = (double)x.Low,
-                Close = (double)x.Close,
-                Volume = (double)x.Volume
-            })
-            .OrderBy(x => x.Date)
-            .ToList();
+                Date = q.Date,
+                Open = (double)q.Open,
+                High = (double)q.High,
+                Low = (double)q.Low,
+                Close = (double)q.Close,
+                Volume = (double)q.Volume
+            });
+        }
+
+        return coll;
+    }
 
     // convert quoteD list to tuples
-    internal static List<(DateTime, double)> ToTuple(
-        this List<QuoteD> qdList,
-        CandlePart candlePart) => qdList
-            .OrderBy(x => x.Date)
-            .Select(x => x.ToTuple(candlePart))
-            .ToList();
+    internal static Collection<(DateTime, double)> ToTuple(
+        this IEnumerable<QuoteD> qdList,
+        CandlePart candlePart)
+    {
+        Collection<(DateTime, double)> coll = new();
+
+        foreach (QuoteD x in qdList.OrderBy(x => x.Date))
+        {
+            coll.Add(x.ToTuple(candlePart));
+        }
+
+        return coll;
+    }
 
     /* ELEMENTS */
 

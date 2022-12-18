@@ -6,20 +6,20 @@ using Skender.Stock.Indicators;
 [assembly: CLSCompliant(true)]
 namespace External.Other;
 
-internal class MyQuote : Quote
+internal sealed class MyQuote : Quote
 {
     public bool MyProperty { get; set; }
     public decimal? MyClose { get; set; }
 }
 
-internal class MyEma : ResultBase
+internal sealed class MyEma : ResultBase
 {
     public int Id { get; set; }
     public bool MyProperty { get; set; }
     public double? Ema { get; set; }
 }
 
-internal class MyGenericQuote : IQuote
+internal sealed class MyGenericQuote : IQuote
 {
     // required base properties
     DateTime IQuote.Date => CloseDate;

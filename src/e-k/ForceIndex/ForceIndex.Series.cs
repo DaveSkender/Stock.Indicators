@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // FORCE INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static List<ForceIndexResult> CalcForceIndex(
-        this List<QuoteD> qdList,
+    internal static Collection<ForceIndexResult> CalcForceIndex(
+        this Collection<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -12,7 +14,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        List<ForceIndexResult> results = new(length);
+        Collection<ForceIndexResult> results = new();
         double? prevClose = null, prevFI = null, sumRawFI = 0;
         double k = 2d / (lookbackPeriods + 1);
 

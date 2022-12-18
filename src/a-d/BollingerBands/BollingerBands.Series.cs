@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // BOLLINGER BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static List<BollingerBandsResult> CalcBollingerBands(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<BollingerBandsResult> CalcBollingerBands(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods,
         double standardDeviations)
     {
@@ -12,12 +14,12 @@ public static partial class Indicator
         ValidateBollingerBands(lookbackPeriods, standardDeviations);
 
         // initialize
-        List<BollingerBandsResult> results = new(tpList.Count);
+        Collection<BollingerBandsResult> results = new();
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < tpColl.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
 
             BollingerBandsResult r = new(date);
             results.Add(r);
@@ -30,7 +32,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpColl[p];
                     window[n] = pValue;
                     sum += pValue;
                     n++;

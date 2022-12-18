@@ -28,6 +28,6 @@ public static partial class Indicator
         this IEnumerable<(DateTime, double)> priceTuples,
         double fastLimit = 0.5,
         double slowLimit = 0.05) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcMama(fastLimit, slowLimit);
 }

@@ -1,12 +1,14 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // BETA COEFFICIENT (SERIES)
 public static partial class Indicator
 {
     // NOTE: sequence swapped from API
-    internal static List<BetaResult> CalcBeta(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListMrkt,
+    internal static Collection<BetaResult> CalcBeta(
+        Collection<(DateTime, double)> tpListEval,
+        Collection<(DateTime, double)> tpListMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
     {
@@ -15,7 +17,7 @@ public static partial class Indicator
 
         // initialize
         int length = tpListEval.Count;
-        List<BetaResult> results = new(length);
+        Collection<BetaResult> results = new();
 
         bool calcSd = type is BetaType.All or BetaType.Standard;
         bool calcUp = type is BetaType.All or BetaType.Up;
@@ -160,8 +162,8 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateBeta(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListMrkt,
+        Collection<(DateTime, double)> tpListEval,
+        Collection<(DateTime, double)> tpListMrkt,
         int lookbackPeriods)
     {
         // check parameter arguments

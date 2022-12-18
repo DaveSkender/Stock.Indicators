@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    internal static List<KamaResult> CalcKama(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<KamaResult> CalcKama(
+        this Collection<(DateTime, double)> tpColl,
         int erPeriods,
         int fastPeriods,
         int slowPeriods)
@@ -13,15 +15,15 @@ public static partial class Indicator
         ValidateKama(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
-        int length = tpList.Count;
-        List<KamaResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<KamaResult> results = new();
         double scFast = 2d / (fastPeriods + 1);
         double scSlow = 2d / (slowPeriods + 1);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
 
             KamaResult r = new(date);
             results.Add(r);
@@ -29,13 +31,13 @@ public static partial class Indicator
             if (i + 1 > erPeriods)
             {
                 // ER period change
-                double change = Math.Abs(value - tpList[i - erPeriods].Item2);
+                double change = Math.Abs(value - tpColl[i - erPeriods].Item2);
 
                 // volatility
                 double sumPV = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += Math.Abs(tpList[p].Item2 - tpList[p - 1].Item2);
+                    sumPV += Math.Abs(tpColl[p].Item2 - tpColl[p - 1].Item2);
                 }
 
                 if (sumPV != 0)

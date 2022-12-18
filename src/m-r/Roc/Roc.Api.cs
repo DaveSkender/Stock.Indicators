@@ -28,6 +28,6 @@ public static partial class Indicator
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods,
         int? smaPeriods = null) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcRoc(lookbackPeriods, smaPeriods);
 }

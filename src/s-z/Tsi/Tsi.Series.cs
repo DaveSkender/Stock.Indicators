@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // TRUE STRENGTH INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static List<TsiResult> CalcTsi(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<TsiResult> CalcTsi(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods,
         int smoothPeriods,
         int signalPeriods)
@@ -13,13 +15,13 @@ public static partial class Indicator
         ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = tpColl.Count;
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
         double sumS = 0;
 
-        List<TsiResult> results = new(length);
+        Collection<TsiResult> results = new();
 
         double[] c = new double[length]; // price change
         double[] cs1 = new double[length]; // smooth 1
@@ -36,7 +38,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
 
             TsiResult r = new(date);
             results.Add(r);
@@ -48,7 +50,7 @@ public static partial class Indicator
             }
 
             // price change
-            c[i] = value - tpList[i - 1].Item2;
+            c[i] = value - tpColl[i - 1].Item2;
             a[i] = Math.Abs(c[i]);
 
             // smoothing

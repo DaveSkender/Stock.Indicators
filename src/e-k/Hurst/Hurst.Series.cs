@@ -1,23 +1,25 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // HURST EXPONENT (SERIES)
 public static partial class Indicator
 {
-    internal static List<HurstResult> CalcHurst(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<HurstResult> CalcHurst(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateHurst(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
-        List<HurstResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<HurstResult> results = new();
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            (DateTime date, double _) = tpColl[i];
 
             HurstResult r = new(date);
             results.Add(r);
@@ -28,11 +30,11 @@ public static partial class Indicator
                 double[] values = new double[lookbackPeriods];
 
                 int x = 0;
-                double l = tpList[i - lookbackPeriods].Item2;
+                double l = tpColl[i - lookbackPeriods].Item2;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double c) = tpList[p];
+                    (DateTime _, double c) = tpColl[p];
 
                     // return values
                     values[x] = l != 0 ? (c / l) - 1 : double.NaN;

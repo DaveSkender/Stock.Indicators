@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // SUPERTREND (SERIES)
 public static partial class Indicator
 {
-    internal static List<SuperTrendResult> CalcSuperTrend(
-        this List<QuoteD> qdList,
+    internal static Collection<SuperTrendResult> CalcSuperTrend(
+        this Collection<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier)
     {
@@ -12,8 +14,8 @@ public static partial class Indicator
         ValidateSuperTrend(lookbackPeriods, multiplier);
 
         // initialize
-        List<SuperTrendResult> results = new(qdList.Count);
-        List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
+        Collection<SuperTrendResult> results = new();
+        Collection<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;

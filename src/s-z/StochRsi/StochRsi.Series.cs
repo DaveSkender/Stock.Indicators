@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // STOCHASTIC RSI (SERIES)
 public static partial class Indicator
 {
-    internal static List<StochRsiResult> CalcStochRsi(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<StochRsiResult> CalcStochRsi(
+        this Collection<(DateTime, double)> tpColl,
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
@@ -14,35 +16,41 @@ public static partial class Indicator
         ValidateStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // initialize results
-        int length = tpList.Count;
+        int length = tpColl.Count;
         int initPeriods = Math.Min(rsiPeriods + stochPeriods - 1, length);
-        List<StochRsiResult> results = new(length);
+        Collection<StochRsiResult> results = new();
 
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            (DateTime date, double _) = tpColl[i];
             results.Add(new StochRsiResult(date));
         }
 
-        // get Stochastic of RSI
-        List<StochResult> stoResults =
-            tpList
+        // get RSI component
+        Collection<QuoteD> rsiQuotes = new();
+
+        List<RsiResult> rsiResults = tpColl
             .CalcRsi(rsiPeriods)
-            .Remove(Math.Min(rsiPeriods, length))
-            .Select(x => new QuoteD
+            .Remove(Math.Min(rsiPeriods, length));
+
+        foreach (RsiResult x in rsiResults)
+        {
+            rsiQuotes.Add(new QuoteD
             {
                 Date = x.Date,
                 High = x.Rsi.Null2NaN(),
                 Low = x.Rsi.Null2NaN(),
                 Close = x.Rsi.Null2NaN()
-            })
-            .ToList()
+            });
+        }
+
+        // get Stochastic of RSI
+        Collection<StochResult> stoResults = rsiQuotes
             .CalcStoch(
                 stochPeriods,
                 signalPeriods,
-                smoothPeriods, 3, 2, MaType.SMA)
-            .ToList();
+                smoothPeriods, 3, 2, MaType.SMA);
 
         // add stoch results
         for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)

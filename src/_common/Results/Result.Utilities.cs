@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // HELPER FUNCTIONS
@@ -38,7 +40,7 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.Value is null or (double and double.NaN));
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 
     // SYNC INDEX - RESIZE TO MATCH OTHER
@@ -50,8 +52,8 @@ public static partial class Indicator
         where TResultM : IResult
     {
         // initialize
-        List<TResultR> resultsList = results.ToSortedList();
-        List<TResultM> matchList = resultsToMatch.ToSortedList();
+        List<TResultR> resultsList = results.ToListSorted();
+        List<TResultM> matchList = resultsToMatch.ToListSorted();
 
         if (matchList.Count == 0 || resultsList.Count == 0)
         {
@@ -129,14 +131,14 @@ public static partial class Indicator
             _ = resultsList.RemoveAll(x => toRemove.Contains(x));
         }
 
-        return resultsList.ToSortedList();
+        return resultsList.ToListSorted();
     }
 
     // CONVERT TO TUPLE (default with pruning)
-    public static List<(DateTime Date, double Value)> ToTuple(
+    public static Collection<(DateTime Date, double Value)> ToTuple(
         this IEnumerable<IReusableResult> reusable)
     {
-        List<(DateTime date, double value)> prices = new();
+        Collection<(DateTime date, double value)> prices = new();
         List<IReusableResult> reList = reusable.ToList();
 
         // find first non-nulled
@@ -148,17 +150,17 @@ public static partial class Indicator
             prices.Add(new(r.Date, r.Value.Null2NaN()));
         }
 
-        return prices.OrderBy(x => x.date).ToList();
+        return prices;
     }
 
     // CONVERT TO TUPLE with nullable value option and no pruning
-    public static List<(DateTime Date, double? Value)> ToTuple(
+    public static Collection<(DateTime Date, double? Value)> ToTuple(
         this IEnumerable<IReusableResult> reusable,
         NullTo nullTo)
     {
+        Collection<(DateTime date, double? value)> prices = new();
         List<IReusableResult> reList = reusable.ToList();
         int length = reList.Count;
-        List<(DateTime date, double? value)> prices = new(length);
 
         for (int i = 0; i < length; i++)
         {
@@ -166,11 +168,26 @@ public static partial class Indicator
             prices.Add(new(r.Date, (nullTo == NullTo.NaN) ? r.Value.Null2NaN() : r.Value));
         }
 
-        return prices.OrderBy(x => x.date).ToList();
+        return prices;
+    }
+
+    // RETURN SORTED COLLECTION of RESULTS
+    public static Collection<TResult> ToSortedCollection<TResult>(
+        this IEnumerable<TResult> results)
+        where TResult : IResult
+    {
+        Collection<TResult> resultsColl = new();
+
+        foreach (TResult r in results.OrderBy(x => x.Date))
+        {
+            resultsColl.Add(r);
+        }
+
+        return resultsColl;
     }
 
     // RETURN SORTED LIST of RESULTS
-    public static List<TResult> ToSortedList<TResult>(
+    private static List<TResult> ToListSorted<TResult>(
         this IEnumerable<TResult> results)
         where TResult : IResult => results
             .OrderBy(x => x.Date)

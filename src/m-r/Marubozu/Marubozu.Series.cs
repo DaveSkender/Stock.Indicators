@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // MARUBOZU (SERIES)
@@ -5,7 +7,7 @@ public static partial class Indicator
 {
     /// <include file='./info.xml' path='info/*' />
     ///
-    internal static List<CandleResult> CalcMarubozu<TQuote>(
+    internal static Collection<CandleResult> CalcMarubozu<TQuote>(
         this IEnumerable<TQuote> quotes,
         double minBodyPercent)
         where TQuote : IQuote
@@ -14,7 +16,7 @@ public static partial class Indicator
         ValidateMarubozu(minBodyPercent);
 
         // initialize
-        List<CandleResult> results = quotes.ToCandleResults();
+        Collection<CandleResult> results = quotes.ToCandleResults();
         minBodyPercent /= 100;
         int length = results.Count;
 

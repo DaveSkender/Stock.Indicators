@@ -1,21 +1,23 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // RELATIVE STRENGTH INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static List<RsiResult> CalcRsi(
-        this List<(DateTime Date, double Value)> tpList,
+    internal static Collection<RsiResult> CalcRsi(
+        this Collection<(DateTime Date, double Value)> tpColl,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateRsi(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = tpColl.Count;
         double avgGain = 0;
         double avgLoss = 0;
 
-        List<RsiResult> results = new(length);
+        Collection<RsiResult> results = new();
         double[] gain = new double[length]; // gain
         double[] loss = new double[length]; // loss
         double lastValue;
@@ -26,13 +28,13 @@ public static partial class Indicator
         }
         else
         {
-            lastValue = tpList[0].Value;
+            lastValue = tpColl[0].Value;
         }
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
 
             RsiResult r = new(date);
             results.Add(r);

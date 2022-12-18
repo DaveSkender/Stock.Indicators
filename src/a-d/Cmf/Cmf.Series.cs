@@ -1,22 +1,24 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // CHAIKIN MONEY FLOW (SERIES)
 public static partial class Indicator
 {
-    internal static List<CmfResult> CalcCmf(
-        this List<QuoteD> qdList,
+    internal static Collection<CmfResult> CalcCmf(
+        this Collection<QuoteD> qdList,
         int lookbackPeriods)
     {
         // convert quotes
-        List<(DateTime, double)> tpList = qdList.ToTuple(CandlePart.Volume);
+        Collection<(DateTime, double)> tpColl = qdList.ToTuple(CandlePart.Volume);
 
         // check parameter arguments
         ValidateCmf(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
-        List<CmfResult> results = new(length);
-        List<AdlResult> adlResults = qdList.CalcAdl(null).ToList();
+        int length = tpColl.Count;
+        Collection<CmfResult> results = new();
+        Collection<AdlResult> adlResults = qdList.CalcAdl(null);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -37,7 +39,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpColl[p];
                     sumVol += pValue;
 
                     AdlResult d = adlResults[p];

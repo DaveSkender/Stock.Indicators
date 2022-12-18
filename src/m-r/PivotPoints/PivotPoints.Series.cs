@@ -1,17 +1,19 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // PIVOT POINTS (SERIES)
 public static partial class Indicator
 {
-    internal static List<PivotPointsResult> CalcPivotPoints<TQuote>(
-        this List<TQuote> quotesList,
+    internal static Collection<PivotPointsResult> CalcPivotPoints<TQuote>(
+        this Collection<TQuote> quotesList,
         PeriodSize windowSize,
         PivotPointType pointType)
         where TQuote : IQuote
     {
         // initialize
         int length = quotesList.Count;
-        List<PivotPointsResult> results = new(length);
+        Collection<PivotPointsResult> results = new();
         PivotPointsResult? windowPoint = new();
         TQuote h0;
 

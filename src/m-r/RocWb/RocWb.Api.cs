@@ -31,6 +31,6 @@ public static partial class Indicator
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 }

@@ -19,6 +19,6 @@ public static partial class Indicator
                 && x.SenkouSpanB is null
                 && x.ChikouSpan is null);
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 }

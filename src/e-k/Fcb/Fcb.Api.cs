@@ -10,6 +10,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int windowSpan = 2)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcFcb(windowSpan);
 }

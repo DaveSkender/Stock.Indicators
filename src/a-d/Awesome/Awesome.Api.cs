@@ -28,6 +28,6 @@ public static partial class Indicator
         this IEnumerable<(DateTime, double)> priceTuples,
         int fastPeriods = 5,
         int slowPeriods = 34) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcAwesome(fastPeriods, slowPeriods);
 }

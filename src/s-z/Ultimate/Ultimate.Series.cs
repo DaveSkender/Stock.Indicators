@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // ULTIMATE OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static List<UltimateResult> CalcUltimate(
-        this List<QuoteD> qdList,
+    internal static Collection<UltimateResult> CalcUltimate(
+        this Collection<QuoteD> qdList,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
@@ -14,7 +16,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        List<UltimateResult> results = new(length);
+        Collection<UltimateResult> results = new();
         double[] bp = new double[length]; // buying pressure
         double[] tr = new double[length]; // true range
 

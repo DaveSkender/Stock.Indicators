@@ -25,6 +25,6 @@ public static partial class Indicator
     public static IEnumerable<DemaResult> GetDema(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcDema(lookbackPeriods);
 }

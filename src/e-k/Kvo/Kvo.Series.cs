@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // KLINGER VOLUME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static List<KvoResult> CalcKvo(
-        this List<QuoteD> qdList,
+    internal static Collection<KvoResult> CalcKvo(
+        this Collection<QuoteD> qdList,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
@@ -14,7 +16,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        List<KvoResult> results = new(length);
+        Collection<KvoResult> results = new();
 
         double[] t = new double[length];          // trend direction
         double[] hlc = new double[length];        // trend basis

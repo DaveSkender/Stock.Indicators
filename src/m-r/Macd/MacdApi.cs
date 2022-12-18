@@ -31,6 +31,6 @@ public static partial class Indicator
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcMacd(fastPeriods, slowPeriods, signalPeriods);
 }

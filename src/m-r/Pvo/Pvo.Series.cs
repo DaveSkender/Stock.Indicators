@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // PRICE VOLUME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static List<PvoResult> CalcPvo(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<PvoResult> CalcPvo(
+        this Collection<(DateTime, double)> tpColl,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
@@ -13,17 +15,17 @@ public static partial class Indicator
         ValidatePvo(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = tpList.CalcEma(fastPeriods);
-        List<EmaResult> emaSlow = tpList.CalcEma(slowPeriods);
+        Collection<EmaResult> emaFast = tpColl.CalcEma(fastPeriods);
+        Collection<EmaResult> emaSlow = tpColl.CalcEma(slowPeriods);
 
-        int length = tpList.Count;
-        List<(DateTime, double)> emaDiff = new();
-        List<PvoResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<(DateTime, double)> emaDiff = new();
+        Collection<PvoResult> results = new();
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            (DateTime date, double _) = tpColl[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
@@ -45,7 +47,7 @@ public static partial class Indicator
         }
 
         // add signal and histogram to result
-        List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
+        Collection<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
 
         for (int d = slowPeriods - 1; d < length; d++)
         {

@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // MONEY FLOW INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static List<MfiResult> CalcMfi(
-        this List<QuoteD> qdList,
+    internal static Collection<MfiResult> CalcMfi(
+        this Collection<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -12,7 +14,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        List<MfiResult> results = new(length);
+        Collection<MfiResult> results = new();
         double[] tp = new double[length];  // true price
         double[] mf = new double[length];  // raw MF value
         int[] direction = new int[length]; // direction

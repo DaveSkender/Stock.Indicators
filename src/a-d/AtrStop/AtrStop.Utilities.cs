@@ -15,7 +15,7 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.AtrStop is null);
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 
     // remove recommended periods

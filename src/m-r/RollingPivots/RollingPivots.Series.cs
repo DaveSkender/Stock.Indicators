@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // PIVOT POINTS (SERIES)
 public static partial class Indicator
 {
-    internal static List<RollingPivotsResult> CalcRollingPivots<TQuote>(
-        this List<TQuote> quotesList,
+    internal static Collection<RollingPivotsResult> CalcRollingPivots<TQuote>(
+        this Collection<TQuote> quotesList,
         int windowPeriods,
         int offsetPeriods,
         PivotPointType pointType)
@@ -15,7 +17,7 @@ public static partial class Indicator
 
         // initialize
         int length = quotesList.Count;
-        List<RollingPivotsResult> results = new(length);
+        Collection<RollingPivotsResult> results = new();
 
         // roll through quotes
         for (int i = 0; i < length; i++)

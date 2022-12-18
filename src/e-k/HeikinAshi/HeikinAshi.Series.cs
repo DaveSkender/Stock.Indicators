@@ -1,15 +1,17 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // HEIKIN-ASHI (SERIES)
 public static partial class Indicator
 {
-    internal static List<HeikinAshiResult> CalcHeikinAshi<TQuote>(
-        this List<TQuote> quotesList)
+    internal static Collection<HeikinAshiResult> CalcHeikinAshi<TQuote>(
+        this Collection<TQuote> quotesList)
         where TQuote : IQuote
     {
         // initialize
         int length = quotesList.Count;
-        List<HeikinAshiResult> results = new(length);
+        Collection<HeikinAshiResult> results = new();
 
         decimal prevOpen = decimal.MinValue;
         decimal prevClose = decimal.MinValue;

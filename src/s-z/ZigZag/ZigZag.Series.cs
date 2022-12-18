@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // ZIG ZAG (SERIES)
 public static partial class Indicator
 {
-    internal static List<ZigZagResult> CalcZigZag<TQuote>(
-        this List<TQuote> quotesList,
+    internal static Collection<ZigZagResult> CalcZigZag<TQuote>(
+        this Collection<TQuote> quotesList,
         EndType endType = EndType.Close,
         decimal percentChange = 5)
         where TQuote : IQuote
@@ -14,7 +16,7 @@ public static partial class Indicator
 
         // initialize
         int length = quotesList.Count;
-        List<ZigZagResult> results = new(length);
+        Collection<ZigZagResult> results = new();
         TQuote q0;
 
         if (length == 0)
@@ -105,7 +107,7 @@ public static partial class Indicator
 
     // internals
     private static ZigZagPoint EvaluateNextPoint<TQuote>(
-        List<TQuote> quotesList,
+        Collection<TQuote> quotesList,
         EndType endType,
         decimal changeThreshold,
         ZigZagPoint lastPoint)
@@ -179,8 +181,11 @@ public static partial class Indicator
         return extremePoint;
     }
 
-    private static void DrawZigZagLine<TQuote>(List<ZigZagResult> results, List<TQuote> quotesList,
-        ZigZagPoint lastPoint, ZigZagPoint nextPoint)
+    private static void DrawZigZagLine<TQuote>(
+        Collection<ZigZagResult> results,
+        Collection<TQuote> quotesList,
+        ZigZagPoint lastPoint,
+        ZigZagPoint nextPoint)
         where TQuote : IQuote
     {
         if (nextPoint.Index != lastPoint.Index)
@@ -211,7 +216,7 @@ public static partial class Indicator
     }
 
     private static void DrawRetraceLine(
-        List<ZigZagResult> results,
+        Collection<ZigZagResult> results,
         string lastDirection,
         ZigZagPoint lastLowPoint,
         ZigZagPoint lastHighPoint,

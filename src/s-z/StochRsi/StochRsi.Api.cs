@@ -42,7 +42,7 @@ public static partial class Indicator
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcStochRsi(
                 rsiPeriods,
                 stochPeriods,

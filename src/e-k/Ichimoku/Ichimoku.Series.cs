@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // ICHIMOKU CLOUD (SERIES)
 public static partial class Indicator
 {
-    internal static List<IchimokuResult> CalcIchimoku<TQuote>(
-        this List<TQuote> quotesList,
+    internal static Collection<IchimokuResult> CalcIchimoku<TQuote>(
+        this Collection<TQuote> quotesList,
         int tenkanPeriods,
         int kijunPeriods,
         int senkouBPeriods,
@@ -22,7 +24,7 @@ public static partial class Indicator
 
         // initialize
         int length = quotesList.Count;
-        List<IchimokuResult> results = new(length);
+        Collection<IchimokuResult> results = new();
         int senkouStartPeriod = Math.Max(
             2 * senkouOffset,
             Math.Max(tenkanPeriods, kijunPeriods)) - 1;
@@ -66,7 +68,7 @@ public static partial class Indicator
     }
 
     private static void CalcIchimokuTenkanSen<TQuote>(
-        int i, List<TQuote> quotesList, IchimokuResult result, int tenkanPeriods)
+        int i, Collection<TQuote> quotesList, IchimokuResult result, int tenkanPeriods)
         where TQuote : IQuote
     {
         if (i >= tenkanPeriods - 1)
@@ -95,7 +97,7 @@ public static partial class Indicator
 
     private static void CalcIchimokuKijunSen<TQuote>(
         int i,
-        List<TQuote> quotesList,
+        Collection<TQuote> quotesList,
         IchimokuResult result,
         int kijunPeriods)
         where TQuote : IQuote
@@ -126,7 +128,7 @@ public static partial class Indicator
 
     private static void CalcIchimokuSenkouB<TQuote>(
         int i,
-        List<TQuote> quotesList,
+        Collection<TQuote> quotesList,
         IchimokuResult result,
         int senkouOffset,
         int senkouBPeriods)

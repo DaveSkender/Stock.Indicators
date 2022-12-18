@@ -1,18 +1,20 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // DOUBLE EXPONENTIAL MOVING AVERAGE - DEMA (SERIES)
 public static partial class Indicator
 {
-    internal static List<DemaResult> CalcDema(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<DemaResult> CalcDema(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateDema(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
-        List<DemaResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<DemaResult> results = new();
 
         double k = 2d / (lookbackPeriods + 1);
         double? lastEma1 = 0;
@@ -21,7 +23,7 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime _, double value) = tpList[i];
+            (DateTime _, double value) = tpColl[i];
             lastEma1 += value;
         }
 
@@ -31,7 +33,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
 
             DemaResult r = new(date);
             results.Add(r);

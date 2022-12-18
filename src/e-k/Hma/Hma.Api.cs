@@ -25,6 +25,6 @@ public static partial class Indicator
     public static IEnumerable<HmaResult> GetHma(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcHma(lookbackPeriods);
 }

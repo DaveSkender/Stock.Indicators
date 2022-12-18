@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // KELTNER CHANNELS (SERIES)
 public static partial class Indicator
 {
-    internal static List<KeltnerResult> CalcKeltner(
-        this List<QuoteD> qdList,
+    internal static Collection<KeltnerResult> CalcKeltner(
+        this Collection<QuoteD> qdList,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
@@ -14,7 +16,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        List<KeltnerResult> results = new(length);
+        Collection<KeltnerResult> results = new();
 
         List<EmaResult> emaResults = qdList
             .ToTuple(CandlePart.Close)

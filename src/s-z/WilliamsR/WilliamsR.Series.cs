@@ -1,22 +1,32 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // WILLIAM %R OSCILLATOR (SERIES
 public static partial class Indicator
 {
-    internal static List<WilliamsResult> CalcWilliamsR(
-        this List<QuoteD> qdList,
+    internal static Collection<WilliamsResult> CalcWilliamsR(
+        this Collection<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateWilliam(lookbackPeriods);
 
         // convert Fast Stochastic to William %R
-        return qdList.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
-            .Select(s => new WilliamsResult(s.Date)
+        Collection<WilliamsResult> results = new();
+
+        Collection<StochResult> stoch = qdList
+            .CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA);
+
+        foreach (StochResult s in stoch)
+        {
+            results.Add(new WilliamsResult(s.Date)
             {
                 WilliamsR = s.Oscillator - 100
-            })
-            .ToList();
+            });
+        }
+
+        return results;
     }
 
     // parameter validation

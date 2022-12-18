@@ -1,11 +1,13 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // HULL MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
     // calculate series
-    internal static List<HmaResult> CalcHma(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<HmaResult> CalcHma(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -13,15 +15,15 @@ public static partial class Indicator
 
         // initialize
         int shiftQty = lookbackPeriods - 1;
-        List<(DateTime, double)> synthHistory = new();
+        Collection<(DateTime, double)> synthHistory = new();
 
-        List<WmaResult> wmaN1 = tpList.GetWma(lookbackPeriods).ToList();
-        List<WmaResult> wmaN2 = tpList.GetWma(lookbackPeriods / 2).ToList();
+        List<WmaResult> wmaN1 = tpColl.GetWma(lookbackPeriods).ToList();
+        List<WmaResult> wmaN2 = tpColl.GetWma(lookbackPeriods / 2).ToList();
 
         // roll through quotes, to get interim synthetic quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < tpColl.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            (DateTime date, double _) = tpColl[i];
 
             WmaResult w1 = wmaN1[i];
             WmaResult w2 = wmaN2[i];
@@ -38,7 +40,7 @@ public static partial class Indicator
         // add back truncated null results
         int sqN = (int)Math.Sqrt(lookbackPeriods);
 
-        List<HmaResult> results = tpList
+        List<HmaResult> results = tpColl
             .Take(shiftQty)
             .Select(x => new HmaResult(x.Item1))
             .ToList();
@@ -52,9 +54,10 @@ public static partial class Indicator
             .ToList();
 
         // add WMA to results
-        results.AddRange(hmaResults);
+        results
+            .AddRange(hmaResults);
 
-        return results.ToSortedList();
+        return new Collection<HmaResult>(results);
     }
 
     // parameter validation

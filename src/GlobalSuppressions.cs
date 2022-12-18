@@ -46,3 +46,10 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Not compatible with `or` statement (Microsoft bug)",
     Scope = "member",
     Target = "~M:Skender.Stock.Indicators.Indicator.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1002:Do not expose generic lists",
+    Justification = "Deprecated",
+    Scope = "member",
+    Target = "~M:Skender.Stock.Indicators.Indicator.ToSortedList``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.List{``0}")]

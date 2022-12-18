@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // AWESOME OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static List<AwesomeResult> CalcAwesome(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<AwesomeResult> CalcAwesome(
+        this Collection<(DateTime, double)> tpColl,
         int fastPeriods,
         int slowPeriods)
     {
@@ -12,14 +14,14 @@ public static partial class Indicator
         ValidateAwesome(fastPeriods, slowPeriods);
 
         // initialize
-        int length = tpList.Count;
-        List<AwesomeResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<AwesomeResult> results = new();
         double[] pr = new double[length];
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
             pr[i] = value;
 
             AwesomeResult r = new(date);

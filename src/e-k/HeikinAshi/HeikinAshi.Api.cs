@@ -9,6 +9,6 @@ public static partial class Indicator
     public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcHeikinAshi();
 }

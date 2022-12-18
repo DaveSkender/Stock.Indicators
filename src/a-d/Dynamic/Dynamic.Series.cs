@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // MONEY FLOW INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static List<DynamicResult> CalcDynamic(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<DynamicResult> CalcDynamic(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods,
         double kFactor)
     {
@@ -13,20 +15,20 @@ public static partial class Indicator
 
         // initialize
         int iStart = 1;
-        int length = tpList.Count;
-        List<DynamicResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<DynamicResult> results = new();
 
         if (length == 0)
         {
             return results;
         }
 
-        double prevMD = tpList[0].Item2;
+        double prevMD = tpColl[0].Item2;
 
         // roll through quotes, to get preliminary data
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
 
             DynamicResult r = new(date);
             results.Add(r);

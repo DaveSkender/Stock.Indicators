@@ -11,6 +11,6 @@ public static partial class Indicator
         EndType endType = EndType.Close,
         decimal percentChange = 5)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcZigZag(endType, percentChange);
 }

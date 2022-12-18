@@ -15,6 +15,6 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.PointType is null);
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 }

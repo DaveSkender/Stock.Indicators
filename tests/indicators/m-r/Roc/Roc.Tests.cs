@@ -64,50 +64,55 @@ public class Roc : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<RocResult> results = quotes
+        List<RocResult> results = quotes
             .Use(CandlePart.Close)
-            .GetRoc(20);
+            .GetRoc(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<RocResult> r = tupleNanny.GetRoc(6);
+        List<RocResult> r = tupleNanny
+            .GetRoc(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<RocResult> results = quotes
+        List<RocResult> results = quotes
             .GetSma(2)
-            .GetRoc(20);
+            .GetRoc(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Roc != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetRoc(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<RocResult> r = Indicator.GetRoc(badQuotes, 35, 2);
-        Assert.AreEqual(502, r.Count());
+        List<RocResult> r = badQuotes.GetRoc(35, 2).ToList();
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 

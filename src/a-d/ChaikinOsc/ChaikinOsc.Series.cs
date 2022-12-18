@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // CHAIKIN OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static List<ChaikinOscResult> CalcChaikinOsc(
-        this List<QuoteD> qdList,
+    internal static Collection<ChaikinOscResult> CalcChaikinOsc(
+        this Collection<QuoteD> qdList,
         int fastPeriods,
         int slowPeriods)
     {
@@ -12,23 +14,28 @@ public static partial class Indicator
         ValidateChaikinOsc(fastPeriods, slowPeriods);
 
         // money flow
-        List<ChaikinOscResult> results = qdList.CalcAdl(null)
-            .Select(r => new ChaikinOscResult(r.Date)
+        Collection<ChaikinOscResult> results = new();
+
+        foreach (AdlResult r in qdList.CalcAdl(null))
+        {
+            results.Add(new ChaikinOscResult(r.Date)
             {
                 MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                 MoneyFlowVolume = r.MoneyFlowVolume,
                 Adl = r.Adl
-            })
-            .ToList();
+            });
+        }
 
         // EMA of ADL
-        List<(DateTime Date, double)> tpAdl = results
-            .Select(x => (
-                x.Date, (double)(x.Adl == null ? double.NaN : x.Adl)))
-            .ToList();
+        Collection<(DateTime Date, double)> tpAdl = new();
 
-        List<EmaResult> adlEmaSlow = tpAdl.CalcEma(slowPeriods);
-        List<EmaResult> adlEmaFast = tpAdl.CalcEma(fastPeriods);
+        foreach (ChaikinOscResult x in results)
+        {
+            tpAdl.Add(new(x.Date, (double)(x.Adl == null ? double.NaN : x.Adl)));
+        }
+
+        Collection<EmaResult> adlEmaSlow = tpAdl.CalcEma(slowPeriods);
+        Collection<EmaResult> adlEmaFast = tpAdl.CalcEma(fastPeriods);
 
         // add Oscillator
         for (int i = slowPeriods - 1; i < results.Count; i++)

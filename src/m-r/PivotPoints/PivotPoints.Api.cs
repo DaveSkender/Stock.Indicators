@@ -11,6 +11,6 @@ public static partial class Indicator
         PeriodSize windowSize,
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcPivotPoints(windowSize, pointType);
 }

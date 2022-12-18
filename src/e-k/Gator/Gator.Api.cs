@@ -32,7 +32,7 @@ public static partial class Indicator
     // SERIES, from TUPLE
     public static IEnumerable<GatorResult> GetGator(
         this IEnumerable<(DateTime, double)> priceTuples) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .GetAlligator()
             .ToList()
             .CalcGator();

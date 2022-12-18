@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // ARNAUD LEGOUX MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    internal static List<AlmaResult> CalcAlma(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<AlmaResult> CalcAlma(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods,
         double offset,
         double sigma)
@@ -13,7 +15,7 @@ public static partial class Indicator
         ValidateAlma(lookbackPeriods, offset, sigma);
 
         // initialize
-        List<AlmaResult> results = new(tpList.Count);
+        Collection<AlmaResult> results = new();
 
         // determine price weights
         double m = offset * (lookbackPeriods - 1);
@@ -30,9 +32,9 @@ public static partial class Indicator
         }
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < tpColl.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            (DateTime date, double _) = tpColl[i];
 
             AlmaResult r = new(date);
             results.Add(r);
@@ -44,7 +46,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpColl[p];
                     weightedSum += weight[n] * pValue;
                     n++;
                 }

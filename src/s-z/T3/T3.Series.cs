@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // TILLSON T3 MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    internal static List<T3Result> CalcT3(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<T3Result> CalcT3(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods,
         double volumeFactor)
     {
@@ -12,8 +14,8 @@ public static partial class Indicator
         ValidateT3(lookbackPeriods, volumeFactor);
 
         // initialize
-        int length = tpList.Count;
-        List<T3Result> results = new(length);
+        int length = tpColl.Count;
+        Collection<T3Result> results = new();
 
         double k = 2d / (lookbackPeriods + 1);
         double a = volumeFactor;
@@ -28,7 +30,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
             T3Result r = new(date);
             results.Add(r);
 

@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // RENKO CHART - STANDARD (SERIES)
 public static partial class Indicator
 {
-    internal static List<RenkoResult> CalcRenko<TQuote>(
-        this List<TQuote> quotesList,
+    internal static Collection<RenkoResult> CalcRenko<TQuote>(
+        this Collection<TQuote> quotesList,
         decimal brickSize,
         EndType endType)
         where TQuote : IQuote
@@ -14,7 +16,7 @@ public static partial class Indicator
 
         // initialize
         int length = quotesList.Count;
-        List<RenkoResult> results = new(length);
+        Collection<RenkoResult> results = new();
         TQuote q0;
 
         if (length == 0)

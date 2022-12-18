@@ -28,6 +28,6 @@ public static partial class Indicator
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods,
         int? signalPeriods = null) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcTrix(lookbackPeriods, signalPeriods);
 }

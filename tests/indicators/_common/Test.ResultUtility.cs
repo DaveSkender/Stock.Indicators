@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
@@ -54,10 +55,10 @@ public class Results : TestBase
         x[249].Adx = null;
         x[345].Adx = double.NaN;
 
-        IEnumerable<AdxResult> r = x.Condense();
+        List<AdxResult> r = x.Condense().ToList();
 
         // assertions
-        Assert.AreEqual(473, r.Count());
+        Assert.AreEqual(473, r.Count);
 
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
@@ -163,7 +164,7 @@ public class Results : TestBase
     public void ToTuple()
     {
         // baseline for comparison
-        List<SmaResult> baseline = new()
+        Collection<SmaResult> baseline = new()
         {
             new SmaResult(DateTime.Parse("1/1/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/2/2000", EnglishCulture)) { Sma = null },
@@ -177,19 +178,19 @@ public class Results : TestBase
         };
 
         // default to NaN with pruning
-        List<(DateTime Date, double Value)> naNresults = baseline.ToTuple();
+        Collection<(DateTime Date, double Value)> naNresults = baseline.ToTuple();
 
         Assert.AreEqual(5, naNresults.Count(x => !double.IsNaN(x.Value)));
         Assert.AreEqual(2, naNresults.Count(x => double.IsNaN(x.Value)));
 
         // with null option
-        List<(DateTime Date, double? Value)> nullResults = baseline.ToTuple(NullTo.Null);
+        Collection<(DateTime Date, double? Value)> nullResults = baseline.ToTuple(NullTo.Null);
 
         Assert.AreEqual(3, nullResults.Count(x => x.Value is null));
         Assert.AreEqual(1, nullResults.Count(x => x.Value is double.NaN));
 
         // with explicit nullable NaN option
-        List<(DateTime Date, double? Value)> nullableResults = baseline.ToTuple(NullTo.NaN);
+        Collection<(DateTime Date, double? Value)> nullableResults = baseline.ToTuple(NullTo.NaN);
 
         Assert.AreEqual(0, nullableResults.Count(x => x.Value is null));
         Assert.AreEqual(4, nullableResults.Count(x => x.Value is double.NaN));

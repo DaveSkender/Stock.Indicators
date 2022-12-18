@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // PRICE MOMENTUM OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static List<PmoResult> CalcPmo(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<PmoResult> CalcPmo(
+        this Collection<(DateTime, double)> tpColl,
         int timePeriods,
         int smoothPeriods,
         int signalPeriods)
@@ -13,7 +15,7 @@ public static partial class Indicator
         ValidatePmo(timePeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        List<PmoResult> results = tpList.CalcPmoRocEma(timePeriods);
+        Collection<PmoResult> results = tpColl.CalcPmoRocEma(timePeriods);
         double smoothingConstant = 2d / smoothPeriods;
         double? lastPmo = null;
 
@@ -50,15 +52,15 @@ public static partial class Indicator
     }
 
     // internals
-    private static List<PmoResult> CalcPmoRocEma(
-        this List<(DateTime, double)> tpList,
+    private static Collection<PmoResult> CalcPmoRocEma(
+        this Collection<(DateTime, double)> tpColl,
         int timePeriods)
     {
         // initialize
         double smoothingMultiplier = 2d / timePeriods;
         double? lastRocEma = null;
-        List<RocResult> roc = tpList.CalcRoc(1, null).ToList();
-        List<PmoResult> results = new();
+        Collection<RocResult> roc = tpColl.CalcRoc(1, null);
+        Collection<PmoResult> results = new();
 
         int startIndex = timePeriods + 1;
 
@@ -93,7 +95,7 @@ public static partial class Indicator
     }
 
     private static void CalcPmoSignal(
-        List<PmoResult> results,
+        Collection<PmoResult> results,
         int timePeriods,
         int smoothPeriods,
         int signalPeriods)

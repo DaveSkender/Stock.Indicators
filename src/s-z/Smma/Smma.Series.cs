@@ -1,26 +1,28 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // SMOOTHED MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
     // calculate series
-    internal static List<SmmaResult> CalcSmma(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<SmmaResult> CalcSmma(
+        this Collection<(DateTime, double)> tpColl,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateSmma(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
-        List<SmmaResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<SmmaResult> results = new();
         double prevValue = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
             double smma = double.NaN;
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
 
             SmmaResult r = new(date);
             results.Add(r);
@@ -38,7 +40,7 @@ public static partial class Indicator
                 double sumClose = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = tpColl[p];
                     sumClose += pValue;
                 }
 

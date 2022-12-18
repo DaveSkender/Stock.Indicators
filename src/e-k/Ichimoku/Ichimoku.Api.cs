@@ -11,7 +11,7 @@ public static partial class Indicator
         int kijunPeriods = 26,
         int senkouBPeriods = 52)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcIchimoku(
                 tenkanPeriods,
                 kijunPeriods,
@@ -28,7 +28,7 @@ public static partial class Indicator
         int senkouBPeriods,
         int offsetPeriods)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcIchimoku(
                 tenkanPeriods,
                 kijunPeriods,
@@ -46,7 +46,7 @@ public static partial class Indicator
         int senkouOffset,
         int chikouOffset)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcIchimoku(
                 tenkanPeriods,
                 kijunPeriods,

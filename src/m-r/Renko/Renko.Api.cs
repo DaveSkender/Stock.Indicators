@@ -11,6 +11,6 @@ public static partial class Indicator
         decimal brickSize,
         EndType endType = EndType.Close)
         where TQuote : IQuote => quotes
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcRenko(brickSize, endType);
 }

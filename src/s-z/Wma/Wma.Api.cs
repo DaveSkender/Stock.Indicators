@@ -25,6 +25,6 @@ public static partial class Indicator
     public static IEnumerable<WmaResult> GetWma(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcWma(lookbackPeriods);
 }

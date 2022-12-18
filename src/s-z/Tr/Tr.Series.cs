@@ -1,14 +1,16 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (SERIES)
 public static partial class Indicator
 {
     // calculate series
-    internal static List<TrResult> CalcTr(
-        this List<QuoteD> qdList)
+    internal static Collection<TrResult> CalcTr(
+        this Collection<QuoteD> qdList)
     {
         // initialize
-        List<TrResult> results = new(qdList.Count);
+        Collection<TrResult> results = new();
         double prevClose = 0;
 
         // roll through quotes

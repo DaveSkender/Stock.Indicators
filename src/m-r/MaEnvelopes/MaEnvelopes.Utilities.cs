@@ -15,6 +15,6 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.UpperEnvelope is null && x.LowerEnvelope is null && x.Centerline is null);
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 }

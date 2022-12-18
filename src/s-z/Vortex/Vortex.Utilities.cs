@@ -15,7 +15,7 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.Pvi is null && x.Nvi is null);
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 
     // remove recommended periods

@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // MOTHER of ADAPTIVE MOVING AVERAGES - MAMA (SERIES)
 public static partial class Indicator
 {
-    internal static List<MamaResult> CalcMama(
-        this List<(DateTime, double)> tpList,
+    internal static Collection<MamaResult> CalcMama(
+        this Collection<(DateTime, double)> tpColl,
         double fastLimit,
         double slowLimit)
     {
@@ -12,8 +14,8 @@ public static partial class Indicator
         ValidateMama(fastLimit, slowLimit);
 
         // initialize
-        int length = tpList.Count;
-        List<MamaResult> results = new(length);
+        int length = tpColl.Count;
+        Collection<MamaResult> results = new();
 
         double sumPr = 0d;
 
@@ -39,7 +41,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double value) = tpColl[i];
             pr[i] = value;
 
             MamaResult r = new(date);

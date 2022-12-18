@@ -1,10 +1,12 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // PARABOLIC SAR (SERIES)
 public static partial class Indicator
 {
-    internal static List<ParabolicSarResult> CalcParabolicSar(
-        this List<QuoteD> qdList,
+    internal static Collection<ParabolicSarResult> CalcParabolicSar(
+        this Collection<QuoteD> qdList,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)
@@ -15,7 +17,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        List<ParabolicSarResult> results = new(length);
+        Collection<ParabolicSarResult> results = new();
         QuoteD q0;
 
         if (length == 0)

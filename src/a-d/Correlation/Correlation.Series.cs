@@ -1,11 +1,13 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // CORRELATION COEFFICIENT (SERIES)
 public static partial class Indicator
 {
-    internal static List<CorrResult> CalcCorrelation(
-        this List<(DateTime, double)> tpListA,
-        List<(DateTime, double)> tpListB,
+    internal static Collection<CorrResult> CalcCorrelation(
+        this Collection<(DateTime, double)> tpListA,
+        Collection<(DateTime, double)> tpListB,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -13,7 +15,7 @@ public static partial class Indicator
 
         // initialize
         int length = tpListA.Count;
-        List<CorrResult> results = new(length);
+        Collection<CorrResult> results = new();
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -97,8 +99,8 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateCorrelation(
-        List<(DateTime, double)> quotesA,
-        List<(DateTime, double)> quotesB,
+        Collection<(DateTime, double)> quotesA,
+        Collection<(DateTime, double)> quotesB,
         int lookbackPeriods)
     {
         // check parameter arguments

@@ -16,7 +16,7 @@ public class HelperPerformance
     public void Setup() => h = TestData.GetDefault();
 
     [Benchmark]
-    public object SortToList() => h.ToSortedList();
+    public object SortToList() => h.ToSortedCollection();
 
     [Benchmark]
     public object ToListQuoteD() => h.ToQuoteD();

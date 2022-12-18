@@ -25,6 +25,6 @@ public static partial class Indicator
     public static IEnumerable<DpoResult> GetDpo(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedList()
+            .ToSortedCollection()
             .CalcDpo(lookbackPeriods);
 }
