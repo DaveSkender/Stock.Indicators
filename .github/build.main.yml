@@ -54,9 +54,8 @@ steps:
         --configuration $(BuildConfiguration)
         --no-restore
         --no-build
-        --collect:"XPlat Code Coverage"
-        --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
-        publishTestResults: true
+        --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+      publishTestResults: true
 
   - task: DotNetCoreCLI@2
     displayName: "test external/other"
