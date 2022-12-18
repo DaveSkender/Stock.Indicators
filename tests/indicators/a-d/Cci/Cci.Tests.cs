@@ -26,30 +26,40 @@ public class Cci : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetCci(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<CciResult> r = Indicator.GetCci(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<CciResult> r = badQuotes
+            .GetCci(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cci is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<CciResult> r0 = noquotes.GetCci();
-        Assert.AreEqual(0, r0.Count());
+        List<CciResult> r0 = noquotes
+            .GetCci()
+            .ToList();
 
-        IEnumerable<CciResult> r1 = onequote.GetCci();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<CciResult> r1 = onequote
+            .GetCci()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -70,5 +80,5 @@ public class Cci : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetCci(quotes, 0));
+            => quotes.GetCci(0));
 }

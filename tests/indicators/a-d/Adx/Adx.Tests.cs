@@ -52,37 +52,41 @@ public class Adx : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetAdx(14)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(466, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AdxResult> r = badQuotes.GetAdx(20);
-        Assert.AreEqual(502, r.Count());
+        List<AdxResult> r = badQuotes
+            .GetAdx(20)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        IEnumerable<AdxResult> r = bigQuotes.GetAdx(200);
-        Assert.AreEqual(1246, r.Count());
+        List<AdxResult> r = bigQuotes.GetAdx(200).ToList();
+        Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AdxResult> r0 = noquotes.GetAdx(5);
-        Assert.AreEqual(0, r0.Count());
+        List<AdxResult> r0 = noquotes.GetAdx(5).ToList();
+        Assert.AreEqual(0, r0.Count);
 
-        IEnumerable<AdxResult> r1 = onequote.GetAdx(5);
-        Assert.AreEqual(1, r1.Count());
+        List<AdxResult> r1 = onequote.GetAdx(5).ToList();
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -90,7 +94,7 @@ public class Adx : TestBase
     {
         IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date);
 
         List<AdxResult> r = test859.GetAdx(14).ToList();
@@ -111,11 +115,12 @@ public class Adx : TestBase
     [TestMethod]
     public void Removed()
     {
-        IEnumerable<AdxResult> r = quotes.GetAdx(14)
-            .RemoveWarmupPeriods();
+        List<AdxResult> r = quotes.GetAdx(14)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((2 * 14) + 100), r.Count());
+        Assert.AreEqual(502 - ((2 * 14) + 100), r.Count);
 
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
@@ -128,5 +133,5 @@ public class Adx : TestBase
 
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAdx(quotes, 1));
+            quotes.GetAdx(1));
 }

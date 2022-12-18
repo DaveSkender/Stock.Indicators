@@ -55,61 +55,75 @@ public class Mama : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<MamaResult> results = quotes
+        List<MamaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetMama();
+            .GetMama()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(497, results.Count(x => x.Mama != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<MamaResult> r = tupleNanny.GetMama();
+        List<MamaResult> r = tupleNanny
+            .GetMama()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mama is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<MamaResult> results = quotes
+        List<MamaResult> results = quotes
             .GetSma(2)
-            .GetMama();
+            .GetMama()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(496, results.Count(x => x.Mama != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetMama()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<MamaResult> r = Indicator.GetMama(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<MamaResult> r = badQuotes
+            .GetMama()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mama is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<MamaResult> r0 = noquotes.GetMama();
-        Assert.AreEqual(0, r0.Count());
+        List<MamaResult> r0 = noquotes
+            .GetMama()
+            .ToList();
 
-        IEnumerable<MamaResult> r1 = onequote.GetMama();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<MamaResult> r1 = onequote
+            .GetMama()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -118,7 +132,8 @@ public class Mama : TestBase
         double fastLimit = 0.5;
         double slowLimit = 0.05;
 
-        List<MamaResult> results = quotes.GetMama(fastLimit, slowLimit)
+        List<MamaResult> results = quotes
+            .GetMama(fastLimit, slowLimit)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -135,14 +150,14 @@ public class Mama : TestBase
     {
         // bad fast period (same as slow period)
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMama(quotes, 0.5, 0.5));
+            quotes.GetMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMama(quotes, 1, 0.5));
+            quotes.GetMama(1, 0.5));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMama(quotes, 0.5, 0));
+            quotes.GetMama(0.5, 0));
     }
 }

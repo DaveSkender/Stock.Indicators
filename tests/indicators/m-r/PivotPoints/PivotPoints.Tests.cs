@@ -97,7 +97,7 @@ public class PivotPoints : TestBase
         PivotPointType pointType = PivotPointType.Camarilla;
 
         IEnumerable<Quote> h = TestData.GetDefault(38);
-        List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
+        List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
         // assertions
@@ -170,7 +170,7 @@ public class PivotPoints : TestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Demark;
 
-        List<PivotPointsResult> results = Indicator.GetPivotPoints(quotes, periodSize, pointType)
+        List<PivotPointsResult> results = quotes.GetPivotPoints(periodSize, pointType)
             .ToList();
 
         // assertions
@@ -259,7 +259,7 @@ public class PivotPoints : TestBase
         PivotPointType pointType = PivotPointType.Fibonacci;
 
         IEnumerable<Quote> h = TestData.GetIntraday(300);
-        List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
+        List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
         // assertions
@@ -334,7 +334,7 @@ public class PivotPoints : TestBase
         PivotPointType pointType = PivotPointType.Woodie;
 
         IEnumerable<Quote> h = TestData.GetIntraday();
-        List<PivotPointsResult> results = Indicator.GetPivotPoints(h, periodSize, pointType)
+        List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
         // assertions
@@ -396,18 +396,18 @@ public class PivotPoints : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<PivotPointsResult> r = Indicator.GetPivotPoints(badQuotes, PeriodSize.Week);
-        Assert.AreEqual(502, r.Count());
+        List<PivotPointsResult> r = badQuotes.GetPivotPoints(PeriodSize.Week).ToList();
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<PivotPointsResult> r0 = noquotes.GetPivotPoints(PeriodSize.Week);
-        Assert.AreEqual(0, r0.Count());
+        List<PivotPointsResult> r0 = noquotes.GetPivotPoints(PeriodSize.Week).ToList();
+        Assert.AreEqual(0, r0.Count);
 
-        IEnumerable<PivotPointsResult> r1 = onequote.GetPivotPoints(PeriodSize.Week);
-        Assert.AreEqual(1, r1.Count());
+        List<PivotPointsResult> r1 = onequote.GetPivotPoints(PeriodSize.Week).ToList();
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -439,11 +439,11 @@ public class PivotPoints : TestBase
     public void Exceptions()
     {
         // bad pointtype size
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetPivotPoints(PeriodSize.Week, (PivotPointType)999));
 
         // bad window size
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetPivotPoints(PeriodSize.ThreeMinutes));
     }
 }

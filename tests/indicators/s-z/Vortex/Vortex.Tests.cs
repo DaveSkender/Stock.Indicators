@@ -43,25 +43,35 @@ public class Vortex : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<VortexResult> r = Indicator.GetVortex(badQuotes, 20);
-        Assert.AreEqual(502, r.Count());
+        List<VortexResult> r = badQuotes
+            .GetVortex(20)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Pvi is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<VortexResult> r0 = noquotes.GetVortex(5);
-        Assert.AreEqual(0, r0.Count());
+        List<VortexResult> r0 = noquotes
+            .GetVortex(5)
+            .ToList();
 
-        IEnumerable<VortexResult> r1 = onequote.GetVortex(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<VortexResult> r1 = onequote
+            .GetVortex(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        List<VortexResult> results = quotes.GetVortex(14)
+        List<VortexResult> results = quotes
+            .GetVortex(14)
             .Condense()
             .ToList();
 
@@ -76,7 +86,8 @@ public class Vortex : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<VortexResult> results = quotes.GetVortex(14)
+        List<VortexResult> results = quotes
+            .GetVortex(14)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -92,5 +103,5 @@ public class Vortex : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetVortex(quotes, 1));
+            => quotes.GetVortex(1));
 }

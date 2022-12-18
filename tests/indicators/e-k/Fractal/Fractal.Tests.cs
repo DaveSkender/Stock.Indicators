@@ -87,32 +87,43 @@ public class Fractal : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<FractalResult> r = Indicator.GetFractal(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<FractalResult> r = badQuotes
+            .GetFractal()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<FractalResult> r0 = noquotes.GetFractal();
-        Assert.AreEqual(0, r0.Count());
+        List<FractalResult> r0 = noquotes
+            .GetFractal()
+            .ToList();
 
-        IEnumerable<FractalResult> r1 = onequote.GetFractal();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<FractalResult> r1 = onequote
+            .GetFractal()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<FractalResult> r = quotes.GetFractal()
-            .Condense();
+        List<FractalResult> r = quotes
+            .GetFractal()
+            .Condense()
+            .ToList();
 
-        Assert.AreEqual(129, r.Count());
+        Assert.AreEqual(129, r.Count);
     }
 
     // bad window span
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetFractal(quotes, 1));
+            => quotes.GetFractal(1));
 }

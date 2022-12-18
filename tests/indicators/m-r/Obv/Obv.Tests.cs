@@ -30,7 +30,7 @@ public class Obv : TestBase
     [TestMethod]
     public void WithSma()
     {
-        List<ObvResult> results = Indicator.GetObv(quotes, 20).ToList();
+        List<ObvResult> results = quotes.GetObv(20).ToList();
 
         // assertions
 
@@ -47,42 +47,55 @@ public class Obv : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetObv()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<ObvResult> r = badQuotes.GetObv();
-        Assert.AreEqual(502, r.Count());
+        List<ObvResult> r = badQuotes
+            .GetObv()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
     }
 
     [TestMethod]
     public void BigData()
     {
-        IEnumerable<ObvResult> r = bigQuotes.GetObv();
-        Assert.AreEqual(1246, r.Count());
+        List<ObvResult> r = bigQuotes
+            .GetObv()
+            .ToList();
+
+        Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<ObvResult> r0 = noquotes.GetObv();
-        Assert.AreEqual(0, r0.Count());
+        List<ObvResult> r0 = noquotes
+            .GetObv()
+            .ToList();
 
-        IEnumerable<ObvResult> r1 = onequote.GetObv();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<ObvResult> r1 = onequote
+            .GetObv()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     // bad SMA period
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetObv(quotes, 0));
+            => quotes.GetObv(0));
 }

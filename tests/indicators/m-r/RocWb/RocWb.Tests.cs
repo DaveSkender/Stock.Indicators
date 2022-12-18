@@ -74,67 +74,82 @@ public class RocWb : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<RocWbResult> results = quotes
+        List<RocWbResult> results = quotes
             .Use(CandlePart.Close)
-            .GetRocWb(20, 3, 20);
+            .GetRocWb(20, 3, 20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<RocWbResult> r = tupleNanny.GetRocWb(6, 7, 5);
+        List<RocWbResult> r = tupleNanny
+            .GetRocWb(6, 7, 5)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<RocWbResult> results = quotes
+        List<RocWbResult> results = quotes
             .GetSma(2)
-            .GetRocWb(20, 3, 20);
+            .GetRocWb(20, 3, 20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Roc != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetRocWb(20, 3, 20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<RocWbResult> r = Indicator.GetRocWb(badQuotes, 35, 3, 35);
-        Assert.AreEqual(502, r.Count());
+        List<RocWbResult> r = badQuotes
+            .GetRocWb(35, 3, 35)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<RocWbResult> r0 = noquotes.GetRocWb(5, 3, 2);
-        Assert.AreEqual(0, r0.Count());
+        List<RocWbResult> r0 = noquotes
+            .GetRocWb(5, 3, 2)
+            .ToList();
 
-        IEnumerable<RocWbResult> r1 = onequote.GetRocWb(5, 3, 2);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<RocWbResult> r1 = onequote
+            .GetRocWb(5, 3, 2)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<RocWbResult> results = quotes.GetRocWb(20, 3, 20)
+        List<RocWbResult> results = quotes
+            .GetRocWb(20, 3, 20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -153,14 +168,14 @@ public class RocWb : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetRocWb(quotes, 0, 3, 12));
+            quotes.GetRocWb(0, 3, 12));
 
         // bad EMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetRocWb(quotes, 14, 0, 14));
+            quotes.GetRocWb(14, 0, 14));
 
         // bad STDDEV period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetRocWb(quotes, 15, 3, 16));
+            quotes.GetRocWb(15, 3, 16));
     }
 }

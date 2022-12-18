@@ -46,61 +46,74 @@ public class BollingerBands : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<BollingerBandsResult> results = quotes
+        List<BollingerBandsResult> results = quotes
             .Use(CandlePart.Close)
-            .GetBollingerBands();
+            .GetBollingerBands()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<BollingerBandsResult> r = tupleNanny.GetBollingerBands();
+        List<BollingerBandsResult> r = tupleNanny
+            .GetBollingerBands()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<BollingerBandsResult> results = quotes
+        List<BollingerBandsResult> results = quotes
             .GetSma(2)
-            .GetBollingerBands();
+            .GetBollingerBands()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
-            .GetBollingerBands()
-            .GetSma(10);
+        List<SmaResult> results = quotes.GetBollingerBands().ToList()
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<BollingerBandsResult> r = Indicator.GetBollingerBands(badQuotes, 15, 3);
-        Assert.AreEqual(502, r.Count());
+        List<BollingerBandsResult> r = badQuotes
+            .GetBollingerBands(15, 3)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<BollingerBandsResult> r0 = noquotes.GetBollingerBands();
-        Assert.AreEqual(0, r0.Count());
+        List<BollingerBandsResult> r0 = noquotes
+            .GetBollingerBands()
+            .ToList();
 
-        IEnumerable<BollingerBandsResult> r1 = onequote.GetBollingerBands();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<BollingerBandsResult> r1 = onequote
+            .GetBollingerBands()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -128,10 +141,10 @@ public class BollingerBands : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetBollingerBands(quotes, 1));
+            quotes.GetBollingerBands(1));
 
         // bad standard deviation
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetBollingerBands(quotes, 2, 0));
+            quotes.GetBollingerBands(2, 0));
     }
 }

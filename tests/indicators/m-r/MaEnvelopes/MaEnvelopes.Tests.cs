@@ -278,70 +278,75 @@ public class MaEnvelopes : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<MaEnvelopeResult> results = quotes
+        List<MaEnvelopeResult> results = quotes
             .Use(CandlePart.Close)
-            .GetMaEnvelopes(10, 2.5, MaType.SMA);
+            .GetMaEnvelopes(10, 2.5, MaType.SMA)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Centerline != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<MaEnvelopeResult> r
-            = tupleNanny.GetMaEnvelopes(8, 2.5, MaType.ALMA);
+        List<MaEnvelopeResult> r = tupleNanny
+            .GetMaEnvelopes(8, 2.5, MaType.ALMA)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperEnvelope is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<MaEnvelopeResult> results = quotes
+        List<MaEnvelopeResult> results = quotes
             .GetSma(2)
-            .GetMaEnvelopes(10, 2.5, MaType.SMA);
+            .GetMaEnvelopes(10, 2.5, MaType.SMA)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Centerline != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<MaEnvelopeResult> a = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.ALMA);
-        Assert.AreEqual(502, a.Count());
+        List<MaEnvelopeResult> a = badQuotes.GetMaEnvelopes(5, 2.5, MaType.ALMA).ToList();
+        Assert.AreEqual(502, a.Count);
 
-        IEnumerable<MaEnvelopeResult> d = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.DEMA);
-        Assert.AreEqual(502, d.Count());
+        List<MaEnvelopeResult> d = badQuotes.GetMaEnvelopes(5, 2.5, MaType.DEMA).ToList();
+        Assert.AreEqual(502, d.Count);
 
-        IEnumerable<MaEnvelopeResult> p = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.EPMA);
-        Assert.AreEqual(502, p.Count());
+        List<MaEnvelopeResult> p = badQuotes.GetMaEnvelopes(5, 2.5, MaType.EPMA).ToList();
+        Assert.AreEqual(502, p.Count);
 
-        IEnumerable<MaEnvelopeResult> e = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.EMA);
-        Assert.AreEqual(502, e.Count());
+        List<MaEnvelopeResult> e = badQuotes.GetMaEnvelopes(5, 2.5, MaType.EMA).ToList();
+        Assert.AreEqual(502, e.Count);
 
-        IEnumerable<MaEnvelopeResult> h = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.HMA);
-        Assert.AreEqual(502, h.Count());
+        List<MaEnvelopeResult> h = badQuotes.GetMaEnvelopes(5, 2.5, MaType.HMA).ToList();
+        Assert.AreEqual(502, h.Count);
 
-        IEnumerable<MaEnvelopeResult> s = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.SMA);
-        Assert.AreEqual(502, s.Count());
+        List<MaEnvelopeResult> s = badQuotes.GetMaEnvelopes(5, 2.5, MaType.SMA).ToList();
+        Assert.AreEqual(502, s.Count);
 
-        IEnumerable<MaEnvelopeResult> t = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.TEMA);
-        Assert.AreEqual(502, t.Count());
+        List<MaEnvelopeResult> t = badQuotes.GetMaEnvelopes(5, 2.5, MaType.TEMA).ToList();
+        Assert.AreEqual(502, t.Count);
 
-        IEnumerable<MaEnvelopeResult> w = Indicator.GetMaEnvelopes(badQuotes, 5, 2.5, MaType.WMA);
-        Assert.AreEqual(502, w.Count());
+        List<MaEnvelopeResult> w = badQuotes.GetMaEnvelopes(5, 2.5, MaType.WMA).ToList();
+        Assert.AreEqual(502, w.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<MaEnvelopeResult> r = quotes.GetMaEnvelopes(20, 2.5, MaType.SMA)
-            .Condense();
+        List<MaEnvelopeResult> r = quotes
+            .GetMaEnvelopes(20, 2.5, MaType.SMA)
+            .Condense()
+            .ToList();
 
-        Assert.AreEqual(483, r.Count());
+        Assert.AreEqual(483, r.Count);
     }
 
     [TestMethod]
@@ -349,11 +354,11 @@ public class MaEnvelopes : TestBase
     {
         // bad offset period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMaEnvelopes(quotes, 14, 0));
+            quotes.GetMaEnvelopes(14, 0));
 
         // bad MA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMaEnvelopes(quotes, 14, 5, MaType.KAMA));
+            quotes.GetMaEnvelopes(14, 5, MaType.KAMA));
 
         // note: insufficient quotes is tested elsewhere
     }

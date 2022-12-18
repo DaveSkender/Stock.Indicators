@@ -33,30 +33,31 @@ public class Vwma : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetVwma(10)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<VwmaResult> r = badQuotes.GetVwma(15);
-        Assert.AreEqual(502, r.Count());
+        List<VwmaResult> r = badQuotes.GetVwma(15).ToList();
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwma is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<VwmaResult> r0 = noquotes.GetVwma(4);
-        Assert.AreEqual(0, r0.Count());
+        List<VwmaResult> r0 = noquotes.GetVwma(4).ToList();
+        Assert.AreEqual(0, r0.Count);
 
-        IEnumerable<VwmaResult> r1 = onequote.GetVwma(4);
-        Assert.AreEqual(1, r1.Count());
+        List<VwmaResult> r1 = onequote.GetVwma(4).ToList();
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]

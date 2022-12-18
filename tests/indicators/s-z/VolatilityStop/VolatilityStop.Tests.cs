@@ -67,39 +67,49 @@ public class VolatilityStop : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetVolatilityStop()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(439, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<VolatilityStopResult> r = Indicator.GetVolatilityStop(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<VolatilityStopResult> r = badQuotes
+            .GetVolatilityStop()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sar is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<VolatilityStopResult> r0 = noquotes.GetVolatilityStop();
-        Assert.AreEqual(0, r0.Count());
+        List<VolatilityStopResult> r0 = noquotes
+            .GetVolatilityStop()
+            .ToList();
 
-        IEnumerable<VolatilityStopResult> r1 = onequote.GetVolatilityStop();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<VolatilityStopResult> r1 = onequote
+            .GetVolatilityStop()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<VolatilityStopResult> results =
-            quotes.GetVolatilityStop(14, 3)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<VolatilityStopResult> results = quotes
+            .GetVolatilityStop(14, 3)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(402, results.Count);
@@ -118,6 +128,6 @@ public class VolatilityStop : TestBase
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetVolatilityStop(quotes, 20, 0));
+            quotes.GetVolatilityStop(20, 0));
     }
 }

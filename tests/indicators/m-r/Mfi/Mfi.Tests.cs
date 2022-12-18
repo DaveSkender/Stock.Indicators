@@ -30,11 +30,12 @@ public class Mfi : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetMfi()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
@@ -43,7 +44,8 @@ public class Mfi : TestBase
     {
         int lookbackPeriods = 4;
 
-        List<MfiResult> results = Indicator.GetMfi(quotes, lookbackPeriods)
+        List<MfiResult> results = quotes
+            .GetMfi(lookbackPeriods)
             .ToList();
 
         // assertions
@@ -64,26 +66,37 @@ public class Mfi : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<MfiResult> r = Indicator.GetMfi(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<MfiResult> r = badQuotes
+            .GetMfi(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mfi is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<MfiResult> r0 = noquotes.GetMfi();
-        Assert.AreEqual(0, r0.Count());
+        List<MfiResult> r0 = noquotes
+            .GetMfi()
+            .ToList();
 
-        IEnumerable<MfiResult> r1 = onequote.GetMfi();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<MfiResult> r1 = onequote
+            .GetMfi()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
         int lookbackPeriods = 14;
-        List<MfiResult> results = quotes.GetMfi(lookbackPeriods)
+
+        List<MfiResult> results = quotes
+            .GetMfi(lookbackPeriods)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -98,5 +111,5 @@ public class Mfi : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetMfi(quotes, 1));
+            => quotes.GetMfi(1));
 }

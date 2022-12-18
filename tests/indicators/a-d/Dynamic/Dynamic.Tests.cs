@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class Dynamic : TestBase
+public class McGinleyDynamic : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -32,11 +32,12 @@ public class Dynamic : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<DynamicResult> results = quotes
+        List<DynamicResult> results = quotes
             .Use(CandlePart.Close)
-            .GetDynamic(20);
+            .GetDynamic(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
         Assert.AreEqual(0, results.Count(x => x.Dynamic is double and double.NaN));
     }
@@ -44,50 +45,63 @@ public class Dynamic : TestBase
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<DynamicResult> r = tupleNanny.GetDynamic(6);
+        List<DynamicResult> r = tupleNanny
+            .GetDynamic(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<DynamicResult> results = quotes
+        List<DynamicResult> results = quotes
             .GetSma(10)
-            .GetDynamic(14);
+            .GetDynamic(14)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Dynamic != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetDynamic(14)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<DynamicResult> r = badQuotes.GetDynamic(15);
-        Assert.AreEqual(502, r.Count());
+        List<DynamicResult> r = badQuotes
+            .GetDynamic(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<DynamicResult> r0 = noquotes.GetDynamic(14);
-        Assert.AreEqual(0, r0.Count());
+        List<DynamicResult> r0 = noquotes
+            .GetDynamic(14)
+            .ToList();
 
-        IEnumerable<DynamicResult> r1 = onequote.GetDynamic(14);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<DynamicResult> r1 = onequote
+            .GetDynamic(14)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]

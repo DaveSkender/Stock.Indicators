@@ -57,61 +57,75 @@ public class Dpo : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<DpoResult> results = quotes
+        List<DpoResult> results = quotes
             .Use(CandlePart.Close)
-            .GetDpo(14);
+            .GetDpo(14)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.Dpo != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<DpoResult> r = tupleNanny.GetDpo(6);
+        List<DpoResult> r = tupleNanny
+            .GetDpo(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<DpoResult> results = quotes
+        List<DpoResult> results = quotes
             .GetSma(2)
-            .GetDpo(14);
+            .GetDpo(14)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Dpo != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetDpo(14)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<DpoResult> r = badQuotes.GetDpo(5);
-        Assert.AreEqual(502, r.Count());
+        List<DpoResult> r = badQuotes
+            .GetDpo(5)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<DpoResult> r0 = noquotes.GetDpo(5);
-        Assert.AreEqual(0, r0.Count());
+        List<DpoResult> r0 = noquotes
+            .GetDpo(5)
+            .ToList();
 
-        IEnumerable<DpoResult> r1 = onequote.GetDpo(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<DpoResult> r1 = onequote
+            .GetDpo(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     // bad SMA period

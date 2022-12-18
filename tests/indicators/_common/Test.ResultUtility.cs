@@ -11,7 +11,7 @@ public class Results : TestBase
     public void Find()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
-        IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
+        IEnumerable<EmaResult> emaResults = quotes.GetEma(20);
 
         // find specific date
         DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);

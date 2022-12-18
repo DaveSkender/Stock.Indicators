@@ -28,8 +28,8 @@ public class HeikinAshi : TestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        IEnumerable<HeikinAshiResult> haQuotes = quotes.GetHeikinAshi();
-        IEnumerable<SmaResult> haSma = haQuotes.GetSma(5);
+        var haQuotes = quotes.GetHeikinAshi();
+        var haSma = haQuotes.GetSma(5);
         Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
     }
 
@@ -56,17 +56,26 @@ public class HeikinAshi : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<HeikinAshiResult> r = Indicator.GetHeikinAshi(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<HeikinAshiResult> r = badQuotes
+            .GetHeikinAshi()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<HeikinAshiResult> r0 = noquotes.GetHeikinAshi();
-        Assert.AreEqual(0, r0.Count());
+        List<HeikinAshiResult> r0 = noquotes
+            .GetHeikinAshi()
+            .ToList();
 
-        IEnumerable<HeikinAshiResult> r1 = onequote.GetHeikinAshi();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<HeikinAshiResult> r1 = onequote
+            .GetHeikinAshi()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 }

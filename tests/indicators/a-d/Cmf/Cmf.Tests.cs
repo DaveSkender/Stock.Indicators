@@ -9,9 +9,9 @@ public class Cmf : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CmfResult> results = quotes.GetCmf(20).ToList();
-
-        // assertions
+        List<CmfResult> results = quotes
+            .GetCmf(20)
+            .ToList();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -37,43 +37,57 @@ public class Cmf : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetCmf(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<CmfResult> r = Indicator.GetCmf(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<CmfResult> r = badQuotes
+            .GetCmf(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cmf is double and double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        IEnumerable<CmfResult> r = Indicator.GetCmf(bigQuotes, 150);
-        Assert.AreEqual(1246, r.Count());
+        List<CmfResult> r = bigQuotes
+            .GetCmf(150)
+            .ToList();
+
+        Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<CmfResult> r0 = noquotes.GetCmf();
-        Assert.AreEqual(0, r0.Count());
+        List<CmfResult> r0 = noquotes
+            .GetCmf()
+            .ToList();
 
-        IEnumerable<CmfResult> r1 = onequote.GetCmf();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<CmfResult> r1 = onequote
+            .GetCmf()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<CmfResult> results = quotes.GetCmf(20)
+        List<CmfResult> results = quotes
+            .GetCmf(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -90,5 +104,5 @@ public class Cmf : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetCmf(quotes, 0));
+            => quotes.GetCmf(0));
 }

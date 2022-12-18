@@ -39,61 +39,58 @@ public class Awesome : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<AwesomeResult> results = quotes
+        List<AwesomeResult> results = quotes
             .Use(CandlePart.Close)
-            .GetAwesome();
+            .GetAwesome()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<AwesomeResult> r = tupleNanny.GetAwesome();
+        List<AwesomeResult> r = tupleNanny.GetAwesome().ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<AwesomeResult> results = quotes
-            .GetSma(2)
-            .GetAwesome();
+        List<AwesomeResult> results = quotes.GetSma(2).GetAwesome().ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Oscillator != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
-            .GetAwesome()
-            .GetSma(10);
+        List<SmaResult> results = quotes.GetAwesome().GetSma(10).ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(460, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AwesomeResult> r = Indicator.GetAwesome(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<AwesomeResult> r = badQuotes.GetAwesome().ToList();
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AwesomeResult> r0 = noquotes.GetAwesome();
-        Assert.AreEqual(0, r0.Count());
+        List<AwesomeResult> r0 = noquotes.GetAwesome().ToList();
+        Assert.AreEqual(0, r0.Count);
 
-        IEnumerable<AwesomeResult> r1 = onequote.GetAwesome();
-        Assert.AreEqual(1, r1.Count());
+        List<AwesomeResult> r1 = onequote.GetAwesome().ToList();
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -116,10 +113,10 @@ public class Awesome : TestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAwesome(quotes, 0, 34));
+            quotes.GetAwesome(0, 34));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAwesome(quotes, 25, 25));
+            quotes.GetAwesome(25, 25));
     }
 }

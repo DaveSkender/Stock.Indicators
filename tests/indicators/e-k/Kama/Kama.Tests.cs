@@ -57,61 +57,75 @@ public class Kama : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<KamaResult> results = quotes
+        List<KamaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetKama();
+            .GetKama()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Kama != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<KamaResult> r = tupleNanny.GetKama();
+        List<KamaResult> r = tupleNanny
+            .GetKama()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<KamaResult> results = quotes
+        List<KamaResult> results = quotes
             .GetSma(2)
-            .GetKama();
+            .GetKama()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Kama != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetKama()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<KamaResult> r = Indicator.GetKama(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<KamaResult> r = badQuotes
+            .GetKama()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<KamaResult> r0 = noquotes.GetKama();
-        Assert.AreEqual(0, r0.Count());
+        List<KamaResult> r0 = noquotes
+            .GetKama()
+            .ToList();
 
-        IEnumerable<KamaResult> r1 = onequote.GetKama();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<KamaResult> r1 = onequote
+            .GetKama()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -121,7 +135,8 @@ public class Kama : TestBase
         int fastPeriods = 2;
         int slowPeriods = 30;
 
-        List<KamaResult> results = quotes.GetKama(erPeriods, fastPeriods, slowPeriods)
+        List<KamaResult> results = quotes
+            .GetKama(erPeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -138,14 +153,14 @@ public class Kama : TestBase
     {
         // bad ER period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKama(quotes, 0, 2, 30));
+            quotes.GetKama(0, 2, 30));
 
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKama(quotes, 10, 0, 30));
+            quotes.GetKama(10, 0, 30));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKama(quotes, 10, 5, 5));
+            quotes.GetKama(10, 5, 5));
     }
 }

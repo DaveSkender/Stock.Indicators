@@ -36,67 +36,82 @@ public class Dema : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<DemaResult> results = quotes
+        List<DemaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetDema(20);
+            .GetDema(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Dema != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<DemaResult> r = tupleNanny.GetDema(6);
+        List<DemaResult> r = tupleNanny
+            .GetDema(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<DemaResult> results = quotes
+        List<DemaResult> results = quotes
             .GetSma(2)
-            .GetDema(20);
+            .GetDema(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Dema != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetDema(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<DemaResult> r = Indicator.GetDema(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<DemaResult> r = badQuotes
+            .GetDema(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<DemaResult> r0 = noquotes.GetDema(5);
-        Assert.AreEqual(0, r0.Count());
+        List<DemaResult> r0 = noquotes
+            .GetDema(5)
+            .ToList();
 
-        IEnumerable<DemaResult> r1 = onequote.GetDema(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<DemaResult> r1 = onequote
+            .GetDema(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<DemaResult> results = quotes.GetDema(20)
+        List<DemaResult> results = quotes
+            .GetDema(20)
             .RemoveWarmupPeriods()
             .ToList();
 

@@ -48,28 +48,38 @@ public class Fcb : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<FcbResult> r = Indicator.GetFcb(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<FcbResult> r = badQuotes
+            .GetFcb()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<FcbResult> r0 = noquotes.GetFcb();
-        Assert.AreEqual(0, r0.Count());
+        List<FcbResult> r0 = noquotes
+            .GetFcb()
+            .ToList();
 
-        IEnumerable<FcbResult> r1 = onequote.GetFcb();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<FcbResult> r1 = onequote
+            .GetFcb()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<FcbResult> results = quotes.GetFcb(2)
-            .Condense();
+        List<FcbResult> results = quotes.GetFcb(2)
+            .Condense()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count());
+        Assert.AreEqual(502 - 5, results.Count);
 
         FcbResult last = results.LastOrDefault();
         Assert.AreEqual(262.47m, last.UpperBand);
@@ -79,11 +89,12 @@ public class Fcb : TestBase
     [TestMethod]
     public void Removed()
     {
-        IEnumerable<FcbResult> results = quotes.GetFcb(2)
-            .RemoveWarmupPeriods();
+        List<FcbResult> results = quotes.GetFcb(2)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count());
+        Assert.AreEqual(502 - 5, results.Count);
 
         FcbResult last = results.LastOrDefault();
         Assert.AreEqual(262.47m, last.UpperBand);
@@ -94,5 +105,5 @@ public class Fcb : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetFcb(quotes, 1));
+            => quotes.GetFcb(1));
 }

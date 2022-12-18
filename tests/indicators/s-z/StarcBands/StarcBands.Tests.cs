@@ -54,19 +54,28 @@ public class StarcBands : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<StarcBandsResult> r = Indicator.GetStarcBands(badQuotes, 10, 3, 15);
-        Assert.AreEqual(502, r.Count());
+        List<StarcBandsResult> r = badQuotes
+            .GetStarcBands(10, 3, 15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<StarcBandsResult> r0 = noquotes.GetStarcBands();
-        Assert.AreEqual(0, r0.Count());
+        List<StarcBandsResult> r0 = noquotes
+            .GetStarcBands()
+            .ToList();
 
-        IEnumerable<StarcBandsResult> r1 = onequote.GetStarcBands();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<StarcBandsResult> r1 = onequote
+            .GetStarcBands()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -77,10 +86,10 @@ public class StarcBands : TestBase
         int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        List<StarcBandsResult> results =
-            quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
-                .Condense()
-                .ToList();
+        List<StarcBandsResult> results = quotes
+            .GetStarcBands(smaPeriods, multiplier, atrPeriods)
+            .Condense()
+            .ToList();
 
         // assertions
         Assert.AreEqual(502 - lookbackPeriods + 1, results.Count);
@@ -99,10 +108,10 @@ public class StarcBands : TestBase
         int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        List<StarcBandsResult> results =
-            quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<StarcBandsResult> results = quotes
+            .GetStarcBands(smaPeriods, multiplier, atrPeriods)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(502 - (lookbackPeriods + 150), results.Count);
@@ -118,14 +127,14 @@ public class StarcBands : TestBase
     {
         // bad EMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStarcBands(quotes, 1, 2, 10));
+            quotes.GetStarcBands(1, 2, 10));
 
         // bad ATR period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStarcBands(quotes, 20, 2, 1));
+            quotes.GetStarcBands(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStarcBands(quotes, 20, 0, 10));
+            quotes.GetStarcBands(20, 0, 10));
     }
 }

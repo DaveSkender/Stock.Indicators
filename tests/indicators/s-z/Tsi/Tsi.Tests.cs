@@ -48,74 +48,92 @@ public class Tsi : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<TsiResult> results = quotes
+        List<TsiResult> results = quotes
             .Use(CandlePart.Close)
-            .GetTsi();
+            .GetTsi()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(465, results.Count(x => x.Tsi != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<TsiResult> r = tupleNanny.GetTsi();
+        List<TsiResult> r = tupleNanny
+            .GetTsi()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<TsiResult> results = quotes
+        List<TsiResult> results = quotes
             .GetSma(2)
-            .GetTsi();
+            .GetTsi()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(464, results.Count(x => x.Tsi != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetTsi()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(456, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<TsiResult> r = Indicator.GetTsi(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<TsiResult> r = badQuotes
+            .GetTsi()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        IEnumerable<TsiResult> r = Indicator.GetTsi(bigQuotes);
-        Assert.AreEqual(1246, r.Count());
+        List<TsiResult> r = bigQuotes
+            .GetTsi()
+            .ToList();
+
+        Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<TsiResult> r0 = noquotes.GetTsi();
-        Assert.AreEqual(0, r0.Count());
+        List<TsiResult> r0 = noquotes
+            .GetTsi()
+            .ToList();
 
-        IEnumerable<TsiResult> r1 = onequote.GetTsi();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<TsiResult> r1 = onequote
+            .GetTsi()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<TsiResult> results = quotes.GetTsi(25, 13, 7)
+        List<TsiResult> results = quotes
+            .GetTsi(25, 13, 7)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -132,14 +150,14 @@ public class Tsi : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetTsi(quotes, 0));
+            quotes.GetTsi(0));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetTsi(quotes, 25, 0));
+            quotes.GetTsi(25, 0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetTsi(quotes, 25, 13, -1));
+            quotes.GetTsi(25, 13, -1));
     }
 }

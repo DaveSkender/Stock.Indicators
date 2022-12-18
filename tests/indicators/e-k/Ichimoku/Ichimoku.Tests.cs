@@ -61,34 +61,48 @@ public class Ichimoku : TestBase
     [TestMethod]
     public void Extended()
     {
-        IEnumerable<IchimokuResult> r = quotes.GetIchimoku(3, 13, 40, 0, 0);
-        Assert.AreEqual(502, r.Count());
+        List<IchimokuResult> r = quotes
+            .GetIchimoku(3, 13, 40, 0, 0)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<IchimokuResult> r = badQuotes.GetIchimoku();
-        Assert.AreEqual(502, r.Count());
+        List<IchimokuResult> r = badQuotes
+            .GetIchimoku()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<IchimokuResult> r0 = noquotes.GetIchimoku();
-        Assert.AreEqual(0, r0.Count());
+        List<IchimokuResult> r0 = noquotes
+            .GetIchimoku()
+            .ToList();
 
-        IEnumerable<IchimokuResult> r1 = onequote.GetIchimoku();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<IchimokuResult> r1 = onequote
+            .GetIchimoku()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<IchimokuResult> r = quotes.GetIchimoku()
-            .Condense();
+        List<IchimokuResult> r = quotes
+            .GetIchimoku()
+            .Condense()
+            .ToList();
 
-        Assert.AreEqual(502, r.Count());
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
@@ -96,24 +110,24 @@ public class Ichimoku : TestBase
     {
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetIchimoku(quotes, 0));
+            quotes.GetIchimoku(0));
 
         // bad short span period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetIchimoku(quotes, 9, 0, 52));
+            quotes.GetIchimoku(9, 0, 52));
 
         // bad long span period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetIchimoku(quotes, 9, 26, 26));
+            quotes.GetIchimoku(9, 26, 26));
 
         // invalid offsets
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetIchimoku(quotes, 9, 26, 52, -1));
+            quotes.GetIchimoku(9, 26, 52, -1));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetIchimoku(quotes, 9, 26, 52, -1, 12));
+            quotes.GetIchimoku(9, 26, 52, -1, 12));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetIchimoku(quotes, 9, 26, 52, 12, -1));
+            quotes.GetIchimoku(9, 26, 52, 12, -1));
     }
 }

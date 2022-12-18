@@ -44,61 +44,75 @@ public class ConnorsRsi : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<ConnorsRsiResult> results = quotes
+        List<ConnorsRsiResult> results = quotes
             .Use(CandlePart.Close)
-            .GetConnorsRsi();
+            .GetConnorsRsi()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<ConnorsRsiResult> r = tupleNanny.GetConnorsRsi();
+        List<ConnorsRsiResult> r = tupleNanny
+            .GetConnorsRsi()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.ConnorsRsi is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<ConnorsRsiResult> results = quotes
+        List<ConnorsRsiResult> results = quotes
             .GetSma(2)
-            .GetConnorsRsi();
+            .GetConnorsRsi()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetConnorsRsi()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(392, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<ConnorsRsiResult> r = Indicator.GetConnorsRsi(badQuotes, 4, 3, 25);
-        Assert.AreEqual(502, r.Count());
+        List<ConnorsRsiResult> r = badQuotes
+            .GetConnorsRsi(4, 3, 25)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<ConnorsRsiResult> r0 = noquotes.GetConnorsRsi();
-        Assert.AreEqual(0, r0.Count());
+        List<ConnorsRsiResult> r0 = noquotes
+            .GetConnorsRsi()
+            .ToList();
 
-        IEnumerable<ConnorsRsiResult> r1 = onequote.GetConnorsRsi();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<ConnorsRsiResult> r1 = onequote
+            .GetConnorsRsi()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -131,14 +145,14 @@ public class ConnorsRsi : TestBase
     {
         // bad RSI period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetConnorsRsi(quotes, 1, 2, 100));
+            quotes.GetConnorsRsi(1, 2, 100));
 
         // bad Streak period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetConnorsRsi(quotes, 3, 1, 100));
+            quotes.GetConnorsRsi(3, 1, 100));
 
         // bad Rank period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetConnorsRsi(quotes, 3, 2, 1));
+            quotes.GetConnorsRsi(3, 2, 1));
     }
 }

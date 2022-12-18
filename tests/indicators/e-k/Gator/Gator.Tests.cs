@@ -154,60 +154,74 @@ public class Gator : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<GatorResult> results = quotes
+        List<GatorResult> results = quotes
             .Use(CandlePart.Close)
-            .GetGator();
+            .GetGator()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Upper != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<GatorResult> r = tupleNanny.GetGator();
+        List<GatorResult> r = tupleNanny
+            .GetGator()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<GatorResult> results = quotes
+        List<GatorResult> results = quotes
             .GetSma(2)
-            .GetGator();
+            .GetGator()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Upper != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<GatorResult> r = Indicator.GetGator(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<GatorResult> r = badQuotes
+            .GetGator()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<GatorResult> r0 = noquotes.GetGator();
-        Assert.AreEqual(0, r0.Count());
+        List<GatorResult> r0 = noquotes
+            .GetGator()
+            .ToList();
 
-        IEnumerable<GatorResult> r1 = onequote.GetGator();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<GatorResult> r1 = onequote
+            .GetGator()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<GatorResult> results = quotes.GetGator()
-            .Condense();
+        List<GatorResult> results = quotes.GetGator()
+            .Condense()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(490, results.Count());
+        Assert.AreEqual(490, results.Count);
 
         GatorResult last = results.LastOrDefault();
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
@@ -219,11 +233,12 @@ public class Gator : TestBase
     [TestMethod]
     public void Removed()
     {
-        IEnumerable<GatorResult> results = quotes.GetGator()
-            .RemoveWarmupPeriods();
+        List<GatorResult> results = quotes.GetGator()
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 150, results.Count());
+        Assert.AreEqual(502 - 150, results.Count);
 
         GatorResult last = results.LastOrDefault();
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));

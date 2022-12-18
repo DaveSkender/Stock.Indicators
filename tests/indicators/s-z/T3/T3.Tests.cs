@@ -41,67 +41,82 @@ public class T3 : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<T3Result> results = quotes
+        List<T3Result> results = quotes
             .Use(CandlePart.Close)
-            .GetT3();
+            .GetT3()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(478, results.Count(x => x.T3 != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<T3Result> r = tupleNanny.GetT3();
+        List<T3Result> r = tupleNanny
+            .GetT3()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<T3Result> results = quotes
+        List<T3Result> results = quotes
             .GetSma(2)
-            .GetT3();
+            .GetT3()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.T3 != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetT3()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(469, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<T3Result> r = Indicator.GetT3(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<T3Result> r = badQuotes
+            .GetT3()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<T3Result> r0 = noquotes.GetT3();
-        Assert.AreEqual(0, r0.Count());
+        List<T3Result> r0 = noquotes
+            .GetT3()
+            .ToList();
 
-        IEnumerable<T3Result> r1 = onequote.GetT3();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<T3Result> r1 = onequote
+            .GetT3()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<T3Result> results = quotes.GetT3(5, 0.7)
+        List<T3Result> results = quotes
+            .GetT3(5, 0.7)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -117,10 +132,10 @@ public class T3 : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetT3(quotes, 0));
+            quotes.GetT3(0));
 
         // bad volume factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetT3(quotes, 25, 0));
+            quotes.GetT3(25, 0));
     }
 }

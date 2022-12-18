@@ -111,7 +111,10 @@ public class Roc : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<RocResult> r = badQuotes.GetRoc(35, 2).ToList();
+        List<RocResult> r = badQuotes
+            .GetRoc(35, 2)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
@@ -119,17 +122,24 @@ public class Roc : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<RocResult> r0 = noquotes.GetRoc(5);
-        Assert.AreEqual(0, r0.Count());
+        List<RocResult> r0 = noquotes
+            .GetRoc(5)
+            .ToList();
 
-        IEnumerable<RocResult> r1 = onequote.GetRoc(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<RocResult> r1 = onequote
+            .GetRoc(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<RocResult> results = quotes.GetRoc(20)
+        List<RocResult> results = quotes
+            .GetRoc(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -146,10 +156,10 @@ public class Roc : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetRoc(quotes, 0));
+            quotes.GetRoc(0));
 
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetRoc(quotes, 14, 0));
+            quotes.GetRoc(14, 0));
     }
 }

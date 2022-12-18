@@ -249,14 +249,13 @@ public class QuoteHistory : TestBase
             new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
         };
 
-        badHistory.Validate();
+        _ = badHistory.Validate();
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad aggregation size.")]
-    public void BadAggregationSize()
-    {
+    public void BadAggregationSize() =>
+
         // bad period size
         quotes.Aggregate(TimeSpan.Zero);
-    }
 }

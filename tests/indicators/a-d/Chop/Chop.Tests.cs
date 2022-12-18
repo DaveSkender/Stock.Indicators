@@ -36,11 +36,12 @@ public class Chop : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetChop(14)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
@@ -48,7 +49,9 @@ public class Chop : TestBase
     public void SmallLookback()
     {
         int lookbackPeriods = 2;
-        List<ChopResult> results = Indicator.GetChop(quotes, lookbackPeriods).ToList();
+        List<ChopResult> results = quotes
+            .GetChop(lookbackPeriods)
+            .ToList();
 
         // assertions
 
@@ -61,19 +64,28 @@ public class Chop : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<ChopResult> r = Indicator.GetChop(badQuotes, 20);
-        Assert.AreEqual(502, r.Count());
+        List<ChopResult> r = badQuotes
+            .GetChop(20)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Chop is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<ChopResult> r0 = noquotes.GetChop();
-        Assert.AreEqual(0, r0.Count());
+        List<ChopResult> r0 = noquotes
+            .GetChop()
+            .ToList();
 
-        IEnumerable<ChopResult> r1 = onequote.GetChop();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<ChopResult> r1 = onequote
+            .GetChop()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -94,5 +106,5 @@ public class Chop : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetChop(quotes, 1));
+            => quotes.GetChop(1));
 }

@@ -54,66 +54,80 @@ public class FisherTransform : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<FisherTransformResult> results = quotes
+        List<FisherTransformResult> results = quotes
             .Use(CandlePart.Close)
-            .GetFisherTransform(10);
+            .GetFisherTransform(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<FisherTransformResult> r = tupleNanny.GetFisherTransform(6);
+        List<FisherTransformResult> r = tupleNanny
+            .GetFisherTransform(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<FisherTransformResult> results = quotes
+        List<FisherTransformResult> results = quotes
             .GetSma(2)
-            .GetFisherTransform(10);
+            .GetFisherTransform(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetFisherTransform(10)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<FisherTransformResult> r = Indicator.GetFisherTransform(badQuotes, 9);
-        Assert.AreEqual(502, r.Count());
+        List<FisherTransformResult> r = badQuotes
+            .GetFisherTransform(9)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<FisherTransformResult> r0 = noquotes.GetFisherTransform();
-        Assert.AreEqual(0, r0.Count());
+        List<FisherTransformResult> r0 = noquotes
+            .GetFisherTransform()
+            .ToList();
 
-        IEnumerable<FisherTransformResult> r1 = onequote.GetFisherTransform();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<FisherTransformResult> r1 = onequote
+            .GetFisherTransform()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetFisherTransform(quotes, 0));
+            => quotes.GetFisherTransform(0));
 }

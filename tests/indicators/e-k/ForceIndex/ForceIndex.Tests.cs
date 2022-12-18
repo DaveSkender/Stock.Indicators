@@ -31,36 +31,47 @@ public class ForceIndex : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetForceIndex(13)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<ForceIndexResult> r = Indicator.GetForceIndex(badQuotes, 2);
-        Assert.AreEqual(502, r.Count());
+        List<ForceIndexResult> r = badQuotes
+            .GetForceIndex(2)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.ForceIndex is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<ForceIndexResult> r0 = noquotes.GetForceIndex(5);
-        Assert.AreEqual(0, r0.Count());
+        List<ForceIndexResult> r0 = noquotes
+            .GetForceIndex(5)
+            .ToList();
 
-        IEnumerable<ForceIndexResult> r1 = onequote.GetForceIndex(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<ForceIndexResult> r1 = onequote
+            .GetForceIndex(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<ForceIndexResult> results = quotes.GetForceIndex(13)
+        List<ForceIndexResult> results = quotes
+            .GetForceIndex(13)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -75,5 +86,5 @@ public class ForceIndex : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetForceIndex(quotes, 0));
+            => quotes.GetForceIndex(0));
 }

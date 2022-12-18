@@ -50,30 +50,31 @@ public class Aroon : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetAroon(25)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AroonResult> r = Indicator.GetAroon(badQuotes, 20);
-        Assert.AreEqual(502, r.Count());
+        List<AroonResult> r = badQuotes.GetAroon(20).ToList();
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AroonResult> r0 = noquotes.GetAroon();
-        Assert.AreEqual(0, r0.Count());
+        List<AroonResult> r0 = noquotes.GetAroon().ToList();
+        Assert.AreEqual(0, r0.Count);
 
-        IEnumerable<AroonResult> r1 = onequote.GetAroon();
-        Assert.AreEqual(1, r1.Count());
+        List<AroonResult> r1 = onequote.GetAroon().ToList();
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -96,5 +97,5 @@ public class Aroon : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetAroon(quotes, 0));
+            => quotes.GetAroon(0));
 }

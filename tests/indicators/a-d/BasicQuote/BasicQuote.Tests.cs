@@ -58,20 +58,22 @@ public class BaseQuoteTests : TestBase
     [TestMethod]
     public void Use()
     {
-        IEnumerable<(DateTime Date, double Value)> results = quotes
-            .Use(CandlePart.Close);
+        List<(DateTime Date, double Value)> results = quotes
+            .Use(CandlePart.Close)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetBaseQuote(CandlePart.Close)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 }

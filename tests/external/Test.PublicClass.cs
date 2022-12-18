@@ -44,10 +44,10 @@ public class PublicClassTests
     public void ValidateHistory()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
-        quotes.Validate();
 
+        quotes.Validate();
         quotes.GetSma(6);
-        Indicator.GetSma(quotes, 5);
+        quotes.GetSma(5);
     }
 
     [TestMethod]

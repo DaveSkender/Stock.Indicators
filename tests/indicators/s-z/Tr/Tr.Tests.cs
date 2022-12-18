@@ -67,18 +67,27 @@ public class Tr : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<TrResult> r = badQuotes.GetTr();
-        Assert.AreEqual(502, r.Count());
+        List<TrResult> r = badQuotes
+            .GetTr()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tr is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<TrResult> r0 = noquotes.GetTr();
-        Assert.AreEqual(0, r0.Count());
+        List<TrResult> r0 = noquotes
+            .GetTr()
+            .ToList();
 
-        IEnumerable<TrResult> r1 = onequote.GetTr();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<TrResult> r1 = onequote
+            .GetTr()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 }
