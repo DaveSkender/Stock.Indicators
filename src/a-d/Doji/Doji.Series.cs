@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // DOJI (SERIES)
@@ -7,7 +5,7 @@ public static partial class Indicator
 {
     /// <include file='./info.xml' path='info/*' />
     ///
-    internal static Collection<CandleResult> CalcDoji<TQuote>(
+    internal static List<CandleResult> CalcDoji<TQuote>(
         this IEnumerable<TQuote> quotes,
         double maxPriceChangePercent)
         where TQuote : IQuote
@@ -16,7 +14,7 @@ public static partial class Indicator
         ValidateDoji(maxPriceChangePercent);
 
         // initialize
-        Collection<CandleResult> results = quotes.ToCandleResults();
+        List<CandleResult> results = quotes.ToCandleResults();
         maxPriceChangePercent /= 100;
         int length = results.Count;
 

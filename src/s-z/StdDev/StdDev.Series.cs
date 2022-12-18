@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // STANDARD DEVIATION (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<StdDevResult> CalcStdDev(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<StdDevResult> CalcStdDev(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         int? smaPeriods)
     {
@@ -14,13 +12,13 @@ public static partial class Indicator
         ValidateStdDev(lookbackPeriods, smaPeriods);
 
         // initialize
-        int length = tpColl.Count;
-        Collection<StdDevResult> results = new();
+        int length = tpList.Count;
+        List<StdDevResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
 
             StdDevResult r = new(date);
             results.Add(r);
@@ -33,7 +31,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double dValue) = tpColl[p];
+                    (DateTime _, double dValue) = tpList[p];
                     periodValues[n] = dValue;
                     sum += dValue;
                     n++;

@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // VOLUME WEIGHTED MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<VwmaResult> CalcVwma(
-        this Collection<QuoteD> qdList,
+    internal static List<VwmaResult> CalcVwma(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -14,7 +12,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<VwmaResult> results = new();
+        List<VwmaResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)

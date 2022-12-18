@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // COMMODITY CHANNEL INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<CciResult> CalcCci(
-        this Collection<QuoteD> qdList,
+    internal static List<CciResult> CalcCci(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -14,7 +12,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<CciResult> results = new();
+        List<CciResult> results = new(length);
         double[] tp = new double[length];
 
         // roll through quotes

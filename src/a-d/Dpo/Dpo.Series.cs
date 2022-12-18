@@ -1,28 +1,26 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // DETRENDED PRICE OSCILLATOR (SERIES)
 public static partial class Indicator
 {
     // calculate series
-    internal static Collection<DpoResult> CalcDpo(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<DpoResult> CalcDpo(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateDpo(lookbackPeriods);
 
         // initialize
-        int length = tpColl.Count;
+        int length = tpList.Count;
         int offset = (lookbackPeriods / 2) + 1;
-        List<SmaResult> sma = tpColl.GetSma(lookbackPeriods).ToList();
-        Collection<DpoResult> results = new();
+        List<SmaResult> sma = tpList.GetSma(lookbackPeriods).ToList();
+        List<DpoResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
 
             DpoResult r = new(date);
             results.Add(r);

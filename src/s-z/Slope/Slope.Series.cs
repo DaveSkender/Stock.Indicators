@@ -1,26 +1,24 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // SLOPE AND LINEAR REGRESSION (SERIES)
 public static partial class Indicator
 {
     // calculate series
-    internal static Collection<SlopeResult> CalcSlope(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<SlopeResult> CalcSlope(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateSlope(lookbackPeriods);
 
         // initialize
-        int length = tpColl.Count;
-        Collection<SlopeResult> results = new();
+        int length = tpList.Count;
+        List<SlopeResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpColl[i];
+            (DateTime date, double _) = tpList[i];
 
             SlopeResult r = new(date);
             results.Add(r);
@@ -37,7 +35,7 @@ public static partial class Indicator
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                (DateTime _, double pValue) = tpColl[p];
+                (DateTime _, double pValue) = tpList[p];
 
                 sumX += p + 1d;
                 sumY += pValue;
@@ -53,7 +51,7 @@ public static partial class Indicator
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                (DateTime _, double pValue) = tpColl[p];
+                (DateTime _, double pValue) = tpList[p];
 
                 double devX = p + 1d - avgX;
                 double devY = pValue - avgY;

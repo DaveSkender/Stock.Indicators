@@ -1,24 +1,23 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // ENDPOINT MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
     // calculate series
-    internal static Collection<EpmaResult> CalcEpma(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<EpmaResult> CalcEpma(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateEpma(lookbackPeriods);
 
         // initialize
-        Collection<SlopeResult> slopeResults = tpColl
-            .CalcSlope(lookbackPeriods);
+        List<SlopeResult> slopeResults = tpList
+            .CalcSlope(lookbackPeriods)
+            .ToList();
 
         int length = slopeResults.Count;
-        Collection<EpmaResult> results = new();
+        List<EpmaResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)

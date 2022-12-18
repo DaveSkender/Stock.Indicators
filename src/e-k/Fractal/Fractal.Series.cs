@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // WILLIAMS FRACTAL (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<FractalResult> CalcFractal<TQuote>(
-        this Collection<TQuote> quotesList,
+    internal static List<FractalResult> CalcFractal<TQuote>(
+        this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,
         EndType endType)
@@ -16,11 +14,10 @@ public static partial class Indicator
         ValidateFractal(Math.Min(leftSpan, rightSpan));
 
         // initialize
-        int length = quotesList.Count;
-        Collection<FractalResult> results = new();
+        List<FractalResult> results = new(quotesList.Count);
 
         // roll through quotes
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < quotesList.Count; i++)
         {
             TQuote q = quotesList[i];
 

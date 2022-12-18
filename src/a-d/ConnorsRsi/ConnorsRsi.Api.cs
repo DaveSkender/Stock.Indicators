@@ -31,6 +31,6 @@ public static partial class Indicator
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 }

@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
@@ -11,13 +9,13 @@ internal class EmaBase
         K = 2d / (lookbackPeriods + 1);
 
         ProtectedResults = tpQuotes
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcEma(lookbackPeriods);
     }
 
     // properties
     internal double K { get; set; }
-    internal Collection<EmaResult> ProtectedResults { get; set; }
+    internal List<EmaResult> ProtectedResults { get; set; }
 
     public IEnumerable<EmaResult> Results => ProtectedResults;
 

@@ -1,27 +1,25 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // FISHER TRANSFORM (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<FisherTransformResult> CalcFisherTransform(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<FisherTransformResult> CalcFisherTransform(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateFisherTransform(lookbackPeriods);
 
         // initialize
-        int length = tpColl.Count;
+        int length = tpList.Count;
         double[] pr = new double[length]; // median price
         double[] xv = new double[length]; // price transform "value"
-        Collection<FisherTransformResult> results = new();
+        List<FisherTransformResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < tpColl.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
             pr[i] = value;
 
             double minPrice = pr[i];

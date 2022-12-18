@@ -10,7 +10,7 @@ public static partial class Indicator
         int windowSpan = 2,
         EndType endType = EndType.HighLow)
         where TQuote : IQuote => quotes
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcFractal(windowSpan, windowSpan, endType);
 
     // more configurable version (undocumented)
@@ -22,6 +22,6 @@ public static partial class Indicator
         int rightSpan,
         EndType endType = EndType.HighLow)
         where TQuote : IQuote => quotes
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcFractal(leftSpan, rightSpan, endType);
 }

@@ -52,7 +52,7 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcAlligator(
                 jawPeriods,
                 jawOffset,

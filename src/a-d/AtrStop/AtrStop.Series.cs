@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // ATR TRAILING STOP (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<AtrStopResult> CalcAtrStop(
-        this Collection<QuoteD> qdList,
+    internal static List<AtrStopResult> CalcAtrStop(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
         EndType endType)
@@ -15,8 +13,8 @@ public static partial class Indicator
         ValidateAtrStop(lookbackPeriods, multiplier);
 
         // initialize
-        Collection<AtrStopResult> results = new();
-        Collection<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
+        List<AtrStopResult> results = new(qdList.Count);
+        List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;

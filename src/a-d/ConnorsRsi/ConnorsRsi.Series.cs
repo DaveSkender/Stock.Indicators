@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // CONNORS RSI (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<ConnorsRsiResult> CalcConnorsRsi(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<ConnorsRsiResult> CalcConnorsRsi(
+        this List<(DateTime, double)> tpList,
         int rsiPeriods,
         int streakPeriods,
         int rankPeriods)
@@ -15,19 +13,17 @@ public static partial class Indicator
         ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         // initialize
-        Collection<ConnorsRsiResult> results = tpColl.CalcStreak(rsiPeriods, rankPeriods);
+        List<ConnorsRsiResult> results = tpList.CalcStreak(rsiPeriods, rankPeriods);
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
         int length = results.Count;
 
         // RSI of streak
-        Collection<(DateTime Date, double Streak)> bdStreak = new();
+        List<(DateTime Date, double Streak)> bdStreak = results
+            .Remove(Math.Min(length, 1))
+            .Select(x => (x.Date, (double)x.Streak))
+            .ToList();
 
-        foreach (ConnorsRsiResult? x in results.Remove(Math.Min(length, 1)))
-        {
-            bdStreak.Add(new(x.Date, x.Streak));
-        }
-
-        Collection<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);
+        List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);
 
         // compose final results
         for (int p = streakPeriods + 2; p < length; p++)
@@ -47,16 +43,16 @@ public static partial class Indicator
     }
 
     // calculate baseline streak and rank
-    private static Collection<ConnorsRsiResult> CalcStreak(
-        this Collection<(DateTime Date, double Streak)> tpColl,
+    private static List<ConnorsRsiResult> CalcStreak(
+        this List<(DateTime Date, double Streak)> tpList,
         int rsiPeriods,
         int rankPeriods)
     {
         // initialize
-        Collection<RsiResult> rsiResults = CalcRsi(tpColl, rsiPeriods);
+        List<RsiResult> rsiResults = CalcRsi(tpList, rsiPeriods);
 
-        int length = tpColl.Count;
-        Collection<ConnorsRsiResult> results = new();
+        int length = tpList.Count;
+        List<ConnorsRsiResult> results = new(length);
         double[] gain = new double[length];
 
         double lastClose = double.NaN;
@@ -65,7 +61,7 @@ public static partial class Indicator
         // compose interim results
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
 
             ConnorsRsiResult r = new(date)
             {

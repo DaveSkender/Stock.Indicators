@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // TRIPLE EMA OSCILLATOR - TRIX (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<TrixResult> CalcTrix(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<TrixResult> CalcTrix(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         int? signalPeriods)
     {
@@ -14,8 +12,8 @@ public static partial class Indicator
         ValidateTrix(lookbackPeriods);
 
         // initialize
-        int length = tpColl.Count;
-        Collection<TrixResult> results = new();
+        int length = tpList.Count;
+        List<TrixResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
         double? lastEma1 = 0;
@@ -25,7 +23,7 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            lastEma1 += tpColl[i].Item2;
+            lastEma1 += tpList[i].Item2;
         }
 
         lastEma1 /= initPeriods;
@@ -34,7 +32,7 @@ public static partial class Indicator
         // compose final results
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
 
             TrixResult r = new(date);
             results.Add(r);
@@ -62,7 +60,7 @@ public static partial class Indicator
 
     // internals
     private static void CalcTrixSignal(
-        int? signalPeriods, int i, int lookbackPeriods, Collection<TrixResult> results)
+        int? signalPeriods, int i, int lookbackPeriods, List<TrixResult> results)
     {
         if (signalPeriods != null && i >= (lookbackPeriods + signalPeriods - 1))
         {

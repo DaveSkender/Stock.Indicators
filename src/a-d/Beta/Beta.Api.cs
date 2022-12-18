@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // BETA COEFFICIENT (API)
@@ -15,10 +13,10 @@ public static partial class Indicator
         BetaType type = BetaType.Standard)
         where TQuote : IQuote
     {
-        Collection<(DateTime, double)> tpListEval
+        List<(DateTime, double)> tpListEval
             = quotesEval.ToTuple(CandlePart.Close);
 
-        Collection<(DateTime, double)> tpListMrkt
+        List<(DateTime, double)> tpListMrkt
             = quotesMarket.ToTuple(CandlePart.Close);
 
         // to enable typical 'this' extension
@@ -32,8 +30,8 @@ public static partial class Indicator
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
     {
-        Collection<(DateTime, double)> tpListEval = evalTuple.ToSortedCollection();
-        Collection<(DateTime, double)> tpListMrkt = mrktTuple.ToSortedCollection();
+        List<(DateTime, double)> tpListEval = evalTuple.ToSortedList();
+        List<(DateTime, double)> tpListMrkt = mrktTuple.ToSortedList();
 
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
     }

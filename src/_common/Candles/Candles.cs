@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 public static class Candlesticks
@@ -36,21 +34,18 @@ public static class Candlesticks
     }
 
     // convert/sort quotes into candle results
-    internal static Collection<CandleResult> ToCandleResults<TQuote>(
+    internal static List<CandleResult> ToCandleResults<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        Collection<CandleResult> candlesList = new();
-
-        foreach (TQuote q in quotes.OrderBy(x => x.Date))
-        {
-            candlesList.Add(
-            new CandleResult(q.Date)
+        List<CandleResult> candlesList = quotes
+            .Select(x => new CandleResult(x.Date)
             {
                 Match = Match.None,
-                Candle = q.ToCandle()
-            });
-        }
+                Candle = x.ToCandle()
+            })
+            .OrderBy(x => x.Date)
+            .ToList();
 
         // validate
         return candlesList;

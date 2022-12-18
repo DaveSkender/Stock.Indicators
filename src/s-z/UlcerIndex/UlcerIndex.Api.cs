@@ -25,6 +25,6 @@ public static partial class Indicator
     public static IEnumerable<UlcerIndexResult> GetUlcerIndex(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcUlcerIndex(lookbackPeriods);
 }

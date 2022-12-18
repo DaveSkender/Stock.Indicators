@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // SCHAFF TREND CYCLE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<StcResult> CalcStc(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<StcResult> CalcStc(
+        this List<(DateTime, double)> tpList,
         int cyclePeriods,
         int fastPeriods,
         int slowPeriods)
@@ -15,37 +13,29 @@ public static partial class Indicator
         ValidateStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // initialize results
-        int length = tpColl.Count;
+        int length = tpList.Count;
         int initPeriods = Math.Min(slowPeriods - 1, length);
-        Collection<StcResult> results = new();
+        List<StcResult> results = new(length);
 
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double _) = tpColl[i];
+            (DateTime date, double _) = tpList[i];
             results.Add(new StcResult(date));
         }
 
-        // macd component
-        Collection<QuoteD> macdQuotes = new();
-
-        List<MacdResult> macdResults = tpColl
-          .CalcMacd(fastPeriods, slowPeriods, 1)
-          .Remove(initPeriods);
-
-        foreach (MacdResult x in macdResults)
-        {
-            macdQuotes.Add(new QuoteD
-            {
-                Date = x.Date,
-                High = x.Macd.Null2NaN(),
-                Low = x.Macd.Null2NaN(),
-                Close = x.Macd.Null2NaN()
-            });
-        }
-
         // get stochastic of macd
-        Collection<StochResult> stochMacd = macdQuotes
+        List<StochResult> stochMacd = tpList
+          .CalcMacd(fastPeriods, slowPeriods, 1)
+          .Remove(initPeriods)
+          .Select(x => new QuoteD
+          {
+              Date = x.Date,
+              High = x.Macd.Null2NaN(),
+              Low = x.Macd.Null2NaN(),
+              Close = x.Macd.Null2NaN()
+          })
+          .ToList()
           .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.SMA);
 
         // add stoch results

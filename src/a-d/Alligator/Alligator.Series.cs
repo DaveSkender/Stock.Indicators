@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<AlligatorResult> CalcAlligator(
-        this Collection<(DateTime Date, double Value)> tpColl,
+    internal static List<AlligatorResult> CalcAlligator(
+        this List<(DateTime Date, double Value)> tpList,
         int jawPeriods,
         int jawOffset,
         int teethPeriods,
@@ -24,20 +22,18 @@ public static partial class Indicator
             lipsOffset);
 
         // initialize
-        int length = tpColl.Count;
+        int length = tpList.Count;
         double[] pr = new double[length]; // median price
 
-        Collection<AlligatorResult> results = new();
-
-        foreach ((DateTime date, double _) in tpColl)
-        {
-            results.Add(new AlligatorResult(date));
-        }
+        List<AlligatorResult> results =
+            tpList
+            .Select(x => new AlligatorResult(x.Date))
+            .ToList();
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime _, double value) = tpColl[i];
+            (DateTime _, double value) = tpList[i];
             pr[i] = value;
 
             // only calculate jaw if the array offset is still in valid range

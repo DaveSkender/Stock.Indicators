@@ -1,19 +1,17 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<AdlResult> CalcAdl(
-        this Collection<QuoteD> qdList,
+    internal static List<AdlResult> CalcAdl(
+        this List<QuoteD> qdList,
         int? smaPeriods)
     {
         // check parameter arguments
         ValidateAdl(smaPeriods);
 
         // initialize
-        Collection<AdlResult> results = new();
+        List<AdlResult> results = new(qdList.Count);
         double prevAdl = 0;
 
         // roll through quotes

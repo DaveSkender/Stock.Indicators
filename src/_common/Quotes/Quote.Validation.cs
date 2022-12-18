@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
@@ -15,7 +15,7 @@ public static partial class QuoteUtility
     {
         // we cannot rely on date consistency when looking back, so we force sort
 
-        Collection<TQuote> quotesList = quotes.ToSortedCollection();
+        List<TQuote> quotesList = quotes.ToSortedList();
 
         // check for duplicates
         DateTime lastDate = DateTime.MinValue;

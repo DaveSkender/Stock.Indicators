@@ -25,6 +25,6 @@ public static partial class Indicator
     public static IEnumerable<SlopeResult> GetSlope(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcSlope(lookbackPeriods);
 }

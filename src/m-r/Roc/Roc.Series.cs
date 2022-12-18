@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // RATE OF CHANGE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<RocResult> CalcRoc(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<RocResult> CalcRoc(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         int? smaPeriods)
     {
@@ -14,19 +12,19 @@ public static partial class Indicator
         ValidateRoc(lookbackPeriods, smaPeriods);
 
         // initialize
-        Collection<RocResult> results = new();
+        List<RocResult> results = new(tpList.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpColl.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
 
             RocResult r = new(date);
             results.Add(r);
 
             if (i + 1 > lookbackPeriods)
             {
-                (DateTime _, double backValue) = tpColl[i - lookbackPeriods];
+                (DateTime _, double backValue) = tpList[i - lookbackPeriods];
 
                 r.Momentum = (value - backValue).NaN2Null();
                 r.Roc = (backValue == 0) ? null

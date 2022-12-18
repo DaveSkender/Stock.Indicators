@@ -31,6 +31,6 @@ public static partial class Indicator
         int timePeriods = 35,
         int smoothPeriods = 20,
         int signalPeriods = 10) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcPmo(timePeriods, smoothPeriods, signalPeriods);
 }

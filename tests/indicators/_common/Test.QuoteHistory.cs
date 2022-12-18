@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
@@ -90,7 +89,7 @@ public class QuoteHistory : TestBase
         IEnumerable<Quote> quotes = TestData.GetMismatch();
 
         // clean
-        Collection<Quote> h = quotes.ToSortedCollection();
+        List<Quote> h = quotes.ToSortedList();
 
         // assertions
 

@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // DONCHIAN CHANNEL (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<DonchianResult> CalcDonchian<TQuote>(
-        this Collection<TQuote> quotesList,
+    internal static List<DonchianResult> CalcDonchian<TQuote>(
+        this List<TQuote> quotesList,
         int lookbackPeriods)
         where TQuote : IQuote
     {
@@ -15,7 +13,7 @@ public static partial class Indicator
 
         // initialize
         int length = quotesList.Count;
-        Collection<DonchianResult> results = new();
+        List<DonchianResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)

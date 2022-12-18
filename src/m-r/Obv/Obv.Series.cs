@@ -1,19 +1,17 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // ON-BALANCE VOLUME (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<ObvResult> CalcObv(
-        this Collection<QuoteD> qdList,
+    internal static List<ObvResult> CalcObv(
+        this List<QuoteD> qdList,
         int? smaPeriods)
     {
         // check parameter arguments
         ValidateObv(smaPeriods);
 
         // initialize
-        Collection<ObvResult> results = new();
+        List<ObvResult> results = new(qdList.Count);
 
         double prevClose = double.NaN;
         double obv = 0;

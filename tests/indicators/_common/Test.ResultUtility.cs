@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
@@ -164,7 +163,7 @@ public class Results : TestBase
     public void ToTuple()
     {
         // baseline for comparison
-        Collection<SmaResult> baseline = new()
+        List<SmaResult> baseline = new()
         {
             new SmaResult(DateTime.Parse("1/1/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/2/2000", EnglishCulture)) { Sma = null },
@@ -178,19 +177,19 @@ public class Results : TestBase
         };
 
         // default to NaN with pruning
-        Collection<(DateTime Date, double Value)> naNresults = baseline.ToTuple();
+        List<(DateTime Date, double Value)> naNresults = baseline.ToTuple();
 
         Assert.AreEqual(5, naNresults.Count(x => !double.IsNaN(x.Value)));
         Assert.AreEqual(2, naNresults.Count(x => double.IsNaN(x.Value)));
 
         // with null option
-        Collection<(DateTime Date, double? Value)> nullResults = baseline.ToTuple(NullTo.Null);
+        List<(DateTime Date, double? Value)> nullResults = baseline.ToTuple(NullTo.Null);
 
         Assert.AreEqual(3, nullResults.Count(x => x.Value is null));
         Assert.AreEqual(1, nullResults.Count(x => x.Value is double.NaN));
 
         // with explicit nullable NaN option
-        Collection<(DateTime Date, double? Value)> nullableResults = baseline.ToTuple(NullTo.NaN);
+        List<(DateTime Date, double? Value)> nullableResults = baseline.ToTuple(NullTo.NaN);
 
         Assert.AreEqual(0, nullableResults.Count(x => x.Value is null));
         Assert.AreEqual(4, nullableResults.Count(x => x.Value is double.NaN));

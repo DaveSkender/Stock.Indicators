@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<AdxResult> CalcAdx(
-        this Collection<QuoteD> qdList,
+    internal static List<AdxResult> CalcAdx(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -14,7 +12,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<AdxResult> results = new();
+        List<AdxResult> results = new(length);
 
         double prevHigh = 0;
         double prevLow = 0;

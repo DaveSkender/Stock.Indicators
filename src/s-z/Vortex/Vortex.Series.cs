@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // VORTEX INDICATOR (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<VortexResult> CalcVortex(
-        this Collection<QuoteD> qdList,
+    internal static List<VortexResult> CalcVortex(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -14,7 +12,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<VortexResult> results = new();
+        List<VortexResult> results = new(length);
 
         double[] tr = new double[length];
         double[] pvm = new double[length];

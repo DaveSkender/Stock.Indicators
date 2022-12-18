@@ -24,6 +24,6 @@ public static partial class Indicator
     public static IEnumerable<HurstResult> GetHurst(
         this IEnumerable<(DateTime, double)> priceTuples,
         int lookbackPeriods) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcHurst(lookbackPeriods);
 }

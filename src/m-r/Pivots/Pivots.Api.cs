@@ -13,6 +13,6 @@ public static partial class Indicator
         int maxTrendPeriods = 20,
         EndType endType = EndType.HighLow)
         where TQuote : IQuote => quotes
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
 }

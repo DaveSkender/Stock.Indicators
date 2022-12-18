@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
@@ -13,7 +12,7 @@ public class Candles : TestBase
         IEnumerable<Quote> quotes = TestData.GetMismatch();
 
         // sort
-        Collection<CandleResult> candles = quotes.ToCandleResults();
+        List<CandleResult> candles = quotes.ToCandleResults();
 
         // assertions
 
@@ -37,7 +36,7 @@ public class Candles : TestBase
     public void CandleValues()
     {
         // sort
-        Collection<CandleResult> candles = quotes.ToCandleResults();
+        List<CandleResult> candles = quotes.ToCandleResults();
 
         // assertions
 

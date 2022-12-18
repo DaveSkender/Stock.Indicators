@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // CHANDELIER EXIT (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<ChandelierResult> CalcChandelier(
-        this Collection<QuoteD> qdList,
+    internal static List<ChandelierResult> CalcChandelier(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
         ChandelierType type)
@@ -16,7 +14,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<ChandelierResult> results = new();
+        List<ChandelierResult> results = new(length);
         List<AtrResult> atrResult = qdList
             .CalcAtr(lookbackPeriods)
             .ToList();

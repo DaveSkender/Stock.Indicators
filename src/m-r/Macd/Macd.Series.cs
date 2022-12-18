@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<MacdResult> CalcMacd(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<MacdResult> CalcMacd(
+        this List<(DateTime, double)> tpList,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
@@ -15,17 +13,17 @@ public static partial class Indicator
         ValidateMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        Collection<EmaResult> emaFast = tpColl.CalcEma(fastPeriods);
-        Collection<EmaResult> emaSlow = tpColl.CalcEma(slowPeriods);
+        List<EmaResult> emaFast = tpList.CalcEma(fastPeriods);
+        List<EmaResult> emaSlow = tpList.CalcEma(slowPeriods);
 
-        int length = tpColl.Count;
-        Collection<(DateTime, double)> emaDiff = new();
-        Collection<MacdResult> results = new();
+        int length = tpList.Count;
+        List<(DateTime, double)> emaDiff = new();
+        List<MacdResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpColl[i];
+            (DateTime date, double _) = tpList[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
@@ -49,7 +47,7 @@ public static partial class Indicator
         }
 
         // add signal and histogram to result
-        Collection<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
+        List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
 
         for (int d = slowPeriods - 1; d < length; d++)
         {

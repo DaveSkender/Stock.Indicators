@@ -1,19 +1,17 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // AROON OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<AroonResult> CalcAroon(
-        this Collection<QuoteD> qdList,
+    internal static List<AroonResult> CalcAroon(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateAroon(lookbackPeriods);
 
         // initialize
-        Collection<AroonResult> results = new();
+        List<AroonResult> results = new(qdList.Count);
 
         // roll through quotes
         for (int i = 0; i < qdList.Count; i++)

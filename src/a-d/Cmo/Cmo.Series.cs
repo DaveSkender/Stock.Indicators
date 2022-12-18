@@ -1,36 +1,34 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // CHANDE MOMENTUM OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<CmoResult> CalcCmo(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<CmoResult> CalcCmo(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateCmo(lookbackPeriods);
 
         // initialize
-        int length = tpColl.Count;
-        Collection<CmoResult> results = new();
+        int length = tpList.Count;
+        List<CmoResult> results = new(length);
         List<(bool? isUp, double value)> ticks = new(length);
         double prevValue = double.NaN;
 
         // add initial record
         if (length > 0)
         {
-            results.Add(new CmoResult(tpColl[0].Item1));
+            results.Add(new CmoResult(tpList[0].Item1));
             ticks.Add((null, double.NaN));
 
-            prevValue = tpColl[0].Item2;
+            prevValue = tpList[0].Item2;
         }
 
         // roll through quotes
         for (int i = 1; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
 
             CmoResult r = new(date);
             results.Add(r);

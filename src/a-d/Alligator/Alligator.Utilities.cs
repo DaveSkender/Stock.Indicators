@@ -15,7 +15,7 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.Jaw is null && x.Teeth is null && x.Lips is null);
 
-        return resultsList;
+        return resultsList.ToSortedList();
     }
 
     // remove recommended periods

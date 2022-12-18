@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE ENVELOPES (SERIES)
@@ -7,7 +5,7 @@ public static partial class Indicator
 {
     // calculate series
     internal static IEnumerable<MaEnvelopeResult> CalcMaEnvelopes(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double percentOffset,
         MaType movingAverageType)
@@ -22,15 +20,15 @@ public static partial class Indicator
         // get envelopes variant
         return movingAverageType switch
         {
-            MaType.ALMA => tpColl.MaEnvAlma(lookbackPeriods, offsetRatio),
-            MaType.DEMA => tpColl.MaEnvDema(lookbackPeriods, offsetRatio),
-            MaType.EMA => tpColl.MaEnvEma(lookbackPeriods, offsetRatio),
-            MaType.EPMA => tpColl.MaEnvEpma(lookbackPeriods, offsetRatio),
-            MaType.HMA => tpColl.MaEnvHma(lookbackPeriods, offsetRatio),
-            MaType.SMA => tpColl.MaEnvSma(lookbackPeriods, offsetRatio),
-            MaType.SMMA => tpColl.MaEnvSmma(lookbackPeriods, offsetRatio),
-            MaType.TEMA => tpColl.MaEnvTema(lookbackPeriods, offsetRatio),
-            MaType.WMA => tpColl.MaEnvWma(lookbackPeriods, offsetRatio),
+            MaType.ALMA => tpList.MaEnvAlma(lookbackPeriods, offsetRatio),
+            MaType.DEMA => tpList.MaEnvDema(lookbackPeriods, offsetRatio),
+            MaType.EMA => tpList.MaEnvEma(lookbackPeriods, offsetRatio),
+            MaType.EPMA => tpList.MaEnvEpma(lookbackPeriods, offsetRatio),
+            MaType.HMA => tpList.MaEnvHma(lookbackPeriods, offsetRatio),
+            MaType.SMA => tpList.MaEnvSma(lookbackPeriods, offsetRatio),
+            MaType.SMMA => tpList.MaEnvSmma(lookbackPeriods, offsetRatio),
+            MaType.TEMA => tpList.MaEnvTema(lookbackPeriods, offsetRatio),
+            MaType.WMA => tpList.MaEnvWma(lookbackPeriods, offsetRatio),
 
             _ => throw new ArgumentOutOfRangeException(
                      nameof(movingAverageType), movingAverageType,
@@ -42,10 +40,10 @@ public static partial class Indicator
     }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvAlma(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetAlma(lookbackPeriods)
+        => tpList.GetAlma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Alma,
@@ -54,10 +52,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvDema(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetDema(lookbackPeriods)
+        => tpList.GetDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Dema,
@@ -66,10 +64,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvEma(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetEma(lookbackPeriods)
+        => tpList.GetEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Ema,
@@ -78,10 +76,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvEpma(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetEpma(lookbackPeriods)
+        => tpList.GetEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Epma,
@@ -90,10 +88,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvHma(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetHma(lookbackPeriods)
+        => tpList.GetHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Hma,
@@ -102,10 +100,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvSma(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetSma(lookbackPeriods)
+        => tpList.GetSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Sma,
@@ -114,10 +112,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvSmma(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetSmma(lookbackPeriods)
+        => tpList.GetSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Smma,
@@ -126,10 +124,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvTema(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetTema(lookbackPeriods)
+        => tpList.GetTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Tema,
@@ -138,10 +136,10 @@ public static partial class Indicator
         });
 
     private static IEnumerable<MaEnvelopeResult> MaEnvWma(
-        this Collection<(DateTime, double)> tpColl,
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        => tpColl.GetWma(lookbackPeriods)
+        => tpList.GetWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(x.Date)
         {
             Centerline = x.Wma,

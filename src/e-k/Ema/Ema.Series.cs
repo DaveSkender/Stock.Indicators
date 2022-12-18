@@ -1,20 +1,18 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<EmaResult> CalcEma(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<EmaResult> CalcEma(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         EmaBase.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpColl.Count;
-        Collection<EmaResult> results = new();
+        int length = tpList.Count;
+        List<EmaResult> results = new(length);
 
         double lastEma = 0;
         double k = 2d / (lookbackPeriods + 1);
@@ -22,7 +20,7 @@ public static partial class Indicator
 
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime _, double value) = tpColl[i];
+            (DateTime _, double value) = tpList[i];
             lastEma += value;
         }
 
@@ -31,7 +29,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
             EmaResult r = new(date);
             results.Add(r);
 

@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // PRICE RELATIVE STRENGTH (API)
@@ -15,9 +13,9 @@ public static partial class Indicator
         int? smaPeriods = null)
         where TQuote : IQuote
     {
-        Collection<(DateTime, double)> tpListBase = quotesBase
+        List<(DateTime, double)> tpListBase = quotesBase
             .ToTuple(CandlePart.Close);
-        Collection<(DateTime, double)> tpListEval = quotesEval
+        List<(DateTime, double)> tpListEval = quotesEval
             .ToTuple(CandlePart.Close);
 
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
@@ -30,8 +28,8 @@ public static partial class Indicator
         int? lookbackPeriods = null,
         int? smaPeriods = null)
     {
-        Collection<(DateTime, double)> tpListBase = tupleBase.ToSortedCollection();
-        Collection<(DateTime, double)> tpListEval = tupleEval.ToSortedCollection();
+        List<(DateTime, double)> tpListBase = tupleBase.ToSortedList();
+        List<(DateTime, double)> tpListEval = tupleEval.ToSortedList();
 
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
     }

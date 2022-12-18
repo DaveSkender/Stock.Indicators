@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // STOCHASTIC MOMENTUM INDEX (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<SmiResult> CalcSmi(
-        this Collection<QuoteD> qdList,
+    internal static List<SmiResult> CalcSmi(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
@@ -21,7 +19,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<SmiResult> results = new();
+        List<SmiResult> results = new(length);
 
         double k1 = 2d / (firstSmoothPeriods + 1);
         double k2 = 2d / (secondSmoothPeriods + 1);

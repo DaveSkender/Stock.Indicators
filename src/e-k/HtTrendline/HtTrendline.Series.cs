@@ -1,16 +1,14 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // HILBERT TRANSFORM - INSTANTANEOUS TRENDLINE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<HtlResult> CalcHtTrendline(
-        this Collection<(DateTime, double)> tpColl)
+    internal static List<HtlResult> CalcHtTrendline(
+        this List<(DateTime, double)> tpList)
     {
         // initialize
-        int length = tpColl.Count;
-        Collection<HtlResult> results = new();
+        int length = tpList.Count;
+        List<HtlResult> results = new(length);
 
         double[] pr = new double[length]; // price
         double[] sp = new double[length]; // smooth price
@@ -35,7 +33,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
             pr[i] = value;
 
             HtlResult r = new(date);

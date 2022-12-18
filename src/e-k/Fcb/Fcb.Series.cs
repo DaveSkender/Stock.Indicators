@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // FRACTAL CHAOS BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<FcbResult> CalcFcb<TQuote>(
-        this Collection<TQuote> quotesList,
+    internal static List<FcbResult> CalcFcb<TQuote>(
+        this List<TQuote> quotesList,
         int windowSpan)
         where TQuote : IQuote
     {
@@ -19,7 +17,7 @@ public static partial class Indicator
             .ToList();
 
         int length = fractals.Count;
-        Collection<FcbResult> results = new();
+        List<FcbResult> results = new(length);
         decimal? upperLine = null, lowerLine = null;
 
         // roll through quotes

@@ -12,6 +12,6 @@ public static partial class Indicator
         int offsetPeriods,
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote => quotes
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcRollingPivots(windowPeriods, offsetPeriods, pointType);
 }

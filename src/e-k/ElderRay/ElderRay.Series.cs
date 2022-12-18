@@ -1,28 +1,24 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // ELDER-RAY (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<ElderRayResult> CalcElderRay(
-        this Collection<QuoteD> qdList,
+    internal static List<ElderRayResult> CalcElderRay(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateElderRay(lookbackPeriods);
 
         // initialize with EMA
-        Collection<ElderRayResult> results = new();
-
-        Collection<EmaResult> ema = qdList
+        List<ElderRayResult> results = qdList
             .ToTuple(CandlePart.Close)
-            .CalcEma(lookbackPeriods);
-
-        foreach (EmaResult r in ema)
-        {
-            results.Add(new ElderRayResult(r.Date) { Ema = r.Ema });
-        }
+            .CalcEma(lookbackPeriods)
+            .Select(x => new ElderRayResult(x.Date)
+            {
+                Ema = x.Ema
+            })
+            .ToList();
 
         // roll through quotes
         for (int i = lookbackPeriods - 1; i < qdList.Count; i++)

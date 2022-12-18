@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // STOCHASTIC OSCILLATOR (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<StochResult> CalcStoch(
-        this Collection<QuoteD> qdList,
+    internal static List<StochResult> CalcStoch(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -21,7 +19,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<StochResult> results = new();
+        List<StochResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -118,8 +116,8 @@ public static partial class Indicator
     }
 
     // internals
-    private static Collection<StochResult> SmoothOscillator(
-        Collection<StochResult> results,
+    private static List<StochResult> SmoothOscillator(
+        List<StochResult> results,
         int length,
         int lookbackPeriods,
         int smoothPeriods,

@@ -15,6 +15,6 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.HighPoint is null && x.LowPoint is null);
 
-        return resultsList;
+        return resultsList.ToSortedList();
     }
 }

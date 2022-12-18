@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // VOLUME WEIGHTED AVERAGE PRICE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<VwapResult> CalcVwap(
-        this Collection<QuoteD> qdList,
+    internal static List<VwapResult> CalcVwap(
+        this List<QuoteD> qdList,
         DateTime? startDate = null)
     {
         // check parameter arguments
@@ -14,7 +12,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<VwapResult> results = new();
+        List<VwapResult> results = new(length);
 
         if (length == 0)
         {
@@ -52,7 +50,7 @@ public static partial class Indicator
 
     // parameter validation
     private static void ValidateVwap(
-        Collection<QuoteD> quotesList,
+        List<QuoteD> quotesList,
         DateTime? startDate)
     {
         // nothing to do for 0 length

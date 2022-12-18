@@ -1,22 +1,17 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (ANALYSIS)
 public static partial class Indicator
 {
-    internal static Collection<SmaAnalysis> CalcSmaAnalysis(
-        this Collection<(DateTime, double)> tpColl,
+    internal static IEnumerable<SmaAnalysis> CalcSmaAnalysis(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // initialize
-        Collection<SmaAnalysis> results = new();
-        Collection<SmaResult> smaResults = tpColl.CalcSma(lookbackPeriods);
-
-        foreach (SmaResult s in smaResults)
-        {
-            results.Add(new SmaAnalysis(s.Date) { Sma = s.Sma });
-        }
+        List<SmaAnalysis>? results = tpList
+            .CalcSma(lookbackPeriods)
+            .Select(x => new SmaAnalysis(x.Date) { Sma = x.Sma })
+            .ToList();
 
         // roll through quotes
         for (int i = lookbackPeriods - 1; i < results.Count; i++)
@@ -30,7 +25,7 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                (DateTime _, double value) = tpColl[p];
+                (DateTime _, double value) = tpList[p];
 
                 sumMad += Math.Abs(value - sma);
                 sumMse += (value - sma) * (value - sma);

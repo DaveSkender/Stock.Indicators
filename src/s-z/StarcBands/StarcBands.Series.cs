@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // STARC BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<StarcBandsResult> CalcStarcBands(
-        this Collection<QuoteD> qdList,
+    internal static List<StarcBandsResult> CalcStarcBands(
+        this List<QuoteD> qdList,
         int smaPeriods,
         double multiplier,
         int atrPeriods)
@@ -15,20 +13,16 @@ public static partial class Indicator
         ValidateStarcBands(smaPeriods, multiplier, atrPeriods);
 
         // initialize
-        Collection<AtrResult> atrResults = qdList.CalcAtr(atrPeriods);
-        Collection<StarcBandsResult> results = new();
+        List<AtrResult> atrResults = qdList.CalcAtr(atrPeriods);
 
-        Collection<SmaResult> smaResults = qdList
+        List<StarcBandsResult> results = qdList
             .ToTuple(CandlePart.Close)
-            .CalcSma(smaPeriods);
-
-        foreach (SmaResult x in smaResults)
-        {
-            results.Add(new StarcBandsResult(x.Date)
+            .CalcSma(smaPeriods)
+            .Select(x => new StarcBandsResult(x.Date)
             {
                 Centerline = x.Sma
-            });
-        }
+            })
+            .ToList();
 
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 

@@ -1,25 +1,23 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // WEIGHTED MOVING AVERAGE (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<WmaResult> CalcWma(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<WmaResult> CalcWma(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateWma(lookbackPeriods);
 
         // initialize
-        Collection<WmaResult> results = new();
+        List<WmaResult> results = new(tpList.Count);
         double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         // roll through quotes
-        for (int i = 0; i < tpColl.Count; i++)
+        for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double _) = tpColl[i];
+            (DateTime date, double _) = tpList[i];
 
             WmaResult r = new(date);
             results.Add(r);
@@ -29,7 +27,7 @@ public static partial class Indicator
                 double wma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpColl[p];
+                    (DateTime _, double pValue) = tpList[p];
                     wma += pValue * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
 

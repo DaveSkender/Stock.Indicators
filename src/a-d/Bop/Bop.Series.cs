@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // BALANCE OF POWER (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<BopResult> CalcBop(
-        this Collection<QuoteD> qdList,
+    internal static List<BopResult> CalcBop(
+        this List<QuoteD> qdList,
         int smoothPeriods)
     {
         // check parameter arguments
@@ -14,7 +12,7 @@ public static partial class Indicator
 
         // initialize
         int length = qdList.Count;
-        Collection<BopResult> results = new();
+        List<BopResult> results = new(length);
 
         double[] raw = qdList
             .Select(x => (x.High != x.Low) ?

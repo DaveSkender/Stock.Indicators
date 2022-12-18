@@ -30,6 +30,6 @@ public static partial class Indicator
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcKama(erPeriods, fastPeriods, slowPeriods);
 }

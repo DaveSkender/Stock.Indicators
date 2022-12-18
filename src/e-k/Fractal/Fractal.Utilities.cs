@@ -15,6 +15,6 @@ public static partial class Indicator
             .RemoveAll(match:
                 x => x.FractalBull is null && x.FractalBear is null);
 
-        return resultsList;
+        return resultsList.ToSortedList();
     }
 }

@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // PIVOTS (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<PivotsResult> CalcPivots<TQuote>(
-        this Collection<TQuote> quotesList,
+    internal static List<PivotsResult> CalcPivots<TQuote>(
+        this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,
         int maxTrendPeriods,
@@ -18,19 +16,15 @@ public static partial class Indicator
 
         // initialize
 
-        Collection<PivotsResult> results = new();
-
-        Collection<FractalResult> fractals = quotesList
-            .CalcFractal(leftSpan, rightSpan, endType);
-
-        foreach (FractalResult f in fractals)
-        {
-            results.Add(new PivotsResult(f.Date)
+        List<PivotsResult> results
+           = quotesList
+            .CalcFractal(leftSpan, rightSpan, endType)
+            .Select(x => new PivotsResult(x.Date)
             {
-                HighPoint = f.FractalBear,
-                LowPoint = f.FractalBull
-            });
-        }
+                HighPoint = x.FractalBear,
+                LowPoint = x.FractalBull
+            })
+            .ToList();
 
         int? lastHighIndex = null;
         decimal? lastHighValue = null;

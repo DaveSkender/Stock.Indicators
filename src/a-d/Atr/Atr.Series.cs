@@ -1,20 +1,18 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // AVERAGE TRUE RANGE (SERIES)
 public static partial class Indicator
 {
     // calculate series
-    internal static Collection<AtrResult> CalcAtr(
-        this Collection<QuoteD> qdList,
+    internal static List<AtrResult> CalcAtr(
+        this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
         ValidateAtr(lookbackPeriods);
 
         // initialize
-        Collection<AtrResult> results = new();
+        List<AtrResult> results = new(qdList.Count);
         double prevAtr = double.NaN;
         double prevClose = double.NaN;
         double sumTr = 0;

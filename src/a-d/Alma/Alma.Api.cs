@@ -31,6 +31,6 @@ public static partial class Indicator
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6) => priceTuples
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcAlma(lookbackPeriods, offset, sigma);
 }

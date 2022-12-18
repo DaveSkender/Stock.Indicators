@@ -1,12 +1,10 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // RATE OF CHANGE (ROC) WITH BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<RocWbResult> CalcRocWb(
-        this Collection<(DateTime, double)> tpColl,
+    internal static List<RocWbResult> CalcRocWb(
+        this List<(DateTime, double)> tpList,
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)
@@ -15,13 +13,13 @@ public static partial class Indicator
         ValidateRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         // initialize
-        Collection<RocWbResult> results = new();
-        Collection<RocResult> roc = tpColl.CalcRoc(lookbackPeriods, null);
-
-        foreach (RocResult r in roc)
-        {
-            results.Add(new RocWbResult(r.Date) { Roc = r.Roc });
-        }
+        List<RocWbResult> results = tpList
+            .CalcRoc(lookbackPeriods, null)
+            .Select(x => new RocWbResult(x.Date)
+            {
+                Roc = x.Roc
+            })
+            .ToList();
 
         double k = 2d / (emaPeriods + 1);
         double? lastEma = 0;

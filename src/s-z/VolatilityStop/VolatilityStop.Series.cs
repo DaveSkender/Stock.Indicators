@@ -1,41 +1,39 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // VOLATILITY SYSTEM/STOP (SERIES)
 public static partial class Indicator
 {
-    internal static Collection<VolatilityStopResult> CalcVolatilityStop(
-        this Collection<QuoteD> qdList,
+    internal static List<VolatilityStopResult> CalcVolatilityStop(
+        this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier)
     {
         // convert quotes
-        Collection<(DateTime, double)> tpColl = qdList
+        List<(DateTime, double)> tpList = qdList
             .ToTuple(CandlePart.Close);
 
         // check parameter arguments
         ValidateVolatilityStop(lookbackPeriods, multiplier);
 
         // initialize
-        int length = tpColl.Count;
-        Collection<VolatilityStopResult> results = new();
+        int length = tpList.Count;
+        List<VolatilityStopResult> results = new(length);
 
         if (length == 0)
         {
             return results;
         }
 
-        Collection<AtrResult> atrList = qdList.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrList = qdList.CalcAtr(lookbackPeriods);
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);
-        double sic = tpColl[0].Item2;
-        bool isLong = tpColl[initPeriods - 1].Item2 > sic;
+        double sic = tpList[0].Item2;
+        bool isLong = tpList[initPeriods - 1].Item2 > sic;
 
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
             sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
             results.Add(new VolatilityStopResult(date));
         }
@@ -43,7 +41,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = lookbackPeriods; i < length; i++)
         {
-            (DateTime date, double value) = tpColl[i];
+            (DateTime date, double value) = tpList[i];
 
             // average true range × multiplier constant
             double? arc = atrList[i - 1].Atr * multiplier;
