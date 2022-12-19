@@ -214,5 +214,11 @@ public class Results : TestBase
 
         Assert.AreEqual(0, cnullableResults.Count(x => x.Value is null));
         Assert.AreEqual(4, cnullableResults.Count(x => x.Value is double.NaN));
+
+        // PUBLIC VARIANT Sorted Collection
+        Collection<SmaResult> sortResults = baseline
+            .ToSortedCollection();
+
+        Assert.AreEqual(5, sortResults[4].Sma);
     }
 }
