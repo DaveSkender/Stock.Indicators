@@ -36,7 +36,7 @@ public static partial class Indicator
         List<TResult> resultsList = results
             .ToList();
 
-        resultsList
+        _ = resultsList
             .RemoveAll(match:
                 x => x.Value is null or (double and double.NaN));
 
@@ -128,7 +128,7 @@ public static partial class Indicator
                 }
             }
 
-            resultsList.RemoveAll(x => toRemove.Contains(x));
+            _ = resultsList.RemoveAll(x => toRemove.Contains(x));
         }
 
         return resultsList.ToSortedList();
@@ -160,9 +160,14 @@ public static partial class Indicator
     }
 
     // CONVERT TO TUPLE with nullable value option and no pruning
+    public static Collection<(DateTime Date, double? Value)> ToTupleCollection(
+        this IEnumerable<IReusableResult> reusable, NullTo nullTo)
+        => reusable
+            .ToTuple(nullTo)
+            .ToCollection();
+
     internal static List<(DateTime Date, double? Value)> ToTuple(
-        this IEnumerable<IReusableResult> reusable,
-        NullTo nullTo)
+        this IEnumerable<IReusableResult> reusable, NullTo nullTo)
     {
         List<IReusableResult> reList = reusable.ToList();
         int length = reList.Count;
