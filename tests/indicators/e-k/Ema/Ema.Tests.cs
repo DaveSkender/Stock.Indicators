@@ -148,12 +148,12 @@ public class EmaTests : TestBase
         for (int i = 25; i < series.Count; i++)
         {
             Quote q = quotesList[i];
-            _ = emaBase.Add(q);
+            emaBase.Add(q);
 
             // duplicate value
             if (dups.Contains(i))
             {
-                _ = emaBase.Add(q);
+                emaBase.Add(q);
             }
         }
 
@@ -189,12 +189,12 @@ public class EmaTests : TestBase
         for (int i = 0; i < series.Count; i++)
         {
             Quote q = quotesList[i];
-            _ = emaBase.Add(q);
+            emaBase.Add(q);
 
             // duplicate value
             if (dups.Contains(i))
             {
-                _ = emaBase.Add(q);
+                emaBase.Add(q);
             }
         }
 
@@ -264,7 +264,7 @@ public class EmaTests : TestBase
 
         // null quote added
         EmaBase emaBase = quotes.InitEma(14);
-        
+
         Assert.ThrowsException<InvalidQuotesException>(()
           => emaBase.Add(null));
     }
