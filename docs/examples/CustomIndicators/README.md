@@ -47,8 +47,8 @@ public static class CustomIndicator
     int lookbackPeriods)
     where TQuote : IQuote
   {
-    // sort quotes and convert to list
-    List<TQuote> quotesList = quotes
+    // sort quotes and convert to collection or list
+    Collection<TQuote> quotesList = quotes
       .ToSortedCollection();
 
     // initialize results
