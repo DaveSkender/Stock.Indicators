@@ -9,13 +9,11 @@ public class EmaTests : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<EmaResult> results = quotes.GetEma(20)
+        List<EmaResult> results = quotes
+            .GetEma(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
@@ -33,11 +31,12 @@ public class EmaTests : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<EmaResult> results = quotes
+        List<EmaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetEma(20);
+            .GetEma(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
         Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
     }
@@ -45,20 +44,23 @@ public class EmaTests : TestBase
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<EmaResult> r = tupleNanny.GetEma(6);
+        List<EmaResult> r = tupleNanny
+            .GetEma(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<EmaResult> results = quotes
+        List<EmaResult> results = quotes
             .GetSma(2)
-            .GetEma(20);
+            .GetEma(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Ema != null));
         Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
     }
@@ -66,11 +68,12 @@ public class EmaTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetEma(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
         Assert.AreEqual(0, results.Count(x => x.Sma is double and double.NaN));
     }
@@ -143,10 +146,7 @@ public class EmaTests : TestBase
             .GetEma(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
@@ -164,25 +164,35 @@ public class EmaTests : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<EmaResult> r = Indicator.GetEma(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<EmaResult> r = badQuotes
+            .GetEma(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<EmaResult> r0 = noquotes.GetEma(10);
-        Assert.AreEqual(0, r0.Count());
+        List<EmaResult> r0 = noquotes
+            .GetEma(10)
+            .ToList();
 
-        IEnumerable<EmaResult> r1 = onequote.GetEma(10);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<EmaResult> r1 = onequote
+            .GetEma(10)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<EmaResult> results = quotes.GetEma(20)
+        List<EmaResult> results = quotes
+            .GetEma(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -198,7 +208,7 @@ public class EmaTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetEma(quotes, 0));
+            quotes.GetEma(0));
 
         // null quote added
         EmaBase emaBase = quotes.InitEma(14);

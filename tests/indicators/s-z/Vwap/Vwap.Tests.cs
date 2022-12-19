@@ -16,9 +16,7 @@ public class Vwap : TestBase
         List<VwapResult> results = intraday.GetVwap()
             .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(391, results.Count);
         Assert.AreEqual(391, results.Count(x => x.Vwap != null));
 
@@ -42,12 +40,11 @@ public class Vwap : TestBase
         DateTime startDate =
             DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", EnglishCulture);
 
-        List<VwapResult> results = Indicator.GetVwap(intraday, startDate)
+        List<VwapResult> results = intraday
+            .GetVwap(startDate)
             .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(391, results.Count);
         Assert.AreEqual(361, results.Count(x => x.Vwap != null));
 
@@ -68,37 +65,48 @@ public class Vwap : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetVwap()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<VwapResult> r = Indicator.GetVwap(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<VwapResult> r = badQuotes
+            .GetVwap()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwap is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<VwapResult> r0 = noquotes.GetVwap();
-        Assert.AreEqual(0, r0.Count());
+        List<VwapResult> r0 = noquotes
+            .GetVwap()
+            .ToList();
 
-        IEnumerable<VwapResult> r1 = onequote.GetVwap();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<VwapResult> r1 = onequote
+            .GetVwap()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
         // no start date
-        List<VwapResult> results = intraday.GetVwap()
+        List<VwapResult> results = intraday
+            .GetVwap()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -112,7 +120,8 @@ public class Vwap : TestBase
         DateTime startDate =
         DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", EnglishCulture);
 
-        List<VwapResult> sdResults = Indicator.GetVwap(intraday, startDate)
+        List<VwapResult> sdResults = intraday
+            .GetVwap(startDate)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -131,6 +140,6 @@ public class Vwap : TestBase
             DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", EnglishCulture);
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetVwap(quotes, startDate));
+            quotes.GetVwap(startDate));
     }
 }

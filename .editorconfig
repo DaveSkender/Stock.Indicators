@@ -90,7 +90,7 @@ dotnet_diagnostic.IDE0071.severity=suggestion
 dotnet_diagnostic.IDE0047.severity=suggestion
 csharp_indent_labels = no_change
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_prefer_braces = true:silent
+csharp_prefer_braces = true:suggestion
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_expression_bodied_methods = true:suggestion
 csharp_style_expression_bodied_constructors = false:suggestion
@@ -143,7 +143,7 @@ dotnet_style_allow_statement_immediately_after_block_experimental= false:silent
 
 # Naming rules
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 

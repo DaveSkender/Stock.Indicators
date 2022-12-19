@@ -9,13 +9,11 @@ public class Smi : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<SmiResult> results = quotes.GetSmi(14, 20, 5, 3)
+        List<SmiResult> results = quotes
+            .GetSmi(14, 20, 5, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.Smi != null));
         Assert.AreEqual(489, results.Count(x => x.Signal != null));
@@ -53,18 +51,20 @@ public class Smi : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetSmi(14, 20, 5, 3)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void NoSignal()
     {
-        List<SmiResult> results = quotes.GetSmi(5, 20, 20, 1)
+        List<SmiResult> results = quotes
+            .GetSmi(5, 20, 20, 1)
             .ToList();
 
         // signal equals oscillator
@@ -78,7 +78,8 @@ public class Smi : TestBase
     [TestMethod]
     public void SmallPeriods()
     {
-        List<SmiResult> results = quotes.GetSmi(1, 1, 1, 5)
+        List<SmiResult> results = quotes
+            .GetSmi(1, 1, 1, 5)
             .ToList();
 
         // sample values
@@ -98,27 +99,37 @@ public class Smi : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<SmiResult> r = badQuotes.GetSmi(5, 5, 1, 5);
-        Assert.AreEqual(502, r.Count());
+        List<SmiResult> r = badQuotes
+            .GetSmi(5, 5, 1, 5)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Smi is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<SmiResult> r0 = noquotes.GetSmi(5, 5, 2);
-        Assert.AreEqual(0, r0.Count());
+        List<SmiResult> r0 = noquotes
+            .GetSmi(5, 5, 2)
+            .ToList();
 
-        IEnumerable<SmiResult> r1 = onequote.GetSmi(5, 3, 3);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<SmiResult> r1 = onequote
+            .GetSmi(5, 3, 3)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<SmiResult> results = quotes.GetSmi(14, 20, 5, 3)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<SmiResult> results = quotes
+            .GetSmi(14, 20, 5, 3)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(501 - (14 + 100), results.Count);
@@ -133,15 +144,15 @@ public class Smi : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSmi(quotes, 0, 5, 5, 5));
+            quotes.GetSmi(0, 5, 5, 5));
 
         // bad first smooth period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSmi(quotes, 14, 0, 5, 5));
+            quotes.GetSmi(14, 0, 5, 5));
 
         // bad second smooth period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSmi(quotes, 14, 3, 0, 5));
+            quotes.GetSmi(14, 3, 0, 5));
 
         // bad signal
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>

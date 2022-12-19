@@ -11,7 +11,7 @@ public static partial class Indicator
         List<SuperTrendResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.SuperTrend is null);
 

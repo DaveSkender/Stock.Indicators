@@ -9,12 +9,11 @@ public class Aroon : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<AroonResult> results = quotes.GetAroon(25).ToList();
-
-        // assertions
+        List<AroonResult> results = quotes
+            .GetAroon(25)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.AroonUp != null));
         Assert.AreEqual(477, results.Count(x => x.AroonDown != null));
@@ -50,36 +49,47 @@ public class Aroon : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetAroon(25)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AroonResult> r = Indicator.GetAroon(badQuotes, 20);
-        Assert.AreEqual(502, r.Count());
+        List<AroonResult> r = badQuotes
+            .GetAroon(20)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AroonResult> r0 = noquotes.GetAroon();
-        Assert.AreEqual(0, r0.Count());
+        List<AroonResult> r0 = noquotes
+            .GetAroon()
+            .ToList();
 
-        IEnumerable<AroonResult> r1 = onequote.GetAroon();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<AroonResult> r1 = onequote
+            .GetAroon()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<AroonResult> results = quotes.GetAroon(25)
+        List<AroonResult> results = quotes
+            .GetAroon(25)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -96,5 +106,5 @@ public class Aroon : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetAroon(quotes, 0));
+            => quotes.GetAroon(0));
 }

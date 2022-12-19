@@ -16,10 +16,7 @@ public class Prs : TestBase
             otherQuotes.GetPrs(quotes, lookbackPeriods, smaPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Prs != null));
         Assert.AreEqual(493, results.Count(x => x.PrsSma != null));
@@ -44,50 +41,63 @@ public class Prs : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<PrsResult> results = otherQuotes
+        List<PrsResult> results = otherQuotes
             .Use(CandlePart.Close)
-            .GetPrs(quotes.Use(CandlePart.Close), 20);
+            .GetPrs(quotes.Use(CandlePart.Close), 20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Prs != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<PrsResult> r = tupleNanny.GetPrs(tupleNanny, 6);
+        List<PrsResult> r = tupleNanny
+            .GetPrs(tupleNanny, 6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = otherQuotes
+        List<SmaResult> results = otherQuotes
             .GetPrs(quotes, 20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<PrsResult> r = Indicator.GetPrs(badQuotes, badQuotes, 15, 4);
-        Assert.AreEqual(502, r.Count());
+        List<PrsResult> r = badQuotes
+            .GetPrs(badQuotes, 15, 4)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<PrsResult> r0 = noquotes.GetPrs(noquotes);
-        Assert.AreEqual(0, r0.Count());
+        List<PrsResult> r0 = noquotes
+            .GetPrs(noquotes)
+            .ToList();
 
-        IEnumerable<PrsResult> r1 = onequote.GetPrs(onequote);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<PrsResult> r1 = onequote
+            .GetPrs(onequote)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -95,22 +105,22 @@ public class Prs : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPrs(otherQuotes, quotes, 0));
+            otherQuotes.GetPrs(quotes, 0));
 
         // bad SMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPrs(otherQuotes, quotes, 14, 0));
+            otherQuotes.GetPrs(quotes, 14, 0));
 
         // insufficient quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetPrs(TestData.GetCompare(13), quotes, 14));
+            TestData.GetCompare(13).GetPrs(quotes, 14));
 
         // insufficient eval quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetPrs(TestData.GetCompare(300), quotes, 14));
+            TestData.GetCompare(300).GetPrs(quotes, 14));
 
         // mismatch quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            Indicator.GetPrs(otherQuotes, mismatchQuotes, 14));
+            otherQuotes.GetPrs(mismatchQuotes, 14));
     }
 }

@@ -9,7 +9,9 @@ public class HtTrendline : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<HtlResult> results = quotes.GetHtTrendline().ToList();
+        List<HtlResult> results = quotes
+            .GetHtTrendline()
+            .ToList();
 
         // proper quantities
         // should always be the same number of results as there is quotes
@@ -61,57 +63,66 @@ public class HtTrendline : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<HtlResult> results = quotes
+        List<HtlResult> results = quotes
             .Use(CandlePart.Close)
-            .GetHtTrendline();
+            .GetHtTrendline()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Trendline != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<HtlResult> r = tupleNanny.GetHtTrendline();
+        List<HtlResult> r = tupleNanny
+            .GetHtTrendline()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trendline is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<HtlResult> results = quotes
+        List<HtlResult> results = quotes
             .GetSma(2)
-            .GetHtTrendline();
+            .GetHtTrendline()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Trendline != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetHtTrendline()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<HtlResult> r = Indicator.GetHtTrendline(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<HtlResult> r = badQuotes
+            .GetHtTrendline()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trendline is double and double.NaN));
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<HtlResult> results = quotes.GetHtTrendline()
+        List<HtlResult> results = quotes
+            .GetHtTrendline()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -127,17 +138,27 @@ public class HtTrendline : TestBase
     public void PennyData()
     {
         IEnumerable<Quote> penny = TestData.GetPenny();
-        IEnumerable<HtlResult> r = Indicator.GetHtTrendline(penny);
-        Assert.AreEqual(533, r.Count());
+
+        List<HtlResult> r = penny
+            .GetHtTrendline()
+            .ToList();
+
+        Assert.AreEqual(533, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<HtlResult> r0 = noquotes.GetHtTrendline();
-        Assert.AreEqual(0, r0.Count());
+        List<HtlResult> r0 = noquotes
+            .GetHtTrendline()
+            .ToList();
 
-        IEnumerable<HtlResult> r1 = onequote.GetHtTrendline();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<HtlResult> r1 = onequote
+            .GetHtTrendline()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 }

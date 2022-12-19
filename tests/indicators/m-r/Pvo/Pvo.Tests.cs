@@ -17,10 +17,7 @@ public class Pvo : TestBase
             quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.Pvo != null));
         Assert.AreEqual(469, results.Count(x => x.Signal != null));
@@ -56,30 +53,40 @@ public class Pvo : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetPvo()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<PvoResult> r = Indicator.GetPvo(badQuotes, 10, 20, 5);
-        Assert.AreEqual(502, r.Count());
+        List<PvoResult> r = badQuotes
+            .GetPvo(10, 20, 5)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Pvo is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<PvoResult> r0 = noquotes.GetPvo();
-        Assert.AreEqual(0, r0.Count());
+        List<PvoResult> r0 = noquotes
+            .GetPvo()
+            .ToList();
 
-        IEnumerable<PvoResult> r1 = onequote.GetPvo();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<PvoResult> r1 = onequote
+            .GetPvo()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -89,10 +96,10 @@ public class Pvo : TestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<PvoResult> results =
-            quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<PvoResult> results = quotes
+            .GetPvo(fastPeriods, slowPeriods, signalPeriods)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
@@ -108,14 +115,14 @@ public class Pvo : TestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPvo(quotes, 0, 26, 9));
+            quotes.GetPvo(0, 26, 9));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPvo(quotes, 12, 12, 9));
+            quotes.GetPvo(12, 12, 9));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPvo(quotes, 12, 26, -1));
+            quotes.GetPvo(12, 26, -1));
     }
 }

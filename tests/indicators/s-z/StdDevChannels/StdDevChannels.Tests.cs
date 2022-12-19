@@ -16,10 +16,7 @@ public class StdDevChannels : TestBase
             quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
         Assert.AreEqual(500, results.Count(x => x.UpperChannel != null));
@@ -78,10 +75,7 @@ public class StdDevChannels : TestBase
             quotes.GetStdDevChannels(null, 2)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Centerline != null));
         Assert.AreEqual(502, results.Count(x => x.UpperChannel != null));
@@ -109,51 +103,63 @@ public class StdDevChannels : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<StdDevChannelsResult> results = quotes
+        List<StdDevChannelsResult> results = quotes
             .Use(CandlePart.Close)
-            .GetStdDevChannels(20, 2);
+            .GetStdDevChannels(20, 2)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<StdDevChannelsResult> r
-            = tupleNanny.GetStdDevChannels(6, 1.1);
+        List<StdDevChannelsResult> r = tupleNanny
+            .GetStdDevChannels(6, 1.1)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<StdDevChannelsResult> results = quotes
+        List<StdDevChannelsResult> results = quotes
             .GetSma(2)
-            .GetStdDevChannels(20, 2);
+            .GetStdDevChannels(20, 2)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<StdDevChannelsResult> r = Indicator.GetStdDevChannels(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<StdDevChannelsResult> r = badQuotes
+            .GetStdDevChannels()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<StdDevChannelsResult> r0 = noquotes.GetStdDevChannels();
-        Assert.AreEqual(0, r0.Count());
+        List<StdDevChannelsResult> r0 = noquotes
+            .GetStdDevChannels()
+            .ToList();
 
-        IEnumerable<StdDevChannelsResult> r1 = onequote.GetStdDevChannels();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<StdDevChannelsResult> r1 = onequote
+            .GetStdDevChannels()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -162,10 +168,10 @@ public class StdDevChannels : TestBase
         int lookbackPeriods = 20;
         double standardDeviations = 2;
 
-        List<StdDevChannelsResult> results =
-            quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
-                .Condense()
-                .ToList();
+        List<StdDevChannelsResult> results = quotes
+            .GetStdDevChannels(lookbackPeriods, standardDeviations)
+            .Condense()
+            .ToList();
 
         // assertions
         Assert.AreEqual(500, results.Count);
@@ -182,10 +188,10 @@ public class StdDevChannels : TestBase
         int lookbackPeriods = 20;
         double standardDeviations = 2;
 
-        List<StdDevChannelsResult> results =
-            quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<StdDevChannelsResult> results = quotes
+            .GetStdDevChannels(lookbackPeriods, standardDeviations)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(500, results.Count);
@@ -201,10 +207,10 @@ public class StdDevChannels : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStdDevChannels(quotes, 0));
+            quotes.GetStdDevChannels(0));
 
         // bad standard deviations
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStdDevChannels(quotes, 20, 0));
+            quotes.GetStdDevChannels(20, 0));
     }
 }

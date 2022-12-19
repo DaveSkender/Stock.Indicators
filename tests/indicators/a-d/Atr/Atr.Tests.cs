@@ -9,7 +9,9 @@ public class Atr : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<AtrResult> results = quotes.GetAtr(14).ToList();
+        List<AtrResult> results = quotes
+            .GetAtr(14)
+            .ToList();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -45,36 +47,47 @@ public class Atr : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetAtr(10)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AtrResult> r = Indicator.GetAtr(badQuotes, 20);
-        Assert.AreEqual(502, r.Count());
+        List<AtrResult> r = badQuotes
+            .GetAtr(20)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Atr is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AtrResult> r0 = noquotes.GetAtr();
-        Assert.AreEqual(0, r0.Count());
+        List<AtrResult> r0 = noquotes
+            .GetAtr()
+            .ToList();
 
-        IEnumerable<AtrResult> r1 = onequote.GetAtr();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<AtrResult> r1 = onequote
+            .GetAtr()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<AtrResult> results = quotes.GetAtr(14)
+        List<AtrResult> results = quotes
+            .GetAtr(14)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -91,5 +104,5 @@ public class Atr : TestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAtr(quotes, 1));
+            quotes.GetAtr(1));
 }

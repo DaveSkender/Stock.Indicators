@@ -10,7 +10,7 @@ public class Results : TestBase
     public void Find()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
-        IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
+        IEnumerable<EmaResult> emaResults = quotes.GetEma(20);
 
         // find specific date
         DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
@@ -54,11 +54,12 @@ public class Results : TestBase
         x[249].Adx = null;
         x[345].Adx = double.NaN;
 
-        IEnumerable<AdxResult> r = x.Condense();
+        List<AdxResult> r = x.Condense().ToList();
 
-        // assertions
-        Assert.AreEqual(473, r.Count());
+        // proper quantities
+        Assert.AreEqual(473, r.Count);
 
+        // sample values
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
         Assert.AreEqual(31.1510, NullMath.Round(last.Mdi, 4));

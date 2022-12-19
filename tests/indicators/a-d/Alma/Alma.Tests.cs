@@ -13,13 +13,11 @@ public class Alma : TestBase
         double offset = 0.85;
         double sigma = 6;
 
-        List<AlmaResult> results = quotes.GetAlma(lookbackPeriods, offset, sigma)
+        List<AlmaResult> results = quotes
+            .GetAlma(lookbackPeriods, offset, sigma)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
 
@@ -46,11 +44,12 @@ public class Alma : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<AlmaResult> results = quotes
+        List<AlmaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetAlma(10, 0.85, 6);
+            .GetAlma(10, 0.85, 6)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
 
         AlmaResult last = results.LastOrDefault();
@@ -60,20 +59,23 @@ public class Alma : TestBase
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<AlmaResult> r = tupleNanny.GetAlma();
+        List<AlmaResult> r = tupleNanny
+            .GetAlma()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<AlmaResult> results = quotes
+        List<AlmaResult> results = quotes
             .GetSma(2)
-            .GetAlma(10, 0.85, 6);
+            .GetAlma(10, 0.85, 6)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Alma != null));
     }
 
@@ -96,13 +98,11 @@ public class Alma : TestBase
     [TestMethod]
     public void NaN()
     {
-        IEnumerable<AlmaResult> r1 = TestData.GetBtcUsdNan()
-            .GetAlma(9, 0.85, 6);
+        List<AlmaResult> r1 = TestData.GetBtcUsdNan().GetAlma(9, 0.85, 6).ToList();
 
         Assert.AreEqual(0, r1.Count(x => x.Alma is double and double.NaN));
 
-        IEnumerable<AlmaResult> r2 = TestData.GetBtcUsdNan()
-            .GetAlma(20, 0.85, 6);
+        List<AlmaResult> r2 = TestData.GetBtcUsdNan().GetAlma(20, 0.85, 6).ToList();
 
         Assert.AreEqual(0, r2.Count(x => x.Alma is double and double.NaN));
     }
@@ -110,25 +110,35 @@ public class Alma : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AlmaResult> r = Indicator.GetAlma(badQuotes, 14, 0.5, 3);
-        Assert.AreEqual(502, r.Count());
+        List<AlmaResult> r = badQuotes
+            .GetAlma(14, 0.5, 3)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AlmaResult> r0 = noquotes.GetAlma();
-        Assert.AreEqual(0, r0.Count());
+        List<AlmaResult> r0 = noquotes
+            .GetAlma()
+            .ToList();
 
-        IEnumerable<AlmaResult> r1 = onequote.GetAlma();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<AlmaResult> r1 = onequote
+            .GetAlma()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<AlmaResult> results = quotes.GetAlma(10, 0.85, 6)
+        List<AlmaResult> results = quotes
+            .GetAlma(10, 0.85, 6)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -144,14 +154,14 @@ public class Alma : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAlma(quotes, 0, 1, 5));
+            quotes.GetAlma(0, 1, 5));
 
         // bad offset
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAlma(quotes, 15, 1.1, 3));
+            quotes.GetAlma(15, 1.1, 3));
 
         // bad sigma
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAlma(quotes, 10, 0.5, 0));
+            quotes.GetAlma(10, 0.5, 0));
     }
 }

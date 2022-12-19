@@ -30,11 +30,11 @@ var results = quotes
 
 ### Using tuple quotes
 
-`quotes.ToTuple()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `List`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
+`quotes.ToTupleCollection()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `Collection`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
 
 ### Sort quotes
 
-`quotes.ToSortedList()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `List` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
+`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
 
 ### Resize quote history
 
@@ -156,7 +156,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ### Using tuple results
 
-`results.ToTuple(nullTo)` is a method for converting results collections to a simpler `(DateTime Date, double? Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `List`.
+`results.ToTupleCollection(nullTo)` is a method for converting results collections to a simpler `(DateTime Date, double? Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
 
 This is not required in normal use; however, the last option may be useful for users who create [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
@@ -173,7 +173,7 @@ A few options to consider:
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as a `List` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 
