@@ -37,6 +37,8 @@ public class AtrWmaResult : ResultBase, IReusableResult
 Create your custom indicator algorithm in the same style as our main library so the API functions identically.
 
 ```csharp
+using System.Collections.ObjectModel;
+using Skender.Stock.Indicators;
 namespace Custom.Stock.Indicators;
 
 public static class CustomIndicator
