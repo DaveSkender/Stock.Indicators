@@ -25,7 +25,7 @@ public static class CustomIndicators
     {
         // sort quotes and convert to collection or list
         Collection<TQuote> quotesList = quotes
-            .ToSortedList();
+            .ToSortedCollection();
 
         // initialize results
         List<AtrWmaResult> results = new(quotesList.Count);
