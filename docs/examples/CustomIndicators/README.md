@@ -49,7 +49,7 @@ public static class CustomIndicator
   {
     // sort quotes and convert to list
     List<TQuote> quotesList = quotes
-      .ToSortedList();
+      .ToSortedCollection();
 
     // initialize results
     List<AtrWmaResult> results = new(quotesList.Count);
