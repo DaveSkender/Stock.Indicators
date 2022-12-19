@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Skender.Stock.Indicators;
 
 namespace Custom.Stock.Indicators;
@@ -22,8 +23,8 @@ public static class CustomIndicators
         int lookbackPeriods)
         where TQuote : IQuote
     {
-        // sort quotes and convert to list
-        List<TQuote> quotesList = quotes
+        // sort quotes and convert to collection or list
+        Collection<TQuote> quotesList = quotes
             .ToSortedList();
 
         // initialize results
