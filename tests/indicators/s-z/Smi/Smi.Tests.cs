@@ -9,13 +9,11 @@ public class Smi : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<SmiResult> results = quotes.GetSmi(14, 20, 5, 3)
+        List<SmiResult> results = quotes
+            .GetSmi(14, 20, 5, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.Smi != null));
         Assert.AreEqual(489, results.Count(x => x.Signal != null));

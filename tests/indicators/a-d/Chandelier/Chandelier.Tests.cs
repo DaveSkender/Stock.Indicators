@@ -15,10 +15,7 @@ public class Chandeleir : TestBase
             quotes.GetChandelier(lookbackPeriods, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, longResult.Count);
         Assert.AreEqual(480, longResult.Count(x => x.ChandelierExit != null));
 

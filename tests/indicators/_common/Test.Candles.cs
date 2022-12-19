@@ -14,20 +14,16 @@ public class Candles : TestBase
         // sort
         List<CandleResult> candles = quotes.ToCandleResults();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, candles.Count);
 
-        // check first date
+        // sample values
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
         Assert.AreEqual(firstDate, candles[0].Date);
 
-        // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
         Assert.AreEqual(lastDate, candles.LastOrDefault().Date);
 
-        // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
         Assert.AreEqual(spotDate, candles[50].Date);
     }
@@ -35,12 +31,9 @@ public class Candles : TestBase
     [TestMethod]
     public void CandleValues()
     {
-        // sort
         List<CandleResult> candles = quotes.ToCandleResults();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, candles.Count);
 
         // sample values

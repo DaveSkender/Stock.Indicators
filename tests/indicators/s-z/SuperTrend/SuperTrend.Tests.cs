@@ -12,7 +12,8 @@ public class SuperTrend : TestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results = quotes.GetSuperTrend(lookbackPeriods, multiplier)
+        List<SuperTrendResult> results = quotes
+            .GetSuperTrend(lookbackPeriods, multiplier)
             .ToList();
 
         // proper quantities

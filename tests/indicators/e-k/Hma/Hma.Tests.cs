@@ -9,12 +9,11 @@ public class Hma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<HmaResult> results = quotes.GetHma(20).ToList();
-
-        // assertions
+        List<HmaResult> results = quotes
+            .GetHma(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
 
@@ -103,7 +102,8 @@ public class Hma : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<HmaResult> results = quotes.GetHma(20)
+        List<HmaResult> results = quotes
+            .GetHma(20)
             .RemoveWarmupPeriods()
             .ToList();
 

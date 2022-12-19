@@ -9,11 +9,11 @@ public class Doji : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CandleResult> results = quotes.GetDoji(0.1).ToList();
+        List<CandleResult> results = quotes
+            .GetDoji(0.1)
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(112, results.Count(x => x.Match != Match.None));
 

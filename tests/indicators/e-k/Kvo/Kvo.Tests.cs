@@ -13,10 +13,7 @@ public class Klinger : TestBase
             quotes.GetKvo(34, 55, 13)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(446, results.Count(x => x.Oscillator != null));
         Assert.AreEqual(434, results.Count(x => x.Signal != null));

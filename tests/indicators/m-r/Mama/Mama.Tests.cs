@@ -12,13 +12,11 @@ public class Mama : TestBase
         double fastLimit = 0.5;
         double slowLimit = 0.05;
 
-        List<MamaResult> results = quotes.GetMama(fastLimit, slowLimit)
+        List<MamaResult> results = quotes
+            .GetMama(fastLimit, slowLimit)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(497, results.Count(x => x.Mama != null));
 

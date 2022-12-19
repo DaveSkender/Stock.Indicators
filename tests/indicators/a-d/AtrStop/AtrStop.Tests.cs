@@ -101,17 +101,26 @@ public class AtrStop : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<AtrStopResult> r = badQuotes.GetAtrStop(7).ToList();
+        List<AtrStopResult> r = badQuotes
+            .GetAtrStop(7)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        List<AtrStopResult> r0 = noquotes.GetAtrStop().ToList();
+        List<AtrStopResult> r0 = noquotes
+            .GetAtrStop()
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<AtrStopResult> r1 = onequote.GetAtrStop().ToList();
+        List<AtrStopResult> r1 = onequote
+            .GetAtrStop()
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 

@@ -9,12 +9,11 @@ public class Bop : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<BopResult> results = quotes.GetBop(14).ToList();
-
-        // assertions
+        List<BopResult> results = quotes
+            .GetBop(14)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.Bop != null));
 

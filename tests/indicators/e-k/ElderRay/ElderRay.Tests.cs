@@ -9,12 +9,11 @@ public class ElderRay : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<ElderRayResult> results = quotes.GetElderRay(13).ToList();
-
-        // assertions
+        List<ElderRayResult> results = quotes
+            .GetElderRay(13)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(490, results.Count(x => x.BullPower != null));
         Assert.AreEqual(490, results.Count(x => x.BearPower != null));

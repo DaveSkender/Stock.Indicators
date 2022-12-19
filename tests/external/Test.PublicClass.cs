@@ -111,10 +111,7 @@ public class PublicClassTests
         List<EmaResult> results = myGenericHistory.GetEma(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
@@ -149,10 +146,7 @@ public class PublicClassTests
             .Aggregate(PeriodSize.TwoHours)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(20, quotesList.Count);
 
         // sample values
@@ -180,10 +174,7 @@ public class PublicClassTests
             .Aggregate(TimeSpan.FromHours(2))
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(20, quotesList.Count);
 
         // sample values

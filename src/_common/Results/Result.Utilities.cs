@@ -36,7 +36,7 @@ public static partial class Indicator
         List<TResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.Value is null or (double and double.NaN));
 
@@ -128,7 +128,7 @@ public static partial class Indicator
                 }
             }
 
-            _ = resultsList.RemoveAll(x => toRemove.Contains(x));
+            resultsList.RemoveAll(x => toRemove.Contains(x));
         }
 
         return resultsList.ToSortedList();

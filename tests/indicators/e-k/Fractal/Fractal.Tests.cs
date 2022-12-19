@@ -9,12 +9,11 @@ public class Fractal : TestBase
     [TestMethod]
     public void StandardSpan2()
     {
-        List<FractalResult> results = quotes.GetFractal(2, EndType.HighLow).ToList();
-
-        // assertions
+        List<FractalResult> results = quotes
+            .GetFractal(2, EndType.HighLow)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(63, results.Count(x => x.FractalBear != null));
         Assert.AreEqual(71, results.Count(x => x.FractalBull != null));
@@ -48,12 +47,11 @@ public class Fractal : TestBase
     [TestMethod]
     public void StandardSpan4()
     {
-        List<FractalResult> results = quotes.GetFractal(4, 4, EndType.HighLow).ToList();
-
-        // assertions
+        List<FractalResult> results = quotes
+            .GetFractal(4, 4, EndType.HighLow)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(35, results.Count(x => x.FractalBear != null));
         Assert.AreEqual(34, results.Count(x => x.FractalBull != null));

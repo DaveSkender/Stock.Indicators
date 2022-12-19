@@ -114,10 +114,7 @@ public class CustomIndicatorTests
             .GetIndicator(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
@@ -241,7 +238,6 @@ public class CustomIndicatorTests
             .RemoveWarmupPeriods(19)
             .ToList();
 
-        // assertions
         Assert.AreEqual(502 - 19, results.Count);
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }

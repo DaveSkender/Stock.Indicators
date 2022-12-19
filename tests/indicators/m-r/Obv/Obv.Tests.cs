@@ -9,11 +9,11 @@ public class Obv : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<ObvResult> results = quotes.GetObv().ToList();
+        List<ObvResult> results = quotes
+            .GetObv()
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.ObvSma == null));
 
@@ -30,11 +30,11 @@ public class Obv : TestBase
     [TestMethod]
     public void WithSma()
     {
-        List<ObvResult> results = quotes.GetObv(20).ToList();
+        List<ObvResult> results = quotes
+            .GetObv(20)
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.ObvSma != null));
 

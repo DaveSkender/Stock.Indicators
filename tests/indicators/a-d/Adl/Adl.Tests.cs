@@ -9,11 +9,11 @@ public class Adl : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<AdlResult> results = quotes.GetAdl().ToList();
+        List<AdlResult> results = quotes
+            .GetAdl()
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.AdlSma == null));
 
@@ -34,11 +34,11 @@ public class Adl : TestBase
     [TestMethod]
     public void WithSma()
     {
-        List<AdlResult> results = quotes.GetAdl(20).ToList();
+        List<AdlResult> results = quotes
+            .GetAdl(20)
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.AdlSma != null));
 
@@ -79,24 +79,36 @@ public class Adl : TestBase
     [TestMethod]
     public void BigData()
     {
-        List<AdlResult> r = bigQuotes.GetAdl().ToList();
+        List<AdlResult> r = bigQuotes
+            .GetAdl()
+            .ToList();
+
         Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void RandomData()
     {
-        List<AdlResult> r = randomQuotes.GetAdl().ToList();
+        List<AdlResult> r = randomQuotes
+            .GetAdl()
+            .ToList();
+
         Assert.AreEqual(1000, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        List<AdlResult> r0 = noquotes.GetAdl().ToList();
+        List<AdlResult> r0 = noquotes
+            .GetAdl()
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<AdlResult> r1 = onequote.GetAdl().ToList();
+        List<AdlResult> r1 = onequote
+            .GetAdl()
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 

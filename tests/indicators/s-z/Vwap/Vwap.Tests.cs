@@ -16,9 +16,7 @@ public class Vwap : TestBase
         List<VwapResult> results = intraday.GetVwap()
             .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(391, results.Count);
         Assert.AreEqual(391, results.Count(x => x.Vwap != null));
 
@@ -46,9 +44,7 @@ public class Vwap : TestBase
             .GetVwap(startDate)
             .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(391, results.Count);
         Assert.AreEqual(361, results.Count(x => x.Vwap != null));
 
@@ -81,7 +77,10 @@ public class Vwap : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<VwapResult> r = badQuotes.GetVwap().ToList();
+        List<VwapResult> r = badQuotes
+            .GetVwap()
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwap is double and double.NaN));
     }

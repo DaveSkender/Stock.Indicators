@@ -9,13 +9,11 @@ public class Ultimate : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<UltimateResult> results = quotes.GetUltimate(7, 14, 28)
+        List<UltimateResult> results = quotes
+            .GetUltimate(7, 14, 28)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Ultimate != null));
 

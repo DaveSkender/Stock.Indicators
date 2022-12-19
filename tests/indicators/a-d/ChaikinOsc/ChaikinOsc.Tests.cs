@@ -12,13 +12,11 @@ public class ChaikinOsc : TestBase
         int fastPeriods = 3;
         int slowPeriods = 10;
 
-        List<ChaikinOscResult> results = quotes.GetChaikinOsc(fastPeriods, slowPeriods)
+        List<ChaikinOscResult> results = quotes
+            .GetChaikinOsc(fastPeriods, slowPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Oscillator != null));
 

@@ -9,12 +9,11 @@ public class Alligator : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<AlligatorResult> results = quotes.GetAlligator().ToList();
-
-        // assertions
+        List<AlligatorResult> results = quotes
+            .GetAlligator()
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Jaw != null));
         Assert.AreEqual(490, results.Count(x => x.Teeth != null));
@@ -88,7 +87,8 @@ public class Alligator : TestBase
     [TestMethod]
     public void Sync()
     {
-        List<AlligatorResult> results = quotes.GetSma(3)
+        List<AlligatorResult> results = quotes
+            .GetSma(3)
             .GetAlligator()
             .ToList();
 

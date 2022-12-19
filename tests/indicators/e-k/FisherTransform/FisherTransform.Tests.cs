@@ -9,13 +9,11 @@ public class FisherTransform : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<FisherTransformResult> results = quotes.GetFisherTransform(10)
+        List<FisherTransformResult> results = quotes
+            .GetFisherTransform(10)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
 

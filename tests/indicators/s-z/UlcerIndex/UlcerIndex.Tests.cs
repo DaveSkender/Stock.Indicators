@@ -9,13 +9,11 @@ public class UlcerIndex : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<UlcerIndexResult> results = quotes.GetUlcerIndex(14)
+        List<UlcerIndexResult> results = quotes
+            .GetUlcerIndex(14)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.UI != null));
 

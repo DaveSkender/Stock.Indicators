@@ -13,13 +13,11 @@ public class Kama : TestBase
         int fastPeriods = 2;
         int slowPeriods = 30;
 
-        List<KamaResult> results = quotes.GetKama(erPeriods, fastPeriods, slowPeriods)
+        List<KamaResult> results = quotes
+            .GetKama(erPeriods, fastPeriods, slowPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.ER != null));
         Assert.AreEqual(493, results.Count(x => x.Kama != null));

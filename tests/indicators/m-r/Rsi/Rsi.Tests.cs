@@ -9,12 +9,11 @@ public class Rsi : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<RsiResult> results = quotes.GetRsi(14).ToList();
-
-        // assertions
+        List<RsiResult> results = quotes
+            .GetRsi(14)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Rsi != null));
 
@@ -36,13 +35,11 @@ public class Rsi : TestBase
     public void SmallLookback()
     {
         int lookbackPeriods = 1;
-        List<RsiResult> results = quotes.GetRsi(lookbackPeriods)
+        List<RsiResult> results = quotes
+            .GetRsi(lookbackPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Rsi != null));
 
@@ -152,7 +149,8 @@ public class Rsi : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<RsiResult> results = quotes.GetRsi(14)
+        List<RsiResult> results = quotes
+            .GetRsi(14)
             .RemoveWarmupPeriods()
             .ToList();
 

@@ -9,12 +9,11 @@ public class Gator : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<GatorResult> results = quotes.GetGator().ToList();
-
-        // assertions
+        List<GatorResult> results = quotes
+            .GetGator()
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Upper != null));
         Assert.AreEqual(490, results.Count(x => x.Lower != null));
@@ -85,10 +84,7 @@ public class Gator : TestBase
             .GetGator()
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Upper != null));
         Assert.AreEqual(490, results.Count(x => x.Lower != null));
@@ -216,7 +212,8 @@ public class Gator : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<GatorResult> results = quotes.GetGator()
+        List<GatorResult> results = quotes
+            .GetGator()
             .Condense()
             .ToList();
 
@@ -233,7 +230,8 @@ public class Gator : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<GatorResult> results = quotes.GetGator()
+        List<GatorResult> results = quotes
+            .GetGator()
             .RemoveWarmupPeriods()
             .ToList();
 

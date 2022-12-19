@@ -9,7 +9,9 @@ public class McGinleyDynamic : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<DynamicResult> results = quotes.GetDynamic(14).ToList();
+        List<DynamicResult> results = quotes
+            .GetDynamic(14)
+            .ToList();
 
         // assertions
         Assert.AreEqual(502, results.Count);

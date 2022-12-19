@@ -9,12 +9,11 @@ public class Pmo : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<PmoResult> results = quotes.GetPmo(35, 20, 10).ToList();
-
-        // assertions
+        List<PmoResult> results = quotes
+            .GetPmo(35, 20, 10)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(448, results.Count(x => x.Pmo != null));
         Assert.AreEqual(439, results.Count(x => x.Signal != null));

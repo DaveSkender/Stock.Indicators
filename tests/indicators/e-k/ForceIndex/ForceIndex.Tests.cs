@@ -11,10 +11,7 @@ public class ForceIndex : TestBase
     {
         List<ForceIndexResult> r = quotes.GetForceIndex(13).ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(489, r.Count(x => x.ForceIndex != null));
 

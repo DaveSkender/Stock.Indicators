@@ -9,12 +9,11 @@ public class T3 : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<T3Result> results = quotes.GetT3(5, 0.7).ToList();
-
-        // assertions
+        List<T3Result> results = quotes
+            .GetT3(5, 0.7)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(478, results.Count(x => x.T3 != null));
 

@@ -22,10 +22,7 @@ public class Stc : TestBase
             Console.WriteLine($"{r.Date:d},{r.Stc:N4}");
         }
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(467, results.Count(x => x.Stc != null));
 

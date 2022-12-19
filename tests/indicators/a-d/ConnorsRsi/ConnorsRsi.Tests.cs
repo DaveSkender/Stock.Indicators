@@ -18,10 +18,7 @@ public class ConnorsRsi : TestBase
             quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results1.Count);
         Assert.AreEqual(502 - startPeriod + 1, results1.Count(x => x.ConnorsRsi != null));
 

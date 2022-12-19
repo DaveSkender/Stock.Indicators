@@ -9,13 +9,11 @@ public class WilliamsR : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<WilliamsResult> results = quotes.GetWilliamsR(14)
+        List<WilliamsResult> results = quotes
+            .GetWilliamsR(14)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.WilliamsR != null));
 
@@ -42,7 +40,10 @@ public class WilliamsR : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<WilliamsResult> r = badQuotes.GetWilliamsR(20).ToList();
+        List<WilliamsResult> r = badQuotes
+            .GetWilliamsR(20)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.WilliamsR is double and double.NaN));
     }
@@ -50,17 +51,24 @@ public class WilliamsR : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        List<WilliamsResult> r0 = noquotes.GetWilliamsR().ToList();
+        List<WilliamsResult> r0 = noquotes
+            .GetWilliamsR()
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<WilliamsResult> r1 = onequote.GetWilliamsR().ToList();
+        List<WilliamsResult> r1 = onequote
+            .GetWilliamsR()
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<WilliamsResult> results = quotes.GetWilliamsR(14)
+        List<WilliamsResult> results = quotes
+            .GetWilliamsR(14)
             .RemoveWarmupPeriods()
             .ToList();
 

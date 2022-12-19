@@ -17,10 +17,7 @@ public class Stoch : TestBase
             quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(487, results.Count(x => x.Oscillator != null));
         Assert.AreEqual(485, results.Count(x => x.Signal != null));
@@ -59,10 +56,7 @@ public class Stoch : TestBase
             quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(494, results.Count(x => x.K != null));
         Assert.AreEqual(494, results.Count(x => x.D != null));

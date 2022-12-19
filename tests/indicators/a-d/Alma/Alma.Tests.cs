@@ -13,13 +13,11 @@ public class Alma : TestBase
         double offset = 0.85;
         double sigma = 6;
 
-        List<AlmaResult> results = quotes.GetAlma(lookbackPeriods, offset, sigma)
+        List<AlmaResult> results = quotes
+            .GetAlma(lookbackPeriods, offset, sigma)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
 
@@ -112,7 +110,10 @@ public class Alma : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<AlmaResult> r = badQuotes.GetAlma(14, 0.5, 3).ToList();
+        List<AlmaResult> r = badQuotes
+            .GetAlma(14, 0.5, 3)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
     }
@@ -120,17 +121,24 @@ public class Alma : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        List<AlmaResult> r0 = noquotes.GetAlma().ToList();
+        List<AlmaResult> r0 = noquotes
+            .GetAlma()
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<AlmaResult> r1 = onequote.GetAlma().ToList();
+        List<AlmaResult> r1 = onequote
+            .GetAlma()
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<AlmaResult> results = quotes.GetAlma(10, 0.85, 6)
+        List<AlmaResult> results = quotes
+            .GetAlma(10, 0.85, 6)
             .RemoveWarmupPeriods()
             .ToList();
 

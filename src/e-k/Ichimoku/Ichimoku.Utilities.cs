@@ -11,7 +11,7 @@ public static partial class Indicator
         List<IchimokuResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match: x =>
                    x.TenkanSen is null
                 && x.KijunSen is null

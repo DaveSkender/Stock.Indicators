@@ -9,13 +9,11 @@ public class Donchian : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<DonchianResult> results = quotes.GetDonchian(20)
+        List<DonchianResult> results = quotes
+            .GetDonchian(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Centerline != null));
         Assert.AreEqual(482, results.Count(x => x.UpperBand != null));

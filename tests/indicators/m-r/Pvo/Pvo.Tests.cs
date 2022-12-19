@@ -17,10 +17,7 @@ public class Pvo : TestBase
             quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.Pvo != null));
         Assert.AreEqual(469, results.Count(x => x.Signal != null));

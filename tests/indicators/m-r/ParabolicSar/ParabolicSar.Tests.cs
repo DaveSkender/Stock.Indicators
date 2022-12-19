@@ -16,10 +16,7 @@ public class ParabolicSar : TestBase
             quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Sar != null));
 
@@ -53,10 +50,7 @@ public class ParabolicSar : TestBase
                 acclerationStep, maxAccelerationFactor, initialStep)
                 .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Sar != null));
 

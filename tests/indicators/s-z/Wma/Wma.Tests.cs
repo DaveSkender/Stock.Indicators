@@ -9,12 +9,11 @@ public class Wma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<WmaResult> results = quotes.GetWma(20).ToList();
-
-        // assertions
+        List<WmaResult> results = quotes
+            .GetWma(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Wma != null));
 

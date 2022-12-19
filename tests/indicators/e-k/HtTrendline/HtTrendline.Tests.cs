@@ -9,7 +9,9 @@ public class HtTrendline : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<HtlResult> results = quotes.GetHtTrendline().ToList();
+        List<HtlResult> results = quotes
+            .GetHtTrendline()
+            .ToList();
 
         // proper quantities
         // should always be the same number of results as there is quotes

@@ -15,7 +15,6 @@ public class NumericsTests : TestBase
     {
         double sd = closePrice.StdDev();
 
-        // assertions
         Assert.AreEqual(633.932098287, Math.Round(sd, 9));
     }
 
@@ -28,7 +27,6 @@ public class NumericsTests : TestBase
         DateTime rnDate = evDate.RoundDown(interval);
         DateTime exDate = DateTime.Parse("2020-12-15 09:00:00", EnglishCulture);
 
-        // assertions
         Assert.AreEqual(exDate, rnDate);
     }
 

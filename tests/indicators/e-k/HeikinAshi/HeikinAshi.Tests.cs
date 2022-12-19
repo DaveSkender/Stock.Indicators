@@ -9,11 +9,11 @@ public class HeikinAshi : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<HeikinAshiResult> results = quotes.GetHeikinAshi().ToList();
+        List<HeikinAshiResult> results = quotes
+            .GetHeikinAshi()
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
 
         // sample value
@@ -36,8 +36,13 @@ public class HeikinAshi : TestBase
     [TestMethod]
     public void ToQuotes()
     {
-        List<HeikinAshiResult> results = quotes.GetHeikinAshi().ToList();
-        List<Quote> haQuotes = results.ToQuotes().ToList();
+        List<HeikinAshiResult> results = quotes
+            .GetHeikinAshi()
+            .ToList();
+
+        List<Quote> haQuotes = results
+            .ToQuotes()
+            .ToList();
 
         for (int i = 0; i < results.Count; i++)
         {

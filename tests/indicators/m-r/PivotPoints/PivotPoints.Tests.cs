@@ -12,13 +12,11 @@ public class PivotPoints : TestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<PivotPointsResult> results = quotes.GetPivotPoints(periodSize, pointType)
+        List<PivotPointsResult> results = quotes
+            .GetPivotPoints(periodSize, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.PP != null));
 
@@ -100,10 +98,7 @@ public class PivotPoints : TestBase
         List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(38, results.Count);
         Assert.AreEqual(33, results.Count(x => x.PP != null));
 
@@ -170,13 +165,11 @@ public class PivotPoints : TestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Demark;
 
-        List<PivotPointsResult> results = quotes.GetPivotPoints(periodSize, pointType)
+        List<PivotPointsResult> results = quotes
+            .GetPivotPoints(periodSize, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.PP != null));
 
@@ -262,10 +255,7 @@ public class PivotPoints : TestBase
         List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(300, results.Count);
         Assert.AreEqual(241, results.Count(x => x.PP != null));
 
@@ -337,10 +327,7 @@ public class PivotPoints : TestBase
         List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(1564, results.Count);
         Assert.AreEqual(1173, results.Count(x => x.PP != null));
 
@@ -396,17 +383,26 @@ public class PivotPoints : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<PivotPointsResult> r = badQuotes.GetPivotPoints(PeriodSize.Week).ToList();
+        List<PivotPointsResult> r = badQuotes
+            .GetPivotPoints(PeriodSize.Week)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        List<PivotPointsResult> r0 = noquotes.GetPivotPoints(PeriodSize.Week).ToList();
+        List<PivotPointsResult> r0 = noquotes
+            .GetPivotPoints(PeriodSize.Week)
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<PivotPointsResult> r1 = onequote.GetPivotPoints(PeriodSize.Week).ToList();
+        List<PivotPointsResult> r1 = onequote
+            .GetPivotPoints(PeriodSize.Week)
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 
@@ -416,7 +412,8 @@ public class PivotPoints : TestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<PivotPointsResult> results = quotes.GetPivotPoints(periodSize, pointType)
+        List<PivotPointsResult> results = quotes
+            .GetPivotPoints(periodSize, pointType)
             .RemoveWarmupPeriods()
             .ToList();
 

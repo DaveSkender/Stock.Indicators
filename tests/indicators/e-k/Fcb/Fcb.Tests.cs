@@ -9,12 +9,11 @@ public class Fcb : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<FcbResult> results = quotes.GetFcb(2).ToList();
-
-        // assertions
+        List<FcbResult> results = quotes
+            .GetFcb(2)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(497, results.Count(x => x.UpperBand != null));
         Assert.AreEqual(493, results.Count(x => x.LowerBand != null));
@@ -74,7 +73,8 @@ public class Fcb : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<FcbResult> results = quotes.GetFcb(2)
+        List<FcbResult> results = quotes
+            .GetFcb(2)
             .Condense()
             .ToList();
 
@@ -89,7 +89,8 @@ public class Fcb : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<FcbResult> results = quotes.GetFcb(2)
+        List<FcbResult> results = quotes
+            .GetFcb(2)
             .RemoveWarmupPeriods()
             .ToList();
 

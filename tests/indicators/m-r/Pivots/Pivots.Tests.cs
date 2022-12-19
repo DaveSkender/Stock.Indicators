@@ -9,10 +9,9 @@ public class Pivots : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<PivotsResult> results = quotes.GetPivots(4, 4, 20, EndType.HighLow)
+        List<PivotsResult> results = quotes
+            .GetPivots(4, 4, 20, EndType.HighLow)
             .ToList();
-
-        // assertions
 
         // proper quantities
         Assert.AreEqual(502, results.Count);

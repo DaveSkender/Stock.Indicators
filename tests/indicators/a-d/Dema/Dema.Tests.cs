@@ -9,13 +9,11 @@ public class Dema : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<DemaResult> results = quotes.GetDema(20)
+        List<DemaResult> results = quotes
+            .GetDema(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Dema != null));
 

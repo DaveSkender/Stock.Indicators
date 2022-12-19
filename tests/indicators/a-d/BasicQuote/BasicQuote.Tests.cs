@@ -21,9 +21,7 @@ public class BaseQuoteTests : TestBase
         List<BasicData> ohl = quotes.GetBaseQuote(CandlePart.OHL3).ToList();
         List<BasicData> ohlc = quotes.GetBaseQuote(CandlePart.OHLC4).ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, c.Count);
 
         // samples

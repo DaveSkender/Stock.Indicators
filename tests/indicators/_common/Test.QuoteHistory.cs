@@ -11,19 +11,15 @@ public class QuoteHistory : TestBase
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
 
-        // clean
         List<Quote> h = quotes.Validate().ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, h.Count);
 
-        // check last date
+        // sample values
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
         Assert.AreEqual(lastDate, h[501].Date);
 
-        // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", EnglishCulture);
         Assert.AreEqual(spotDate, h[20].Date);
     }
@@ -33,12 +29,10 @@ public class QuoteHistory : TestBase
     {
         List<Quote> h = longishQuotes.Validate().ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(5285, h.Count);
 
-        // check last date
+        // sample values
         DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", EnglishCulture);
         Assert.AreEqual(lastDate, h[5284].Date);
     }
@@ -50,8 +44,6 @@ public class QuoteHistory : TestBase
 
         IEnumerable<Quote> quotes = TestData.GetDefault(200);
         List<Quote> h = quotes.Validate().ToList();
-
-        // assertions
 
         // should be 200 periods, initially
         Assert.AreEqual(200, h.Count);
@@ -88,12 +80,9 @@ public class QuoteHistory : TestBase
     {
         IEnumerable<Quote> quotes = TestData.GetMismatch();
 
-        // clean
         List<Quote> h = quotes.ToSortedList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, h.Count);
 
         // check first date
@@ -115,11 +104,11 @@ public class QuoteHistory : TestBase
         IEnumerable<Quote> quotes = TestData.GetIntraday();
 
         // aggregate
-        List<Quote> results = quotes.Aggregate(PeriodSize.FifteenMinutes)
+        List<Quote> results = quotes
+            .Aggregate(PeriodSize.FifteenMinutes)
             .ToList();
 
-        // assertions
-
+        // proper quantities
         Assert.AreEqual(108, results.Count);
 
         // sample values
@@ -159,11 +148,11 @@ public class QuoteHistory : TestBase
         IEnumerable<Quote> quotes = TestData.GetIntraday();
 
         // aggregate
-        List<Quote> results = quotes.Aggregate(TimeSpan.FromMinutes(15))
+        List<Quote> results = quotes
+            .Aggregate(TimeSpan.FromMinutes(15))
             .ToList();
 
-        // assertions
-
+        // proper quantities
         Assert.AreEqual(108, results.Count);
 
         // sample values
@@ -201,11 +190,11 @@ public class QuoteHistory : TestBase
     public void AggregateMonth()
     {
         // aggregate
-        List<Quote> results = quotes.Aggregate(PeriodSize.Month)
+        List<Quote> results = quotes
+            .Aggregate(PeriodSize.Month)
             .ToList();
 
-        // assertions
-
+        // proper quantities
         Assert.AreEqual(24, results.Count);
 
         // sample values
@@ -248,7 +237,7 @@ public class QuoteHistory : TestBase
             new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
         };
 
-        _ = badHistory.Validate();
+        badHistory.Validate();
     }
 
     [TestMethod]

@@ -16,10 +16,7 @@ public class StdDevChannels : TestBase
             quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
         Assert.AreEqual(500, results.Count(x => x.UpperChannel != null));
@@ -78,10 +75,7 @@ public class StdDevChannels : TestBase
             quotes.GetStdDevChannels(null, 2)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Centerline != null));
         Assert.AreEqual(502, results.Count(x => x.UpperChannel != null));

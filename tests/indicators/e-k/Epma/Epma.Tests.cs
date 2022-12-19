@@ -9,12 +9,11 @@ public class Epma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<EpmaResult> results = quotes.GetEpma(20).ToList();
-
-        // assertions
+        List<EpmaResult> results = quotes
+            .GetEpma(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Epma != null));
 
@@ -112,7 +111,8 @@ public class Epma : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<EpmaResult> results = quotes.GetEpma(20)
+        List<EpmaResult> results = quotes
+            .GetEpma(20)
             .RemoveWarmupPeriods()
             .ToList();
 

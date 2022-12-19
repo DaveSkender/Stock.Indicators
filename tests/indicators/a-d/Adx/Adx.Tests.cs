@@ -9,13 +9,11 @@ public class Adx : TestBase
     [TestMethod]
     public void Standard()
     {
-        int lookbackPeriods = 14;
-        List<AdxResult> results = quotes.GetAdx(lookbackPeriods).ToList();
-
-        // assertions
+        List<AdxResult> results = quotes
+            .GetAdx(14)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(475, results.Count(x => x.Adx != null));
         Assert.AreEqual(462, results.Count(x => x.Adxr != null));
@@ -75,17 +73,26 @@ public class Adx : TestBase
     [TestMethod]
     public void BigData()
     {
-        List<AdxResult> r = bigQuotes.GetAdx(200).ToList();
+        List<AdxResult> r = bigQuotes
+            .GetAdx(200)
+            .ToList();
+
         Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        List<AdxResult> r0 = noquotes.GetAdx(5).ToList();
+        List<AdxResult> r0 = noquotes
+            .GetAdx(5)
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<AdxResult> r1 = onequote.GetAdx(5).ToList();
+        List<AdxResult> r1 = onequote
+            .GetAdx(5)
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 

@@ -9,13 +9,11 @@ public class EmaTests : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<EmaResult> results = quotes.GetEma(20)
+        List<EmaResult> results = quotes
+            .GetEma(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
@@ -148,10 +146,7 @@ public class EmaTests : TestBase
             .GetEma(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 

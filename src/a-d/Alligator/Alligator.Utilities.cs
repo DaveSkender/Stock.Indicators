@@ -11,7 +11,7 @@ public static partial class Indicator
         List<AlligatorResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.Jaw is null && x.Teeth is null && x.Lips is null);
 

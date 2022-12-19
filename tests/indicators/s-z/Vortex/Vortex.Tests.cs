@@ -9,12 +9,11 @@ public class Vortex : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<VortexResult> results = quotes.GetVortex(14).ToList();
-
-        // assertions
+        List<VortexResult> results = quotes
+            .GetVortex(14)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Pvi != null));
 

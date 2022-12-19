@@ -56,9 +56,10 @@ public class Results : TestBase
 
         List<AdxResult> r = x.Condense().ToList();
 
-        // assertions
+        // proper quantities
         Assert.AreEqual(473, r.Count);
 
+        // sample values
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
         Assert.AreEqual(31.1510, NullMath.Round(last.Mdi, 4));

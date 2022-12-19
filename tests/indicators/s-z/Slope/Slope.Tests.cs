@@ -9,12 +9,11 @@ public class Slope : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<SlopeResult> results = quotes.GetSlope(20).ToList();
-
-        // assertions
+        List<SlopeResult> results = quotes
+            .GetSlope(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Slope != null));
         Assert.AreEqual(483, results.Count(x => x.StdDev != null));

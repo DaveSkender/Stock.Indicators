@@ -9,13 +9,11 @@ public class Chop : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<ChopResult> results = quotes.GetChop(14)
+        List<ChopResult> results = quotes
+            .GetChop(14)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Chop != null));
 
@@ -53,10 +51,7 @@ public class Chop : TestBase
             .GetChop(lookbackPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Chop != null));
     }
@@ -91,7 +86,8 @@ public class Chop : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<ChopResult> results = quotes.GetChop(14)
+        List<ChopResult> results = quotes
+            .GetChop(14)
             .RemoveWarmupPeriods()
             .ToList();
 

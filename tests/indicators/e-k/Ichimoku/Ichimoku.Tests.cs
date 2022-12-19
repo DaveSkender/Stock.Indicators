@@ -13,14 +13,11 @@ public class Ichimoku : TestBase
         int kijunPeriods = 26;
         int senkouBPeriods = 52;
 
-        List<IchimokuResult> results = quotes.GetIchimoku(
-            tenkanPeriods, kijunPeriods, senkouBPeriods)
+        List<IchimokuResult> results = quotes
+            .GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(494, results.Count(x => x.TenkanSen != null));
         Assert.AreEqual(477, results.Count(x => x.KijunSen != null));

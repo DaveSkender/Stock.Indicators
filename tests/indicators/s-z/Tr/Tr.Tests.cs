@@ -9,12 +9,11 @@ public class Tr : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<TrResult> results = quotes.GetTr().ToList();
-
-        // assertions
+        List<TrResult> results = quotes
+            .GetTr()
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Tr != null));
 

@@ -9,13 +9,11 @@ public class Vwma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<VwmaResult> results = quotes.GetVwma(10)
+        List<VwmaResult> results = quotes
+            .GetVwma(10)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Vwma != null));
 
@@ -45,7 +43,10 @@ public class Vwma : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<VwmaResult> r = badQuotes.GetVwma(15).ToList();
+        List<VwmaResult> r = badQuotes
+            .GetVwma(15)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwma is double and double.NaN));
     }
@@ -53,17 +54,24 @@ public class Vwma : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        List<VwmaResult> r0 = noquotes.GetVwma(4).ToList();
+        List<VwmaResult> r0 = noquotes
+            .GetVwma(4)
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<VwmaResult> r1 = onequote.GetVwma(4).ToList();
+        List<VwmaResult> r1 = onequote
+            .GetVwma(4)
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<VwmaResult> results = quotes.GetVwma(10)
+        List<VwmaResult> results = quotes
+            .GetVwma(10)
             .RemoveWarmupPeriods()
             .ToList();
 

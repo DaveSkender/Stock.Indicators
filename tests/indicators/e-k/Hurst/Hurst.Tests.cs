@@ -74,7 +74,10 @@ public class Hurst : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<HurstResult> r = badQuotes.GetHurst(150).ToList();
+        List<HurstResult> r = badQuotes
+            .GetHurst(150)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
     }
@@ -82,10 +85,16 @@ public class Hurst : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        List<HurstResult> r0 = noquotes.GetHurst().ToList();
+        List<HurstResult> r0 = noquotes
+            .GetHurst()
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<HurstResult> r1 = onequote.GetHurst().ToList();
+        List<HurstResult> r1 = onequote
+            .GetHurst()
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 

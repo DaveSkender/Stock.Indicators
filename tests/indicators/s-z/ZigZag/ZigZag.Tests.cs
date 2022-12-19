@@ -14,10 +14,7 @@ public class ZigZag : TestBase
             quotes.GetZigZag(EndType.Close, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(234, results.Count(x => x.ZigZag != null));
         Assert.AreEqual(234, results.Count(x => x.RetraceHigh != null));
@@ -69,10 +66,7 @@ public class ZigZag : TestBase
             quotes.GetZigZag(EndType.HighLow, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(463, results.Count(x => x.ZigZag != null));
         Assert.AreEqual(463, results.Count(x => x.RetraceHigh != null));
@@ -165,27 +159,40 @@ public class ZigZag : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<ZigZagResult> r1 = badQuotes.GetZigZag(EndType.Close).ToList();
+        List<ZigZagResult> r1 = badQuotes
+            .GetZigZag(EndType.Close)
+            .ToList();
+
         Assert.AreEqual(502, r1.Count);
 
-        List<ZigZagResult> r2 = badQuotes.GetZigZag(EndType.HighLow).ToList();
+        List<ZigZagResult> r2 = badQuotes
+            .GetZigZag(EndType.HighLow)
+            .ToList();
+
         Assert.AreEqual(502, r2.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        List<ZigZagResult> r0 = noquotes.GetZigZag().ToList();
+        List<ZigZagResult> r0 = noquotes
+            .GetZigZag()
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<ZigZagResult> r1 = onequote.GetZigZag().ToList();
+        List<ZigZagResult> r1 = onequote
+            .GetZigZag()
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        List<ZigZagResult> results = quotes.GetZigZag(EndType.Close, 3)
+        List<ZigZagResult> results = quotes
+            .GetZigZag(EndType.Close, 3)
             .Condense()
             .ToList();
 

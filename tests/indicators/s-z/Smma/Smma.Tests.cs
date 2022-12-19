@@ -9,12 +9,11 @@ public class Smma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<SmmaResult> results = quotes.GetSmma(20).ToList();
-
-        // assertions
+        List<SmmaResult> results = quotes
+            .GetSmma(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Smma != null));
 

@@ -9,12 +9,11 @@ public class StdDev : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<StdDevResult> results = quotes.GetStdDev(10).ToList();
-
-        // assertions
+        List<StdDevResult> results = quotes
+            .GetStdDev(10)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.StdDev != null));
         Assert.AreEqual(493, results.Count(x => x.ZScore != null));
@@ -102,10 +101,7 @@ public class StdDev : TestBase
             .GetStdDev(lookbackPeriods, smaPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.StdDev != null));
         Assert.AreEqual(493, results.Count(x => x.ZScore != null));

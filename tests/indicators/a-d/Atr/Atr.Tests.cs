@@ -9,7 +9,9 @@ public class Atr : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<AtrResult> results = quotes.GetAtr(14).ToList();
+        List<AtrResult> results = quotes
+            .GetAtr(14)
+            .ToList();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -57,7 +59,10 @@ public class Atr : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<AtrResult> r = badQuotes.GetAtr(20).ToList();
+        List<AtrResult> r = badQuotes
+            .GetAtr(20)
+            .ToList();
+
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Atr is double and double.NaN));
     }
@@ -65,17 +70,24 @@ public class Atr : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        List<AtrResult> r0 = noquotes.GetAtr().ToList();
+        List<AtrResult> r0 = noquotes
+            .GetAtr()
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
-        List<AtrResult> r1 = onequote.GetAtr().ToList();
+        List<AtrResult> r1 = onequote
+            .GetAtr()
+            .ToList();
+
         Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<AtrResult> results = quotes.GetAtr(14)
+        List<AtrResult> results = quotes
+            .GetAtr(14)
             .RemoveWarmupPeriods()
             .ToList();
 

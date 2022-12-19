@@ -9,13 +9,11 @@ public class Mfi : TestBase
     [TestMethod]
     public void Standard()
     {
-        int lookbackPeriods = 14;
-        List<MfiResult> results = quotes.GetMfi(lookbackPeriods).ToList();
-
-        // assertions
+        List<MfiResult> results = quotes
+            .GetMfi(14)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Mfi != null));
 
@@ -48,10 +46,7 @@ public class Mfi : TestBase
             .GetMfi(lookbackPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(498, results.Count(x => x.Mfi != null));
 

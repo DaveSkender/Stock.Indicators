@@ -9,11 +9,11 @@ public class Marubozu : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CandleResult> results = quotes.GetMarubozu(95).ToList();
+        List<CandleResult> results = quotes
+            .GetMarubozu(95)
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(6, results.Count(x => x.Match != Match.None));
 

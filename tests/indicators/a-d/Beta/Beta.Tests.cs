@@ -13,10 +13,7 @@ public class Beta : TestBase
             .GetBeta(quotes, 20, BetaType.All)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Beta != null));
         Assert.AreEqual(482, results.Count(x => x.BetaUp != null));
@@ -61,10 +58,7 @@ public class Beta : TestBase
             .GetBeta(otherQuotes, quotes, 20, BetaType.Standard)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Beta != null));
 
@@ -80,10 +74,7 @@ public class Beta : TestBase
             .GetBeta(quotes, 20, BetaType.Up)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.BetaUp != null));
 
@@ -99,10 +90,7 @@ public class Beta : TestBase
             .GetBeta(quotes, 20, BetaType.Down)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.BetaDown != null));
 
@@ -114,7 +102,10 @@ public class Beta : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        List<BetaResult> results = otherQuotes.Use(CandlePart.Close).GetBeta(quotes.Use(CandlePart.Close), 20).ToList();
+        List<BetaResult> results = otherQuotes
+            .Use(CandlePart.Close)
+            .GetBeta(quotes.Use(CandlePart.Close), 20)
+            .ToList();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Beta != null));
@@ -123,7 +114,9 @@ public class Beta : TestBase
     [TestMethod]
     public void TupleNaN()
     {
-        List<BetaResult> r = tupleNanny.GetBeta(tupleNanny, 6).ToList();
+        List<BetaResult> r = tupleNanny
+            .GetBeta(tupleNanny, 6)
+            .ToList();
 
         Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Beta is double and double.NaN));
@@ -144,15 +137,24 @@ public class Beta : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<BetaResult> r1 = badQuotes.GetBeta(badQuotes, 15, BetaType.Standard).ToList();
+        List<BetaResult> r1 = badQuotes
+            .GetBeta(badQuotes, 15, BetaType.Standard)
+            .ToList();
+
         Assert.AreEqual(502, r1.Count);
         Assert.AreEqual(0, r1.Count(x => x.Beta is double and double.NaN));
 
-        List<BetaResult> r2 = badQuotes.GetBeta(badQuotes, 15, BetaType.Up).ToList();
+        List<BetaResult> r2 = badQuotes
+            .GetBeta(badQuotes, 15, BetaType.Up)
+            .ToList();
+
         Assert.AreEqual(502, r2.Count);
         Assert.AreEqual(0, r2.Count(x => x.BetaUp is double and double.NaN));
 
-        List<BetaResult> r3 = badQuotes.GetBeta(badQuotes, 15, BetaType.Down).ToList();
+        List<BetaResult> r3 = badQuotes
+            .GetBeta(badQuotes, 15, BetaType.Down)
+            .ToList();
+
         Assert.AreEqual(502, r3.Count);
         Assert.AreEqual(0, r3.Count(x => x.BetaDown is double and double.NaN));
     }
@@ -160,7 +162,10 @@ public class Beta : TestBase
     [TestMethod]
     public void BigData()
     {
-        List<BetaResult> r = bigQuotes.GetBeta(bigQuotes, 150, BetaType.All).ToList();
+        List<BetaResult> r = bigQuotes
+            .GetBeta(bigQuotes, 150, BetaType.All)
+            .ToList();
+
         Assert.AreEqual(1246, r.Count);
     }
 
@@ -191,7 +196,8 @@ public class Beta : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<BetaResult> results = otherQuotes.GetBeta(quotes, 20)
+        List<BetaResult> results = otherQuotes
+            .GetBeta(quotes, 20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -206,13 +212,11 @@ public class Beta : TestBase
     public void SameSame()
     {
         // Beta should be 1 if evaluating against self
-        List<BetaResult> results = quotes.GetBeta(quotes, 20)
+        List<BetaResult> results = quotes
+            .GetBeta(quotes, 20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Beta != null));
 
@@ -224,7 +228,10 @@ public class Beta : TestBase
     [TestMethod]
     public void NoQuotes()
     {
-        List<BetaResult> r0 = noquotes.GetBeta(noquotes, 5).ToList();
+        List<BetaResult> r0 = noquotes
+            .GetBeta(noquotes, 5)
+            .ToList();
+
         Assert.AreEqual(0, r0.Count);
 
         List<BetaResult> r1 = onequote.GetBeta(onequote, 5).ToList();

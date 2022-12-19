@@ -9,12 +9,11 @@ public class RocWb : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<RocWbResult> results = quotes.GetRocWb(20, 3, 20).ToList();
-
-        // assertions
+        List<RocWbResult> results = quotes
+            .GetRocWb(20, 3, 20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
         Assert.AreEqual(480, results.Count(x => x.RocEma != null));

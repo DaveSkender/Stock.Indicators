@@ -11,7 +11,7 @@ public static partial class Indicator
         List<MaEnvelopeResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.UpperEnvelope is null && x.LowerEnvelope is null && x.Centerline is null);
 

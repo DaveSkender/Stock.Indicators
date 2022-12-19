@@ -9,13 +9,11 @@ public class Sma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<SmaResult> results = quotes.GetSma(20)
+        List<SmaResult> results = quotes
+            .GetSma(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 

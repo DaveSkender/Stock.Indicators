@@ -9,12 +9,11 @@ public class Tsi : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<TsiResult> results = quotes.GetTsi(25, 13, 7).ToList();
-
-        // assertions
+        List<TsiResult> results = quotes
+            .GetTsi(25, 13, 7)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(465, results.Count(x => x.Tsi != null));
         Assert.AreEqual(459, results.Count(x => x.Signal != null));

@@ -17,10 +17,7 @@ public class RollingPivots : TestBase
             quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.PP != null));
 
@@ -94,10 +91,7 @@ public class RollingPivots : TestBase
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(38, results.Count);
         Assert.AreEqual(28, results.Count(x => x.PP != null));
 
@@ -169,10 +163,7 @@ public class RollingPivots : TestBase
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.PP != null));
 
@@ -257,10 +248,7 @@ public class RollingPivots : TestBase
             h.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(300, results.Count);
         Assert.AreEqual(241, results.Count(x => x.PP != null));
 
@@ -335,10 +323,7 @@ public class RollingPivots : TestBase
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(1564, results.Count);
         Assert.AreEqual(1173, results.Count(x => x.PP != null));
 

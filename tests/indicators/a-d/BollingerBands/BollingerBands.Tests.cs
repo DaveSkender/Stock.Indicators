@@ -13,10 +13,7 @@ public class BollingerBands : TestBase
             quotes.GetBollingerBands(20, 2)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
         Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
@@ -81,7 +78,8 @@ public class BollingerBands : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes.GetBollingerBands().ToList()
+        List<SmaResult> results = quotes
+            .GetBollingerBands()
             .GetSma(10)
             .ToList();
 

@@ -17,10 +17,7 @@ public class Keltner : TestBase
             .GetKeltner(emaPeriods, multiplier, atrPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;

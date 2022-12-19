@@ -9,12 +9,11 @@ public class Trix : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<TrixResult> results = quotes.GetTrix(20, 5).ToList();
-
-        // assertions
+        List<TrixResult> results = quotes
+            .GetTrix(20, 5)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Ema3 != null));
         Assert.AreEqual(482, results.Count(x => x.Trix != null));

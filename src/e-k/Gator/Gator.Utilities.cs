@@ -11,7 +11,7 @@ public static partial class Indicator
         List<GatorResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.Upper is null && x.Lower is null);
 
