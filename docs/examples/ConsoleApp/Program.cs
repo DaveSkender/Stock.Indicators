@@ -71,7 +71,6 @@ public class Program
         }
     }
 
-
     private static IEnumerable<Quote> GetHistoryFromFeed()
     {
         /************************************************************
@@ -93,7 +92,8 @@ public class Program
         string json = File.ReadAllText("quotes.data.json");
 
         List<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .ToSortedList();
+            .OrderBy(x => x.Date)
+            .ToList();
 
         return quotes;
     }
