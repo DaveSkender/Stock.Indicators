@@ -9,13 +9,11 @@ public class UlcerIndex : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<UlcerIndexResult> results = quotes.GetUlcerIndex(14)
+        List<UlcerIndexResult> results = quotes
+            .GetUlcerIndex(14)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.UI != null));
 
@@ -27,67 +25,82 @@ public class UlcerIndex : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<UlcerIndexResult> results = quotes
+        List<UlcerIndexResult> results = quotes
             .Use(CandlePart.Close)
-            .GetUlcerIndex(14);
+            .GetUlcerIndex(14)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.UI != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<UlcerIndexResult> r = tupleNanny.GetUlcerIndex(6);
+        List<UlcerIndexResult> r = tupleNanny
+            .GetUlcerIndex(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<UlcerIndexResult> results = quotes
+        List<UlcerIndexResult> results = quotes
             .GetSma(2)
-            .GetUlcerIndex(14);
+            .GetUlcerIndex(14)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.UI != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetUlcerIndex(14)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<UlcerIndexResult> r = Indicator.GetUlcerIndex(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<UlcerIndexResult> r = badQuotes
+            .GetUlcerIndex(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<UlcerIndexResult> r0 = noquotes.GetUlcerIndex();
-        Assert.AreEqual(0, r0.Count());
+        List<UlcerIndexResult> r0 = noquotes
+            .GetUlcerIndex()
+            .ToList();
 
-        IEnumerable<UlcerIndexResult> r1 = onequote.GetUlcerIndex();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<UlcerIndexResult> r1 = onequote
+            .GetUlcerIndex()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<UlcerIndexResult> results = quotes.GetUlcerIndex(14)
+        List<UlcerIndexResult> results = quotes
+            .GetUlcerIndex(14)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -102,5 +115,5 @@ public class UlcerIndex : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetUlcerIndex(quotes, 0));
+            => quotes.GetUlcerIndex(0));
 }

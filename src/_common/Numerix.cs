@@ -1,12 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-public static class Numerics
+public static class Numerix
 {
     // STANDARD DEVIATION
     public static double StdDev(this double[] values)
     {
         // ref: https://stackoverflow.com/questions/2253874/standard-deviation-in-linq
         // and then modified to an iterative model without LINQ, for performance improvement
+
+        if (values is null)
+        {
+            throw new ArgumentNullException(nameof(values), "StdDev values cannot be null.");
+        }
 
         double sd = 0;
         int n = values.Length;
@@ -36,9 +41,23 @@ public static class Numerics
     // SLOPE of BEST FIT LINE
     public static double Slope(double[] x, double[] y)
     {
-        // TODO: add better error handling for mismatch size arrays
+        // validate parameters
+        if (x is null)
+        {
+            throw new ArgumentNullException(nameof(x), "Slope X values cannot be null.");
+        }
 
-        int length = Math.Min(x.Length, y.Length);
+        if (y is null)
+        {
+            throw new ArgumentNullException(nameof(y), "Slope Y values cannot be null.");
+        }
+
+        if (x.Length != y.Length)
+        {
+            throw new ArgumentException("Slope X and Y arrays must be the same size.");
+        }
+
+        int length = x.Length;
 
         // get averages for period
         double sumX = 0;

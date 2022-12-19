@@ -9,7 +9,7 @@ pool:
   vmImage: "ubuntu-latest"
 
 workspace:
-    clean: all
+  clean: all
 
 variables:
   BuildConfiguration: "Release"
@@ -18,26 +18,31 @@ steps:
   - task: gitversion/setup@0
     displayName: use GitVersion 5.x
     inputs:
-      versionSpec: '5.x'
+      versionSpec: "5.x"
 
   - task: gitversion/execute@0
     displayName: get GitVersion
     inputs:
       useConfigFile: true
-      configFilePath: 'gitversion.yml'
+      configFilePath: "gitversion.yml"
       updateAssemblyInfo: true
 
   - task: UseDotNet@2
     displayName: "use .NET SDK 7.0.x"
     inputs:
       version: 7.0.x
-      includePreviewVersions: true
+      includePreviewVersions: false
 
   - task: DotNetCoreCLI@2
     displayName: build
     inputs:
+      command: "build"
       projects: "**/*.csproj"
-      arguments: "--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion) /p:ContinuousIntegrationBuild=true"
+      arguments: >
+        --configuration $(BuildConfiguration)
+        /p:Version=$(GitVersion.NuGetVersion)
+        /p:ContinuousIntegrationBuild=true
+        /warnaserror
 
   - task: DotNetCoreCLI@2
     displayName: "test indicators"
@@ -45,7 +50,11 @@ steps:
       command: test
       testRunTitle: "Indicator Tests"
       projects: "tests/indicators/Tests.Indicators.csproj"
-      arguments: '--configuration $(BuildConfiguration) --no-restore --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+      arguments: >
+        --configuration $(BuildConfiguration)
+        --no-restore
+        --no-build
+        --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
       publishTestResults: true
 
   - task: DotNetCoreCLI@2
@@ -54,7 +63,11 @@ steps:
       command: test
       testRunTitle: "External Tests"
       projects: "tests/external/Tests.Other.csproj"
-      arguments: "--configuration $(BuildConfiguration) --no-restore --no-build /p:CollectCoverage=false"
+      arguments: >
+        --configuration $(BuildConfiguration)
+        --no-restore
+        --no-build
+        /p:CollectCoverage=false
       publishTestResults: true
 
   - task: PublishCodeCoverageResults@1
@@ -87,6 +100,6 @@ steps:
   - task: PublishPipelineArtifact@1
     displayName: "save artifacts"
     inputs:
-      targetPath: '$(Pipeline.Workspace)/a'
-      artifact: 'packages'
-      publishLocation: 'pipeline'
+      targetPath: "$(Pipeline.Workspace)/a"
+      artifact: "packages"
+      publishLocation: "pipeline"

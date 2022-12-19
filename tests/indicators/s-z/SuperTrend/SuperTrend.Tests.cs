@@ -12,7 +12,8 @@ public class SuperTrend : TestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results = quotes.GetSuperTrend(lookbackPeriods, multiplier)
+        List<SuperTrendResult> results = quotes
+            .GetSuperTrend(lookbackPeriods, multiplier)
             .ToList();
 
         // proper quantities
@@ -55,8 +56,11 @@ public class SuperTrend : TestBase
     public void Bitcoin()
     {
         IEnumerable<Quote> h = TestData.GetBitcoin();
-        List<SuperTrendResult> results = Indicator.GetSuperTrend(h, 10, 3)
+
+        List<SuperTrendResult> results = h
+            .GetSuperTrend(10, 3)
             .ToList();
+
         Assert.AreEqual(1246, results.Count);
 
         SuperTrendResult r = results[1208];
@@ -66,18 +70,27 @@ public class SuperTrend : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<SuperTrendResult> r = Indicator.GetSuperTrend(badQuotes, 7);
-        Assert.AreEqual(502, r.Count());
+        List<SuperTrendResult> r = badQuotes
+            .GetSuperTrend(7)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<SuperTrendResult> r0 = noquotes.GetSuperTrend();
-        Assert.AreEqual(0, r0.Count());
+        List<SuperTrendResult> r0 = noquotes
+            .GetSuperTrend()
+            .ToList();
 
-        IEnumerable<SuperTrendResult> r1 = onequote.GetSuperTrend();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<SuperTrendResult> r1 = onequote
+            .GetSuperTrend()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -86,10 +99,10 @@ public class SuperTrend : TestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results =
-            quotes.GetSuperTrend(lookbackPeriods, multiplier)
-             .Condense()
-             .ToList();
+        List<SuperTrendResult> results = quotes
+            .GetSuperTrend(lookbackPeriods, multiplier)
+            .Condense()
+            .ToList();
 
         // assertions
         Assert.AreEqual(488, results.Count);
@@ -106,10 +119,10 @@ public class SuperTrend : TestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results =
-            quotes.GetSuperTrend(lookbackPeriods, multiplier)
-             .RemoveWarmupPeriods()
-             .ToList();
+        List<SuperTrendResult> results = quotes
+            .GetSuperTrend(lookbackPeriods, multiplier)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(488, results.Count);
@@ -125,10 +138,10 @@ public class SuperTrend : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSuperTrend(quotes, 1));
+            quotes.GetSuperTrend(1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetSuperTrend(quotes, 7, 0));
+            quotes.GetSuperTrend(7, 0));
     }
 }

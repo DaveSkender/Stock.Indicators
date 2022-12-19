@@ -1,5 +1,5 @@
 ---
-title: Basic Quote Transforms
+title: Basic quote transforms
 description: Basic quote transforms (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
 permalink: /indicators/BasicQuote/
 type: price-transform

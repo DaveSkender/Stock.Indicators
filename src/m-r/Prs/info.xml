@@ -8,7 +8,7 @@
     this also return relative percent change over the specified periods.
     <para>
       See
-      <see href="https://daveskender.github.io/Stock.Indicators/indicators/Prs/#content">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Prs/#content?utm_source=library">documentation</see>
       for more information.
     </para>
   </summary>

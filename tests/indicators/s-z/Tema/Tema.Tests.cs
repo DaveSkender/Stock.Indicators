@@ -9,12 +9,11 @@ public class Tema : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<TemaResult> results = quotes.GetTema(20).ToList();
-
-        // assertions
+        List<TemaResult> results = quotes
+            .GetTema(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Tema != null));
 
@@ -35,67 +34,82 @@ public class Tema : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<TemaResult> results = quotes
+        List<TemaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetTema(20);
+            .GetTema(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Tema != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<TemaResult> r = tupleNanny.GetTema(6);
+        List<TemaResult> r = tupleNanny
+            .GetTema(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<TemaResult> results = quotes
+        List<TemaResult> results = quotes
             .GetSma(2)
-            .GetTema(20);
+            .GetTema(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Tema != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetTema(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<TemaResult> r = Indicator.GetTema(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<TemaResult> r = badQuotes
+            .GetTema(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<TemaResult> r0 = noquotes.GetTema(5);
-        Assert.AreEqual(0, r0.Count());
+        List<TemaResult> r0 = noquotes
+            .GetTema(5)
+            .ToList();
 
-        IEnumerable<TemaResult> r1 = onequote.GetTema(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<TemaResult> r1 = onequote
+            .GetTema(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<TemaResult> results = quotes.GetTema(20)
+        List<TemaResult> results = quotes
+            .GetTema(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -110,5 +124,5 @@ public class Tema : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetTema(quotes, 0));
+            => quotes.GetTema(0));
 }

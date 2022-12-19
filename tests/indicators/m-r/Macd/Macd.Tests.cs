@@ -17,10 +17,7 @@ public class Macd : TestBase
             quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.Macd != null));
         Assert.AreEqual(469, results.Count(x => x.Signal != null));
@@ -52,61 +49,75 @@ public class Macd : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<MacdResult> results = quotes
+        List<MacdResult> results = quotes
             .Use(CandlePart.Close)
-            .GetMacd();
+            .GetMacd()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.Macd != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<MacdResult> r = tupleNanny.GetMacd();
+        List<MacdResult> r = tupleNanny
+            .GetMacd()
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Macd is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<MacdResult> results = quotes
+        List<MacdResult> results = quotes
             .GetSma(2)
-            .GetMacd();
+            .GetMacd()
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(476, results.Count(x => x.Macd != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetMacd()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<MacdResult> r = Indicator.GetMacd(badQuotes, 10, 20, 5);
-        Assert.AreEqual(502, r.Count());
+        List<MacdResult> r = badQuotes
+            .GetMacd(10, 20, 5)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Macd is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<MacdResult> r0 = noquotes.GetMacd();
-        Assert.AreEqual(0, r0.Count());
+        List<MacdResult> r0 = noquotes
+            .GetMacd()
+            .ToList();
 
-        IEnumerable<MacdResult> r1 = onequote.GetMacd();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<MacdResult> r1 = onequote
+            .GetMacd()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -116,8 +127,8 @@ public class Macd : TestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<MacdResult> results =
-            quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods)
+        List<MacdResult> results = quotes
+            .GetMacd(fastPeriods, slowPeriods, signalPeriods)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -135,14 +146,14 @@ public class Macd : TestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMacd(quotes, 0, 26, 9));
+            quotes.GetMacd(0, 26, 9));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMacd(quotes, 12, 12, 9));
+            quotes.GetMacd(12, 12, 9));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMacd(quotes, 12, 26, -1));
+            quotes.GetMacd(12, 26, -1));
     }
 }

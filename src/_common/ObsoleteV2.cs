@@ -5,6 +5,8 @@ namespace Skender.Stock.Indicators;
 // OBSOLETE IN v2.0.0
 public static partial class Indicator
 {
+#pragma warning disable CA1002 // Do not expose generic lists
+
     // 2.4.1
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ToBasicTuple(..)' to 'ToTuple(..)' to fix.", false)]
@@ -19,4 +21,6 @@ public static partial class Indicator
     public static List<(DateTime Date, double Value)> ToResultTuple(
         this IEnumerable<IReusableResult> basicData)
         => basicData.ToTuple();
+
+#pragma warning restore CA1002 // Do not expose generic lists
 }

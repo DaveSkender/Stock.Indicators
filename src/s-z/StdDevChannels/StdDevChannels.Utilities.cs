@@ -11,7 +11,7 @@ public static partial class Indicator
         List<StdDevChannelsResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match: x =>
                x.UpperChannel is null
             && x.LowerChannel is null

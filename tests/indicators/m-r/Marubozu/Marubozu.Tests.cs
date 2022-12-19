@@ -9,11 +9,11 @@ public class Marubozu : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CandleResult> results = quotes.GetMarubozu(95).ToList();
+        List<CandleResult> results = quotes
+            .GetMarubozu(95)
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(6, results.Count(x => x.Match != Match.None));
 
@@ -46,27 +46,38 @@ public class Marubozu : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<CandleResult> r = badQuotes.GetMarubozu();
-        Assert.AreEqual(502, r.Count());
+        List<CandleResult> r = badQuotes
+            .GetMarubozu()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<CandleResult> r0 = noquotes.GetMarubozu();
-        Assert.AreEqual(0, r0.Count());
+        List<CandleResult> r0 = noquotes
+            .GetMarubozu()
+            .ToList();
 
-        IEnumerable<CandleResult> r1 = onequote.GetMarubozu();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<CandleResult> r1 = onequote
+            .GetMarubozu()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<CandleResult> r =
-            quotes.GetMarubozu(95).Condense();
+        List<CandleResult> r = quotes
+            .GetMarubozu(95)
+            .Condense()
+            .ToList();
 
-        Assert.AreEqual(6, r.Count());
+        Assert.AreEqual(6, r.Count);
     }
 
     [TestMethod]
@@ -74,9 +85,9 @@ public class Marubozu : TestBase
     {
         // bad minimum body percent values
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMarubozu(quotes, 79.9));
+            quotes.GetMarubozu(79.9));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetMarubozu(quotes, 100.1));
+            quotes.GetMarubozu(100.1));
     }
 }

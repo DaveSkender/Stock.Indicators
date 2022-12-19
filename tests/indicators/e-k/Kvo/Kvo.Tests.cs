@@ -13,10 +13,7 @@ public class Klinger : TestBase
             quotes.GetKvo(34, 55, 13)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(446, results.Count(x => x.Oscillator != null));
         Assert.AreEqual(434, results.Count(x => x.Signal != null));
@@ -54,37 +51,47 @@ public class Klinger : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetKvo()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(437, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<KvoResult> r = Indicator.GetKvo(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<KvoResult> r = badQuotes
+            .GetKvo()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<KvoResult> r0 = noquotes.GetKvo();
-        Assert.AreEqual(0, r0.Count());
+        List<KvoResult> r0 = noquotes
+            .GetKvo()
+            .ToList();
 
-        IEnumerable<KvoResult> r1 = onequote.GetKvo();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<KvoResult> r1 = onequote
+            .GetKvo()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<KvoResult> results =
-            quotes.GetKvo(34, 55, 13)
+        List<KvoResult> results = quotes
+            .GetKvo(34, 55, 13)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -101,14 +108,14 @@ public class Klinger : TestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKvo(quotes, 2));
+            quotes.GetKvo(2));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKvo(quotes, 20, 20));
+            quotes.GetKvo(20, 20));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKvo(quotes, 34, 55, 0));
+            quotes.GetKvo(34, 55, 0));
     }
 }

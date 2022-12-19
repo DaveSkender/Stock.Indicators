@@ -9,12 +9,11 @@ public class Slope : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<SlopeResult> results = quotes.GetSlope(20).ToList();
-
-        // assertions
+        List<SlopeResult> results = quotes
+            .GetSlope(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Slope != null));
         Assert.AreEqual(483, results.Count(x => x.StdDev != null));
@@ -46,74 +45,92 @@ public class Slope : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<SlopeResult> results = quotes
+        List<SlopeResult> results = quotes
             .Use(CandlePart.Close)
-            .GetSlope(20);
+            .GetSlope(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Slope != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<SlopeResult> r = tupleNanny.GetSlope(6);
+        List<SlopeResult> r = tupleNanny
+            .GetSlope(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Slope is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<SlopeResult> results = quotes
+        List<SlopeResult> results = quotes
             .GetSma(2)
-            .GetSlope(20);
+            .GetSlope(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Slope != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetSlope(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<SlopeResult> r = badQuotes.GetSlope(15);
-        Assert.AreEqual(502, r.Count());
+        List<SlopeResult> r = badQuotes
+            .GetSlope(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Slope is double and double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        IEnumerable<SlopeResult> r = bigQuotes.GetSlope(250);
-        Assert.AreEqual(1246, r.Count());
+        List<SlopeResult> r = bigQuotes
+            .GetSlope(250)
+            .ToList();
+
+        Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<SlopeResult> r0 = noquotes.GetSlope(5);
-        Assert.AreEqual(0, r0.Count());
+        List<SlopeResult> r0 = noquotes
+            .GetSlope(5)
+            .ToList();
 
-        IEnumerable<SlopeResult> r1 = onequote.GetSlope(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<SlopeResult> r1 = onequote
+            .GetSlope(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<SlopeResult> results = quotes.GetSlope(20)
+        List<SlopeResult> results = quotes
+            .GetSlope(20)
             .RemoveWarmupPeriods()
             .ToList();
 

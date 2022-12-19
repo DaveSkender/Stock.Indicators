@@ -11,7 +11,7 @@ public static partial class Indicator
         List<FractalResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.FractalBull is null && x.FractalBear is null);
 

@@ -11,7 +11,7 @@ public static partial class Indicator
         List<FcbResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.UpperBand is null && x.LowerBand is null);
 

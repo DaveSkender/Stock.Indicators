@@ -11,7 +11,7 @@ public static partial class Indicator
         List<PivotsResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.HighPoint is null && x.LowPoint is null);
 

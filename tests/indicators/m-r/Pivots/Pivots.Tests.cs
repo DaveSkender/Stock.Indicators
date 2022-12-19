@@ -9,10 +9,9 @@ public class Pivots : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<PivotsResult> results = quotes.GetPivots(4, 4, 20, EndType.HighLow)
+        List<PivotsResult> results = quotes
+            .GetPivots(4, 4, 20, EndType.HighLow)
             .ToList();
-
-        // assertions
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -92,27 +91,38 @@ public class Pivots : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<PivotsResult> r = Indicator.GetPivots(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<PivotsResult> r = badQuotes
+            .GetPivots()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<PivotsResult> r0 = noquotes.GetPivots();
-        Assert.AreEqual(0, r0.Count());
+        List<PivotsResult> r0 = noquotes
+            .GetPivots()
+            .ToList();
 
-        IEnumerable<PivotsResult> r1 = onequote.GetPivots();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<PivotsResult> r1 = onequote
+            .GetPivots()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<PivotsResult> r = quotes.GetPivots(4, 4, 20, EndType.HighLow)
-            .Condense();
+        List<PivotsResult> r = quotes
+            .GetPivots(4, 4, 20, EndType.HighLow)
+            .Condense()
+            .ToList();
 
-        Assert.AreEqual(67, r.Count());
+        Assert.AreEqual(67, r.Count);
     }
 
     [TestMethod]
@@ -120,14 +130,14 @@ public class Pivots : TestBase
     {
         // bad left span
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPivots(quotes, 1));
+            quotes.GetPivots(1));
 
         // bad right span
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPivots(quotes, 2, 1));
+            quotes.GetPivots(2, 1));
 
         // bad lookback window
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetPivots(quotes, 20, 10, 20, EndType.Close));
+            quotes.GetPivots(20, 10, 20, EndType.Close));
     }
 }

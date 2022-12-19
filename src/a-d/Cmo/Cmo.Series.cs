@@ -20,7 +20,8 @@ public static partial class Indicator
         if (length > 0)
         {
             results.Add(new CmoResult(tpList[0].Item1));
-            ticks.Add((null, tpList[0].Item2));
+            ticks.Add((null, double.NaN));
+
             prevValue = tpList[0].Item2;
         }
 
@@ -32,19 +33,18 @@ public static partial class Indicator
             CmoResult r = new(date);
             results.Add(r);
             ticks.Add((
-                value > prevValue
-                ? true : value < prevValue
-                ? false : null,
-                value));
+                  value > prevValue ? true
+                : value < prevValue ? false
+                : null, Math.Abs(value - prevValue)));
 
             if (i >= lookbackPeriods)
             {
                 double sH = 0;
                 double sL = 0;
 
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (bool? isUp, double pValue) = ticks[p];
+                    (bool? isUp, double pDiff) = ticks[p];
 
                     if (isUp is null)
                     {
@@ -52,15 +52,17 @@ public static partial class Indicator
                     }
                     else if (isUp == true)
                     {
-                        sH += pValue;
+                        sH += pDiff;
                     }
                     else
                     {
-                        sL += pValue;
+                        sL += pDiff;
                     }
                 }
 
-                r.Cmo = (sH + sL != 0) ? NullMath.NaN2Null(100 * (sH - sL) / (sH + sL)) : null;
+                r.Cmo = (sH + sL != 0)
+                    ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
+                    : null;
             }
 
             prevValue = value;

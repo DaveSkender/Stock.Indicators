@@ -9,12 +9,11 @@ public class Epma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<EpmaResult> results = quotes.GetEpma(20).ToList();
-
-        // assertions
+        List<EpmaResult> results = quotes
+            .GetEpma(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Epma != null));
 
@@ -38,67 +37,82 @@ public class Epma : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<EpmaResult> results = quotes
+        List<EpmaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetEpma(20);
+            .GetEpma(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Epma != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<EpmaResult> r = tupleNanny.GetEpma(6);
+        List<EpmaResult> r = tupleNanny
+            .GetEpma(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<EpmaResult> results = quotes
+        List<EpmaResult> results = quotes
             .GetSma(2)
-            .GetEpma(20);
+            .GetEpma(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Epma != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetEpma(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<EpmaResult> r = Indicator.GetEpma(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<EpmaResult> r = badQuotes
+            .GetEpma(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<EpmaResult> r0 = noquotes.GetEpma(5);
-        Assert.AreEqual(0, r0.Count());
+        List<EpmaResult> r0 = noquotes
+            .GetEpma(5)
+            .ToList();
 
-        IEnumerable<EpmaResult> r1 = onequote.GetEpma(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<EpmaResult> r1 = onequote
+            .GetEpma(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<EpmaResult> results = quotes.GetEpma(20)
+        List<EpmaResult> results = quotes
+            .GetEpma(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -113,5 +127,5 @@ public class Epma : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetEpma(quotes, 0));
+            => quotes.GetEpma(0));
 }

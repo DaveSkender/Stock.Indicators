@@ -4,25 +4,23 @@ description: Learn how to use the Stock Indicators for .NET Nuget library in you
 permalink: /guide/
 relative_path: guide.md
 layout: page
-redirect_from:
- - /docs/GUIDE.html
 ---
 
 # {{ page.title }}
 
 <nav role="navigation" aria-label="guide page menu">
 <ul class="pipe-list">
-  <a href="#installation-and-setup"><li>Installation and setup</li></a>
-  <a href="#prerequisite-data"><li>Prerequisite data</li></a>
-  <a href="#example-usage"><li>Example usage</li></a>
-  <a href="#historical-quotes"><li>Historical quotes</li></a>
-  <a href="#using-custom-quote-classes"><li>Using custom quote classes</li></a>
-  <a href="#using-custom-results-classes"><li>Using custom results classes</li></a>
-  <a href="#generating-indicator-of-indicators"><li>Generating indicator of indicators</li></a>
-  <a href="#candlestick-patterns"><li>Candlestick patterns</li></a>
-  <a href="{{site.baseurl}}/custom-indicators/#content"><li>Creating custom indicators</li></a>
-  <a href="{{site.baseurl}}/utilities/#content"><li>Utilities and helper functions</li></a>
-  <a href="{{site.baseurl}}/contributing/#content"><li>Contributing guidelines</li></a>
+  <li><a href="#installation-and-setup">Installation and setup</a></li>
+  <li><a href="#prerequisite-data">Prerequisite data</a></li>
+  <li><a href="#example-usage">Example usage</a></li>
+  <li><a href="#historical-quotes">Historical quotes</a></li>
+  <li><a href="#using-custom-quote-classes">Using custom quote classes</a></li>
+  <li><a href="#using-custom-results-classes">Using custom results classes</a></li>
+  <li><a href="#generating-indicator-of-indicators">Generating indicator of indicators</a></li>
+  <li><a href="#candlestick-patterns">Candlestick patterns</a></li>
+  <li><a href="{{site.baseurl}}/custom-indicators/#content">Creating custom indicators</a></li>
+  <li><a href="{{site.baseurl}}/utilities/#content">Utilities and helper functions</a></li>
+  <li><a href="{{site.baseurl}}/contributing/#content">Contributing guidelines</a></li>
 </ul>
 </nav>
 
@@ -63,7 +61,8 @@ using Skender.Stock.Indicators;
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = quotes.GetSma(20);
+IEnumerable<SmaResult> results = quotes
+  .GetSma(20);
 
 // use results as needed for your use case (example only)
 foreach (SmaResult r in results)
@@ -110,11 +109,11 @@ There are many places to get financial market data.  Check with your brokerage o
 
 Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).
 
-> :warning: IMPORTANT! **Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system.**  Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
+> :warning: **IMPORTANT! Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system.**  Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
 >
 > For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occasionally, even more is required for optimal precision.
-
-See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
+>
+> See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
 
 ### Using custom quote classes
 
@@ -261,4 +260,4 @@ The `CandleProperties` class is an extended version of `Quote`, and contains add
 
 ## Utilities
 
-See [Utilities and Helper functions]({{site.baseurl}}/utilities/#content) for additional tools.
+See [Utilities and helper functions]({{site.baseurl}}/utilities/#content) for additional tools.

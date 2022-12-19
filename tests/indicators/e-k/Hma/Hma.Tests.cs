@@ -9,12 +9,11 @@ public class Hma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<HmaResult> results = quotes.GetHma(20).ToList();
-
-        // assertions
+        List<HmaResult> results = quotes
+            .GetHma(20)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
 
@@ -29,67 +28,82 @@ public class Hma : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<HmaResult> results = quotes
+        List<HmaResult> results = quotes
             .Use(CandlePart.Close)
-            .GetHma(20);
+            .GetHma(20)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<HmaResult> r = tupleNanny.GetHma(6);
+        List<HmaResult> r = tupleNanny
+            .GetHma(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<HmaResult> results = quotes
+        List<HmaResult> results = quotes
             .GetSma(2)
-            .GetHma(19);
+            .GetHma(19)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetHma(20)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<HmaResult> r = Indicator.GetHma(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<HmaResult> r = badQuotes
+            .GetHma(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<HmaResult> r0 = noquotes.GetHma(5);
-        Assert.AreEqual(0, r0.Count());
+        List<HmaResult> r0 = noquotes
+            .GetHma(5)
+            .ToList();
 
-        IEnumerable<HmaResult> r1 = onequote.GetHma(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<HmaResult> r1 = onequote
+            .GetHma(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<HmaResult> results = quotes.GetHma(20)
+        List<HmaResult> results = quotes
+            .GetHma(20)
             .RemoveWarmupPeriods()
             .ToList();
 

@@ -9,13 +9,11 @@ public class Donchian : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<DonchianResult> results = quotes.GetDonchian(20)
+        List<DonchianResult> results = quotes
+            .GetDonchian(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Centerline != null));
         Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
@@ -57,28 +55,39 @@ public class Donchian : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<DonchianResult> r = Indicator.GetDonchian(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<DonchianResult> r = badQuotes
+            .GetDonchian(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<DonchianResult> r0 = noquotes.GetDonchian();
-        Assert.AreEqual(0, r0.Count());
+        List<DonchianResult> r0 = noquotes
+            .GetDonchian()
+            .ToList();
 
-        IEnumerable<DonchianResult> r1 = onequote.GetDonchian();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<DonchianResult> r1 = onequote
+            .GetDonchian()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<DonchianResult> r = quotes.GetDonchian(20)
-            .Condense();
+        List<DonchianResult> r = quotes
+            .GetDonchian(20)
+            .Condense()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 20, r.Count());
+        Assert.AreEqual(502 - 20, r.Count);
 
         DonchianResult last = r.LastOrDefault();
         Assert.AreEqual(251.5050m, NullMath.Round(last.Centerline, 4));
@@ -90,11 +99,13 @@ public class Donchian : TestBase
     [TestMethod]
     public void Removed()
     {
-        IEnumerable<DonchianResult> results = quotes.GetDonchian(20)
-            .RemoveWarmupPeriods();
+        List<DonchianResult> results = quotes
+            .GetDonchian(20)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 20, results.Count());
+        Assert.AreEqual(502 - 20, results.Count);
 
         DonchianResult last = results.LastOrDefault();
         Assert.AreEqual(251.5050m, NullMath.Round(last.Centerline, 4));
@@ -107,5 +118,5 @@ public class Donchian : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetDonchian(quotes, 0));
+            => quotes.GetDonchian(0));
 }

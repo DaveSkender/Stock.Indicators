@@ -1,6 +1,6 @@
 ---
 title: Rate of Change (ROC)
-description: Rate of Change, also known as Momentum Oscillator, is the percent change of price over a lookback window.
+description: Rate of Change, also known as Momentum Oscillator, is the percent change of price over a lookback window.  Momentum is the raw price change equivalent.
 permalink: /indicators/Roc/
 image: /assets/charts/Roc.png
 type: price-characteristic
@@ -9,7 +9,7 @@ layout: indicator
 
 # {{ page.title }}
 
-[Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of price over a lookback window.  A [Rate of Change with Bands]({{site.baseurl}}/indicators/RocWb/#content) variant, created by Vitali Apirine, is also included.
+[Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of price over a lookback window.  Momentum is the raw price change equivalent.  A [Rate of Change with Bands]({{site.baseurl}}/indicators/RocWb/#content) variant, created by Vitali Apirine, is also available.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/242 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}{{page.image}})
@@ -53,7 +53,8 @@ IEnumerable<RocResult>
 | name | type | notes
 | -- |-- |--
 | `Date` | DateTime | Date
-| `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal)
+| `Momentum` | double | Raw change in price over `N` periods
+| `Roc` | double | Percent change in price (%, not decimal)
 | `RocSma` | double | Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
 
 ### Utilities

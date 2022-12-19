@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // HELPER FUNCTIONS
@@ -34,7 +36,7 @@ public static partial class Indicator
         List<TResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.Value is null or (double and double.NaN));
 
@@ -126,14 +128,20 @@ public static partial class Indicator
                 }
             }
 
-            _ = resultsList.RemoveAll(x => toRemove.Contains(x));
+            resultsList.RemoveAll(x => toRemove.Contains(x));
         }
 
         return resultsList.ToSortedList();
     }
 
     // CONVERT TO TUPLE (default with pruning)
-    public static List<(DateTime Date, double Value)> ToTuple(
+    public static Collection<(DateTime Date, double Value)> ToTupleCollection(
+        this IEnumerable<IReusableResult> reusable)
+        => reusable
+            .ToTuple()
+            .ToCollection();
+
+    internal static List<(DateTime Date, double Value)> ToTuple(
         this IEnumerable<IReusableResult> reusable)
     {
         List<(DateTime date, double value)> prices = new();
@@ -152,7 +160,7 @@ public static partial class Indicator
     }
 
     // CONVERT TO TUPLE with nullable value option and no pruning
-    public static List<(DateTime Date, double? Value)> ToTuple(
+    internal static List<(DateTime Date, double? Value)> ToTuple(
         this IEnumerable<IReusableResult> reusable,
         NullTo nullTo)
     {
@@ -170,9 +178,17 @@ public static partial class Indicator
     }
 
     // RETURN SORTED LIST of RESULTS
-    public static List<TResult> ToSortedList<TResult>(
+    public static Collection<TResult> ToSortedCollection<TResult>(
         this IEnumerable<TResult> results)
-        where TResult : IResult => results
+        where TResult : IResult
+        => results
+            .ToSortedList()
+            .ToCollection();
+
+    internal static List<TResult> ToSortedList<TResult>(
+        this IEnumerable<TResult> results)
+        where TResult : IResult
+        => results
             .OrderBy(x => x.Date)
             .ToList();
 
