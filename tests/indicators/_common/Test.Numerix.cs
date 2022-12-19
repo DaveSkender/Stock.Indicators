@@ -33,7 +33,7 @@ public class NumerixTests : TestBase
     {
         double s = Numerix.Slope(x, x);
 
-        Assert.AreEqual(0.45, s);
+        Assert.AreEqual(1d, s);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class NumerixTests : TestBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "X and Y different lengths.")]
+    [ExpectedException(typeof(ArgumentException), "X and Y different lengths.")]
     public void SlopeMismatch()
     {
         double s = Numerix.Slope(x, y);
