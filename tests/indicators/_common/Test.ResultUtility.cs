@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
@@ -194,5 +195,24 @@ public class Results : TestBase
 
         Assert.AreEqual(0, nullableResults.Count(x => x.Value is null));
         Assert.AreEqual(4, nullableResults.Count(x => x.Value is double.NaN));
+
+        // PUBLIC VARIANT
+        // default to NaN with pruning
+        Collection<(DateTime Date, double Value)> cnaNresults = baseline.ToTupleCollection();
+
+        Assert.AreEqual(5, cnaNresults.Count(x => !double.IsNaN(x.Value)));
+        Assert.AreEqual(2, cnaNresults.Count(x => double.IsNaN(x.Value)));
+
+        // with null option
+        Collection<(DateTime Date, double? Value)> cnullResults = baseline.ToTupleCollection(NullTo.Null);
+
+        Assert.AreEqual(3, cnullResults.Count(x => x.Value is null));
+        Assert.AreEqual(1, cnullResults.Count(x => x.Value is double.NaN));
+
+        // with explicit nullable NaN option
+        Collection<(DateTime Date, double? Value)> cnullableResults = baseline.ToTupleCollection(NullTo.NaN);
+
+        Assert.AreEqual(0, cnullableResults.Count(x => x.Value is null));
+        Assert.AreEqual(4, cnullableResults.Count(x => x.Value is double.NaN));
     }
 }
