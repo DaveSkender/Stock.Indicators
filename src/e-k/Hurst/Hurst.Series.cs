@@ -144,10 +144,11 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        if (lookbackPeriods < 100)
+        const int minLookbackPeriods = 20;
+        if (lookbackPeriods < minLookbackPeriods)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be at least 100 for Hurst Exponent.");
+                $"Lookback periods must be at least {minLookbackPeriods} for Hurst Exponent.");
         }
     }
 }
