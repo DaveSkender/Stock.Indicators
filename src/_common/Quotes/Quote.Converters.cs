@@ -21,6 +21,12 @@ public static partial class QuoteUtility
             .Select(x => x.ToTuple(candlePart));
 
     // sort quotes
+    public static Collection<TQuote> ToSortedCollection<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .ToCollection();
+        
     internal static List<TQuote> ToSortedList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
