@@ -1,8 +1,9 @@
 using System.Collections.ObjectModel;
+using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
 public class Results : TestBase
@@ -17,7 +18,7 @@ public class Results : TestBase
         DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
 
         EmaResult r = emaResults.Find(findDate);
-        Assert.AreEqual(249.3519, NullMath.Round(r.Ema, 4));
+        Assert.AreEqual(249.3519, r.Ema.Round(4));
     }
 
     [TestMethod]
@@ -62,9 +63,9 @@ public class Results : TestBase
 
         // sample values
         AdxResult last = r.LastOrDefault();
-        Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
-        Assert.AreEqual(31.1510, NullMath.Round(last.Mdi, 4));
-        Assert.AreEqual(34.2987, NullMath.Round(last.Adx, 4));
+        Assert.AreEqual(17.7565, last.Pdi.Round(4));
+        Assert.AreEqual(31.1510, last.Mdi.Round(4));
+        Assert.AreEqual(34.2987, last.Adx.Round(4));
     }
 
     [TestMethod]
