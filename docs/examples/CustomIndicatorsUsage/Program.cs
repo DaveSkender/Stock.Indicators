@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Custom.Stock.Indicators;
 using Newtonsoft.Json;
 using Skender.Stock.Indicators;
@@ -48,7 +49,7 @@ public class Program
 
         string json = File.ReadAllText("quotes.data.json");
 
-        List<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
+        Collection<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
             .ToSortedCollection();
 
         return quotes;
