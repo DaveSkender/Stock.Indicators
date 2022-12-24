@@ -31,6 +31,8 @@ public static partial class Indicator
         BetaType type = BetaType.Standard)
         where TQuote : IQuote
     {
+        // TODO: need SyncIndex here somewhere?
+
         List<(DateTime Date, double Value)> tpListEval
             = evalResults.ToTuple();
 
@@ -47,6 +49,8 @@ public static partial class Indicator
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
     {
+        // TODO: need SyncIndex here somewhere?
+
         List<(DateTime Date, double Value)> tpListEval
             = evalResults.ToTuple();
 
