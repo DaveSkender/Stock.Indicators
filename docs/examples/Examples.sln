@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backtest", "Backtest\Backtest.csproj", "{21707592-8CB6-40DB-8183-E1D107559EDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomIndicatorsLibrary", "CustomIndicators\CustomIndicatorsLibrary.csproj", "{D201089E-E9F6-4A67-A763-4164C8318E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIndicatorsLibrary", "CustomIndicators\CustomIndicatorsLibrary.csproj", "{D201089E-E9F6-4A67-A763-4164C8318E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomIndicatorsUsage", "CustomIndicatorsUsage\CustomIndicatorsUsage.csproj", "{4C6528AB-8311-4F10-99D2-83A2AB2DFB53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIndicatorsUsage", "CustomIndicatorsUsage\CustomIndicatorsUsage.csproj", "{4C6528AB-8311-4F10-99D2-83A2AB2DFB53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
