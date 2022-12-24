@@ -135,7 +135,20 @@ public class Beta : TestBase
     }
 
     [TestMethod]
-    public void Chainee()
+    public void ChaineeQuotes()
+    {
+        var results = quotes
+            .GetSma(2)
+            .GetBeta(otherQuotes)
+            .ToList();
+
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(480, results.Count(x => x.Beta != null));
+        Assert.AreEqual(0, results.Count(x => x.Beta is double and double.NaN));
+    }
+
+    [TestMethod]
+    public void ChaineeBoth()
     {
         var results = quotes
             .GetSma(2)
