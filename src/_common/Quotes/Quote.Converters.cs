@@ -20,19 +20,6 @@ public static partial class QuoteUtility
         where TQuote : IQuote => quotes
             .Select(x => x.ToTuple(candlePart));
 
-    // sort quotes
-    public static Collection<TQuote> ToSortedCollection<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .ToSortedList()
-            .ToCollection();
-
-    internal static List<TQuote> ToSortedList<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .ToList();
-
     // TUPLE QUOTES
 
     // convert quotes to tuple list

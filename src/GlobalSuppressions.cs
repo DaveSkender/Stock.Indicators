@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1716:Identifiers should not match keywords",
     Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IQuote.Date")]
+    Target = "~P:Skender.Stock.Indicators.ISeries.Date")]
 
 [assembly: SuppressMessage(
     "Naming",
@@ -25,13 +25,6 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Not really an issue.",
     Scope = "member",
     Target = "~P:Skender.Stock.Indicators.IBasicData.Date")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Not really an issue.",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IResult.Date")]
 
 [assembly: SuppressMessage(
     "Naming",

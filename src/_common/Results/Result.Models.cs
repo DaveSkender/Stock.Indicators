@@ -2,18 +2,13 @@ namespace Skender.Stock.Indicators;
 
 // RESULT MODELS
 
-public interface IResult
-{
-    public DateTime Date { get; }
-}
-
-public interface IReusableResult : IResult
+public interface IReusableResult : ISeries
 {
     public double? Value { get; }
 }
 
 [Serializable]
-public abstract class ResultBase : IResult
+public abstract class ResultBase : ISeries
 {
     public DateTime Date { get; set; }
 }

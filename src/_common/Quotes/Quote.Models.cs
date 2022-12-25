@@ -2,9 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE MODELS
 
-public interface IQuote
+public interface IQuote : ISeries
 {
-    public DateTime Date { get; }
     public decimal Open { get; }
     public decimal High { get; }
     public decimal Low { get; }
