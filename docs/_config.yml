@@ -80,6 +80,7 @@ defaults:
     values:
       layout: "base"
       image: /assets/social-banner.png
+      description: Convert financial market price quotes into technical indicators such as MACD, Stochastic RSI, True Range, Parabolic SAR, etc.  Nothing more.
 
 # page collections
 collections:
