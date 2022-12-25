@@ -9,7 +9,7 @@ public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-    /* LISTS */
+    /* STANDARD DECIMAL QUOTES */
 
     // convert TQuotes to basic double tuple list
     /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
@@ -21,6 +21,12 @@ public static partial class QuoteUtility
             .Select(x => x.ToTuple(candlePart));
 
     // sort quotes
+    public static Collection<TQuote> ToSortedCollection<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .ToCollection();
+
     internal static List<TQuote> ToSortedList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
