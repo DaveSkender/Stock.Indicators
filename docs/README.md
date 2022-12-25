@@ -69,7 +69,7 @@ This repository uses the standard Apache 2.0 open-source license.  Please review
 
 ## Share your ideas with the community
 
-Need help?  Have ideas?  [Start a new discussion, ask a question :speech_balloon:]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+**Need help?**  Have ideas?  [Start a new discussion, ask a question :speech_balloon:]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 ## Give back with patronage
 
