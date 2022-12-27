@@ -3,17 +3,17 @@ namespace Skender.Stock.Indicators;
 // REMOVE AND PRUNING of SERIES
 public static class Pruning
 {
-    // REMOVE SPECIFIC PERIODS extension
-    /// <include file='./info.xml' path='info/type[@name="PruneT"]/*' />
+    // REMOVE SPECIFIC PERIODS
+    /// <include file='./info.xml' path='info/type[@name="Prune"]/*' />
     ///
     public static IEnumerable<TSeries> RemoveWarmupPeriods<TSeries>(
-        this IEnumerable<TSeries> results,
+        this IEnumerable<TSeries> series,
         int removePeriods)
         where TSeries : ISeries
         => removePeriods < 0
             ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
                 "If specified, the Remove Periods value must be greater than or equal to 0.")
-            : results.Remove(removePeriods);
+            : series.Remove(removePeriods);
 
     // REMOVE PERIODS
     internal static List<TSeries> Remove<TSeries>(

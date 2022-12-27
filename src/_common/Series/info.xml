@@ -2,32 +2,42 @@
 
 <info>
   <type name="Find">
-    <summary>
-      Finds time series values on a specific date.
+    <summary> Finds time series values on a specific date.
       <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#find-indicator-result-by-date?utm_source=library">documentation</see>
-        for more information.
+        See <see href="https://dotnet.StockIndicators.dev/utilities/#find-indicator-result-by-date?utm_source=library">documentation</see> for more information.
       </para>
     </summary>
     <typeparam name="TSeries">Any series type.</typeparam>
     <param name="series">Time series to evaluate.</param>
     <param name="lookupDate">Exact date to lookup.</param>
-    <returns>First record in the series on the date specified.</returns>
+    <returns>First
+      record in the series on the date specified.</returns>
   </type>
-  <type name="PruneT">
-    <summary>
-      Removes a specific quantity from the beginning of the time series list.
+  <type name="Prune">
+    <summary> Removes a specific quantity from the beginning of the time series list.
       <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library">documentation</see>
-        for more information.
+        See <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library">documentation</see> for more information.
       </para>
     </summary>
     <typeparam name="TSeries">Any series type.</typeparam>
-    <param name="results">Indicator results to evaluate.</param>
+    <param name="series">Time series to evaluate.</param>
     <param name="removePeriods">Exact quantity to remove.</param>
     <returns>Time series, pruned.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
+  <type name="Sync">
+    <summary> Forces a time series to have the same date-based records as another time series baseline.
+      <para>
+        This utility is undocumented.
+      </para>
+    </summary>
+    <typeparam name="TSeriesA">Any time series type to be transformed.</typeparam>
+    <typeparam name="TSeriesB">Any time series type to be matched.</typeparam>
+    <param name="syncMe">The time series to be modified.</param>
+    <param name="toMatch">The time series to match.</param>
+    <param name="syncType">Synchronization behavior  See options in SyncType enum.</param>
+    <returns>Time series, pruned.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid
+      parameter value provided.</exception>
   </type>
 </info>

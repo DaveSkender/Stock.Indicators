@@ -6,16 +6,16 @@ namespace Skender.Stock.Indicators;
 public static class Sorting
 {
     public static Collection<TSeries> ToSortedCollection<TSeries>(
-        this IEnumerable<TSeries> results)
+        this IEnumerable<TSeries> series)
         where TSeries : ISeries
-        => results
+        => series
             .ToSortedList()
             .ToCollection();
 
     internal static List<TSeries> ToSortedList<TSeries>(
-        this IEnumerable<TSeries> results)
+        this IEnumerable<TSeries> series)
         where TSeries : ISeries
-        => results
+        => series
             .OrderBy(x => x.Date)
             .ToList();
 }

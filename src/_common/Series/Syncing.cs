@@ -2,10 +2,11 @@ using System.Collections.ObjectModel;
 
 namespace Skender.Stock.Indicators;
 
-// SYNCHRONIZING SERIES
+// SYNCHRONIZING SERIES - RESIZE TO MATCH OTHER
 public static class Syncing
 {
-    // SYNC INDEX - RESIZE TO MATCH OTHER
+    /// <include file='./info.xml' path='info/type[@name="Sync"]/*' />
+    ///
     public static IEnumerable<TSeriesA> SyncIndex<TSeriesA, TSeriesB>(
         this IEnumerable<TSeriesA> syncMe,
         IEnumerable<TSeriesB> toMatch,
@@ -17,7 +18,7 @@ public static class Syncing
         List<TSeriesA> syncMeList = syncMe.ToSortedList();
         List<TSeriesB> toMatchList = toMatch.ToSortedList();
 
-        if (toMatchList.Count == 0 || syncMeList.Count == 0)
+        if (syncMeList.Count == 0 || toMatchList.Count == 0)
         {
             return new List<TSeriesA>();
         }
@@ -90,7 +91,7 @@ public static class Syncing
                 }
             }
 
-            _ = syncMeList.RemoveAll(x => toRemove.Contains(x));
+            syncMeList.RemoveAll(x => toRemove.Contains(x));
         }
 
         return syncMeList.ToSortedList();
