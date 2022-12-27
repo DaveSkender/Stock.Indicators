@@ -7,17 +7,17 @@ public static class Syncing
 {
     // SYNC INDEX - RESIZE TO MATCH OTHER
     public static IEnumerable<TSeriesA> SyncIndex<TSeriesA, TSeriesB>(
-        this IEnumerable<TSeriesA> seriesA,
-        IEnumerable<TSeriesB> seriesB,
+        this IEnumerable<TSeriesA> syncMe,
+        IEnumerable<TSeriesB> toMatch,
         SyncType syncType = SyncType.FullMatch)
         where TSeriesA : ISeries
         where TSeriesB : ISeries
     {
         // initialize
-        List<TSeriesA> resultsList = seriesA.ToSortedList();
-        List<TSeriesB> matchList = seriesB.ToSortedList();
+        List<TSeriesA> syncMeList = syncMe.ToSortedList();
+        List<TSeriesB> toMatchList = toMatch.ToSortedList();
 
-        if (matchList.Count == 0 || resultsList.Count == 0)
+        if (toMatchList.Count == 0 || syncMeList.Count == 0)
         {
             return new List<TSeriesA>();
         }
@@ -45,17 +45,17 @@ public static class Syncing
                 break;
         }
 
-        Type type = resultsList[0].GetType();
+        Type type = syncMeList[0].GetType();
 
         // add plugs for missing values
         if (prepend || append)
         {
             List<TSeriesA> toAppend = new();
 
-            for (int i = 0; i < matchList.Count; i++)
+            for (int i = 0; i < toMatchList.Count; i++)
             {
-                TSeriesB? m = matchList[i];
-                TSeriesA? r = resultsList.Find(m.Date);
+                TSeriesB? m = toMatchList[i];
+                TSeriesA? r = syncMeList.Find(m.Date);
 
                 if (r is null)
                 {
@@ -71,7 +71,7 @@ public static class Syncing
                 }
             }
 
-            resultsList.AddRange(toAppend);
+            syncMeList.AddRange(toAppend);
         }
 
         // remove unmatched results
@@ -79,10 +79,10 @@ public static class Syncing
         {
             List<TSeriesA> toRemove = new();
 
-            for (int i = 0; i < resultsList.Count; i++)
+            for (int i = 0; i < syncMeList.Count; i++)
             {
-                TSeriesA? r = resultsList[i];
-                TSeriesB? m = matchList.Find(r.Date);
+                TSeriesA? r = syncMeList[i];
+                TSeriesB? m = toMatchList.Find(r.Date);
 
                 if (m is null)
                 {
@@ -90,9 +90,9 @@ public static class Syncing
                 }
             }
 
-            _ = resultsList.RemoveAll(x => toRemove.Contains(x));
+            _ = syncMeList.RemoveAll(x => toRemove.Contains(x));
         }
 
-        return resultsList.ToSortedList();
+        return syncMeList.ToSortedList();
     }
 }
