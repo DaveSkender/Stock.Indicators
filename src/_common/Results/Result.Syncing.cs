@@ -2,9 +2,11 @@ using System.Collections.ObjectModel;
 
 namespace Skender.Stock.Indicators;
 
-// SYNCHRONIZING RESULTS - RESIZE TO MATCH OTHER
-public static class Syncing
+// RESULTS UTILITIES
+
+public static partial class ResultUtility
 {
+    // SYNCHRONIZING RESULTS - RESIZE TO MATCH OTHER
     /// <include file='./info.xml' path='info/type[@name="SyncResult"]/*' />
     ///
     public static IEnumerable<TResultA> SyncIndex<TResultA, TResultB>(

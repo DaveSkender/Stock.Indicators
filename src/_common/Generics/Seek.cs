@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
 // SEEK & FIND in SERIES
-public static class Seek
+
+public static class Seeking
 {
     // FIND by DATE
     /// <include file='./info.xml' path='info/type[@name="Find"]/*' />

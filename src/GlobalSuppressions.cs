@@ -38,4 +38,4 @@ using System.Diagnostics.CodeAnalysis;
     "SA1008:Opening parenthesis should be spaced correctly",
     Justification = "Not compatible with `or` statement (Microsoft bug)",
     Scope = "member",
-    Target = "~M:Skender.Stock.Indicators.Indicator.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]
+    Target = "~M:Skender.Stock.Indicators.ResultUtility.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]

@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// HISTORICAL QUOTES FUNCTIONS (GENERAL)
+// QUOTE UTILITIES
 
 public static partial class QuoteUtility
 {

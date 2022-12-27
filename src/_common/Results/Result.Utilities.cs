@@ -1,11 +1,10 @@
 using System.Collections.ObjectModel;
-using Skender.Stock.Indicators;
 
 namespace Skender.Stock.Indicators;
 
-// HELPER FUNCTIONS
+// RESULTS UTILITIES
 
-public static partial class Indicator
+public static partial class ResultUtility
 {
     // CONDENSE (REMOVE null and NaN results)
     /// <include file='./info.xml' path='info/type[@name="CondenseT"]/*' />
@@ -17,7 +16,7 @@ public static partial class Indicator
         List<TResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.Value is null or (double and double.NaN));
 
