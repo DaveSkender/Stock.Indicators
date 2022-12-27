@@ -2,25 +2,25 @@ using System.Collections.ObjectModel;
 
 namespace Skender.Stock.Indicators;
 
-// SYNCHRONIZING SERIES - RESIZE TO MATCH OTHER
+// SYNCHRONIZING RESULTS - RESIZE TO MATCH OTHER
 public static class Syncing
 {
-    /// <include file='./info.xml' path='info/type[@name="Sync"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="SyncResult"]/*' />
     ///
-    public static IEnumerable<TSeriesA> SyncIndex<TSeriesA, TSeriesB>(
-        this IEnumerable<TSeriesA> syncMe,
-        IEnumerable<TSeriesB> toMatch,
+    public static IEnumerable<TResultA> SyncIndex<TResultA, TResultB>(
+        this IEnumerable<TResultA> syncMe,
+        IEnumerable<TResultB> toMatch,
         SyncType syncType = SyncType.FullMatch)
-        where TSeriesA : ISeries
-        where TSeriesB : ISeries
+        where TResultA : IResult
+        where TResultB : IResult
     {
         // initialize
-        List<TSeriesA> syncMeList = syncMe.ToSortedList();
-        List<TSeriesB> toMatchList = toMatch.ToSortedList();
+        List<TResultA> syncMeList = syncMe.ToSortedList();
+        List<TResultB> toMatchList = toMatch.ToSortedList();
 
         if (syncMeList.Count == 0 || toMatchList.Count == 0)
         {
-            return new List<TSeriesA>();
+            return new List<TResultA>();
         }
 
         bool prepend = false;
@@ -51,16 +51,16 @@ public static class Syncing
         // add plugs for missing values
         if (prepend || append)
         {
-            List<TSeriesA> toAppend = new();
+            List<TResultA> toAppend = new();
 
             for (int i = 0; i < toMatchList.Count; i++)
             {
-                TSeriesB? m = toMatchList[i];
-                TSeriesA? r = syncMeList.Find(m.Date);
+                TResultB? m = toMatchList[i];
+                TResultA? r = syncMeList.Find(m.Date);
 
                 if (r is null)
                 {
-                    TSeriesA? n = (TSeriesA?)Activator.CreateInstance(type, m.Date);
+                    TResultA? n = (TResultA?)Activator.CreateInstance(type, m.Date);
                     if (n != null)
                     {
                         toAppend.Add(n);
@@ -78,12 +78,12 @@ public static class Syncing
         // remove unmatched results
         if (remove)
         {
-            List<TSeriesA> toRemove = new();
+            List<TResultA> toRemove = new();
 
             for (int i = 0; i < syncMeList.Count; i++)
             {
-                TSeriesA? r = syncMeList[i];
-                TSeriesB? m = toMatchList.Find(r.Date);
+                TResultA? r = syncMeList[i];
+                TResultB? m = toMatchList.Find(r.Date);
 
                 if (m is null)
                 {

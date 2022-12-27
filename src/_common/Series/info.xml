@@ -25,19 +25,4 @@
     <returns>Time series, pruned.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-  <type name="Sync">
-    <summary> Forces a time series to have the same date-based records as another time series baseline.
-      <para>
-        This utility is undocumented.
-      </para>
-    </summary>
-    <typeparam name="TSeriesA">Any time series type to be transformed.</typeparam>
-    <typeparam name="TSeriesB">Any time series type to be matched.</typeparam>
-    <param name="syncMe">The time series to be modified.</param>
-    <param name="toMatch">The time series to match.</param>
-    <param name="syncType">Synchronization behavior  See options in SyncType enum.</param>
-    <returns>Time series, pruned.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid
-      parameter value provided.</exception>
-  </type>
 </info>

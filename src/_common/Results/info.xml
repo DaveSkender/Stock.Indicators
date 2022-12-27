@@ -52,4 +52,21 @@
     <returns>Time series of indicator results,
       condensed.</returns>
   </type>
+  <type name="SyncResult">
+    <summary>
+      Forces indicator results to have the same date-based records as another result baseline.
+      <para>
+        This utility is undocumented.
+      </para>
+    </summary>
+    <typeparam name="TResultA">Any indicator result series type to be transformed.</typeparam>
+    <typeparam name="TResultB">Any indicator result series type to be matched.</typeparam>
+    <param name="syncMe">The indicator result series to be modified.</param>
+    <param name="toMatch">The indicator result series to compare for matching.</param>
+    <param name="syncType">Synchronization behavior  See options in SyncType enum.</param>
+    <returns>Indicator result series, synchronized to a comparator match.</returns>
+    <exception cref="ArgumentOutOfRangeException">
+      Invalid parameter value provided.
+    </exception>
+  </type>
 </info>
