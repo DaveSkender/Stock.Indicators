@@ -179,44 +179,30 @@ public class Results : TestBase
             new SmaResult(DateTime.Parse("1/9/2000", EnglishCulture)) { Sma = null },
         };
 
-        // default to NaN with pruning
-        List<(DateTime Date, double Value)> naNresults = baseline.ToTuple();
+        // default chainable NaN with pruning (internal)
+        List<(DateTime Date, double Value)> chainableTuple = baseline
+            .ToTuple();
 
-        Assert.AreEqual(5, naNresults.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, naNresults.Count(x => double.IsNaN(x.Value)));
-
-        // with null option
-        List<(DateTime Date, double? Value)> nullResults = baseline.ToTuple(NullTo.Null);
-
-        Assert.AreEqual(3, nullResults.Count(x => x.Value is null));
-        Assert.AreEqual(1, nullResults.Count(x => x.Value is double.NaN));
-
-        // with explicit nullable NaN option
-        List<(DateTime Date, double? Value)> nullableResults = baseline.ToTuple(NullTo.NaN);
-
-        Assert.AreEqual(0, nullableResults.Count(x => x.Value is null));
-        Assert.AreEqual(4, nullableResults.Count(x => x.Value is double.NaN));
+        Assert.AreEqual(5, chainableTuple.Count(x => !double.IsNaN(x.Value)));
+        Assert.AreEqual(2, chainableTuple.Count(x => double.IsNaN(x.Value)));
 
         // PUBLIC VARIANT
-        // default to NaN with pruning
-        Collection<(DateTime Date, double Value)> cnaNresults = baseline.ToTupleCollection();
+
+        // default chainable NaN with pruning
+        Collection<(DateTime Date, double Value)> cnaNresults = baseline
+            .ToTupleChainable();
 
         Assert.AreEqual(5, cnaNresults.Count(x => !double.IsNaN(x.Value)));
         Assert.AreEqual(2, cnaNresults.Count(x => double.IsNaN(x.Value)));
 
-        // with null option
-        Collection<(DateTime Date, double? Value)> cnullResults = baseline.ToTupleCollection(NullTo.Null);
+        // with NaN option, no pruning
+        Collection<(DateTime Date, double Value)> nanResults = baseline
+            .ToTupleNaN();
 
-        Assert.AreEqual(3, cnullResults.Count(x => x.Value is null));
-        Assert.AreEqual(1, cnullResults.Count(x => x.Value is double.NaN));
+        Assert.AreEqual(4, nanResults.Count(x => x.Value is double.NaN));
+        Assert.AreEqual(9, nanResults.Count);
 
-        // with explicit nullable NaN option
-        Collection<(DateTime Date, double? Value)> cnullableResults = baseline.ToTupleCollection(NullTo.NaN);
-
-        Assert.AreEqual(0, cnullableResults.Count(x => x.Value is null));
-        Assert.AreEqual(4, cnullableResults.Count(x => x.Value is double.NaN));
-
-        // PUBLIC VARIANT Sorted Collection
+        // PUBLIC VARIANT, generic sorted Collection
         Collection<SmaResult> sortResults = baseline
             .ToSortedCollection();
 

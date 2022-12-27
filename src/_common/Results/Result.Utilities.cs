@@ -27,7 +27,7 @@ public static partial class Indicator
     // CONVERT TO TUPLE (default with pruning)
     /// <include file='./info.xml' path='info/type[@name="TupleChain"]/*' />
     ///
-    public static Collection<(DateTime Date, double Value)> ToTupleCollection(
+    public static Collection<(DateTime Date, double Value)> ToTupleChainable(
         this IEnumerable<IReusableResult> reusable)
         => reusable
             .ToTuple()
@@ -51,28 +51,23 @@ public static partial class Indicator
         return prices.OrderBy(x => x.date).ToList();
     }
 
-    // CONVERT TO TUPLE with nullable value option and no pruning
+    // CONVERT TO TUPLE with non-nullable NaN value option and no pruning
     /// <include file='./info.xml' path='info/type[@name="TupleNaN"]/*' />
     ///
-    public static Collection<(DateTime Date, double? Value)> ToTupleCollection(
-        this IEnumerable<IReusableResult> reusable, NullTo nullTo)
-        => reusable
-            .ToTuple(nullTo)
-            .ToCollection();
-
-    internal static List<(DateTime Date, double? Value)> ToTuple(
-        this IEnumerable<IReusableResult> reusable, NullTo nullTo)
+    public static Collection<(DateTime Date, double Value)> ToTupleNaN(
+        this IEnumerable<IReusableResult> reusable)
     {
-        List<IReusableResult> reList = reusable.ToList();
+        List<IReusableResult> reList = reusable.ToSortedList();
         int length = reList.Count;
-        List<(DateTime date, double? value)> prices = new(length);
+
+        Collection<(DateTime Date, double Value)> results = new();
 
         for (int i = 0; i < length; i++)
         {
             IReusableResult r = reList[i];
-            prices.Add(new(r.Date, (nullTo == NullTo.NaN) ? r.Value.Null2NaN() : r.Value));
+            results.Add(new(r.Date, r.Value.Null2NaN()));
         }
 
-        return prices.OrderBy(x => x.date).ToList();
+        return results;
     }
 }
