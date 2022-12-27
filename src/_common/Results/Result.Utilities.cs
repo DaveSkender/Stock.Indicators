@@ -25,6 +25,8 @@ public static partial class Indicator
     }
 
     // CONVERT TO TUPLE (default with pruning)
+    /// <include file='./info.xml' path='info/type[@name="TupleChain"]/*' />
+    ///
     public static Collection<(DateTime Date, double Value)> ToTupleCollection(
         this IEnumerable<IReusableResult> reusable)
         => reusable
@@ -50,6 +52,8 @@ public static partial class Indicator
     }
 
     // CONVERT TO TUPLE with nullable value option and no pruning
+    /// <include file='./info.xml' path='info/type[@name="TupleNaN"]/*' />
+    ///
     public static Collection<(DateTime Date, double? Value)> ToTupleCollection(
         this IEnumerable<IReusableResult> reusable, NullTo nullTo)
         => reusable
