@@ -19,9 +19,9 @@
         See <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library">documentation</see> for more information.
       </para>
     </summary>
-    <typeparam name="TSeries">Any series type.</typeparam>
-    <param name="series">Time series to evaluate.</param>
-    <param name="removePeriods">Exact quantity to remove.</param>
+    <typeparam name="T">Any series type.</typeparam>
+    <param name="series">Collection to evaluate.</param>
+    <param name="removePeriods">Exact quantity to remove from the beginning of the series.</param>
     <returns>Time series, pruned.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>

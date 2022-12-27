@@ -6,26 +6,24 @@ public static class Pruning
     // REMOVE SPECIFIC PERIODS
     /// <include file='./info.xml' path='info/type[@name="Prune"]/*' />
     ///
-    public static IEnumerable<TSeries> RemoveWarmupPeriods<TSeries>(
-        this IEnumerable<TSeries> series,
+    public static IEnumerable<T> RemoveWarmupPeriods<T>(
+        this IEnumerable<T> series,
         int removePeriods)
-        where TSeries : ISeries
         => removePeriods < 0
             ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
                 "If specified, the Remove Periods value must be greater than or equal to 0.")
             : series.Remove(removePeriods);
 
     // REMOVE PERIODS
-    internal static List<TSeries> Remove<TSeries>(
-        this IEnumerable<TSeries> series,
+    internal static List<T> Remove<T>(
+        this IEnumerable<T> series,
         int removePeriods)
-        where TSeries : ISeries
     {
-        List<TSeries> seriesList = series.ToList();
+        List<T> seriesList = series.ToList();
 
         if (seriesList.Count <= removePeriods)
         {
-            return new List<TSeries>();
+            return new List<T>();
         }
         else
         {
