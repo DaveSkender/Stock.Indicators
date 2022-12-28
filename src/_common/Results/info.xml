@@ -69,4 +69,17 @@
       Invalid parameter value provided.
     </exception>
   </type>
+  <type name="TupleSelect">
+    <summary>
+      Converts results into a tuple containing the specified element value. <para>
+        See <see
+          href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library">
+          documentation
+        </see> for more information.
+      </para>
+    </summary>
+    <param name="results">Indicator results to evaluate.</param>
+    <param name="element">A string name of the class property to return as value.</param>
+    <returns>Collection of tuple time series of the selected data element.</returns>
+  </type>  
 </info>
