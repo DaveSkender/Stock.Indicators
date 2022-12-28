@@ -1,70 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <info>
-  <type name="Find">
-    <summary>
-      Finds indicator values on a specific date.
-      <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#find-indicator-result-by-date?utm_source=library">documentation</see>
-        for more information.
-      </para>
+  <type name="TupleChain">
+    <summary>Converts results into a reusable tuple with warmup periods removed and nulls converted
+      to NaN. <para> See <see
+          href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library">
+      documentation</see> for more information. </para>
     </summary>
-    <typeparam name="TResult">Any result type.</typeparam>
-    <param name="results">Indicator results to evaluate.</param>
-    <param name="lookupDate">Exact date to lookup.</param>
-    <returns>First indicator result on the date specified.</returns>
+    <param name="reusable">Indicator results to evaluate.</param>
+    <returns>Collection of non-nullable tuple time series of results, without null warmup periods.</returns>
   </type>
-  <type name="Condense">
-    <summary>
-      Removes non-essential records containing null values.
-      <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#condense?utm_source=library">documentation</see>
-        for more information.
-      </para>
+  <type name="TupleNaN">
+    <summary>Converts results into a tuple collection with non-nullable NaN to replace null values. <para>
+      See <see
+          href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library">
+      documentation</see> for more information. </para>
     </summary>
-    <param name="results">Indicator results to evaluate.</param>
-    <returns>Time series of indicator results, condensed.</returns>
-  </type>
-  <type name="CondenseT">
-    <summary>
-      Removes non-essential records containing null or NaN values.
-      <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#condense?utm_source=library">documentation</see>
-        for more information.
-      </para>
-    </summary>
-    <typeparam name="TResult">Any result type.</typeparam>
-    <param name="results">Indicator results to evaluate.</param>
-    <returns>Time series of indicator results, condensed.</returns>
+    <param name="reusable">Indicator results to evaluate.</param>
+    <returns>Collection of tuple time series of
+      results with specified handline of nulls, without pruning.</returns>
   </type>
   <type name="Prune">
-    <summary>
-      Removes the recommended quantity of results from the beginning of the results list.
-      <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library">documentation</see>
-        for more information.
-      </para>
+    <summary> Removes the recommended quantity of results from the beginning of the results list
+      using a reverse-engineering approach. <para> See <see
+          href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library">
+      documentation</see> for more information. </para>
     </summary>
-    <param name="results">Indicator results to evaluate.</param>
-    <returns>Time series of indicator results, pruned.</returns>
+    <param name="results">Indicator
+      results to evaluate.</param>
+    <returns>Time
+      series of results, pruned.</returns>
   </type>
-  <type name="PruneT">
+  <type name="Condense">
+    <summary> Removes non-essential records containing null values with unique consideration for
+      this indicator. <para> See <see
+          href="https://dotnet.StockIndicators.dev/utilities/#condense?utm_source=library">
+      documentation</see> for more information. </para>
+    </summary>
+    <param name="results">Indicator results to evaluate.</param>
+    <returns>Time series of
+      indicator results, condensed.</returns>
+  </type>
+  <type name="CondenseT">
+    <summary> Removes non-essential records containing null or NaN values. <para> See <see
+          href="https://dotnet.StockIndicators.dev/utilities/#condense?utm_source=library">
+      documentation</see> for more information. </para>
+    </summary>
+    <typeparam name="TResult">Any result
+      type.</typeparam>
+    <param name="results">Indicator results to evaluate.</param>
+    <returns>Time series of indicator results,
+      condensed.</returns>
+  </type>
+  <type name="SyncResult">
     <summary>
-      Removes a specific quantity of results from the beginning of the results list.
+      Forces indicator results to have the same date-based records as another result baseline.
       <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library">documentation</see>
-        for more information.
+        This utility is undocumented.
       </para>
     </summary>
-    <typeparam name="TResult">Any result type.</typeparam>
-    <param name="results">Indicator results to evaluate.</param>
-    <param name="removePeriods">Exact quantity to remove.</param>
-    <returns>Time series of indicator results, pruned.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+    <typeparam name="TResultA">Any indicator result series type to be transformed.</typeparam>
+    <typeparam name="TResultB">Any indicator result series type to be matched.</typeparam>
+    <param name="syncMe">The indicator result series to be modified.</param>
+    <param name="toMatch">The indicator result series to compare for matching.</param>
+    <param name="syncType">Synchronization behavior  See options in SyncType enum.</param>
+    <returns>Indicator result series, synchronized to a comparator match.</returns>
+    <exception cref="ArgumentOutOfRangeException">
+      Invalid parameter value provided.
+    </exception>
   </type>
 </info>

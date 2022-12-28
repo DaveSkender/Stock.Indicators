@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1716:Identifiers should not match keywords",
     Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IQuote.Date")]
+    Target = "~P:Skender.Stock.Indicators.ISeries.Date")]
 
 [assembly: SuppressMessage(
     "Naming",
@@ -28,13 +28,6 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
     "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Not really an issue.",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.IResult.Date")]
-
-[assembly: SuppressMessage(
-    "Naming",
     "CA1720:Identifier contains type name",
     Justification = "Not really an issue.",
     Scope = "member",
@@ -45,4 +38,4 @@ using System.Diagnostics.CodeAnalysis;
     "SA1008:Opening parenthesis should be spaced correctly",
     Justification = "Not compatible with `or` statement (Microsoft bug)",
     Scope = "member",
-    Target = "~M:Skender.Stock.Indicators.Indicator.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]
+    Target = "~M:Skender.Stock.Indicators.ResultUtility.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]

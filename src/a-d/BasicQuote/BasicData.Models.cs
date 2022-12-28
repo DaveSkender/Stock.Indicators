@@ -6,10 +6,10 @@ public interface IBasicData
     public double Value { get; }
 }
 
-public class BasicData : IResult, IBasicData, IReusableResult
+public class BasicData : ISeries, IBasicData, IReusableResult
 {
-    public DateTime Date { get; internal set; }
-    public double Value { get; internal set; }
+    public DateTime Date { get; set; }
+    public double Value { get; set; }
 
     double? IReusableResult.Value => Value;
 }

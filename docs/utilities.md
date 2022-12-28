@@ -156,20 +156,13 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ### Using tuple results
 
-`results.ToTupleCollection(nullTo)` is a method for converting results collections to a simpler `(DateTime Date, double? Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
+`results.ToTupleCollection()` converts results to a simpler `(DateTime Date, double? Value)` [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
 
-This is not required in normal use; however, the last option may be useful for users who create [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToTupleNaN()` converts results to simpler `(DateTime Date, double Value)` a tuple `Collection` with replacement of all `null` with `double.NaN` values.
 
-A few options to consider:
+`results.ToTupleChainable()` is a specialty converter to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
 
-- Use a `nullTo` value of `NullTo.Null` if you want to persist `null` values
-- Use a `nullTo` value of `NullTo.NaN` if you want `null` values converted to nullable `double.NaN`
-- Omit the `nullTo` value entirely if you want a format that is compatible with chaining:
-  - warmup `null` values removed,
-  - `null` values as `double.NaN`, and
-  - all values as non-nullable `double`
-
-> :warning: **Warning**: warmup periods are pruned when omitting a `nullTo` value, resulting in fewer records.
+> :warning: **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
 
 ### Sort results
 

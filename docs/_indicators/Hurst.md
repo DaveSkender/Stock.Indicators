@@ -24,7 +24,7 @@ IEnumerable<HurstResult> results =
 
 | name | type | notes
 | -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be greater than 100.  Default is 100.
+| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100.
 
 ### Historical quotes requirements
 

@@ -116,5 +116,5 @@ public class Hurst : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetHurst(99));
+            => quotes.GetHurst(19));
 }
