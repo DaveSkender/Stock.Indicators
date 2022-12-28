@@ -14,5 +14,5 @@ public static partial class Indicator
             "MoneyFlowVolume" => (r.Date, r.MoneyFlowVolume),
             "Adl" => (r.Date, r.Adl),
             "AdlSma" => (r.Date, r.AdlSma)
-          }
+          });
 }
