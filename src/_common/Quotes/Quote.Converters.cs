@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// HISTORICAL QUOTES FUNCTIONS (GENERAL)
+// QUOTE UTILITIES
 
 public static partial class QuoteUtility
 {
@@ -19,19 +19,6 @@ public static partial class QuoteUtility
         CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
             .Select(x => x.ToTuple(candlePart));
-
-    // sort quotes
-    public static Collection<TQuote> ToSortedCollection<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .ToSortedList()
-            .ToCollection();
-
-    internal static List<TQuote> ToSortedList<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .ToList();
 
     // TUPLE QUOTES
 
