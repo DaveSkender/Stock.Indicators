@@ -28,8 +28,8 @@ public class HeikinAshi : TestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        var haQuotes = quotes.GetHeikinAshi();
-        var haSma = haQuotes.GetSma(5);
+        IEnumerable<HeikinAshiResult> haQuotes = quotes.GetHeikinAshi();
+        IEnumerable<SmaResult> haSma = haQuotes.GetSma(5);
         Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
     }
 

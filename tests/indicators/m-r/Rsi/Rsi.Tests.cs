@@ -113,7 +113,7 @@ public class Rsi : TestBase
     [TestMethod]
     public void NaN()
     {
-        var r = TestData.GetBtcUsdNan()
+        IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
             .GetRsi(14);
 
         Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
