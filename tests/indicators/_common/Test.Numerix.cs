@@ -23,10 +23,7 @@ public class NumerixTests : TestBase
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException), "Null parameter.")]
-    public void StdDevNull()
-    {
-        double sd = Numerix.StdDev(null);
-    }
+    public void StdDevNull() => Numerix.StdDev(null);
 
     [TestMethod]
     public void Slope()
@@ -38,24 +35,15 @@ public class NumerixTests : TestBase
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException), "Null X parameter.")]
-    public void SlopeXnull()
-    {
-        double s = Numerix.Slope(null, x);
-    }
+    public void SlopeXnull() => Numerix.Slope(null, x);
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException), "Null Y parameter.")]
-    public void SlopeYnull()
-    {
-        double s = Numerix.Slope(x, null);
-    }
+    public void SlopeYnull() => Numerix.Slope(x, null);
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentException), "X and Y different lengths.")]
-    public void SlopeMismatch()
-    {
-        double s = Numerix.Slope(x, y);
-    }
+    public void SlopeMismatch() => Numerix.Slope(x, y);
 
     [TestMethod]
     public void RoundDownDate()
