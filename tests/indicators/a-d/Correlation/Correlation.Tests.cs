@@ -72,6 +72,19 @@ public class Correlation : TestBase
     }
 
     [TestMethod]
+    public void Chainee()
+    {
+        List<CorrResult> results = quotes
+            .GetSma(2)
+            .GetCorrelation(otherQuotes.GetSma(2), 20)
+            .ToList();
+
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(482, results.Count(x => x.Correlation != null));
+        Assert.AreEqual(0, results.Count(x => x.Correlation is double and double.NaN));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         List<CorrResult> r = badQuotes

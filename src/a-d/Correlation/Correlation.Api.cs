@@ -21,6 +21,22 @@ public static partial class Indicator
         return CalcCorrelation(tpListA, tpListB, lookbackPeriods);
     }
 
+    // SERIES, from CHAINS (both inputs reusable)
+    public static IEnumerable<CorrResult> GetCorrelation(
+        this IEnumerable<IReusableResult> quotesA,
+        IEnumerable<IReusableResult> quotesB,
+        int lookbackPeriods)
+    {
+        List<(DateTime Date, double Value)> tpListA
+            = quotesA.ToTuple();
+
+        List<(DateTime Date, double Value)> tpListB
+            = quotesB.ToTuple();
+
+        return CalcCorrelation(tpListA, tpListB, lookbackPeriods)
+            .SyncIndex(quotesA);
+    }
+
     // SERIES, from TUPLE
     public static IEnumerable<CorrResult> GetCorrelation(
         this IEnumerable<(DateTime, double)> tuplesA,
