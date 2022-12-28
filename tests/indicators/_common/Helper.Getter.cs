@@ -9,7 +9,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetDefault(int days = 502)
         => File.ReadAllLines("_common/data/default.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -22,7 +22,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetZeros(int days = 200)
         => File.ReadAllLines("_common/data/zeros.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -31,7 +31,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetBad(int days = 502)
         => File.ReadAllLines("_common/data/bad.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -40,7 +40,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetTooBig(int days = 1246)
         => File.ReadAllLines("_common/data/toobig.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -49,7 +49,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetMax(int days = 502)
         => File.ReadAllLines("_common/data/toobig.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -58,7 +58,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetBitcoin(int days = 1246)
         => File.ReadAllLines("_common/data/bitcoin.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -67,7 +67,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetCompare(int days = 502)
         => File.ReadAllLines("_common/data/compare.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -76,7 +76,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetIntraday(int days = 1564)
         => File.ReadAllLines("_common/data/intraday.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -85,7 +85,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetLongish(int days = 5285)
         => File.ReadAllLines("_common/data/longish.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -94,28 +94,28 @@ internal class TestData
     internal static IEnumerable<Quote> GetLongest()
         => File.ReadAllLines("_common/data/longest.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .ToList();
 
     // PENNY DATA
     internal static IEnumerable<Quote> GetPenny()
         => File.ReadAllLines("_common/data/penny.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .ToList();
 
     // MISMATCH DATA is in incorrect sequence
     internal static IEnumerable<Quote> GetMismatch()
         => File.ReadAllLines("_common/data/mismatch.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .ToList();
 
     // SPX, 30 years, daily
     internal static IEnumerable<Quote> GetSpx(int days = 8111)
         => File.ReadAllLines("_common/data/spx.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -124,7 +124,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetMsft(int days = 8111)
         => File.ReadAllLines("_common/data/msft.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(days)
             .ToList();
@@ -133,7 +133,7 @@ internal class TestData
     internal static IEnumerable<Quote> GetBtcUsdNan(int bars = 69288)
         => File.ReadAllLines("_common/data/btcusd15x69k.csv")
             .Skip(1)
-            .Select(v => Importer.QuoteFromCsv(v))
+            .Select(Importer.QuoteFromCsv)
             .OrderByDescending(x => x.Date)
             .Take(bars)
             .ToList();

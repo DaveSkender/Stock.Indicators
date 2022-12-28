@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Numerics;
 
 namespace Skender.Stock.Indicators;
 
