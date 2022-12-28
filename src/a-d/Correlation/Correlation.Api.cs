@@ -34,7 +34,7 @@ public static partial class Indicator
             = quotesB.ToTuple();
 
         return CalcCorrelation(tpListA, tpListB, lookbackPeriods)
-            .SyncIndex(quotesA);
+            .SyncIndex(quotesA, SyncType.Prepend);
     }
 
     // SERIES, from TUPLE
