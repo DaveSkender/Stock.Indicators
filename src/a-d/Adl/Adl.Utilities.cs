@@ -6,7 +6,7 @@ public static partial class Indicator
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Select"]/*' />
     ///
     public static IEnumerable<(DateTime Date, double? Value)> ToTupleResult(
-        this IEnumerable<AdxResult> results,
+        this IEnumerable<AdlResult> results,
         string element) => results
           .Select(r => element switch
           {
