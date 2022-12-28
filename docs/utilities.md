@@ -158,9 +158,9 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 `results.ToTupleCollection()` converts results to a simpler `(DateTime Date, double? Value)` [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
 
-`results.ToTupleNaN()` converts results to simpler `(DateTime Date, double Value)` a tuple `Collection` with replacement of all `null` with `double.NaN` values.
+`results.ToTupleNaN()` converts results to simpler `(DateTime Date, double Value)` tuple `Collection` with `null` values converted to `double.NaN`.
 
-`results.ToTupleChainable()` is a specialty converter to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
+`results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
 
 > :warning: **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
 
