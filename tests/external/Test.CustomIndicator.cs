@@ -32,7 +32,7 @@ public static class CustomIndicator
     public static IEnumerable<MyResult> GetIndicator(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTupleCollection()
+            .ToTupleChainable()
             .CalcIndicator(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

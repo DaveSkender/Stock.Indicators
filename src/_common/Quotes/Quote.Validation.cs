@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-// HISTORICAL QUOTES VALIDATION
+// QUOTE UTILITIES
 
 public static partial class QuoteUtility
 {
-    // validation
+    // VALIDATION
     /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
     ///
     public static IEnumerable<TQuote> Validate<TQuote>(
