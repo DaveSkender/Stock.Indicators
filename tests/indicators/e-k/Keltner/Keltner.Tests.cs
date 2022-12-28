@@ -73,7 +73,6 @@ public class Keltner : TestBase
         int emaPeriods = 20;
         int multiplier = 2;
         int atrPeriods = 10;
-        int n = Math.Max(emaPeriods, atrPeriods);
 
         List<KeltnerResult> results = quotes
             .GetKeltner(emaPeriods, multiplier, atrPeriods)
