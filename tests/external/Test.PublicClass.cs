@@ -22,7 +22,7 @@ internal sealed class MyEma : ResultBase
 internal sealed class MyGenericQuote : IQuote
 {
     // required base properties
-    DateTime IQuote.Date => CloseDate;
+    DateTime ISeries.Date => CloseDate;
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }

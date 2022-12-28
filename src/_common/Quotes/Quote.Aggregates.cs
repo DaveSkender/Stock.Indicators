@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// HISTORICAL QUOTES FUNCTIONS (AGGREGATES)
+// QUOTE UTILITIES
 
 public static partial class QuoteUtility
 {
