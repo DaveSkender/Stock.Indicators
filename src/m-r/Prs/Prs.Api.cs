@@ -35,7 +35,7 @@ public static partial class Indicator
             = quotesBase.ToTuple();
 
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods)
-            .SyncIndex(quotesEval);
+            .SyncIndex(quotesEval, SyncType.Prepend);
     }
 
     // SERIES, from TUPLE

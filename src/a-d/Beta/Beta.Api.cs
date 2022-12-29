@@ -37,7 +37,7 @@ public static partial class Indicator
             = mrktResults.ToTuple();
 
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type)
-            .SyncIndex(evalResults);
+            .SyncIndex(evalResults, SyncType.Prepend);
     }
 
     // SERIES, from TUPLE
