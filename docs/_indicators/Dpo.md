@@ -12,7 +12,7 @@ layout: indicator
 [Detrended Price Oscillator](https://en.wikipedia.org/wiki/Detrended_price_oscillator) depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/551 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<DpoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,11 +43,11 @@ IEnumerable<DpoResult>
 
 ### DpoResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sma` | double | Simple moving average offset by `N/2+1` periods
-| `Dpo` | double | Detrended Price Oscillator (DPO)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sma`** _`double`_ - Simple moving average offset by `N/2+1` periods
+
+**`Dpo`** _`double`_ - Detrended Price Oscillator (DPO)
 
 ### Utilities
 

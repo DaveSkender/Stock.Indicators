@@ -14,7 +14,7 @@ redirect_from:
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -24,9 +24,7 @@ IEnumerable<TemaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -49,10 +47,9 @@ IEnumerable<TemaResult>
 
 ### TemaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Tema` | double | Triple exponential moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Tema`** _`double`_ - Triple exponential moving average
 
 ### Utilities
 

@@ -12,7 +12,7 @@ layout: indicator
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure based on the change in price.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/382 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<ForceIndexResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2.
+**`lookbackPeriods`** _`int`_ - Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2.
 
 ### Historical quotes requirements
 
@@ -47,10 +45,9 @@ IEnumerable<ForceIndexResult>
 
 ### ForceIndexResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `ForceIndex` | double | Force Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`ForceIndex`** _`double`_ - Force Index
 
 ### Utilities
 

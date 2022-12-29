@@ -12,7 +12,7 @@ layout: indicator
 Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investopedia.com/terms/c/chandemomentumoscillator.asp) is a weighted percent of higher prices over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/892 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<CmoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<CmoResult>
 
 ### CmoResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Cmo` | double | Chande Momentum Oscillator
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Cmo`** _`double`_ - Chande Momentum Oscillator
 
 ### Utilities
 

@@ -12,7 +12,7 @@ layout: indicator
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/368 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,10 +22,9 @@ IEnumerable<StdDevChannelsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `quotes` evaluation window ([see below](#alternative-depiction-for-full-quotes-variant)).  Default is 20.
-| `stdDeviations` | double | Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
+**`lookbackPeriods`** _`int`_ - Size (`N`) of the evaluation window.  Must be `null` or greater than 1 to calculate.  A `null` value will produce a full `quotes` evaluation window ([see below](#alternative-depiction-for-full-quotes-variant)).  Default is 20.
+
+**`stdDeviations`** _`double`_ - Width of bands.  Standard deviations (`D`) from the regression line.  Must be greater than 0.  Default is 2.
 
 ### Historical quotes requirements
 
@@ -48,13 +47,15 @@ IEnumerable<StdDevChannelsResult>
 
 ### StdDevChannelsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Centerline` | double | Linear regression line (center line)
-| `UpperChannel` | double | Upper line is `D` standard deviations above the center line
-| `LowerChannel` | double | Lower line is `D` standard deviations below the center line
-| `BreakPoint` | bool | Helper information.  Indicates first point in new window.
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Centerline`** _`double`_ - Linear regression line (center line)
+
+**`UpperChannel`** _`double`_ - Upper line is `D` standard deviations above the center line
+
+**`LowerChannel`** _`double`_ - Lower line is `D` standard deviations below the center line
+
+**`BreakPoint`** _`bool`_ - Helper information.  Indicates first point in new window.
 
 ### Utilities
 

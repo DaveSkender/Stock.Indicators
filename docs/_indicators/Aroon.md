@@ -12,7 +12,7 @@ layout: indicator
 Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a oscillator view of how long ago the new high or low price occurred.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/266 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<AroonResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the lookback evaluation.  Must be greater than 0.  Default is 25.
 
 ### Historical quotes requirements
 
@@ -45,12 +43,13 @@ IEnumerable<AroonResult>
 
 ### AroonResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `AroonUp` | double | Based on last High price
-| `AroonDown` | double | Based on last Low price
-| `Oscillator` | double | AroonUp - AroonDown
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`AroonUp`** _`double`_ - Based on last High price
+
+**`AroonDown`** _`double`_ - Based on last Low price
+
+**`Oscillator`** _`double`_ - AroonUp - AroonDown
 
 ### Utilities
 

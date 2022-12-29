@@ -12,7 +12,7 @@ layout: indicator
 Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several moving averages to weigh buying power against true range price to produce on oversold / overbought oscillator.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/231 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,11 +22,11 @@ IEnumerable<UltimateResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `shortPeriods` | int | Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
-| `middlePeriods` | int | Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
-| `longPeriods` | int | Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
+**`shortPeriods`** _`int`_ - Number of periods (`S`) in the short lookback.  Must be greater than 0.  Default is 7.
+
+**`middlePeriods`** _`int`_ - Number of periods (`M`) in the middle lookback.  Must be greater than `S`.  Default is 14.
+
+**`longPeriods`** _`int`_ - Number of periods (`L`) in the long lookback.  Must be greater than `M`.  Default is 28.
 
 ### Historical quotes requirements
 
@@ -47,10 +47,9 @@ IEnumerable<UltimateResult>
 
 ### UltimateResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Ultimate` | double | Ultimate Oscillator
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Ultimate`** _`double`_ - Ultimate Oscillator
 
 ### Utilities
 

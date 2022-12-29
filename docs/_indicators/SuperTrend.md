@@ -12,7 +12,7 @@ layout: indicator
 Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/235 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,10 +22,9 @@ IEnumerable<SuperTrendResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
-| `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the ATR evaluation.  Must be greater than 1 and is usually set between 7 and 14.  Default is 10.
+
+**`multiplier`** _`double`_ - Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
 
 ### Historical quotes requirements
 
@@ -48,12 +47,13 @@ IEnumerable<SuperTrendResult>
 
 ### SuperTrendResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `SuperTrend` | decimal | SuperTrend line contains both Upper and Lower segments
-| `UpperBand` | decimal | Upper band only (bearish/red)
-| `LowerBand` | decimal | Lower band only (bullish/green)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`SuperTrend`** _`decimal`_ - SuperTrend line contains both Upper and Lower segments
+
+**`UpperBand`** _`decimal`_ - Upper band only (bearish/red)
+
+**`LowerBand`** _`decimal`_ - Lower band only (bullish/green)
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `SuperTrend` is the contiguous combination of both upper and lower line data.
 

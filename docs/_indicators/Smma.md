@@ -12,7 +12,7 @@ layout: indicator
 [Smoothed Moving Average](https://en.wikipedia.org/wiki/Moving_average) is the average of price over a lookback window using a smoothing method.  SMMA is also known as modified moving average (MMA) and running moving average (RMA).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/375 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<SmmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -47,10 +45,9 @@ IEnumerable<SmmaResult>
 
 ### SmmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Smma` | double | Smoothed moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Smma`** _`double`_ - Smoothed moving average
 
 ### Utilities
 

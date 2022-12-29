@@ -12,7 +12,7 @@ layout: indicator
 Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parabolic_SAR) (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/245 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (standard)
@@ -26,11 +26,11 @@ IEnumerable<ParabolicSarResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `accelerationStep` | double | Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
-| `maxAccelerationFactor` | double | Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
-| `initialFactor` | double | Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
+**`accelerationStep`** _`double`_ - Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
+
+**`maxAccelerationFactor`** _`double`_ - Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
+
+**`initialFactor`** _`double`_ - Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
 
 ### Historical quotes requirements
 
@@ -51,11 +51,11 @@ IEnumerable<ParabolicSarResult>
 
 ### ParabolicSarResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sar` | double | Stop and Reverse value
-| `IsReversal` | bool | Indicates a trend reversal
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sar`** _`double`_ - Stop and Reverse value
+
+**`IsReversal`** _`bool`_ - Indicates a trend reversal
 
 ### Utilities
 

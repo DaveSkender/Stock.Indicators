@@ -12,7 +12,7 @@ layout: indicator
 Created by J. Welles Wilder, True Range and [Average True Range](https://en.wikipedia.org/wiki/Average_true_range) is a measure of volatility that captures gaps and limits between periods.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/269 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // standard usage
@@ -30,9 +30,7 @@ IEnumerable<TrResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1.
 
 ### Historical quotes requirements
 
@@ -55,12 +53,13 @@ IEnumerable<AtrResult>
 
 ### AtrResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Tr` | double | True Range for current period
-| `Atr` | double | Average True Range
-| `Atrp` | double | Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks.
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Tr`** _`double`_ - True Range for current period
+
+**`Atr`** _`double`_ - Average True Range
+
+**`Atrp`** _`double`_ - Average True Range Percent is `(ATR/Price)*100`.  This normalizes so it can be compared to other stocks.
 
 ### Utilities
 

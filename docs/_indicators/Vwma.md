@@ -12,7 +12,7 @@ layout: indicator
 Volume Weighted Moving Average is the volume adjusted average price over a lookback window.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/657 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // legacy usage
@@ -22,9 +22,7 @@ IEnumerable<VwmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<VwmaResult>
 
 ### VwmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Vwma` | double | Volume Weighted Moving Average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Vwma`** _`double`_ - Volume Weighted Moving Average
 
 ### Utilities
 
