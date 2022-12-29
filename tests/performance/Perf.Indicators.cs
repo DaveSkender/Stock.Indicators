@@ -132,7 +132,7 @@ public class IndicatorPerformance
     {
         EmaBase emaBase = lList
             .Take(10000)
-            .InitEma(14);
+            .InitEma(200);
 
         for (int i = 10000; i < 11000; i++)
         {
@@ -149,7 +149,7 @@ public class IndicatorPerformance
         EmaBase emaBase = lList
             .Take(10000)
             .Use(CandlePart.OHLC4)
-            .InitEma(14);
+            .InitEma(200);
 
         for (int i = 10000; i < 11000; i++)
         {
@@ -165,7 +165,7 @@ public class IndicatorPerformance
     [Benchmark]
     public object GetEmaStreamOHLC4baseEmpty()
     {
-        EmaBase emaBase = new(14);
+        EmaBase emaBase = new(200);
 
         for (int i = 0; i < lList.Count; i++)
         {
