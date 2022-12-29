@@ -46,7 +46,7 @@ public static partial class Indicator
         // prime the results
         for (int i = 0; i < tpList.Count; i++)
         {
-            _ = baseEma.Add(tpList[i]);
+            baseEma.Add(tpList[i]);
         }
 
         return baseEma;
@@ -67,7 +67,28 @@ public static partial class Indicator
         // prime the results
         for (int i = 0; i < tpList.Count; i++)
         {
-            _ = baseEma.Add(tpList[i]);
+            baseEma.Add(tpList[i]);
+        }
+
+        return baseEma;
+    }
+
+    // STREAM INITIALIZATION, from Tuple
+    public static EmaBase InitEma(
+        this IEnumerable<(DateTime, double)> priceTuples,
+        int lookbackPeriods)
+    {
+        // convert quotes
+        List<(DateTime, double)> tpList
+            = priceTuples.ToSortedList();
+
+        // new base instance
+        EmaBase baseEma = new(lookbackPeriods);
+
+        // prime the results
+        for (int i = 0; i < tpList.Count; i++)
+        {
+            baseEma.Add(tpList[i]);
         }
 
         return baseEma;

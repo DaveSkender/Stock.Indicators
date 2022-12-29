@@ -10,6 +10,7 @@ public class IndicatorPerformance
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> ho;
     private static List<Quote> hList;
+    private static List<Quote> lList;
 
     // SETUP
 
@@ -18,6 +19,7 @@ public class IndicatorPerformance
     {
         h = TestData.GetDefault();
         hList = h.ToList();
+        lList = TestData.GetLongest().ToList();
     }
 
     [GlobalSetup(Targets = new[]
@@ -126,28 +128,51 @@ public class IndicatorPerformance
     public object GetEma() => h.GetEma(14);
 
     [Benchmark]
-    public object GetEmaStreamInit()
+    public object GetEmaStream11kQuote()
     {
-        EmaBase emaBase = hList.Take(15).InitEma(14);
+        EmaBase emaBase = lList
+            .Take(10000)
+            .InitEma(14);
 
-        for (int i = 15; i < hList.Count; i++)
+        for (int i = 10000; i < 11000; i++)
         {
-            Quote q = hList[i];
-            _ = emaBase.Add(q);
+            Quote q = lList[i];
+            emaBase.Add(q);
         }
 
         return emaBase.Results;
     }
 
     [Benchmark]
-    public object GetEmaStreamEmpty()
+    public object GetEmaStreamOHLC4base10k()
+    {
+        EmaBase emaBase = lList
+            .Take(10000)
+            .Use(CandlePart.OHLC4)
+            .InitEma(14);
+
+        for (int i = 10000; i < 11000; i++)
+        {
+            (DateTime date, double value) q = lList[i]
+                .ToTuple(CandlePart.OHLC4);
+
+            emaBase.Add(q);
+        }
+
+        return emaBase.Results;
+    }
+
+    [Benchmark]
+    public object GetEmaStreamOHLC4baseEmpty()
     {
         EmaBase emaBase = new(14);
 
-        for (int i = 0; i < hList.Count; i++)
+        for (int i = 0; i < lList.Count; i++)
         {
-            Quote q = hList[i];
-            _ = emaBase.Add(q);
+            (DateTime date, double value) q = lList[i]
+                .ToTuple(CandlePart.OHLC4);
+
+            emaBase.Add(q);
         }
 
         return emaBase.Results;
