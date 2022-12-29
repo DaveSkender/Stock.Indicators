@@ -23,6 +23,23 @@ public static partial class Indicator
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
     }
 
+    // SERIES, from CHAINS (both inputs reusable)
+    public static IEnumerable<BetaResult> GetBeta(
+        this IEnumerable<IReusableResult> evalResults,
+        IEnumerable<IReusableResult> mrktResults,
+        int lookbackPeriods,
+        BetaType type = BetaType.Standard)
+    {
+        List<(DateTime Date, double Value)> tpListEval
+            = evalResults.ToTuple();
+
+        List<(DateTime Date, double Value)> tpListMrkt
+            = mrktResults.ToTuple();
+
+        return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type)
+            .SyncIndex(evalResults, SyncType.Prepend);
+    }
+
     // SERIES, from TUPLE
     public static IEnumerable<BetaResult> GetBeta(
         this IEnumerable<(DateTime, double)> evalTuple,
@@ -30,8 +47,11 @@ public static partial class Indicator
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
     {
-        List<(DateTime, double)> tpListEval = evalTuple.ToSortedList();
-        List<(DateTime, double)> tpListMrkt = mrktTuple.ToSortedList();
+        List<(DateTime, double)> tpListEval
+            = evalTuple.ToSortedList();
+
+        List<(DateTime, double)> tpListMrkt
+            = mrktTuple.ToSortedList();
 
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
     }

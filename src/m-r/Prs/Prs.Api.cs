@@ -21,6 +21,23 @@ public static partial class Indicator
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
     }
 
+    // SERIES, from CHAINS (both inputs reusable)
+    public static IEnumerable<PrsResult> GetPrs(
+        this IEnumerable<IReusableResult> quotesEval,
+        IEnumerable<IReusableResult> quotesBase,
+        int? lookbackPeriods = null,
+        int? smaPeriods = null)
+    {
+        List<(DateTime Date, double Value)> tpListEval
+            = quotesEval.ToTuple();
+
+        List<(DateTime Date, double Value)> tpListBase
+            = quotesBase.ToTuple();
+
+        return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods)
+            .SyncIndex(quotesEval, SyncType.Prepend);
+    }
+
     // SERIES, from TUPLE
     public static IEnumerable<PrsResult> GetPrs(
         this IEnumerable<(DateTime, double)> tupleEval,
