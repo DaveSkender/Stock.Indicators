@@ -22,11 +22,9 @@ IEnumerable<MacdResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
-| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
-| `signalPeriods` | int | Number of periods (`P`) for the moving average of MACD.  Must be greater than or equal to 0.  Default is 9.
+- `fastPeriods`, int: Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
+- `slowPeriods`, int: Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
+- `signalPeriods`, int: Number of periods (`P`) for the moving average of MACD.  Must be greater than or equal to 0.  Default is 9.
 
 ### Historical quotes requirements
 
@@ -49,14 +47,12 @@ IEnumerable<MacdResult>
 
 ### MacdResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Macd` | double | The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
-| `Signal` | double | Moving average of the `MACD` line
-| `Histogram` | double | Gap between of the `MACD` and `Signal` line
-| `FastEma` | double | Fast Exponential Moving Average
-| `SlowEma` | double | Slow Exponential Moving Average
+- `Date`, DateTime: Date
+- `Macd`, double: The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
+- `Signal`, double: Moving average of the `MACD` line
+- `Histogram`, double: Gap between of the `MACD` and `Signal` line
+- `FastEma`, double: Fast Exponential Moving Average
+- `SlowEma`, double: Slow Exponential Moving Average
 
 ### Utilities
 
