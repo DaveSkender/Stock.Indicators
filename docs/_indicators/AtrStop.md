@@ -12,7 +12,7 @@ layout: indicator
 Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/724 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

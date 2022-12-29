@@ -12,7 +12,7 @@ layout: indicator
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/368 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

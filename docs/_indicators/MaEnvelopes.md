@@ -12,7 +12,7 @@ layout: indicator
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/288 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

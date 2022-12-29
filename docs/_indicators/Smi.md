@@ -12,7 +12,7 @@ layout: indicator
 Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a double-smoothed variant of the [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content), depicted on a scale from -100 to 100.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/625 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (standard)

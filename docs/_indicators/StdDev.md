@@ -12,7 +12,7 @@ layout: indicator
 [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).  Z-Score is also returned.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/239 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

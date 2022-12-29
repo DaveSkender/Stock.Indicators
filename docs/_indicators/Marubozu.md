@@ -12,7 +12,7 @@ type: candlestick-pattern
 [Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single-bar candlestick pattern that has no wicks, representing consistent directional movement.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/512 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage

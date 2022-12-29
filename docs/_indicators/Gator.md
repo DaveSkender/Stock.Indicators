@@ -12,7 +12,7 @@ layout: indicator
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator]({{site.baseurl}}/indicators/Alligator/#content)'s three moving averages.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
