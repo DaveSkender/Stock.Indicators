@@ -12,7 +12,7 @@ layout: indicator
 Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line]({{site.baseurl}}/indicators/Adl/#content) (ADL).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/264 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,10 +22,9 @@ IEnumerable<ChaikinOscResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastPeriods` | int | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3.
-| `slowPeriods` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10.
+**`fastPeriods`** _`int`_ - Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3.
+
+**`slowPeriods`** _`int`_ - Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10.
 
 ### Historical quotes requirements
 
@@ -48,13 +47,15 @@ IEnumerable<ChaikinOscResult>
 
 ### ChaikinOscResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `MoneyFlowMultiplier` | double | Money Flow Multiplier
-| `MoneyFlowVolume` | double | Money Flow Volume
-| `Adl` | double | Accumulation Distribution Line (ADL)
-| `Oscillator` | double | Chaikin Oscillator
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
+
+**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
+
+**`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
+
+**`Oscillator`** _`double`_ - Chaikin Oscillator
 
 > :warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
 

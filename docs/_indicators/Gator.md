@@ -12,7 +12,7 @@ layout: indicator
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator]({{site.baseurl}}/indicators/Alligator/#content)'s three moving averages.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -46,13 +46,15 @@ IEnumerable<GatorResult>
 
 ### GatorResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Upper` | double | Absolute value of Alligator `Jaw-Teeth`
-| `Lower` | double | Absolute value of Alligator `Lips-Teeth`
-| `UpperIsExpanding` | boolean | Upper value is growing
-| `LowerIsExpanding` | boolean | Lower value is growing
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Upper`** _`double`_ - Absolute value of Alligator `Jaw-Teeth`
+
+**`Lower`** _`double`_ - Absolute value of Alligator `Lips-Teeth`
+
+**`UpperIsExpanding`** _`bool`_ - Upper value is growing
+
+**`LowerIsExpanding`** _`bool`_ - Lower value is growing
 
 ### Utilities
 

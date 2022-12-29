@@ -12,7 +12,7 @@ layout: indicator
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/866 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)
@@ -22,10 +22,9 @@ IEnumerable<DynamicResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
-| `kFactor` | double | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+
+**`kFactor`** _`double`_ - Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6
 
 ### Historical quotes requirements
 
@@ -54,10 +53,9 @@ IEnumerable<DynamicResult>
 
 ### DynamicResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Dynamic` | double | McGinley Dynamic
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Dynamic`** _`double`_ - McGinley Dynamic
 
 ### Utilities
 

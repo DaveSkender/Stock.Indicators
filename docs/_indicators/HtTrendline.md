@@ -12,7 +12,7 @@ layout: indicator
 Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.  Dominant Cycle Periods information is also provided.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/363 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -42,12 +42,13 @@ IEnumerable<HtlResult>
 
 ### HtlResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `DcPeriods` | int | Dominant cycle periods (smoothed)
-| `Trendline` | double | HT Trendline
-| `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`DcPeriods`** _`int`_ - Dominant cycle periods (smoothed)
+
+**`Trendline`** _`double`_ - HT Trendline
+
+**`SmoothPrice`** _`double`_ - Weighted moving average of `(H+L)/2` price
 
 ### Utilities
 

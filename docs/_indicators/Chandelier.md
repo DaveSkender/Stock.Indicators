@@ -13,7 +13,7 @@ layout: indicator
 Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com/doku.php?id=technical_indicators:chandelier_exit) is an adjusted Average True Range (ATR) offset from price that is is typically used for stop-loss and can be computed for both long or short types.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/263 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -23,11 +23,11 @@ IEnumerable<ChandelierResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Default is 22.
-| `multiplier` | double | Multiplier number must be a positive value.  Default is 3.
-| `type` | ChandelierType | Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the lookback evaluation.  Default is 22.
+
+**`multiplier`** _`double`_ - Multiplier number must be a positive value.  Default is 3.
+
+**`type`** _`ChandelierType`_ - Direction of exit.  See [ChandelierType options](#chandeliertype-options) below.  Default is `ChandelierType.Long`.
 
 ### Historical quotes requirements
 
@@ -37,10 +37,9 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 
 ### ChandelierType options
 
-| type | description
-|-- |--
-| `ChandelierType.Long` | Intended as stop loss value for long positions. (default)
-| `ChandelierType.Short` | Intended as stop loss value for short positions.
+**`ChandelierType.Long`** - Intended as stop loss value for long positions. (default)
+
+**`ChandelierType.Short`** - Intended as stop loss value for short positions.
 
 ## Response
 
@@ -55,10 +54,9 @@ IEnumerable<ChandelierResult>
 
 ### ChandelierResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `ChandelierExit` | double | Exit line
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`ChandelierExit`** _`double`_ - Exit line
 
 ### Utilities
 

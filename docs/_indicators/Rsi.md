@@ -12,7 +12,7 @@ layout: indicator
 Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.org/wiki/Relative_strength_index) is an oscillator that measures strength of the winning/losing streak over `N` lookback periods on a scale of 0 to 100, to depict overbought and oversold conditions.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/224 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<RsiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -47,10 +45,9 @@ IEnumerable<RsiResult>
 
 ### RsiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Rsi` | double | Relative Strength Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Rsi`** _`double`_ - Relative Strength Index
 
 ### Utilities
 

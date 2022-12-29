@@ -12,7 +12,7 @@ layout: indicator
 Created by Bill Williams, Alligator is a depiction of three smoothed moving averages of median price, showing chart patterns that compared to an alligator's feeding habits when describing market movement. The moving averages are known as the Jaw, Teeth, and Lips, which are calculated using lookback and offset periods.  See also the [Gator Oscillator]({{site.baseurl}}/indicators/Gator/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,14 +22,17 @@ IEnumerable<AlligatorResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `jawPeriods` | int | Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13.
-| `jawOffset` | int | Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8.
-| `teethPeriods` | int | Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8.
-| `teethOffset` | int | Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5.
-| `lipsPeriods` | int | Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5.
-| `lipsOffset` | int | Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3.
+**`jawPeriods`** _`int`_ - Number of periods (`JP`) for the Jaw moving average.  Must be greater than `teethPeriods`.  Default is 13.
+
+**`jawOffset`** _`int`_ - Number of periods (`JO`) for the Jaw offset.  Must be greater than 0.  Default is 8.
+
+**`teethPeriods`** _`int`_ - Number of periods (`TP`) for the Teeth moving average.  Must be greater than `lipsPeriods`.  Default is 8.
+
+**`teethOffset`** _`int`_ - Number of periods (`TO`) for the Teeth offset.  Must be greater than 0.  Default is 5.
+
+**`lipsPeriods`** _`int`_ - Number of periods (`LP`) for the Lips moving average.  Must be greater than 0.  Default is 5.
+
+**`lipsOffset`** _`int`_ - Number of periods (`LO`) for the Lips offset.  Must be greater than 0.  Default is 3.
 
 ### Historical quotes requirements
 
@@ -52,12 +55,13 @@ IEnumerable<AlligatorResult>
 
 ### AlligatorResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Jaw` | double | Alligator's Jaw
-| `Teeth` | double | Alligator's Teeth
-| `Lips` | double | Alligator's Lips
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Jaw`** _`double`_ - Alligator's Jaw
+
+**`Teeth`** _`double`_ - Alligator's Teeth
+
+**`Lips`** _`double`_ - Alligator's Lips
 
 ### Utilities
 

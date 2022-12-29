@@ -12,7 +12,7 @@ layout: indicator
 Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wiki/Money_flow_index) is a price-volume oscillator that shows buying and selling momentum.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/247 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<MfiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<MfiResult>
 
 ### MfiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Mfi` | decimal | Money Flow Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Mfi`** _`decimal`_ - Money Flow Index
 
 ### Utilities
 
