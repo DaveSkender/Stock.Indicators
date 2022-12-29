@@ -15,7 +15,7 @@ public class T3 : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(478, results.Count(x => x.T3 != null));
+        Assert.AreEqual(502, results.Count(x => x.T3 != null));
 
         // sample values
         T3Result r5 = results[5];
@@ -46,7 +46,7 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(478, results.Count(x => x.T3 != null));
+        Assert.AreEqual(502, results.Count(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Count(x => x.T3 != null));
+        Assert.AreEqual(501, results.Count(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -81,7 +81,6 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(469, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -109,21 +108,6 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(1, r1.Count);
-    }
-
-    [TestMethod]
-    public void Removed()
-    {
-        List<T3Result> results = quotes
-            .GetT3(5, 0.7)
-            .RemoveWarmupPeriods()
-            .ToList();
-
-        // assertions
-        Assert.AreEqual(502 - ((6 * (5 - 1)) + 250), results.Count);
-
-        T3Result last = results.LastOrDefault();
-        Assert.AreEqual(238.9308, last.T3.Round(4));
     }
 
     [TestMethod]
