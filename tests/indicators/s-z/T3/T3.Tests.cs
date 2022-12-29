@@ -15,26 +15,26 @@ public class T3 : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(478, results.Count(x => x.T3 != null));
+        Assert.AreEqual(502, results.Count(x => x.T3 != null));
 
         // sample values
-        T3Result r1 = results[23];
-        Assert.IsNull(r1.T3);
+        T3Result r5 = results[5];
+        Assert.AreEqual(213.9654, r5.T3.Round(4));
 
-        T3Result r2 = results[24];
-        Assert.AreEqual(215.9343, NullMath.Round(r2.T3, 4));
+        T3Result r24 = results[24];
+        Assert.AreEqual(215.9481, r24.T3.Round(4));
 
-        T3Result r3 = results[44];
-        Assert.AreEqual(224.9412, NullMath.Round(r3.T3, 4));
+        T3Result r44 = results[44];
+        Assert.AreEqual(224.9412, r44.T3.Round(4));
 
-        T3Result r4 = results[149];
-        Assert.AreEqual(235.8851, NullMath.Round(r4.T3, 4));
+        T3Result r149 = results[149];
+        Assert.AreEqual(235.8851, r149.T3.Round(4));
 
-        T3Result r5 = results[249];
-        Assert.AreEqual(257.8735, NullMath.Round(r5.T3, 4));
+        T3Result r249 = results[249];
+        Assert.AreEqual(257.8735, r249.T3.Round(4));
 
-        T3Result r6 = results[501];
-        Assert.AreEqual(238.9308, NullMath.Round(r6.T3, 4));
+        T3Result r501 = results[501];
+        Assert.AreEqual(238.9308, r501.T3.Round(4));
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(478, results.Count(x => x.T3 != null));
+        Assert.AreEqual(502, results.Count(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Count(x => x.T3 != null));
+        Assert.AreEqual(501, results.Count(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -81,7 +81,6 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(469, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -109,21 +108,6 @@ public class T3 : TestBase
             .ToList();
 
         Assert.AreEqual(1, r1.Count);
-    }
-
-    [TestMethod]
-    public void Removed()
-    {
-        List<T3Result> results = quotes
-            .GetT3(5, 0.7)
-            .RemoveWarmupPeriods()
-            .ToList();
-
-        // assertions
-        Assert.AreEqual(502 - ((6 * (5 - 1)) + 250), results.Count);
-
-        T3Result last = results.LastOrDefault();
-        Assert.AreEqual(238.9308, NullMath.Round(last.T3, 4));
     }
 
     [TestMethod]
