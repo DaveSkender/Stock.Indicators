@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
@@ -6,6 +7,52 @@ namespace Internal.Tests;
 [TestClass]
 public class QuoteUtility : TestBase
 {
+    [TestMethod]
+    public void QuoteToSortedCollection()
+    {
+        IEnumerable<Quote> quotes = TestData.GetMismatch();
+
+        Collection<Quote> h = quotes.ToSortedCollection();
+
+        // proper quantities
+        Assert.AreEqual(502, h.Count);
+
+        // check first date
+        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
+        Assert.AreEqual(firstDate, h[0].Date);
+
+        // check last date
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
+        Assert.AreEqual(lastDate, h.LastOrDefault().Date);
+
+        // spot check an out of sequence date
+        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
+        Assert.AreEqual(spotDate, h[50].Date);
+    }
+
+    [TestMethod]
+    public void QuoteToSortedList()
+    {
+        IEnumerable<Quote> quotes = TestData.GetMismatch();
+
+        List<Quote> h = quotes.ToSortedList();
+
+        // proper quantities
+        Assert.AreEqual(502, h.Count);
+
+        // check first date
+        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
+        Assert.AreEqual(firstDate, h[0].Date);
+
+        // check last date
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
+        Assert.AreEqual(lastDate, h.LastOrDefault().Date);
+
+        // spot check an out of sequence date
+        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
+        Assert.AreEqual(spotDate, h[50].Date);
+    }
+
     [TestMethod]
     public void QuoteToTuple()
     {
@@ -64,12 +111,37 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToTuple(CandlePart.OHLC4).value, 10));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             q.ToTuple((CandlePart)999));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             q.ToBasicData((CandlePart)999));
+    }
+
+    [TestMethod]
+    public void ToTupleCollection()
+    {
+        Collection<(DateTime, double)> collection = quotes
+            .OrderBy(x => x.Date)
+            .ToTupleCollection(CandlePart.Close);
+
+        Assert.IsNotNull(collection);
+        Assert.AreEqual(502, collection.Count);
+        Assert.AreEqual(collection.LastOrDefault().Item2, 245.28d);
+    }
+
+    [TestMethod]
+    public void ToSortedList()
+    {
+        Collection<(DateTime, double)> collection = quotes
+            .OrderBy(x => x.Date)
+            .ToTuple(CandlePart.Close)
+            .ToSortedCollection();
+
+        Assert.IsNotNull(collection);
+        Assert.AreEqual(502, collection.Count);
+        Assert.AreEqual(collection.LastOrDefault().Item2, 245.28d);
     }
 
     [TestMethod]
@@ -130,7 +202,7 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToBasicData(CandlePart.OHLC4).Value, 10));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             q.ToBasicData((CandlePart)999));
     }
 
@@ -192,7 +264,7 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToTuple(CandlePart.OHLC4).Item2, 10));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             q.ToTuple((CandlePart)999));
     }
 }

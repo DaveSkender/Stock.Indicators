@@ -1,8 +1,9 @@
 using System.Collections.ObjectModel;
+using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
 public class TransformTests : TestBase
@@ -25,6 +26,6 @@ public class TransformTests : TestBase
     public void ToTransformNull()
     {
         List<Quote> nullQuotes = null;
-        Collection<Quote> collection = nullQuotes.ToCollection();
+        _ = nullQuotes.ToCollection();
     }
 }

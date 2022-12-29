@@ -3,7 +3,7 @@
 # Local dev: bundle exec jekyll serve --livereload
 
 title: Stock Indicators for .NET
-tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
+tagline: "Send in price quotes and get back technical indicators.  Nothing more."
 locale: en_US
 
 # social media information
@@ -80,6 +80,7 @@ defaults:
     values:
       layout: "base"
       image: /assets/social-banner.png
+      description: Transform financial market prices into technical analysis insights with this best in class C# NuGet library.  Go further with chaining and custom indicators.
 
 # page collections
 collections:

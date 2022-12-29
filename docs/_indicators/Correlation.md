@@ -75,6 +75,8 @@ var results = quotes
     .GetCorrelation(quotesMarket.Use(CandlePart.HL2),20);
 ```
 
+> :warning: **Warning!** Both `quotesA` and `quotesB` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
+
 Results can be further processed on `Correlation` with additional chain-enabled indicators.
 
 ```csharp

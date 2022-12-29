@@ -74,6 +74,19 @@ public class Prs : TestBase
     }
 
     [TestMethod]
+    public void Chainee()
+    {
+        List<PrsResult> results = quotes
+            .GetSma(2)
+            .GetPrs(otherQuotes.GetSma(2), 20)
+            .ToList();
+
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(501, results.Count(x => x.Prs != null));
+        Assert.AreEqual(0, results.Count(x => x.Prs is double and double.NaN));
+    }
+
+    [TestMethod]
     public void BadData()
     {
         List<PrsResult> r = badQuotes

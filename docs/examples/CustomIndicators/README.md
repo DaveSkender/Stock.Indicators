@@ -37,6 +37,8 @@ public class AtrWmaResult : ResultBase, IReusableResult
 Create your custom indicator algorithm in the same style as our main library so the API functions identically.
 
 ```csharp
+using System.Collections.ObjectModel;
+using Skender.Stock.Indicators;
 namespace Custom.Stock.Indicators;
 
 public static class CustomIndicator
@@ -47,9 +49,9 @@ public static class CustomIndicator
     int lookbackPeriods)
     where TQuote : IQuote
   {
-    // sort quotes and convert to list
-    List<TQuote> quotesList = quotes
-      .ToSortedList();
+    // sort quotes and convert to collection or list
+    Collection<TQuote> quotesList = quotes
+      .ToSortedCollection();
 
     // initialize results
     List<AtrWmaResult> results = new(quotesList.Count);

@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 
 namespace Skender.Stock.Indicators;
 
+// GENERIC TRANSFORMS
+
 public static class Transforms
 {
     // TO COLLECTION

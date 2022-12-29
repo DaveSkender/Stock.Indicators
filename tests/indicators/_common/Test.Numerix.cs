@@ -4,11 +4,14 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class NumericsTests : TestBase
+public class NumerixTests : TestBase
 {
     private readonly double[] closePrice = longishQuotes
         .Select(x => (double)x.Close)
         .ToArray();
+
+    private readonly double[] x = { 1, 2, 3, 4, 5 };
+    private readonly double[] y = { 0, 0, 0, 0 };
 
     [TestMethod]
     public void StdDev()
@@ -17,6 +20,30 @@ public class NumericsTests : TestBase
 
         Assert.AreEqual(633.932098287, Math.Round(sd, 9));
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException), "Null parameter.")]
+    public void StdDevNull() => Numerix.StdDev(null);
+
+    [TestMethod]
+    public void Slope()
+    {
+        double s = Numerix.Slope(x, x);
+
+        Assert.AreEqual(1d, s);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException), "Null X parameter.")]
+    public void SlopeXnull() => Numerix.Slope(null, x);
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException), "Null Y parameter.")]
+    public void SlopeYnull() => Numerix.Slope(x, null);
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException), "X and Y different lengths.")]
+    public void SlopeMismatch() => Numerix.Slope(x, y);
 
     [TestMethod]
     public void RoundDownDate()

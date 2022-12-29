@@ -152,23 +152,24 @@ IEnumerable<SmaResult> results = myQuotes.GetSma(20);
 If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
 
 ```csharp
-public class MyCustomQuote : IQuote
+public class MyCustomQuote : IQuote // + ISeries
 {
     // required base properties
-    DateTime IQuote.Date => CloseDate;
+    DateTime ISeries.Date => CloseDate;
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
     public decimal Close { get; set; }
-    public decimal Volume { get; set; }
+    decimal IQuote.Volume => Vol;
 
     // custom properties
     public int MyOtherProperty { get; set; }
     public DateTime CloseDate { get; set; }
+    public decimal Vol { get; set; }
 }
 ```
 
-Note the use of explicit interface (property declaration is `IQuote.Date`), this is because having two properties that expose the same information can be confusing, this way `Date` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Date` property will be hidden, avoiding confusion.
+Note the use of explicit interface (property declaration is `ISeries.Date`), this is because having two properties that expose the same information can be confusing, this way `Date` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Date` property will be hidden, avoiding confusion.
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 

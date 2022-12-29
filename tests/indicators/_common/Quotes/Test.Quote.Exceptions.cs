@@ -1,7 +1,8 @@
+using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
 public class ExceptionTests : TestBase

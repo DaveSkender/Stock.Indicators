@@ -3,13 +3,13 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// HISTORICAL QUOTES FUNCTIONS (GENERAL)
+// QUOTE UTILITIES
 
 public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-    /* LISTS */
+    /* STANDARD DECIMAL QUOTES */
 
     // convert TQuotes to basic double tuple list
     /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
@@ -19,13 +19,6 @@ public static partial class QuoteUtility
         CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
             .Select(x => x.ToTuple(candlePart));
-
-    // sort quotes
-    internal static List<TQuote> ToSortedList<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .ToList();
 
     // TUPLE QUOTES
 

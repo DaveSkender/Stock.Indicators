@@ -1,71 +1,12 @@
+using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Results : TestBase
+public class Syncing : TestBase
 {
-    [TestMethod]
-    public void Find()
-    {
-        IEnumerable<Quote> quotes = TestData.GetDefault();
-        IEnumerable<EmaResult> emaResults = quotes.GetEma(20);
-
-        // find specific date
-        DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
-
-        EmaResult r = emaResults.Find(findDate);
-        Assert.AreEqual(249.3519, NullMath.Round(r.Ema, 4));
-    }
-
-    [TestMethod]
-    public void Remove()
-    {
-        // specific periods
-        IEnumerable<HeikinAshiResult> results =
-            quotes.GetHeikinAshi()
-              .RemoveWarmupPeriods(102);
-
-        Assert.AreEqual(400, results.Count());
-
-        // bad remove period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAdx(14).RemoveWarmupPeriods(-1));
-    }
-
-    [TestMethod]
-    public void RemoveTooMany()
-    {
-        // more than available
-        IEnumerable<HeikinAshiResult> results =
-            quotes.GetHeikinAshi()
-              .RemoveWarmupPeriods(600);
-
-        Assert.AreEqual(0, results.Count());
-    }
-
-    [TestMethod]
-    public void Condense()
-    {
-        List<AdxResult> x = quotes.GetAdx(14).ToList();
-
-        // make a few more in the middle null and NaN
-        x[249].Adx = null;
-        x[345].Adx = double.NaN;
-
-        List<AdxResult> r = x.Condense().ToList();
-
-        // proper quantities
-        Assert.AreEqual(473, r.Count);
-
-        // sample values
-        AdxResult last = r.LastOrDefault();
-        Assert.AreEqual(17.7565, NullMath.Round(last.Pdi, 4));
-        Assert.AreEqual(31.1510, NullMath.Round(last.Mdi, 4));
-        Assert.AreEqual(34.2987, NullMath.Round(last.Adx, 4));
-    }
-
     [TestMethod]
     public void SyncIndex()
     {
@@ -158,41 +99,5 @@ public class Results : TestBase
 
         Assert.IsFalse(noBaseResults.Any());
         Assert.IsFalse(noEvalResults.Any());
-    }
-
-    [TestMethod]
-    public void ToTuple()
-    {
-        // baseline for comparison
-        List<SmaResult> baseline = new()
-        {
-            new SmaResult(DateTime.Parse("1/1/2000", EnglishCulture)) { Sma = null },
-            new SmaResult(DateTime.Parse("1/2/2000", EnglishCulture)) { Sma = null },
-            new SmaResult(DateTime.Parse("1/3/2000", EnglishCulture)) { Sma = 3 },
-            new SmaResult(DateTime.Parse("1/4/2000", EnglishCulture)) { Sma = 4 },
-            new SmaResult(DateTime.Parse("1/5/2000", EnglishCulture)) { Sma = 5 },
-            new SmaResult(DateTime.Parse("1/6/2000", EnglishCulture)) { Sma = 6 },
-            new SmaResult(DateTime.Parse("1/7/2000", EnglishCulture)) { Sma = 7 },
-            new SmaResult(DateTime.Parse("1/8/2000", EnglishCulture)) { Sma = double.NaN },
-            new SmaResult(DateTime.Parse("1/9/2000", EnglishCulture)) { Sma = null },
-        };
-
-        // default to NaN with pruning
-        List<(DateTime Date, double Value)> naNresults = baseline.ToTuple();
-
-        Assert.AreEqual(5, naNresults.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, naNresults.Count(x => double.IsNaN(x.Value)));
-
-        // with null option
-        List<(DateTime Date, double? Value)> nullResults = baseline.ToTuple(NullTo.Null);
-
-        Assert.AreEqual(3, nullResults.Count(x => x.Value is null));
-        Assert.AreEqual(1, nullResults.Count(x => x.Value is double.NaN));
-
-        // with explicit nullable NaN option
-        List<(DateTime Date, double? Value)> nullableResults = baseline.ToTuple(NullTo.NaN);
-
-        Assert.AreEqual(0, nullableResults.Count(x => x.Value is null));
-        Assert.AreEqual(4, nullableResults.Count(x => x.Value is double.NaN));
     }
 }
