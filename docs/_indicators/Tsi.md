@@ -23,11 +23,11 @@ IEnumerable<TsiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
-| `smoothPeriods` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
-| `signalPeriods` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
+
+**`smoothPeriods`** _`int`_ - Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
+
+**`signalPeriods`** _`int`_ - Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
 
 ### Historical quotes requirements
 
@@ -51,11 +51,11 @@ IEnumerable<TsiResult>
 
 ### TsiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Tsi` | double | True Strength Index
-| `Signal` | double | Signal line (EMA of TSI)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Tsi`** _`double`_ - True Strength Index
+
+**`Signal`** _`double`_ - Signal line (EMA of TSI)
 
 ### Utilities
 

@@ -22,9 +22,7 @@ IEnumerable<ElderRayResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
 
 ### Historical quotes requirements
 
@@ -47,12 +45,13 @@ IEnumerable<ElderRayResult>
 
 ### ElderRayResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Ema` | double | Exponential moving average
-| `BullPower` | double | Bull Power
-| `BearPower` | double | Bear Power
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Ema`** _`double`_ - Exponential moving average
+
+**`BullPower`** _`double`_ - Bull Power
+
+**`BearPower`** _`double`_ - Bear Power
 
 ### Utilities
 

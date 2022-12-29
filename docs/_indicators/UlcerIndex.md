@@ -22,9 +22,7 @@ IEnumerable<UlcerIndexResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<UlcerIndexResult>
 
 ### UlcerIndexResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `UI` | double | Ulcer Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`UI`** _`double`_ - Ulcer Index
 
 ### Utilities
 

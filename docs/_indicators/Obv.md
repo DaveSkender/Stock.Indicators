@@ -26,9 +26,7 @@ IEnumerable<ObvResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `smaPeriods` | int | Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
+**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -49,11 +47,11 @@ IEnumerable<ObvResult>
 
 ### ObvResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Obv` | double | On-balance Volume
-| `ObvSma` | double | Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Obv`** _`double`_ - On-balance Volume
+
+**`ObvSma`** _`double`_ - Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
 
 > :warning: **Warning**: absolute values in OBV are somewhat meaningless. Use with caution.
 

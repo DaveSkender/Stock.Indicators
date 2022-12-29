@@ -22,9 +22,7 @@ IEnumerable<CmoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<CmoResult>
 
 ### CmoResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Cmo` | double | Chande Momentum Oscillator
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Cmo`** _`double`_ - Chande Momentum Oscillator
 
 ### Utilities
 

@@ -22,9 +22,7 @@ IEnumerable<WmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<WmaResult>
 
 ### WmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Wma` | double | Weighted moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Wma`** _`double`_ - Weighted moving average
 
 ### Utilities
 

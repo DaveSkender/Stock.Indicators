@@ -22,9 +22,7 @@ IEnumerable<SmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<SmaResult>
 
 ### SmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sma` | double | Simple moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sma`** _`double`_ - Simple moving average
 
 ### Utilities
 
@@ -71,13 +68,15 @@ IEnumberable<SmaAnalysis> analysis =
 
 ### SmaAnalysis
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sma` | decimal | Simple moving average
-| `Mad` | double | Mean absolute deviation
-| `Mse` | double | Mean square error
-| `Mape` | double | Mean absolute percentage error
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sma`** _`decimal`_ - Simple moving average
+
+**`Mad`** _`double`_ - Mean absolute deviation
+
+**`Mse`** _`double`_ - Mean square error
+
+**`Mape`** _`double`_ - Mean absolute percentage error
 
 ## Chaining
 

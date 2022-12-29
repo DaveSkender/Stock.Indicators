@@ -22,9 +22,7 @@ IEnumerable<VwmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<VwmaResult>
 
 ### VwmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Vwma` | double | Volume Weighted Moving Average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Vwma`** _`double`_ - Volume Weighted Moving Average
 
 ### Utilities
 

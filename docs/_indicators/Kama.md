@@ -22,11 +22,11 @@ IEnumerable<KamaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `erPeriods` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
-| `fastPeriods` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
-| `slowPeriods` | int | Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30.
+**`erPeriods`** _`int`_ - Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
+
+**`fastPeriods`** _`int`_ - Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
+
+**`slowPeriods`** _`int`_ - Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30.
 
 ### Historical quotes requirements
 
@@ -49,11 +49,11 @@ IEnumerable<KamaResult>
 
 ### KamaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `ER`   | double | Efficiency Ratio is the fractal efficiency of price changes
-| `Kama` | double | Kaufman's adaptive moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`ER`** _`double`_ - Efficiency Ratio is the fractal efficiency of price changes
+
+**`Kama`** _`double`_ - Kaufman's adaptive moving average
 
 More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` window. ER would be zero if prices are unchanged over the `erPeriods` window.
 

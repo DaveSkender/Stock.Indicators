@@ -26,9 +26,7 @@ IEnumerable<VwapResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `startDate` | DateTime | Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `quotes` is used when not provided.
+**`startDate`** _`DateTime`_ - Optional.  The anchor date used to start the VWAP accumulation.  The earliest date in `quotes` is used when not provided.
 
 ### Historical quotes requirements
 
@@ -50,10 +48,9 @@ IEnumerable<VwapResult>
 
 ### VwapResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Vwap` | double | Volume Weighted Average Price
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Vwap`** _`double`_ - Volume Weighted Average Price
 
 ### Utilities
 

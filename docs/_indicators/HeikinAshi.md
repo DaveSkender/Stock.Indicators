@@ -40,14 +40,17 @@ IEnumerable<HeikinAshiResult>
 
 ### HeikinAshiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Open` | decimal | Modified open price
-| `High` | decimal | Modified high price
-| `Low` | decimal | Modified low price
-| `Close` | decimal | Modified close price
-| `Volume` | decimal | Volume (same as `quotes`)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Open`** _`decimal`_ - Modified open price
+
+**`High`** _`decimal`_ - Modified high price
+
+**`Low`** _`decimal`_ - Modified low price
+
+**`Close`** _`decimal`_ - Modified close price
+
+**`Volume`** _`decimal`_ - Volume (same as `quotes`)
 
 ### Utilities
 

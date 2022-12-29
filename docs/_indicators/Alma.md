@@ -22,11 +22,11 @@ IEnumerable<AlmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1, but is typically in the 5-20 range.  Default is 9.
-| `offset` | double | Adjusts smoothness versus responsiveness on a scale from 0 to 1; where 1 is max responsiveness.  Default is 0.85.
-| `sigma` | double | Defines the width of the Gaussian [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution).  Must be greater than 0.  Default is 6.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 1, but is typically in the 5-20 range.  Default is 9.
+
+**`offset`** _`double`_ - Adjusts smoothness versus responsiveness on a scale from 0 to 1; where 1 is max responsiveness.  Default is 0.85.
+
+**`sigma`** _`double`_ - Defines the width of the Gaussian [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution).  Must be greater than 0.  Default is 6.
 
 ### Historical quotes requirements
 
@@ -47,10 +47,9 @@ IEnumerable<AlmaResult>
 
 ### AlmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Alma` | double | Arnaud Legoux Moving Average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Alma`** _`double`_ - Arnaud Legoux Moving Average
 
 ### Utilities
 

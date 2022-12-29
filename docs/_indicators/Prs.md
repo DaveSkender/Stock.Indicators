@@ -26,11 +26,11 @@ IEnumerable<PrsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `quotesBase` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical quotes used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
-| `lookbackPeriods` | int | Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
-| `smaPeriods` | int | Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
+**`quotesBase`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
+
+**`lookbackPeriods`** _`int`_ - Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
+
+**`smaPeriods`** _`int`_ - Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -51,12 +51,13 @@ IEnumerable<PrsResult>
 
 ### PrResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Prs` | double | Price Relative Strength compares `Eval` to `Base` histories
-| `PrsSma` | double | Moving Average (SMA) of PRS over `S` periods
-| `PrsPercent` | double | Percent change difference between `Eval` and `Base` over `N` periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Prs`** _`double`_ - Price Relative Strength compares `Eval` to `Base` histories
+
+**`PrsSma`** _`double`_ - Moving Average (SMA) of PRS over `S` periods
+
+**`PrsPercent`** _`double`_ - Percent change difference between `Eval` and `Base` over `N` periods
 
 ### Utilities
 

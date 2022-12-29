@@ -22,11 +22,11 @@ IEnumerable<MaEnvelopeResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
-| `percentOffset` | double | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5.
-| `movingAverageType` | MaType | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 1.
+
+**`percentOffset`** _`double`_ - Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5.
+
+**`movingAverageType`** _`MaType`_ - Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Historical quotes requirements
 
@@ -38,17 +38,23 @@ See links in the supported [MaType options](#matype-options) section below for d
 
 These are the supported moving average types:
 
-| type | description
-|-- |--
-| `MaType.ALMA` | [Arnaud Legoux Moving Average]({{site.baseurl}}/indicators/Alma/#content)
-| `MaType.DEMA` | [Double Exponential Moving Average]({{site.baseurl}}/indicators/Dema/#content)
-| `MaType.EPMA` | [Endpoint Moving Average]({{site.baseurl}}/indicators/Epma/#content)
-| `MaType.EMA` | [Exponential Moving Average]({{site.baseurl}}/indicators/Ema/#content)
-| `MaType.HMA` | [Hull Moving Average]({{site.baseurl}}/indicators/Hma/#content)
-| `MaType.SMA` | [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
-| `MaType.TEMA` | [Triple Exponential Moving Average]({{site.baseurl}}/indicators/Tema/#content)
-| `MaType.WMA` | [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
+**`MaType.ALMA`** - [Arnaud Legoux Moving Average]({{site.baseurl}}/indicators/Alma/#content)
+
+**`MaType.DEMA`** - [Double Exponential Moving Average]({{site.baseurl}}/indicators/Dema/#content)
+
+**`MaType.EPMA`** - [Endpoint Moving Average]({{site.baseurl}}/indicators/Epma/#content)
+
+**`MaType.EMA`** - [Exponential Moving Average]({{site.baseurl}}/indicators/Ema/#content)
+
+**`MaType.HMA`** - [Hull Moving Average]({{site.baseurl}}/indicators/Hma/#content)
+
+**`MaType.SMA`** - [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+
+**`MaType.SMMA`** - [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
+
+**`MaType.TEMA`** - [Triple Exponential Moving Average]({{site.baseurl}}/indicators/Tema/#content)
+
+**`MaType.WMA`** - [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
 
 > :warning:  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
 
@@ -67,12 +73,13 @@ IEnumerable<MaEnvelopeResult>
 
 ### MaEnvelopeResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Centerline` | double | Moving average
-| `UpperEnvelope` | double | Upper envelope band
-| `LowerEnvelope` | double | Lower envelope band
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Centerline`** _`double`_ - Moving average
+
+**`UpperEnvelope`** _`double`_ - Upper envelope band
+
+**`LowerEnvelope`** _`double`_ - Lower envelope band
 
 The moving average `Centerline` is based on the `movingAverageType` type specified.
 

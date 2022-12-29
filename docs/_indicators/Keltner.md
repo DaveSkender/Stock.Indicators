@@ -22,11 +22,11 @@ IEnumerable<KeltnerResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `emaPeriods` | int | Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
-| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2.
-| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
+**`emaPeriods`** _`int`_ - Number of lookback periods (`E`) for the center line moving average.  Must be greater than 1 to calculate.  Default is 20.
+
+**`multiplier`** _`double`_ - ATR Multiplier. Must be greater than 0.  Default is 2.
+
+**`atrPeriods`** _`int`_ - Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate.  Default is 10.
 
 ### Historical quotes requirements
 
@@ -49,13 +49,15 @@ IEnumerable<KeltnerResult>
 
 ### KeltnerResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `UpperBand` | double | Upper band of Keltner Channel
-| `Centerline` | double | EMA of price
-| `LowerBand` | double | Lower band of Keltner Channel
-| `Width` | double | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`UpperBand`** _`double`_ - Upper band of Keltner Channel
+
+**`Centerline`** _`double`_ - EMA of price
+
+**`LowerBand`** _`double`_ - Lower band of Keltner Channel
+
+**`Width`** _`double`_ - Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
 
 ### Utilities
 

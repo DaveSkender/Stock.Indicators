@@ -22,9 +22,7 @@ IEnumerable<AdxResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -47,13 +45,15 @@ IEnumerable<AdxResult>
 
 ### AdxResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Pdi` | double | Plus Directional Index (+DI)
-| `Mdi` | double | Minus Directional Index (-DI)
-| `Adx` | double | Average Directional Index (ADX)
-| `Adxr` | double | Average Directional Index Rating (ADXR)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Pdi`** _`double`_ - Plus Directional Index (+DI)
+
+**`Mdi`** _`double`_ - Minus Directional Index (-DI)
+
+**`Adx`** _`double`_ - Average Directional Index (ADX)
+
+**`Adxr`** _`double`_ - Average Directional Index Rating (ADXR)
 
 ### Utilities
 

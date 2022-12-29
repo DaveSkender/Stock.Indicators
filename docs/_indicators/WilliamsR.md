@@ -22,9 +22,7 @@ IEnumerable<WilliamsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<WilliamsResult>
 
 ### WilliamsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `WilliamsR` | double | Oscillator over prior `N` lookback periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`WilliamsR`** _`double`_ - Oscillator over prior `N` lookback periods
 
 ### Utilities
 

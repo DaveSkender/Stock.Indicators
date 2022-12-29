@@ -22,9 +22,7 @@ IEnumerable<MfiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 1. Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<MfiResult>
 
 ### MfiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Mfi` | decimal | Money Flow Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Mfi`** _`decimal`_ - Money Flow Index
 
 ### Utilities
 

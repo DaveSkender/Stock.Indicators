@@ -22,10 +22,9 @@ IEnumerable<MamaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastLimit` | double | Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
-| `slowLimit` | double | Slow limit threshold.  Must be greater than 0.  Default is 0.05.
+**`fastLimit`** _`double`_ - Fast limit threshold.  Must be greater than `slowLimit` and less than 1.  Default is 0.5.
+
+**`slowLimit`** _`double`_ - Slow limit threshold.  Must be greater than 0.  Default is 0.05.
 
 ### Historical quotes requirements
 
@@ -48,11 +47,11 @@ IEnumerable<MamaResult>
 
 ### MamaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Mama` | decimal | MESA adaptive moving average (MAMA)
-| `Fama` | decimal | Following adaptive moving average (FAMA)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Mama`** _`decimal`_ - MESA adaptive moving average (MAMA)
+
+**`Fama`** _`decimal`_ - Following adaptive moving average (FAMA)
 
 ### Utilities
 

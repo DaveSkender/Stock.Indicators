@@ -22,9 +22,7 @@ IEnumerable<HurstResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the Hurst Analysis.  Must be greater than 20.  Default is 100.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<HurstResult>
 
 ### HurstResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `HurstExponent` | double | Hurst Exponent (`H`)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`HurstExponent`** _`double`_ - Hurst Exponent (`H`)
 
 ### Utilities
 

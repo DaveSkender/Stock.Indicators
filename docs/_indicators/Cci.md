@@ -22,9 +22,7 @@ IEnumerable<CciResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<CciResult>
 
 ### CciResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Cci` | double | Commodity Channel Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Cci`** _`double`_ - Commodity Channel Index
 
 ### Utilities
 

@@ -26,10 +26,9 @@ IEnumerable<RocResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.
-| `smaPeriods` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to go back.  Must be greater than 0.
+
+**`smaPeriods`** _`int`_ - Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -50,12 +49,13 @@ IEnumerable<RocResult>
 
 ### RocResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Momentum` | double | Raw change in price over `N` periods
-| `Roc` | double | Percent change in price (%, not decimal)
-| `RocSma` | double | Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Momentum`** _`double`_ - Raw change in price over `N` periods
+
+**`Roc`** _`double`_ - Percent change in price (%, not decimal)
+
+**`RocSma`** _`double`_ - Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
 
 ### Utilities
 

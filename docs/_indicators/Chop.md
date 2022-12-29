@@ -21,9 +21,7 @@ IEnumerable<ChopResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -44,10 +42,9 @@ IEnumerable<ChopResult>
 
 ### ChopResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Chop` | double | Choppiness Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Chop`** _`double`_ - Choppiness Index
 
 ### Utilities
 

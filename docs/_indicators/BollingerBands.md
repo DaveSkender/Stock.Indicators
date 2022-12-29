@@ -22,10 +22,9 @@ IEnumerable<BollingerBandsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
-| `standardDeviations` | double | Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the center line moving average.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.  Default is 20.
+
+**`standardDeviations`** _`double`_ - Width of bands.  Standard deviations (`D`) from the moving average.  Must be greater than 0.  Default is 2.
 
 ### Historical quotes requirements
 
@@ -46,15 +45,19 @@ IEnumerable<BollingerBandsResult>
 
 ### BollingerBandsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sma` | double | Simple moving average (SMA) of price (center line)
-| `UpperBand` | double | Upper line is `D` standard deviations above the SMA
-| `LowerBand` | double | Lower line is `D` standard deviations below the SMA
-| `PercentB` | double | `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)`
-| `ZScore` | double | Z-Score of current price (number of standard deviations from mean)
-| `Width` | double | Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sma`** _`double`_ - Simple moving average (SMA) of price (center line)
+
+**`UpperBand`** _`double`_ - Upper line is `D` standard deviations above the SMA
+
+**`LowerBand`** _`double`_ - Lower line is `D` standard deviations below the SMA
+
+**`PercentB`** _`double`_ - `%B` is the location within the bands.  `(Price-LowerBand)/(UpperBand-LowerBand)`
+
+**`ZScore`** _`double`_ - Z-Score of current price (number of standard deviations from mean)
+
+**`Width`** _`double`_ - Width as percent of SMA price.  `(UpperBand-LowerBand)/Sma`
 
 ### Utilities
 

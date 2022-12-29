@@ -22,9 +22,7 @@ IEnumerable<BopResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `smoothPeriods` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
+**`smoothPeriods`** _`int`_ - Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<BopResult>
 
 ### BopResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Bop` | double | Balance of Power
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Bop`** _`double`_ - Balance of Power
 
 ### Utilities
 

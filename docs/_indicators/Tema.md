@@ -24,9 +24,7 @@ IEnumerable<TemaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -49,10 +47,9 @@ IEnumerable<TemaResult>
 
 ### TemaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Tema` | double | Triple exponential moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Tema`** _`double`_ - Triple exponential moving average
 
 ### Utilities
 

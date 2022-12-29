@@ -27,14 +27,17 @@ IEnumerable<StochResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
-| `signalPeriods` | int | Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
-| `smoothPeriods` | int | Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
-| `kFactor` | double | Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
-| `dFactor` | double | Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
-| `movingAverageType` | MaType | Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
+**`lookbackPeriods`** _`int`_ - Lookback period (`N`) for the oscillator (%K).  Must be greater than 0.  Default is 14.
+
+**`signalPeriods`** _`int`_ - Smoothing period for the signal (%D).  Must be greater than 0.  Default is 3.
+
+**`smoothPeriods`** _`int`_ - Smoothing period (`S`) for the Oscillator (%K).  "Slow" stochastic uses 3, "Fast" stochastic uses 1.  Must be greater than 0.  Default is 3.
+
+**`kFactor`** _`double`_ - Optional. Weight of %K in the %J calculation.  Must be greater than 0. Default is 3.
+
+**`dFactor`** _`double`_ - Optional. Weight of %D in the %J calculation.  Must be greater than 0. Default is 2.
+
+**`movingAverageType`** _`MaType`_ - Optional. Type of moving average (SMA or SMMA) used for smoothing.  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Historical quotes requirements
 
@@ -46,10 +49,9 @@ You must have at least `N+S` periods of `quotes` to cover the warmup periods.
 
 These are the supported moving average types:
 
-| type | description
-|-- |--
-| `MaType.SMA` | [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
+**`MaType.SMA`** - [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+
+**`MaType.SMMA`** - [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
 
 ## Response
 
@@ -66,12 +68,13 @@ IEnumerable<StochResult>
 
 ### StochResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Oscillator` or `K` | double | %K Oscillator
-| `Signal` or `D` | double | %D Simple moving average of Oscillator
-| `PercentJ` or `J` | double | %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Oscillator` or `K`** _`double`_ - %K Oscillator
+
+**`Signal` or `D`** _`double`_ - %D Simple moving average of Oscillator
+
+**`PercentJ` or `J`** _`double`_ - %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
 
 Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangeably with the standard outputs.
 

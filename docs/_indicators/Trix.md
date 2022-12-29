@@ -26,10 +26,9 @@ IEnumerable<TrixResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
-| `signalPeriods` | int | Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
+
+**`signalPeriods`** _`int`_ - Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -52,12 +51,13 @@ IEnumerable<TrixResult>
 
 ### TrixResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Ema3` | decimal | 3 EMAs of the price
-| `Trix` | decimal | Rate of Change of 3 EMAs
-| `Signal` | decimal | SMA of `Trix` based on `signalPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Ema3`** _`decimal`_ - 3 EMAs of the price
+
+**`Trix`** _`decimal`_ - Rate of Change of 3 EMAs
+
+**`Signal`** _`decimal`_ - SMA of `Trix` based on `signalPeriods` periods, if specified
 
 ### Utilities
 

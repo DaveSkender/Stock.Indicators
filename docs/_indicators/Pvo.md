@@ -22,11 +22,11 @@ IEnumerable<PvoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
-| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
-| `signalPeriods` | int | Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9.
+**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 12.
+
+**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 26.
+
+**`signalPeriods`** _`int`_ - Number of periods (`P`) for the moving average of PVO.  Must be greater than or equal to 0.  Default is 9.
 
 ### Historical quotes requirements
 
@@ -49,12 +49,13 @@ IEnumerable<PvoResult>
 
 ### PvoResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Pvo` | double | Normalized difference between two Volume moving averages
-| `Signal` | double | Moving average of the `Pvo` line
-| `Histogram` | double | Gap between of the `Pvo` and `Signal` line
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Pvo`** _`double`_ - Normalized difference between two Volume moving averages
+
+**`Signal`** _`double`_ - Moving average of the `Pvo` line
+
+**`Histogram`** _`double`_ - Gap between of the `Pvo` and `Signal` line
 
 ### Utilities
 

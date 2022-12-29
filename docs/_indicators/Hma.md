@@ -22,9 +22,7 @@ IEnumerable<HmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 1.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<HmaResult>
 
 ### HmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Hma` | double | Hull moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Hma`** _`double`_ - Hull moving average
 
 ### Utilities
 

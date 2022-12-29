@@ -22,9 +22,7 @@ IEnumerable<VortexResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
 
 ### Historical quotes requirements
 
@@ -45,11 +43,11 @@ IEnumerable<VortexResult>
 
 ### VortexResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Pvi` | double | Positive Vortex Indicator (VI+)
-| `Nvi` | double | Negative Vortex Indicator (VI-)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Pvi`** _`double`_ - Positive Vortex Indicator (VI+)
+
+**`Nvi`** _`double`_ - Negative Vortex Indicator (VI-)
 
 ### Utilities
 

@@ -26,9 +26,7 @@ IEnumerable<AdlResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `smaPeriods` | int | Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
+**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -48,13 +46,15 @@ IEnumerable<AdlResult>
 
 ### AdlResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `MoneyFlowMultiplier` | double | Money Flow Multiplier
-| `MoneyFlowVolume` | double | Money Flow Volume
-| `Adl` | double | Accumulation Distribution Line (ADL)
-| `AdlSma` | double | Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
+
+**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
+
+**`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
+
+**`AdlSma`** _`double`_ - Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
 
 > :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 

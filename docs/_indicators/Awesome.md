@@ -22,10 +22,9 @@ IEnumerable<AwesomeResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
-| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34.
+**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
+
+**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34.
 
 ### Historical quotes requirements
 
@@ -46,11 +45,11 @@ IEnumerable<AwesomeResult>
 
 ### AwesomeResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Oscillator` | double | Awesome Oscillator
-| `Normalized` | double | `100 × Oscillator ÷ (median price)`
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Oscillator`** _`double`_ - Awesome Oscillator
+
+**`Normalized`** _`double`_ - `100 × Oscillator ÷ (median price)`
 
 ### Utilities
 

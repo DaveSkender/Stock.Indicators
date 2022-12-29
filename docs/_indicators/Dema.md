@@ -24,9 +24,7 @@ IEnumerable<DemaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -49,10 +47,9 @@ IEnumerable<DemaResult>
 
 ### DemaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Dema` | double | Double exponential moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Dema`** _`double`_ - Double exponential moving average
 
 ### Utilities
 

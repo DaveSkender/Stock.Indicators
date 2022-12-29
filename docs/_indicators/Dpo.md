@@ -22,9 +22,7 @@ IEnumerable<DpoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,11 +43,11 @@ IEnumerable<DpoResult>
 
 ### DpoResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sma` | double | Simple moving average offset by `N/2+1` periods
-| `Dpo` | double | Detrended Price Oscillator (DPO)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sma`** _`double`_ - Simple moving average offset by `N/2+1` periods
+
+**`Dpo`** _`double`_ - Detrended Price Oscillator (DPO)
 
 ### Utilities
 

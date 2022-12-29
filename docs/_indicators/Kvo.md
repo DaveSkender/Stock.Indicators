@@ -22,11 +22,11 @@ IEnumerable<KvoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastPeriods` | int | Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34.
-| `slowPeriods` | int | Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55.
-| `signalPeriods` | int | Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13.
+**`fastPeriods`** _`int`_ - Number of lookback periods (`F`) for the short-term EMA.  Must be greater than 2.  Default is 34.
+
+**`slowPeriods`** _`int`_ - Number of lookback periods (`L`) for the long-term EMA.  Must be greater than `F`.  Default is 55.
+
+**`signalPeriods`** _`int`_ - Number of lookback periods for the signal line.  Must be greater than 0.  Default is 13.
 
 ### Historical quotes requirements
 
@@ -49,11 +49,11 @@ IEnumerable<KvoResult>
 
 ### KvoResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Oscillator` | double | Klinger Oscillator
-| `Signal` | double | EMA of Klinger Oscillator (signal line)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Oscillator`** _`double`_ - Klinger Oscillator
+
+**`Signal`** _`double`_ - EMA of Klinger Oscillator (signal line)
 
 ### Utilities
 

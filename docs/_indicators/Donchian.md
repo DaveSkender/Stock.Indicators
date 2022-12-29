@@ -23,9 +23,7 @@ IEnumerable<DonchianResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
 
 ### Historical quotes requirements
 
@@ -46,13 +44,15 @@ IEnumerable<DonchianResult>
 
 ### DonchianResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `UpperBand` | decimal | Upper line is the highest High over `N` periods
-| `Centerline` | decimal | Simple average of Upper and Lower bands
-| `LowerBand` | decimal | Lower line is the lowest Low over `N` periods
-| `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`UpperBand`** _`decimal`_ - Upper line is the highest High over `N` periods
+
+**`Centerline`** _`decimal`_ - Simple average of Upper and Lower bands
+
+**`LowerBand`** _`decimal`_ - Lower line is the lowest Low over `N` periods
+
+**`Width`** _`decimal`_ - Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
 
 ### Utilities
 

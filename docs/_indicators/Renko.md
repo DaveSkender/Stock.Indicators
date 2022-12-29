@@ -22,10 +22,9 @@ IEnumerable<RenkoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `brickSize` | decimal | Brick size.  Must be greater than 0.
-| `endType` | EndType | See options below.  Default is `EndType.Close`
+**`brickSize`** _`decimal`_ - Brick size.  Must be greater than 0.
+
+**`endType`** _`EndType`_ - See options below.  Default is `EndType.Close`
 
 ### Historical quotes requirements
 
@@ -35,10 +34,9 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 
 ### EndType options
 
-| type | description
-|-- |--
-| `EndType.Close` | Brick change threshold measured from `Close` price (default)
-| `EndType.HighLow` | Brick change threshold measured from `High` and `Low` price
+**`EndType.Close`** - Brick change threshold measured from `Close` price (default)
+
+**`EndType.HighLow`** - Brick change threshold measured from `High` and `Low` price
 
 ## Chaining
 
@@ -69,15 +67,19 @@ IEnumerable<RenkoResult>
 
 Each result record represents one Renko brick.
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Formation date of brick(s)
-| `Open` | decimal | Brick open price
-| `High` | decimal | Highest high during elapsed quotes periods
-| `Low` | decimal | Lowest low during elapsed quotes periods
-| `Close` | decimal | Brick close price
-| `Volume` | decimal | Sum of Volume over elapsed quotes periods
-| `IsUp` | boolean | Direction of brick (true=up,false=down)
+**`Date`** _`DateTime`_ - Formation date of brick(s)
+
+**`Open`** _`decimal`_ - Brick open price
+
+**`High`** _`decimal`_ - Highest high during elapsed quotes periods
+
+**`Low`** _`decimal`_ - Lowest low during elapsed quotes periods
+
+**`Close`** _`decimal`_ - Brick close price
+
+**`Volume`** _`decimal`_ - Sum of Volume over elapsed quotes periods
+
+**`IsUp`** _`bool`_ - Direction of brick (true=up,false=down)
 
 > :warning: **Warning**: When multiple bricks are drawn from a single `quote` period, the extra information about `High` and `Low` wicks and `Volume` is potentially confusing to interpret.  `High` and `Low` wicks will be the same across the multiple bricks; and `Volume` is portioning evenly across the number of bricks.  For example, if within one `quote` period 3 bricks are drawn, the `Volume` for each brick will be `(sum of quotes Volume since last brick) / 3`.
 
@@ -98,10 +100,9 @@ IEnumerable<RenkoResult> results =
 
 ### Parameters for ATR
 
-| name | type | notes
-| -- |-- |--
-| `atrPeriod` | int | Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.
-| `endType` | EndType | See options below.  Default is `EndType.Close`
+**`atrPeriod`** _`int`_ - Number of lookback periods (`A`) for ATR evaluation.  Must be greater than 0.
+
+**`endType`** _`EndType`_ - See options below.  Default is `EndType.Close`
 
 #### Historical quotes requirements for ATR
 

@@ -22,11 +22,11 @@ IEnumerable<BetaResult> results = quotesEval
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `quotesMarket` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical [market] Quotes data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
-| `type` | BetaType | Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below.
+**`quotesMarket`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
+
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
+
+**`type`** _`BetaType`_ -  Type of Beta to calculate.  Default is `BetaType.Standard`. See [BetaType options](#betatype-options) below.
 
 ### Historical quotes requirements
 
@@ -34,12 +34,13 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 
 #### BetaType options
 
-| type | description
-|-- |--
-| `Standard` | Standard Beta only.  Uses all historical quotes.
-| `Up` | Upside Beta only.  Uses historical quotes from market up bars only.
-| `Down` | Downside Beta only.  Uses historical quotes from market down bars only.
-| `All` | Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
+**`Standard`** - Standard Beta only.  Uses all historical quotes.
+
+**`Up`** - Upside Beta only.  Uses historical quotes from market up bars only.
+
+**`Down`** - Downside Beta only.  Uses historical quotes from market down bars only.
+
+**`All`** - Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
 
 > :information_source: **Pro tip**
 >
@@ -60,16 +61,21 @@ IEnumerable<BetaResult>
 
 ### BetaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Beta` | double | Beta coefficient based
-| `BetaUp` | double | Beta+ (Up Beta)
-| `BetaDown` | double | Beta- (Down Beta)
-| `Ratio` | double | Beta ratio is `BetaUp/BetaDown`
-| `Convexity` | double | Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
-| `ReturnsEval` | double | Returns of evaluated quotes (`R`)
-| `ReturnsMrkt` | double | Returns of market quotes (`Rm`)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Beta`** _`double`_ - Beta coefficient based
+
+**`BetaUp`** _`double`_ - Beta+ (Up Beta)
+
+**`BetaDown`** _`double`_ - Beta- (Down Beta)
+
+**`Ratio`** _`double`_ - Beta ratio is `BetaUp/BetaDown`
+
+**`Convexity`** _`double`_ - Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
+
+**`ReturnsEval`** _`double`_ - Returns of evaluated quotes (`R`)
+
+**`ReturnsMrkt`** _`double`_ - Returns of market quotes (`Rm`)
 
 ### Utilities
 

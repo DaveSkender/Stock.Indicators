@@ -22,12 +22,13 @@ IEnumerable<PivotsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `leftSpan` | int | Left evaluation window span width (`L`).  Must be at least 2.  Default is 2.
-| `rightSpan` | int | Right evaluation window span width (`R`).  Must be at least 2.  Default is 2.
-| `maxTrendPeriods` | int | Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20.
-| `endType` | EndType | Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
+**`leftSpan`** _`int`_ - Left evaluation window span width (`L`).  Must be at least 2.  Default is 2.
+
+**`rightSpan`** _`int`_ - Right evaluation window span width (`R`).  Must be at least 2.  Default is 2.
+
+**`maxTrendPeriods`** _`int`_ - Number of periods (`N`) in evaluation window.  Must be greater than `leftSpan`.  Default is 20.
+
+**`endType`** _`EndType`_ - Determines whether `Close` or `High/Low` are used to find end points.  See [EndType options](#endtype-options) below.  Default is `EndType.HighLow`.
 
 The total evaluation window size is `L+R+1`.
 
@@ -39,10 +40,9 @@ You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; 
 
 ### EndType options
 
-| type | description
-|-- |--
-| `EndType.Close` | Chevron point identified from `Close` price
-| `EndType.HighLow` | Chevron point identified from `High` and `Low` price (default)
+**`EndType.Close`** - Chevron point identified from `Close` price
+
+**`EndType.HighLow`** - Chevron point identified from `High` and `Low` price (default)
 
 ## Response
 
@@ -59,24 +59,29 @@ IEnumerable<PivotsResult>
 
 ### PivotsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `HighPoint` | decimal | Value indicates a **high** point; otherwise `null` is returned.
-| `LowPoint` | decimal | Value indicates a **low** point; otherwise `null` is returned.
-| `HighLine` | decimal | Drawn line between two high points in the `maxTrendPeriods`
-| `LowLine` | decimal | Drawn line between two low points in the `maxTrendPeriods`
-| `HighTrend` | PivotTrend | Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below.
-| `LowTrend` | PivotTrend | Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below.
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`HighPoint`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
+
+**`LowPoint`** _`decimal`_ - Value indicates a **low** point; otherwise `null` is returned.
+
+**`HighLine`** _`decimal`_ - Drawn line between two high points in the `maxTrendPeriods`
+
+**`LowLine`** _`decimal`_ - Drawn line between two low points in the `maxTrendPeriods`
+
+**`HighTrend`** _`PivotTrend`_ - Enum that represents higher high or lower high.  See [PivotTrend values](#pivottrend-values) below.
+
+**`LowTrend`** _`PivotTrend`_ - Enum that represents higher low or lower low.  See [PivotTrend values](#pivottrend-values) below.
 
 #### PivotTrend values
 
-| type | description
-|-- |--
-| `PivotTrend.HH` | Higher high
-| `PivotTrend.LH` | Lower high
-| `PivotTrend.HL` | Higher low
-| `PivotTrend.LL` | Lower low
+**`PivotTrend.HH`** - Higher high
+
+**`PivotTrend.LH`** - Lower high
+
+**`PivotTrend.HL`** - Higher low
+
+**`PivotTrend.LL`** - Lower low
 
 ### Utilities
 

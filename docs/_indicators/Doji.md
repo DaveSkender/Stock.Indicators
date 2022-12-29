@@ -22,9 +22,7 @@ IEnumerable<CandleResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `maxPriceChangePercent` | double | Optional.  Maximum absolute percent difference in open and close price.  Example: 0.3% would be entered as 0.3 (not 0.003).  Must be between 0 and 0.5 percent, if specified.  Default is 0.1 (0.1%).
+**`maxPriceChangePercent`** _`double`_ - Optional.  Maximum absolute percent difference in open and close price.  Example: 0.3% would be entered as 0.3 (not 0.003).  Must be between 0 and 0.5 percent, if specified.  Default is 0.1 (0.1%).
 
 ### Historical quotes requirements
 

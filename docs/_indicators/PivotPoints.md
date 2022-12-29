@@ -23,10 +23,9 @@ IEnumerable<PivotPointsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `windowSize` | PeriodSize | Size of the lookback window
-| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
+**`windowSize`** _`PeriodSize`_ - Size of the lookback window
+
+**`pointType`** _`PivotPointType`_ - Type of Pivot Point.  Default is `PivotPointType.Standard`
 
 ### Historical quotes requirements
 
@@ -36,22 +35,25 @@ You must have at least `2` windows of `quotes` to cover the warmup periods.  For
 
 ### PeriodSize options (for windowSize)
 
-| type | description
-|-- |--
-| `PeriodSize.Month` | Use the prior month's data to calculate current month's Pivot Points
-| `PeriodSize.Week` | [..] weekly
-| `PeriodSize.Day` | [..] daily.  Commonly used for intraday data.
-| `PeriodSize.OneHour` | [..] hourly
+**`PeriodSize.Month`** - Use the prior month's data to calculate current month's Pivot Points
+
+**`PeriodSize.Week`** - [..] weekly
+
+**`PeriodSize.Day`** - [..] daily.  Commonly used for intraday data.
+
+**`PeriodSize.OneHour`** - [..] hourly
 
 ### PivotPointType options
 
-| type | description
-|-- |--
-| `PivotPointType.Standard` | Floor Trading (default)
-| `PivotPointType.Camarilla` | Camarilla
-| `PivotPointType.Demark` | Demark
-| `PivotPointType.Fibonacci` | Fibonacci
-| `PivotPointType.Woodie` | Woodie
+**`PivotPointType.Standard`** - Floor Trading (default)
+
+**`PivotPointType.Camarilla`** - Camarilla
+
+**`PivotPointType.Demark`** - Demark
+
+**`PivotPointType.Fibonacci`** - Fibonacci
+
+**`PivotPointType.Woodie`** - Woodie
 
 ## Response
 
@@ -70,16 +72,21 @@ IEnumerable<PivotPointsResult>
 
 ### PivotPointsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `R3` | decimal | Resistance level 3
-| `R2` | decimal | Resistance level 2
-| `R1` | decimal | Resistance level 1
-| `PP` | decimal | Pivot Point
-| `S1` | decimal | Support level 1
-| `S2` | decimal | Support level 2
-| `S3` | decimal | Support level 3
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`R3`** _`decimal`_ - Resistance level 3
+
+**`R2`** _`decimal`_ - Resistance level 2
+
+**`R1`** _`decimal`_ - Resistance level 1
+
+**`PP`** _`decimal`_ - Pivot Point
+
+**`S1`** _`decimal`_ - Support level 1
+
+**`S2`** _`decimal`_ - Support level 2
+
+**`S3`** _`decimal`_ - Support level 3
 
 ### Utilities
 

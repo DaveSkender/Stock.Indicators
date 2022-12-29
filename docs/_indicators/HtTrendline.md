@@ -42,12 +42,13 @@ IEnumerable<HtlResult>
 
 ### HtlResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `DcPeriods` | int | Dominant cycle periods (smoothed)
-| `Trendline` | double | HT Trendline
-| `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`DcPeriods`** _`int`_ - Dominant cycle periods (smoothed)
+
+**`Trendline`** _`double`_ - HT Trendline
+
+**`SmoothPrice`** _`double`_ - Weighted moving average of `(H+L)/2` price
 
 ### Utilities
 

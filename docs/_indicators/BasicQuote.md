@@ -18,9 +18,7 @@ IEnumerable<BasicData> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `candlePart` | CandlePart | The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
+**`candlePart`** _`CandlePart`_ - The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
 
 ### Historical quotes requirements
 
@@ -42,10 +40,9 @@ IEnumerable<BasicData>
 
 ### BasicData
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Value` | double | Price of `CandlePart` option
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Value`** _`double`_ - Price of `CandlePart` option
 
 ### Utilities
 

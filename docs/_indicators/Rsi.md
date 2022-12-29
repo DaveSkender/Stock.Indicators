@@ -22,9 +22,7 @@ IEnumerable<RsiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -47,10 +45,9 @@ IEnumerable<RsiResult>
 
 ### RsiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Rsi` | double | Relative Strength Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Rsi`** _`double`_ - Relative Strength Index
 
 ### Utilities
 

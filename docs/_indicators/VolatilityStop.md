@@ -22,10 +22,9 @@ IEnumerable<VolatilityStopResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7.
-| `multiplier` | double | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7.
+
+**`multiplier`** _`double`_ - ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0.
 
 ### Historical quotes requirements
 
@@ -48,13 +47,15 @@ IEnumerable<VolatilityStopResult>
 
 ### VolatilityStopResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sar` | double | Stop and Reverse value contains both Upper and Lower segments
-| `IsStop` | bool | Indicates a trend reversal
-| `UpperBand` | double | Upper band only (bearish/red)
-| `LowerBand` | double | Lower band only (bullish/green)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sar`** _`double`_ - Stop and Reverse value contains both Upper and Lower segments
+
+**`IsStop`** _`bool`_ - Indicates a trend reversal
+
+**`UpperBand`** _`double`_ - Upper band only (bearish/red)
+
+**`LowerBand`** _`double`_ - Lower band only (bullish/green)
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `Sar` is the contiguous combination of both upper and lower line data.
 
