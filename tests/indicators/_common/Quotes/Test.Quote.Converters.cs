@@ -5,7 +5,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class QuoteUtility : TestBase
+public class QuoteUtilityTests : TestBase
 {
     [TestMethod]
     public void QuoteToSortedCollection()
