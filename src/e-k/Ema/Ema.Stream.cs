@@ -19,16 +19,37 @@ public class EmaObs : QuoteObserver
         }
     }
 
-    // properties
+    // PROPERTIES
     public Guid UUID { get; }
     public IEnumerable<EmaResult> Results => ProtectedResults;
 
+    internal List<EmaResult> ProtectedResults { get; set; }
+    private List<(DateTime Date, double Value)> QuotesCache { get; set; }
+
     private int LookbackPeriods { get; set; }
     private double K { get; set; }
-    private List<(DateTime Date, double Value)> QuotesCache { get; set; }
-    private List<EmaResult> ProtectedResults { get; set; }
 
-    // methods
+    // STATIC METHODS
+
+    // parameter validation
+    internal static void Validate(
+    int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for EMA.");
+        }
+    }
+
+    // incremental calculation
+    internal static double Increment(double newValue, double lastEma, double k)
+        => lastEma + (k * (newValue - lastEma));
+
+    // NON-STATIC METHODS
+
+    // calculate initial cache of quotes
     public void Initialize(IEnumerable<Quote> quotes)
     {
         List<Quote> quotesList = quotes
@@ -43,6 +64,7 @@ public class EmaObs : QuoteObserver
         }
     }
 
+    // handle quote arrival
     public override void OnNext(Quote value)
     {
         if (value != null)
@@ -55,7 +77,8 @@ public class EmaObs : QuoteObserver
         }
     }
 
-    private EmaResult Add(
+    // add new whole quote
+    internal EmaResult Add(
         Quote quote,
         CandlePart candlePart = CandlePart.Close)
     {
@@ -68,8 +91,8 @@ public class EmaObs : QuoteObserver
         return Add(tuple);
     }
 
-    // todo: this would be a different subscriber, to tuple feed
-    private EmaResult Add(
+    // add new tuple quote
+    internal EmaResult Add(
         (DateTime Date, double Value) tpQuote)
     {
         // empty candidate result
@@ -146,21 +169,5 @@ public class EmaObs : QuoteObserver
         }
 
         return r;
-    }
-
-    // incremental calculation
-    internal static double Increment(double newValue, double lastEma, double k)
-        => lastEma + (k * (newValue - lastEma));
-
-    // parameter validation
-    internal static void Validate(
-    int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for EMA.");
-        }
     }
 }

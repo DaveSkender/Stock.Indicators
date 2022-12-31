@@ -47,4 +47,30 @@ public static partial class Indicator
 
         return results;
     }
+
+    // preview modified to use streamer
+    internal static List<EmaResult> CalcEmaPreview(
+        this List<(DateTime, double)> tpList,
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        EmaObs.Validate(lookbackPeriods);
+
+        // initialize
+        QuoteProvider provider = new();
+        EmaObs obsEma = new(provider, lookbackPeriods);
+
+        int length = tpList.Count;
+
+        // roll through quotes
+        for (int i = 0; i < length; i++)
+        {
+            (DateTime, double) tp = tpList[i];
+            obsEma.Add(tp);
+        }
+
+        provider.EndTransmission();
+
+        return obsEma.ProtectedResults;
+    }
 }

@@ -8,7 +8,8 @@ namespace Tests.Performance;
 // [MemoryDiagnoser]
 public class IndicatorStreamPerformance
 {
-    private static List<Quote> lList;
+    private static IEnumerable<Quote> quotes;
+    private static List<Quote> longish;
     private static List<Quote> onemill;
 
     // SETUP
@@ -16,11 +17,15 @@ public class IndicatorStreamPerformance
     [GlobalSetup]
     public void Setup()
     {
-        lList = TestData.GetLongest().ToSortedList();
+        quotes = TestData.GetDefault();
+        longish = TestData.GetLongest().ToSortedList();
         onemill = TestData.GetRandom(1000000).ToSortedList();
     }
 
     // BENCHMARKS
+
+    [Benchmark]
+    public object GetEma() => quotes.GetEmaPreview(14);
 
     [Benchmark]
     public object GetEma1M() => onemill.GetEma(14);
@@ -47,7 +52,7 @@ public class IndicatorStreamPerformance
 
         for (int i = 0; i < 11000; i++)
         {
-            provider.Add(lList[i]);
+            provider.Add(longish[i]);
         }
 
         provider.EndTransmission();

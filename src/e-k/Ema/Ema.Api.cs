@@ -13,6 +13,13 @@ public static partial class Indicator
             .ToTuple(CandlePart.Close)
             .CalcEma(lookbackPeriods);
 
+    public static IEnumerable<EmaResult> GetEmaPreview<TQuote>(
+    this IEnumerable<TQuote> quotes,
+    int lookbackPeriods)
+    where TQuote : IQuote => quotes
+        .ToTuple(CandlePart.Close)
+        .CalcEmaPreview(lookbackPeriods);
+
     // SERIES, from CHAIN
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<IReusableResult> results,
@@ -28,7 +35,7 @@ public static partial class Indicator
             .ToSortedList()
             .CalcEma(lookbackPeriods);
 
-    // STREAM INITIALIZATION, from TQuote
+    // STREAM INITIALIZATION, from Quote
     /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
     ///
     public static EmaObs ObsEma(
