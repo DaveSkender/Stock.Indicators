@@ -125,7 +125,7 @@ public class IndicatorPerformance
     public object GetElderRay() => h.GetElderRay();
 
     [Benchmark]
-    public object GetEmaStd() => h.GetEma(14);
+    public object GetEma() => h.GetEma(14);
 
     [Benchmark]
     public object GetEpma() => h.GetEpma(14);
