@@ -15,6 +15,9 @@
 <!-- exclude from search indexing -->
 <meta name="robots" content="noindex, nofollow">
 {% endif %}
+{% if page.redirect == true %}
+<meta http-equiv="refresh" content="5;url={{site.baseurl}}" />
+{% endif %}
 
 {% seo %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
