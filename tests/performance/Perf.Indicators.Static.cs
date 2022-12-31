@@ -4,7 +4,6 @@ using Skender.Stock.Indicators;
 
 namespace Tests.Performance;
 
-[MemoryDiagnoser]
 public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;

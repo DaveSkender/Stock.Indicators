@@ -6,7 +6,6 @@ namespace Tests.Performance;
 
 // HELPERS, both public and private
 
-[MarkdownExporterAttribute.GitHub]
 public class HelperPerformance
 {
     private static IEnumerable<Quote> h;
@@ -16,10 +15,19 @@ public class HelperPerformance
     public void Setup() => h = TestData.GetDefault();
 
     [Benchmark]
-    public object SortToList() => h.ToSortedList();
+    public object ToSortedList() => h.ToSortedList();
+
+    [Benchmark]
+    public object ToSortedCollection() => h.ToSortedCollection();
 
     [Benchmark]
     public object ToListQuoteD() => h.ToQuoteD();
+
+    [Benchmark]
+    public object ToTuple() => h.ToTuple(CandlePart.Close);
+
+    [Benchmark]
+    public object ToCandleResults() => h.ToCandleResults();
 
     [Benchmark]
     public object Validate() => h.Validate();
@@ -29,10 +37,4 @@ public class HelperPerformance
 
     [Benchmark]
     public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);
-
-    [Benchmark]
-    public object ToTuple() => h.ToTuple(CandlePart.Close);
-
-    [Benchmark]
-    public object ToCandleResults() => h.ToCandleResults();
 }

@@ -5,7 +5,6 @@ using Skender.Stock.Indicators;
 namespace Tests.Performance;
 #pragma warning disable SA1005 // Single line comments should begin with single space
 
-// [MemoryDiagnoser]
 public class IndicatorStreamPerformance
 {
     private static IEnumerable<Quote> quotes;

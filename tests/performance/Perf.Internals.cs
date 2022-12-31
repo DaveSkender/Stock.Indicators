@@ -6,7 +6,6 @@ namespace Tests.Performance;
 
 // INTERNAL FUNCTIONS
 
-[MarkdownExporterAttribute.GitHub]
 public class InternalsPerformance
 {
     // standard deviation
