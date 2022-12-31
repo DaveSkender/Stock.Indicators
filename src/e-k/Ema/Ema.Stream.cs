@@ -10,7 +10,8 @@ public class EmaObs : QuoteObserver
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
         ProtectedResults = new();
-        Quotes = new(lookbackPeriods);
+        WarmupValue = 0;
+        Provider = provider;
 
         if (provider != null)
         {
@@ -23,10 +24,11 @@ public class EmaObs : QuoteObserver
     public IEnumerable<EmaResult> Results => ProtectedResults;
 
     internal List<EmaResult> ProtectedResults { get; set; }
-    private List<(DateTime Date, double Value)> Quotes { get; set; }
 
+    private double WarmupValue { get; set; }
     private int LookbackPeriods { get; set; }
     private double K { get; set; }
+    private QuoteProvider? Provider { get; set; }
 
     // STATIC METHODS
 
@@ -89,53 +91,33 @@ public class EmaObs : QuoteObserver
     internal EmaResult Add(
         (DateTime Date, double Value) tp)
     {
-        // maintain quote cache
-        int length = Quotes.Count;
-        bool dup = length != 0 && Quotes[length - 1].Date == tp.Date;
-
-        // handle same-date (remove last)
-        if (length > 0 && dup)
-        {
-            Quotes[length - 1] = tp;
-        }
-        else
-        {
-            Quotes.Add(tp);
-        }
-
-        // get next position
-        int i = ProtectedResults.Count;
+        // check for duplicate
+        int length = ProtectedResults.Count;
+        bool dup = length != 0 && ProtectedResults[length - 1].Date == tp.Date;
 
         // empty candidate result
         EmaResult r = new(tp.Date);
 
-        // handle initialization periods
-        if (i < LookbackPeriods - 1)
+        // initialization periods
+        if (length < LookbackPeriods - 1)
         {
             // add if not duplicate
             if (!dup)
             {
                 ProtectedResults.Add(r);
+                WarmupValue += tp.Value;
             }
 
             return r;
         }
 
-        EmaResult last = ProtectedResults[i - 1];
+        EmaResult last = ProtectedResults[length - 1];
 
-        // [re-]initialize with SMA (first time or when last EMA is null)
-        if (i == LookbackPeriods - 1
-        || (i > LookbackPeriods && last.Ema == null))
+        // initialize with SMA
+        if (length == LookbackPeriods - 1)
         {
-            double sumValue = 0;
-            int cacheSize = Quotes.Count;
-            for (int p = cacheSize - 1; p >= cacheSize - LookbackPeriods; p--)
-            {
-                (DateTime _, double value) = Quotes[p];
-                sumValue += value;
-            }
-
-            r.Ema = (sumValue / LookbackPeriods).NaN2Null();
+            WarmupValue += tp.Value;
+            r.Ema = (WarmupValue / LookbackPeriods).NaN2Null();
             ProtectedResults.Add(r);
             return r;
         }
@@ -155,12 +137,32 @@ public class EmaObs : QuoteObserver
         else if (tp.Date == last.Date)
         {
             // get prior last EMA
-            EmaResult prior = ProtectedResults[i - 2];
+            EmaResult prior = ProtectedResults[length - 2];
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
             last.Ema = Increment(tp.Value, priorEma, K);
         }
 
+        // nuclear reset if old bar enters and provider available
+        else if (Provider != null && tp.Date < last.Date)
+        {
+            r = RestartProvider(Provider, r);
+        }
+
         return r;
+    }
+
+    private EmaResult RestartProvider(QuoteProvider provider, EmaResult r)
+    {
+        Unsubscribe();
+        ProtectedResults = new();
+        WarmupValue = 0;
+
+        Initialize(provider.GetQuotesList());
+        Subscribe(provider);
+
+        int length = ProtectedResults.Count;
+
+        return length > 0 ? ProtectedResults[length - 1] : r;
     }
 }

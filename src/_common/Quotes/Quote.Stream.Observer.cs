@@ -19,20 +19,8 @@ public class QuoteObserver : IObserver<Quote>
 
     public virtual void OnNext(Quote value)
     {
-        // handle new quote with override in observer
+        // » handle new quote with override in observer
     }
 
-    public virtual void Unsubscribe()
-    {
-        if (unsubscriber != null)
-        {
-            unsubscriber.Dispose();
-        }
-        else
-        {
-            throw new ArgumentNullException(
-                nameof(unsubscriber),
-                "Unsubscriber not found and could not be disposed.");
-        }
-    }
+    public virtual void Unsubscribe() => unsubscriber?.Dispose();
 }

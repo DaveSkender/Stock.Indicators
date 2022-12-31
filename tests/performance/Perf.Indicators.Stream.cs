@@ -29,6 +29,9 @@ public class IndicatorStreamPerformance
     // BENCHMARKS
 
     [Benchmark]
+    public object GetEmaStd() => quotes.GetEma(14);
+
+    [Benchmark]
     public object GetEmaStdPreview() => quotes.GetEmaPreview(14);
 
     [Benchmark]
