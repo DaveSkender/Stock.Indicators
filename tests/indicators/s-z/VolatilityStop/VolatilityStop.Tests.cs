@@ -13,10 +13,7 @@ public class VolatilityStop : TestBase
             quotes.GetVolatilityStop(14, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(448, results.Count(x => x.Sar != null));
 
@@ -28,15 +25,15 @@ public class VolatilityStop : TestBase
         Assert.IsNull(r53.UpperBand);
 
         VolatilityStopResult r54 = results[54];
-        Assert.AreEqual(226.2177, NullMath.Round(r54.Sar, 4));
+        Assert.AreEqual(226.2118, NullMath.Round(r54.Sar, 4));
         Assert.AreEqual(false, r54.IsStop);
-        Assert.AreEqual(226.2177, NullMath.Round(r54.UpperBand, 4));
+        Assert.AreEqual(226.2118, NullMath.Round(r54.UpperBand, 4));
         Assert.IsNull(r54.LowerBand);
 
         VolatilityStopResult r55 = results[55];
-        Assert.AreEqual(226.2178, NullMath.Round(r55.Sar, 4));
+        Assert.AreEqual(226.2124, NullMath.Round(r55.Sar, 4));
         Assert.AreEqual(false, r55.IsStop);
-        Assert.AreEqual(226.2178, NullMath.Round(r55.UpperBand, 4));
+        Assert.AreEqual(226.2124, NullMath.Round(r55.UpperBand, 4));
         Assert.IsNull(r55.LowerBand);
 
         VolatilityStopResult r168 = results[168];
@@ -70,39 +67,49 @@ public class VolatilityStop : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetVolatilityStop()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(439, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<VolatilityStopResult> r = Indicator.GetVolatilityStop(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<VolatilityStopResult> r = badQuotes
+            .GetVolatilityStop()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sar is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<VolatilityStopResult> r0 = noquotes.GetVolatilityStop();
-        Assert.AreEqual(0, r0.Count());
+        List<VolatilityStopResult> r0 = noquotes
+            .GetVolatilityStop()
+            .ToList();
 
-        IEnumerable<VolatilityStopResult> r1 = onequote.GetVolatilityStop();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<VolatilityStopResult> r1 = onequote
+            .GetVolatilityStop()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<VolatilityStopResult> results =
-            quotes.GetVolatilityStop(14, 3)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<VolatilityStopResult> results = quotes
+            .GetVolatilityStop(14, 3)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(402, results.Count);
@@ -121,6 +128,6 @@ public class VolatilityStop : TestBase
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetVolatilityStop(quotes, 20, 0));
+            quotes.GetVolatilityStop(20, 0));
     }
 }

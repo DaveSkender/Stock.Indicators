@@ -13,7 +13,7 @@ layout: indicator
 Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.stockcharts.com/doku.php?id=technical_indicators:stochrsi) is a Stochastic interpretation of the Relative Strength Index.  It is different from, and often confused with the more traditional [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/236 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -23,12 +23,13 @@ IEnumerable<StochRsiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `rsiPeriods` | int | Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
-| `stochPeriods` | int | Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`.
-| `signalPeriods` | int | Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
-| `smoothPeriods` | int | Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
+**`rsiPeriods`** _`int`_ - Number of periods (`R`) in the lookback period.  Must be greater than 0.  Standard is 14.
+
+**`stochPeriods`** _`int`_ - Number of periods (`S`) in the lookback period.  Must be greater than 0.  Typically the same value as `rsiPeriods`.
+
+**`signalPeriods`** _`int`_ - Number of periods (`G`) in the signal line (SMA of the StochRSI).  Must be greater than 0.  Typically 3-5.
+
+**`smoothPeriods`** _`int`_ - Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
 
 The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.GetStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
 
@@ -49,15 +50,15 @@ IEnumerable<StochRsiResult>
 - It does not return a single incremental indicator value.
 - The first `R+S+M` periods will have `null` values for `StochRsi` since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  We recommend pruning at least `R+S+M+100` initial values.
+> :hourglass: **Convergence warning**: The first `10×R` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  We recommend pruning at least `R+S+M+100` initial values.
 
 ### StochRsiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `StochRsi` | double | %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price
-| `Signal` | double | %D Signal Line = Simple moving average of %K based on `G` periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`StochRsi`** _`double`_ - %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price
+
+**`Signal`** _`double`_ - %D Signal Line = Simple moving average of %K based on `G` periods
 
 ### Utilities
 
@@ -66,7 +67,7 @@ IEnumerable<StochRsiResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

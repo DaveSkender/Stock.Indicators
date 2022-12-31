@@ -13,7 +13,7 @@ layout: indicator
 
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -23,10 +23,9 @@ IEnumerable<PivotPointsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `windowSize` | PeriodSize | Size of the lookback window
-| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
+**`windowSize`** _`PeriodSize`_ - Size of the lookback window
+
+**`pointType`** _`PivotPointType`_ - Type of Pivot Point.  Default is `PivotPointType.Standard`
 
 ### Historical quotes requirements
 
@@ -36,22 +35,25 @@ You must have at least `2` windows of `quotes` to cover the warmup periods.  For
 
 ### PeriodSize options (for windowSize)
 
-| type | description
-|-- |--
-| `PeriodSize.Month` | Use the prior month's data to calculate current month's Pivot Points
-| `PeriodSize.Week` | [..] weekly
-| `PeriodSize.Day` | [..] daily.  Commonly used for intraday data.
-| `PeriodSize.OneHour` | [..] hourly
+**`PeriodSize.Month`** - Use the prior month's data to calculate current month's Pivot Points
+
+**`PeriodSize.Week`** - [..] weekly
+
+**`PeriodSize.Day`** - [..] daily.  Commonly used for intraday data.
+
+**`PeriodSize.OneHour`** - [..] hourly
 
 ### PivotPointType options
 
-| type | description
-|-- |--
-| `PivotPointType.Standard` | Floor Trading (default)
-| `PivotPointType.Camarilla` | Camarilla
-| `PivotPointType.Demark` | Demark
-| `PivotPointType.Fibonacci` | Fibonacci
-| `PivotPointType.Woodie` | Woodie
+**`PivotPointType.Standard`** - Floor Trading (default)
+
+**`PivotPointType.Camarilla`** - Camarilla
+
+**`PivotPointType.Demark`** - Demark
+
+**`PivotPointType.Fibonacci`** - Fibonacci
+
+**`PivotPointType.Woodie`** - Woodie
 
 ## Response
 
@@ -64,22 +66,27 @@ IEnumerable<PivotPointsResult>
 - It does not return a single incremental indicator value.
 - The first window will have `null` values since there's not enough data to calculate.
 
-:warning: **Warning**: The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
-
-:paintbrush: **Repaint Warning**: the last window will be repainted if it does not contain a full window of data.
+> :warning: **Warning**: The second window may be inaccurate if the first window contains incomplete data.  For example, this can occur if you specify a `Month` window size and only provide 45 calendar days (1.5 months) of `quotes`.
+>
+> :paintbrush: **Repaint warning**: the last window will be repainted if it does not contain a full window of data.
 
 ### PivotPointsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `R3` | decimal | Resistance level 3
-| `R2` | decimal | Resistance level 2
-| `R1` | decimal | Resistance level 1
-| `PP` | decimal | Pivot Point
-| `S1` | decimal | Support level 1
-| `S2` | decimal | Support level 2
-| `S3` | decimal | Support level 3
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`R3`** _`decimal`_ - Resistance level 3
+
+**`R2`** _`decimal`_ - Resistance level 2
+
+**`R1`** _`decimal`_ - Resistance level 1
+
+**`PP`** _`decimal`_ - Pivot Point
+
+**`S1`** _`decimal`_ - Support level 1
+
+**`S2`** _`decimal`_ - Support level 2
+
+**`S3`** _`decimal`_ - Support level 3
 
 ### Utilities
 
@@ -87,7 +94,7 @@ IEnumerable<PivotPointsResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

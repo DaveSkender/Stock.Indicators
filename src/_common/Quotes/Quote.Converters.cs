@@ -1,14 +1,15 @@
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// HISTORICAL QUOTES FUNCTIONS (GENERAL)
+// QUOTE UTILITIES
 
 public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-    /* LISTS */
+    /* STANDARD DECIMAL QUOTES */
 
     // convert TQuotes to basic double tuple list
     /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
@@ -17,29 +18,37 @@ public static partial class QuoteUtility
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart = CandlePart.Close)
         where TQuote : IQuote => quotes
-            .Select(x => x.ToBasicTuple(candlePart));
-
-    // sort quotes
-    public static List<TQuote> ToSortedList<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
-            .ToList();
+            .Select(x => x.ToTuple(candlePart));
 
     // TUPLE QUOTES
 
     // convert quotes to tuple list
-    public static List<(DateTime, double)> ToBasicTuple<TQuote>(
+    public static Collection<(DateTime, double)> ToTupleCollection<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote
+        => quotes
+            .ToTuple(candlePart)
+            .ToCollection();
+
+    internal static List<(DateTime, double)> ToTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote => quotes
             .OrderBy(x => x.Date)
-            .Select(x => x.ToBasicTuple(candlePart))
+            .Select(x => x.ToTuple(candlePart))
             .ToList();
 
     // convert tuples to list, with sorting
-    public static List<(DateTime, double)> ToSortedList(
-        this IEnumerable<(DateTime date, double value)> tuples) => tuples
+    public static Collection<(DateTime, double)> ToSortedCollection(
+        this IEnumerable<(DateTime date, double value)> tuples)
+        => tuples
+            .ToSortedList()
+            .ToCollection();
+
+    internal static List<(DateTime, double)> ToSortedList(
+        this IEnumerable<(DateTime date, double value)> tuples)
+        => tuples
             .OrderBy(x => x.date)
             .ToList();
 
@@ -62,17 +71,17 @@ public static partial class QuoteUtility
             .ToList();
 
     // convert quoteD list to tuples
-    internal static List<(DateTime, double)> ToBasicTuple(
+    internal static List<(DateTime, double)> ToTuple(
         this List<QuoteD> qdList,
         CandlePart candlePart) => qdList
             .OrderBy(x => x.Date)
-            .Select(x => x.ToBasicTuple(candlePart))
+            .Select(x => x.ToTuple(candlePart))
             .ToList();
 
     /* ELEMENTS */
 
     // convert TQuote element to basic tuple
-    internal static (DateTime date, double value) ToBasicTuple<TQuote>(
+    internal static (DateTime date, double value) ToTuple<TQuote>(
         this TQuote q,
         CandlePart candlePart)
         where TQuote : IQuote => candlePart switch
@@ -110,7 +119,7 @@ public static partial class QuoteUtility
         };
 
     // convert quoteD element to basic tuple
-    internal static (DateTime, double) ToBasicTuple(
+    internal static (DateTime, double) ToTuple(
         this QuoteD q,
         CandlePart candlePart) => candlePart switch
         {

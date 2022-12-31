@@ -11,7 +11,7 @@ public static partial class Indicator
         List<StarcBandsResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.UpperBand is null && x.LowerBand is null && x.Centerline is null);
 

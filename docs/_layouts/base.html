@@ -4,6 +4,21 @@
 <head>
 <meta charset="UTF-8">
 
+<!-- pre-connections -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+{% if page.dir == '/' %}
+<link rel="preconnect" href="https://github.githubassets.com">
+<link rel="preconnect" href="https://img.shields.io">
+{% endif %}
+
+{% if site.github.source.branch != "main" or page.noindex == true %}
+<!-- exclude from search indexing -->
+<meta name="robots" content="noindex, nofollow">
+{% endif %}
+{% if page.redirect == true %}
+<meta http-equiv="refresh" content="5;url={{site.baseurl}}" />
+{% endif %}
+
 {% seo %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#424242">
@@ -17,6 +32,8 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}">
 <link rel="mask-icon" href="{{ '/assets/icons/safari-pinned-tab.svg' | relative_url }}" color="#424242">
 
+<script src="/assets/js/lazysizes.min.js" async=""></script>
+
 {% if site.ga_tag and site.github.source.branch == 'main' %}
 
 <!-- Google Analytics -->
@@ -28,6 +45,7 @@
   gtag('config', '{{site.ga_tag}}');
 </script>
 
+{% if site.clarity == 'true' %}
 <!-- Clarity -->
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -36,6 +54,7 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "d7dwkk1jqt");
 </script>
+{% endif %}
 {% endif %}
 </head>
 

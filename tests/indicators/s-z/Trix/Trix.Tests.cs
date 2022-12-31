@@ -9,12 +9,11 @@ public class Trix : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<TrixResult> results = quotes.GetTrix(20, 5).ToList();
-
-        // assertions
+        List<TrixResult> results = quotes
+            .GetTrix(20, 5)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Ema3 != null));
         Assert.AreEqual(482, results.Count(x => x.Trix != null));
@@ -45,67 +44,82 @@ public class Trix : TestBase
     [TestMethod]
     public void UseTuple()
     {
-        IEnumerable<TrixResult> results = quotes
+        List<TrixResult> results = quotes
             .Use(CandlePart.Close)
-            .GetTrix(20, 5);
+            .GetTrix(20, 5)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Trix != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<TrixResult> r = tupleNanny.GetTrix(6, 2);
+        List<TrixResult> r = tupleNanny
+            .GetTrix(6, 2)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        IEnumerable<TrixResult> results = quotes
+        List<TrixResult> results = quotes
             .GetSma(2)
-            .GetTrix(20, 5);
+            .GetTrix(20, 5)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Trix != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetTrix(20, 5)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<TrixResult> r = Indicator.GetTrix(badQuotes, 15, 2);
-        Assert.AreEqual(502, r.Count());
+        List<TrixResult> r = badQuotes
+            .GetTrix(15, 2)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<TrixResult> r0 = noquotes.GetTrix(5);
-        Assert.AreEqual(0, r0.Count());
+        List<TrixResult> r0 = noquotes
+            .GetTrix(5)
+            .ToList();
 
-        IEnumerable<TrixResult> r1 = onequote.GetTrix(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<TrixResult> r1 = onequote
+            .GetTrix(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<TrixResult> results = quotes.GetTrix(20, 5)
+        List<TrixResult> results = quotes
+            .GetTrix(20, 5)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -122,5 +136,5 @@ public class Trix : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetTrix(quotes, 0));
+            => quotes.GetTrix(0));
 }

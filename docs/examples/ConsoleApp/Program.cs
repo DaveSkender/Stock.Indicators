@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -71,7 +72,6 @@ public class Program
         }
     }
 
-
     private static IEnumerable<Quote> GetHistoryFromFeed()
     {
         /************************************************************
@@ -92,8 +92,8 @@ public class Program
 
         string json = File.ReadAllText("quotes.data.json");
 
-        List<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .ToSortedList();
+        Collection<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
+            .ToSortedCollection();
 
         return quotes;
     }

@@ -9,13 +9,11 @@ public class Sma : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<SmaResult> results = quotes.GetSma(20)
+        List<SmaResult> results = quotes
+            .GetSma(20)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
@@ -74,28 +72,32 @@ public class Sma : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<EmaResult> results = quotes
+        List<EmaResult> results = quotes
             .GetSma(10)
-            .GetEma(10);
+            .GetEma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Ema != null));
     }
 
     [TestMethod]
     public void TupleNaN()
     {
-        IEnumerable<SmaResult> r = tupleNanny.GetSma(6);
+        List<SmaResult> r = tupleNanny
+            .GetSma(6)
+            .ToList();
 
-        Assert.AreEqual(200, r.Count());
+        Assert.AreEqual(200, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
     }
 
     [TestMethod]
     public void NaN()
     {
-        IEnumerable<SmaResult> r = TestData.GetBtcUsdNan()
-            .GetSma(50);
+        List<SmaResult> r = TestData.GetBtcUsdNan()
+            .GetSma(50)
+            .ToList();
 
         Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
     }
@@ -103,25 +105,35 @@ public class Sma : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<SmaResult> r = Indicator.GetSma(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<SmaResult> r = badQuotes
+            .GetSma(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<SmaResult> r0 = noquotes.GetSma(5);
-        Assert.AreEqual(0, r0.Count());
+        List<SmaResult> r0 = noquotes
+            .GetSma(5)
+            .ToList();
 
-        IEnumerable<SmaResult> r1 = onequote.GetSma(5);
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<SmaResult> r1 = onequote
+            .GetSma(5)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<SmaResult> results = quotes.GetSma(20)
+        List<SmaResult> results = quotes
+            .GetSma(20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -134,5 +146,5 @@ public class Sma : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetSma(quotes, 0));
+            => quotes.GetSma(0));
 }

@@ -12,7 +12,7 @@ layout: indicator
 Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wiki/On-balance_volume) is a rolling accumulation of volume based on Close price direction.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/246 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -26,9 +26,7 @@ IEnumerable<ObvResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `smaPeriods` | int | Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
+**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -49,13 +47,13 @@ IEnumerable<ObvResult>
 
 ### ObvResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Obv` | double | On-balance Volume
-| `ObvSma` | double | Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
-:warning: **Warning**: absolute values in OBV are somewhat meaningless, so use with caution.
+**`Obv`** _`double`_ - On-balance Volume
+
+**`ObvSma`** _`double`_ - Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
+
+> :warning: **Warning**: absolute values in OBV are somewhat meaningless. Use with caution.
 
 ### Utilities
 
@@ -63,7 +61,7 @@ IEnumerable<ObvResult>
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

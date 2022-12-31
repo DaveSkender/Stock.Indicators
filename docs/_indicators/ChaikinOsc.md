@@ -12,7 +12,7 @@ layout: indicator
 Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line]({{site.baseurl}}/indicators/Adl/#content) (ADL).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/264 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,10 +22,9 @@ IEnumerable<ChaikinOscResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastPeriods` | int | Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3.
-| `slowPeriods` | int | Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10.
+**`fastPeriods`** _`int`_ - Number of periods (`F`) in the ADL fast EMA.  Must be greater than 0 and smaller than `S`.  Default is 3.
+
+**`slowPeriods`** _`int`_ - Number of periods (`S`) in the ADL slow EMA.  Must be greater `F`.  Default is 10.
 
 ### Historical quotes requirements
 
@@ -44,19 +43,21 @@ IEnumerable<ChaikinOscResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ChaikinOscResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `MoneyFlowMultiplier` | double | Money Flow Multiplier
-| `MoneyFlowVolume` | double | Money Flow Volume
-| `Adl` | double | Accumulation Distribution Line (ADL)
-| `Oscillator` | double | Chaikin Oscillator
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
-:warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless, so use with caution.
+**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
+
+**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
+
+**`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
+
+**`Oscillator`** _`double`_ - Chaikin Oscillator
+
+> :warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
 
 ### Utilities
 
@@ -65,7 +66,7 @@ IEnumerable<ChaikinOscResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

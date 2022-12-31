@@ -11,7 +11,7 @@ layout: indicator
 
 Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppiness on a scale of 0 to 100, to depict steady trends versus conditions of choppiness.  [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/357 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -21,9 +21,7 @@ IEnumerable<ChopResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the lookback evaluation.  Must be greater than 1.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -44,10 +42,9 @@ IEnumerable<ChopResult>
 
 ### ChopResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Chop` | double | Choppiness Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Chop`** _`double`_ - Choppiness Index
 
 ### Utilities
 
@@ -56,7 +53,7 @@ IEnumerable<ChopResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

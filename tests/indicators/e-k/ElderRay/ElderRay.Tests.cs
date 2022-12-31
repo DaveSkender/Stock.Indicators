@@ -9,12 +9,11 @@ public class ElderRay : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<ElderRayResult> results = quotes.GetElderRay(13).ToList();
-
-        // assertions
+        List<ElderRayResult> results = quotes
+            .GetElderRay(13)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(490, results.Count(x => x.BullPower != null));
         Assert.AreEqual(490, results.Count(x => x.BearPower != null));
@@ -54,36 +53,47 @@ public class ElderRay : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetElderRay(13)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<ElderRayResult> r = Indicator.GetElderRay(badQuotes);
-        Assert.AreEqual(502, r.Count());
+        List<ElderRayResult> r = badQuotes
+            .GetElderRay()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.BullPower is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<ElderRayResult> r0 = noquotes.GetElderRay();
-        Assert.AreEqual(0, r0.Count());
+        List<ElderRayResult> r0 = noquotes
+            .GetElderRay()
+            .ToList();
 
-        IEnumerable<ElderRayResult> r1 = onequote.GetElderRay();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<ElderRayResult> r1 = onequote
+            .GetElderRay()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<ElderRayResult> results = quotes.GetElderRay(13)
+        List<ElderRayResult> results = quotes
+            .GetElderRay(13)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -100,5 +110,5 @@ public class ElderRay : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetElderRay(quotes, 0));
+            => quotes.GetElderRay(0));
 }

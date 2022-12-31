@@ -4,23 +4,25 @@ description: Learn how to use the Stock Indicators for .NET Nuget library in you
 permalink: /guide/
 relative_path: guide.md
 layout: page
-redirect_from:
- - /docs/GUIDE.html
 ---
 
 # {{ page.title }}
 
-- [Installation and setup](#installation-and-setup)
-- [Prerequisite data](#prerequisite-data)
-- [Example usage](#example-usage)
-- [Historical quotes](#historical-quotes)
-- [Using custom quote classes](#using-custom-quote-classes)
-- [Using custom results classes](#using-custom-results-classes)
-- [Generating indicator of indicators](#generating-indicator-of-indicators)
-- [Candlestick patterns](#candlestick-patterns)
-- [Creating custom indicators]({{site.baseurl}}/custom-indicators/#content)
-- [Utilities and helper functions]({{site.baseurl}}/utilities/#content)
-- [Contributing guidelines]({{site.github.repository_url}}/blob/main/docs/contributing.md#readme)
+<nav role="navigation" aria-label="guide page menu">
+<ul class="pipe-list">
+  <li><a href="#installation-and-setup">Installation and setup</a></li>
+  <li><a href="#prerequisite-data">Prerequisite data</a></li>
+  <li><a href="#example-usage">Example usage</a></li>
+  <li><a href="#historical-quotes">Historical quotes</a></li>
+  <li><a href="#using-custom-quote-classes">Using custom quote classes</a></li>
+  <li><a href="#using-custom-results-classes">Using custom results classes</a></li>
+  <li><a href="#generating-indicator-of-indicators">Generating indicator of indicators</a></li>
+  <li><a href="#candlestick-patterns">Candlestick patterns</a></li>
+  <li><a href="{{site.baseurl}}/custom-indicators/#content">Creating custom indicators</a></li>
+  <li><a href="{{site.baseurl}}/utilities/#content">Utilities and helper functions</a></li>
+  <li><a href="{{site.baseurl}}/contributing/#content">Contributing guidelines</a></li>
+</ul>
+</nav>
 
 ## Getting started
 
@@ -42,7 +44,7 @@ Most indicators require that you provide historical quote data and additional co
 
 You must get historical quotes from your own market data provider.  For clarification, the `GetHistoryFromFeed()` method shown in the example below and throughout our documentation **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
 
-Historical price data can be provided as an `List`, `IEnumerable`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+Historical price data can be provided as a `List`, `IEnumerable`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
@@ -59,7 +61,8 @@ using Skender.Stock.Indicators;
 IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = quotes.GetSma(20);
+IEnumerable<SmaResult> results = quotes
+  .GetSma(20);
 
 // use results as needed for your use case (example only)
 foreach (SmaResult r in results)
@@ -106,11 +109,11 @@ There are many places to get financial market data.  Check with your brokerage o
 
 Each indicator will need different amounts of price `quotes` to calculate.  You can find guidance on the individual indicator documentation pages for minimum requirements; however, **most use cases will require that you provide more than the minimum**.  As a general rule of thumb, you will be safe if you provide 750 points of historical quote data (e.g. 3 years of daily data).
 
-:warning: IMPORTANT! **Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system.**  Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
-
-For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occasionally, even more is required for optimal precision.
-
-See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
+> :warning: **IMPORTANT! Applying the _minimum_ amount of quote history as possible is NOT a good way to optimize your system.**  Some indicators use a smoothing technique that converges to better precision over time.  While you can calculate these with the minimum amount of quote data, the precision to two decimal points often requires 250 or more preceding historical records.
+>
+> For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occasionally, even more is required for optimal precision.
+>
+> See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
 
 ### Using custom quote classes
 
@@ -149,23 +152,24 @@ IEnumerable<SmaResult> results = myQuotes.GetSma(20);
 If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
 
 ```csharp
-public class MyCustomQuote : IQuote
+public class MyCustomQuote : IQuote // + ISeries
 {
     // required base properties
-    DateTime IQuote.Date => CloseDate;
+    DateTime ISeries.Date => CloseDate;
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
     public decimal Close { get; set; }
-    public decimal Volume { get; set; }
+    decimal IQuote.Volume => Vol;
 
     // custom properties
     public int MyOtherProperty { get; set; }
     public DateTime CloseDate { get; set; }
+    public decimal Vol { get; set; }
 }
 ```
 
-Note the use of explicit interface (property declaration is `IQuote.Date`), this is because having two properties that expose the same information can be confusing, this way `Date` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Date` property will be hidden, avoiding confusion.
+Note the use of explicit interface (property declaration is `ISeries.Date`), this is because having two properties that expose the same information can be confusing, this way `Date` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Date` property will be hidden, avoiding confusion.
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 
@@ -257,4 +261,4 @@ The `CandleProperties` class is an extended version of `Quote`, and contains add
 
 ## Utilities
 
-See [Utilities and Helper functions]({{site.baseurl}}/utilities/#content) for additional tools.
+See [Utilities and helper functions]({{site.baseurl}}/utilities/#content) for additional tools.

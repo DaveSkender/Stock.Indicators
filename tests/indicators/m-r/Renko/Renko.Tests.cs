@@ -89,9 +89,7 @@ public class Renko : TestBase
             .GetRenkoAtr(14, EndType.Close)
             .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(29, results.Count);
 
         // sample values
@@ -123,20 +121,26 @@ public class Renko : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<RenkoResult> r = badQuotes.GetRenko(100m);
-        Assert.AreNotEqual(0, r.Count());
+        List<RenkoResult> r = badQuotes
+            .GetRenko(100m)
+            .ToList();
+
+        Assert.AreNotEqual(0, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<RenkoResult> r0 = noquotes.GetRenko(0.01m);
-        Assert.AreEqual(0, r0.Count());
+        List<RenkoResult> r0 = noquotes
+            .GetRenko(0.01m)
+            .ToList();
+
+        Assert.AreEqual(0, r0.Count);
     }
 
     // bad arguments
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetRenko(quotes, 0));
+            => quotes.GetRenko(0));
 }

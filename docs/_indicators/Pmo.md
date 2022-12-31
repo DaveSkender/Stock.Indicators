@@ -12,7 +12,7 @@ layout: indicator
 Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo) is double-smoothed momentum indicator based on Rate of Change (ROC).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/244 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,11 +22,11 @@ IEnumerable<PmoResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `timePeriods` | int | Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
-| `smoothPeriods` | int | Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
-| `signalPeriods` | int | Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
+**`timePeriods`** _`int`_ - Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
+
+**`smoothPeriods`** _`int`_ - Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
+
+**`signalPeriods`** _`int`_ - Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
 
 ### Historical quotes requirements
 
@@ -45,15 +45,15 @@ IEnumerable<PmoResult>
 - It does not return a single incremental indicator value.
 - The first `T+S-1` periods will have `null` values for PMO since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### PmoResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Pmo` | double | Price Momentum Oscillator
-| `Signal` | double | Signal line is EMA of PMO
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Pmo`** _`double`_ - Price Momentum Oscillator
+
+**`Signal`** _`double`_ - Signal line is EMA of PMO
 
 ### Utilities
 
@@ -62,7 +62,7 @@ IEnumerable<PmoResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

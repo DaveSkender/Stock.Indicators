@@ -6,16 +6,13 @@ public static partial class Indicator
     internal static List<StdDevChannelsResult> CalcStdDevChannels(
         this List<(DateTime, double)> tpList,
         int? lookbackPeriods,
-        double standardDeviations)
+        double stdDeviations)
     {
         // assume whole quotes when lookback is null
-        if (lookbackPeriods is null)
-        {
-            lookbackPeriods = tpList.Count;
-        }
+        lookbackPeriods ??= tpList.Count;
 
         // check parameter arguments
-        ValidateStdDevChannels(lookbackPeriods, standardDeviations);
+        ValidateStdDevChannels(lookbackPeriods, stdDeviations);
 
         // initialize
         List<SlopeResult> slopeResults = tpList
@@ -30,7 +27,7 @@ public static partial class Indicator
         for (int w = length - 1; w >= lookbackPeriods - 1; w -= (int)lookbackPeriods)
         {
             SlopeResult s = slopeResults[w];
-            double? width = standardDeviations * s.StdDev;
+            double? width = stdDeviations * s.StdDev;
 
             // add regression line (y = mx + b) and channels
             for (int p = w - (int)lookbackPeriods + 1; p <= w; p++)
@@ -53,7 +50,7 @@ public static partial class Indicator
     // parameter validation
     private static void ValidateStdDevChannels(
         int? lookbackPeriods,
-        double standardDeviations)
+        double stdDeviations)
     {
         // check parameter arguments
         if (lookbackPeriods <= 1)
@@ -62,9 +59,9 @@ public static partial class Indicator
                 "Lookback periods must be greater than 1 for Standard Deviation Channels.");
         }
 
-        if (standardDeviations <= 0)
+        if (stdDeviations <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(standardDeviations), standardDeviations,
+            throw new ArgumentOutOfRangeException(nameof(stdDeviations), stdDeviations,
                 "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
         }
     }

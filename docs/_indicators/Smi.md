@@ -12,7 +12,7 @@ layout: indicator
 Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a double-smoothed variant of the [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content), depicted on a scale from -100 to 100.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/625 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (standard)
@@ -23,12 +23,13 @@ IEnumerable<SmiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Lookback period (`N`) for the stochastic.  Must be greater than 0.
-| `firstSmoothPeriods` | int | First smoothing factor lookback.  Must be greater than 0.
-| `secondSmoothPeriods` | int | Second smoothing factor lookback.  Must be greater than 0.
-| `signalPeriods` | int | EMA of SMI lookback periods.  Must be greater than 0. Default is 3.
+**`lookbackPeriods`** _`int`_ - Lookback period (`N`) for the stochastic.  Must be greater than 0.
+
+**`firstSmoothPeriods`** _`int`_ - First smoothing factor lookback.  Must be greater than 0.
+
+**`secondSmoothPeriods`** _`int`_ - Second smoothing factor lookback.  Must be greater than 0.
+
+**`signalPeriods`** _`int`_ - EMA of SMI lookback periods.  Must be greater than 0. Default is 3.
 
 ### Historical quotes requirements
 
@@ -47,15 +48,15 @@ IEnumerable<SmiResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` SMI values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### SmiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Smi` | double | Stochastic Momentum Index (SMI)
-| `Signal` | double | Signal line: an Exponential Moving Average (EMA) of SMI
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Smi`** _`double`_ - Stochastic Momentum Index (SMI)
+
+**`Signal`** _`double`_ - Signal line: an Exponential Moving Average (EMA) of SMI
 
 ### Utilities
 
@@ -64,7 +65,7 @@ IEnumerable<SmiResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

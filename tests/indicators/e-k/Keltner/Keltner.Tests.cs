@@ -17,10 +17,7 @@ public class Keltner : TestBase
             .GetKeltner(emaPeriods, multiplier, atrPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
@@ -46,19 +43,28 @@ public class Keltner : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<KeltnerResult> r = Indicator.GetKeltner(badQuotes, 10, 3, 15);
-        Assert.AreEqual(502, r.Count());
+        List<KeltnerResult> r = badQuotes
+            .GetKeltner(10, 3, 15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<KeltnerResult> r0 = noquotes.GetKeltner();
-        Assert.AreEqual(0, r0.Count());
+        List<KeltnerResult> r0 = noquotes
+            .GetKeltner()
+            .ToList();
 
-        IEnumerable<KeltnerResult> r1 = onequote.GetKeltner();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<KeltnerResult> r1 = onequote
+            .GetKeltner()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -67,12 +73,11 @@ public class Keltner : TestBase
         int emaPeriods = 20;
         int multiplier = 2;
         int atrPeriods = 10;
-        int n = Math.Max(emaPeriods, atrPeriods);
 
-        List<KeltnerResult> results =
-            quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
-                .Condense()
-                .ToList();
+        List<KeltnerResult> results = quotes
+            .GetKeltner(emaPeriods, multiplier, atrPeriods)
+            .Condense()
+            .ToList();
 
         // assertions
         Assert.AreEqual(483, results.Count);
@@ -92,10 +97,10 @@ public class Keltner : TestBase
         int atrPeriods = 10;
         int n = Math.Max(emaPeriods, atrPeriods);
 
-        List<KeltnerResult> results =
-            quotes.GetKeltner(emaPeriods, multiplier, atrPeriods)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<KeltnerResult> results = quotes
+            .GetKeltner(emaPeriods, multiplier, atrPeriods)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(502 - Math.Max(2 * n, n + 100), results.Count);
@@ -112,14 +117,14 @@ public class Keltner : TestBase
     {
         // bad EMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKeltner(quotes, 1, 2, 10));
+            quotes.GetKeltner(1, 2, 10));
 
         // bad ATR period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKeltner(quotes, 20, 2, 1));
+            quotes.GetKeltner(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetKeltner(quotes, 20, 0, 10));
+            quotes.GetKeltner(20, 0, 10));
     }
 }

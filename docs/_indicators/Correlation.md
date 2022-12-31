@@ -12,7 +12,7 @@ layout: indicator
 Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear statistical correlation between two quote histories.  R-Squared (R&sup2;), Variance, and Covariance are also output.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/259 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,10 +22,9 @@ IEnumerable<CorrResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `quotesB` | IEnumerable\<[TQuote]({{site.baseurl}}/guide/#historical-quotes)\> | Historical quotes (B) must have at least the same matching date elements of `quotesA`.
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
+**`quotesB`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) (B) must have at least the same matching date elements of `quotesA`.
+
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
 ### Historical quotes requirements
 
@@ -46,14 +45,17 @@ IEnumerable<CorrResult>
 
 ### CorrResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `VarianceA` | double | Variance of A based on `N` lookback periods
-| `VarianceB` | double | Variance of B based on `N` lookback periods
-| `Covariance` | double | Covariance of A+B based on `N` lookback periods
-| `Correlation` | double | Correlation `R` based on `N` lookback periods
-| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation).
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`VarianceA`** _`double`_ - Variance of A
+
+**`VarianceB`** _`double`_ - Variance of B
+
+**`Covariance`** _`double`_ - Covariance of A+B
+
+**`Correlation`** _`double`_ - Correlation `R`
+
+**`RSquared`** _`double`_ - R-Squared (R&sup2;), aka Coefficient of Determination.  Simple linear regression models is used (square of Correlation).
 
 ### Utilities
 
@@ -62,7 +64,7 @@ IEnumerable<CorrResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
@@ -74,6 +76,8 @@ var results = quotes
     .Use(CandlePart.HL2)
     .GetCorrelation(quotesMarket.Use(CandlePart.HL2),20);
 ```
+
+> :warning: **Warning!** Both `quotesA` and `quotesB` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 
 Results can be further processed on `Correlation` with additional chain-enabled indicators.
 

@@ -9,13 +9,11 @@ public class WilliamsR : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<WilliamsResult> results = quotes.GetWilliamsR(14)
+        List<WilliamsResult> results = quotes
+            .GetWilliamsR(14)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.WilliamsR != null));
 
@@ -30,36 +28,47 @@ public class WilliamsR : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetWilliamsR()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<WilliamsResult> r = Indicator.GetWilliamsR(badQuotes, 20);
-        Assert.AreEqual(502, r.Count());
+        List<WilliamsResult> r = badQuotes
+            .GetWilliamsR(20)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.WilliamsR is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<WilliamsResult> r0 = noquotes.GetWilliamsR();
-        Assert.AreEqual(0, r0.Count());
+        List<WilliamsResult> r0 = noquotes
+            .GetWilliamsR()
+            .ToList();
 
-        IEnumerable<WilliamsResult> r1 = onequote.GetWilliamsR();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<WilliamsResult> r1 = onequote
+            .GetWilliamsR()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<WilliamsResult> results = quotes.GetWilliamsR(14)
+        List<WilliamsResult> results = quotes
+            .GetWilliamsR(14)
             .RemoveWarmupPeriods()
             .ToList();
 

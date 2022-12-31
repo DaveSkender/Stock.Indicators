@@ -1,12 +1,18 @@
+using System.Collections.ObjectModel;
 using Skender.Stock.Indicators;
 
 namespace Custom.Stock.Indicators;
 
 // Custom results class
 // This inherits many of the extension methods, like .RemoveWarmupPeriods()
-public class AtrWmaResult : ResultBase
+public class AtrWmaResult : ResultBase, IReusableResult
 {
+    // date property is inherited here,
+    // so you only need to add custom items
     public double? AtrWma { get; set; }
+
+    // to enable further chaining
+    double? IReusableResult.Value => AtrWma;
 }
 
 public static class CustomIndicators
@@ -17,9 +23,9 @@ public static class CustomIndicators
         int lookbackPeriods)
         where TQuote : IQuote
     {
-        // sort quotes and convert to list
-        List<TQuote> quotesList = quotes
-            .ToSortedList();
+        // sort quotes and convert to collection or list
+        Collection<TQuote> quotesList = quotes
+            .ToSortedCollection();
 
         // initialize results
         List<AtrWmaResult> results = new(quotesList.Count);

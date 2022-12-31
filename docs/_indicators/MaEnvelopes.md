@@ -12,7 +12,7 @@ layout: indicator
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/288 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,11 +22,11 @@ IEnumerable<MaEnvelopeResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
-| `percentOffset` | double | Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5.
-| `movingAverageType` | MaType | Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 1.
+
+**`percentOffset`** _`double`_ - Percent offset for envelope width.  Example: 3.5% would be entered as 3.5 (not 0.035).  Must be greater than 0.  Typical values range from 2 to 10.  Default is 2.5.
+
+**`movingAverageType`** _`MaType`_ - Type of moving average (e.g. SMA, EMA, HMA).  See [MaType options](#matype-options) below.  Default is `MaType.SMA`.
 
 ### Historical quotes requirements
 
@@ -38,19 +38,25 @@ See links in the supported [MaType options](#matype-options) section below for d
 
 These are the supported moving average types:
 
-| type | description
-|-- |--
-| `MaType.ALMA` | [Arnaud Legoux Moving Average]({{site.baseurl}}/indicators/Alma/#content)
-| `MaType.DEMA` | [Double Exponential Moving Average]({{site.baseurl}}/indicators/Dema/#content)
-| `MaType.EPMA` | [Endpoint Moving Average]({{site.baseurl}}/indicators/Epma/#content)
-| `MaType.EMA` | [Exponential Moving Average]({{site.baseurl}}/indicators/Ema/#content)
-| `MaType.HMA` | [Hull Moving Average]({{site.baseurl}}/indicators/Hma/#content)
-| `MaType.SMA` | [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
-| `MaType.SMMA` | [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
-| `MaType.TEMA` | [Triple Exponential Moving Average]({{site.baseurl}}/indicators/Tema/#content)
-| `MaType.WMA` | [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
+**`MaType.ALMA`** - [Arnaud Legoux Moving Average]({{site.baseurl}}/indicators/Alma/#content)
 
-:warning: For ALMA, default values are used for `offset` and `sigma`.
+**`MaType.DEMA`** - [Double Exponential Moving Average]({{site.baseurl}}/indicators/Dema/#content)
+
+**`MaType.EPMA`** - [Endpoint Moving Average]({{site.baseurl}}/indicators/Epma/#content)
+
+**`MaType.EMA`** - [Exponential Moving Average]({{site.baseurl}}/indicators/Ema/#content)
+
+**`MaType.HMA`** - [Hull Moving Average]({{site.baseurl}}/indicators/Hma/#content)
+
+**`MaType.SMA`** - [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+
+**`MaType.SMMA`** - [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
+
+**`MaType.TEMA`** - [Triple Exponential Moving Average]({{site.baseurl}}/indicators/Tema/#content)
+
+**`MaType.WMA`** - [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
+
+> :warning:  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
 
 ## Response
 
@@ -63,16 +69,17 @@ IEnumerable<MaEnvelopeResult>
 - It does not return a single incremental indicator value.
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
-:hourglass: **Convergence Warning**: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+> :hourglass: **Convergence warning**: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 
 ### MaEnvelopeResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Centerline` | double | Moving average for `N` lookback periods
-| `UpperEnvelope` | double | Upper envelope band
-| `LowerEnvelope` | double | Lower envelope band
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Centerline`** _`double`_ - Moving average
+
+**`UpperEnvelope`** _`double`_ - Upper envelope band
+
+**`LowerEnvelope`** _`double`_ - Lower envelope band
 
 The moving average `Centerline` is based on the `movingAverageType` type specified.
 
@@ -82,7 +89,7 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

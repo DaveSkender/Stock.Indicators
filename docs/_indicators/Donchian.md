@@ -13,7 +13,7 @@ layout: indicator
 Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/Donchian_channel), also called Price Channels, are price ranges derived from highest High and lowest Low values.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/257 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -23,9 +23,7 @@ IEnumerable<DonchianResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for lookback period.  Must be greater than 0 to calculate; however we suggest a larger value for an appropriate sample size.  Default is 20.
 
 ### Historical quotes requirements
 
@@ -46,13 +44,15 @@ IEnumerable<DonchianResult>
 
 ### DonchianResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `UpperBand` | decimal | Upper line is the highest High over `N` periods
-| `Centerline` | decimal | Simple average of Upper and Lower bands
-| `LowerBand` | decimal | Lower line is the lowest Low over `N` periods
-| `Width` | decimal | Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`UpperBand`** _`decimal`_ - Upper line is the highest High over `N` periods
+
+**`Centerline`** _`decimal`_ - Simple average of Upper and Lower bands
+
+**`LowerBand`** _`decimal`_ - Lower line is the lowest Low over `N` periods
+
+**`Width`** _`decimal`_ - Width as percent of Centerline price.  `(UpperBand-LowerBand)/Centerline`
 
 ### Utilities
 
@@ -61,7 +61,7 @@ IEnumerable<DonchianResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

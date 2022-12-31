@@ -7,7 +7,7 @@
       Stochastic Momentum Index is a double-smoothed variant of the Stochastic Oscillator on a scale from -100 to 100.
       <para>
         See
-        <see href="https://daveskender.github.io/Stock.Indicators/indicators/Smi/#content">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/indicators/Smi/#content?utm_source=library">documentation</see>
         for more information.
       </para>
     </summary>

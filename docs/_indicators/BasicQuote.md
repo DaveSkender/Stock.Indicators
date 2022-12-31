@@ -1,5 +1,5 @@
 ---
-title: Basic Quote Transforms
+title: Basic quote transforms
 description: Basic quote transforms (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
 permalink: /indicators/BasicQuote/
 type: price-transform
@@ -18,9 +18,7 @@ IEnumerable<BasicData> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `candlePart` | CandlePart | The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
+**`candlePart`** _`CandlePart`_ - The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
 
 ### Historical quotes requirements
 
@@ -42,16 +40,15 @@ IEnumerable<BasicData>
 
 ### BasicData
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Value` | double | Price of `CandlePart` option
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Value`** _`double`_ - Price of `CandlePart` option
 
 ### Utilities
 
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

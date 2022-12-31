@@ -11,7 +11,7 @@ public static partial class Indicator
         List<VortexResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.Pvi is null && x.Nvi is null);
 

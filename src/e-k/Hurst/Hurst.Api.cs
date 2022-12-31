@@ -9,14 +9,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 100)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcHurst(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<HurstResult> GetHurst(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcHurst(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

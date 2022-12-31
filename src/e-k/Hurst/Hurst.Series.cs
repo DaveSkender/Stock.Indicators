@@ -136,7 +136,7 @@ public static partial class Indicator
 
         // hurst exponent
         // TODO: apply Anis-Lloyd corrected R/S Hurst?
-        return Numerics.Slope(logSize, logRs);
+        return Numerix.Slope(logSize, logRs);
     }
 
     // parameter validation
@@ -144,10 +144,10 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        if (lookbackPeriods < 100)
+        if (lookbackPeriods < 20)
         {
             throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be at least 100 for Hurst Exponent.");
+                "Lookback periods must be at least 20 for Hurst Exponent.");
         }
     }
 }

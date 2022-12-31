@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
@@ -5,14 +6,56 @@ namespace Skender.Stock.Indicators;
 // OBSOLETE IN v2.0.0
 public static partial class Indicator
 {
-    // placeholder, example of a renamed method
+#pragma warning disable CA1002 // Do not expose generic lists
 
-    /*
+    // 2.4.1
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename 'GetTripleEma(..)' to 'GetTema(..)' to fix.", true)]
-    public static IEnumerable<TemaResult> GetTripleEma<TQuote>(
-    this IEnumerable<TQuote> quotes,
-    int lookbackPeriods)
-    where TQuote : IQuote => quotes.GetTema(lookbackPeriods);
-    */
+    [Obsolete("Rename 'ToBasicTuple(..)' to 'ToTuple(..)' to fix.", false)]
+    public static List<(DateTime, double)> ToBasicTuple<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote
+        => quotes.ToTuple(candlePart);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename 'ToResultTuple(..)' to 'ToTuple(..)' to fix.", false)]
+    public static List<(DateTime Date, double Value)> ToResultTuple(
+        this IEnumerable<IReusableResult> basicData)
+        => basicData.ToTuple();
+
+    // v2.4.8
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename 'ToTupleCollection(..)' to 'ToTupleChainable(..)' to fix.", false)]
+    public static Collection<(DateTime Date, double Value)> ToTupleCollection(
+    this IEnumerable<IReusableResult> reusable)
+    => reusable
+        .ToTupleChainable();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Rename 'ToTupleCollection(NullTo..)' to either 'ToTupleNaN(..)' or 'ToTupleNull(..)' to fix.", false)]
+    public static Collection<(DateTime Date, double? Value)> ToTupleCollection(
+    this IEnumerable<IReusableResult> reusable, NullTo nullTo)
+    {
+        List<IReusableResult> reList = reusable.ToSortedList();
+        int length = reList.Count;
+
+        Collection<(DateTime Date, double? Value)> results = new();
+
+        for (int i = 0; i < length; i++)
+        {
+            IReusableResult r = reList[i];
+            results.Add(new(r.Date, r.Value.Null2NaN()));
+        }
+
+        return results;
+    }
+
+#pragma warning restore CA1002 // Do not expose generic lists
+}
+
+// v2.4.8 (see above)
+public enum NullTo
+{
+    NaN,
+    Null
 }

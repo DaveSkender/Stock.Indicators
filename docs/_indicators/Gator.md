@@ -12,7 +12,7 @@ layout: indicator
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator]({{site.baseurl}}/indicators/Alligator/#content)'s three moving averages.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -42,17 +42,19 @@ IEnumerable<GatorResult>
 - It does not return a single incremental indicator value.
 - The first 10-20 periods will have `null` values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first 150 periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first 150 periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### GatorResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Upper` | double | Absolute value of Alligator `Jaw-Teeth`
-| `Lower` | double | Absolute value of Alligator `Lips-Teeth`
-| `UpperIsExpanding` | boolean | Upper value is growing
-| `LowerIsExpanding` | boolean | Lower value is growing
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Upper`** _`double`_ - Absolute value of Alligator `Jaw-Teeth`
+
+**`Lower`** _`double`_ - Absolute value of Alligator `Lips-Teeth`
+
+**`UpperIsExpanding`** _`bool`_ - Upper value is growing
+
+**`LowerIsExpanding`** _`bool`_ - Lower value is growing
 
 ### Utilities
 
@@ -61,7 +63,7 @@ IEnumerable<GatorResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

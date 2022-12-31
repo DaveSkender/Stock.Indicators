@@ -12,7 +12,7 @@ layout: indicator
 Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/doku.php?id=technical_indicators:balance_of_power) (aka Balance of Market Power) is a momentum oscillator that depicts the strength of buying and selling pressure.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/302 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<BopResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `smoothPeriods` | int | Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
+**`smoothPeriods`** _`int`_ - Number of periods (`N`) for smoothing.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<BopResult>
 
 ### BopResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Bop` | double | Balance of Power
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Bop`** _`double`_ - Balance of Power
 
 ### Utilities
 
@@ -57,7 +54,7 @@ IEnumerable<BopResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

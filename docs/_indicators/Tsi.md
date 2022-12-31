@@ -13,7 +13,7 @@ layout: indicator
 Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki/True_strength_index) is a momentum oscillator that uses a series of exponential moving averages to depicts trends in price changes.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/300 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -23,11 +23,11 @@ IEnumerable<TsiResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
-| `smoothPeriods` | int | Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
-| `signalPeriods` | int | Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the first EMA.  Must be greater than 0.  Default is 25.
+
+**`smoothPeriods`** _`int`_ - Number of periods (`M`) for the second smoothing.  Must be greater than 0.  Default is 13.
+
+**`signalPeriods`** _`int`_ - Number of periods (`S`) in the TSI moving average.  Must be greater than or equal to 0.  Default is 7.
 
 ### Historical quotes requirements
 
@@ -47,15 +47,15 @@ IEnumerable<TsiResult>
 - The first `N+M-1` periods will have `null` values since there's not enough data to calculate.
 - `Signal` will be `null` for all periods if `signalPeriods=0`.
 
-:hourglass: **Convergence Warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `N+M+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### TsiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Tsi` | double | True Strength Index
-| `Signal` | double | Signal line (EMA of TSI)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Tsi`** _`double`_ - True Strength Index
+
+**`Signal`** _`double`_ - Signal line (EMA of TSI)
 
 ### Utilities
 
@@ -64,7 +64,7 @@ IEnumerable<TsiResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

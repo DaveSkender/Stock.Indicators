@@ -11,7 +11,7 @@ public static partial class Indicator
         List<ZigZagResult> resultsList = results
             .ToList();
 
-        _ = resultsList
+        resultsList
             .RemoveAll(match:
                 x => x.PointType is null);
 

@@ -12,7 +12,7 @@ layout: indicator
 [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).  Z-Score is also returned.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/239 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -26,10 +26,9 @@ IEnumerable<StdDevResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
-| `smaPeriods` | int | Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
+
+**`smaPeriods`** _`int`_ - Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -50,13 +49,15 @@ IEnumerable<StdDevResult>
 
 ### StdDevResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `StdDev` | double | Standard Deviation of price over `N` lookback periods
-| `Mean` | double | Mean value of price over `N` lookback periods
-| `ZScore` | double | Z-Score of current price (number of standard deviations from mean)
-| `StdDevSma` | double | Moving average (SMA) of `StdDev` based on `smaPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`StdDev`** _`double`_ - Standard Deviation of price
+
+**`Mean`** _`double`_ - Mean value of price
+
+**`ZScore`** _`double`_ - Z-Score of current price (number of standard deviations from mean)
+
+**`StdDevSma`** _`double`_ - Moving average (SMA) of `StdDev` based on `smaPeriods` periods, if specified
 
 ### Utilities
 
@@ -65,7 +66,7 @@ IEnumerable<StdDevResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

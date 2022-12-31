@@ -14,11 +14,28 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         List<(DateTime, double)> tpListBase = quotesBase
-            .ToBasicTuple(CandlePart.Close);
+            .ToTuple(CandlePart.Close);
         List<(DateTime, double)> tpListEval = quotesEval
-            .ToBasicTuple(CandlePart.Close);
+            .ToTuple(CandlePart.Close);
 
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
+    }
+
+    // SERIES, from CHAINS (both inputs reusable)
+    public static IEnumerable<PrsResult> GetPrs(
+        this IEnumerable<IReusableResult> quotesEval,
+        IEnumerable<IReusableResult> quotesBase,
+        int? lookbackPeriods = null,
+        int? smaPeriods = null)
+    {
+        List<(DateTime Date, double Value)> tpListEval
+            = quotesEval.ToTuple();
+
+        List<(DateTime Date, double Value)> tpListBase
+            = quotesBase.ToTuple();
+
+        return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods)
+            .SyncIndex(quotesEval, SyncType.Prepend);
     }
 
     // SERIES, from TUPLE

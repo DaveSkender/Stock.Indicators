@@ -12,7 +12,7 @@ layout: indicator
 Created by J. Welles Wilder, the Directional Movement Index (DMI) and [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/270 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<AdxResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -43,17 +41,19 @@ IEnumerable<AdxResult>
 - It does not return a single incremental indicator value.
 - The first `2×N-1` periods will have `null` values for `Adx` since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `2×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### AdxResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Pdi` | double | Plus Directional Index (+DI) for `N` lookback periods
-| `Mdi` | double | Minus Directional Index (-DI) for `N` lookback periods
-| `Adx` | double | Average Directional Index (ADX) for `N` lookback periods
-| `Adxr` | double | Average Directional Index Rating (ADXR) for `N` lookback periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Pdi`** _`double`_ - Plus Directional Index (+DI)
+
+**`Mdi`** _`double`_ - Minus Directional Index (-DI)
+
+**`Adx`** _`double`_ - Average Directional Index (ADX)
+
+**`Adxr`** _`double`_ - Average Directional Index Rating (ADXR)
 
 ### Utilities
 
@@ -62,7 +62,7 @@ IEnumerable<AdxResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

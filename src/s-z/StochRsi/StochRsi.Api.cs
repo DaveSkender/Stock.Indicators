@@ -13,7 +13,7 @@ public static partial class Indicator
         int signalPeriods,
         int smoothPeriods = 1)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcStochRsi(
                 rsiPeriods,
                 stochPeriods,
@@ -27,7 +27,7 @@ public static partial class Indicator
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcStochRsi(
                 rsiPeriods,
                 stochPeriods,

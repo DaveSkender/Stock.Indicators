@@ -12,7 +12,7 @@ layout: indicator
 Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of the gap between a fast and slow period modified moving average.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/282 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,10 +22,9 @@ IEnumerable<AwesomeResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `fastPeriods` | int | Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
-| `slowPeriods` | int | Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34.
+**`fastPeriods`** _`int`_ - Number of periods (`F`) for the faster moving average.  Must be greater than 0.  Default is 5.
+
+**`slowPeriods`** _`int`_ - Number of periods (`S`) for the slower moving average.  Must be greater than `fastPeriods`.  Default is 34.
 
 ### Historical quotes requirements
 
@@ -46,11 +45,11 @@ IEnumerable<AwesomeResult>
 
 ### AwesomeResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Oscillator` | double | Awesome Oscillator
-| `Normalized` | double | `100 × Oscillator ÷ (median price)`
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Oscillator`** _`double`_ - Awesome Oscillator
+
+**`Normalized`** _`double`_ - `100 × Oscillator ÷ (median price)`
 
 ### Utilities
 
@@ -59,7 +58,7 @@ IEnumerable<AwesomeResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

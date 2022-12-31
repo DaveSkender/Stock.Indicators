@@ -12,7 +12,7 @@ layout: indicator
 [Weighted Moving Average](https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average) is the linear weighted average of price over a lookback window.  This also called Linear Weighted Moving Average (LWMA).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/227 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)
@@ -22,9 +22,7 @@ IEnumerable<WmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback window.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<WmaResult>
 
 ### WmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Wma` | double | Weighted moving average for `N` lookback periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Wma`** _`double`_ - Weighted moving average
 
 ### Utilities
 
@@ -57,7 +54,7 @@ IEnumerable<WmaResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

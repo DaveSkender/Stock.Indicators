@@ -28,7 +28,7 @@ public static partial class Indicator
             AtrStopResult r = new(q.Date);
             results.Add(r);
 
-            if (i >= lookbackPeriods - 1)
+            if (i >= lookbackPeriods)
             {
                 double? atr = atrResults[i].Atr;
                 QuoteD p = qdList[i - 1];
@@ -51,7 +51,7 @@ public static partial class Indicator
                 }
 
                 // initial values
-                if (i == lookbackPeriods - 1)
+                if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= p.Close;
 

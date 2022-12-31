@@ -1,6 +1,6 @@
 ---
 title: Rate of Change (ROC)
-description: Rate of Change, also known as Momentum Oscillator, is the percent change of price over a lookback window.
+description: Rate of Change, also known as Momentum Oscillator, is the percent change of price over a lookback window.  Momentum is the raw price change equivalent.
 permalink: /indicators/Roc/
 image: /assets/charts/Roc.png
 type: price-characteristic
@@ -9,10 +9,10 @@ layout: indicator
 
 # {{ page.title }}
 
-[Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of price over a lookback window.  A [Rate of Change with Bands]({{site.baseurl}}/indicators/RocWb/#content) variant, created by Vitali Apirine, is also included.
+[Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of price over a lookback window.  Momentum is the raw price change equivalent.  A [Rate of Change with Bands]({{site.baseurl}}/indicators/RocWb/#content) variant, created by Vitali Apirine, is also available.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/242 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -26,10 +26,9 @@ IEnumerable<RocResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.
-| `smaPeriods` | int | Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to go back.  Must be greater than 0.
+
+**`smaPeriods`** _`int`_ - Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -50,11 +49,13 @@ IEnumerable<RocResult>
 
 ### RocResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal)
-| `RocSma` | double | Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Momentum`** _`double`_ - Raw change in price over `N` periods
+
+**`Roc`** _`double`_ - Percent change in price (%, not decimal)
+
+**`RocSma`** _`double`_ - Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
 
 ### Utilities
 
@@ -63,7 +64,7 @@ IEnumerable<RocResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

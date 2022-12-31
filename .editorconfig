@@ -90,7 +90,7 @@ dotnet_diagnostic.IDE0071.severity=suggestion
 dotnet_diagnostic.IDE0047.severity=suggestion
 csharp_indent_labels = no_change
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_prefer_braces = true:silent
+csharp_prefer_braces = true:suggestion
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_expression_bodied_methods = true:suggestion
 csharp_style_expression_bodied_constructors = false:suggestion
@@ -112,8 +112,8 @@ csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
 csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
 csharp_style_deconstructed_variable_declaration = true:suggestion
-csharp_style_unused_value_assignment_preference = unused_local_variable:suggestion
-csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+csharp_style_unused_value_assignment_preference = discard_variable:suggestion
+csharp_style_unused_value_expression_statement_preference = discard_variable:none
 csharp_prefer_static_local_function = true:suggestion
 csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
 csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
@@ -134,6 +134,9 @@ csharp_style_prefer_top_level_statements = false:silent
 csharp_style_prefer_utf8_string_literals = true:suggestion
 csharp_preserve_single_line_statements = false
 
+# IDE0058: Expression value is never used
+dotnet_diagnostic.IDE0058.severity = none
+
 [*.{cs,vb}]
 dotnet_style_namespace_match_folder= false:silent
 dotnet_style_allow_multiple_blank_lines_experimental= false:silent
@@ -143,7 +146,7 @@ dotnet_style_allow_statement_immediately_after_block_experimental= false:silent
 
 # Naming rules
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 

@@ -12,7 +12,7 @@ layout: indicator
 Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window <a href="{{site.baseurl}}/indicators/PivotPoints/#content" rel="nofollow">Pivot Points</a>.  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,11 +22,11 @@ IEnumerable<RollingPivotsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `windowPeriods` | int | Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.
-| `offsetPeriods` | int | Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.
-| `pointType` | PivotPointType | Type of Pivot Point.  Default is `PivotPointType.Standard`
+**`windowPeriods`** _`int`_ - Number of periods (`W`) in the evaluation window.  Must be greater than 0 to calculate; but is typically specified in the 5-20 range.
+
+**`offsetPeriods`** _`int`_ - Number of periods (`F`) to offset the window from the current period.  Must be greater than or equal to 0 and is typically less than or equal to `W`.
+
+**`pointType`** _`PivotPointType`_ - Type of Pivot Point.  Default is `PivotPointType.Standard`
 
 For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points]({{site.baseurl}}/indicators/PivotPoints/#content) indicator.
 
@@ -38,13 +38,15 @@ You must have at least `W+F` periods of `quotes` to cover the warmup periods.
 
 ### PivotPointType options
 
-| type | description
-|-- |--
-| `PivotPointType.Standard` | Floor Trading (default)
-| `PivotPointType.Camarilla` | Camarilla
-| `PivotPointType.Demark` | Demark
-| `PivotPointType.Fibonacci` | Fibonacci
-| `PivotPointType.Woodie` | Woodie
+**`PivotPointType.Standard`** - Floor Trading (default)
+
+**`PivotPointType.Camarilla`** - Camarilla
+
+**`PivotPointType.Demark`** - Demark
+
+**`PivotPointType.Fibonacci`** - Fibonacci
+
+**`PivotPointType.Woodie`** - Woodie
 
 ## Response
 
@@ -59,16 +61,21 @@ IEnumerable<RollingPivotsResult>
 
 ### RollingPivotsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `R3` | decimal | Resistance level 3
-| `R2` | decimal | Resistance level 2
-| `R1` | decimal | Resistance level 1
-| `PP` | decimal | Pivot Point
-| `S1` | decimal | Support level 1
-| `S2` | decimal | Support level 2
-| `S3` | decimal | Support level 3
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`R3`** _`decimal`_ - Resistance level 3
+
+**`R2`** _`decimal`_ - Resistance level 2
+
+**`R1`** _`decimal`_ - Resistance level 1
+
+**`PP`** _`decimal`_ - Pivot Point
+
+**`S1`** _`decimal`_ - Support level 1
+
+**`S2`** _`decimal`_ - Support level 2
+
+**`S3`** _`decimal`_ - Support level 3
 
 ### Utilities
 
@@ -76,7 +83,7 @@ IEnumerable<RollingPivotsResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

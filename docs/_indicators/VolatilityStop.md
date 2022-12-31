@@ -12,7 +12,7 @@ layout: indicator
 Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR]({{site.baseurl}}/indicators/Atr/#content) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR]({{site.baseurl}}/indicators/ParabolicSar/#content) and [SuperTrend]({{site.baseurl}}/indicators/SuperTrend/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/564 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,10 +22,9 @@ IEnumerable<VolatilityStopResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7.
-| `multiplier` | double | ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) ATR lookback window.  Must be greater than 1.  Default is 7.
+
+**`multiplier`** _`double`_ - ATR multiplier for the offset.  Must be greater than 0.  Default is 3.0.
 
 ### Historical quotes requirements
 
@@ -44,17 +43,19 @@ IEnumerable<VolatilityStopResult>
 - It does not return a single incremental indicator value.
 - The first trend will have `null` values since it is not accurate and based on an initial guess.
 
-:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### VolatilityStopResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Sar` | double | Stop and Reverse value contains both Upper and Lower segments
-| `IsStop` | bool | Indicates a trend reversal
-| `UpperBand` | double | Upper band only (bearish/red)
-| `LowerBand` | double | Lower band only (bullish/green)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Sar`** _`double`_ - Stop and Reverse value contains both Upper and Lower segments
+
+**`IsStop`** _`bool`_ - Indicates a trend reversal
+
+**`UpperBand`** _`double`_ - Upper band only (bearish/red)
+
+**`LowerBand`** _`double`_ - Lower band only (bullish/green)
 
 `UpperBand` and `LowerBand` values are provided to differentiate bullish vs bearish trends and to clearly demark trend reversal.  `Sar` is the contiguous combination of both upper and lower line data.
 
@@ -65,7 +66,7 @@ IEnumerable<VolatilityStopResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

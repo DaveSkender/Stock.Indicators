@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Custom.Stock.Indicators;
 using Newtonsoft.Json;
 using Skender.Stock.Indicators;
@@ -16,18 +17,36 @@ public class Program
         IEnumerable<Quote> quotes = GetHistoryFromFeed();
 
         // calculate 10-period custom AtrWma
-        IEnumerable<AtrWmaResult> results = quotes.GetAtrWma(10);
+        IEnumerable<AtrWmaResult> results = quotes
+            .GetAtrWma(10);
 
         // show results
         Console.WriteLine("ATR WMA Results ---------------------------");
 
-        foreach (AtrWmaResult r in results.TakeLast(25))
-        // only showing last 25 records for brevity
+        foreach (AtrWmaResult r in results.Take(30))
+        // only showing first 30 records for brevity
         {
             Console.WriteLine($"ATR WMA on {r.Date:u} was ${r.AtrWma:N3}");
         }
-    }
 
+        // optional: demo of a converter (nulls to NaN)
+
+        Console.WriteLine();
+        Console.WriteLine("ATR WMA Results with NaN (optional) -------");
+
+        // tip: converting ToList() and using For loops is faster to iterate
+        List<AtrWmaResult> resultsList = results
+            .Take(30)
+            .ToList();
+
+        for (int i = 0; i < resultsList.Count; i++)
+        {
+            AtrWmaResult r = resultsList[i];
+            r.AtrWma = r.AtrWma.Null2NaN();
+
+            Console.WriteLine($"ATR WMA on {r.Date:u} was ${r.AtrWma:N3}");
+        }
+    }
 
     private static IEnumerable<Quote> GetHistoryFromFeed()
     {
@@ -49,8 +68,8 @@ public class Program
 
         string json = File.ReadAllText("quotes.data.json");
 
-        List<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .ToSortedList();
+        Collection<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
+            .ToSortedCollection();
 
         return quotes;
     }

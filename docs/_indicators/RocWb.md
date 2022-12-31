@@ -13,7 +13,7 @@ layout: indicator
 Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility banded variant of [Rate of Change (ROC)]({{site.baseurl}}/indicators/Roc/#content).
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/242 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -23,11 +23,11 @@ IEnumerable<RocWbResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
-| `emaPeriods` | int | Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
-| `stdDevPeriods` | int | Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to go back.  Must be greater than 0.  Typical values range from 10-20.
+
+**`emaPeriods`** _`int`_ - Number of periods for the ROC EMA line.  Must be greater than 0.  Standard is 3.
+
+**`stdDevPeriods`** _`int`_ - Number of periods the standard deviation for upper/lower band lines.  Must be greater than 0 and not more than `lookbackPeriods`.  Standard is to use same value as `lookbackPeriods`.
 
 ### Historical quotes requirements
 
@@ -48,13 +48,15 @@ IEnumerable<RocWbResult>
 
 ### RocWbResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Roc` | double | Rate of Change over `N` lookback periods (%, not decimal)
-| `RocEma` | double | Exponential moving average (EMA) of `Roc`
-| `UpperBand` | double | Upper band of ROC (overbought indicator)
-| `LowerBand` | double | Lower band of ROC (oversold indicator)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Roc`** _`double`_ - Rate of Change over `N` lookback periods (%, not decimal)
+
+**`RocEma`** _`double`_ - Exponential moving average (EMA) of `Roc`
+
+**`UpperBand`** _`double`_ - Upper band of ROC (overbought indicator)
+
+**`LowerBand`** _`double`_ - Lower band of ROC (oversold indicator)
 
 ### Utilities
 
@@ -63,7 +65,7 @@ IEnumerable<RocWbResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

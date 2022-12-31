@@ -23,9 +23,7 @@ IEnumerable<SlopeResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the linear regression.  Must be greater than 1.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the linear regression.  Must be greater than 1.
 
 ### Historical quotes requirements
 
@@ -43,19 +41,23 @@ IEnumerable<SlopeResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
+- `Line` values are only provided for the last `N` periods of your quote history
 
-:paintbrush: **Repaint Warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
+> :paintbrush: **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
 
 ### SlopeResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Slope` | double | Slope `m` of the best-fit line of price
-| `Intercept` | double | Y-Intercept `b` of the best-fit line
-| `StdDev` | double | Standard Deviation of price over `N` lookback periods
-| `RSquared` | double | R-Squared (R&sup2;), aka Coefficient of Determination
-| `Line` | decimal | Best-fit line `y` over the last 'N' periods (i.e. `y=mx+b` using last period values)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Slope`** _`double`_ - Slope `m` of the best-fit line of price
+
+**`Intercept`** _`double`_ - Y-Intercept `b` of the best-fit line
+
+**`StdDev`** _`double`_ - Standard Deviation of price over `N` lookback periods
+
+**`RSquared`** _`double`_ - R-Squared (R&sup2;), aka Coefficient of Determination
+
+**`Line`** _`decimal`_ - Best-fit line `y` over the last `N` periods (i.e. `y=mx+b` using last period values)
 
 ### Utilities
 
@@ -64,7 +66,7 @@ IEnumerable<SlopeResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

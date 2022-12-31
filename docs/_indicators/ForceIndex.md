@@ -12,7 +12,7 @@ layout: indicator
 Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Force_index) depicts volume-based buying and selling pressure based on the change in price.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/382 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<ForceIndexResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2.
+**`lookbackPeriods`** _`int`_ - Lookback window (`N`) for the EMA of Force Index.  Must be greater than 0 and is commonly 2 or 13 (shorter/longer view).  Default is 2.
 
 ### Historical quotes requirements
 
@@ -43,14 +41,13 @@ IEnumerable<ForceIndexResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods for will be `null` since they cannot be calculated.
 
-:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ForceIndexResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `ForceIndex` | double | Force Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`ForceIndex`** _`double`_ - Force Index
 
 ### Utilities
 
@@ -59,7 +56,7 @@ IEnumerable<ForceIndexResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

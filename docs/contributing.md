@@ -1,7 +1,15 @@
+---
+title: Contributing guidelines
+description: This NuGet package is an open-source project. Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
+permalink: /contributing/
+relative_path: contributing.md
+layout: page
+---
+
 # Contributing guidelines
 
 [![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/main?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main)
-[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Code%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
+[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
 
 **Thanks for taking the time to contribute!**
 
@@ -23,14 +31,14 @@ If you have general interest in contributing, but are not sure where to start, p
 
 ## Reporting bugs and feature requests
 
-If you are reporting a bug or suspect a problem, please [submit an Issue](https://github.com/DaveSkender/Stock.Indicators/issues) with a detailed description of the problem + include steps to reproduce, code samples, and any reference materials.  For new features, add a new Issue with the `enhancement` label.
+If you suspect a problem, please [report a bug Issue](https://github.com/DaveSkender/Stock.Indicators/issues/new?labels=bug&template=bug_report.md) with a detailed description of the problem, steps to reproduce, code samples, and any reference materials.  For enhancements, [create a feature Issue](https://github.com/DaveSkender/Stock.Indicators/issues/new?labels=enhancement&template=feature_request.md).
 
 Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions) area for general ideation and help/usage questions.
 
 ## Project management
 
 - Planned work is managed in [the backlog](https://github.com/users/DaveSkender/projects/1).
-- Work items are primarily [entered as Notes](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/adding-notes-to-a-project-board) (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
+- Work items are primarily entered as Notes (not Issues), except where an issue or feature is user reported.  With that said, Notes can be converted to Issues if in-progress and collaborative discussion is needed.
 
 ## Developing
 
@@ -49,7 +57,7 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the [repo documentation](https://daveskender.github.io/Stock.Indicators/performance/).
+Running the `Tests.Performance` console application in `Release` mode will produce performance data that we periodically include in the [repo documentation](https://dotnet.stockindicators.dev/performance/).
 
 ```bash
 # run all performance benchmarks
@@ -86,18 +94,11 @@ When adding or updating indicators:
 npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
 ```
 
-### Testing for broken URLs
-
-```bash
-cd docs
-bundle exec htmlproofer _site
-```
-
 ## Submitting changes
 
 By submitting changes to this repo you are also acknowledging and agree to the terms in both the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org) and the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).  These are standard open-source terms and conditions.
 
-When ready, submit a Pull Request with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests)).
+When ready, submit a Pull Request with a clear list of what you've done (read more about [pull requests](https://help.github.com/pull-requests)).
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
 After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.

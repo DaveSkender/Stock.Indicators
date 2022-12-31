@@ -9,11 +9,11 @@ public class Doji : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<CandleResult> results = quotes.GetDoji(0.1).ToList();
+        List<CandleResult> results = quotes
+            .GetDoji(0.1)
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(112, results.Count(x => x.Match != Match.None));
 
@@ -46,27 +46,38 @@ public class Doji : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<CandleResult> r = badQuotes.GetDoji();
-        Assert.AreEqual(502, r.Count());
+        List<CandleResult> r = badQuotes
+            .GetDoji()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<CandleResult> r0 = noquotes.GetDoji();
-        Assert.AreEqual(0, r0.Count());
+        List<CandleResult> r0 = noquotes
+            .GetDoji()
+            .ToList();
 
-        IEnumerable<CandleResult> r1 = onequote.GetDoji();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<CandleResult> r1 = onequote
+            .GetDoji()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<CandleResult> r =
-            quotes.GetDoji(0.1).Condense();
+        List<CandleResult> r = quotes
+            .GetDoji(0.1)
+            .Condense()
+            .ToList();
 
-        Assert.AreEqual(112, r.Count());
+        Assert.AreEqual(112, r.Count);
     }
 
     [TestMethod]
@@ -74,9 +85,9 @@ public class Doji : TestBase
     {
         // bad maximum change value
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetDoji(quotes, -0.00001));
+            quotes.GetDoji(-0.00001));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetDoji(quotes, 0.50001));
+            quotes.GetDoji(0.50001));
     }
 }

@@ -12,7 +12,7 @@ layout: indicator
 Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_index) is a measure of downside price volatility over a lookback window.  Often called the "heart attack" score, it measures the amount of pain seen from drawdowns in financial market prices and portfolio value.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/232 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<UlcerIndexResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for review.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<UlcerIndexResult>
 
 ### UlcerIndexResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `UI` | double | Ulcer Index
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`UI`** _`double`_ - Ulcer Index
 
 ### Utilities
 
@@ -57,7 +54,7 @@ IEnumerable<UlcerIndexResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

@@ -1,5 +1,5 @@
 ---
-title: Accumulation/Distribution Line (ADL)
+title: Accumulation / Distribution Line (ADL)
 description: Created by Marc Chaikin, the Accumulation / Distribution Line is a rolling accumulation of Chaikin Money Flow Volume.  It can be a leading momentum indicator for financial market price movements.
 permalink: /indicators/Adl/
 image: /assets/charts/Adl.png
@@ -12,7 +12,7 @@ layout: indicator
 Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.wikipedia.org/wiki/Accumulation/distribution_index) is a rolling accumulation of Chaikin Money Flow Volume.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/271 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -26,9 +26,7 @@ IEnumerable<AdlResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `smaPeriods` | int | Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
+**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -48,15 +46,17 @@ IEnumerable<AdlResult>
 
 ### AdlResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `MoneyFlowMultiplier` | double | Money Flow Multiplier
-| `MoneyFlowVolume` | double | Money Flow Volume
-| `Adl` | double | Accumulation Distribution Line (ADL)
-| `AdlSma` | double | Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
-:warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless, so use with caution.
+**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
+
+**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
+
+**`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
+
+**`AdlSma`** _`double`_ - Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
+
+> :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 
 ### Utilities
 
@@ -64,7 +64,7 @@ IEnumerable<AdlResult>
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

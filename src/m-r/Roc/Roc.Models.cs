@@ -8,6 +8,7 @@ public sealed class RocResult : ResultBase, IReusableResult
         Date = date;
     }
 
+    public double? Momentum { get; set; }
     public double? Roc { get; set; }
     public double? RocSma { get; set; }
 

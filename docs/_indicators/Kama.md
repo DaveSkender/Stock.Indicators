@@ -12,7 +12,7 @@ layout: indicator
 Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of price over configurable lookback periods.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/210 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,11 +22,11 @@ IEnumerable<KamaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `erPeriods` | int | Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
-| `fastPeriods` | int | Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
-| `slowPeriods` | int | Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30.
+**`erPeriods`** _`int`_ - Number of Efficiency Ratio (volatility) periods (`E`).  Must be greater than 0.  Default is 10.
+
+**`fastPeriods`** _`int`_ - Number of Fast EMA periods.  Must be greater than 0.  Default is 2.
+
+**`slowPeriods`** _`int`_ - Number of Slow EMA periods.  Must be greater than `fastPeriods`.  Default is 30.
 
 ### Historical quotes requirements
 
@@ -45,15 +45,15 @@ IEnumerable<KamaResult>
 - It does not return a single incremental indicator value.
 - The first `E-1` periods will have `null` values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### KamaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `ER`   | double | Efficiency Ratio is the fractal efficiency of price changes
-| `Kama` | double | Kaufman's adaptive moving average
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`ER`** _`double`_ - Efficiency Ratio is the fractal efficiency of price changes
+
+**`Kama`** _`double`_ - Kaufman's adaptive moving average
 
 More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes are the exception, not the norm. ER would be 1 if prices moved up or down consistently over the `erPeriods` window. ER would be zero if prices are unchanged over the `erPeriods` window.
 
@@ -64,7 +64,7 @@ More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes a
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

@@ -9,11 +9,11 @@ public class Adl : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<AdlResult> results = quotes.GetAdl().ToList();
+        List<AdlResult> results = quotes
+            .GetAdl()
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.AdlSma == null));
 
@@ -34,11 +34,11 @@ public class Adl : TestBase
     [TestMethod]
     public void WithSma()
     {
-        List<AdlResult> results = Indicator.GetAdl(quotes, 20).ToList();
+        List<AdlResult> results = quotes
+            .GetAdl(20)
+            .ToList();
 
-        // assertions
-
-        // should always be the same number of results as there is quotes
+        // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.AdlSma != null));
 
@@ -53,52 +53,68 @@ public class Adl : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetAdl()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
         // assertions
 
         // proper quantities
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AdlResult> r = badQuotes.GetAdl();
-        Assert.AreEqual(502, r.Count());
+        List<AdlResult> r = badQuotes
+            .GetAdl()
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Adl)));
     }
 
     [TestMethod]
     public void BigData()
     {
-        IEnumerable<AdlResult> r = bigQuotes.GetAdl();
-        Assert.AreEqual(1246, r.Count());
+        List<AdlResult> r = bigQuotes
+            .GetAdl()
+            .ToList();
+
+        Assert.AreEqual(1246, r.Count);
     }
 
     [TestMethod]
     public void RandomData()
     {
-        IEnumerable<AdlResult> r = randomQuotes.GetAdl();
-        Assert.AreEqual(1000, r.Count());
+        List<AdlResult> r = randomQuotes
+            .GetAdl()
+            .ToList();
+
+        Assert.AreEqual(1000, r.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AdlResult> r0 = noquotes.GetAdl();
-        Assert.AreEqual(0, r0.Count());
+        List<AdlResult> r0 = noquotes
+            .GetAdl()
+            .ToList();
 
-        IEnumerable<AdlResult> r1 = onequote.GetAdl();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<AdlResult> r1 = onequote
+            .GetAdl()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     // bad SMA period
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetAdl(quotes, 0));
+            => quotes.GetAdl(0));
 }

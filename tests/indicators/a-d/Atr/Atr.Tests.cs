@@ -9,80 +9,90 @@ public class Atr : TestBase
     [TestMethod]
     public void Standard()
     {
-        List<AtrResult> results = quotes.GetAtr(14).ToList();
-
-        // assertions
+        List<AtrResult> results = quotes
+            .GetAtr(14)
+            .ToList();
 
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.Atr != null));
+        Assert.AreEqual(488, results.Count(x => x.Atr != null));
 
         // sample values
-        AtrResult r1 = results[12];
-        Assert.AreEqual(1.32, NullMath.Round(r1.Tr, 8));
-        Assert.AreEqual(null, r1.Atr);
-        Assert.AreEqual(null, r1.Atrp);
+        AtrResult r13 = results[13];
+        Assert.AreEqual(1.45, NullMath.Round(r13.Tr, 8));
+        Assert.AreEqual(null, r13.Atr);
+        Assert.AreEqual(null, r13.Atrp);
 
-        AtrResult r2 = results[13];
-        Assert.AreEqual(1.45, NullMath.Round(r2.Tr, 8));
-        Assert.AreEqual(1.3371, NullMath.Round(r2.Atr, 4));
-        Assert.AreEqual(0.6258, NullMath.Round(r2.Atrp, 4));
+        AtrResult r14 = results[14];
+        Assert.AreEqual(1.82, NullMath.Round(r14.Tr, 8));
+        Assert.AreEqual(1.3364, NullMath.Round(r14.Atr, 4));
+        Assert.AreEqual(0.6215, NullMath.Round(r14.Atrp, 4));
 
-        AtrResult r3 = results[24];
-        Assert.AreEqual(0.88, NullMath.Round(r3.Tr, 8));
-        Assert.AreEqual(1.3201, NullMath.Round(r3.Atr, 4));
-        Assert.AreEqual(0.6104, NullMath.Round(r3.Atrp, 4));
+        AtrResult r24 = results[24];
+        Assert.AreEqual(0.88, NullMath.Round(r24.Tr, 8));
+        Assert.AreEqual(1.3034, NullMath.Round(r24.Atr, 4));
+        Assert.AreEqual(0.6026, NullMath.Round(r24.Atrp, 4));
 
-        AtrResult r4 = results[249];
-        Assert.AreEqual(0.58, NullMath.Round(r4.Tr, 8));
-        Assert.AreEqual(1.3381, NullMath.Round(r4.Atr, 4));
-        Assert.AreEqual(0.5187, NullMath.Round(r4.Atrp, 4));
+        AtrResult r249 = results[249];
+        Assert.AreEqual(0.58, NullMath.Round(r249.Tr, 8));
+        Assert.AreEqual(1.3381, NullMath.Round(r249.Atr, 4));
+        Assert.AreEqual(0.5187, NullMath.Round(r249.Atrp, 4));
 
-        AtrResult r5 = results[501];
-        Assert.AreEqual(2.67, NullMath.Round(r5.Tr, 8));
-        Assert.AreEqual(6.1497, NullMath.Round(r5.Atr, 4));
-        Assert.AreEqual(2.5072, NullMath.Round(r5.Atrp, 4));
+        AtrResult r501 = results[501];
+        Assert.AreEqual(2.67, NullMath.Round(r501.Tr, 8));
+        Assert.AreEqual(6.1497, NullMath.Round(r501.Atr, 4));
+        Assert.AreEqual(2.5072, NullMath.Round(r501.Atrp, 4));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetAtr(10)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
-        Assert.AreEqual(502 - 18, results.Count(x => x.Sma != null));
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));
     }
 
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<AtrResult> r = Indicator.GetAtr(badQuotes, 20);
-        Assert.AreEqual(502, r.Count());
+        List<AtrResult> r = badQuotes
+            .GetAtr(20)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Atr is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<AtrResult> r0 = noquotes.GetAtr();
-        Assert.AreEqual(0, r0.Count());
+        List<AtrResult> r0 = noquotes
+            .GetAtr()
+            .ToList();
 
-        IEnumerable<AtrResult> r1 = onequote.GetAtr();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<AtrResult> r1 = onequote
+            .GetAtr()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<AtrResult> results = quotes.GetAtr(14)
+        List<AtrResult> results = quotes
+            .GetAtr(14)
             .RemoveWarmupPeriods()
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 13, results.Count);
+        Assert.AreEqual(502 - 14, results.Count);
 
         AtrResult last = results.LastOrDefault();
         Assert.AreEqual(2.67, NullMath.Round(last.Tr, 8));
@@ -94,5 +104,5 @@ public class Atr : TestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetAtr(quotes, 1));
+            quotes.GetAtr(1));
 }

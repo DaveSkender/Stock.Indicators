@@ -3,7 +3,7 @@
 # Local dev: bundle exec jekyll serve --livereload
 
 title: Stock Indicators for .NET
-tagline: "Send in historical price quotes and get back desired technical indicators.  Nothing more."
+tagline: "Send in price quotes and get back technical indicators.  Nothing more."
 locale: en_US
 
 # social media information
@@ -37,6 +37,7 @@ github:
   repository_url: https://github.com/DaveSkender/Stock.Indicators
 
 ga_tag: G-7602GXEZ0R
+clarity: false
 
 # site plugins and settings
 plugins:
@@ -45,7 +46,6 @@ plugins:
   - jekyll-sitemap
   - jekyll-last-modified-at
   - jekyll-redirect-from
-
 
 exclude: [
   "*.cs",
@@ -56,7 +56,6 @@ exclude: [
   "*.pptx",
   "*.sln",
   ".offline",
-  "contributing.md",
   "examples/Backtest",
   "examples/ConsoleApp",
   "GemFile",
@@ -65,6 +64,7 @@ exclude: [
 ]
 
 include: [
+  "contributing.md",
   "guide.md",
   "indicators.html",
   "performance.md",
@@ -80,6 +80,7 @@ defaults:
     values:
       layout: "base"
       image: /assets/social-banner.png
+      description: Transform financial market prices into technical analysis insights with this best in class C# NuGet library.  Go further with chaining and custom indicators.
 
 # page collections
 collections:

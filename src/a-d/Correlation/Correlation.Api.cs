@@ -13,12 +13,28 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         List<(DateTime, double)> tpListA
-            = quotesA.ToBasicTuple(CandlePart.Close);
+            = quotesA.ToTuple(CandlePart.Close);
 
         List<(DateTime, double)> tpListB
-            = quotesB.ToBasicTuple(CandlePart.Close);
+            = quotesB.ToTuple(CandlePart.Close);
 
         return CalcCorrelation(tpListA, tpListB, lookbackPeriods);
+    }
+
+    // SERIES, from CHAINS (both inputs reusable)
+    public static IEnumerable<CorrResult> GetCorrelation(
+        this IEnumerable<IReusableResult> quotesA,
+        IEnumerable<IReusableResult> quotesB,
+        int lookbackPeriods)
+    {
+        List<(DateTime Date, double Value)> tpListA
+            = quotesA.ToTuple();
+
+        List<(DateTime Date, double Value)> tpListB
+            = quotesB.ToTuple();
+
+        return CalcCorrelation(tpListA, tpListB, lookbackPeriods)
+            .SyncIndex(quotesA, SyncType.Prepend);
     }
 
     // SERIES, from TUPLE

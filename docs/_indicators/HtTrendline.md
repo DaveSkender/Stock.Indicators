@@ -9,10 +9,10 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.
+Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-period trendline of high/low price that that uses classic electrical radio-frequency signal processing algorithms reduce noise.  Dominant Cycle Periods information is also provided.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/363 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -36,16 +36,19 @@ IEnumerable<HtlResult>
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 - The first `6` periods will have `null` values for `SmoothPrice` since there's not enough data to calculate.
+- The first `7` periods will have `null` values for `DcPeriods` since there is not enough data to calculate; and are generally unreliable for the first ~25 periods.
 
-:hourglass: **Convergence Warning**: The first `100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### HtlResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Trendline` | double | HT Trendline
-| `SmoothPrice` | double | Weighted moving average of `(H+L)/2` price
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`DcPeriods`** _`int`_ - Dominant cycle periods (smoothed)
+
+**`Trendline`** _`double`_ - HT Trendline
+
+**`SmoothPrice`** _`double`_ - Weighted moving average of `(H+L)/2` price
 
 ### Utilities
 
@@ -54,7 +57,7 @@ IEnumerable<HtlResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

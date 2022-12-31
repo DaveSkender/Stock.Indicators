@@ -12,7 +12,7 @@ layout: indicator
 Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/terms/e/elderray.asp), also known as Bull and Bear Power, is an oscillator that depicts buying and selling pressure.  It compares current high/low prices against an Exponential Moving Average.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/378 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<ElderRayResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the underlying EMA evaluation.  Must be greater than 0.  Default is 13.
 
 ### Historical quotes requirements
 
@@ -43,16 +41,17 @@ IEnumerable<ElderRayResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` indicator values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ElderRayResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Ema` | double | Exponential moving average
-| `BullPower` | double | Bull Power
-| `BearPower` | double | Bear Power
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Ema`** _`double`_ - Exponential moving average
+
+**`BullPower`** _`double`_ - Bull Power
+
+**`BearPower`** _`double`_ - Bear Power
 
 ### Utilities
 
@@ -61,7 +60,7 @@ IEnumerable<ElderRayResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

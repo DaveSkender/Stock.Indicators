@@ -12,7 +12,7 @@ layout: indicator
 Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern based on prior period prices for smoothing.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/254 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -40,14 +40,17 @@ IEnumerable<HeikinAshiResult>
 
 ### HeikinAshiResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Open` | decimal | Modified open price
-| `High` | decimal | Modified high price
-| `Low` | decimal | Modified low price
-| `Close` | decimal | Modified close price
-| `Volume` | decimal | Volume (same as `quotes`)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Open`** _`decimal`_ - Modified open price
+
+**`High`** _`decimal`_ - Modified high price
+
+**`Low`** _`decimal`_ - Modified low price
+
+**`Close`** _`decimal`_ - Modified close price
+
+**`Volume`** _`decimal`_ - Volume (same as `quotes`)
 
 ### Utilities
 
@@ -56,10 +59,12 @@ IEnumerable<HeikinAshiResult>
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp
-  IEnumerable<Quote> results = quotes.GetHeikinAshi().ToQuotes();
+  IEnumerable<Quote> results = quotes
+    .GetHeikinAshi()
+    .ToQuotes();
   ```
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

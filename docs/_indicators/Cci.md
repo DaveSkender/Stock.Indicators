@@ -12,7 +12,7 @@ layout: indicator
 Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.org/wiki/Commodity_channel_index) is an oscillator depicting deviation from typical price range, often used to identify cyclical trends.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/265 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<CciResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<CciResult>
 
 ### CciResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Cci` | double | CCI value for `N` lookback periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Cci`** _`double`_ - Commodity Channel Index
 
 ### Utilities
 
@@ -57,7 +54,7 @@ IEnumerable<CciResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

@@ -14,13 +14,30 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         List<(DateTime, double)> tpListEval
-            = quotesEval.ToBasicTuple(CandlePart.Close);
+            = quotesEval.ToTuple(CandlePart.Close);
 
         List<(DateTime, double)> tpListMrkt
-            = quotesMarket.ToBasicTuple(CandlePart.Close);
+            = quotesMarket.ToTuple(CandlePart.Close);
 
         // to enable typical 'this' extension
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
+    }
+
+    // SERIES, from CHAINS (both inputs reusable)
+    public static IEnumerable<BetaResult> GetBeta(
+        this IEnumerable<IReusableResult> evalResults,
+        IEnumerable<IReusableResult> mrktResults,
+        int lookbackPeriods,
+        BetaType type = BetaType.Standard)
+    {
+        List<(DateTime Date, double Value)> tpListEval
+            = evalResults.ToTuple();
+
+        List<(DateTime Date, double Value)> tpListMrkt
+            = mrktResults.ToTuple();
+
+        return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type)
+            .SyncIndex(evalResults, SyncType.Prepend);
     }
 
     // SERIES, from TUPLE
@@ -30,8 +47,11 @@ public static partial class Indicator
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
     {
-        List<(DateTime, double)> tpListEval = evalTuple.ToSortedList();
-        List<(DateTime, double)> tpListMrkt = mrktTuple.ToSortedList();
+        List<(DateTime, double)> tpListEval
+            = evalTuple.ToSortedList();
+
+        List<(DateTime, double)> tpListMrkt
+            = mrktTuple.ToSortedList();
 
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
     }

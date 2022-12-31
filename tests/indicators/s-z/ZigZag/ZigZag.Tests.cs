@@ -14,10 +14,7 @@ public class ZigZag : TestBase
             quotes.GetZigZag(EndType.Close, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(234, results.Count(x => x.ZigZag != null));
         Assert.AreEqual(234, results.Count(x => x.RetraceHigh != null));
@@ -69,10 +66,7 @@ public class ZigZag : TestBase
             quotes.GetZigZag(EndType.HighLow, 3)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(463, results.Count(x => x.ZigZag != null));
         Assert.AreEqual(463, results.Count(x => x.RetraceHigh != null));
@@ -120,11 +114,12 @@ public class ZigZag : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetZigZag(EndType.Close, 3)
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(225, results.Count(x => x.Sma != null));
     }
 
@@ -164,31 +159,45 @@ public class ZigZag : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<ZigZagResult> r1 = Indicator.GetZigZag(badQuotes, EndType.Close);
-        Assert.AreEqual(502, r1.Count());
+        List<ZigZagResult> r1 = badQuotes
+            .GetZigZag(EndType.Close)
+            .ToList();
 
-        IEnumerable<ZigZagResult> r2 = Indicator.GetZigZag(badQuotes, EndType.HighLow);
-        Assert.AreEqual(502, r2.Count());
+        Assert.AreEqual(502, r1.Count);
+
+        List<ZigZagResult> r2 = badQuotes
+            .GetZigZag(EndType.HighLow)
+            .ToList();
+
+        Assert.AreEqual(502, r2.Count);
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<ZigZagResult> r0 = noquotes.GetZigZag();
-        Assert.AreEqual(0, r0.Count());
+        List<ZigZagResult> r0 = noquotes
+            .GetZigZag()
+            .ToList();
 
-        IEnumerable<ZigZagResult> r1 = onequote.GetZigZag();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<ZigZagResult> r1 = onequote
+            .GetZigZag()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Condense()
     {
-        IEnumerable<ZigZagResult> results = quotes.GetZigZag(EndType.Close, 3)
-            .Condense();
+        List<ZigZagResult> results = quotes
+            .GetZigZag(EndType.Close, 3)
+            .Condense()
+            .ToList();
 
         // assertions
-        Assert.AreEqual(14, results.Count());
+        Assert.AreEqual(14, results.Count);
     }
 
     [TestMethod]
@@ -201,18 +210,18 @@ public class ZigZag : TestBase
             .OrderBy(x => x.Date)
             .ToList();
 
-        IEnumerable<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m);
-        Assert.AreEqual(342, r1.Count());
+        List<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();
+        Assert.AreEqual(342, r1.Count);
 
         // first period has High/Low that exceeds threhold
         // where it is both a H and L pivot simultaenously
-        IEnumerable<ZigZagResult> r2 = h.GetZigZag(EndType.HighLow, 3);
-        Assert.AreEqual(342, r2.Count());
+        List<ZigZagResult> r2 = h.GetZigZag(EndType.HighLow, 3).ToList();
+        Assert.AreEqual(342, r2.Count);
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Indicator.GetZigZag(quotes, EndType.Close, 0));
+            => quotes.GetZigZag(EndType.Close, 0));
 }

@@ -11,9 +11,7 @@ public static partial class Indicator
         List<AtrStopResult> resultsList = results
             .ToList();
 
-        _ = resultsList
-            .RemoveAll(match:
-                x => x.AtrStop is null);
+        resultsList.RemoveAll(match: x => x.AtrStop is null);
 
         return resultsList.ToSortedList();
     }

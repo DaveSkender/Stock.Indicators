@@ -12,7 +12,7 @@ layout: indicator
 Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the directional Money Flow Volume.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/261 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<CmfResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.  Default is 20.
 
 ### Historical quotes requirements
 
@@ -45,14 +43,15 @@ IEnumerable<CmfResult>
 
 ### CmfResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `MoneyFlowMultiplier` | double | Money Flow Multiplier
-| `MoneyFlowVolume` | double | Money Flow Volume
-| `Cmf` | double | Chaikin Money Flow = SMA of MFV for `N` lookback periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
-:warning: **Warning**: absolute values in MFV and CMF are somewhat meaningless, so use with caution.
+**`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
+
+**`MoneyFlowVolume`** _`double`_ - Money Flow Volume
+
+**`Cmf`** _`double`_ - Chaikin Money Flow = SMA of MFV
+
+> :warning: **Warning**: absolute values in MFV and CMF are somewhat meaningless.  Use with caution.
 
 ### Utilities
 
@@ -61,7 +60,7 @@ IEnumerable<CmfResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

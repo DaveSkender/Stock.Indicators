@@ -12,7 +12,7 @@ layout: indicator
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/866 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage (with Close price)
@@ -22,10 +22,9 @@ IEnumerable<DynamicResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 0.
-| `kFactor` | double | Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 0.
+
+**`kFactor`** _`double`_ - Optional.  Range adjustment factor (`K`).  Must be greater than 0.  Default is 0.6
 
 ### Historical quotes requirements
 
@@ -50,14 +49,13 @@ IEnumerable<DynamicResult>
 - It does not return a single incremental indicator value.
 - The first period will have a `null` value since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### DynamicResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Dynamic` | double | McGinley Dynamic
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Dynamic`** _`double`_ - McGinley Dynamic
 
 ### Utilities
 
@@ -65,7 +63,7 @@ IEnumerable<DynamicResult>
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

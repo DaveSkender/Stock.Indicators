@@ -67,7 +67,7 @@ public static partial class Indicator
             }
 
             // skip DM initialization period
-            if (i <= lookbackPeriods - 1)
+            if (i < lookbackPeriods)
             {
                 continue;
             }

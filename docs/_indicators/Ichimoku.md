@@ -12,7 +12,7 @@ layout: indicator
 Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D), also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/251 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -30,14 +30,17 @@ IEnumerable<IchimokuResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `tenkanPeriods` | int | Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9.
-| `kijunPeriods` | int | Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26.
-| `senkouBPeriods` | int | Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52.
-| `offsetPeriods` | int | Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`.
-| `senkouOffset` | int | Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`.
-| `chikouOffset` | int | Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`.
+**`tenkanPeriods`** _`int`_ - Number of periods (`T`) in the Tenkan-sen midpoint evaluation.  Must be greater than 0.  Default is 9.
+
+**`kijunPeriods`** _`int`_ - Number of periods (`K`) in the shorter Kijun-sen midpoint evaluation.  Must be greater than 0.  Default is 26.
+
+**`senkouBPeriods`** _`int`_ - Number of periods (`S`) in the longer Senkou leading span B midpoint evaluation.  Must be greater than `K`.  Default is 52.
+
+**`offsetPeriods`** _`int`_ - Optional.  Number of periods to offset both `Senkou` and `Chikou` spans.  Must be non-negative.  Default is `kijunPeriods`.
+
+**`senkouOffset`** _`int`_ - Optional.  Number of periods to offset the `Senkou` span.  Must be non-negative.  Default is `kijunPeriods`.
+
+**`chikouOffset`** _`int`_ - Optional.  Number of periods to offset the `Chikou` span.  Must be non-negative.  Default is `kijunPeriods`.
 
 See overloads usage above to determine which parameters are relevant for each.  If you are customizing offsets, all parameter arguments must be specified.
 
@@ -60,14 +63,17 @@ IEnumerable<IchimokuResult>
 
 ### IchimokuResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `TenkanSen` | decimal | Conversion / signal line
-| `KijunSen` | decimal | Base line
-| `SenkouSpanA` | decimal | Leading span A
-| `SenkouSpanB` | decimal | Leading span B
-| `ChikouSpan` | decimal | Lagging span
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`TenkanSen`** _`decimal`_ - Conversion / signal line
+
+**`KijunSen`** _`decimal`_ - Base line
+
+**`SenkouSpanA`** _`decimal`_ - Leading span A
+
+**`SenkouSpanB`** _`decimal`_ - Leading span B
+
+**`ChikouSpan`** _`decimal`_ - Lagging span
 
 ### Utilities
 
@@ -75,7 +81,7 @@ IEnumerable<IchimokuResult>
 - [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

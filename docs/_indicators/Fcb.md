@@ -12,7 +12,7 @@ layout: indicator
 Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of <a href="{{site.baseurl}}/indicators/Fractal/#content" rel="nofollow">Williams Fractal</a>.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/347 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<FcbResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `windowSpan` | int | Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
+**`windowSpan`** _`int`_ - Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
 The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal]({{site.baseurl}}/indicators/Fractal/#content) for more information about Fractals and `windowSpan`.
 
@@ -47,11 +45,11 @@ IEnumerable<FcbResult>
 
 ### FcbResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `UpperBand` | decimal | FCB upper band
-| `LowerBand` | decimal | FCB lower band
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`UpperBand`** _`decimal`_ - FCB upper band
+
+**`LowerBand`** _`decimal`_ - FCB lower band
 
 ### Utilities
 
@@ -60,7 +58,7 @@ IEnumerable<FcbResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

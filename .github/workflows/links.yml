@@ -1,11 +1,11 @@
-name: test doc site
+name: test docs
 on:
   pull_request:
     branches: [main]
 
 jobs:
   testing:
-    name: a11y and URLs
+    name: URLs
     runs-on: ubuntu-latest
 
     steps:
@@ -43,16 +43,6 @@ jobs:
         run: |
           BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer _site \
             --assume-extension \
-            --http-status-ignore "403,429,503,999" \
-            --url-swap "https\://daveskender.github.io/Stock.Indicators:http\://127.0.0.1:4000"
-
-      - name: Show environment
-        working-directory: docs
-        run: npx pa11y --environment
-
-      - name: Test accessibility
-        working-directory: docs
-        run: |
-          npx pa11y-ci \
-            --sitemap http://127.0.0.1:4000/sitemap.xml \
-            --sitemap-exclude "/*.pdf"
+            --http-status-ignore "403,406,429,503,999" \
+            --url-swap "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
+            --url-ignore "/fonts.gstatic.com/"

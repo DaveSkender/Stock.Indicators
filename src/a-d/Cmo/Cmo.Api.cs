@@ -10,14 +10,14 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
-            .ToBasicTuple(CandlePart.Close)
+            .ToTuple(CandlePart.Close)
             .CalcCmo(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<CmoResult> GetCmo(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToResultTuple()
+            .ToTuple()
             .CalcCmo(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

@@ -12,7 +12,7 @@ layout: indicator
 Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.wikipedia.org/wiki/Vortex_indicator) is a measure of price directional movement.  It includes positive and negative indicators, and is often used to identify trends and reversals.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/339 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<VortexResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) to consider.  Must be greater than 1 and is usually between 14 and 30.
 
 ### Historical quotes requirements
 
@@ -45,11 +43,11 @@ IEnumerable<VortexResult>
 
 ### VortexResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Pvi` | double | Positive Vortex Indicator (VI+)
-| `Nvi` | double | Negative Vortex Indicator (VI-)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Pvi`** _`double`_ - Positive Vortex Indicator (VI+)
+
+**`Nvi`** _`double`_ - Negative Vortex Indicator (VI-)
 
 ### Utilities
 
@@ -58,7 +56,7 @@ IEnumerable<VortexResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

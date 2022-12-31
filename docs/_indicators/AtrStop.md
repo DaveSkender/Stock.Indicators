@@ -12,7 +12,7 @@ layout: indicator
 Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/724 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,11 +22,11 @@ IEnumerable<AtrStopResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) for the ATR evaluation.  Must be greater than 1.  Default is 21.
-| `multiplier` | double | Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
-| `endType` | EndType | Determines whether `Close` or `High/Low` is used as basis for stop offset.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) for the ATR evaluation.  Must be greater than 1.  Default is 21.
+
+**`multiplier`** _`double`_ - Multiplier sets the ATR band width.  Must be greater than 0 and is usually set around 2 to 3.  Default is 3.
+
+**`endType`** _`EndType`_ - Determines whether `Close` or `High/Low` is used as basis for stop offset.  See [EndType options](#endtype-options) below.  Default is `EndType.Close`.
 
 ### Historical quotes requirements
 
@@ -36,10 +36,9 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 
 ### EndType options
 
-| type | description
-|-- |--
-| `EndType.Close` | Stop offset from `Close` price (default)
-| `EndType.HighLow` | Stop offset from `High` or `Low` price
+**`EndType.Close`** - Stop offset from `Close` price (default)
+
+**`EndType.HighLow`** - Stop offset from `High` or `Low` price
 
 ## Response
 
@@ -50,18 +49,19 @@ IEnumerable<AtrStopResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first `N-1` periods will have `null` AtrStop values since there's not enough data to calculate.
+- The first `N` periods will have `null` AtrStop values since there's not enough data to calculate.
 
-:hourglass: **Convergence Warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
+> :hourglass: **Convergence warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 
 ### AtrStopResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `AtrStop` | decimal | ATR Trailing Stop line contains both Upper and Lower segments
-| `BuyStop` | decimal | Upper band only (green)
-| `SellStop` | decimal | Lower band only (red)
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`AtrStop`** _`decimal`_ - ATR Trailing Stop line contains both Upper and Lower segments
+
+**`BuyStop`** _`decimal`_ - Upper band only (green)
+
+**`SellStop`** _`decimal`_ - Lower band only (red)
 
 `BuyStop` and `SellStop` values are provided to differentiate buy vs sell stop lines and to clearly demark trend reversal.  `AtrStop` is the contiguous combination of both upper and lower line data.
 
@@ -72,7 +72,7 @@ IEnumerable<AtrStopResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

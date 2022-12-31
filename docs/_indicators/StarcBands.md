@@ -9,10 +9,10 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are price ranges based on an SMA centerline and ATR band widths.  See also <a href="{{site.baseurl}}/indicators/Keltner/#content rel="nofollow">Keltner Channels</a> for an EMA centerline equivalent.
+Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are price ranges based on an SMA centerline and ATR band widths.  See also <a href="{{site.baseurl}}/indicators/Keltner/#content" rel="nofollow">Keltner Channels</a> for an EMA centerline equivalent.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/292 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,11 +22,11 @@ IEnumerable<StarcBandsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `smaPeriods` | int | Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
-| `multiplier` | double | ATR Multiplier. Must be greater than 0.  Default is 2.
-| `atrPeriods` | int | Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10.
+**`smaPeriods`** _`int`_ - Number of lookback periods (`S`) for the center line moving average.  Must be greater than 1 to calculate and is typically between 5 and 10.
+
+**`multiplier`** _`double`_ - ATR Multiplier. Must be greater than 0.  Default is 2.
+
+**`atrPeriods`** _`int`_ - Number of lookback periods (`A`) for the Average True Range.  Must be greater than 1 to calculate and is typically the same value as `smaPeriods`.  Default is 10.
 
 ### Historical quotes requirements
 
@@ -45,16 +45,17 @@ IEnumerable<StarcBandsResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate, where `N` is the greater of `S` or `A`.
 
-:hourglass: **Convergence Warning**: The first `A+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+> :hourglass: **Convergence warning**: The first `A+150` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### StarcBandsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `UpperBand` | decimal | Upper STARC band
-| `Centerline` | decimal | SMA of price
-| `LowerBand` | decimal | Lower STARC band
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`UpperBand`** _`decimal`_ - Upper STARC band
+
+**`Centerline`** _`decimal`_ - SMA of price
+
+**`LowerBand`** _`decimal`_ - Lower STARC band
 
 ### Utilities
 
@@ -63,7 +64,7 @@ IEnumerable<StarcBandsResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

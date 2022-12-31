@@ -12,7 +12,7 @@ layout: indicator
 Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving-average) is a modified weighted average of price that reduces lag.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/252 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<HmaResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the moving average.  Must be greater than 1.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the moving average.  Must be greater than 1.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<HmaResult>
 
 ### HmaResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `Hma` | double | Hull moving average for `N` lookback periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`Hma`** _`double`_ - Hull moving average
 
 ### Utilities
 
@@ -57,7 +54,7 @@ IEnumerable<HmaResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

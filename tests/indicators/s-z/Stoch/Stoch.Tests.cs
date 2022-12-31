@@ -17,10 +17,7 @@ public class Stoch : TestBase
             quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(487, results.Count(x => x.Oscillator != null));
         Assert.AreEqual(485, results.Count(x => x.Signal != null));
@@ -59,10 +56,7 @@ public class Stoch : TestBase
             quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA)
             .ToList();
 
-        // assertions
-
         // proper quantities
-        // should always be the same number of results as there is quotes
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(494, results.Count(x => x.K != null));
         Assert.AreEqual(494, results.Count(x => x.D != null));
@@ -102,11 +96,12 @@ public class Stoch : TestBase
     [TestMethod]
     public void Chainor()
     {
-        IEnumerable<SmaResult> results = quotes
+        List<SmaResult> results = quotes
             .GetStoch()
-            .GetSma(10);
+            .GetSma(10)
+            .ToList();
 
-        Assert.AreEqual(502, results.Count());
+        Assert.AreEqual(502, results.Count);
         Assert.AreEqual(478, results.Count(x => x.Sma != null));
     }
 
@@ -117,8 +112,8 @@ public class Stoch : TestBase
         int signalPeriods = 1;
         int smoothPeriods = 3;
 
-        List<StochResult> results =
-            Indicator.GetStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods)
+        List<StochResult> results = quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
         // signal equals oscillator
@@ -136,8 +131,8 @@ public class Stoch : TestBase
         int signalPeriods = 10;
         int smoothPeriods = 1;
 
-        List<StochResult> results =
-            Indicator.GetStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods)
+        List<StochResult> results = quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
         // sample values
@@ -157,8 +152,8 @@ public class Stoch : TestBase
         int signalPeriods = 10;
         int smoothPeriods = 1;
 
-        List<StochResult> results =
-            Indicator.GetStoch(quotes, lookbackPeriods, signalPeriods, smoothPeriods)
+        List<StochResult> results = quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
         // sample values
@@ -172,19 +167,28 @@ public class Stoch : TestBase
     [TestMethod]
     public void BadData()
     {
-        IEnumerable<StochResult> r = Indicator.GetStoch(badQuotes, 15);
-        Assert.AreEqual(502, r.Count());
+        List<StochResult> r = badQuotes
+            .GetStoch(15)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
     public void NoQuotes()
     {
-        IEnumerable<StochResult> r0 = noquotes.GetStoch();
-        Assert.AreEqual(0, r0.Count());
+        List<StochResult> r0 = noquotes
+            .GetStoch()
+            .ToList();
 
-        IEnumerable<StochResult> r1 = onequote.GetStoch();
-        Assert.AreEqual(1, r1.Count());
+        Assert.AreEqual(0, r0.Count);
+
+        List<StochResult> r1 = onequote
+            .GetStoch()
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
@@ -194,10 +198,10 @@ public class Stoch : TestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results =
-            quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-                .RemoveWarmupPeriods()
-                .ToList();
+        List<StochResult> results = quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
+            .RemoveWarmupPeriods()
+            .ToList();
 
         // assertions
         Assert.AreEqual(502 - (lookbackPeriods + smoothPeriods - 2), results.Count);
@@ -213,15 +217,15 @@ public class Stoch : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStoch(quotes, 0));
+            quotes.GetStoch(0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStoch(quotes, 14, 0));
+            quotes.GetStoch(14, 0));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Indicator.GetStoch(quotes, 14, 3, 0));
+            quotes.GetStoch(14, 3, 0));
 
         // bad kFactor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>

@@ -4,8 +4,6 @@ description: The Stock Indicators for .NET library includes utilities to help yo
 permalink: /utilities/
 relative_path: utilities.md
 layout: page
-redirect_from:
- - /docs/UTILITIES.html
 ---
 
 # {{ page.title }}
@@ -18,7 +16,7 @@ redirect_from:
 
 ### Use alternate price
 
-`quotes.Use()` can be used before most indicator calls to specify price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
+`quotes.Use()` can be used before most indicator calls to specify which price element to analyze.  It cannot be used for indicators that require the full OHLCV quote profile.
 
 ```csharp
 // example: use HL2 price instead of
@@ -32,11 +30,11 @@ var results = quotes
 
 ### Using tuple quotes
 
-`quotes.ToBasicTuple()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `List`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
+`quotes.ToTupleCollection()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `Collection`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
 
 ### Sort quotes
 
-`quotes.ToSortedList()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `List` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
+`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
 
 ### Resize quote history
 
@@ -74,11 +72,11 @@ IEnumerable<Quote> dayBarQuotes =
 - `PeriodSize.TwoMinutes`
 - `PeriodSize.OneMinute`
 
-:warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
+> :warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 
 ### Extended candle properties
 
-`quote.ToCandle()` and `quotes.ToCandles()` converts a quote class into an extended quote with additional calculated candle properties.
+`quote.ToCandle()` and `quotes.ToCandles()` converts a quote class into an extended quote format with additional calculated candle properties.
 
 ``` csharp
 // single quote
@@ -120,7 +118,7 @@ IEnumerable<CandleResult> results
   = quotes.GetMarubozu(..).Condense();
 ```
 
-:warning: WARNING! In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
+> :warning: **Warning**: In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
 
 ### Find indicator result by date
 
@@ -152,17 +150,23 @@ IEnumerable<AdxResult> results =
 
 See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
 
-:warning: Note: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
-
-:warning: WARNING! Without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results, there can be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
+> :information_source: **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
+>
+> :warning: **Warning**: without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
 
 ### Using tuple results
 
-`results.ToBasicTuple()` is a method for converting results collections with a primary return value to a simple `(DateTime Date, double Value)` formatted [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `List`.  Chainable indicators in our library will accept this tuple format as a replacement for `quotes`.  This conversion is not required for normal use; however, it may be useful for users who create [custom indicators]({{site.baseurl}}/custom-indicators/#content);
+`results.ToTupleCollection()` converts results to a simpler `(DateTime Date, double? Value)` [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
+
+`results.ToTupleNaN()` converts results to simpler `(DateTime Date, double Value)` tuple `Collection` with `null` values converted to `double.NaN`.
+
+`results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
+
+> :warning: **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as a `List` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 

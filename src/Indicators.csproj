@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;net5.0;netstandard2.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
 
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators for .NET</Product>
@@ -19,7 +19,7 @@
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://daveskender.github.io/Stock.Indicators</PackageProjectUrl>
+    <PackageProjectUrl>https://dotnet.stockindicators.dev</PackageProjectUrl>
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageTags>
        Indicators;Stock;Market;Technical;Analysis;Algorithmic;Trading;Trade;Trend;Momentum;Finance;Algorithm;Algo;

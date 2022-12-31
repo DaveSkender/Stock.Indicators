@@ -12,7 +12,7 @@ layout: indicator
 Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Williams_%25R) momentum oscillator compares current price with recent highs and lows and is presented on scale of -100 to 0.  It is exactly the same as the fast variant of [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content), but with a different scaling.
 [[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/229 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
 // usage
@@ -22,9 +22,7 @@ IEnumerable<WilliamsResult> results =
 
 ## Parameters
 
-| name | type | notes
-| -- |-- |--
-| `lookbackPeriods` | int | Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
+**`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0.  Default is 14.
 
 ### Historical quotes requirements
 
@@ -45,10 +43,9 @@ IEnumerable<WilliamsResult>
 
 ### WilliamsResult
 
-| name | type | notes
-| -- |-- |--
-| `Date` | DateTime | Date
-| `WilliamsR` | double | Oscillator over prior `N` lookback periods
+**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+
+**`WilliamsR`** _`double`_ - Oscillator over prior `N` lookback periods
 
 ### Utilities
 
@@ -57,7 +54,7 @@ IEnumerable<WilliamsResult>
 - [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
 - [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
 
-See [Utilities and Helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
