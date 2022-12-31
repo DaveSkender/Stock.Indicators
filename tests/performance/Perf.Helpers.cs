@@ -6,7 +6,7 @@ namespace Tests.Performance;
 
 // HELPERS, both public and private
 
-public class HelperPerformance
+public class QuoteHelperPerformance
 {
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> i;
@@ -24,7 +24,10 @@ public class HelperPerformance
     public object ToListQuoteD() => h.ToQuoteD();
 
     [Benchmark]
-    public object ToTuple() => h.ToTuple(CandlePart.Close);
+    public object ToTupleClose() => h.ToTuple(CandlePart.Close);
+
+    [Benchmark]
+    public object ToTupleOHLC4() => h.ToTuple(CandlePart.OHLC4);
 
     [Benchmark]
     public object ToCandleResults() => h.ToCandleResults();
