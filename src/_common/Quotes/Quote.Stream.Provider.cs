@@ -67,25 +67,22 @@ public class QuoteProvider : IObservable<Quote>
                 old.Low = quote.Low;
                 old.Close = quote.Close;
                 old.Volume = quote.Volume;
-
-                // let observer handle duplicates
-                foreach (IObserver<Quote> observer in observers)
-                {
-                    observer.OnNext(quote);
-                }
             }
 
-            // quietly add old missing record
+            // add old missing record
             else
             {
                 ProtectedQuotes.Add(quote);
 
                 // resort cache
-                if (quote.Date < LastQuote.Date)
-                {
-                    ProtectedQuotes = ProtectedQuotes
-                        .ToSortedList();
-                }
+                ProtectedQuotes = ProtectedQuotes
+                    .ToSortedList();
+            }
+
+            // let observer handle old + duplicates
+            foreach (IObserver<Quote> observer in observers)
+            {
+                observer.OnNext(quote);
             }
         }
     }
