@@ -173,17 +173,9 @@ public class EmaStaticTests : TestBase
         Assert.AreEqual(249.3519, NullMath.Round(last.Ema, 4));
     }
 
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-    {
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-          => quotes.GetEma(0));
-
-        // null quote added
-        EmaBase emaBase = quotes.InitEma(14);
-
-        Assert.ThrowsException<InvalidQuotesException>(()
-          => emaBase.Add(null));
-    }
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetEma(0));
 }

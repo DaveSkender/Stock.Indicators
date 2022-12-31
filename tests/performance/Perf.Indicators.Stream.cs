@@ -3,22 +3,21 @@ using Internal.Tests;
 using Skender.Stock.Indicators;
 
 namespace Tests.Performance;
+#pragma warning disable SA1005 // Single line comments should begin with single space
 
-[MemoryDiagnoser]
+// [MemoryDiagnoser]
 public class IndicatorStreamPerformance
 {
-    private static IEnumerable<Quote> h;
-    private static List<Quote> onemill;
     private static List<Quote> lList;
+    private static List<Quote> onemill;
 
     // SETUP
 
     [GlobalSetup]
     public void Setup()
     {
-        h = TestData.GetDefault();
-        lList = TestData.GetLongest().ToList();
-        onemill = TestData.GetRandom(1000000).ToList();
+        lList = TestData.GetLongest().ToSortedList();
+        onemill = TestData.GetRandom(1000000).ToSortedList();
     }
 
     // BENCHMARKS
@@ -26,68 +25,67 @@ public class IndicatorStreamPerformance
     [Benchmark]
     public object GetEma1M() => onemill.GetEma(14);
 
-    [Benchmark]
-    public object GetEma1MStream()
-    {
-        EmaBase emaBase = new(14);
+    //[Benchmark]
+    //public object GetEma1MStream()
+    //{
+    //    EmaObs emaBase = new(14);
 
-        for (int i = 0; i < onemill.Count; i++)
-        {
-            Quote q = onemill[i];
-            emaBase.Add(q);
-        }
+    //    for (int i = 0; i < onemill.Count; i++)
+    //    {
+    //        Quote q = onemill[i];
+    //        emaBase.Add(q);
+    //    }
 
-        return emaBase.Results;
-    }
+    //    return emaBase.Results;
+    //}
 
     [Benchmark]
     public object GetEmaStream11kQuote()
     {
-        EmaBase emaBase = lList
-            .Take(10000)
-            .InitEma(200);
+        QuoteProvider provider = new();
+        EmaObs obsEma = provider.ObsEma(14);
 
-        for (int i = 10000; i < 11000; i++)
+        for (int i = 0; i < 11000; i++)
         {
-            Quote q = lList[i];
-            emaBase.Add(q);
+            provider.Add(lList[i]);
         }
 
-        return emaBase.Results;
+        provider.EndTransmission();
+        return obsEma.Results;
     }
 
-    [Benchmark]
-    public object GetEmaStreamOHLC4base10k()
-    {
-        EmaBase emaBase = lList
-            .Take(10000)
-            .Use(CandlePart.OHLC4)
-            .InitEma(200);
+    //[Benchmark]
+    //public object GetEmaStream11kOHLC4base10k()
+    //{
+    //    EmaObs emaBase = lList
+    //        .Take(10000)
+    //        .Use(CandlePart.OHLC4)
+    //        .InitEma(200);
 
-        for (int i = 10000; i < 11000; i++)
-        {
-            (DateTime date, double value) q = lList[i]
-                .ToTuple(CandlePart.OHLC4);
+    //    for (int i = 10000; i < 11000; i++)
+    //    {
+    //        (DateTime date, double value) q = lList[i]
+    //            .ToTuple(CandlePart.OHLC4);
 
-            emaBase.Add(q);
-        }
+    //        emaBase.Add(q);
+    //    }
 
-        return emaBase.Results;
-    }
+    //    return emaBase.Results;
+    //}
 
-    [Benchmark]
-    public object GetEmaStreamOHLC4baseEmpty()
-    {
-        EmaBase emaBase = new(200);
+    //[Benchmark]
+    //public object GetEmaStream11kOHLC4baseEmpty()
+    //{
+    //    EmaObs emaBase = new(200);
 
-        for (int i = 0; i < lList.Count; i++)
-        {
-            (DateTime date, double value) q = lList[i]
-                .ToTuple(CandlePart.OHLC4);
+    //    for (int i = 0; i < lList.Count; i++)
+    //    {
+    //        (DateTime date, double value) q = lList[i]
+    //            .ToTuple(CandlePart.OHLC4);
 
-            emaBase.Add(q);
-        }
+    //        emaBase.Add(q);
+    //    }
 
-        return emaBase.Results;
-    }
+    //    return emaBase.Results;
+    //}
 }

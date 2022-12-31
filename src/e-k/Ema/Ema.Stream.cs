@@ -1,16 +1,22 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
-public class EmaBase : IStreamBase
+public class EmaObs : QuoteObserver
 {
-    // initialize empty
-    public EmaBase(int lookbackPeriods)
+    public EmaObs(
+        QuoteProvider provider,
+        int lookbackPeriods)
     {
-        UUID = Guid.NewGuid();
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
         ProtectedResults = new();
         QuotesCache = new(lookbackPeriods);
+
+        if (provider != null)
+        {
+            Initialize(provider.GetQuotesList());
+            Subscribe(provider);
+        }
     }
 
     // properties
@@ -23,7 +29,33 @@ public class EmaBase : IStreamBase
     private List<EmaResult> ProtectedResults { get; set; }
 
     // methods
-    public IEnumerable<EmaResult> Add(
+    public void Initialize(IEnumerable<Quote> quotes)
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        if (quotes != null)
+        {
+            for (int i = 0; i < quotesList.Count; i++)
+            {
+                Add(quotesList[i]);
+            }
+        }
+    }
+
+    public override void OnNext(Quote value)
+    {
+        if (value != null)
+        {
+            Add(value);
+        }
+        else
+        {
+            throw new InvalidQuotesException(nameof(value), "Quote cannot be null.");
+        }
+    }
+
+    private EmaResult Add(
         Quote quote,
         CandlePart candlePart = CandlePart.Close)
     {
@@ -36,9 +68,13 @@ public class EmaBase : IStreamBase
         return Add(tuple);
     }
 
-    public IEnumerable<EmaResult> Add(
+    // todo: this would be a different subscriber, to tuple feed
+    private EmaResult Add(
         (DateTime Date, double Value) tpQuote)
     {
+        // empty candidate result
+        EmaResult r = new(tpQuote.Date);
+
         // maintain quote cache
         int initCacheSize = QuotesCache.Count;
         bool isDupQuote = initCacheSize != 0 && QuotesCache[initCacheSize - 1].Date == tpQuote.Date;
@@ -62,11 +98,11 @@ public class EmaBase : IStreamBase
             // add if not duplicate
             if (!isDupQuote)
             {
-                EmaResult r = new(tpQuote.Date) { Ema = null };
+                r = new(tpQuote.Date) { Ema = null };
                 ProtectedResults.Add(r);
             }
 
-            return Results;
+            return r;
         }
 
         EmaResult last = ProtectedResults[i - 1];
@@ -83,9 +119,9 @@ public class EmaBase : IStreamBase
                 sumValue += value;
             }
 
-            EmaResult r = new(tpQuote.Date) { Ema = (sumValue / LookbackPeriods).NaN2Null() };
+            r = new(tpQuote.Date) { Ema = (sumValue / LookbackPeriods).NaN2Null() };
             ProtectedResults.Add(r);
-            return Results;
+            return r;
         }
 
         // add new bar
@@ -95,7 +131,7 @@ public class EmaBase : IStreamBase
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
             double newEma = Increment(tpQuote.Value, lastEma, K);
 
-            EmaResult r = new(tpQuote.Date) { Ema = newEma.NaN2Null() };
+            r = new(tpQuote.Date) { Ema = newEma.NaN2Null() };
             ProtectedResults.Add(r);
         }
 
@@ -109,7 +145,7 @@ public class EmaBase : IStreamBase
             last.Ema = Increment(tpQuote.Value, priorEma, K);
         }
 
-        return Results;
+        return r;
     }
 
     // incremental calculation

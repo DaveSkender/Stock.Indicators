@@ -31,66 +31,53 @@ public static partial class Indicator
     // STREAM INITIALIZATION, from TQuote
     /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
     ///
-    public static EmaBase InitEma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = quotes.ToTuple(CandlePart.Close);
+    public static EmaObs ObsEma(
+        this QuoteProvider provider,
+        int lookbackPeriods) => new(provider, lookbackPeriods);
 
-        // new base instance
-        EmaBase baseEma = new(lookbackPeriods);
+#pragma warning disable SA1005 // Single line comments should begin with single space
 
-        // prime the results
-        for (int i = 0; i < tpList.Count; i++)
-        {
-            baseEma.Add(tpList[i]);
-        }
+    // // STREAM INITIALIZATION, from CHAIN
+    // public static EmaObs InitEma(
+    //     this IEnumerable<IReusableResult> results,
+    //     int lookbackPeriods)
+    // {
+    //     // convert results
+    //     List<(DateTime, double)> tpList
+    //         = results.ToTuple();
+    //
+    //
+    //     // new base instance
+    //     EmaObs baseEma = new(lookbackPeriods);
 
-        return baseEma;
-    }
+    //     // prime the results
+    //     for (int i = 0; i < tpList.Count; i++)
+    //     {
+    //         baseEma.Add(tpList[i]);
+    //     }
 
-    // STREAM INITIALIZATION, from CHAIN
-    public static EmaBase InitEma(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods)
-    {
-        // convert results
-        List<(DateTime, double)> tpList
-            = results.ToTuple();
+    //     return baseEma;
+    // }
 
-        // new base instance
-        EmaBase baseEma = new(lookbackPeriods);
+    // // STREAM INITIALIZATION, from Tuple
+    // public static EmaObs InitEma(
+    //     this IEnumerable<(DateTime, double)> priceTuples,
+    //     int lookbackPeriods)
+    // {
+    //     // convert quotes
+    //     List<(DateTime, double)> tpList
+    //         = priceTuples.ToSortedList();
 
-        // prime the results
-        for (int i = 0; i < tpList.Count; i++)
-        {
-            baseEma.Add(tpList[i]);
-        }
+    //     // new base instance
+    //     EmaObs baseEma = new(lookbackPeriods);
 
-        return baseEma;
-    }
+    //     // prime the results
+    //     for (int i = 0; i < tpList.Count; i++)
+    //     {
+    //         baseEma.Add(tpList[i]);
+    //     }
 
-    // STREAM INITIALIZATION, from Tuple
-    public static EmaBase InitEma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods)
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = priceTuples.ToSortedList();
-
-        // new base instance
-        EmaBase baseEma = new(lookbackPeriods);
-
-        // prime the results
-        for (int i = 0; i < tpList.Count; i++)
-        {
-            baseEma.Add(tpList[i]);
-        }
-
-        return baseEma;
-    }
+    //     return baseEma;
+    // }
+#pragma warning restore SA1005 // Single line comments should begin with single space
 }
