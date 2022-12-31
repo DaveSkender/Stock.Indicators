@@ -57,8 +57,7 @@ public static partial class Indicator
         EmaObs.Validate(lookbackPeriods);
 
         // initialize
-        QuoteProvider provider = new();
-        EmaObs obsEma = new(provider, lookbackPeriods);
+        EmaObs obsEma = new(null, lookbackPeriods);
 
         int length = tpList.Count;
 
@@ -68,8 +67,6 @@ public static partial class Indicator
             (DateTime, double) tp = tpList[i];
             obsEma.Add(tp);
         }
-
-        provider.EndTransmission();
 
         return obsEma.ProtectedResults;
     }

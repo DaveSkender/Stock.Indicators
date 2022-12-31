@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 public class EmaObs : QuoteObserver
 {
     public EmaObs(
-        QuoteProvider provider,
+        QuoteProvider? provider,
         int lookbackPeriods)
     {
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
         ProtectedResults = new();
-        QuotesCache = new(lookbackPeriods);
+        Quotes = new(lookbackPeriods);
 
         if (provider != null)
         {
@@ -20,11 +20,10 @@ public class EmaObs : QuoteObserver
     }
 
     // PROPERTIES
-    public Guid UUID { get; }
     public IEnumerable<EmaResult> Results => ProtectedResults;
 
     internal List<EmaResult> ProtectedResults { get; set; }
-    private List<(DateTime Date, double Value)> QuotesCache { get; set; }
+    private List<(DateTime Date, double Value)> Quotes { get; set; }
 
     private int LookbackPeriods { get; set; }
     private double K { get; set; }
@@ -82,46 +81,40 @@ public class EmaObs : QuoteObserver
         Quote quote,
         CandlePart candlePart = CandlePart.Close)
     {
-        if (quote == null)
-        {
-            throw new InvalidQuotesException(nameof(quote), quote, "No quote provided.");
-        }
-
         (DateTime Date, double Value) tuple = quote.ToTuple(candlePart);
         return Add(tuple);
     }
 
     // add new tuple quote
     internal EmaResult Add(
-        (DateTime Date, double Value) tpQuote)
+        (DateTime Date, double Value) tp)
     {
-        // empty candidate result
-        EmaResult r = new(tpQuote.Date);
-
         // maintain quote cache
-        int initCacheSize = QuotesCache.Count;
-        bool isDupQuote = initCacheSize != 0 && QuotesCache[initCacheSize - 1].Date == tpQuote.Date;
+        int length = Quotes.Count;
+        bool dup = length != 0 && Quotes[length - 1].Date == tp.Date;
 
         // handle same-date (remove last)
-        if (initCacheSize > 0 && isDupQuote)
+        if (length > 0 && dup)
         {
-            QuotesCache[initCacheSize - 1] = tpQuote;
+            Quotes[length - 1] = tp;
         }
         else
         {
-            QuotesCache.Add(tpQuote);
+            Quotes.Add(tp);
         }
 
         // get next position
         int i = ProtectedResults.Count;
 
+        // empty candidate result
+        EmaResult r = new(tp.Date);
+
         // handle initialization periods
         if (i < LookbackPeriods - 1)
         {
             // add if not duplicate
-            if (!isDupQuote)
+            if (!dup)
             {
-                r = new(tpQuote.Date) { Ema = null };
                 ProtectedResults.Add(r);
             }
 
@@ -130,42 +123,42 @@ public class EmaObs : QuoteObserver
 
         EmaResult last = ProtectedResults[i - 1];
 
-        // [re-]initialize with SMA
-        if (i == LookbackPeriods - 1 // initial
-        || (i > LookbackPeriods && last.Ema == null)) // reset
+        // [re-]initialize with SMA (first time or when last EMA is null)
+        if (i == LookbackPeriods - 1
+        || (i > LookbackPeriods && last.Ema == null))
         {
             double sumValue = 0;
-            int cacheSize = QuotesCache.Count;
+            int cacheSize = Quotes.Count;
             for (int p = cacheSize - 1; p >= cacheSize - LookbackPeriods; p--)
             {
-                (DateTime _, double value) = QuotesCache[p];
+                (DateTime _, double value) = Quotes[p];
                 sumValue += value;
             }
 
-            r = new(tpQuote.Date) { Ema = (sumValue / LookbackPeriods).NaN2Null() };
+            r.Ema = (sumValue / LookbackPeriods).NaN2Null();
             ProtectedResults.Add(r);
             return r;
         }
 
         // add new bar
-        if (tpQuote.Date > last.Date)
+        if (tp.Date > last.Date)
         {
             // calculate incremental value
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
-            double newEma = Increment(tpQuote.Value, lastEma, K);
+            double newEma = Increment(tp.Value, lastEma, K);
 
-            r = new(tpQuote.Date) { Ema = newEma.NaN2Null() };
+            r.Ema = newEma.NaN2Null();
             ProtectedResults.Add(r);
         }
 
         // update bar
-        else if (tpQuote.Date == last.Date)
+        else if (tp.Date == last.Date)
         {
             // get prior last EMA
             EmaResult prior = ProtectedResults[i - 2];
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
-            last.Ema = Increment(tpQuote.Value, priorEma, K);
+            last.Ema = Increment(tp.Value, priorEma, K);
         }
 
         return r;
