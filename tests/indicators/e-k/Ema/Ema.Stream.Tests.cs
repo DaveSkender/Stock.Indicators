@@ -24,24 +24,29 @@ public class EmaStreamTests : TestBase
         // subscribe EMA as observer
         EmaObs obsEma = new(provider, 20);
 
-        IEnumerable<Quote> baseQuotes = quotesList.Take(25);
+        List<Quote> baseQuotes = quotesList
+            .Take(25)
+            .ToList();
+
         obsEma.Initialize(baseQuotes);
 
         int[] dups = new int[] { 33, 67, 111, 250, 251 };
 
-        for (int i = 25; i < series.Count; i++)
+        for (int i = baseQuotes.Count; i < series.Count; i++)
         {
             Quote q = quotesList[i];
             provider.Add(q);
 
-            // duplicate value
+            // duplicate value + old value
             if (dups.Contains(i))
             {
                 provider.Add(q);
             }
         }
 
-        List<EmaResult> stream = obsEma.Results.ToList();
+        List<EmaResult> stream = obsEma
+            .Results
+            .ToList();
 
         // assert, should equal series
         for (int i = 0; i < series.Count; i++)
@@ -64,6 +69,8 @@ public class EmaStreamTests : TestBase
             .OrderBy(x => x.Date)
             .ToList();
 
+        int length = quotesList.Count;
+
         // time-series, for comparison
         List<EmaResult> series = quotesList
           .GetEma(20)
@@ -82,16 +89,17 @@ public class EmaStreamTests : TestBase
             Quote q = quotesList[i];
             provider.Add(q);
 
-            // duplicate value
+            // duplicate and values
             if (dups.Contains(i))
             {
+                // duplicate
                 provider.Add(q);
             }
         }
 
         List<EmaResult> stream = obsEma
-          .Results
-          .ToList();
+             .Results
+             .ToList();
 
         // assert, should equal series
         for (int i = 0; i < series.Count; i++)
@@ -102,6 +110,26 @@ public class EmaStreamTests : TestBase
             Assert.AreEqual(t.Date, s.Date);
             Assert.AreEqual(t.Ema, s.Ema);
         }
+
+        // throw in an extra old quote
+        Quote og = quotesList[length - 5];
+
+        // old modified quote
+        Quote old = new()
+        {
+            Date = og.Date.AddHours(-52.25),
+            High = og.High * 1.1m,
+            Low = og.Low * 0.9m,
+            Open = og.Low,
+            Close = og.High * 0.95m,
+            Volume = og.Volume * 1.9m
+        };
+        provider.Add(old);
+
+        // should recalculate
+        List<EmaResult> results = obsEma.Results.ToList();
+        Assert.AreEqual(series[^6].Ema, results[^7].Ema);
+        Assert.AreNotEqual(series[^1].Ema, results[^1].Ema);
 
         obsEma.Unsubscribe();
         provider.EndTransmission();

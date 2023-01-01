@@ -53,11 +53,11 @@ public class EmaObs : QuoteObserver
     // calculate initial cache of quotes
     public void Initialize(IEnumerable<Quote> quotes)
     {
-        List<Quote> quotesList = quotes
-            .ToSortedList();
-
         if (quotes != null)
         {
+            List<Quote> quotesList = quotes
+                .ToSortedList();
+
             for (int i = 0; i < quotesList.Count; i++)
             {
                 Add(quotesList[i]);
@@ -155,6 +155,8 @@ public class EmaObs : QuoteObserver
     private EmaResult RestartProvider(QuoteProvider provider, EmaResult r)
     {
         Unsubscribe();
+        Console.WriteLine($"RESTART, WAS {ProtectedResults.Count}");
+
         ProtectedResults = new();
         WarmupValue = 0;
 
@@ -162,6 +164,7 @@ public class EmaObs : QuoteObserver
         Subscribe(provider);
 
         int length = ProtectedResults.Count;
+        Console.WriteLine($"LENGTH IS NOW {length}");
 
         return length > 0 ? ProtectedResults[length - 1] : r;
     }

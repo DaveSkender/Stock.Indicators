@@ -31,10 +31,15 @@ public class IndicatorStreamPerformance
     public object GetEmaStd() => quotes.GetEma(14);
 
     [Benchmark]
-    public object GetEmaStdPreview() => quotes.GetEmaPreview(14);
+    [Obsolete("This is only for preview.", false)]
+    public object GetEmaStdStream() => quotes.GetEmaPreview(14);
 
     [Benchmark]
-    public object GetEmaStdPreviewRawQuote()
+    [Obsolete("This is only for preview.", false)]
+    public object GetEmaStdStreamRawTuple() => tpList.CalcEmaPreview(14);
+
+    [Benchmark]
+    public object GetEmaStdStreamRawQuote()
     {
         EmaObs obsEma = new(null, 14);
 
@@ -44,20 +49,7 @@ public class IndicatorStreamPerformance
             obsEma.Add(q);
         }
 
-        return obsEma.Results;
-    }
-
-    [Benchmark]
-    public object GetEmaStdPreviewRawTuple()
-    {
-        EmaObs obsEma = new(null, 14);
-
-        for (int i = 0; i < tpList.Count; i++)
-        {
-            (DateTime, double) tp = tpList[i];
-            obsEma.Add(tp);
-        }
-
+        obsEma.Unsubscribe();
         return obsEma.Results;
     }
 
@@ -79,7 +71,7 @@ public class IndicatorStreamPerformance
     //}
 
     [Benchmark]
-    public object GetEmaStream11kQuote()
+    public object GetEma11kStreamQuote()
     {
         QuoteProvider provider = new();
         EmaObs obsEma = provider.ObsEma(14);
@@ -89,12 +81,13 @@ public class IndicatorStreamPerformance
             provider.Add(longish[i]);
         }
 
+        obsEma.Unsubscribe();
         provider.EndTransmission();
         return obsEma.Results;
     }
 
     //[Benchmark]
-    //public object GetEmaStream11kOHLC4base10k()
+    //public object GetEma11kStreamOHLC4base10k()
     //{
     //    EmaObs emaBase = lList
     //        .Take(10000)
@@ -113,7 +106,7 @@ public class IndicatorStreamPerformance
     //}
 
     //[Benchmark]
-    //public object GetEmaStream11kOHLC4baseEmpty()
+    //public object GetEma11kStreamOHLC4baseEmpty()
     //{
     //    EmaObs emaBase = new(200);
 

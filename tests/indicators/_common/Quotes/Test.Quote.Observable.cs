@@ -12,15 +12,26 @@ public class QuoteSourceTests : TestBase
         List<Quote> quotesList = quotes
             .ToSortedList();
 
+        int length = quotes.Count();
+
+        // add base quotes
         QuoteProvider provider = new();
         provider.Add(quotesList.Take(200));
 
-        for (int i = 200; i < quotes.Count(); i++)
+        // emulate incremental quotes
+        for (int i = 200; i < length; i++)
         {
             Quote q = quotesList[i];
             provider.Add(q);
+        }
 
-            Assert.AreEqual(q, provider.ProtectedQuotes[i]);
+        // assert same as original
+        for (int i = 0; i < length; i++)
+        {
+            Quote o = quotesList[i];
+            Quote q = provider.ProtectedQuotes[i];
+
+            Assert.AreEqual(o, q);
         }
 
         provider.EndTransmission();

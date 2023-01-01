@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
@@ -13,7 +15,9 @@ public static partial class Indicator
             .ToTuple(CandlePart.Close)
             .CalcEma(lookbackPeriods);
 
-    public static IEnumerable<EmaResult> GetEmaPreview<TQuote>(
+    [ExcludeFromCodeCoverage]
+    [Obsolete("This is only for preview.", false)]
+    internal static IEnumerable<EmaResult> GetEmaPreview<TQuote>(
     this IEnumerable<TQuote> quotes,
     int lookbackPeriods)
     where TQuote : IQuote => quotes

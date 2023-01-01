@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (SERIES)
@@ -49,6 +51,8 @@ public static partial class Indicator
     }
 
     // preview modified to use streamer
+    [ExcludeFromCodeCoverage]
+    [Obsolete("This is only for preview.", false)]
     internal static List<EmaResult> CalcEmaPreview(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
@@ -68,6 +72,7 @@ public static partial class Indicator
             obsEma.Add(tp);
         }
 
+        obsEma.Unsubscribe();
         return obsEma.ProtectedResults;
     }
 }

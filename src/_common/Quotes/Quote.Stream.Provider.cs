@@ -44,11 +44,8 @@ public class QuoteProvider : IObservable<Quote>
             // add new quote
             ProtectedQuotes.Add(quote);
 
-            // notify
-            foreach (IObserver<Quote> observer in observers)
-            {
-                observer.OnNext(quote);
-            }
+            // notify observers
+            NotifyObservers(quote);
         }
 
         // same date or quote recieved
@@ -80,10 +77,7 @@ public class QuoteProvider : IObservable<Quote>
             }
 
             // let observer handle old + duplicates
-            foreach (IObserver<Quote> observer in observers)
-            {
-                observer.OnNext(quote);
-            }
+            NotifyObservers(quote);
         }
     }
 
@@ -122,6 +116,18 @@ public class QuoteProvider : IObservable<Quote>
         }
 
         observers.Clear();
+    }
+
+    // notify observers
+    private void NotifyObservers(Quote quote)
+    {
+        List<IObserver<Quote>> obsList = observers.ToList();
+
+        for (int i = 0; i < obsList.Count; i++)
+        {
+            IObserver<Quote> obs = obsList[i];
+            obs.OnNext(quote);
+        }
     }
 
     // unsubscriber
