@@ -13,23 +13,23 @@ internal class Program
             Console.WriteLine(args);
         }
 
-        // todo: replace with real WebSocket feed?
+        // todo: replace with real WebSocket
         Collection<Quote> quotesList = quotes
             .ToSortedCollection();
 
         QuoteProvider provider = new();
-        EmaObserver obsEma = provider.GetEma(14);
+        EmaObserver observer = provider.GetEma(14);
 
         int length = Math.Min(40, quotesList.Count);
 
         for (int i = 0; i < length; i++)
         {
-            Thread.Sleep(50);
+            Thread.Sleep(50); // emulate pause
 
             Quote q = quotesList[i];
-            provider.Add(q);  // todo: use passthru EMA so it returns new EMA?
+            provider.Add(q);
 
-            EmaResult? emaR = obsEma.Results.LastOrDefault();
+            EmaResult? emaR = observer.Results.LastOrDefault();
 
             if (emaR != null)
             {
@@ -38,13 +38,13 @@ internal class Program
             }
         }
 
-        obsEma.Unsubscribe();
+        observer.Unsubscribe();
         provider.EndTransmission();
     }
 
     // LONGEST DATA ~62 years of S&P 500 daily data
     internal static IEnumerable<Quote> GetLongest()
-        => File.ReadAllLines("longest.csv")
+        => File.ReadAllLines("SNP62YR.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
             .ToList();

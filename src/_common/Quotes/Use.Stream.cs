@@ -7,7 +7,7 @@ public class UseObserver : TupleProvider
         QuoteProvider? provider,
         CandlePart candlePart)
     {
-        Provider = provider;
+        Supplier = provider;
 
         CandlePartSelection = candlePart;
 
@@ -64,7 +64,7 @@ public class UseObserver : TupleProvider
         }
 
         // old bar
-        else if (Provider != null && tp.date < lastDate)
+        else if (Supplier != null && tp.date < lastDate)
         {
             Add(tp);
             Reset();
@@ -74,9 +74,9 @@ public class UseObserver : TupleProvider
     // calculate initial cache of quotes
     private void Initialize()
     {
-        if (Provider != null)
+        if (Supplier != null)
         {
-            ProtectedTuples = Provider
+            ProtectedTuples = Supplier
                 .ProtectedQuotes
                 .ToTuple(CandlePartSelection);
         }

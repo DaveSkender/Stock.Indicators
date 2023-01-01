@@ -1,15 +1,13 @@
-using System.ComponentModel;
-
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
-public class EmaObserver : TupleObserver
+public class EmaObserver : ChainProvider
 {
     public EmaObserver(
         TupleProvider? provider,
         int lookbackPeriods)
     {
-        Provider = provider;
+        Supplier = provider;
         ProtectedResults = new();
 
         LookbackPeriods = lookbackPeriods;
@@ -64,6 +62,7 @@ public class EmaObserver : TupleObserver
         {
             ProtectedResults.Add(r);
             WarmupValue += tuple.Value;
+            SendToChain(r);
             return;
         }
 
@@ -89,6 +88,7 @@ public class EmaObserver : TupleObserver
             WarmupValue += tuple.Value;
             r.Ema = (WarmupValue / LookbackPeriods).NaN2Null();
             ProtectedResults.Add(r);
+            SendToChain(r);
             return;
         }
 
@@ -101,6 +101,7 @@ public class EmaObserver : TupleObserver
 
             r.Ema = newEma.NaN2Null();
             ProtectedResults.Add(r);
+            SendToChain(r);
             return;
         }
 
@@ -112,22 +113,29 @@ public class EmaObserver : TupleObserver
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
             last.Ema = Increment(tuple.Value, priorEma, K);
+            SendToChain(last);
             return;
         }
 
         // old bar
-        else if (Provider != null && tuple.Date < last.Date)
+        else if (Supplier != null && tuple.Date < last.Date)
         {
             Reset();
+
+            // find result in re-composed results
+            int foundIndex = ProtectedResults
+                .FindIndex(x => x.Date == r.Date);
+
+            SendToChain(ProtectedResults[foundIndex]);
         }
     }
 
     // calculate with provider cache
     private void Initialize()
     {
-        if (Provider != null)
+        if (Supplier != null)
         {
-            List<(DateTime, double)> tuples = Provider
+            List<(DateTime, double)> tuples = Supplier
                 .ProtectedTuples;
 
             for (int i = 0; i < tuples.Count; i++)

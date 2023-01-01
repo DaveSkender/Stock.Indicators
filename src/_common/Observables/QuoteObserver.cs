@@ -8,13 +8,13 @@ public abstract class QuoteObserver : IObserver<Quote>
     private IDisposable? unsubscriber;
 
     // properites
-    public QuoteProvider? Provider { get; set; }
+    public QuoteProvider? Supplier { get; set; }
 
     // methods
     public virtual void Subscribe()
-        => unsubscriber = Provider != null
-            ? Provider.Subscribe(this)
-            : throw new ArgumentNullException(nameof(Provider));
+        => unsubscriber = Supplier != null
+            ? Supplier.Subscribe(this)
+            : throw new ArgumentNullException(nameof(Supplier));
 
     public virtual void OnCompleted() => Unsubscribe();
 

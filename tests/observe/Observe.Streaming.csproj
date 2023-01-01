@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="longest.csv">
+    <None Update="SNP62YR.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -2,11 +2,13 @@
 
 <info>
   <type name="TupleChain">
-    <summary>Converts results into a reusable tuple with warmup periods removed and nulls converted
-      to NaN. <para> See <see
+    <summary>Converts results into a reusable tuple with warmup periods removed and nulls converted to NaN.
+    <para> See <see
           href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library">
-      documentation</see> for more information. </para>
+      documentation</see> for more information.
+    </para>
     </summary>
+    <typeparam name="TResult">Any reusable result type.</typeparam>
     <param name="reusable">Indicator results to evaluate.</param>
     <returns>Collection of non-nullable tuple time series of results, without null warmup periods.</returns>
   </type>
@@ -16,6 +18,7 @@
           href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library">
       documentation</see> for more information. </para>
     </summary>
+    <typeparam name="TResult">Any reusable result type.</typeparam>
     <param name="reusable">Indicator results to evaluate.</param>
     <returns>Collection of tuple time series of
       results with specified handline of nulls, without pruning.</returns>
@@ -46,8 +49,7 @@
           href="https://dotnet.StockIndicators.dev/utilities/#condense?utm_source=library">
       documentation</see> for more information. </para>
     </summary>
-    <typeparam name="TResult">Any result
-      type.</typeparam>
+    <typeparam name="TResult">Any result type.</typeparam>
     <param name="results">Indicator results to evaluate.</param>
     <returns>Time series of indicator results,
       condensed.</returns>

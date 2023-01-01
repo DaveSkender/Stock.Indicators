@@ -26,17 +26,19 @@ public static partial class ResultUtility
     // CONVERT TO TUPLE (default with pruning)
     /// <include file='./info.xml' path='info/type[@name="TupleChain"]/*' />
     ///
-    public static Collection<(DateTime Date, double Value)> ToTupleChainable(
-        this IEnumerable<IReusableResult> reusable)
+    public static Collection<(DateTime Date, double Value)> ToTupleChainable<TResult>(
+        this IEnumerable<TResult> reusable)
+        where TResult : IReusableResult
         => reusable
             .ToTuple()
             .ToCollection();
 
-    internal static List<(DateTime Date, double Value)> ToTuple(
-        this IEnumerable<IReusableResult> reusable)
+    internal static List<(DateTime Date, double Value)> ToTuple<TResult>(
+        this IEnumerable<TResult> reusable)
+        where TResult : IReusableResult
     {
         List<(DateTime date, double value)> prices = new();
-        List<IReusableResult> reList = reusable.ToList();
+        List<TResult> reList = reusable.ToList();
 
         // find first non-nulled
         int first = reList.FindIndex(x => x.Value != null);
@@ -53,10 +55,11 @@ public static partial class ResultUtility
     // CONVERT TO TUPLE with non-nullable NaN value option and no pruning
     /// <include file='./info.xml' path='info/type[@name="TupleNaN"]/*' />
     ///
-    public static Collection<(DateTime Date, double Value)> ToTupleNaN(
-        this IEnumerable<IReusableResult> reusable)
+    public static Collection<(DateTime Date, double Value)> ToTupleNaN<TResult>(
+        this IEnumerable<TResult> reusable)
+        where TResult : IReusableResult
     {
-        List<IReusableResult> reList = reusable.ToSortedList();
+        List<TResult> reList = reusable.ToSortedList();
         int length = reList.Count;
 
         Collection<(DateTime Date, double Value)> results = new();

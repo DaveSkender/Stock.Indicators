@@ -8,13 +8,13 @@ public abstract class TupleObserver : IObserver<(DateTime Date, double Value)>
     private IDisposable? unsubscriber;
 
     // properites
-    public TupleProvider? Provider { get; set; }
+    public TupleProvider? Supplier { get; set; }
 
     // methods
     public virtual void Subscribe()
-        => unsubscriber = Provider != null
-            ? Provider.Subscribe(this)
-            : throw new ArgumentNullException(nameof(Provider));
+        => unsubscriber = Supplier != null
+            ? Supplier.Subscribe(this)
+            : throw new ArgumentNullException(nameof(Supplier));
 
     public virtual void OnCompleted() => Unsubscribe();
 
