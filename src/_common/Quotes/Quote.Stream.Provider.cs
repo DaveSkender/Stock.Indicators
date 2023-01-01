@@ -25,8 +25,8 @@ public class QuoteProvider : IObservable<Quote>
 
     // METHODS
 
-    // add many
-    public void Add(Quote? quote)
+    // add one
+    public void Add(Quote quote)
     {
         // validate quote
         if (quote == null)
@@ -100,7 +100,7 @@ public class QuoteProvider : IObservable<Quote>
         }
     }
 
-    // add one
+    // add many
     public void Add(IEnumerable<Quote> quotes)
     {
         List<Quote> addedQuotes = quotes

@@ -10,6 +10,7 @@ public class IndicatorStreamPerformance
     private static List<Quote> quotesList;
     private static List<(DateTime, double)> tpList;
     private static List<Quote> onemill;
+    private static List<(DateTime, double)> tpMill;
 
     // SETUP
 
@@ -20,6 +21,7 @@ public class IndicatorStreamPerformance
         quotesList = quotes.ToSortedList();
         tpList = quotes.ToTuple(CandlePart.Close);
         onemill = TestData.GetRandom(1000000).ToSortedList();
+        tpMill = onemill.ToTuple(CandlePart.Close);
     }
 
     // BENCHMARKS
@@ -27,16 +29,28 @@ public class IndicatorStreamPerformance
     [Benchmark]
     public object GetEmaStd() => quotes.GetEma(14);
 
+    [Benchmark]
+    public object GetEmaStdNoProviderPresort()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        EmaObserver observer = new(null, 14);
+
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            observer.Add(quotesList[i]);
+        }
+
+        return observer.Results;
+    }
+
+    [Benchmark]
     public object GetEmaStdStream()
     {
         // todo: refactor to exclude provider
         QuoteProvider provider = new();
-
-        EmaObserver observer
-            = provider.GetEma(14);
-
-        IEnumerable<EmaResult> results
-            = observer.Results;
+        EmaObserver observer = provider.GetEma(14);
 
         for (int i = 0; i < quotesList.Count; i++)
         {
@@ -45,54 +59,44 @@ public class IndicatorStreamPerformance
 
         provider.EndTransmission();
 
-        return results;
+        return observer.Results;
     }
 
     [Benchmark]
-    [Obsolete("This is only for testing.", false)]
-    public object GetEmaStdStreamRawQuote()
+    public object GetEmaStdNoProviderQuote()
     {
-        EmaObserver obsEma = new(null, 14);
+        EmaObserver observer = new(null, 14);
 
         for (int i = 0; i < quotesList.Count; i++)
         {
-            Quote q = quotesList[i];
-            obsEma.Add(q);
+            observer.Add(quotesList[i]);
         }
 
-        // obsEma.Unsubscribe();
-        return obsEma.Results;
+        return observer.Results;
     }
 
     [Benchmark]
-    [Obsolete("This is only for testing.", false)]
-    public object GetEmaStdStreamRawTuple()
+    public object GetEmaStdNoProviderTuple()
     {
-        EmaObserver obsEma = new(null, 14);
+        EmaObserver observer = new(null, 14);
 
         for (int i = 0; i < tpList.Count; i++)
         {
             (DateTime, double) tp = tpList[i];
-            obsEma.Add(tp);
+            observer.Add(tp);
         }
 
-        // obsEma.Unsubscribe();
-        return obsEma.Results;
+        return observer.Results;
     }
 
     [Benchmark]
-    public object GetEma1M() => onemill.GetEma(14);
+    public object GetEmaStd1M() => onemill.GetEma(14);
 
     [Benchmark]
-    public object GetEma1MStream()
+    public object GetEmaStd1MStream()
     {
         QuoteProvider provider = new();
-
-        EmaObserver observer
-            = provider.GetEma(14);
-
-        IEnumerable<EmaResult> results
-            = observer.Results;
+        EmaObserver observer = provider.GetEma(14);
 
         for (int i = 0; i < onemill.Count; i++)
         {
@@ -101,6 +105,32 @@ public class IndicatorStreamPerformance
 
         provider.EndTransmission();
 
-        return results;
+        return observer.Results;
+    }
+
+    [Benchmark]
+    public object GetEmaStd1MNoProviderQuote()
+    {
+        EmaObserver observer = new(null, 14);
+
+        for (int i = 0; i < onemill.Count; i++)
+        {
+            observer.Add(onemill[i]);
+        }
+
+        return observer.Results;
+    }
+
+    [Benchmark]
+    public object GetEmaStd1MNoProviderTuple()
+    {
+        EmaObserver observer = new(null, 14);
+
+        for (int i = 0; i < tpMill.Count; i++)
+        {
+            observer.Add(tpMill[i]);
+        }
+
+        return observer.Results;
     }
 }

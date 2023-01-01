@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class EmaStreamTests : TestBase
+public class UseStreamTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -15,19 +15,18 @@ public class EmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // time-series, for comparison
-        List<EmaResult> seriesList = quotes
-            .GetEma(20)
-            .ToList();
+        List<(DateTime Date, double Value)> seriesList = quotes
+            .ToTuple(CandlePart.Close);
 
         // setup quote provider
         QuoteProvider provider = new();
 
         // initialize EMA observer
-        EmaObserver observer = provider
-            .GetEma(20);
+        UseObserver observer = provider
+            .Use(CandlePart.Close);
 
         // fetch initial results
-        IEnumerable<EmaResult> results
+        IEnumerable<(DateTime Date, double Value)> results
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -38,17 +37,17 @@ public class EmaStreamTests : TestBase
         }
 
         // final results
-        List<EmaResult> resultsList
+        List<(DateTime Date, double Value)> resultsList
             = results.ToList();
 
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)
         {
-            EmaResult s = seriesList[i];
-            EmaResult r = resultsList[i];
+            (DateTime sDate, double sValue) = seriesList[i];
+            (DateTime rDate, double rValue) = resultsList[i];
 
-            Assert.AreEqual(s.Date, r.Date);
-            Assert.AreEqual(s.Ema, r.Ema);
+            Assert.AreEqual(sDate, rDate);
+            Assert.AreEqual(sValue, rValue);
         }
 
         observer.Unsubscribe();
@@ -70,15 +69,14 @@ public class EmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // time-series, for comparison
-        List<EmaResult> series = quotes
-            .GetEma(20)
-            .ToList();
+        List<(DateTime Date, double Value)> series = quotes
+            .ToTuple(CandlePart.OHL3);
 
         // setup quote provider
         QuoteProvider provider = new();
 
         // subscribe EMA as observer
-        EmaObserver observer = provider.GetEma(20);
+        UseObserver observer = provider.Use(CandlePart.OHL3);
 
         // add initial batch
         List<Quote> baseQuotes = quotesList
@@ -102,18 +100,18 @@ public class EmaStreamTests : TestBase
             }
         }
 
-        List<EmaResult> stream = observer
+        List<(DateTime Date, double Value)> stream = observer
             .Results
             .ToList();
 
         // assert, should equal series
         for (int i = 0; i < length; i++)
         {
-            EmaResult t = series[i];
-            EmaResult s = stream[i];
+            (DateTime sDate, double sValue) = series[i];
+            (DateTime tDate, double tValue) = stream[i];
 
-            Assert.AreEqual(t.Date, s.Date);
-            Assert.AreEqual(t.Ema, s.Ema);
+            Assert.AreEqual(sDate, tDate);
+            Assert.AreEqual(sValue, tValue);
         }
 
         // throw in an extra old quote
@@ -136,8 +134,8 @@ public class EmaStreamTests : TestBase
             .Results
             .ToList();
 
-        Assert.AreEqual(series[^6].Ema, stream[^7].Ema);
-        Assert.AreNotEqual(series[^1].Ema, stream[^1].Ema);
+        Assert.AreEqual(series[^6].Value, stream[^7].Value);
+        Assert.AreEqual(series[^1].Value, stream[^1].Value);
 
         observer.Unsubscribe();
         provider.EndTransmission();

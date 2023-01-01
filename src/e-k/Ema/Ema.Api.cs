@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
@@ -30,57 +28,11 @@ public static partial class Indicator
             .ToSortedList()
             .CalcEma(lookbackPeriods);
 
-    // STREAM INITIALIZATION, from Quote Provider
+    // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
     ///
     public static EmaObserver GetEma(
         this QuoteProvider provider,
         int lookbackPeriods)
         => new(provider, lookbackPeriods);
-
-#pragma warning disable SA1005 // Single line comments should begin with single space
-
-    // // STREAM INITIALIZATION, from CHAIN
-    // public static EmaObs InitEma(
-    //     this IEnumerable<IReusableResult> results,
-    //     int lookbackPeriods)
-    // {
-    //     // convert results
-    //     List<(DateTime, double)> tpList
-    //         = results.ToTuple();
-    //
-    //
-    //     // new base instance
-    //     EmaObs baseEma = new(lookbackPeriods);
-
-    //     // prime the results
-    //     for (int i = 0; i < tpList.Count; i++)
-    //     {
-    //         baseEma.Add(tpList[i]);
-    //     }
-
-    //     return baseEma;
-    // }
-
-    // // STREAM INITIALIZATION, from Tuple
-    // public static EmaObs InitEma(
-    //     this IEnumerable<(DateTime, double)> priceTuples,
-    //     int lookbackPeriods)
-    // {
-    //     // convert quotes
-    //     List<(DateTime, double)> tpList
-    //         = priceTuples.ToSortedList();
-
-    //     // new base instance
-    //     EmaObs baseEma = new(lookbackPeriods);
-
-    //     // prime the results
-    //     for (int i = 0; i < tpList.Count; i++)
-    //     {
-    //         baseEma.Add(tpList[i]);
-    //     }
-
-    //     return baseEma;
-    // }
-#pragma warning restore SA1005 // Single line comments should begin with single space
 }
