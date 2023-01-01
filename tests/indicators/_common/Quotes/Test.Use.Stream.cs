@@ -140,17 +140,4 @@ public class UseStreamTests : TestBase
         observer.Unsubscribe();
         provider.EndTransmission();
     }
-
-    [TestMethod]
-    public void Exceptions()
-    {
-        // null quote added
-        QuoteProvider provider = new();
-        EmaObserver observer = new(provider, 14);
-
-        Assert.ThrowsException<InvalidQuotesException>(()
-          => observer.OnNext(null));
-
-        provider.EndTransmission();
-    }
 }

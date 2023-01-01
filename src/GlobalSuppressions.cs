@@ -46,3 +46,16 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "The microsoft OnError implementation uses reserved word Error",
     Scope = "member",
     Target = "~M:Skender.Stock.Indicators.QuoteObserver.OnError(System.Exception)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1716:Identifiers should not match keywords",
+    Justification = "The microsoft OnError implementation uses reserved word Error",
+    Scope = "member",
+    Target = "~M:Skender.Stock.Indicators.QuoteObserver.OnError(System.Exception)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1716:Identifiers should not match keywords",
+    Justification = "The microsoft OnError implementation uses reserved word Error",
+    Scope = "member", Target = "~M:Skender.Stock.Indicators.TupleObserver.OnError(System.Exception)")]

@@ -64,16 +64,16 @@ public class EmaObserver : QuoteObserver
     }
 
     // add new whole quote
-    internal EmaResult Add(
+    internal void Add(
         Quote quote,
         CandlePart candlePart = CandlePart.Close)
     {
         (DateTime Date, double Value) tuple = quote.ToTuple(candlePart);
-        return Add(tuple);
+        Add(tuple);
     }
 
     // add new tuple quote
-    internal EmaResult Add(
+    internal void Add(
         (DateTime Date, double Value) tp)
     {
         // candidate result (empty)
@@ -86,7 +86,7 @@ public class EmaObserver : QuoteObserver
         {
             ProtectedResults.Add(r);
             WarmupValue += tp.Value;
-            return r;
+            return;
         }
 
         // check against last entry
@@ -102,7 +102,7 @@ public class EmaObserver : QuoteObserver
                 WarmupValue += tp.Value;
             }
 
-            return r;
+            return;
         }
 
         // initialize with SMA
@@ -111,7 +111,7 @@ public class EmaObserver : QuoteObserver
             WarmupValue += tp.Value;
             r.Ema = (WarmupValue / LookbackPeriods).NaN2Null();
             ProtectedResults.Add(r);
-            return r;
+            return;
         }
 
         // add bar
@@ -123,7 +123,7 @@ public class EmaObserver : QuoteObserver
 
             r.Ema = newEma.NaN2Null();
             ProtectedResults.Add(r);
-            return r;
+            return;
         }
 
         // update bar
@@ -134,16 +134,14 @@ public class EmaObserver : QuoteObserver
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
             last.Ema = Increment(tp.Value, priorEma, K);
-            return last;
+            return;
         }
 
         // old bar
         else if (Provider != null && tp.Date < last.Date)
         {
-            return Reset(Provider, r);
+            Reset(Provider);
         }
-
-        return r;
     }
 
     // calculate initial cache of quotes
@@ -161,7 +159,7 @@ public class EmaObserver : QuoteObserver
         }
     }
 
-    private EmaResult Reset(QuoteProvider provider, EmaResult r)
+    private void Reset(QuoteProvider provider)
     {
         Unsubscribe();
 
@@ -170,9 +168,5 @@ public class EmaObserver : QuoteObserver
 
         Initialize(provider.GetQuotesList());
         Subscribe(provider);
-
-        int length = ProtectedResults.Count;
-
-        return length > 0 ? ProtectedResults[length - 1] : r;
     }
 }

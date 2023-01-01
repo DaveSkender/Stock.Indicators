@@ -19,8 +19,6 @@ public class QuoteProvider : IObservable<Quote>
 
     internal List<Quote> ProtectedQuotes { get; private set; }
 
-    private Quote? LastQuote { get; set; }
-
     private int OverflowCount { get; set; }
 
     // METHODS
@@ -34,12 +32,24 @@ public class QuoteProvider : IObservable<Quote>
             throw new ArgumentNullException(nameof(quote), "Quote cannot be null.");
         }
 
-        // add quote
-        if (LastQuote == null || quote.Date > LastQuote.Date)
-        {
-            // update last ref
-            LastQuote = quote;
+        int length = ProtectedQuotes.Count;
 
+        if (length == 0)
+        {
+            // add new quote
+            ProtectedQuotes.Add(quote);
+
+            // notify observers
+            NotifyObservers(quote);
+
+            return;
+        }
+
+        Quote last = ProtectedQuotes[length - 1];
+
+        // add quote
+        if (quote.Date > last.Date)
+        {
             // add new quote
             ProtectedQuotes.Add(quote);
 
@@ -48,11 +58,11 @@ public class QuoteProvider : IObservable<Quote>
         }
 
         // same date or quote recieved
-        else if (quote.Date <= LastQuote.Date)
+        else if (quote.Date <= last.Date)
         {
             // check for overflow condition
             // where same quote continues (possible circular condition)
-            if (quote.Date == LastQuote.Date)
+            if (quote.Date == last.Date)
             {
                 OverflowCount++;
 
@@ -72,12 +82,14 @@ public class QuoteProvider : IObservable<Quote>
             }
 
             // seek old quote
-            Quote? old = ProtectedQuotes
-                .Find(quote.Date);
+            int foundIndex = ProtectedQuotes
+                .FindIndex(x => x.Date == quote.Date);
 
             // found
-            if (old != null)
+            if (foundIndex >= 0)
             {
+                Quote old = ProtectedQuotes[foundIndex];
+
                 old.Open = quote.Open;
                 old.High = quote.High;
                 old.Low = quote.Low;
@@ -103,12 +115,12 @@ public class QuoteProvider : IObservable<Quote>
     // add many
     public void Add(IEnumerable<Quote> quotes)
     {
-        List<Quote> addedQuotes = quotes
+        List<Quote> added = quotes
             .ToSortedList();
 
-        for (int i = 0; i < addedQuotes.Count; i++)
+        for (int i = 0; i < added.Count; i++)
         {
-            Add(addedQuotes[i]);
+            Add(added[i]);
         }
     }
 

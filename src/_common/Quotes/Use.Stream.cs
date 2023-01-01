@@ -1,14 +1,13 @@
 namespace Skender.Stock.Indicators;
 
 // USE (STREAMING)
-public class UseObserver : QuoteObserver
+public class UseObserver : QuoteObserverTupleProvider
 {
     public UseObserver(
         QuoteProvider? provider,
         CandlePart candlePart)
     {
         Provider = provider;
-        ProtectedResults = new();
 
         CandlePartSelection = candlePart;
 
@@ -21,8 +20,7 @@ public class UseObserver : QuoteObserver
 
     // PROPERTIES
 
-    public IEnumerable<(DateTime Date, double Value)> Results => ProtectedResults;
-    internal List<(DateTime Date, double Value)> ProtectedResults { get; set; }
+    public IEnumerable<(DateTime Date, double Value)> Results => ProtectedOutput;
 
     private CandlePart CandlePartSelection { get; set; }
 
@@ -42,42 +40,40 @@ public class UseObserver : QuoteObserver
     }
 
     // add new quote
-    internal (DateTime, double) Add(Quote quote)
+    internal void Add(Quote quote)
     {
         // candidate result
         (DateTime date, double value) tp = quote.ToTuple(CandlePartSelection);
 
         // initialize
-        int length = ProtectedResults.Count;
+        int length = ProtectedOutput.Count;
 
         if (length == 0)
         {
-            ProtectedResults.Add(tp);
-            return tp;
+            Add(tp);
+            return;
         }
 
         // check against last entry
-        (DateTime lastDate, _) = ProtectedResults[length - 1];
+        (DateTime lastDate, _) = ProtectedOutput[length - 1];
 
         // add bar
         if (tp.date > lastDate)
         {
-            ProtectedResults.Add(tp);
+            Add(tp);
         }
 
         // update bar
         else if (tp.date == lastDate)
         {
-            ProtectedResults[length - 1] = tp;
+            ProtectedOutput[length - 1] = tp;
         }
 
         // old bar
         else if (Provider != null && tp.date < lastDate)
         {
-            tp = Reset(Provider, tp);
+            Reset(Provider);
         }
-
-        return tp;
     }
 
     // calculate initial cache of quotes
@@ -85,18 +81,14 @@ public class UseObserver : QuoteObserver
     {
         if (quotes != null)
         {
-            ProtectedResults = quotes.ToTuple(CandlePartSelection);
+            ProtectedOutput = quotes.ToTuple(CandlePartSelection);
         }
     }
 
-    private (DateTime, double) Reset(QuoteProvider provider, (DateTime, double) r)
+    private void Reset(QuoteProvider provider)
     {
         Unsubscribe();
         Initialize(provider.GetQuotesList());
         Subscribe(provider);
-
-        int length = ProtectedResults.Count;
-
-        return length > 0 ? ProtectedResults[length - 1] : r;
     }
 }

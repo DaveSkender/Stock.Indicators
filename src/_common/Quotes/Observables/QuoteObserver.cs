@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// QUOTES as REPORTER BASE (BOILERPLATE)
+// OBSERVER of QUOTES (BOILERPLATE)
 
-public class QuoteObserver : IObserver<Quote>
+public abstract class QuoteObserver : IObserver<Quote>
 {
     // fields
     private IDisposable? unsubscriber;
@@ -18,7 +18,7 @@ public class QuoteObserver : IObserver<Quote>
 
     public virtual void OnCompleted() => Unsubscribe();
 
-    public virtual void OnError(Exception ex) => throw ex;
+    public virtual void OnError(Exception error) => throw error;
 
     public virtual void OnNext(Quote value)
     {
