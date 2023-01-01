@@ -10,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        EmaObs.Validate(lookbackPeriods);
+        EmaObserver.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -37,7 +37,7 @@ public static partial class Indicator
 
             if (i + 1 > lookbackPeriods)
             {
-                double ema = EmaObs.Increment(value, lastEma, k);
+                double ema = EmaObserver.Increment(value, lastEma, k);
                 r.Ema = ema.NaN2Null();
                 lastEma = ema;
             }
@@ -48,31 +48,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // preview modified to use streamer
-    [ExcludeFromCodeCoverage]
-    [Obsolete("This is only for preview.", false)]
-    internal static List<EmaResult> CalcEmaPreview(
-        this List<(DateTime, double)> tpList,
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        EmaObs.Validate(lookbackPeriods);
-
-        // initialize
-        EmaObs obsEma = new(null, lookbackPeriods);
-
-        int length = tpList.Count;
-
-        // roll through quotes
-        for (int i = 0; i < length; i++)
-        {
-            (DateTime, double) tp = tpList[i];
-            obsEma.Add(tp);
-        }
-
-        obsEma.Unsubscribe();
-        return obsEma.ProtectedResults;
     }
 }

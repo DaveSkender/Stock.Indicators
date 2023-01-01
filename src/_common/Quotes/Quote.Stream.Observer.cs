@@ -7,6 +7,9 @@ public class QuoteObserver : IObserver<Quote>
     // fields
     private IDisposable? unsubscriber;
 
+    // properites
+    public QuoteProvider? Provider { get; set; }
+
     // methods
     public virtual void Subscribe(IObservable<Quote> provider)
         => unsubscriber = provider != null

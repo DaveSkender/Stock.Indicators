@@ -21,10 +21,9 @@ public class QuoteProvider : IObservable<Quote>
 
     private Quote? LastQuote { get; set; }
 
-    // METHODS
+    private int OverflowCount { get; set; }
 
-    // get history
-    internal List<Quote> GetQuotesList() => ProtectedQuotes;
+    // METHODS
 
     // add many
     public void Add(Quote? quote)
@@ -51,8 +50,28 @@ public class QuoteProvider : IObservable<Quote>
         // same date or quote recieved
         else if (quote.Date <= LastQuote.Date)
         {
-            // todo: how to reset stream, is that even possible?
+            // check for overflow condition
+            // where same quote continues (possible circular condition)
+            if (quote.Date == LastQuote.Date)
+            {
+                OverflowCount++;
 
+                if (OverflowCount > 100)
+                {
+                    string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
+                      + "Check and remove circular chains or check your Quote provider.";
+
+                    EndTransmission();
+
+                    throw new OverflowException(msg);
+                }
+            }
+            else
+            {
+                OverflowCount = 0;
+            }
+
+            // seek old quote
             Quote? old = ProtectedQuotes
                 .Find(quote.Date);
 
@@ -66,12 +85,12 @@ public class QuoteProvider : IObservable<Quote>
                 old.Volume = quote.Volume;
             }
 
-            // add old missing record
+            // add missing quote
             else
             {
                 ProtectedQuotes.Add(quote);
 
-                // resort cache
+                // re-sort cache
                 ProtectedQuotes = ProtectedQuotes
                     .ToSortedList();
             }
@@ -117,6 +136,9 @@ public class QuoteProvider : IObservable<Quote>
 
         observers.Clear();
     }
+
+    // get history
+    internal List<Quote> GetQuotesList() => ProtectedQuotes;
 
     // notify observers
     private void NotifyObservers(Quote quote)

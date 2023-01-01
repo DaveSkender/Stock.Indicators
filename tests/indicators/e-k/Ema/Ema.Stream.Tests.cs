@@ -7,11 +7,60 @@ namespace Internal.Tests;
 public class EmaStreamTests : TestBase
 {
     [TestMethod]
+    public void StreamStandard()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
+        // time-series, for comparison
+        List<EmaResult> seriesList = quotesList
+            .GetEma(20)
+            .ToList();
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // initialize EMA observer
+        EmaObserver observer = provider
+            .GetEma(20);
+
+        // fetch initial results
+        IEnumerable<EmaResult> results
+            = observer.Results;
+
+        // emulate adding quotes to provider
+        for (int i = 0; i < length; i++)
+        {
+            Quote q = quotesList[i];
+            provider.Add(q);
+        }
+
+        // final results
+        List<EmaResult> resultsList
+            = results
+                .ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < seriesList.Count; i++)
+        {
+            EmaResult s = seriesList[i];
+            EmaResult r = resultsList[i];
+
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Ema, r.Ema);
+        }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
     public void StreamInitBase()
     {
         List<Quote> quotesList = quotes
-            .OrderBy(x => x.Date)
-            .ToList();
+            .ToSortedList();
 
         // time-series, for comparison
         List<EmaResult> series = quotesList
@@ -22,7 +71,7 @@ public class EmaStreamTests : TestBase
         QuoteProvider provider = new();
 
         // subscribe EMA as observer
-        EmaObs obsEma = new(provider, 20);
+        EmaObserver obsEma = new(provider, 20);
 
         List<Quote> baseQuotes = quotesList
             .Take(25)
@@ -66,8 +115,7 @@ public class EmaStreamTests : TestBase
     public void StreamInitEmpty()
     {
         List<Quote> quotesList = quotes
-            .OrderBy(x => x.Date)
-            .ToList();
+            .ToSortedList();
 
         int length = quotesList.Count;
 
@@ -80,7 +128,7 @@ public class EmaStreamTests : TestBase
         QuoteProvider provider = new();
 
         // subscribe EMA as observer
-        EmaObs obsEma = new(provider, 20);
+        EmaObserver obsEma = new(provider, 20);
 
         int[] dups = new int[] { 3, 7, 11, 250, 251 };
 
@@ -140,7 +188,7 @@ public class EmaStreamTests : TestBase
     {
         // null quote added
         QuoteProvider provider = new();
-        EmaObs obsEma = new(provider, 14);
+        EmaObserver obsEma = new(provider, 14);
 
         Assert.ThrowsException<InvalidQuotesException>(()
           => obsEma.OnNext(null));

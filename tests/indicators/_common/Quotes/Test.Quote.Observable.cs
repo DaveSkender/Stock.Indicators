@@ -36,4 +36,26 @@ public class QuoteSourceTests : TestBase
 
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void Exceptions()
+    {
+        // null quote added
+        QuoteProvider provider = new();
+
+        Assert.ThrowsException<OverflowException>(() =>
+        {
+            Quote quote = new()
+            {
+                Date = DateTime.Now
+            };
+
+            for (int i = 0; i <= 101; i++)
+            {
+                provider.Add(quote);
+            }
+        });
+
+        provider.EndTransmission();
+    }
 }

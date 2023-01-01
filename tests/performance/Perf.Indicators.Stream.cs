@@ -3,14 +3,12 @@ using Internal.Tests;
 using Skender.Stock.Indicators;
 
 namespace Tests.Performance;
-#pragma warning disable SA1005 // Single line comments should begin with single space
 
 public class IndicatorStreamPerformance
 {
     private static IEnumerable<Quote> quotes;
     private static List<Quote> quotesList;
     private static List<(DateTime, double)> tpList;
-    private static List<Quote> longish;
     private static List<Quote> onemill;
 
     // SETUP
@@ -21,7 +19,6 @@ public class IndicatorStreamPerformance
         quotes = TestData.GetDefault();
         quotesList = quotes.ToSortedList();
         tpList = quotes.ToTuple(CandlePart.Close);
-        longish = TestData.GetLongest().ToSortedList();
         onemill = TestData.GetRandom(1000000).ToSortedList();
     }
 
@@ -30,18 +27,32 @@ public class IndicatorStreamPerformance
     [Benchmark]
     public object GetEmaStd() => quotes.GetEma(14);
 
-    [Benchmark]
-    [Obsolete("This is only for preview.", false)]
-    public object GetEmaStdStream() => quotes.GetEmaPreview(14);
+    public object GetEmaStdStream()
+    {
+        // todo: refactor to exclude provider
+        QuoteProvider provider = new();
+
+        EmaObserver observer
+            = provider.GetEma(14);
+
+        IEnumerable<EmaResult> results
+            = observer.Results;
+
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        provider.EndTransmission();
+
+        return results;
+    }
 
     [Benchmark]
-    [Obsolete("This is only for preview.", false)]
-    public object GetEmaStdStreamRawTuple() => tpList.CalcEmaPreview(14);
-
-    [Benchmark]
+    [Obsolete("This is only for testing.", false)]
     public object GetEmaStdStreamRawQuote()
     {
-        EmaObs obsEma = new(null, 14);
+        EmaObserver obsEma = new(null, 14);
 
         for (int i = 0; i < quotesList.Count; i++)
         {
@@ -49,75 +60,47 @@ public class IndicatorStreamPerformance
             obsEma.Add(q);
         }
 
-        obsEma.Unsubscribe();
+        // obsEma.Unsubscribe();
+        return obsEma.Results;
+    }
+
+    [Benchmark]
+    [Obsolete("This is only for testing.", false)]
+    public object GetEmaStdStreamRawTuple()
+    {
+        EmaObserver obsEma = new(null, 14);
+
+        for (int i = 0; i < tpList.Count; i++)
+        {
+            (DateTime, double) tp = tpList[i];
+            obsEma.Add(tp);
+        }
+
+        // obsEma.Unsubscribe();
         return obsEma.Results;
     }
 
     [Benchmark]
     public object GetEma1M() => onemill.GetEma(14);
 
-    //[Benchmark]
-    //public object GetEma1MStream()
-    //{
-    //    EmaObs emaBase = new(14);
-
-    //    for (int i = 0; i < onemill.Count; i++)
-    //    {
-    //        Quote q = onemill[i];
-    //        emaBase.Add(q);
-    //    }
-
-    //    return emaBase.Results;
-    //}
-
     [Benchmark]
-    public object GetEma11kStreamQuote()
+    public object GetEma1MStream()
     {
         QuoteProvider provider = new();
-        EmaObs obsEma = provider.ObsEma(14);
 
-        for (int i = 0; i < 11000; i++)
+        EmaObserver observer
+            = provider.GetEma(14);
+
+        IEnumerable<EmaResult> results
+            = observer.Results;
+
+        for (int i = 0; i < onemill.Count; i++)
         {
-            provider.Add(longish[i]);
+            provider.Add(onemill[i]);
         }
 
-        obsEma.Unsubscribe();
         provider.EndTransmission();
-        return obsEma.Results;
+
+        return results;
     }
-
-    //[Benchmark]
-    //public object GetEma11kStreamOHLC4base10k()
-    //{
-    //    EmaObs emaBase = lList
-    //        .Take(10000)
-    //        .Use(CandlePart.OHLC4)
-    //        .InitEma(200);
-
-    //    for (int i = 10000; i < 11000; i++)
-    //    {
-    //        (DateTime date, double value) q = lList[i]
-    //            .ToTuple(CandlePart.OHLC4);
-
-    //        emaBase.Add(q);
-    //    }
-
-    //    return emaBase.Results;
-    //}
-
-    //[Benchmark]
-    //public object GetEma11kStreamOHLC4baseEmpty()
-    //{
-    //    EmaObs emaBase = new(200);
-
-    //    for (int i = 0; i < lList.Count; i++)
-    //    {
-    //        (DateTime date, double value) q = lList[i]
-    //            .ToTuple(CandlePart.OHLC4);
-
-    //        emaBase.Add(q);
-    //    }
-
-    //    return emaBase.Results;
-    //}
 }

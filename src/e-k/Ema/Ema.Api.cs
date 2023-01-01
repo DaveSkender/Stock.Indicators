@@ -15,15 +15,6 @@ public static partial class Indicator
             .ToTuple(CandlePart.Close)
             .CalcEma(lookbackPeriods);
 
-    [ExcludeFromCodeCoverage]
-    [Obsolete("This is only for preview.", false)]
-    internal static IEnumerable<EmaResult> GetEmaPreview<TQuote>(
-    this IEnumerable<TQuote> quotes,
-    int lookbackPeriods)
-    where TQuote : IQuote => quotes
-        .ToTuple(CandlePart.Close)
-        .CalcEmaPreview(lookbackPeriods);
-
     // SERIES, from CHAIN
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<IReusableResult> results,
@@ -39,12 +30,13 @@ public static partial class Indicator
             .ToSortedList()
             .CalcEma(lookbackPeriods);
 
-    // STREAM INITIALIZATION, from Quote
+    // STREAM INITIALIZATION, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
     ///
-    public static EmaObs ObsEma(
+    public static EmaObserver GetEma(
         this QuoteProvider provider,
-        int lookbackPeriods) => new(provider, lookbackPeriods);
+        int lookbackPeriods)
+        => new(provider, lookbackPeriods);
 
 #pragma warning disable SA1005 // Single line comments should begin with single space
 

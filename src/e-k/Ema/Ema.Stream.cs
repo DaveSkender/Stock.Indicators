@@ -1,17 +1,18 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
-public class EmaObs : QuoteObserver
+public class EmaObserver : QuoteObserver
 {
-    public EmaObs(
+    public EmaObserver(
         QuoteProvider? provider,
         int lookbackPeriods)
     {
+        Provider = provider;
+
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
         ProtectedResults = new();
         WarmupValue = 0;
-        Provider = provider;
 
         if (provider != null)
         {
@@ -21,14 +22,12 @@ public class EmaObs : QuoteObserver
     }
 
     // PROPERTIES
+
     public IEnumerable<EmaResult> Results => ProtectedResults;
-
     internal List<EmaResult> ProtectedResults { get; set; }
-
     private double WarmupValue { get; set; }
     private int LookbackPeriods { get; set; }
     private double K { get; set; }
-    private QuoteProvider? Provider { get; set; }
 
     // STATIC METHODS
 
@@ -155,7 +154,6 @@ public class EmaObs : QuoteObserver
     private EmaResult RestartProvider(QuoteProvider provider, EmaResult r)
     {
         Unsubscribe();
-        Console.WriteLine($"RESTART, WAS {ProtectedResults.Count}");
 
         ProtectedResults = new();
         WarmupValue = 0;
@@ -164,7 +162,6 @@ public class EmaObs : QuoteObserver
         Subscribe(provider);
 
         int length = ProtectedResults.Count;
-        Console.WriteLine($"LENGTH IS NOW {length}");
 
         return length > 0 ? ProtectedResults[length - 1] : r;
     }
