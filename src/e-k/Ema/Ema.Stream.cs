@@ -1,10 +1,12 @@
+using System.ComponentModel;
+
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
-public class EmaObserver : QuoteObserver
+public class EmaObserver : TupleObserver
 {
     public EmaObserver(
-        QuoteProvider? provider,
+        TupleProvider? provider,
         int lookbackPeriods)
     {
         Provider = provider;
@@ -14,11 +16,7 @@ public class EmaObserver : QuoteObserver
         K = 2d / (lookbackPeriods + 1);
         WarmupValue = 0;
 
-        if (provider != null)
-        {
-            Initialize(provider.GetQuotesList());
-            Subscribe(provider);
-        }
+        Initialize();
     }
 
     // PROPERTIES
@@ -51,33 +49,13 @@ public class EmaObserver : QuoteObserver
     // NON-STATIC METHODS
 
     // handle quote arrival
-    public override void OnNext(Quote value)
-    {
-        if (value != null)
-        {
-            Add(value);
-        }
-        else
-        {
-            throw new InvalidQuotesException(nameof(value), "Quote cannot be null.");
-        }
-    }
-
-    // add new whole quote
-    internal void Add(
-        Quote quote,
-        CandlePart candlePart = CandlePart.Close)
-    {
-        (DateTime Date, double Value) tuple = quote.ToTuple(candlePart);
-        Add(tuple);
-    }
+    public override void OnNext((DateTime Date, double Value) value) => Add(value);
 
     // add new tuple quote
-    internal void Add(
-        (DateTime Date, double Value) tp)
+    internal void Add((DateTime Date, double Value) tuple)
     {
         // candidate result (empty)
-        EmaResult r = new(tp.Date);
+        EmaResult r = new(tuple.Date);
 
         // initialize
         int length = ProtectedResults.Count;
@@ -85,7 +63,7 @@ public class EmaObserver : QuoteObserver
         if (length == 0)
         {
             ProtectedResults.Add(r);
-            WarmupValue += tp.Value;
+            WarmupValue += tuple.Value;
             return;
         }
 
@@ -99,7 +77,7 @@ public class EmaObserver : QuoteObserver
             if (last.Date != r.Date)
             {
                 ProtectedResults.Add(r);
-                WarmupValue += tp.Value;
+                WarmupValue += tuple.Value;
             }
 
             return;
@@ -108,18 +86,18 @@ public class EmaObserver : QuoteObserver
         // initialize with SMA
         if (length == LookbackPeriods - 1)
         {
-            WarmupValue += tp.Value;
+            WarmupValue += tuple.Value;
             r.Ema = (WarmupValue / LookbackPeriods).NaN2Null();
             ProtectedResults.Add(r);
             return;
         }
 
         // add bar
-        if (tp.Date > last.Date)
+        if (tuple.Date > last.Date)
         {
             // calculate incremental value
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
-            double newEma = Increment(tp.Value, lastEma, K);
+            double newEma = Increment(tuple.Value, lastEma, K);
 
             r.Ema = newEma.NaN2Null();
             ProtectedResults.Add(r);
@@ -127,46 +105,46 @@ public class EmaObserver : QuoteObserver
         }
 
         // update bar
-        else if (tp.Date == last.Date)
+        else if (tuple.Date == last.Date)
         {
             // get prior last EMA
             EmaResult prior = ProtectedResults[length - 2];
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
-            last.Ema = Increment(tp.Value, priorEma, K);
+            last.Ema = Increment(tuple.Value, priorEma, K);
             return;
         }
 
         // old bar
-        else if (Provider != null && tp.Date < last.Date)
+        else if (Provider != null && tuple.Date < last.Date)
         {
-            Reset(Provider);
+            Reset();
         }
     }
 
-    // calculate initial cache of quotes
-    internal void Initialize(IEnumerable<Quote> quotes)
+    // calculate with provider cache
+    private void Initialize()
     {
-        if (quotes != null)
+        if (Provider != null)
         {
-            List<Quote> quotesList = quotes
-                .ToSortedList();
+            List<(DateTime, double)> tuples = Provider
+                .ProtectedTuples;
 
-            for (int i = 0; i < quotesList.Count; i++)
+            for (int i = 0; i < tuples.Count; i++)
             {
-                Add(quotesList[i]);
+                Add(tuples[i]);
             }
+
+            Subscribe();
         }
     }
 
-    private void Reset(QuoteProvider provider)
+    // recalculate cache
+    private void Reset()
     {
         Unsubscribe();
-
         ProtectedResults = new();
         WarmupValue = 0;
-
-        Initialize(provider.GetQuotesList());
-        Subscribe(provider);
+        Initialize();
     }
 }

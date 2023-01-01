@@ -18,7 +18,7 @@ internal class Program
             .ToSortedCollection();
 
         QuoteProvider provider = new();
-        EmaObserver obsEma = new(provider, 14);
+        EmaObserver obsEma = provider.GetEma(14);
 
         int length = Math.Min(40, quotesList.Count);
 

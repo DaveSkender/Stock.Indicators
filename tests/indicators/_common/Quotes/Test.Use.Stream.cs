@@ -75,15 +75,15 @@ public class UseStreamTests : TestBase
         // setup quote provider
         QuoteProvider provider = new();
 
-        // subscribe EMA as observer
-        UseObserver observer = provider.Use(CandlePart.OHL3);
-
-        // add initial batch
+        // add "pre-existing" quotes
         List<Quote> baseQuotes = quotesList
             .Take(25)
             .ToList();
 
-        observer.Initialize(baseQuotes);
+        provider.Add(baseQuotes);
+
+        // subscribe as observer
+        UseObserver observer = provider.Use(CandlePart.OHL3);
 
         // add quotes and last-date duplicates
         int[] dups = new int[] { 33, 67, 111, 250, 251 };

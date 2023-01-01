@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // USE (STREAMING)
-public class UseObserver : QuoteObserverTupleProvider
+public class UseObserver : TupleProvider
 {
     public UseObserver(
         QuoteProvider? provider,
@@ -11,16 +11,12 @@ public class UseObserver : QuoteObserverTupleProvider
 
         CandlePartSelection = candlePart;
 
-        if (provider != null)
-        {
-            Initialize(provider.GetQuotesList());
-            Subscribe(provider);
-        }
+        Initialize();
     }
 
     // PROPERTIES
 
-    public IEnumerable<(DateTime Date, double Value)> Results => ProtectedOutput;
+    public IEnumerable<(DateTime Date, double Value)> Results => ProtectedTuples;
 
     private CandlePart CandlePartSelection { get; set; }
 
@@ -29,14 +25,12 @@ public class UseObserver : QuoteObserverTupleProvider
     // handle quote arrival
     public override void OnNext(Quote value)
     {
-        if (value != null)
-        {
-            Add(value);
-        }
-        else
+        if (value == null)
         {
             throw new InvalidQuotesException(nameof(value), "Quote cannot be null.");
         }
+
+        Add(value);
     }
 
     // add new quote
@@ -46,7 +40,7 @@ public class UseObserver : QuoteObserverTupleProvider
         (DateTime date, double value) tp = quote.ToTuple(CandlePartSelection);
 
         // initialize
-        int length = ProtectedOutput.Count;
+        int length = ProtectedTuples.Count;
 
         if (length == 0)
         {
@@ -55,7 +49,7 @@ public class UseObserver : QuoteObserverTupleProvider
         }
 
         // check against last entry
-        (DateTime lastDate, _) = ProtectedOutput[length - 1];
+        (DateTime lastDate, _) = ProtectedTuples[length - 1];
 
         // add bar
         if (tp.date > lastDate)
@@ -66,29 +60,35 @@ public class UseObserver : QuoteObserverTupleProvider
         // update bar
         else if (tp.date == lastDate)
         {
-            ProtectedOutput[length - 1] = tp;
+            ProtectedTuples[length - 1] = tp;
         }
 
         // old bar
         else if (Provider != null && tp.date < lastDate)
         {
-            Reset(Provider);
+            Add(tp);
+            Reset();
         }
     }
 
     // calculate initial cache of quotes
-    internal void Initialize(IEnumerable<Quote> quotes)
+    private void Initialize()
     {
-        if (quotes != null)
+        if (Provider != null)
         {
-            ProtectedOutput = quotes.ToTuple(CandlePartSelection);
+            ProtectedTuples = Provider
+                .ProtectedQuotes
+                .ToTuple(CandlePartSelection);
         }
+
+        Subscribe();
     }
 
-    private void Reset(QuoteProvider provider)
+    // recalculate cache
+    private void Reset()
     {
         Unsubscribe();
-        Initialize(provider.GetQuotesList());
-        Subscribe(provider);
+        ProtectedTuples = new();
+        Initialize();
     }
 }

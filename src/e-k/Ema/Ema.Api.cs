@@ -34,5 +34,10 @@ public static partial class Indicator
     public static EmaObserver GetEma(
         this QuoteProvider provider,
         int lookbackPeriods)
-        => new(provider, lookbackPeriods);
+    {
+        UseObserver useObserver = provider
+            .Use(CandlePart.Close);
+
+        return new(useObserver, lookbackPeriods);
+    }
 }

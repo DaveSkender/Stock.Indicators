@@ -32,14 +32,14 @@ public class IndicatorStreamPerformance
     [Benchmark]
     public object GetEmaStdNoProviderPresort()
     {
-        List<Quote> quotesList = quotes
-            .ToSortedList();
+        System.Collections.ObjectModel.Collection<(DateTime, double)> quoteCollection = quotes
+            .ToTupleCollection(CandlePart.Close);
 
         EmaObserver observer = new(null, 14);
 
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < quoteCollection.Count; i++)
         {
-            observer.Add(quotesList[i]);
+            observer.Add(quoteCollection[i]);
         }
 
         return observer.Results;
@@ -58,19 +58,6 @@ public class IndicatorStreamPerformance
         }
 
         provider.EndTransmission();
-
-        return observer.Results;
-    }
-
-    [Benchmark]
-    public object GetEmaStdNoProviderQuote()
-    {
-        EmaObserver observer = new(null, 14);
-
-        for (int i = 0; i < quotesList.Count; i++)
-        {
-            observer.Add(quotesList[i]);
-        }
 
         return observer.Results;
     }
@@ -104,19 +91,6 @@ public class IndicatorStreamPerformance
         }
 
         provider.EndTransmission();
-
-        return observer.Results;
-    }
-
-    [Benchmark]
-    public object GetEmaStd1MNoProviderQuote()
-    {
-        EmaObserver observer = new(null, 14);
-
-        for (int i = 0; i < onemill.Count; i++)
-        {
-            observer.Add(onemill[i]);
-        }
 
         return observer.Results;
     }

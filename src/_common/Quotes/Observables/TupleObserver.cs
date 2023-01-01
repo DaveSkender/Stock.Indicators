@@ -1,14 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-// OBSERVER of QUOTES (BOILERPLATE)
+// OBSERVER of TUPLES (BOILERPLATE)
 
-public abstract class QuoteObserver : IObserver<Quote>
+public abstract class TupleObserver : IObserver<(DateTime Date, double Value)>
 {
     // fields
     private IDisposable? unsubscriber;
 
     // properites
-    public QuoteProvider? Provider { get; set; }
+    public TupleProvider? Provider { get; set; }
 
     // methods
     public virtual void Subscribe()
@@ -20,7 +20,7 @@ public abstract class QuoteObserver : IObserver<Quote>
 
     public virtual void OnError(Exception error) => throw error;
 
-    public virtual void OnNext(Quote value)
+    public virtual void OnNext((DateTime Date, double Value) value)
     {
         // » handle new quote with override in observer
     }

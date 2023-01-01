@@ -124,7 +124,7 @@ public class QuoteProvider : IObservable<Quote>
         }
     }
 
-    // subscribe
+    // subscribe observer
     public IDisposable Subscribe(IObserver<Quote> observer)
     {
         if (!observers.Contains(observer))
@@ -135,7 +135,7 @@ public class QuoteProvider : IObservable<Quote>
         return new Unsubscriber(observers, observer);
     }
 
-    // close ALL observations
+    // close all observations
     public void EndTransmission()
     {
         foreach (IObserver<Quote> observer in observers.ToArray())
@@ -148,9 +148,6 @@ public class QuoteProvider : IObservable<Quote>
 
         observers.Clear();
     }
-
-    // get history
-    internal List<Quote> GetQuotesList() => ProtectedQuotes;
 
     // notify observers
     private void NotifyObservers(Quote quote)

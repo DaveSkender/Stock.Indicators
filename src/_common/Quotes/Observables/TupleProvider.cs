@@ -2,23 +2,23 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE OBSERVER and TUPLE PROVIDER
 
-public class QuoteObserverTupleProvider
+public abstract class TupleProvider
     : QuoteObserver, IObservable<(DateTime Date, double Value)>
 {
     // fields
     private readonly List<IObserver<(DateTime Date, double Value)>> observers;
 
     // initialize
-    public QuoteObserverTupleProvider()
+    protected TupleProvider()
     {
         observers = new();
-        ProtectedOutput = new();
+        ProtectedTuples = new();
     }
 
     // properties
-    public IEnumerable<(DateTime Date, double Value)> Output => ProtectedOutput;
+    internal IEnumerable<(DateTime Date, double Value)> Output => ProtectedTuples;
 
-    internal List<(DateTime Date, double Value)> ProtectedOutput { get; set; }
+    internal List<(DateTime Date, double Value)> ProtectedTuples { get; set; }
 
     private int OverflowCount { get; set; }
 
@@ -27,25 +27,25 @@ public class QuoteObserverTupleProvider
     // add one
     public void Add((DateTime Date, double Value) tuple)
     {
-        int length = ProtectedOutput.Count;
+        int length = ProtectedTuples.Count;
 
         if (length == 0)
         {
             // add new tuple
-            ProtectedOutput.Add(tuple);
+            ProtectedTuples.Add(tuple);
 
             // notify observers
             NotifyObservers(tuple);
             return;
         }
 
-        (DateTime lastDate, _) = ProtectedOutput[length - 1];
+        (DateTime lastDate, _) = ProtectedTuples[length - 1];
 
         // add tuple
         if (tuple.Date > lastDate)
         {
             // add new tuple
-            ProtectedOutput.Add(tuple);
+            ProtectedTuples.Add(tuple);
 
             // notify observers
             NotifyObservers(tuple);
@@ -76,22 +76,22 @@ public class QuoteObserverTupleProvider
             }
 
             // seek old tuple
-            int foundIndex = ProtectedOutput
+            int foundIndex = ProtectedTuples
                 .FindIndex(x => x.Date == tuple.Date);
 
             // found
             if (foundIndex >= 0)
             {
-                ProtectedOutput[foundIndex] = tuple;
+                ProtectedTuples[foundIndex] = tuple;
             }
 
             // add missing tuple
             else
             {
-                ProtectedOutput.Add(tuple);
+                ProtectedTuples.Add(tuple);
 
                 // re-sort cache
-                ProtectedOutput = ProtectedOutput
+                ProtectedTuples = ProtectedTuples
                     .ToSortedList();
             }
 
@@ -112,7 +112,7 @@ public class QuoteObserverTupleProvider
         }
     }
 
-    // subscribe
+    // subscribe observer
     public IDisposable Subscribe(IObserver<(DateTime Date, double Value)> observer)
     {
         if (!observers.Contains(observer))
@@ -123,7 +123,7 @@ public class QuoteObserverTupleProvider
         return new Unsubscriber(observers, observer);
     }
 
-    // close ALL observations
+    // close all observations
     public void EndTransmission()
     {
         foreach (IObserver<(DateTime Date, double Value)> observer in observers.ToArray())
@@ -136,9 +136,6 @@ public class QuoteObserverTupleProvider
 
         observers.Clear();
     }
-
-    // get history
-    internal List<(DateTime Date, double Value)> GetTuplesList() => ProtectedOutput;
 
     // notify observers
     private void NotifyObservers((DateTime Date, double Value) tuple)

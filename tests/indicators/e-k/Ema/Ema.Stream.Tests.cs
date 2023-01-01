@@ -77,15 +77,15 @@ public class EmaStreamTests : TestBase
         // setup quote provider
         QuoteProvider provider = new();
 
-        // subscribe EMA as observer
-        EmaObserver observer = provider.GetEma(20);
-
-        // add initial batch
+        // add "pre-existing" quotes
         List<Quote> baseQuotes = quotesList
             .Take(25)
             .ToList();
 
-        observer.Initialize(baseQuotes);
+        provider.Add(baseQuotes);
+
+        // subscribe as observer
+        EmaObserver observer = provider.GetEma(20);
 
         // add quotes and last-date duplicates
         int[] dups = new int[] { 33, 67, 111, 250, 251 };
@@ -140,19 +140,6 @@ public class EmaStreamTests : TestBase
         Assert.AreNotEqual(series[^1].Ema, stream[^1].Ema);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public void Exceptions()
-    {
-        // null quote added
-        QuoteProvider provider = new();
-        EmaObserver observer = new(provider, 14);
-
-        Assert.ThrowsException<InvalidQuotesException>(()
-          => observer.OnNext(null));
-
         provider.EndTransmission();
     }
 }
