@@ -9,17 +9,17 @@ public abstract class ChainProvider
     private readonly List<IObserver<(DateTime Date, double Value)>> observers;
 
     // initialize
-    protected ChainProvider()
+    internal ChainProvider()
     {
         observers = new();
-        ProtectedTuples = new();
+        ProtectedChain = new();
         Warmup = true;
     }
 
     // properties
-    internal IEnumerable<(DateTime Date, double Value)> Output => ProtectedTuples;
+    internal IEnumerable<(DateTime Date, double Value)> Output => ProtectedChain;
 
-    internal List<(DateTime Date, double Value)> ProtectedTuples { get; set; }
+    internal List<(DateTime Date, double Value)> ProtectedChain { get; set; }
 
     private int OverflowCount { get; set; }
 
@@ -27,20 +27,45 @@ public abstract class ChainProvider
 
     // METHODS
 
+    // subscribe observer
+    public IDisposable Subscribe(IObserver<(DateTime Date, double Value)> observer)
+    {
+        if (!observers.Contains(observer))
+        {
+            observers.Add(observer);
+        }
+
+        return new Unsubscriber(observers, observer);
+    }
+
+    // close all observations
+    public void EndTransmission()
+    {
+        foreach (IObserver<(DateTime Date, double Value)> observer in observers.ToArray())
+        {
+            if (observers.Contains(observer))
+            {
+                observer.OnCompleted();
+            }
+        }
+
+        observers.Clear();
+    }
+
     // add one
-    public void SendToChain<TResult>(TResult result)
+    internal void SendToChain<TResult>(TResult result)
         where TResult : IReusableResult
     {
         // candidate result
         (DateTime Date, double Value) r = new(result.Date, result.Value.Null2NaN());
 
-        int length = ProtectedTuples.Count;
+        int length = ProtectedChain.Count;
 
         // initialize
         if (length == 0 && result.Value != null)
         {
             // add new tuple
-            ProtectedTuples.Add(r);
+            ProtectedChain.Add(r);
             Warmup = false;
 
             // notify observers
@@ -58,13 +83,13 @@ public abstract class ChainProvider
             Warmup = false;
         }
 
-        (DateTime lastDate, _) = ProtectedTuples[length - 1];
+        (DateTime lastDate, _) = ProtectedChain[length - 1];
 
         // add tuple
         if (r.Date > lastDate)
         {
             // add new tuple
-            ProtectedTuples.Add(r);
+            ProtectedChain.Add(r);
 
             // notify observers
             NotifyObservers(r);
@@ -95,22 +120,22 @@ public abstract class ChainProvider
             }
 
             // seek old tuple
-            int foundIndex = ProtectedTuples
+            int foundIndex = ProtectedChain
                 .FindIndex(x => x.Date == r.Date);
 
             // found
             if (foundIndex >= 0)
             {
-                ProtectedTuples[foundIndex] = r;
+                ProtectedChain[foundIndex] = r;
             }
 
             // add missing tuple
             else
             {
-                ProtectedTuples.Add(r);
+                ProtectedChain.Add(r);
 
                 // re-sort cache
-                ProtectedTuples = ProtectedTuples
+                ProtectedChain = ProtectedChain
                     .ToSortedList();
             }
 
@@ -120,7 +145,7 @@ public abstract class ChainProvider
     }
 
     // add many
-    public void SendToChain<TResult>(IEnumerable<TResult> results)
+    internal void SendToChain<TResult>(IEnumerable<TResult> results)
         where TResult : IReusableResult
     {
         List<TResult> added = results
@@ -130,31 +155,6 @@ public abstract class ChainProvider
         {
             SendToChain(added[i]);
         }
-    }
-
-    // subscribe observer
-    public IDisposable Subscribe(IObserver<(DateTime Date, double Value)> observer)
-    {
-        if (!observers.Contains(observer))
-        {
-            observers.Add(observer);
-        }
-
-        return new Unsubscriber(observers, observer);
-    }
-
-    // close all observations
-    public void EndTransmission()
-    {
-        foreach (IObserver<(DateTime Date, double Value)> observer in observers.ToArray())
-        {
-            if (observers.Contains(observer))
-            {
-                observer.OnCompleted();
-            }
-        }
-
-        observers.Clear();
     }
 
     // notify observers

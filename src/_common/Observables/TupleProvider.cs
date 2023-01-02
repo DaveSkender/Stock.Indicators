@@ -24,8 +24,33 @@ public abstract class TupleProvider
 
     // METHODS
 
+    // subscribe observer
+    public IDisposable Subscribe(IObserver<(DateTime Date, double Value)> observer)
+    {
+        if (!observers.Contains(observer))
+        {
+            observers.Add(observer);
+        }
+
+        return new Unsubscriber(observers, observer);
+    }
+
+    // close all observations
+    public void EndTransmission()
+    {
+        foreach (IObserver<(DateTime Date, double Value)> observer in observers.ToArray())
+        {
+            if (observers.Contains(observer))
+            {
+                observer.OnCompleted();
+            }
+        }
+
+        observers.Clear();
+    }
+
     // add one
-    public void Add((DateTime Date, double Value) tuple)
+    internal void Add((DateTime Date, double Value) tuple)
     {
         int length = ProtectedTuples.Count;
 
@@ -101,7 +126,7 @@ public abstract class TupleProvider
     }
 
     // add many
-    public void Add(IEnumerable<(DateTime Date, double Value)> tuples)
+    internal void Add(IEnumerable<(DateTime Date, double Value)> tuples)
     {
         List<(DateTime Date, double Value)> added = tuples
             .ToSortedList();
@@ -110,31 +135,6 @@ public abstract class TupleProvider
         {
             Add(added[i]);
         }
-    }
-
-    // subscribe observer
-    public IDisposable Subscribe(IObserver<(DateTime Date, double Value)> observer)
-    {
-        if (!observers.Contains(observer))
-        {
-            observers.Add(observer);
-        }
-
-        return new Unsubscriber(observers, observer);
-    }
-
-    // close all observations
-    public void EndTransmission()
-    {
-        foreach (IObserver<(DateTime Date, double Value)> observer in observers.ToArray())
-        {
-            if (observers.Contains(observer))
-            {
-                observer.OnCompleted();
-            }
-        }
-
-        observers.Clear();
     }
 
     // notify observers

@@ -8,9 +8,7 @@ public class UseObserver : TupleProvider
         CandlePart candlePart)
     {
         Supplier = provider;
-
         CandlePartSelection = candlePart;
-
         Initialize();
     }
 
@@ -23,15 +21,7 @@ public class UseObserver : TupleProvider
     // NON-STATIC METHODS
 
     // handle quote arrival
-    public override void OnNext(Quote value)
-    {
-        if (value == null)
-        {
-            throw new InvalidQuotesException(nameof(value), "Quote cannot be null.");
-        }
-
-        Add(value);
-    }
+    public override void OnNext(Quote value) => Add(value);
 
     // add new quote
     internal void Add(Quote quote)

@@ -8,7 +8,7 @@ public abstract class TupleObserver : IObserver<(DateTime Date, double Value)>
     private IDisposable? unsubscriber;
 
     // properites
-    public TupleProvider? Supplier { get; set; }
+    internal TupleProvider? Supplier { get; set; }
 
     // methods
     public virtual void Subscribe()

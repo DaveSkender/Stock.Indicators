@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
+
 public static partial class Indicator
 {
     // SERIES, from TQuote
@@ -29,7 +30,7 @@ public static partial class Indicator
             .CalcEma(lookbackPeriods);
 
     // OBSERVER, from Quote Provider
-    /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
     public static EmaObserver GetEma(
         this QuoteProvider provider,

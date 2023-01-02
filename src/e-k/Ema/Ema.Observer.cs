@@ -1,10 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
+
 public class EmaObserver : ChainProvider
 {
     public EmaObserver(
-        TupleProvider? provider,
+        TupleProvider provider,
         int lookbackPeriods)
     {
         Supplier = provider;
@@ -12,7 +13,6 @@ public class EmaObserver : ChainProvider
 
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
-        WarmupValue = 0;
 
         Initialize();
     }
@@ -30,7 +30,7 @@ public class EmaObserver : ChainProvider
 
     // parameter validation
     internal static void Validate(
-    int lookbackPeriods)
+        int lookbackPeriods)
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)

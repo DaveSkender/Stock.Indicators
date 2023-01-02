@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (API)
+
 public static partial class Indicator
 {
     // SERIES, from TQuote
@@ -27,6 +28,19 @@ public static partial class Indicator
         int lookbackPeriods) => priceTuples
             .ToSortedList()
             .CalcSma(lookbackPeriods);
+
+    // OBSERVER, from Quote Provider
+    /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
+    ///
+    public static SmaObserver GetSma(
+        this QuoteProvider provider,
+        int lookbackPeriods)
+    {
+        UseObserver useObserver = provider
+            .Use(CandlePart.Close);
+
+        return new(useObserver, lookbackPeriods);
+    }
 
     /// <include file='./info.xml' path='info/type[@name="Analysis"]/*' />
     ///

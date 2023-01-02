@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class Sma : TestBase
+public class SmaTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,11 +19,11 @@ public class Sma : TestBase
 
         // sample values
         Assert.IsNull(results[18].Sma);
-        Assert.AreEqual(214.5250, Math.Round(results[19].Sma.Value, 4));
-        Assert.AreEqual(215.0310, Math.Round(results[24].Sma.Value, 4));
-        Assert.AreEqual(234.9350, Math.Round(results[149].Sma.Value, 4));
-        Assert.AreEqual(255.5500, Math.Round(results[249].Sma.Value, 4));
-        Assert.AreEqual(251.8600, Math.Round(results[501].Sma.Value, 4));
+        Assert.AreEqual(214.5250, results[19].Sma.Round(4));
+        Assert.AreEqual(215.0310, results[24].Sma.Round(4));
+        Assert.AreEqual(234.9350, results[149].Sma.Round(4));
+        Assert.AreEqual(255.5500, results[249].Sma.Round(4));
+        Assert.AreEqual(251.8600, results[501].Sma.Round(4));
     }
 
     [TestMethod]
@@ -39,11 +39,11 @@ public class Sma : TestBase
 
         // sample values
         Assert.IsNull(results[18].Sma);
-        Assert.AreEqual(214.3795, Math.Round(results[19].Sma.Value, 4));
-        Assert.AreEqual(214.9535, Math.Round(results[24].Sma.Value, 4));
-        Assert.AreEqual(234.8280, Math.Round(results[149].Sma.Value, 4));
-        Assert.AreEqual(255.6915, Math.Round(results[249].Sma.Value, 4));
-        Assert.AreEqual(253.1725, Math.Round(results[501].Sma.Value, 4));
+        Assert.AreEqual(214.3795, results[19].Sma.Round(4));
+        Assert.AreEqual(214.9535, results[24].Sma.Round(4));
+        Assert.AreEqual(234.8280, results[149].Sma.Round(4));
+        Assert.AreEqual(255.6915, results[249].Sma.Round(4));
+        Assert.AreEqual(253.1725, results[501].Sma.Round(4));
     }
 
     [TestMethod]
@@ -139,7 +139,7 @@ public class Sma : TestBase
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
-        Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
+        Assert.AreEqual(251.8600, results.LastOrDefault().Sma.Round(4));
     }
 
     // bad lookback period

@@ -16,7 +16,7 @@
     <returns>Time series of EMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-  <type name="stream">
+  <type name="observer">
     <summary>
       Establish an observable streaming Exponential Moving Average (EMA).
       <para>

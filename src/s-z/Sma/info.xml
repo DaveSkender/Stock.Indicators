@@ -17,7 +17,20 @@
     <returns>Time series of SMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-
+  <type name="observer">
+    <summary>
+      Establish an observable streaming Exponential Moving Average (EMA).
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <param name="provider">Observable quote provider.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <returns>Observable EMA instance.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
   <type name="Analysis">
     <summary>
       Simple Moving Average (SMA) is the average of price over a lookback window.  This extended variant includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
