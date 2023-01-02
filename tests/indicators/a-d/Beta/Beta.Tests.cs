@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class Beta : TestBase
+public class BetaTests : TestBase
 {
     [TestMethod]
     public void All()
@@ -293,7 +293,7 @@ public class Beta : TestBase
 
         // bad evaluation quotes
         List<Quote> eval = TestData.GetCompare(300).ToList();
-        
+
         Assert.ThrowsException<InvalidQuotesException>(()
             => quotes.GetBeta(eval, 30));
     }

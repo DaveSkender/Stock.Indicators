@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 namespace Internal.Tests;
 
 [TestClass]
-public class Adl : TestBase
+public class AdlTests : TestBase
 {
     [TestMethod]
     public void Standard()
