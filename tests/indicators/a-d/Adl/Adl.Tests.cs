@@ -19,15 +19,15 @@ public class AdlTests : TestBase
 
         // sample values
         AdlResult r1 = results[249];
-        Assert.AreEqual(0.7778, NullMath.Round(r1.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(36433792.89, NullMath.Round(r1.MoneyFlowVolume, 2));
-        Assert.AreEqual(3266400865.74, NullMath.Round(r1.Adl, 2));
+        Assert.AreEqual(0.7778, r1.MoneyFlowMultiplier.Round(4));
+        Assert.AreEqual(36433792.89, r1.MoneyFlowVolume.Round(2));
+        Assert.AreEqual(3266400865.74, r1.Adl.Round(2));
         Assert.AreEqual(null, r1.AdlSma);
 
         AdlResult r2 = results[501];
-        Assert.AreEqual(0.8052, NullMath.Round(r2.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, NullMath.Round(r2.MoneyFlowVolume, 2));
-        Assert.AreEqual(3439986548.42, NullMath.Round(r2.Adl, 2));
+        Assert.AreEqual(0.8052, r2.MoneyFlowMultiplier.Round(4));
+        Assert.AreEqual(118396116.25, r2.MoneyFlowVolume.Round(2));
+        Assert.AreEqual(3439986548.42, r2.Adl.Round(2));
         Assert.AreEqual(null, r2.AdlSma);
     }
 
@@ -44,10 +44,10 @@ public class AdlTests : TestBase
 
         // sample value
         AdlResult r = results[501];
-        Assert.AreEqual(0.8052, NullMath.Round(r.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, NullMath.Round(r.MoneyFlowVolume, 2));
-        Assert.AreEqual(3439986548.42, NullMath.Round(r.Adl, 2));
-        Assert.AreEqual(3595352721.16, NullMath.Round(r.AdlSma, 2));
+        Assert.AreEqual(0.8052, r.MoneyFlowMultiplier.Round(4));
+        Assert.AreEqual(118396116.25, r.MoneyFlowVolume.Round(2));
+        Assert.AreEqual(3439986548.42, r.Adl.Round(2));
+        Assert.AreEqual(3595352721.16, r.AdlSma.Round(2));
     }
 
     [TestMethod]
