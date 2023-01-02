@@ -92,8 +92,8 @@ public class EmaObserver : ChainProvider
             return;
         }
 
-        // add bar
-        if (tuple.Date > last.Date)
+        // add new
+        if (r.Date > last.Date)
         {
             // calculate incremental value
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
@@ -105,8 +105,8 @@ public class EmaObserver : ChainProvider
             return;
         }
 
-        // update bar
-        else if (tuple.Date == last.Date)
+        // update last
+        else if (r.Date == last.Date)
         {
             // get prior last EMA
             EmaResult prior = ProtectedResults[length - 2];
@@ -117,16 +117,11 @@ public class EmaObserver : ChainProvider
             return;
         }
 
-        // old bar
-        else if (Supplier != null && tuple.Date < last.Date)
+        // late arrival
+        else
         {
-            Reset();
-
-            // find result in re-composed results
-            int foundIndex = ProtectedResults
-                .FindIndex(x => x.Date == r.Date);
-
-            SendToChain(ProtectedResults[foundIndex]);
+            // heal
+            throw new NotImplementedException();
         }
     }
 
@@ -145,14 +140,5 @@ public class EmaObserver : ChainProvider
 
             Subscribe();
         }
-    }
-
-    // recalculate cache
-    private void Reset()
-    {
-        Unsubscribe();
-        ProtectedResults = new();
-        WarmupValue = 0;
-        Initialize();
     }
 }

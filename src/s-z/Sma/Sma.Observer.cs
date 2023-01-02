@@ -39,25 +39,22 @@ public class SmaObserver : ChainProvider
 
     // incremental calculation
     internal static double Increment(
-        List<(DateTime Date, double Value)> tpList,
+        List<(DateTime Date, double Value)> values,
         int index,
         int lookbackPeriods)
     {
-        if (index >= lookbackPeriods - 1)
-        {
-            double sumSma = 0;
-            for (int p = index - lookbackPeriods + 1; p <= index; p++)
-            {
-                (DateTime _, double pValue) = tpList[p];
-                sumSma += pValue;
-            }
-
-            return sumSma / lookbackPeriods;
-        }
-        else
+        if (index < lookbackPeriods - 1)
         {
             return double.NaN;
         }
+
+        double sum = 0;
+        for (int i = index - lookbackPeriods + 1; i <= index; i++)
+        {
+            sum += values[i].Value;
+        }
+
+        return sum / lookbackPeriods;
     }
 
     // NON-STATIC METHODS
@@ -73,59 +70,58 @@ public class SmaObserver : ChainProvider
             throw new ArgumentNullException(nameof(Supplier), "Could not find data source.");
         }
 
-        // find result in re-composed results
-        int sourceIndex = Supplier.ProtectedTuples
-            .FindIndex(x => x.Date == tp.Date);
-
         // candidate result
-        SmaResult r = new(tp.Date)
-        {
-            Sma = Increment(
-                Supplier.ProtectedTuples,
-                sourceIndex,
-                LookbackPeriods)
-            .NaN2Null()
-        };
+        SmaResult r = new(tp.Date);
 
         // initialize
-        int length = ProtectedResults.Count;
+        int lengthRes = ProtectedResults.Count;
+        int lengthSrc = Supplier.ProtectedTuples.Count;
 
-        if (length == 0)
+        // handle first value
+        if (lengthRes == 0)
         {
             ProtectedResults.Add(r);
             SendToChain(r);
             return;
         }
 
-        // check against last entry
-        SmaResult last = ProtectedResults[length - 1];
+        SmaResult lastResult = ProtectedResults[lengthRes - 1];
+        (DateTime lastSrcDate, double _) = Supplier.ProtectedTuples[lengthSrc - 1];
 
-        // add bar
-        if (tp.Date > last.Date)
+        if (r.Date == lastSrcDate)
+        {
+            r.Sma = Increment(
+                Supplier.ProtectedTuples,
+                lengthSrc - 1,
+                LookbackPeriods)
+                .NaN2Null();
+        }
+
+        // add new
+        if (r.Date > lastResult.Date)
         {
             ProtectedResults.Add(r);
             SendToChain(r);
-            return;
         }
 
-        // update bar
-        else if (tp.Date == last.Date)
+        // update last
+        else if (r.Date == lastResult.Date)
         {
-            last.Sma = r.Sma;
-            SendToChain(last);
-            return;
+            lastResult.Sma = r.Sma;
+            SendToChain(lastResult);
         }
 
-        // old bar
-        else if (tp.Date < last.Date)
+        // late arrival
+        else
         {
-            Reset();
+            // heal
+            throw new NotImplementedException();
 
-            // find result in re-composed results
-            int foundIndex = ProtectedResults
-                .FindIndex(x => x.Date == r.Date);
+            // existing and index in sync?
 
-            SendToChain(ProtectedResults[foundIndex]);
+            // new and index otherwise in sync?
+
+            // all other scenarios: unsubscribe from provider and end transmission to others?
         }
     }
 
@@ -144,13 +140,5 @@ public class SmaObserver : ChainProvider
 
             Subscribe();
         }
-    }
-
-    // recalculate cache
-    private void Reset()
-    {
-        Unsubscribe();
-        ProtectedResults = new();
-        Initialize();
     }
 }

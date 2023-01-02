@@ -21,43 +21,43 @@ public class UseObserver : TupleProvider
     // NON-STATIC METHODS
 
     // handle quote arrival
-    public override void OnNext(Quote value) => Add(value);
+    public override void OnNext(Quote value) => HandleArrival(value);
 
     // add new quote
-    internal void Add(Quote quote)
+    internal void HandleArrival(Quote quote)
     {
         // candidate result
-        (DateTime date, double value) tp = quote.ToTuple(CandlePartSelection);
+        (DateTime date, double value) r = quote.ToTuple(CandlePartSelection);
 
         // initialize
         int length = ProtectedTuples.Count;
 
         if (length == 0)
         {
-            Add(tp);
+            AddSend(r);
             return;
         }
 
         // check against last entry
         (DateTime lastDate, _) = ProtectedTuples[length - 1];
 
-        // add bar
-        if (tp.date > lastDate)
+        // add new
+        if (r.date > lastDate)
         {
-            Add(tp);
+            AddSend(r);
         }
 
-        // update bar
-        else if (tp.date == lastDate)
+        // update last
+        else if (r.date == lastDate)
         {
-            ProtectedTuples[length - 1] = tp;
+            ProtectedTuples[length - 1] = r;
         }
 
-        // old bar
-        else if (Supplier != null && tp.date < lastDate)
+        // late arrival
+        else
         {
-            Add(tp);
-            Reset();
+            AddSend(r);
+            throw new NotImplementedException();
         }
     }
 
@@ -72,13 +72,5 @@ public class UseObserver : TupleProvider
         }
 
         Subscribe();
-    }
-
-    // recalculate cache
-    private void Reset()
-    {
-        Unsubscribe();
-        ProtectedTuples = new();
-        Initialize();
     }
 }

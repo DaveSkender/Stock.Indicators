@@ -55,7 +55,7 @@ public class UseStreamTests : TestBase
     }
 
     [TestMethod]
-    public void OutOfSequence()
+    public void LateArrival()
     {
         /********************************
          * 1. baseline batch of quotes

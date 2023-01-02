@@ -50,7 +50,7 @@ public abstract class TupleProvider
     }
 
     // add one
-    internal void Add((DateTime Date, double Value) tuple)
+    internal void AddSend((DateTime Date, double Value) tuple)
     {
         int length = ProtectedTuples.Count;
 
@@ -126,14 +126,14 @@ public abstract class TupleProvider
     }
 
     // add many
-    internal void Add(IEnumerable<(DateTime Date, double Value)> tuples)
+    internal void AddSend(IEnumerable<(DateTime Date, double Value)> tuples)
     {
         List<(DateTime Date, double Value)> added = tuples
             .ToSortedList();
 
         for (int i = 0; i < added.Count; i++)
         {
-            Add(added[i]);
+            AddSend(added[i]);
         }
     }
 
