@@ -280,7 +280,7 @@ public class Beta : TestBase
             new Quote { Date = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
         };
 
-        _ = Assert.ThrowsException<InvalidQuotesException>(()
+        Assert.ThrowsException<InvalidQuotesException>(()
             => quoteA.GetBeta(quoteB, 3));
     }
 
@@ -288,12 +288,13 @@ public class Beta : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetBeta(otherQuotes, 0));
 
         // bad evaluation quotes
         List<Quote> eval = TestData.GetCompare(300).ToList();
-        _ = Assert.ThrowsException<InvalidQuotesException>(()
+        
+        Assert.ThrowsException<InvalidQuotesException>(()
             => quotes.GetBeta(eval, 30));
     }
 }

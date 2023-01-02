@@ -111,12 +111,12 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToTuple(CandlePart.OHLC4).value, 10));
 
         // bad argument
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            q.ToTuple((CandlePart)999));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => q.ToTuple((CandlePart)999));
 
         // bad argument
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            q.ToBasicData((CandlePart)999));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => q.ToBasicData((CandlePart)999));
     }
 
     [TestMethod]
@@ -202,8 +202,8 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToBasicData(CandlePart.OHLC4).Value, 10));
 
         // bad argument
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            q.ToBasicData((CandlePart)999));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => q.ToBasicData((CandlePart)999));
     }
 
     [TestMethod]
@@ -264,7 +264,7 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToTuple(CandlePart.OHLC4).Item2, 10));
 
         // bad argument
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            q.ToTuple((CandlePart)999));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => q.ToTuple((CandlePart)999));
     }
 }

@@ -110,11 +110,11 @@ public class McGinleyDynamic : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetDynamic(0));
 
         // bad k-factor
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetDynamic(14, 0));
     }
 }

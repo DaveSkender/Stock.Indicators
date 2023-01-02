@@ -168,11 +168,11 @@ public class AtrStop : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetAtrStop(1));
 
         // bad multiplier
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetAtrStop(7, 0));
     }
 }

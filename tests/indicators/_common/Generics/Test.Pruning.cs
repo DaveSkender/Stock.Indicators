@@ -18,8 +18,8 @@ public class Pruning : TestBase
         Assert.AreEqual(400, results.Count());
 
         // bad remove period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAdx(14).RemoveWarmupPeriods(-1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetAdx(14).RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]

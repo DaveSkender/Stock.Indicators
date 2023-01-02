@@ -26,6 +26,6 @@ public class TransformTests : TestBase
     public void ToTransformNull()
     {
         List<Quote> nullQuotes = null;
-        _ = nullQuotes.ToCollection();
+        nullQuotes.ToCollection();
     }
 }
