@@ -4,35 +4,35 @@ using Skender.Stock.Indicators;
 
 namespace Tests.Performance;
 
-public class IndicatorStreamPerformance
+public class IndicatorsStreaming
 {
-    private static IEnumerable<Quote> quotes;
-    private static List<Quote> quotesList;
+    private static IEnumerable<Quote> q;
+    private static List<Quote> ql;
 
     // SETUP
 
     [GlobalSetup]
     public void Setup()
     {
-        quotes = TestData.GetDefault();
-        quotesList = quotes.ToSortedList();
+        q = TestData.GetDefault();
+        ql = q.ToSortedList();
     }
 
     // BENCHMARKS
 
     [Benchmark]
-    public object GetObsEma() => quotes.GetEma(14);
+    public object GetEma() => q.GetEma(14);
 
     [Benchmark]
-    public object GetObsEmaStream()
+    public object GetEmaStream()
     {
         // todo: refactor to exclude provider
         QuoteProvider provider = new();
         EmaObserver observer = provider.GetEma(14);
 
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < ql.Count; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.Add(ql[i]);
         }
 
         provider.EndTransmission();
@@ -41,18 +41,18 @@ public class IndicatorStreamPerformance
     }
 
     [Benchmark]
-    public object GetObsSma() => quotes.GetSma(10);
+    public object GetSma() => q.GetSma(10);
 
     [Benchmark]
-    public object GetObsSmaStream()
+    public object GetSmaStream()
     {
         // todo: refactor to exclude provider
         QuoteProvider provider = new();
         SmaObserver observer = provider.GetSma(10);
 
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < ql.Count; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.Add(ql[i]);
         }
 
         provider.EndTransmission();
