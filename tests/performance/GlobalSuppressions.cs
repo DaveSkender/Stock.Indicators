@@ -16,10 +16,3 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Required for BenchmarkDotNet",
     Scope = "member",
     Target = "~F:Tests.Performance.InternalsPerformance.Periods")]
-
-[assembly: SuppressMessage(
-    "StyleCop.CSharp.SpacingRules",
-    "SA1005:Single line comments should begin with single space",
-    Justification = "I like to comment out performance tests not normally used.",
-    Scope = "member",
-    Target = "~M:Tests.Performance.IndicatorPerformance.GetEpma~System.Object")]
