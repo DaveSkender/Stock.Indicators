@@ -3,7 +3,7 @@
 # Local dev: bundle exec jekyll serve --livereload
 
 title: Stock Indicators for .NET
-tagline: "Send in price quotes and get back technical indicators.  Nothing more."
+tagline: "Transform price quotes into trading insights."
 locale: en_US
 
 # social media information
