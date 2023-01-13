@@ -6,6 +6,9 @@ title: Stock Indicators for .NET
 tagline: "Transform price quotes into trading insights."
 locale: en_US
 
+seo:
+  type: SoftwareApplication
+
 # social media information
 image:
   path: /assets/social-banner.png
