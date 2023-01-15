@@ -54,10 +54,12 @@ steps:
         --configuration $(BuildConfiguration)
         --no-restore
         --no-build
+        --logger trx
         --collect "Code coverage"
       publishTestResults: true
 
   - task: PublishTestResults@2
+    displayName: "publish code coverage"
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
