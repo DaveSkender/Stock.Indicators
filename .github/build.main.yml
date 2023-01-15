@@ -6,7 +6,7 @@ pr:
 
 pool:
   name: Azure Pipelines
-  vmImage: "ubuntu-latest"
+  vmImage: "windows-latest"
 
 workspace:
   clean: all
@@ -54,7 +54,7 @@ steps:
         --configuration $(BuildConfiguration)
         --no-restore
         --no-build
-        --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+        --collect "Code coverage"
       publishTestResults: true
 
   - task: DotNetCoreCLI@2
@@ -69,12 +69,6 @@ steps:
         --no-build
         /p:CollectCoverage=false
       publishTestResults: true
-
-  - task: PublishCodeCoverageResults@1
-    displayName: "publish code coverage"
-    inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: "$(Agent.TempDirectory)/**/coverage.cobertura.xml"
 
   - task: DotNetCoreCLI@2
     displayName: "pack for NuGet"
