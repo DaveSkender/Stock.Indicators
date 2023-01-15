@@ -13,7 +13,6 @@ public class Program
 {
     public static void Main()
     {
-
         // fetch historical quotes from data provider
         IEnumerable<Quote> quotes = GetHistoryFromFeed();
 
@@ -24,8 +23,8 @@ public class Program
         Console.WriteLine("SMA Results ---------------------------");
 
         foreach (SmaResult r in results.TakeLast(10))
-        // only showing last 10 records for brevity
         {
+            // only showing last 10 records for brevity
             Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}");
         }
 
@@ -68,7 +67,7 @@ public class Program
             bool isBullish = (double)q.Close > r.Sma;
 
             Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}"
-                            + $" and Bullishness is {isBullish}");
+                              + $" and Bullishness is {isBullish}");
         }
     }
 
