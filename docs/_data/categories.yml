@@ -9,8 +9,8 @@
 - name: Candlestick patterns
   type: candlestick-pattern
   subcategories:
-  - name: Other price patterns
-    type: price-pattern
+    - name: Other price patterns
+      type: price-pattern
 - name: Volume-based
   type: volume-based
 - name: Moving averages
@@ -20,8 +20,8 @@
 - name: Price characteristics
   type: price-characteristic
   subcategories:
-  - name: Numerical analysis
-    type: numerical-analysis
+    - name: Numerical analysis
+      type: numerical-analysis
 
 
 
