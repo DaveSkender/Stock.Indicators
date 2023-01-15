@@ -57,6 +57,11 @@ steps:
         --collect "Code coverage"
       publishTestResults: true
 
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+
   - task: DotNetCoreCLI@2
     displayName: "test external/other"
     inputs:
