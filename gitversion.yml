@@ -8,4 +8,4 @@ no-bump-message: '\+semver:\s?(none|skip)'
 
 branches:
   pull-request:
-    tag: preview
+    tag: preview.
