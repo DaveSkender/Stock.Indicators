@@ -88,3 +88,5 @@ Special thanks to all of our community code contributors!
   </li>
 {% endfor %}
 </ul>
+
+&#187; see our [full list of indicators and overlays]({{site.baseurl}}/indicators/#content)
