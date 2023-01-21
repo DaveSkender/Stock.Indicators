@@ -5,7 +5,7 @@
     Marubozu is a single candlestick pattern that has no wicks, representing consistent directional movement.
     <para>
       See
-      <see href="https://dotnet.StockIndicators.dev/indicators/Patterns/Marubozu/#content?utm_source=library&utm_medium=inline-help&utm_campaign=embedded">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Patterns/Marubozu/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
       for more information.
     </para>
   </summary>
