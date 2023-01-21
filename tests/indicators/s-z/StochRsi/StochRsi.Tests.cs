@@ -27,20 +27,20 @@ public class StochRsi : TestBase
 
         // sample values
         StochRsiResult r1 = results[31];
-        Assert.AreEqual(93.3333, NullMath.Round(r1.StochRsi, 4));
-        Assert.AreEqual(97.7778, NullMath.Round(r1.Signal, 4));
+        Assert.AreEqual(93.3333, r1.StochRsi.Round(4));
+        Assert.AreEqual(97.7778, r1.Signal.Round(4));
 
         StochRsiResult r2 = results[152];
         Assert.AreEqual(0, r2.StochRsi);
         Assert.AreEqual(0, r2.Signal);
 
         StochRsiResult r3 = results[249];
-        Assert.AreEqual(36.5517, NullMath.Round(r3.StochRsi, 4));
-        Assert.AreEqual(27.3094, NullMath.Round(r3.Signal, 4));
+        Assert.AreEqual(36.5517, r3.StochRsi.Round(4));
+        Assert.AreEqual(27.3094, r3.Signal.Round(4));
 
         StochRsiResult r4 = results[501];
-        Assert.AreEqual(97.5244, NullMath.Round(r4.StochRsi, 4));
-        Assert.AreEqual(89.8385, NullMath.Round(r4.Signal, 4));
+        Assert.AreEqual(97.5244, r4.StochRsi.Round(4));
+        Assert.AreEqual(89.8385, r4.Signal.Round(4));
     }
 
     [TestMethod]
@@ -64,20 +64,20 @@ public class StochRsi : TestBase
 
         // sample values
         StochRsiResult r1 = results[31];
-        Assert.AreEqual(97.7778, NullMath.Round(r1.StochRsi, 4));
-        Assert.AreEqual(99.2593, NullMath.Round(r1.Signal, 4));
+        Assert.AreEqual(97.7778, r1.StochRsi.Round(4));
+        Assert.AreEqual(99.2593, r1.Signal.Round(4));
 
         StochRsiResult r2 = results[152];
         Assert.AreEqual(0, r2.StochRsi);
-        Assert.AreEqual(20.0263, NullMath.Round(r2.Signal, 4));
+        Assert.AreEqual(20.0263, r2.Signal.Round(4));
 
         StochRsiResult r3 = results[249];
-        Assert.AreEqual(27.3094, NullMath.Round(r3.StochRsi, 4));
-        Assert.AreEqual(33.2716, NullMath.Round(r3.Signal, 4));
+        Assert.AreEqual(27.3094, r3.StochRsi.Round(4));
+        Assert.AreEqual(33.2716, r3.Signal.Round(4));
 
         StochRsiResult r4 = results[501];
-        Assert.AreEqual(89.8385, NullMath.Round(r4.StochRsi, 4));
-        Assert.AreEqual(73.4176, NullMath.Round(r4.Signal, 4));
+        Assert.AreEqual(89.8385, r4.StochRsi.Round(4));
+        Assert.AreEqual(73.4176, r4.Signal.Round(4));
     }
 
     [TestMethod]
@@ -173,8 +173,8 @@ public class StochRsi : TestBase
         Assert.AreEqual(502 - removeQty, results.Count);
 
         StochRsiResult last = results.LastOrDefault();
-        Assert.AreEqual(89.8385, NullMath.Round(last.StochRsi, 4));
-        Assert.AreEqual(73.4176, NullMath.Round(last.Signal, 4));
+        Assert.AreEqual(89.8385, last.StochRsi.Round(4));
+        Assert.AreEqual(73.4176, last.Signal.Round(4));
     }
 
     [TestMethod]

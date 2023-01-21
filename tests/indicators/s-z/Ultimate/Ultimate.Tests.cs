@@ -19,13 +19,13 @@ public class Ultimate : TestBase
 
         // sample values
         UltimateResult r1 = results[74];
-        Assert.AreEqual(51.7770, NullMath.Round(r1.Ultimate, 4));
+        Assert.AreEqual(51.7770, r1.Ultimate.Round(4));
 
         UltimateResult r2 = results[249];
-        Assert.AreEqual(45.3121, NullMath.Round(r2.Ultimate, 4));
+        Assert.AreEqual(45.3121, r2.Ultimate.Round(4));
 
         UltimateResult r3 = results[501];
-        Assert.AreEqual(49.5257, NullMath.Round(r3.Ultimate, 4));
+        Assert.AreEqual(49.5257, r3.Ultimate.Round(4));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class Ultimate : TestBase
         Assert.AreEqual(502 - 28, results.Count);
 
         UltimateResult last = results.LastOrDefault();
-        Assert.AreEqual(49.5257, NullMath.Round(last.Ultimate, 4));
+        Assert.AreEqual(49.5257, last.Ultimate.Round(4));
     }
 
     [TestMethod]

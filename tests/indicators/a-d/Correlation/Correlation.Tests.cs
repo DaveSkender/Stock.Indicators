@@ -24,16 +24,16 @@ public class Correlation : TestBase
         Assert.IsNull(r18.RSquared);
 
         CorrResult r19 = results[19];
-        Assert.AreEqual(0.6933, NullMath.Round(r19.Correlation, 4));
-        Assert.AreEqual(0.4806, NullMath.Round(r19.RSquared, 4));
+        Assert.AreEqual(0.6933, r19.Correlation.Round(4));
+        Assert.AreEqual(0.4806, r19.RSquared.Round(4));
 
         CorrResult r257 = results[257];
-        Assert.AreEqual(-0.1347, NullMath.Round(r257.Correlation, 4));
-        Assert.AreEqual(0.0181, NullMath.Round(r257.RSquared, 4));
+        Assert.AreEqual(-0.1347, r257.Correlation.Round(4));
+        Assert.AreEqual(0.0181, r257.RSquared.Round(4));
 
         CorrResult r501 = results[501];
-        Assert.AreEqual(0.8460, NullMath.Round(r501.Correlation, 4));
-        Assert.AreEqual(0.7157, NullMath.Round(r501.RSquared, 4));
+        Assert.AreEqual(0.8460, r501.Correlation.Round(4));
+        Assert.AreEqual(0.7157, r501.RSquared.Round(4));
     }
 
     [TestMethod]
@@ -133,8 +133,8 @@ public class Correlation : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         CorrResult last = results.LastOrDefault();
-        Assert.AreEqual(0.8460, NullMath.Round(last.Correlation, 4));
-        Assert.AreEqual(0.7157, NullMath.Round(last.RSquared, 4));
+        Assert.AreEqual(0.8460, last.Correlation.Round(4));
+        Assert.AreEqual(0.7157, last.RSquared.Round(4));
     }
 
     [TestMethod]

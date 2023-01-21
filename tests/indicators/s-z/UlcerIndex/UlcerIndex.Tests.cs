@@ -19,7 +19,7 @@ public class UlcerIndex : TestBase
 
         // sample value
         UlcerIndexResult r = results[501];
-        Assert.AreEqual(5.7255, NullMath.Round(r.UI, 4));
+        Assert.AreEqual(5.7255, r.UI.Round(4));
     }
 
     [TestMethod]
@@ -108,7 +108,7 @@ public class UlcerIndex : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         UlcerIndexResult last = results.LastOrDefault();
-        Assert.AreEqual(5.7255, NullMath.Round(last.UI, 4));
+        Assert.AreEqual(5.7255, last.UI.Round(4));
     }
 
     // bad lookback period

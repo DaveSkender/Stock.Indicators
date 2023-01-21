@@ -19,29 +19,29 @@ public class Atr : TestBase
 
         // sample values
         AtrResult r13 = results[13];
-        Assert.AreEqual(1.45, NullMath.Round(r13.Tr, 8));
+        Assert.AreEqual(1.45, r13.Tr.Round(8));
         Assert.AreEqual(null, r13.Atr);
         Assert.AreEqual(null, r13.Atrp);
 
         AtrResult r14 = results[14];
-        Assert.AreEqual(1.82, NullMath.Round(r14.Tr, 8));
-        Assert.AreEqual(1.3364, NullMath.Round(r14.Atr, 4));
-        Assert.AreEqual(0.6215, NullMath.Round(r14.Atrp, 4));
+        Assert.AreEqual(1.82, r14.Tr.Round(8));
+        Assert.AreEqual(1.3364, r14.Atr.Round(4));
+        Assert.AreEqual(0.6215, r14.Atrp.Round(4));
 
         AtrResult r24 = results[24];
-        Assert.AreEqual(0.88, NullMath.Round(r24.Tr, 8));
-        Assert.AreEqual(1.3034, NullMath.Round(r24.Atr, 4));
-        Assert.AreEqual(0.6026, NullMath.Round(r24.Atrp, 4));
+        Assert.AreEqual(0.88, r24.Tr.Round(8));
+        Assert.AreEqual(1.3034, r24.Atr.Round(4));
+        Assert.AreEqual(0.6026, r24.Atrp.Round(4));
 
         AtrResult r249 = results[249];
-        Assert.AreEqual(0.58, NullMath.Round(r249.Tr, 8));
-        Assert.AreEqual(1.3381, NullMath.Round(r249.Atr, 4));
-        Assert.AreEqual(0.5187, NullMath.Round(r249.Atrp, 4));
+        Assert.AreEqual(0.58, r249.Tr.Round(8));
+        Assert.AreEqual(1.3381, r249.Atr.Round(4));
+        Assert.AreEqual(0.5187, r249.Atrp.Round(4));
 
         AtrResult r501 = results[501];
-        Assert.AreEqual(2.67, NullMath.Round(r501.Tr, 8));
-        Assert.AreEqual(6.1497, NullMath.Round(r501.Atr, 4));
-        Assert.AreEqual(2.5072, NullMath.Round(r501.Atrp, 4));
+        Assert.AreEqual(2.67, r501.Tr.Round(8));
+        Assert.AreEqual(6.1497, r501.Atr.Round(4));
+        Assert.AreEqual(2.5072, r501.Atrp.Round(4));
     }
 
     [TestMethod]
@@ -95,9 +95,9 @@ public class Atr : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         AtrResult last = results.LastOrDefault();
-        Assert.AreEqual(2.67, NullMath.Round(last.Tr, 8));
-        Assert.AreEqual(6.1497, NullMath.Round(last.Atr, 4));
-        Assert.AreEqual(2.5072, NullMath.Round(last.Atrp, 4));
+        Assert.AreEqual(2.67, last.Tr.Round(8));
+        Assert.AreEqual(6.1497, last.Atr.Round(4));
+        Assert.AreEqual(2.5072, last.Atrp.Round(4));
     }
 
     // bad lookback period

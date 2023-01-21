@@ -24,18 +24,18 @@ public class ConnorsRsi : TestBase
 
         // sample value
         ConnorsRsiResult r1 = results1[501];
-        Assert.AreEqual(68.8087, NullMath.Round(r1.Rsi, 4));
-        Assert.AreEqual(67.4899, NullMath.Round(r1.RsiStreak, 4));
-        Assert.AreEqual(88.0000, NullMath.Round(r1.PercentRank, 4));
-        Assert.AreEqual(74.7662, NullMath.Round(r1.ConnorsRsi, 4));
+        Assert.AreEqual(68.8087, r1.Rsi.Round(4));
+        Assert.AreEqual(67.4899, r1.RsiStreak.Round(4));
+        Assert.AreEqual(88.0000, r1.PercentRank.Round(4));
+        Assert.AreEqual(74.7662, r1.ConnorsRsi.Round(4));
 
         // different parameters
         List<ConnorsRsiResult> results2 = quotes.GetConnorsRsi(14, 20, 10).ToList();
         ConnorsRsiResult r2 = results2[501];
-        Assert.AreEqual(42.0773, NullMath.Round(r2.Rsi, 4));
-        Assert.AreEqual(52.7386, NullMath.Round(r2.RsiStreak, 4));
-        Assert.AreEqual(90.0000, NullMath.Round(r2.PercentRank, 4));
-        Assert.AreEqual(61.6053, NullMath.Round(r2.ConnorsRsi, 4));
+        Assert.AreEqual(42.0773, r2.Rsi.Round(4));
+        Assert.AreEqual(52.7386, r2.RsiStreak.Round(4));
+        Assert.AreEqual(90.0000, r2.PercentRank.Round(4));
+        Assert.AreEqual(61.6053, r2.ConnorsRsi.Round(4));
     }
 
     [TestMethod]
@@ -131,10 +131,10 @@ public class ConnorsRsi : TestBase
         Assert.AreEqual(502 - removePeriods + 1, results.Count);
 
         ConnorsRsiResult last = results.LastOrDefault();
-        Assert.AreEqual(68.8087, NullMath.Round(last.Rsi, 4));
-        Assert.AreEqual(67.4899, NullMath.Round(last.RsiStreak, 4));
-        Assert.AreEqual(88.0000, NullMath.Round(last.PercentRank, 4));
-        Assert.AreEqual(74.7662, NullMath.Round(last.ConnorsRsi, 4));
+        Assert.AreEqual(68.8087, last.Rsi.Round(4));
+        Assert.AreEqual(67.4899, last.RsiStreak.Round(4));
+        Assert.AreEqual(88.0000, last.PercentRank.Round(4));
+        Assert.AreEqual(74.7662, last.ConnorsRsi.Round(4));
     }
 
     [TestMethod]

@@ -18,10 +18,10 @@ public class HeikinAshi : TestBase
 
         // sample value
         HeikinAshiResult r = results[501];
-        Assert.AreEqual(241.3018m, NullMath.Round(r.Open, 4));
-        Assert.AreEqual(245.54m, NullMath.Round(r.High, 4));
-        Assert.AreEqual(241.3018m, NullMath.Round(r.Low, 4));
-        Assert.AreEqual(244.6525m, NullMath.Round(r.Close, 4));
+        Assert.AreEqual(241.3018m, r.Open.Round(4));
+        Assert.AreEqual(245.54m, r.High.Round(4));
+        Assert.AreEqual(241.3018m, r.Low.Round(4));
+        Assert.AreEqual(244.6525m, r.Close.Round(4));
         Assert.AreEqual(147031456m, r.Volume);
     }
 

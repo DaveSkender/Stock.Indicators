@@ -19,16 +19,16 @@ public class Dema : TestBase
 
         // sample values
         DemaResult r25 = results[25];
-        Assert.AreEqual(215.7605, NullMath.Round(r25.Dema, 4));
+        Assert.AreEqual(215.7605, r25.Dema.Round(4));
 
         DemaResult r51 = results[51];
-        Assert.AreEqual(225.8259, NullMath.Round(r51.Dema, 4));
+        Assert.AreEqual(225.8259, r51.Dema.Round(4));
 
         DemaResult r249 = results[249];
-        Assert.AreEqual(258.4452, NullMath.Round(r249.Dema, 4));
+        Assert.AreEqual(258.4452, r249.Dema.Round(4));
 
         DemaResult r251 = results[501];
-        Assert.AreEqual(241.1677, NullMath.Round(r251.Dema, 4));
+        Assert.AreEqual(241.1677, r251.Dema.Round(4));
     }
 
     [TestMethod]
@@ -117,7 +117,7 @@ public class Dema : TestBase
         Assert.AreEqual(502 - (40 + 100), results.Count);
 
         DemaResult last = results.LastOrDefault();
-        Assert.AreEqual(241.1677, NullMath.Round(last.Dema, 4));
+        Assert.AreEqual(241.1677, last.Dema.Round(4));
     }
 
     // bad lookback period

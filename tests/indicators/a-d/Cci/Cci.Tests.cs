@@ -19,7 +19,7 @@ public class Cci : TestBase
 
         // sample value
         CciResult r = results[501];
-        Assert.AreEqual(-52.9946, NullMath.Round(r.Cci, 4));
+        Assert.AreEqual(-52.9946, r.Cci.Round(4));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Cci : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         CciResult last = results.LastOrDefault();
-        Assert.AreEqual(-52.9946, NullMath.Round(last.Cci, 4));
+        Assert.AreEqual(-52.9946, last.Cci.Round(4));
     }
 
     // bad lookback period

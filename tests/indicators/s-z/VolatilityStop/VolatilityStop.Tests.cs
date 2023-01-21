@@ -25,42 +25,42 @@ public class VolatilityStop : TestBase
         Assert.IsNull(r53.UpperBand);
 
         VolatilityStopResult r54 = results[54];
-        Assert.AreEqual(226.2118, NullMath.Round(r54.Sar, 4));
+        Assert.AreEqual(226.2118, r54.Sar.Round(4));
         Assert.AreEqual(false, r54.IsStop);
-        Assert.AreEqual(226.2118, NullMath.Round(r54.UpperBand, 4));
+        Assert.AreEqual(226.2118, r54.UpperBand.Round(4));
         Assert.IsNull(r54.LowerBand);
 
         VolatilityStopResult r55 = results[55];
-        Assert.AreEqual(226.2124, NullMath.Round(r55.Sar, 4));
+        Assert.AreEqual(226.2124, r55.Sar.Round(4));
         Assert.AreEqual(false, r55.IsStop);
-        Assert.AreEqual(226.2124, NullMath.Round(r55.UpperBand, 4));
+        Assert.AreEqual(226.2124, r55.UpperBand.Round(4));
         Assert.IsNull(r55.LowerBand);
 
         VolatilityStopResult r168 = results[168];
         Assert.IsTrue(r168.IsStop);
 
         VolatilityStopResult r282 = results[282];
-        Assert.AreEqual(261.8687, NullMath.Round(r282.Sar, 4));
+        Assert.AreEqual(261.8687, r282.Sar.Round(4));
         Assert.AreEqual(true, r282.IsStop);
-        Assert.AreEqual(261.8687, NullMath.Round(r282.UpperBand, 4));
+        Assert.AreEqual(261.8687, r282.UpperBand.Round(4));
         Assert.IsNull(r282.LowerBand);
 
         VolatilityStopResult r283 = results[283];
-        Assert.AreEqual(249.3219, NullMath.Round(r283.Sar, 4));
+        Assert.AreEqual(249.3219, r283.Sar.Round(4));
         Assert.AreEqual(false, r283.IsStop);
-        Assert.AreEqual(249.3219, NullMath.Round(r283.LowerBand, 4));
+        Assert.AreEqual(249.3219, r283.LowerBand.Round(4));
         Assert.IsNull(r283.UpperBand);
 
         VolatilityStopResult r284 = results[284];
-        Assert.AreEqual(249.7460, NullMath.Round(r284.Sar, 4));
+        Assert.AreEqual(249.7460, r284.Sar.Round(4));
         Assert.AreEqual(false, r284.IsStop);
-        Assert.AreEqual(249.7460, NullMath.Round(r284.LowerBand, 4));
+        Assert.AreEqual(249.7460, r284.LowerBand.Round(4));
         Assert.IsNull(r284.UpperBand);
 
         VolatilityStopResult last = results.LastOrDefault();
-        Assert.AreEqual(249.2423, NullMath.Round(last.Sar, 4));
+        Assert.AreEqual(249.2423, last.Sar.Round(4));
         Assert.AreEqual(false, last.IsStop);
-        Assert.AreEqual(249.2423, NullMath.Round(last.UpperBand, 4));
+        Assert.AreEqual(249.2423, last.UpperBand.Round(4));
         Assert.IsNull(last.LowerBand);
     }
 
@@ -115,7 +115,7 @@ public class VolatilityStop : TestBase
         Assert.AreEqual(402, results.Count);
 
         VolatilityStopResult last = results.LastOrDefault();
-        Assert.AreEqual(249.2423, NullMath.Round(last.Sar, 4));
+        Assert.AreEqual(249.2423, last.Sar.Round(4));
         Assert.AreEqual(false, last.IsStop);
     }
 

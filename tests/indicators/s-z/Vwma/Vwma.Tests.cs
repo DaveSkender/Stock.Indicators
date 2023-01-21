@@ -21,11 +21,11 @@ public class Vwma : TestBase
         VwmaResult r8 = results[8];
         Assert.IsNull(r8.Vwma);
 
-        Assert.AreEqual(213.981942, NullMath.Round(results[9].Vwma, 6));
-        Assert.AreEqual(215.899211, NullMath.Round(results[24].Vwma, 6));
-        Assert.AreEqual(226.302760, NullMath.Round(results[99].Vwma, 6));
-        Assert.AreEqual(257.053654, NullMath.Round(results[249].Vwma, 6));
-        Assert.AreEqual(242.101548, NullMath.Round(results[501].Vwma, 6));
+        Assert.AreEqual(213.981942, results[9].Vwma.Round(6));
+        Assert.AreEqual(215.899211, results[24].Vwma.Round(6));
+        Assert.AreEqual(226.302760, results[99].Vwma.Round(6));
+        Assert.AreEqual(257.053654, results[249].Vwma.Round(6));
+        Assert.AreEqual(242.101548, results[501].Vwma.Round(6));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class Vwma : TestBase
         Assert.AreEqual(502 - 9, results.Count);
 
         VwmaResult last = results.LastOrDefault();
-        Assert.AreEqual(242.101548, NullMath.Round(last.Vwma, 6));
+        Assert.AreEqual(242.101548, last.Vwma.Round(6));
     }
 
     // bad lookback period

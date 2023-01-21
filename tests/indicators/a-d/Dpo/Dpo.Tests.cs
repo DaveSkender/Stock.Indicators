@@ -49,8 +49,8 @@ public class Dpo : TestBase
             DpoResult a = act[i];
 
             Assert.AreEqual(e.Date, a.Date);
-            Assert.AreEqual(e.Sma, NullMath.Round(a.Sma, 5), $"at index {i}");
-            Assert.AreEqual(e.Dpo, NullMath.Round(a.Dpo, 5), $"at index {i}");
+            Assert.AreEqual(e.Sma, a.Sma.Round(5), $"at index {i}");
+            Assert.AreEqual(e.Dpo, a.Dpo.Round(5), $"at index {i}");
         }
     }
 

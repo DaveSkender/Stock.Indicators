@@ -22,13 +22,13 @@ public class Rsi : TestBase
         Assert.AreEqual(null, r1.Rsi);
 
         RsiResult r2 = results[14];
-        Assert.AreEqual(62.0541, NullMath.Round(r2.Rsi, 4));
+        Assert.AreEqual(62.0541, r2.Rsi.Round(4));
 
         RsiResult r3 = results[249];
-        Assert.AreEqual(70.9368, NullMath.Round(r3.Rsi, 4));
+        Assert.AreEqual(70.9368, r3.Rsi.Round(4));
 
         RsiResult r4 = results[501];
-        Assert.AreEqual(42.0773, NullMath.Round(r4.Rsi, 4));
+        Assert.AreEqual(42.0773, r4.Rsi.Round(4));
     }
 
     [TestMethod]
@@ -158,7 +158,7 @@ public class Rsi : TestBase
         Assert.AreEqual(502 - (10 * 14), results.Count);
 
         RsiResult last = results.LastOrDefault();
-        Assert.AreEqual(42.0773, NullMath.Round(last.Rsi, 4));
+        Assert.AreEqual(42.0773, last.Rsi.Round(4));
     }
 
     // bad lookback period

@@ -26,19 +26,19 @@ public class Alma : TestBase
         Assert.AreEqual(null, r1.Alma);
 
         AlmaResult r2 = results[9];
-        Assert.AreEqual(214.1839, NullMath.Round(r2.Alma, 4));
+        Assert.AreEqual(214.1839, r2.Alma.Round(4));
 
         AlmaResult r3 = results[24];
-        Assert.AreEqual(216.0619, NullMath.Round(r3.Alma, 4));
+        Assert.AreEqual(216.0619, r3.Alma.Round(4));
 
         AlmaResult r4 = results[149];
-        Assert.AreEqual(235.8609, NullMath.Round(r4.Alma, 4));
+        Assert.AreEqual(235.8609, r4.Alma.Round(4));
 
         AlmaResult r5 = results[249];
-        Assert.AreEqual(257.5787, NullMath.Round(r5.Alma, 4));
+        Assert.AreEqual(257.5787, r5.Alma.Round(4));
 
         AlmaResult r6 = results[501];
-        Assert.AreEqual(242.1871, NullMath.Round(r6.Alma, 4));
+        Assert.AreEqual(242.1871, r6.Alma.Round(4));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class Alma : TestBase
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
 
         AlmaResult last = results.LastOrDefault();
-        Assert.AreEqual(242.1871, NullMath.Round(last.Alma, 4));
+        Assert.AreEqual(242.1871, last.Alma.Round(4));
     }
 
     [TestMethod]
@@ -146,7 +146,7 @@ public class Alma : TestBase
         Assert.AreEqual(502 - 9, results.Count);
 
         AlmaResult last = results.LastOrDefault();
-        Assert.AreEqual(242.1871, NullMath.Round(last.Alma, 4));
+        Assert.AreEqual(242.1871, last.Alma.Round(4));
     }
 
     [TestMethod]

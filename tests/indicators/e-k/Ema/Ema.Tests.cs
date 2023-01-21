@@ -19,13 +19,13 @@ public class EmaTests : TestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.6228, NullMath.Round(r29.Ema, 4));
+        Assert.AreEqual(216.6228, r29.Ema.Round(4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.3873, NullMath.Round(r249.Ema, 4));
+        Assert.AreEqual(255.3873, r249.Ema.Round(4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.3519, NullMath.Round(r501.Ema, 4));
+        Assert.AreEqual(249.3519, r501.Ema.Round(4));
     }
 
     [TestMethod]
@@ -129,13 +129,13 @@ public class EmaTests : TestBase
         Assert.IsNull(r32.Ema);
 
         EmaResult r33 = results[33];
-        Assert.AreEqual(67.4565, NullMath.Round(r33.Ema, 4));
+        Assert.AreEqual(67.4565, r33.Ema.Round(4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(70.4659, NullMath.Round(r249.Ema, 4));
+        Assert.AreEqual(70.4659, r249.Ema.Round(4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(37.0728, NullMath.Round(r501.Ema, 4));
+        Assert.AreEqual(37.0728, r501.Ema.Round(4));
     }
 
     [TestMethod]
@@ -152,13 +152,13 @@ public class EmaTests : TestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.2643, NullMath.Round(r29.Ema, 4));
+        Assert.AreEqual(216.2643, r29.Ema.Round(4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.4875, NullMath.Round(r249.Ema, 4));
+        Assert.AreEqual(255.4875, r249.Ema.Round(4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.9157, NullMath.Round(r501.Ema, 4));
+        Assert.AreEqual(249.9157, r501.Ema.Round(4));
     }
 
     [TestMethod]
@@ -200,7 +200,7 @@ public class EmaTests : TestBase
         Assert.AreEqual(502 - (20 + 100), results.Count);
 
         EmaResult last = results.LastOrDefault();
-        Assert.AreEqual(249.3519, NullMath.Round(last.Ema, 4));
+        Assert.AreEqual(249.3519, last.Ema.Round(4));
     }
 
     [TestMethod]

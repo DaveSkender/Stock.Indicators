@@ -24,20 +24,20 @@ public class BollingerBands : TestBase
 
         // sample values
         BollingerBandsResult r1 = results[249];
-        Assert.AreEqual(255.5500, NullMath.Round(r1.Sma, 4));
-        Assert.AreEqual(259.5642, NullMath.Round(r1.UpperBand, 4));
-        Assert.AreEqual(251.5358, NullMath.Round(r1.LowerBand, 4));
-        Assert.AreEqual(0.803923, NullMath.Round(r1.PercentB, 6));
-        Assert.AreEqual(1.215692, NullMath.Round(r1.ZScore, 6));
-        Assert.AreEqual(0.031416, NullMath.Round(r1.Width, 6));
+        Assert.AreEqual(255.5500, r1.Sma.Round(4));
+        Assert.AreEqual(259.5642, r1.UpperBand.Round(4));
+        Assert.AreEqual(251.5358, r1.LowerBand.Round(4));
+        Assert.AreEqual(0.803923, r1.PercentB.Round(6));
+        Assert.AreEqual(1.215692, r1.ZScore.Round(6));
+        Assert.AreEqual(0.031416, r1.Width.Round(6));
 
         BollingerBandsResult r2 = results[501];
-        Assert.AreEqual(251.8600, NullMath.Round(r2.Sma, 4));
-        Assert.AreEqual(273.7004, NullMath.Round(r2.UpperBand, 4));
-        Assert.AreEqual(230.0196, NullMath.Round(r2.LowerBand, 4));
-        Assert.AreEqual(0.349362, NullMath.Round(r2.PercentB, 6));
-        Assert.AreEqual(-0.602552, NullMath.Round(r2.ZScore, 6));
-        Assert.AreEqual(0.173433, NullMath.Round(r2.Width, 6));
+        Assert.AreEqual(251.8600, r2.Sma.Round(4));
+        Assert.AreEqual(273.7004, r2.UpperBand.Round(4));
+        Assert.AreEqual(230.0196, r2.LowerBand.Round(4));
+        Assert.AreEqual(0.349362, r2.PercentB.Round(6));
+        Assert.AreEqual(-0.602552, r2.ZScore.Round(6));
+        Assert.AreEqual(0.173433, r2.Width.Round(6));
     }
 
     [TestMethod]
@@ -126,12 +126,12 @@ public class BollingerBands : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         BollingerBandsResult last = results.LastOrDefault();
-        Assert.AreEqual(251.8600, NullMath.Round(last.Sma, 4));
-        Assert.AreEqual(273.7004, NullMath.Round(last.UpperBand, 4));
-        Assert.AreEqual(230.0196, NullMath.Round(last.LowerBand, 4));
-        Assert.AreEqual(0.349362, NullMath.Round(last.PercentB, 6));
-        Assert.AreEqual(-0.602552, NullMath.Round(last.ZScore, 6));
-        Assert.AreEqual(0.173433, NullMath.Round(last.Width, 6));
+        Assert.AreEqual(251.8600, last.Sma.Round(4));
+        Assert.AreEqual(273.7004, last.UpperBand.Round(4));
+        Assert.AreEqual(230.0196, last.LowerBand.Round(4));
+        Assert.AreEqual(0.349362, last.PercentB.Round(6));
+        Assert.AreEqual(-0.602552, last.ZScore.Round(6));
+        Assert.AreEqual(0.173433, last.Width.Round(6));
     }
 
     [TestMethod]

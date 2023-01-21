@@ -30,24 +30,24 @@ public class Mama : TestBase
         Assert.AreEqual(213.73, r2.Fama);
 
         MamaResult r3 = results[6];
-        Assert.AreEqual(213.7850, NullMath.Round(r3.Mama, 4));
-        Assert.AreEqual(213.7438, NullMath.Round(r3.Fama, 4));
+        Assert.AreEqual(213.7850, r3.Mama.Round(4));
+        Assert.AreEqual(213.7438, r3.Fama.Round(4));
 
         MamaResult r4 = results[25];
-        Assert.AreEqual(215.9524, NullMath.Round(r4.Mama, 4));
-        Assert.AreEqual(215.1407, NullMath.Round(r4.Fama, 4));
+        Assert.AreEqual(215.9524, r4.Mama.Round(4));
+        Assert.AreEqual(215.1407, r4.Fama.Round(4));
 
         MamaResult r5 = results[149];
-        Assert.AreEqual(235.6593, NullMath.Round(r5.Mama, 4));
-        Assert.AreEqual(234.3660, NullMath.Round(r5.Fama, 4));
+        Assert.AreEqual(235.6593, r5.Mama.Round(4));
+        Assert.AreEqual(234.3660, r5.Fama.Round(4));
 
         MamaResult r6 = results[249];
-        Assert.AreEqual(256.8026, NullMath.Round(r6.Mama, 4));
-        Assert.AreEqual(254.0605, NullMath.Round(r6.Fama, 4));
+        Assert.AreEqual(256.8026, r6.Mama.Round(4));
+        Assert.AreEqual(254.0605, r6.Fama.Round(4));
 
         MamaResult r7 = results[501];
-        Assert.AreEqual(244.1092, NullMath.Round(r7.Mama, 4));
-        Assert.AreEqual(252.6139, NullMath.Round(r7.Fama, 4));
+        Assert.AreEqual(244.1092, r7.Mama.Round(4));
+        Assert.AreEqual(252.6139, r7.Fama.Round(4));
     }
 
     [TestMethod]
@@ -139,8 +139,8 @@ public class Mama : TestBase
         Assert.AreEqual(502 - 50, results.Count);
 
         MamaResult last = results.LastOrDefault();
-        Assert.AreEqual(244.1092, NullMath.Round(last.Mama, 4));
-        Assert.AreEqual(252.6139, NullMath.Round(last.Fama, 4));
+        Assert.AreEqual(244.1092, last.Mama.Round(4));
+        Assert.AreEqual(252.6139, last.Fama.Round(4));
     }
 
     [TestMethod]
