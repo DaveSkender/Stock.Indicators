@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Stoch : TestBase
+public class StochTests : TestBase
 {
     [TestMethod]
     public void Standard() // Slow

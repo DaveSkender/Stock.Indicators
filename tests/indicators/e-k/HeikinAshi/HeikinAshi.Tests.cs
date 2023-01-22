@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class HeikinAshi : TestBase
+public class HeikinAshiTests : TestBase
 {
     [TestMethod]
     public void Standard()

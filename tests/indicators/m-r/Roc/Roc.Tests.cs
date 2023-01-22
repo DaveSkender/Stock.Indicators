@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Roc : TestBase
+public class RocTests : TestBase
 {
     [TestMethod]
     public void Standard()

@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class StdDevChannels : TestBase
+public class StdDevChannelsTests : TestBase
 {
     [TestMethod]
     public void Standard()

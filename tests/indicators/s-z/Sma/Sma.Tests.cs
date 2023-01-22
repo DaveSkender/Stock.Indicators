@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Sma : TestBase
+public class SmaTests : TestBase
 {
     [TestMethod]
     public void Standard()

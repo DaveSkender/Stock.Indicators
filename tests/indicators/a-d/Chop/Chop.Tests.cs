@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Chop : TestBase
+public class ChopTests : TestBase
 {
     [TestMethod]
     public void Standard()

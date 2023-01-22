@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Macd : TestBase
+public class MacdTests : TestBase
 {
     [TestMethod]
     public void Standard()

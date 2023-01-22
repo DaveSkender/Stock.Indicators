@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Keltner : TestBase
+public class KeltnerTests : TestBase
 {
     [TestMethod]
     public void Standard()

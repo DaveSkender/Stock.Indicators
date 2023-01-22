@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class VolatilityStop : TestBase
+public class VolatilityStopTests : TestBase
 {
     [TestMethod]
     public void Standard()

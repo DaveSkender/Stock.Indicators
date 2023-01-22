@@ -6,7 +6,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class ZigZag : TestBase
+public class ZigZagTests : TestBase
 {
     [TestMethod]
     public void StandardClose()

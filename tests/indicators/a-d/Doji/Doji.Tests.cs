@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Doji : TestBase
+public class DojiTests : TestBase
 {
     [TestMethod]
     public void Standard()

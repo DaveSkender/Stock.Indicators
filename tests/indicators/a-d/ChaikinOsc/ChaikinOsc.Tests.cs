@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class ChaikinOsc : TestBase
+public class ChaikinOscTests : TestBase
 {
     [TestMethod]
     public void Standard()

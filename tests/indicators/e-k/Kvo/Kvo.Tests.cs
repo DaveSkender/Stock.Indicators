@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Klinger : TestBase
+public class KlingerTests : TestBase
 {
     [TestMethod]
     public void Standard()

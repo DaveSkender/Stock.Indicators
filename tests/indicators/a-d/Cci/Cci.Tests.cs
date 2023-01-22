@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Cci : TestBase
+public class CciTests : TestBase
 {
     [TestMethod]
     public void Standard()

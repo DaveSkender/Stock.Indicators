@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Epma : TestBase
+public class EpmaTests : TestBase
 {
     [TestMethod]
     public void Standard()

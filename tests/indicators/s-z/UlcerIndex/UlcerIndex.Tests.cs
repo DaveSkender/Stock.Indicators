@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class UlcerIndex : TestBase
+public class UlcerIndexTests : TestBase
 {
     [TestMethod]
     public void Standard()

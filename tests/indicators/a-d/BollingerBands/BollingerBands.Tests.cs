@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class BollingerBands : TestBase
+public class BollingerBandsTests : TestBase
 {
     [TestMethod]
     public void Standard()

@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Vwap : TestBase
+public class VwapTests : TestBase
 {
     private readonly IEnumerable<Quote> intraday = TestData.GetIntraday()
         .OrderBy(x => x.Date)

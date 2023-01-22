@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Kama : TestBase
+public class KamaTests : TestBase
 {
     [TestMethod]
     public void Standard()

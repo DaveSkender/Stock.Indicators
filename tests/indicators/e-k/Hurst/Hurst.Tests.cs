@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Hurst : TestBase
+public class HurstTests : TestBase
 {
     [TestMethod]
     public void StandardLong()

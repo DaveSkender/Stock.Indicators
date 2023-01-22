@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Marubozu : TestBase
+public class MarubozuTests : TestBase
 {
     [TestMethod]
     public void Standard()

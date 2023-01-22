@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class StarcBands : TestBase
+public class StarcBandsTests : TestBase
 {
     [TestMethod]
     public void Standard()

@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Alligator : TestBase
+public class AlligatorTests : TestBase
 {
     [TestMethod]
     public void Standard()

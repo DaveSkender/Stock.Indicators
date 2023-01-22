@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Renko : TestBase
+public class RenkoTests : TestBase
 {
     [TestMethod]
     public void StandardClose()

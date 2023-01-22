@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Chandeleir : TestBase
+public class ChandelierTests : TestBase
 {
     [TestMethod]
     public void Standard()

@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Correlation : TestBase
+public class CorrelationTests : TestBase
 {
     [TestMethod]
     public void Standard()

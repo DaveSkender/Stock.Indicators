@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Rsi : TestBase
+public class RsiTests : TestBase
 {
     [TestMethod]
     public void Standard()

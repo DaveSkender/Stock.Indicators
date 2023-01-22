@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class SuperTrend : TestBase
+public class SuperTrendTests : TestBase
 {
     [TestMethod]
     public void Standard()

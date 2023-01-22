@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Gator : TestBase
+public class GatorTests : TestBase
 {
     [TestMethod]
     public void Standard()

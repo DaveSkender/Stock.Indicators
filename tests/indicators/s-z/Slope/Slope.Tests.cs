@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Slope : TestBase
+public class SlopeTests : TestBase
 {
     [TestMethod]
     public void Standard()

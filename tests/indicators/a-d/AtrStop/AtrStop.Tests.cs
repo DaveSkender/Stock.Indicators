@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class AtrStop : TestBase
+public class AtrStopTests : TestBase
 {
     [TestMethod]
     public void Standard()

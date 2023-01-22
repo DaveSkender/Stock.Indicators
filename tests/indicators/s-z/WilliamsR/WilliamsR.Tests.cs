@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class WilliamsR : TestBase
+public class WilliamsRTests : TestBase
 {
     [TestMethod]
     public void Standard()

@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Awesome : TestBase
+public class AwesomeTests : TestBase
 {
     [TestMethod]
     public void Standard()

@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Adx : TestBase
+public class AdxTests : TestBase
 {
     [TestMethod]
     public void Standard()

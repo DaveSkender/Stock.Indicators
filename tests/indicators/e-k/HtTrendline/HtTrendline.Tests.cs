@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class HtTrendline : TestBase
+public class HtTrendlineTests : TestBase
 {
     [TestMethod]
     public void Standard()

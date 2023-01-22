@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class FisherTransform : TestBase
+public class FisherTransformTests : TestBase
 {
     [TestMethod]
     public void Standard()

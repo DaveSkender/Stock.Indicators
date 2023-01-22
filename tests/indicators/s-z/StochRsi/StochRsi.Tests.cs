@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class StochRsi : TestBase
+public class StochRsiTests : TestBase
 {
     [TestMethod]
     public void FastRsi()

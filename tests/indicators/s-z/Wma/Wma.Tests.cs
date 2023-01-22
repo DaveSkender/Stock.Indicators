@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Wma : TestBase
+public class WmaTests : TestBase
 {
     [TestMethod]
     public void Standard()

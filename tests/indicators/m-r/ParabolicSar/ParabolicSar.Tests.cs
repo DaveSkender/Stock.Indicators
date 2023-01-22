@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class ParabolicSar : TestBase
+public class ParabolicSarTests : TestBase
 {
     [TestMethod]
     public void Standard()

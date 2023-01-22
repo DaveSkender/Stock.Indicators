@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Cmf : TestBase
+public class CmfTests : TestBase
 {
     [TestMethod]
     public void Standard()

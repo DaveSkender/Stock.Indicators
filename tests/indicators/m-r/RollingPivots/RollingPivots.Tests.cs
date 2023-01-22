@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class RollingPivots : TestBase
+public class RollingPivotsTests : TestBase
 {
     [TestMethod]
     public void Standard()

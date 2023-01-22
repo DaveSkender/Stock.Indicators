@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Fractal : TestBase
+public class FractalTests : TestBase
 {
     [TestMethod]
     public void StandardSpan2()

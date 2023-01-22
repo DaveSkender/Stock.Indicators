@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Tsi : TestBase
+public class TsiTests : TestBase
 {
     [TestMethod]
     public void Standard()

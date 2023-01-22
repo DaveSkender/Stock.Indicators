@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Obv : TestBase
+public class ObvTests : TestBase
 {
     [TestMethod]
     public void Standard()

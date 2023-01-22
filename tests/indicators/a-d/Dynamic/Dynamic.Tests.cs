@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class McGinleyDynamic : TestBase
+public class McGinleyDynamicTests : TestBase
 {
     [TestMethod]
     public void Standard()

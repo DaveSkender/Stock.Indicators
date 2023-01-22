@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class ForceIndex : TestBase
+public class ForceIndexTests : TestBase
 {
     [TestMethod]
     public void Standard()

@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Mfi : TestBase
+public class MfiTests : TestBase
 {
     [TestMethod]
     public void Standard()

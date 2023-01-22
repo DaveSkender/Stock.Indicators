@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class MaEnvelopes : TestBase
+public class MaEnvelopesTests : TestBase
 {
     [TestMethod]
     public void Alma()

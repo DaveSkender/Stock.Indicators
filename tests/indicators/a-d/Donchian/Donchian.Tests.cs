@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class Donchian : TestBase
+public class DonchianTests : TestBase
 {
     [TestMethod]
     public void Standard()
