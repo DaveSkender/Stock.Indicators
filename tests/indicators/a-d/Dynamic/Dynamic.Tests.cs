@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class McGinleyDynamic : TestBase
+public class McGinleyDynamicTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,16 +20,16 @@ public class McGinleyDynamic : TestBase
 
         // sample values
         DynamicResult r1 = results[1];
-        Assert.AreEqual(212.9465, NullMath.Round(r1.Dynamic, 4));
+        Assert.AreEqual(212.9465, r1.Dynamic.Round(4));
 
         DynamicResult r25 = results[25];
-        Assert.AreEqual(215.4801, NullMath.Round(r25.Dynamic, 4));
+        Assert.AreEqual(215.4801, r25.Dynamic.Round(4));
 
         DynamicResult r250 = results[250];
-        Assert.AreEqual(256.0554, NullMath.Round(r250.Dynamic, 4));
+        Assert.AreEqual(256.0554, r250.Dynamic.Round(4));
 
         DynamicResult r501 = results[501];
-        Assert.AreEqual(245.7356, NullMath.Round(r501.Dynamic, 4));
+        Assert.AreEqual(245.7356, r501.Dynamic.Round(4));
     }
 
     [TestMethod]
@@ -110,11 +111,11 @@ public class McGinleyDynamic : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetDynamic(0));
 
         // bad k-factor
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetDynamic(14, 0));
     }
 }

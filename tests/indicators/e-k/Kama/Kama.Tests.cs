@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Kama : TestBase
+public class KamaTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -29,27 +30,27 @@ public class Kama : TestBase
 
         KamaResult r2 = results[9];
         Assert.AreEqual(null, r2.ER);
-        Assert.AreEqual(213.7500, NullMath.Round(r2.Kama, 4));
+        Assert.AreEqual(213.7500, r2.Kama.Round(4));
 
         KamaResult r3 = results[10];
-        Assert.AreEqual(0.2465, NullMath.Round(r3.ER, 4));
-        Assert.AreEqual(213.7713, NullMath.Round(r3.Kama, 4));
+        Assert.AreEqual(0.2465, r3.ER.Round(4));
+        Assert.AreEqual(213.7713, r3.Kama.Round(4));
 
         KamaResult r4 = results[24];
-        Assert.AreEqual(0.2136, NullMath.Round(r4.ER, 4));
-        Assert.AreEqual(214.7423, NullMath.Round(r4.Kama, 4));
+        Assert.AreEqual(0.2136, r4.ER.Round(4));
+        Assert.AreEqual(214.7423, r4.Kama.Round(4));
 
         KamaResult r5 = results[149];
-        Assert.AreEqual(0.3165, NullMath.Round(r5.ER, 4));
-        Assert.AreEqual(235.5510, NullMath.Round(r5.Kama, 4));
+        Assert.AreEqual(0.3165, r5.ER.Round(4));
+        Assert.AreEqual(235.5510, r5.Kama.Round(4));
 
         KamaResult r6 = results[249];
-        Assert.AreEqual(0.3182, NullMath.Round(r6.ER, 4));
-        Assert.AreEqual(256.0898, NullMath.Round(r6.Kama, 4));
+        Assert.AreEqual(0.3182, r6.ER.Round(4));
+        Assert.AreEqual(256.0898, r6.Kama.Round(4));
 
         KamaResult r7 = results[501];
-        Assert.AreEqual(0.2214, NullMath.Round(r7.ER, 4));
-        Assert.AreEqual(240.1138, NullMath.Round(r7.Kama, 4));
+        Assert.AreEqual(0.2214, r7.ER.Round(4));
+        Assert.AreEqual(240.1138, r7.Kama.Round(4));
     }
 
     [TestMethod]
@@ -142,8 +143,8 @@ public class Kama : TestBase
         Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
 
         KamaResult last = results.LastOrDefault();
-        Assert.AreEqual(0.2214, NullMath.Round(last.ER, 4));
-        Assert.AreEqual(240.1138, NullMath.Round(last.Kama, 4));
+        Assert.AreEqual(0.2214, last.ER.Round(4));
+        Assert.AreEqual(240.1138, last.Kama.Round(4));
     }
 
     [TestMethod]

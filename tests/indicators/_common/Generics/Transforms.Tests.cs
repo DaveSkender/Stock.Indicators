@@ -1,9 +1,8 @@
 using System.Collections.ObjectModel;
-using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Tests.Indicators;
+namespace Tests.Common;
 
 [TestClass]
 public class TransformTests : TestBase
@@ -22,10 +21,11 @@ public class TransformTests : TestBase
 
     // null ToCollection
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Bad collection transform.")]
-    public void ToTransformNull()
+    public void Exceptions()
     {
         List<Quote> nullQuotes = null;
-        _ = nullQuotes.ToCollection();
+
+        Assert.ThrowsException<ArgumentNullException>(()
+            => nullQuotes.ToCollection());
     }
 }

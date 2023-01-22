@@ -5,7 +5,7 @@
     Pivots is an extended version of Williams Fractal that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
     <para>
       See
-      <see href="https://dotnet.StockIndicators.dev/indicators/Pivots/#content?utm_source=library">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Pivots/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
       for more information.
     </para>
   </summary>

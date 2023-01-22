@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Prs : TestBase
+public class PrsTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -23,19 +24,19 @@ public class Prs : TestBase
 
         // sample values
         PrsResult r1 = results[8];
-        Assert.AreEqual(1.108340, NullMath.Round(r1.Prs, 6));
+        Assert.AreEqual(1.108340, r1.Prs.Round(6));
         Assert.AreEqual(null, r1.PrsSma);
         Assert.AreEqual(null, r1.PrsPercent);
 
         PrsResult r2 = results[249];
-        Assert.AreEqual(1.222373, NullMath.Round(r2.Prs, 6));
-        Assert.AreEqual(1.275808, NullMath.Round(r2.PrsSma, 6));
-        Assert.AreEqual(-0.023089, NullMath.Round(r2.PrsPercent, 6));
+        Assert.AreEqual(1.222373, r2.Prs.Round(6));
+        Assert.AreEqual(1.275808, r2.PrsSma.Round(6));
+        Assert.AreEqual(-0.023089, r2.PrsPercent.Round(6));
 
         PrsResult r3 = results[501];
-        Assert.AreEqual(1.356817, NullMath.Round(r3.Prs, 6));
-        Assert.AreEqual(1.343445, NullMath.Round(r3.PrsSma, 6));
-        Assert.AreEqual(0.037082, NullMath.Round(r3.PrsPercent, 6));
+        Assert.AreEqual(1.356817, r3.Prs.Round(6));
+        Assert.AreEqual(1.343445, r3.PrsSma.Round(6));
+        Assert.AreEqual(0.037082, r3.PrsPercent.Round(6));
     }
 
     [TestMethod]

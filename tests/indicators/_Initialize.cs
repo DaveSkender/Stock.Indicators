@@ -8,7 +8,7 @@ using Skender.Stock.Indicators;
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Tests.Other")]
 [assembly: InternalsVisibleTo("Tests.Performance")]
-namespace Internal.Tests;
+namespace Tests.Common;
 
 [TestClass]
 public abstract class TestBase

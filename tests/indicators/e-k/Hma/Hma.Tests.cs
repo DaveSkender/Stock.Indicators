@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Hma : TestBase
+public class HmaTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,10 +20,10 @@ public class Hma : TestBase
 
         // sample values
         HmaResult r1 = results[149];
-        Assert.AreEqual(236.0835, NullMath.Round(r1.Hma, 4));
+        Assert.AreEqual(236.0835, r1.Hma.Round(4));
 
         HmaResult r2 = results[501];
-        Assert.AreEqual(235.6972, NullMath.Round(r2.Hma, 4));
+        Assert.AreEqual(235.6972, r2.Hma.Round(4));
     }
 
     [TestMethod]
@@ -111,7 +112,7 @@ public class Hma : TestBase
         Assert.AreEqual(480, results.Count);
 
         HmaResult last = results.LastOrDefault();
-        Assert.AreEqual(235.6972, NullMath.Round(last.Hma, 4));
+        Assert.AreEqual(235.6972, last.Hma.Round(4));
     }
 
     // bad lookback period

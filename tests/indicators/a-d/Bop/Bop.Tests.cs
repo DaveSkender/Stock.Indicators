@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Bop : TestBase
+public class BopTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -22,16 +23,16 @@ public class Bop : TestBase
         Assert.AreEqual(null, r1.Bop);
 
         BopResult r2 = results[13];
-        Assert.AreEqual(0.081822, NullMath.Round(r2.Bop, 6));
+        Assert.AreEqual(0.081822, r2.Bop.Round(6));
 
         BopResult r3 = results[149];
-        Assert.AreEqual(-0.016203, NullMath.Round(r3.Bop, 6));
+        Assert.AreEqual(-0.016203, r3.Bop.Round(6));
 
         BopResult r4 = results[249];
-        Assert.AreEqual(-0.058682, NullMath.Round(r4.Bop, 6));
+        Assert.AreEqual(-0.058682, r4.Bop.Round(6));
 
         BopResult r5 = results[501];
-        Assert.AreEqual(-0.292788, NullMath.Round(r5.Bop, 6));
+        Assert.AreEqual(-0.292788, r5.Bop.Round(6));
     }
 
     [TestMethod]
@@ -92,7 +93,7 @@ public class Bop : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         BopResult last = results.LastOrDefault();
-        Assert.AreEqual(-0.292788, NullMath.Round(last.Bop, 6));
+        Assert.AreEqual(-0.292788, last.Bop.Round(6));
     }
 
     // bad smoothing period

@@ -73,7 +73,7 @@ This repository uses the standard Apache 2.0 open-source license.  Please review
 
 ## Give back with patronage
 
-This software is crafted with care by unpaid enthusiasts who :heart: all forms of encouragement.  If you or your organization use any of my projects or like what we're doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.  If you want to buy me a beer or are interest in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender) - we'll reinvest your contributions.  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.  Thank you for your support!
+Thank you for your support!  This software is crafted with care by unpaid enthusiasts who :heart: all forms of encouragement.  If you or your organization use this library or like what we're doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.  If you want to buy me a beer or are interested in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 
 ## Contribute to help others
 
@@ -88,3 +88,5 @@ Special thanks to all of our community code contributors!
   </li>
 {% endfor %}
 </ul>
+
+&#187; see our [full list of indicators and overlays]({{site.baseurl}}/indicators/#content)

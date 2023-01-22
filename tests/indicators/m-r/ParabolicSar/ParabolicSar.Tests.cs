@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class ParabolicSar : TestBase
+public class ParabolicSarTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -26,15 +27,15 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(true, r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
-        Assert.AreEqual(212.9924, NullMath.Round(r16.Sar, 4));
+        Assert.AreEqual(212.9924, r16.Sar.Round(4));
         Assert.AreEqual(false, r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
-        Assert.AreEqual(228.3600, NullMath.Round(r94.Sar, 4));
+        Assert.AreEqual(228.3600, r94.Sar.Round(4));
         Assert.AreEqual(false, r94.IsReversal);
 
         ParabolicSarResult r501 = results[501];
-        Assert.AreEqual(229.7662, NullMath.Round(r501.Sar, 4));
+        Assert.AreEqual(229.7662, r501.Sar.Round(4));
         Assert.AreEqual(false, r501.IsReversal);
     }
 
@@ -60,7 +61,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(true, r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
-        Assert.AreEqual(212.9518, NullMath.Round(r16.Sar, 4));
+        Assert.AreEqual(212.9518, r16.Sar.Round(4));
         Assert.AreEqual(false, r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
@@ -68,7 +69,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(false, r94.IsReversal);
 
         ParabolicSarResult r486 = results[486];
-        Assert.AreEqual(273.4148, NullMath.Round(r486.Sar, 4));
+        Assert.AreEqual(273.4148, r486.Sar.Round(4));
         Assert.AreEqual(false, r486.IsReversal);
 
         ParabolicSarResult r501 = results[501];
@@ -151,7 +152,7 @@ public class ParabolicSar : TestBase
         Assert.AreEqual(488, results.Count);
 
         ParabolicSarResult last = results.LastOrDefault();
-        Assert.AreEqual(229.7662, NullMath.Round(last.Sar, 4));
+        Assert.AreEqual(229.7662, last.Sar.Round(4));
         Assert.AreEqual(false, last.IsReversal);
     }
 

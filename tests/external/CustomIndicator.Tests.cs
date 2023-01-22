@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace External.Customized;
+namespace Tests.CustomIndicators;
 
 public sealed class MyResult : ResultBase, IReusableResult
 {
@@ -185,9 +185,9 @@ public class CustomIndicatorTests
     [TestMethod]
     public void QuoteToSortedList()
     {
-        IEnumerable<Quote> quotes = TestData.GetMismatch();
+        IEnumerable<Quote> mismatch = TestData.GetMismatch();
 
-        Collection<Quote> h = quotes.ToSortedCollection();
+        Collection<Quote> h = mismatch.ToSortedCollection();
 
         // proper quantities
         Assert.AreEqual(502, h.Count);

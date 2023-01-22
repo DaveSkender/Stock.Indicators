@@ -1,6 +1,6 @@
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Common;
 /**
 <summary>
 Geometric Brownian Motion (GMB) is a random simulator of market movement.

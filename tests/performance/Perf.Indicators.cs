@@ -1,10 +1,9 @@
 using BenchmarkDotNet.Attributes;
-using Internal.Tests;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
 namespace Tests.Performance;
 
-[MarkdownExporterAttribute.GitHub]
 public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;
@@ -14,7 +13,7 @@ public class IndicatorPerformance
     // SETUP
 
     [GlobalSetup]
-    public void Setup()
+    public static void Setup()
     {
         h = TestData.GetDefault();
         hList = h.ToList();
@@ -30,7 +29,7 @@ public class IndicatorPerformance
         nameof(GetPrs),
         nameof(GetPrsWithSma)
     })]
-    public void SetupCompare()
+    public static void SetupCompare()
     {
         h = TestData.GetDefault();
         ho = TestData.GetCompare();

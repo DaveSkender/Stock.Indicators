@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Alligator : TestBase
+public class AlligatorTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -30,20 +31,20 @@ public class Alligator : TestBase
         Assert.IsNotNull(results[7].Lips);
 
         // sample values
-        Assert.AreEqual(213.81269, NullMath.Round(results[20].Jaw, 5));
-        Assert.AreEqual(213.79287, NullMath.Round(results[21].Jaw, 5));
-        Assert.AreEqual(225.60571, NullMath.Round(results[99].Jaw, 5));
-        Assert.AreEqual(260.98953, NullMath.Round(results[501].Jaw, 5));
+        Assert.AreEqual(213.81269, results[20].Jaw.Round(5));
+        Assert.AreEqual(213.79287, results[21].Jaw.Round(5));
+        Assert.AreEqual(225.60571, results[99].Jaw.Round(5));
+        Assert.AreEqual(260.98953, results[501].Jaw.Round(5));
 
-        Assert.AreEqual(213.699375, NullMath.Round(results[12].Teeth, 6));
-        Assert.AreEqual(213.80008, NullMath.Round(results[13].Teeth, 5));
-        Assert.AreEqual(226.12157, NullMath.Round(results[99].Teeth, 5));
-        Assert.AreEqual(253.53576, NullMath.Round(results[501].Teeth, 5));
+        Assert.AreEqual(213.699375, results[12].Teeth.Round(6));
+        Assert.AreEqual(213.80008, results[13].Teeth.Round(5));
+        Assert.AreEqual(226.12157, results[99].Teeth.Round(5));
+        Assert.AreEqual(253.53576, results[501].Teeth.Round(5));
 
-        Assert.AreEqual(213.63500, NullMath.Round(results[7].Lips, 5));
-        Assert.AreEqual(213.74900, NullMath.Round(results[8].Lips, 5));
-        Assert.AreEqual(226.35353, NullMath.Round(results[99].Lips, 5));
-        Assert.AreEqual(244.29591, NullMath.Round(results[501].Lips, 5));
+        Assert.AreEqual(213.63500, results[7].Lips.Round(5));
+        Assert.AreEqual(213.74900, results[8].Lips.Round(5));
+        Assert.AreEqual(226.35353, results[99].Lips.Round(5));
+        Assert.AreEqual(244.29591, results[501].Lips.Round(5));
     }
 
     [TestMethod]

@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Cci : TestBase
+public class CciTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,7 +20,7 @@ public class Cci : TestBase
 
         // sample value
         CciResult r = results[501];
-        Assert.AreEqual(-52.9946, NullMath.Round(r.Cci, 4));
+        Assert.AreEqual(-52.9946, r.Cci.Round(4));
     }
 
     [TestMethod]
@@ -73,7 +74,7 @@ public class Cci : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         CciResult last = results.LastOrDefault();
-        Assert.AreEqual(-52.9946, NullMath.Round(last.Cci, 4));
+        Assert.AreEqual(-52.9946, last.Cci.Round(4));
     }
 
     // bad lookback period

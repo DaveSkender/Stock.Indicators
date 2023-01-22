@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Mfi : TestBase
+public class MfiTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,10 +20,10 @@ public class Mfi : TestBase
 
         // sample values
         MfiResult r1 = results[439];
-        Assert.AreEqual(69.0622, NullMath.Round(r1.Mfi, 4));
+        Assert.AreEqual(69.0622, r1.Mfi.Round(4));
 
         MfiResult r2 = results[501];
-        Assert.AreEqual(39.9494, NullMath.Round(r2.Mfi, 4));
+        Assert.AreEqual(39.9494, r2.Mfi.Round(4));
     }
 
     [TestMethod]
@@ -52,10 +53,10 @@ public class Mfi : TestBase
 
         // sample values
         MfiResult r1 = results[31];
-        Assert.AreEqual(100, NullMath.Round(r1.Mfi, 4));
+        Assert.AreEqual(100, r1.Mfi.Round(4));
 
         MfiResult r2 = results[43];
-        Assert.AreEqual(0, NullMath.Round(r2.Mfi, 4));
+        Assert.AreEqual(0, r2.Mfi.Round(4));
     }
 
     [TestMethod]
@@ -99,7 +100,7 @@ public class Mfi : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         MfiResult last = results.LastOrDefault();
-        Assert.AreEqual(39.9494, NullMath.Round(last.Mfi, 4));
+        Assert.AreEqual(39.9494, last.Mfi.Round(4));
     }
 
     // bad lookback period

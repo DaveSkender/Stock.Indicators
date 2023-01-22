@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Chandeleir : TestBase
+public class ChandelierTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -21,10 +22,10 @@ public class Chandeleir : TestBase
 
         // sample values (long)
         ChandelierResult a = longResult[501];
-        Assert.AreEqual(256.5860, NullMath.Round(a.ChandelierExit, 4));
+        Assert.AreEqual(256.5860, a.ChandelierExit.Round(4));
 
         ChandelierResult b = longResult[492];
-        Assert.AreEqual(259.0480, NullMath.Round(b.ChandelierExit, 4));
+        Assert.AreEqual(259.0480, b.ChandelierExit.Round(4));
 
         // short
         List<ChandelierResult> shortResult =
@@ -32,7 +33,7 @@ public class Chandeleir : TestBase
             .ToList();
 
         ChandelierResult c = shortResult[501];
-        Assert.AreEqual(246.4240, NullMath.Round(c.ChandelierExit, 4));
+        Assert.AreEqual(246.4240, c.ChandelierExit.Round(4));
     }
 
     [TestMethod]
@@ -86,7 +87,7 @@ public class Chandeleir : TestBase
         Assert.AreEqual(502 - 22, longResult.Count);
 
         ChandelierResult last = longResult.LastOrDefault();
-        Assert.AreEqual(256.5860, NullMath.Round(last.ChandelierExit, 4));
+        Assert.AreEqual(256.5860, last.ChandelierExit.Round(4));
     }
 
     [TestMethod]

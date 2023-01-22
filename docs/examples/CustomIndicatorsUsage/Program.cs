@@ -12,7 +12,6 @@ public class Program
 {
     public static void Main()
     {
-
         // fetch historical quotes from data provider
         IEnumerable<Quote> quotes = GetHistoryFromFeed();
 
@@ -24,8 +23,8 @@ public class Program
         Console.WriteLine("ATR WMA Results ---------------------------");
 
         foreach (AtrWmaResult r in results.Take(30))
-        // only showing first 30 records for brevity
         {
+            // only showing first 30 records for brevity
             Console.WriteLine($"ATR WMA on {r.Date:u} was ${r.AtrWma:N3}");
         }
 

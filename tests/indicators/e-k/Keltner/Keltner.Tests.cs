@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Keltner : TestBase
+public class KeltnerTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -28,16 +29,16 @@ public class Keltner : TestBase
 
         // sample value
         KeltnerResult r1 = results[485];
-        Assert.AreEqual(275.4260, NullMath.Round(r1.UpperBand, 4));
-        Assert.AreEqual(265.4599, NullMath.Round(r1.Centerline, 4));
-        Assert.AreEqual(255.4938, NullMath.Round(r1.LowerBand, 4));
-        Assert.AreEqual(0.075085, NullMath.Round(r1.Width, 6));
+        Assert.AreEqual(275.4260, r1.UpperBand.Round(4));
+        Assert.AreEqual(265.4599, r1.Centerline.Round(4));
+        Assert.AreEqual(255.4938, r1.LowerBand.Round(4));
+        Assert.AreEqual(0.075085, r1.Width.Round(6));
 
         KeltnerResult r2 = results[501];
-        Assert.AreEqual(262.1873, NullMath.Round(r2.UpperBand, 4));
-        Assert.AreEqual(249.3519, NullMath.Round(r2.Centerline, 4));
-        Assert.AreEqual(236.5165, NullMath.Round(r2.LowerBand, 4));
-        Assert.AreEqual(0.102950, NullMath.Round(r2.Width, 6));
+        Assert.AreEqual(262.1873, r2.UpperBand.Round(4));
+        Assert.AreEqual(249.3519, r2.Centerline.Round(4));
+        Assert.AreEqual(236.5165, r2.LowerBand.Round(4));
+        Assert.AreEqual(0.102950, r2.Width.Round(6));
     }
 
     [TestMethod]
@@ -83,10 +84,10 @@ public class Keltner : TestBase
         Assert.AreEqual(483, results.Count);
 
         KeltnerResult last = results.LastOrDefault();
-        Assert.AreEqual(262.1873, NullMath.Round(last.UpperBand, 4));
-        Assert.AreEqual(249.3519, NullMath.Round(last.Centerline, 4));
-        Assert.AreEqual(236.5165, NullMath.Round(last.LowerBand, 4));
-        Assert.AreEqual(0.102950, NullMath.Round(last.Width, 6));
+        Assert.AreEqual(262.1873, last.UpperBand.Round(4));
+        Assert.AreEqual(249.3519, last.Centerline.Round(4));
+        Assert.AreEqual(236.5165, last.LowerBand.Round(4));
+        Assert.AreEqual(0.102950, last.Width.Round(6));
     }
 
     [TestMethod]
@@ -106,10 +107,10 @@ public class Keltner : TestBase
         Assert.AreEqual(502 - Math.Max(2 * n, n + 100), results.Count);
 
         KeltnerResult last = results.LastOrDefault();
-        Assert.AreEqual(262.1873, NullMath.Round(last.UpperBand, 4));
-        Assert.AreEqual(249.3519, NullMath.Round(last.Centerline, 4));
-        Assert.AreEqual(236.5165, NullMath.Round(last.LowerBand, 4));
-        Assert.AreEqual(0.102950, NullMath.Round(last.Width, 6));
+        Assert.AreEqual(262.1873, last.UpperBand.Round(4));
+        Assert.AreEqual(249.3519, last.Centerline.Round(4));
+        Assert.AreEqual(236.5165, last.LowerBand.Round(4));
+        Assert.AreEqual(0.102950, last.Width.Round(6));
     }
 
     [TestMethod]

@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class ElderRay : TestBase
+public class ElderRayTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -25,29 +26,29 @@ public class ElderRay : TestBase
         Assert.IsNull(r1.BearPower);
 
         ElderRayResult r2 = results[12];
-        Assert.AreEqual(214.0000, NullMath.Round(r2.Ema, 4));
-        Assert.AreEqual(0.7500, NullMath.Round(r2.BullPower, 4));
-        Assert.AreEqual(-0.5100, NullMath.Round(r2.BearPower, 4));
+        Assert.AreEqual(214.0000, r2.Ema.Round(4));
+        Assert.AreEqual(0.7500, r2.BullPower.Round(4));
+        Assert.AreEqual(-0.5100, r2.BearPower.Round(4));
 
         ElderRayResult r3 = results[24];
-        Assert.AreEqual(215.5426, NullMath.Round(r3.Ema, 4));
-        Assert.AreEqual(1.4274, NullMath.Round(r3.BullPower, 4));
-        Assert.AreEqual(0.5474, NullMath.Round(r3.BearPower, 4));
+        Assert.AreEqual(215.5426, r3.Ema.Round(4));
+        Assert.AreEqual(1.4274, r3.BullPower.Round(4));
+        Assert.AreEqual(0.5474, r3.BearPower.Round(4));
 
         ElderRayResult r4 = results[149];
-        Assert.AreEqual(235.3970, NullMath.Round(r4.Ema, 4));
-        Assert.AreEqual(0.9430, NullMath.Round(r4.BullPower, 4));
-        Assert.AreEqual(0.4730, NullMath.Round(r4.BearPower, 4));
+        Assert.AreEqual(235.3970, r4.Ema.Round(4));
+        Assert.AreEqual(0.9430, r4.BullPower.Round(4));
+        Assert.AreEqual(0.4730, r4.BearPower.Round(4));
 
         ElderRayResult r5 = results[249];
-        Assert.AreEqual(256.5206, NullMath.Round(r5.Ema, 4));
-        Assert.AreEqual(1.5194, NullMath.Round(r5.BullPower, 4));
-        Assert.AreEqual(1.0694, NullMath.Round(r5.BearPower, 4));
+        Assert.AreEqual(256.5206, r5.Ema.Round(4));
+        Assert.AreEqual(1.5194, r5.BullPower.Round(4));
+        Assert.AreEqual(1.0694, r5.BearPower.Round(4));
 
         ElderRayResult r6 = results[501];
-        Assert.AreEqual(246.0129, NullMath.Round(r6.Ema, 4));
-        Assert.AreEqual(-0.4729, NullMath.Round(r6.BullPower, 4));
-        Assert.AreEqual(-3.1429, NullMath.Round(r6.BearPower, 4));
+        Assert.AreEqual(246.0129, r6.Ema.Round(4));
+        Assert.AreEqual(-0.4729, r6.BullPower.Round(4));
+        Assert.AreEqual(-3.1429, r6.BearPower.Round(4));
     }
 
     [TestMethod]
@@ -101,9 +102,9 @@ public class ElderRay : TestBase
         Assert.AreEqual(502 - (100 + 13), results.Count);
 
         ElderRayResult last = results.LastOrDefault();
-        Assert.AreEqual(246.0129, NullMath.Round(last.Ema, 4));
-        Assert.AreEqual(-0.4729, NullMath.Round(last.BullPower, 4));
-        Assert.AreEqual(-3.1429, NullMath.Round(last.BearPower, 4));
+        Assert.AreEqual(246.0129, last.Ema.Round(4));
+        Assert.AreEqual(-0.4729, last.BullPower.Round(4));
+        Assert.AreEqual(-3.1429, last.BearPower.Round(4));
     }
 
     // bad lookback period

@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Cmo : TestBase
+public class CmoTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -27,13 +28,13 @@ public class Cmo : TestBase
         Assert.IsNull(r13.Cmo);
 
         CmoResult r14 = results[14];
-        Assert.AreEqual(24.1081, NullMath.Round(r14.Cmo, 4));
+        Assert.AreEqual(24.1081, r14.Cmo.Round(4));
 
         CmoResult r249 = results[249];
-        Assert.AreEqual(48.9614, NullMath.Round(r249.Cmo, 4));
+        Assert.AreEqual(48.9614, r249.Cmo.Round(4));
 
         CmoResult r501 = results[501];
-        Assert.AreEqual(-26.7502, NullMath.Round(r501.Cmo, 4));
+        Assert.AreEqual(-26.7502, r501.Cmo.Round(4));
     }
 
     [TestMethod]
@@ -122,7 +123,7 @@ public class Cmo : TestBase
         Assert.AreEqual(488, results.Count);
 
         CmoResult last = results.LastOrDefault();
-        Assert.AreEqual(-26.7502, NullMath.Round(last.Cmo, 4));
+        Assert.AreEqual(-26.7502, last.Cmo.Round(4));
     }
 
     // bad lookback period

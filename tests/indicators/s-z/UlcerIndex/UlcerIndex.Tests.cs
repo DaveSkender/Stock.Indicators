@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class UlcerIndex : TestBase
+public class UlcerIndexTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,7 +20,7 @@ public class UlcerIndex : TestBase
 
         // sample value
         UlcerIndexResult r = results[501];
-        Assert.AreEqual(5.7255, NullMath.Round(r.UI, 4));
+        Assert.AreEqual(5.7255, r.UI.Round(4));
     }
 
     [TestMethod]
@@ -108,7 +109,7 @@ public class UlcerIndex : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         UlcerIndexResult last = results.LastOrDefault();
-        Assert.AreEqual(5.7255, NullMath.Round(last.UI, 4));
+        Assert.AreEqual(5.7255, last.UI.Round(4));
     }
 
     // bad lookback period
