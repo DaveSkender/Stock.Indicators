@@ -1,11 +1,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class ZigZag : TestBase
+public class ZigZagTests : TestBase
 {
     [TestMethod]
     public void StandardClose()
@@ -41,14 +42,14 @@ public class ZigZag : TestBase
         Assert.AreEqual("H", r2.PointType);
 
         ZigZagResult r3 = results[439];
-        Assert.AreEqual(276.0133m, NullMath.Round(r3.ZigZag, 4));
-        Assert.AreEqual(280.9158m, NullMath.Round(r3.RetraceHigh, 4));
-        Assert.AreEqual(264.5769m, NullMath.Round(r3.RetraceLow, 4));
+        Assert.AreEqual(276.0133m, r3.ZigZag.Round(4));
+        Assert.AreEqual(280.9158m, r3.RetraceHigh.Round(4));
+        Assert.AreEqual(264.5769m, r3.RetraceLow.Round(4));
         Assert.AreEqual(null, r3.PointType);
 
         ZigZagResult r4 = results[500];
-        Assert.AreEqual(241.4575m, NullMath.Round(r4.ZigZag, 4));
-        Assert.AreEqual(246.7933m, NullMath.Round(r4.RetraceHigh, 4));
+        Assert.AreEqual(241.4575m, r4.ZigZag.Round(4));
+        Assert.AreEqual(246.7933m, r4.RetraceHigh.Round(4));
         Assert.AreEqual(null, r4.RetraceLow);
         Assert.AreEqual(null, r4.PointType);
 
@@ -82,8 +83,8 @@ public class ZigZag : TestBase
 
         ZigZagResult r277 = results[277];
         Assert.AreEqual(252.9550m, r277.ZigZag);
-        Assert.AreEqual(262.8054m, NullMath.Round(r277.RetraceHigh, 4));
-        Assert.AreEqual(245.4467m, NullMath.Round(r277.RetraceLow, 4));
+        Assert.AreEqual(262.8054m, r277.RetraceHigh.Round(4));
+        Assert.AreEqual(245.4467m, r277.RetraceLow.Round(4));
         Assert.AreEqual(null, r277.PointType);
 
         ZigZagResult r316 = results[316];
@@ -93,14 +94,14 @@ public class ZigZag : TestBase
         Assert.AreEqual("L", r316.PointType);
 
         ZigZagResult r456 = results[456];
-        Assert.AreEqual(261.3325m, NullMath.Round(r456.ZigZag, 4));
-        Assert.AreEqual(274.3419m, NullMath.Round(r456.RetraceHigh, 4));
-        Assert.AreEqual(256.1050m, NullMath.Round(r456.RetraceLow, 4));
+        Assert.AreEqual(261.3325m, r456.ZigZag.Round(4));
+        Assert.AreEqual(274.3419m, r456.RetraceHigh.Round(4));
+        Assert.AreEqual(256.1050m, r456.RetraceLow.Round(4));
         Assert.AreEqual(null, r456.PointType);
 
         ZigZagResult r500 = results[500];
-        Assert.AreEqual(240.1667m, NullMath.Round(r500.ZigZag, 4));
-        Assert.AreEqual(246.95083m, NullMath.Round(r500.RetraceHigh, 5));
+        Assert.AreEqual(240.1667m, r500.ZigZag.Round(4));
+        Assert.AreEqual(246.95083m, r500.RetraceHigh.Round(5));
         Assert.AreEqual(null, r500.RetraceLow);
         Assert.AreEqual(null, r500.PointType);
 

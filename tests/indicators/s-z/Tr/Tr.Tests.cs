@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Tr : TestBase
+public class TrTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -22,22 +23,22 @@ public class Tr : TestBase
         Assert.AreEqual(null, r0.Tr);
 
         TrResult r1 = results[1];
-        Assert.AreEqual(1.42, NullMath.Round(r1.Tr, 8));
+        Assert.AreEqual(1.42, r1.Tr.Round(8));
 
         TrResult r12 = results[12];
-        Assert.AreEqual(1.32, NullMath.Round(r12.Tr, 8));
+        Assert.AreEqual(1.32, r12.Tr.Round(8));
 
         TrResult r13 = results[13];
-        Assert.AreEqual(1.45, NullMath.Round(r13.Tr, 8));
+        Assert.AreEqual(1.45, r13.Tr.Round(8));
 
         TrResult r24 = results[24];
-        Assert.AreEqual(0.88, NullMath.Round(r24.Tr, 8));
+        Assert.AreEqual(0.88, r24.Tr.Round(8));
 
         TrResult r249 = results[249];
-        Assert.AreEqual(0.58, NullMath.Round(r249.Tr, 8));
+        Assert.AreEqual(0.58, r249.Tr.Round(8));
 
         TrResult r501 = results[501];
-        Assert.AreEqual(2.67, NullMath.Round(r501.Tr, 8));
+        Assert.AreEqual(2.67, r501.Tr.Round(8));
     }
 
     [TestMethod]

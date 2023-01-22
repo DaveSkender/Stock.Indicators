@@ -4,7 +4,7 @@
   <type name="Find">
     <summary> Finds time series values on a specific date.
       <para>
-        See <see href="https://dotnet.StockIndicators.dev/utilities/#find-indicator-result-by-date?utm_source=library">documentation</see> for more information.
+        See <see href="https://dotnet.StockIndicators.dev/utilities/#find-indicator-result-by-date?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see> for more information.
       </para>
     </summary>
     <typeparam name="TSeries">Any series type.</typeparam>
@@ -16,7 +16,7 @@
   <type name="Prune">
     <summary> Removes a specific quantity from the beginning of the time series list.
       <para>
-        See <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library">documentation</see> for more information.
+        See <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see> for more information.
       </para>
     </summary>
     <typeparam name="T">Any series type.</typeparam>

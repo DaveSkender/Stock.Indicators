@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class WilliamsR : TestBase
+public class WilliamsRTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,10 +20,10 @@ public class WilliamsR : TestBase
 
         // sample values
         WilliamsResult r1 = results[343];
-        Assert.AreEqual(-19.8211, NullMath.Round(r1.WilliamsR, 4));
+        Assert.AreEqual(-19.8211, r1.WilliamsR.Round(4));
 
         WilliamsResult r2 = results[501];
-        Assert.AreEqual(-52.0121, NullMath.Round(r2.WilliamsR, 4));
+        Assert.AreEqual(-52.0121, r2.WilliamsR.Round(4));
     }
 
     [TestMethod]
@@ -76,7 +77,7 @@ public class WilliamsR : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         WilliamsResult last = results.LastOrDefault();
-        Assert.AreEqual(-52.0121, NullMath.Round(last.WilliamsR, 4));
+        Assert.AreEqual(-52.0121, last.WilliamsR.Round(4));
     }
 
     // bad lookback period

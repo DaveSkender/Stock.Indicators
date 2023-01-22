@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Stc : TestBase
+public class StcTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -34,13 +35,13 @@ public class Stc : TestBase
         Assert.AreEqual(100d, r35.Stc);
 
         StcResult r49 = results[49];
-        Assert.AreEqual(0.8370, NullMath.Round(r49.Stc, 4));
+        Assert.AreEqual(0.8370, r49.Stc.Round(4));
 
         StcResult r249 = results[249];
-        Assert.AreEqual(27.7340, NullMath.Round(r249.Stc, 4));
+        Assert.AreEqual(27.7340, r249.Stc.Round(4));
 
         StcResult last = results.LastOrDefault();
-        Assert.AreEqual(19.2544, NullMath.Round(last.Stc, 4));
+        Assert.AreEqual(19.2544, last.Stc.Round(4));
     }
 
     [TestMethod]
@@ -133,7 +134,7 @@ public class Stc : TestBase
         Assert.AreEqual(502 - (slowPeriods + cyclePeriods + 250), results.Count);
 
         StcResult last = results.LastOrDefault();
-        Assert.AreEqual(19.2544, NullMath.Round(last.Stc, 4));
+        Assert.AreEqual(19.2544, last.Stc.Round(4));
     }
 
     [TestMethod]

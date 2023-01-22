@@ -44,6 +44,8 @@ public static partial class ResultUtility
             case SyncType.FullMatch:
                 prepend = append = remove = true;
                 break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(syncType));
         }
 
         Type type = syncMeList[0].GetType();

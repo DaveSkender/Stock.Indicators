@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Trix : TestBase
+public class TrixTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -21,24 +22,24 @@ public class Trix : TestBase
 
         // sample values
         TrixResult r24 = results[24];
-        Assert.AreEqual(214.5486, NullMath.Round(r24.Ema3, 4));
-        Assert.AreEqual(0.005047, NullMath.Round(r24.Trix, 6));
-        Assert.AreEqual(0.002196, NullMath.Round(r24.Signal, 6));
+        Assert.AreEqual(214.5486, r24.Ema3.Round(4));
+        Assert.AreEqual(0.005047, r24.Trix.Round(6));
+        Assert.AreEqual(0.002196, r24.Signal.Round(6));
 
         TrixResult r67 = results[67];
-        Assert.AreEqual(221.7837, NullMath.Round(r67.Ema3, 4));
-        Assert.AreEqual(0.050030, NullMath.Round(r67.Trix, 6));
-        Assert.AreEqual(0.057064, NullMath.Round(r67.Signal, 6));
+        Assert.AreEqual(221.7837, r67.Ema3.Round(4));
+        Assert.AreEqual(0.050030, r67.Trix.Round(6));
+        Assert.AreEqual(0.057064, r67.Signal.Round(6));
 
         TrixResult r249 = results[249];
-        Assert.AreEqual(249.4469, NullMath.Round(r249.Ema3, 4));
-        Assert.AreEqual(0.121781, NullMath.Round(r249.Trix, 6));
-        Assert.AreEqual(0.119769, NullMath.Round(r249.Signal, 6));
+        Assert.AreEqual(249.4469, r249.Ema3.Round(4));
+        Assert.AreEqual(0.121781, r249.Trix.Round(6));
+        Assert.AreEqual(0.119769, r249.Signal.Round(6));
 
         TrixResult r501 = results[501];
-        Assert.AreEqual(263.3216, NullMath.Round(r501.Ema3, 4));
-        Assert.AreEqual(-0.230742, NullMath.Round(r501.Trix, 6));
-        Assert.AreEqual(-0.204536, NullMath.Round(r501.Signal, 6));
+        Assert.AreEqual(263.3216, r501.Ema3.Round(4));
+        Assert.AreEqual(-0.230742, r501.Trix.Round(6));
+        Assert.AreEqual(-0.204536, r501.Signal.Round(6));
     }
 
     [TestMethod]
@@ -127,9 +128,9 @@ public class Trix : TestBase
         Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TrixResult last = results.LastOrDefault();
-        Assert.AreEqual(263.3216, NullMath.Round(last.Ema3, 4));
-        Assert.AreEqual(-0.230742, NullMath.Round(last.Trix, 6));
-        Assert.AreEqual(-0.204536, NullMath.Round(last.Signal, 6));
+        Assert.AreEqual(263.3216, last.Ema3.Round(4));
+        Assert.AreEqual(-0.230742, last.Trix.Round(6));
+        Assert.AreEqual(-0.204536, last.Signal.Round(6));
     }
 
     // bad lookback period

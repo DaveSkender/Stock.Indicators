@@ -64,7 +64,6 @@ public static partial class Indicator
             {
                 maxChunks = chunkQty;
                 setQty++;
-                continue;
             }
             else
             {

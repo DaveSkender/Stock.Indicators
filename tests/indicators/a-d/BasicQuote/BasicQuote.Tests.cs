@@ -1,7 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
 public class BaseQuoteTests : TestBase
@@ -47,9 +48,9 @@ public class BaseQuoteTests : TestBase
         Assert.AreEqual(245.28, rc.Value);
         Assert.AreEqual(147031456, rv.Value);
         Assert.AreEqual(244.205, rhl.Value);
-        Assert.AreEqual(244.5633, NullMath.Round(rhlc.Value, 4));
+        Assert.AreEqual(244.5633, rhlc.Value.Round(4));
         Assert.AreEqual(245.1, roc.Value);
-        Assert.AreEqual(244.4433, NullMath.Round(rohl.Value, 4));
+        Assert.AreEqual(244.4433, rohl.Value.Round(4));
         Assert.AreEqual(244.6525, rohlc.Value);
     }
 

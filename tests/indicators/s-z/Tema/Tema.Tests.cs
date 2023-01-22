@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Tema : TestBase
+public class TemaTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -19,16 +20,16 @@ public class Tema : TestBase
 
         // sample values
         TemaResult r25 = results[25];
-        Assert.AreEqual(216.1441, NullMath.Round(r25.Tema, 4));
+        Assert.AreEqual(216.1441, r25.Tema.Round(4));
 
         TemaResult r67 = results[67];
-        Assert.AreEqual(222.9562, NullMath.Round(r67.Tema, 4));
+        Assert.AreEqual(222.9562, r67.Tema.Round(4));
 
         TemaResult r249 = results[249];
-        Assert.AreEqual(258.6208, NullMath.Round(r249.Tema, 4));
+        Assert.AreEqual(258.6208, r249.Tema.Round(4));
 
         TemaResult r501 = results[501];
-        Assert.AreEqual(238.7690, NullMath.Round(r501.Tema, 4));
+        Assert.AreEqual(238.7690, r501.Tema.Round(4));
     }
 
     [TestMethod]
@@ -117,7 +118,7 @@ public class Tema : TestBase
         Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TemaResult last = results.LastOrDefault();
-        Assert.AreEqual(238.7690, NullMath.Round(last.Tema, 4));
+        Assert.AreEqual(238.7690, last.Tema.Round(4));
     }
 
     // bad lookback period

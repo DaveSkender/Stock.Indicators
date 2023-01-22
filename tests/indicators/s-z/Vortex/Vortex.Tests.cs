@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Vortex : TestBase
+public class VortexTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -23,20 +24,20 @@ public class Vortex : TestBase
         Assert.IsNull(r1.Nvi);
 
         VortexResult r2 = results[14];
-        Assert.AreEqual(1.0460, NullMath.Round(r2.Pvi, 4));
-        Assert.AreEqual(0.8119, NullMath.Round(r2.Nvi, 4));
+        Assert.AreEqual(1.0460, r2.Pvi.Round(4));
+        Assert.AreEqual(0.8119, r2.Nvi.Round(4));
 
         VortexResult r3 = results[29];
-        Assert.AreEqual(1.1300, NullMath.Round(r3.Pvi, 4));
-        Assert.AreEqual(0.7393, NullMath.Round(r3.Nvi, 4));
+        Assert.AreEqual(1.1300, r3.Pvi.Round(4));
+        Assert.AreEqual(0.7393, r3.Nvi.Round(4));
 
         VortexResult r4 = results[249];
-        Assert.AreEqual(1.1558, NullMath.Round(r4.Pvi, 4));
-        Assert.AreEqual(0.6634, NullMath.Round(r4.Nvi, 4));
+        Assert.AreEqual(1.1558, r4.Pvi.Round(4));
+        Assert.AreEqual(0.6634, r4.Nvi.Round(4));
 
         VortexResult r5 = results[501];
-        Assert.AreEqual(0.8712, NullMath.Round(r5.Pvi, 4));
-        Assert.AreEqual(1.1163, NullMath.Round(r5.Nvi, 4));
+        Assert.AreEqual(0.8712, r5.Pvi.Round(4));
+        Assert.AreEqual(1.1163, r5.Nvi.Round(4));
     }
 
     [TestMethod]
@@ -78,8 +79,8 @@ public class Vortex : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         VortexResult last = results.LastOrDefault();
-        Assert.AreEqual(0.8712, NullMath.Round(last.Pvi, 4));
-        Assert.AreEqual(1.1163, NullMath.Round(last.Nvi, 4));
+        Assert.AreEqual(0.8712, last.Pvi.Round(4));
+        Assert.AreEqual(1.1163, last.Nvi.Round(4));
     }
 
     [TestMethod]
@@ -94,8 +95,8 @@ public class Vortex : TestBase
         Assert.AreEqual(502 - 14, results.Count);
 
         VortexResult last = results.LastOrDefault();
-        Assert.AreEqual(0.8712, NullMath.Round(last.Pvi, 4));
-        Assert.AreEqual(1.1163, NullMath.Round(last.Nvi, 4));
+        Assert.AreEqual(0.8712, last.Pvi.Round(4));
+        Assert.AreEqual(1.1163, last.Nvi.Round(4));
     }
 
     // bad lookback period

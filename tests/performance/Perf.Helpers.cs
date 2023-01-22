@@ -1,19 +1,21 @@
 using BenchmarkDotNet.Attributes;
-using Internal.Tests;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
 namespace Tests.Performance;
 
 // HELPERS, both public and private
 
-[MarkdownExporterAttribute.GitHub]
 public class HelperPerformance
 {
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> i;
 
     [GlobalSetup]
-    public void Setup() => h = TestData.GetDefault();
+    public static void Setup() => h = TestData.GetDefault();
+
+    [GlobalSetup(Targets = new[] { nameof(Aggregate) })]
+    public static void SetupIntraday() => i = TestData.GetIntraday();
 
     [Benchmark]
     public object SortToList() => h.ToSortedList();
@@ -23,9 +25,6 @@ public class HelperPerformance
 
     [Benchmark]
     public object Validate() => h.Validate();
-
-    [GlobalSetup(Targets = new[] { nameof(Aggregate) })]
-    public void SetupIntraday() => i = TestData.GetIntraday();
 
     [Benchmark]
     public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);

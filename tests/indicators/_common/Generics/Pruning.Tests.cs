@@ -1,8 +1,7 @@
-using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Tests.Indicators;
+namespace Tests.Common;
 
 [TestClass]
 public class Pruning : TestBase
@@ -18,8 +17,8 @@ public class Pruning : TestBase
         Assert.AreEqual(400, results.Count());
 
         // bad remove period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAdx(14).RemoveWarmupPeriods(-1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetAdx(14).RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]

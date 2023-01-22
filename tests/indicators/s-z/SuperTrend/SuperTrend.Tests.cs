@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class SuperTrend : TestBase
+public class SuperTrendTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -27,27 +28,27 @@ public class SuperTrend : TestBase
         Assert.AreEqual(null, r13.LowerBand);
 
         SuperTrendResult r14 = results[14];
-        Assert.AreEqual(210.6157m, NullMath.Round(r14.SuperTrend, 4));
+        Assert.AreEqual(210.6157m, r14.SuperTrend.Round(4));
         Assert.AreEqual(null, r14.UpperBand);
         Assert.AreEqual(r14.SuperTrend, r14.LowerBand);
 
         SuperTrendResult r151 = results[151];
-        Assert.AreEqual(232.8520m, NullMath.Round(r151.SuperTrend, 4));
+        Assert.AreEqual(232.8520m, r151.SuperTrend.Round(4));
         Assert.AreEqual(null, r151.UpperBand);
         Assert.AreEqual(r151.SuperTrend, r151.LowerBand);
 
         SuperTrendResult r152 = results[152];
-        Assert.AreEqual(237.6436m, NullMath.Round(r152.SuperTrend, 4));
+        Assert.AreEqual(237.6436m, r152.SuperTrend.Round(4));
         Assert.AreEqual(r152.SuperTrend, r152.UpperBand);
         Assert.AreEqual(null, r152.LowerBand);
 
         SuperTrendResult r249 = results[249];
-        Assert.AreEqual(253.8008m, NullMath.Round(r249.SuperTrend, 4));
+        Assert.AreEqual(253.8008m, r249.SuperTrend.Round(4));
         Assert.AreEqual(null, r249.UpperBand);
         Assert.AreEqual(r249.SuperTrend, r249.LowerBand);
 
         SuperTrendResult r501 = results[501];
-        Assert.AreEqual(250.7954m, NullMath.Round(r501.SuperTrend, 4));
+        Assert.AreEqual(250.7954m, r501.SuperTrend.Round(4));
         Assert.AreEqual(r501.SuperTrend, r501.UpperBand);
         Assert.AreEqual(null, r501.LowerBand);
     }
@@ -64,7 +65,7 @@ public class SuperTrend : TestBase
         Assert.AreEqual(1246, results.Count);
 
         SuperTrendResult r = results[1208];
-        Assert.AreEqual(16242.2704m, NullMath.Round(r.LowerBand, 4));
+        Assert.AreEqual(16242.2704m, r.LowerBand.Round(4));
     }
 
     [TestMethod]
@@ -108,7 +109,7 @@ public class SuperTrend : TestBase
         Assert.AreEqual(488, results.Count);
 
         SuperTrendResult last = results.LastOrDefault();
-        Assert.AreEqual(250.7954m, NullMath.Round(last.SuperTrend, 4));
+        Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
         Assert.AreEqual(last.SuperTrend, last.UpperBand);
         Assert.AreEqual(null, last.LowerBand);
     }
@@ -128,7 +129,7 @@ public class SuperTrend : TestBase
         Assert.AreEqual(488, results.Count);
 
         SuperTrendResult last = results.LastOrDefault();
-        Assert.AreEqual(250.7954m, NullMath.Round(last.SuperTrend, 4));
+        Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
         Assert.AreEqual(last.SuperTrend, last.UpperBand);
         Assert.AreEqual(null, last.LowerBand);
     }

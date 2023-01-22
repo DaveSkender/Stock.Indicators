@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class ForceIndex : TestBase
+public class ForceIndexTests : TestBase
 {
     [TestMethod]
     public void Standard()

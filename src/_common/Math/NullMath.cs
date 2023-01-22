@@ -21,6 +21,12 @@ public static class NullMath
         ? null
         : Math.Round((double)value, digits);
 
+    public static double Round(this double value, int digits)
+        => Math.Round(value, digits);
+
+    public static decimal Round(this decimal value, int digits)
+        => Math.Round(value, digits);
+
     public static double Null2NaN(this double? value)
         => (value is null)
         ? double.NaN

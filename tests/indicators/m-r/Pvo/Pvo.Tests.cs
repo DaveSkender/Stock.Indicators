@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Pvo : TestBase
+public class PvoTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -30,24 +31,24 @@ public class Pvo : TestBase
         Assert.AreEqual(null, r1.Histogram);
 
         PvoResult r2 = results[33];
-        Assert.AreEqual(1.5795, NullMath.Round(r2.Pvo, 4));
-        Assert.AreEqual(-3.5530, NullMath.Round(r2.Signal, 4));
-        Assert.AreEqual(5.1325, NullMath.Round(r2.Histogram, 4));
+        Assert.AreEqual(1.5795, r2.Pvo.Round(4));
+        Assert.AreEqual(-3.5530, r2.Signal.Round(4));
+        Assert.AreEqual(5.1325, r2.Histogram.Round(4));
 
         PvoResult r3 = results[149];
-        Assert.AreEqual(-7.1910, NullMath.Round(r3.Pvo, 4));
-        Assert.AreEqual(-5.1159, NullMath.Round(r3.Signal, 4));
-        Assert.AreEqual(-2.0751, NullMath.Round(r3.Histogram, 4));
+        Assert.AreEqual(-7.1910, r3.Pvo.Round(4));
+        Assert.AreEqual(-5.1159, r3.Signal.Round(4));
+        Assert.AreEqual(-2.0751, r3.Histogram.Round(4));
 
         PvoResult r4 = results[249];
-        Assert.AreEqual(-6.3667, NullMath.Round(r4.Pvo, 4));
-        Assert.AreEqual(1.7333, NullMath.Round(r4.Signal, 4));
-        Assert.AreEqual(-8.1000, NullMath.Round(r4.Histogram, 4));
+        Assert.AreEqual(-6.3667, r4.Pvo.Round(4));
+        Assert.AreEqual(1.7333, r4.Signal.Round(4));
+        Assert.AreEqual(-8.1000, r4.Histogram.Round(4));
 
         PvoResult r5 = results[501];
-        Assert.AreEqual(10.4395, NullMath.Round(r5.Pvo, 4));
-        Assert.AreEqual(12.2681, NullMath.Round(r5.Signal, 4));
-        Assert.AreEqual(-1.8286, NullMath.Round(r5.Histogram, 4));
+        Assert.AreEqual(10.4395, r5.Pvo.Round(4));
+        Assert.AreEqual(12.2681, r5.Signal.Round(4));
+        Assert.AreEqual(-1.8286, r5.Histogram.Round(4));
     }
 
     [TestMethod]
@@ -105,9 +106,9 @@ public class Pvo : TestBase
         Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
 
         PvoResult last = results.LastOrDefault();
-        Assert.AreEqual(10.4395, NullMath.Round(last.Pvo, 4));
-        Assert.AreEqual(12.2681, NullMath.Round(last.Signal, 4));
-        Assert.AreEqual(-1.8286, NullMath.Round(last.Histogram, 4));
+        Assert.AreEqual(10.4395, last.Pvo.Round(4));
+        Assert.AreEqual(12.2681, last.Signal.Round(4));
+        Assert.AreEqual(-1.8286, last.Histogram.Round(4));
     }
 
     [TestMethod]
