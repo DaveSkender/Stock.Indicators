@@ -60,8 +60,6 @@ public class Syncing : TestBase
             SmaResult b = baseline[i];
             EmaResult r = append[i];
 
-            // Console.WriteLine($"{b.Date:d} {r.Date:d} {r.Ema}");
-
             Assert.AreEqual(b.Date, r.Date);
         }
 

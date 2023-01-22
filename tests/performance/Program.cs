@@ -3,7 +3,7 @@ using BenchmarkDotNet.Running;
 [assembly: CLSCompliant(false)]
 namespace Tests.Performance;
 
-public class Program
+public static class Program
 {
     private static void Main(string[] args)
     {

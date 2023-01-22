@@ -31,7 +31,7 @@ public class AdxTests : TestBase
         Assert.AreEqual(19.7949, r29.Adx.Round(4));
 
         AdxResult r39 = results[39];
-        Assert.IsNull(r29.Adxr);
+        Assert.IsNull(r39.Adxr);
 
         AdxResult r40 = results[40];
         Assert.AreEqual(29.1062, r40.Adxr.Round(4));

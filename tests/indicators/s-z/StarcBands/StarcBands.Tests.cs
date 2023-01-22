@@ -13,10 +13,9 @@ public class StarcBandsTests : TestBase
         int smaPeriods = 20;
         int multiplier = 2;
         int atrPeriods = 14;
-        int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        List<StarcBandsResult> results =
-            quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods)
+        List<StarcBandsResult> results = quotes
+            .GetStarcBands(smaPeriods, multiplier, atrPeriods)
             .ToList();
 
         // proper quantities

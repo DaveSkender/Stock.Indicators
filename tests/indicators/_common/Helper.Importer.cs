@@ -66,7 +66,7 @@ internal static class Importer
                 quote.Volume = Convert.ToDecimal(value, EnglishCulture);
                 break;
             default:
-                break;
+                throw new ArgumentOutOfRangeException(nameof(position));
         }
     }
 }
