@@ -9,7 +9,7 @@ public abstract class ChainProvider
     private readonly List<IObserver<(DateTime Date, double Value)>> observers;
 
     // initialize
-    internal ChainProvider()
+    protected ChainProvider()
     {
         observers = new();
         ProtectedChain = new();
