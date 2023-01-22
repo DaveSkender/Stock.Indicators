@@ -14,7 +14,7 @@ public class IndicatorsStatic
     // SETUP
 
     [GlobalSetup]
-    public void Setup()
+    public static void Setup()
     {
         q = TestData.GetDefault();
         ql = q.ToList();
@@ -31,7 +31,7 @@ public class IndicatorsStatic
         nameof(GetPrs),
         nameof(GetPrsWithSma)
     })]
-    public void SetupCompare()
+    public static void SetupCompare()
     {
         q = TestData.GetDefault();
         o = TestData.GetCompare();
