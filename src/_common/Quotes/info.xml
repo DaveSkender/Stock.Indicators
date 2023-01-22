@@ -6,7 +6,7 @@
       Optionally select which candle part to use in the calculation.
       <para>
         See
-        <see href="https://dotnet.StockIndicators.dev/indicators/BasicQuote/#candlepart-options?utm_source=library">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/indicators/BasicQuote/#candlepart-options?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information.
       </para>
     </summary>
@@ -21,7 +21,7 @@
       Validate historical quotes.
       <para>
         See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#validate-quote-history?utm_source=library">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/utilities/#validate-quote-history?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information.
       </para>
     </summary>
@@ -35,7 +35,7 @@
       Converts historical quotes into larger bar sizes.
       <para>
         See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#resize-quote-history?utm_source=library">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/utilities/#resize-quote-history?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information.
       </para>
     </summary>
@@ -50,7 +50,7 @@
       Converts historical quotes into larger bar sizes.
       <para>
         See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#resize-quote-history?utm_source=library">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/utilities/#resize-quote-history?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information.
       </para>
     </summary>

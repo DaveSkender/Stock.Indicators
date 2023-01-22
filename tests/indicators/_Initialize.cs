@@ -9,7 +9,7 @@ using Skender.Stock.Indicators;
 [assembly: InternalsVisibleTo("Tests.Other")]
 [assembly: InternalsVisibleTo("Tests.Performance")]
 [assembly: InternalsVisibleTo("Observe.Streaming")]
-namespace Internal.Tests;
+namespace Tests.Common;
 
 [TestClass]
 public abstract class TestBase

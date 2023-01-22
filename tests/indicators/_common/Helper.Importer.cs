@@ -1,7 +1,7 @@
 using System.Globalization;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Common;
 
 // TEST QUOTE IMPORTER
 internal static class Importer
@@ -66,7 +66,7 @@ internal static class Importer
                 quote.Volume = Convert.ToDecimal(value, EnglishCulture);
                 break;
             default:
-                break;
+                throw new ArgumentOutOfRangeException(nameof(position));
         }
     }
 }

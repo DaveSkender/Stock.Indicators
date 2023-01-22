@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class HtTrendline : TestBase
+public class HtTrendlineTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -36,28 +37,28 @@ public class HtTrendline : TestBase
 
         HtlResult r11 = results[11];
         Assert.AreEqual(3, r11.DcPeriods);
-        Assert.AreEqual(213.9502, NullMath.Round(r11.Trendline, 4));
-        Assert.AreEqual(213.8460, NullMath.Round(r11.SmoothPrice, 4));
+        Assert.AreEqual(213.9502, r11.Trendline.Round(4));
+        Assert.AreEqual(213.8460, r11.SmoothPrice.Round(4));
 
         HtlResult r25 = results[25];
         Assert.AreEqual(14, r25.DcPeriods);
-        Assert.AreEqual(215.3948, NullMath.Round(r25.Trendline, 4));
-        Assert.AreEqual(216.3365, NullMath.Round(r25.SmoothPrice, 4));
+        Assert.AreEqual(215.3948, r25.Trendline.Round(4));
+        Assert.AreEqual(216.3365, r25.SmoothPrice.Round(4));
 
         HtlResult r149 = results[149];
         Assert.AreEqual(24, r149.DcPeriods);
-        Assert.AreEqual(233.9410, NullMath.Round(r149.Trendline, 4));
-        Assert.AreEqual(235.8570, NullMath.Round(r149.SmoothPrice, 4));
+        Assert.AreEqual(233.9410, r149.Trendline.Round(4));
+        Assert.AreEqual(235.8570, r149.SmoothPrice.Round(4));
 
         HtlResult r249 = results[249];
         Assert.AreEqual(25, r249.DcPeriods);
-        Assert.AreEqual(253.8788, NullMath.Round(r249.Trendline, 4));
-        Assert.AreEqual(257.5825, NullMath.Round(r249.SmoothPrice, 4));
+        Assert.AreEqual(253.8788, r249.Trendline.Round(4));
+        Assert.AreEqual(257.5825, r249.SmoothPrice.Round(4));
 
         HtlResult r501 = results[501];
         Assert.AreEqual(20, r501.DcPeriods);
-        Assert.AreEqual(252.2172, NullMath.Round(r501.Trendline, 4));
-        Assert.AreEqual(242.3435, NullMath.Round(r501.SmoothPrice, 4));
+        Assert.AreEqual(252.2172, r501.Trendline.Round(4));
+        Assert.AreEqual(242.3435, r501.SmoothPrice.Round(4));
     }
 
     [TestMethod]
@@ -130,8 +131,8 @@ public class HtTrendline : TestBase
         Assert.AreEqual(502 - 100, results.Count);
 
         HtlResult last = results.LastOrDefault();
-        Assert.AreEqual(252.2172, NullMath.Round(last.Trendline, 4));
-        Assert.AreEqual(242.3435, NullMath.Round(last.SmoothPrice, 4));
+        Assert.AreEqual(252.2172, last.Trendline.Round(4));
+        Assert.AreEqual(242.3435, last.SmoothPrice.Round(4));
     }
 
     [TestMethod]

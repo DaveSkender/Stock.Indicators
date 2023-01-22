@@ -136,6 +136,9 @@ public static partial class Indicator
 
                 bricks = (int)((hQty >= lQty) ? hQty : -lQty);
                 break;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(endType));
         }
 
         return bricks;

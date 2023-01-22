@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Slope : TestBase
+public class SlopeTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -21,25 +22,25 @@ public class Slope : TestBase
 
         // sample values
         SlopeResult r1 = results[249];
-        Assert.AreEqual(0.312406, NullMath.Round(r1.Slope, 6));
-        Assert.AreEqual(180.4164, NullMath.Round(r1.Intercept, 4));
-        Assert.AreEqual(0.8056, NullMath.Round(r1.RSquared, 4));
-        Assert.AreEqual(2.0071, NullMath.Round(r1.StdDev, 4));
+        Assert.AreEqual(0.312406, r1.Slope.Round(6));
+        Assert.AreEqual(180.4164, r1.Intercept.Round(4));
+        Assert.AreEqual(0.8056, r1.RSquared.Round(4));
+        Assert.AreEqual(2.0071, r1.StdDev.Round(4));
         Assert.AreEqual(null, r1.Line);
 
         SlopeResult r2 = results[482];
-        Assert.AreEqual(-0.337015, NullMath.Round(r2.Slope, 6));
-        Assert.AreEqual(425.1111, NullMath.Round(r2.Intercept, 4));
-        Assert.AreEqual(0.1730, NullMath.Round(r2.RSquared, 4));
-        Assert.AreEqual(4.6719, NullMath.Round(r2.StdDev, 4));
-        Assert.AreEqual(267.9069m, NullMath.Round(r2.Line, 4));
+        Assert.AreEqual(-0.337015, r2.Slope.Round(6));
+        Assert.AreEqual(425.1111, r2.Intercept.Round(4));
+        Assert.AreEqual(0.1730, r2.RSquared.Round(4));
+        Assert.AreEqual(4.6719, r2.StdDev.Round(4));
+        Assert.AreEqual(267.9069m, r2.Line.Round(4));
 
         SlopeResult r3 = results[501];
-        Assert.AreEqual(-1.689143, NullMath.Round(r3.Slope, 6));
-        Assert.AreEqual(1083.7629, NullMath.Round(r3.Intercept, 4));
-        Assert.AreEqual(0.7955, NullMath.Round(r3.RSquared, 4));
-        Assert.AreEqual(10.9202, NullMath.Round(r3.StdDev, 4));
-        Assert.AreEqual(235.8131m, NullMath.Round(r3.Line, 4));
+        Assert.AreEqual(-1.689143, r3.Slope.Round(6));
+        Assert.AreEqual(1083.7629, r3.Intercept.Round(4));
+        Assert.AreEqual(0.7955, r3.RSquared.Round(4));
+        Assert.AreEqual(10.9202, r3.StdDev.Round(4));
+        Assert.AreEqual(235.8131m, r3.Line.Round(4));
     }
 
     [TestMethod]
@@ -138,11 +139,11 @@ public class Slope : TestBase
         Assert.AreEqual(502 - 19, results.Count);
 
         SlopeResult last = results.LastOrDefault();
-        Assert.AreEqual(-1.689143, NullMath.Round(last.Slope, 6));
-        Assert.AreEqual(1083.7629, NullMath.Round(last.Intercept, 4));
-        Assert.AreEqual(0.7955, NullMath.Round(last.RSquared, 4));
-        Assert.AreEqual(10.9202, NullMath.Round(last.StdDev, 4));
-        Assert.AreEqual(235.8131m, NullMath.Round(last.Line, 4));
+        Assert.AreEqual(-1.689143, last.Slope.Round(6));
+        Assert.AreEqual(1083.7629, last.Intercept.Round(4));
+        Assert.AreEqual(0.7955, last.RSquared.Round(4));
+        Assert.AreEqual(10.9202, last.StdDev.Round(4));
+        Assert.AreEqual(235.8131m, last.Line.Round(4));
     }
 
     // bad lookback period

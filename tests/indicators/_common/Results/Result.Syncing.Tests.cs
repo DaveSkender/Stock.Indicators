@@ -1,8 +1,7 @@
-using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Tests.Indicators;
+namespace Tests.Common;
 
 [TestClass]
 public class Syncing : TestBase
@@ -60,8 +59,6 @@ public class Syncing : TestBase
         {
             SmaResult b = baseline[i];
             EmaResult r = append[i];
-
-            // Console.WriteLine($"{b.Date:d} {r.Date:d} {r.Ema}");
 
             Assert.AreEqual(b.Date, r.Date);
         }

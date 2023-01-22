@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class StdDev : TestBase
+public class StdDevTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -27,21 +28,21 @@ public class StdDev : TestBase
         Assert.AreEqual(null, r1.StdDevSma);
 
         StdDevResult r2 = results[9];
-        Assert.AreEqual(0.5020, NullMath.Round(r2.StdDev, 4));
-        Assert.AreEqual(214.0140, NullMath.Round(r2.Mean, 4));
-        Assert.AreEqual(-0.525917, NullMath.Round(r2.ZScore, 6));
+        Assert.AreEqual(0.5020, r2.StdDev.Round(4));
+        Assert.AreEqual(214.0140, r2.Mean.Round(4));
+        Assert.AreEqual(-0.525917, r2.ZScore.Round(6));
         Assert.AreEqual(null, r2.StdDevSma);
 
         StdDevResult r3 = results[249];
-        Assert.AreEqual(0.9827, NullMath.Round(r3.StdDev, 4));
-        Assert.AreEqual(257.2200, NullMath.Round(r3.Mean, 4));
-        Assert.AreEqual(0.783563, NullMath.Round(r3.ZScore, 6));
+        Assert.AreEqual(0.9827, r3.StdDev.Round(4));
+        Assert.AreEqual(257.2200, r3.Mean.Round(4));
+        Assert.AreEqual(0.783563, r3.ZScore.Round(6));
         Assert.AreEqual(null, r3.StdDevSma);
 
         StdDevResult r4 = results[501];
-        Assert.AreEqual(5.4738, NullMath.Round(r4.StdDev, 4));
-        Assert.AreEqual(242.4100, NullMath.Round(r4.Mean, 4));
-        Assert.AreEqual(0.524312, NullMath.Round(r4.ZScore, 6));
+        Assert.AreEqual(5.4738, r4.StdDev.Round(4));
+        Assert.AreEqual(242.4100, r4.Mean.Round(4));
+        Assert.AreEqual(0.524312, r4.ZScore.Round(6));
         Assert.AreEqual(null, r4.StdDevSma);
     }
 
@@ -109,14 +110,14 @@ public class StdDev : TestBase
 
         // sample values
         StdDevResult r1 = results[19];
-        Assert.AreEqual(1.1642, NullMath.Round(r1.StdDev, 4));
-        Assert.AreEqual(-0.065282, NullMath.Round(r1.ZScore, 6));
-        Assert.AreEqual(1.1422, NullMath.Round(r1.StdDevSma, 4));
+        Assert.AreEqual(1.1642, r1.StdDev.Round(4));
+        Assert.AreEqual(-0.065282, r1.ZScore.Round(6));
+        Assert.AreEqual(1.1422, r1.StdDevSma.Round(4));
 
         StdDevResult r2 = results[501];
-        Assert.AreEqual(5.4738, NullMath.Round(r2.StdDev, 4));
-        Assert.AreEqual(0.524312, NullMath.Round(r2.ZScore, 6));
-        Assert.AreEqual(7.6886, NullMath.Round(r2.StdDevSma, 4));
+        Assert.AreEqual(5.4738, r2.StdDev.Round(4));
+        Assert.AreEqual(0.524312, r2.ZScore.Round(6));
+        Assert.AreEqual(7.6886, r2.StdDevSma.Round(4));
     }
 
     [TestMethod]
@@ -168,9 +169,9 @@ public class StdDev : TestBase
         Assert.AreEqual(502 - 9, results.Count);
 
         StdDevResult last = results.LastOrDefault();
-        Assert.AreEqual(5.4738, NullMath.Round(last.StdDev, 4));
-        Assert.AreEqual(242.4100, NullMath.Round(last.Mean, 4));
-        Assert.AreEqual(0.524312, NullMath.Round(last.ZScore, 6));
+        Assert.AreEqual(5.4738, last.StdDev.Round(4));
+        Assert.AreEqual(242.4100, last.Mean.Round(4));
+        Assert.AreEqual(0.524312, last.ZScore.Round(6));
         Assert.AreEqual(null, last.StdDevSma);
     }
 

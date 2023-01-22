@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Tsi : TestBase
+public class TsiTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -20,28 +21,28 @@ public class Tsi : TestBase
 
         // sample values
         TsiResult r2 = results[37];
-        Assert.AreEqual(53.1204, NullMath.Round(r2.Tsi, 4));
+        Assert.AreEqual(53.1204, r2.Tsi.Round(4));
         Assert.AreEqual(null, r2.Signal);
 
         TsiResult r3a = results[43];
-        Assert.AreEqual(46.0960, NullMath.Round(r3a.Tsi, 4));
-        Assert.AreEqual(51.6916, NullMath.Round(r3a.Signal, 4));
+        Assert.AreEqual(46.0960, r3a.Tsi.Round(4));
+        Assert.AreEqual(51.6916, r3a.Signal.Round(4));
 
         TsiResult r3b = results[44];
-        Assert.AreEqual(42.5121, NullMath.Round(r3b.Tsi, 4));
-        Assert.AreEqual(49.3967, NullMath.Round(r3b.Signal, 4));
+        Assert.AreEqual(42.5121, r3b.Tsi.Round(4));
+        Assert.AreEqual(49.3967, r3b.Signal.Round(4));
 
         TsiResult r4 = results[149];
-        Assert.AreEqual(29.0936, NullMath.Round(r4.Tsi, 4));
-        Assert.AreEqual(28.0134, NullMath.Round(r4.Signal, 4));
+        Assert.AreEqual(29.0936, r4.Tsi.Round(4));
+        Assert.AreEqual(28.0134, r4.Signal.Round(4));
 
         TsiResult r5 = results[249];
-        Assert.AreEqual(41.9232, NullMath.Round(r5.Tsi, 4));
-        Assert.AreEqual(42.4063, NullMath.Round(r5.Signal, 4));
+        Assert.AreEqual(41.9232, r5.Tsi.Round(4));
+        Assert.AreEqual(42.4063, r5.Signal.Round(4));
 
         TsiResult r6 = results[501];
-        Assert.AreEqual(-28.3513, NullMath.Round(r6.Tsi, 4));
-        Assert.AreEqual(-29.3597, NullMath.Round(r6.Signal, 4));
+        Assert.AreEqual(-28.3513, r6.Tsi.Round(4));
+        Assert.AreEqual(-29.3597, r6.Signal.Round(4));
     }
 
     [TestMethod]
@@ -140,8 +141,8 @@ public class Tsi : TestBase
         Assert.AreEqual(502 - (25 + 13 + 250), results.Count);
 
         TsiResult last = results.LastOrDefault();
-        Assert.AreEqual(-28.3513, NullMath.Round(last.Tsi, 4));
-        Assert.AreEqual(-29.3597, NullMath.Round(last.Signal, 4));
+        Assert.AreEqual(-28.3513, last.Tsi.Round(4));
+        Assert.AreEqual(-29.3597, last.Signal.Round(4));
     }
 
     [TestMethod]

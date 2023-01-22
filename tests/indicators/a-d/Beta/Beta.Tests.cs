@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Beta : TestBase
+public class BetaTests : TestBase
 {
     [TestMethod]
     public void All()
@@ -28,27 +29,27 @@ public class Beta : TestBase
         Assert.IsNull(r19.Convexity);
 
         BetaResult r20 = results[20];
-        Assert.AreEqual(1.5139, NullMath.Round(r20.Beta, 4));
-        Assert.AreEqual(1.8007, NullMath.Round(r20.BetaUp, 4));
-        Assert.AreEqual(0.3292, NullMath.Round(r20.BetaDown, 4));
-        Assert.AreEqual(5.4693, NullMath.Round(r20.Ratio, 4));
-        Assert.AreEqual(2.1652, NullMath.Round(r20.Convexity, 4));
-        Assert.AreEqual(-0.010678, NullMath.Round(r20.ReturnsEval, 6));
-        Assert.AreEqual(0.000419, NullMath.Round(r20.ReturnsMrkt, 6));
+        Assert.AreEqual(1.5139, r20.Beta.Round(4));
+        Assert.AreEqual(1.8007, r20.BetaUp.Round(4));
+        Assert.AreEqual(0.3292, r20.BetaDown.Round(4));
+        Assert.AreEqual(5.4693, r20.Ratio.Round(4));
+        Assert.AreEqual(2.1652, r20.Convexity.Round(4));
+        Assert.AreEqual(-0.010678, r20.ReturnsEval.Round(6));
+        Assert.AreEqual(0.000419, r20.ReturnsMrkt.Round(6));
 
         BetaResult r249 = results[249];
-        Assert.AreEqual(1.9200, NullMath.Round(r249.Beta, 4));
-        Assert.AreEqual(-1.2289, NullMath.Round(r249.BetaUp, 4));
-        Assert.AreEqual(-0.3956, NullMath.Round(r249.BetaDown, 4));
-        Assert.AreEqual(3.1066, NullMath.Round(r249.Ratio, 4));
-        Assert.AreEqual(0.6944, NullMath.Round(r249.Convexity, 4));
+        Assert.AreEqual(1.9200, r249.Beta.Round(4));
+        Assert.AreEqual(-1.2289, r249.BetaUp.Round(4));
+        Assert.AreEqual(-0.3956, r249.BetaDown.Round(4));
+        Assert.AreEqual(3.1066, r249.Ratio.Round(4));
+        Assert.AreEqual(0.6944, r249.Convexity.Round(4));
 
         BetaResult r501 = results[501];
-        Assert.AreEqual(1.5123, NullMath.Round(r501.Beta, 4));
-        Assert.AreEqual(2.0721, NullMath.Round(r501.BetaUp, 4));
-        Assert.AreEqual(1.5908, NullMath.Round(r501.BetaDown, 4));
-        Assert.AreEqual(1.3026, NullMath.Round(r501.Ratio, 4));
-        Assert.AreEqual(0.2316, NullMath.Round(r501.Convexity, 4));
+        Assert.AreEqual(1.5123, r501.Beta.Round(4));
+        Assert.AreEqual(2.0721, r501.BetaUp.Round(4));
+        Assert.AreEqual(1.5908, r501.BetaDown.Round(4));
+        Assert.AreEqual(1.3026, r501.Ratio.Round(4));
+        Assert.AreEqual(0.2316, r501.Convexity.Round(4));
     }
 
     [TestMethod]
@@ -64,7 +65,7 @@ public class Beta : TestBase
 
         // sample value
         BetaResult r = results[501];
-        Assert.AreEqual(1.5123, NullMath.Round(r.Beta, 4));
+        Assert.AreEqual(1.5123, r.Beta.Round(4));
     }
 
     [TestMethod]
@@ -80,7 +81,7 @@ public class Beta : TestBase
 
         // sample value
         BetaResult r = results[501];
-        Assert.AreEqual(2.0721, NullMath.Round(r.BetaUp, 4));
+        Assert.AreEqual(2.0721, r.BetaUp.Round(4));
     }
 
     [TestMethod]
@@ -96,7 +97,7 @@ public class Beta : TestBase
 
         // sample value
         BetaResult r = results[501];
-        Assert.AreEqual(1.5908, NullMath.Round(r.BetaDown, 4));
+        Assert.AreEqual(1.5908, r.BetaDown.Round(4));
     }
 
     [TestMethod]
@@ -203,7 +204,7 @@ public class Beta : TestBase
                 60, BetaType.Standard)
             .ToList();
 
-        Assert.AreEqual(0.91, NullMath.Round(results[385].Beta, 2));
+        Assert.AreEqual(0.91, results[385].Beta.Round(2));
     }
 
     [TestMethod]
@@ -218,7 +219,7 @@ public class Beta : TestBase
         Assert.AreEqual(502 - 20, results.Count);
 
         BetaResult last = results.LastOrDefault();
-        Assert.AreEqual(1.5123, NullMath.Round(last.Beta, 4));
+        Assert.AreEqual(1.5123, last.Beta.Round(4));
     }
 
     [TestMethod]
@@ -235,7 +236,7 @@ public class Beta : TestBase
 
         // sample value
         BetaResult r = results[501];
-        Assert.AreEqual(1, NullMath.Round(r.Beta, 4));
+        Assert.AreEqual(1, r.Beta.Round(4));
     }
 
     [TestMethod]
@@ -280,7 +281,7 @@ public class Beta : TestBase
             new Quote { Date = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
         };
 
-        _ = Assert.ThrowsException<InvalidQuotesException>(()
+        Assert.ThrowsException<InvalidQuotesException>(()
             => quoteA.GetBeta(quoteB, 3));
     }
 
@@ -288,12 +289,13 @@ public class Beta : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        _ = Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetBeta(otherQuotes, 0));
 
         // bad evaluation quotes
         List<Quote> eval = TestData.GetCompare(300).ToList();
-        _ = Assert.ThrowsException<InvalidQuotesException>(()
+
+        Assert.ThrowsException<InvalidQuotesException>(()
             => quotes.GetBeta(eval, 30));
     }
 }

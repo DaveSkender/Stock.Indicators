@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class ChaikinOsc : TestBase
+public class ChaikinOscTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -22,10 +23,10 @@ public class ChaikinOsc : TestBase
 
         // sample value
         ChaikinOscResult r = results[501];
-        Assert.AreEqual(3439986548.42, NullMath.Round(r.Adl, 2));
-        Assert.AreEqual(0.8052, NullMath.Round(r.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, NullMath.Round(r.MoneyFlowVolume, 2));
-        Assert.AreEqual(-19135200.72, NullMath.Round(r.Oscillator, 2));
+        Assert.AreEqual(3439986548.42, r.Adl.Round(2));
+        Assert.AreEqual(0.8052, r.MoneyFlowMultiplier.Round(4));
+        Assert.AreEqual(118396116.25, r.MoneyFlowVolume.Round(2));
+        Assert.AreEqual(-19135200.72, r.Oscillator.Round(2));
     }
 
     [TestMethod]
@@ -82,10 +83,10 @@ public class ChaikinOsc : TestBase
         Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
 
         ChaikinOscResult last = results.LastOrDefault();
-        Assert.AreEqual(3439986548.42, NullMath.Round(last.Adl, 2));
-        Assert.AreEqual(0.8052, NullMath.Round(last.MoneyFlowMultiplier, 4));
-        Assert.AreEqual(118396116.25, NullMath.Round(last.MoneyFlowVolume, 2));
-        Assert.AreEqual(-19135200.72, NullMath.Round(last.Oscillator, 2));
+        Assert.AreEqual(3439986548.42, last.Adl.Round(2));
+        Assert.AreEqual(0.8052, last.MoneyFlowMultiplier.Round(4));
+        Assert.AreEqual(118396116.25, last.MoneyFlowVolume.Round(2));
+        Assert.AreEqual(-19135200.72, last.Oscillator.Round(2));
     }
 
     [TestMethod]

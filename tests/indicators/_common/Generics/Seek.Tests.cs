@@ -1,8 +1,7 @@
-using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Tests.Indicators;
+namespace Tests.Common;
 
 [TestClass]
 public class Seeking : TestBase

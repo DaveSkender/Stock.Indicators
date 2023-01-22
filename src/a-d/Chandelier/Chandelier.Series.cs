@@ -65,7 +65,7 @@ public static partial class Indicator
                         break;
 
                     default:
-                        break;
+                        throw new ArgumentOutOfRangeException(nameof(type));
                 }
             }
         }

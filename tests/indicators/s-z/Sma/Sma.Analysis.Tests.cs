@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class SmaExtended : TestBase
+public class SmaExtendedTests : TestBase
 {
     [TestMethod]
     public void Analysis()
@@ -19,10 +20,10 @@ public class SmaExtended : TestBase
 
         // sample value
         SmaAnalysis r = results[501];
-        Assert.AreEqual(251.86, NullMath.Round(r.Sma, 6));
-        Assert.AreEqual(9.450000, NullMath.Round(r.Mad, 6));
-        Assert.AreEqual(119.25102, NullMath.Round(r.Mse, 6));
-        Assert.AreEqual(0.037637, NullMath.Round(r.Mape, 6));
+        Assert.AreEqual(251.86, r.Sma.Round(6));
+        Assert.AreEqual(9.450000, r.Mad.Round(6));
+        Assert.AreEqual(119.25102, r.Mse.Round(6));
+        Assert.AreEqual(0.037637, r.Mape.Round(6));
     }
 
     [TestMethod]

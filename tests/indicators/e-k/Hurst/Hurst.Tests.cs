@@ -1,10 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace Internal.Tests;
+namespace Tests.Indicators;
 
 [TestClass]
-public class Hurst : TestBase
+public class HurstTests : TestBase
 {
     [TestMethod]
     public void StandardLong()
@@ -21,7 +22,7 @@ public class Hurst : TestBase
 
         // sample value
         HurstResult r15820 = results[15820];
-        Assert.AreEqual(0.483563, NullMath.Round(r15820.HurstExponent, 6));
+        Assert.AreEqual(0.483563, r15820.HurstExponent.Round(6));
     }
 
     [TestMethod]
@@ -109,7 +110,7 @@ public class Hurst : TestBase
         Assert.AreEqual(1, results.Count);
 
         HurstResult last = results.LastOrDefault();
-        Assert.AreEqual(0.483563, NullMath.Round(last.HurstExponent, 6));
+        Assert.AreEqual(0.483563, last.HurstExponent.Round(6));
     }
 
     // bad lookback period
