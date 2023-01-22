@@ -1,7 +1,7 @@
 using BenchmarkDotNet.Running;
 
 [assembly: CLSCompliant(false)]
-namespace Performance.Tests;
+namespace Tests.Performance;
 
 public class Program
 {

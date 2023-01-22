@@ -1,6 +1,6 @@
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Common;
 
 // IMPORT TEST DATA
 internal class TestData

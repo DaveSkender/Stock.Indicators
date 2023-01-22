@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace External.Customized;
+namespace Tests.CustomIndicators;
 
 public sealed class MyResult : ResultBase, IReusableResult
 {

@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Attributes;
-using Internal.Tests;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
 namespace Tests.Performance;
 

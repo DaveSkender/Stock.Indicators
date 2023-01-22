@@ -1,11 +1,11 @@
-using Internal.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
-namespace External.Other;
+namespace Tests.Convergence;
 
 [TestClass]
-public class Convergence : TestBase
+public class ConvergenceTests : TestBase
 {
     private static readonly int[] QuotesQuantities =
         new int[]

@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Common;
 
 [TestClass]
 public class QuoteUtility : TestBase

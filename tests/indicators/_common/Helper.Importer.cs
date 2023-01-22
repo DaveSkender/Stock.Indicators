@@ -1,7 +1,7 @@
 using System.Globalization;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Common;
 
 // TEST QUOTE IMPORTER
 internal static class Importer
