@@ -32,8 +32,8 @@ public static partial class Indicator
             {
                 FractalResult fp = fractals[i - windowSpan];
 
-                upperLine = (fp.FractalBear != null) ? fp.FractalBear : upperLine;
-                lowerLine = (fp.FractalBull != null) ? fp.FractalBull : lowerLine;
+                upperLine = fp.FractalBear ?? upperLine;
+                lowerLine = fp.FractalBull ?? lowerLine;
 
                 r.UpperBand = upperLine;
                 r.LowerBand = lowerLine;

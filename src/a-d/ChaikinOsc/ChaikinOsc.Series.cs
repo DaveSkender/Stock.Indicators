@@ -24,7 +24,7 @@ public static partial class Indicator
         // EMA of ADL
         List<(DateTime Date, double)> tpAdl = results
             .Select(x => (
-                x.Date, (double)(x.Adl == null ? double.NaN : x.Adl)))
+                x.Date, (double)(x.Adl ?? double.NaN)))
             .ToList();
 
         List<EmaResult> adlEmaSlow = tpAdl.CalcEma(slowPeriods);

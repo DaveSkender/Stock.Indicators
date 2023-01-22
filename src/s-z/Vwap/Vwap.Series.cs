@@ -19,7 +19,7 @@ public static partial class Indicator
             return results;
         }
 
-        startDate = (startDate == null) ? qdList[0].Date : startDate;
+        startDate ??= qdList[0].Date;
 
         double? cumVolume = 0;
         double? cumVolumeTP = 0;

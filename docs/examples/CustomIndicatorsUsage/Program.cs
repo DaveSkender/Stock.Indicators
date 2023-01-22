@@ -8,7 +8,7 @@ namespace ConsoleApp;
 // USE CUSTOM INDICATORS exactly the same as
 // other indicators in the library
 
-public class Program
+public static class Program
 {
     public static void Main()
     {

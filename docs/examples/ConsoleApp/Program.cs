@@ -9,7 +9,7 @@ using Skender.Stock.Indicators;
 
 namespace ConsoleApp;
 
-public class Program
+public static class Program
 {
     public static void Main()
     {

@@ -136,7 +136,7 @@ public static partial class Indicator
         decimal open, decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
     {
-        decimal? x = null;
+        decimal? x;
 
         if (close < open)
         {
@@ -146,7 +146,7 @@ public static partial class Indicator
         {
             x = (2 * high) + low + close;
         }
-        else if (close == open)
+        else // close == open
         {
             x = high + low + (2 * close);
         }

@@ -24,13 +24,11 @@ public static partial class Indicator
             CandleResult r = results[i];
 
             // check for current signal
-            if (r.Candle.Open != 0)
+            if (r.Candle.Open != 0
+                && Math.Abs((double)(r.Candle.Close / r.Candle.Open) - 1d) <= maxPriceChangePercent)
             {
-                if (Math.Abs((double)(r.Candle.Close / r.Candle.Open) - 1d) <= maxPriceChangePercent)
-                {
-                    r.Price = r.Candle.Close;
-                    r.Match = Match.Neutral;
-                }
+                r.Price = r.Candle.Close;
+                r.Match = Match.Neutral;
             }
         }
 
