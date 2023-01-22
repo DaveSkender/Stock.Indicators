@@ -55,33 +55,32 @@ public class Program
             // unrealized gain on open trade
             decimal trdGain = trdQty * (q.Close - trdPrice);
 
-            switch (l.StochRsi)
+            // check for LONG event
+            // condition: Stoch RSI was <= 20 and Stoch RSI crosses over Signal
+            if (l.StochRsi <= 20
+             && l.StochRsi < l.Signal
+             && e.StochRsi >= e.Signal
+             && trdQty != 1)
             {
-                // check for LONG event
-                // condition: Stoch RSI was <= 20 and Stoch RSI crosses over Signal
-                case <= 20
-                when l.StochRsi < l.Signal
-                     && e.StochRsi >= e.Signal
-                     && trdQty != 1:
-                    // emulates BTC + BTO
-                    rlzGain += trdGain;
-                    trdQty = 1;
-                    trdPrice = q.Close;
-                    cross = "LONG";
-                    break;
+                // emulates BTC + BTO
+                rlzGain += trdGain;
+                trdQty = 1;
+                trdPrice = q.Close;
+                cross = "LONG";
+            }
 
-                // check for SHORT event
-                // condition: Stoch RSI was >= 80 and Stoch RSI crosses under Signal
-                case >= 80
-                when l.StochRsi > l.Signal
-                     && e.StochRsi <= e.Signal
-                     && trdQty != -1:
-                    // emulates STC + STO
-                    rlzGain += trdGain;
-                    trdQty = -1;
-                    trdPrice = q.Close;
-                    cross = "SHORT";
-                    break;
+            // check for SHORT event
+            // condition: Stoch RSI was >= 80 and Stoch RSI crosses under Signal
+            else if (l.StochRsi >= 80
+             && l.StochRsi > l.Signal
+             && e.StochRsi <= e.Signal
+             && trdQty != -1)
+            {
+                // emulates STC + STO
+                rlzGain += trdGain;
+                trdQty = -1;
+                trdPrice = q.Close;
+                cross = "SHORT";
             }
 
             if (cross != string.Empty)
