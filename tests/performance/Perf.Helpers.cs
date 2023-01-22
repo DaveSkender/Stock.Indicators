@@ -6,7 +6,6 @@ namespace Tests.Performance;
 
 // HELPERS, both public and private
 
-[MarkdownExporterAttribute.GitHub]
 public class HelperPerformance
 {
     private static IEnumerable<Quote> h;

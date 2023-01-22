@@ -4,7 +4,6 @@ using Tests.Common;
 
 namespace Tests.Performance;
 
-[MarkdownExporterAttribute.GitHub]
 public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;
