@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
-using Internal.Tests;
 using Skender.Stock.Indicators;
+using Tests.Common;
 
 internal class Program
 {

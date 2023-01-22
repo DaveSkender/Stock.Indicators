@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
-namespace Internal.Tests;
+namespace Tests.Common;
 
 [TestClass]
 public class QuoteSourceTests : TestBase
