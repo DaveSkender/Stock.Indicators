@@ -102,7 +102,7 @@ public static partial class Indicator
             // SMMA case
             else if (i >= lookbackPeriods - 1 && movingAverageType is MaType.SMMA)
             {
-                s = (s == null) ? results[i].Oscillator : s; // reset if null
+                s ??= results[i].Oscillator; // reset if null
 
                 s = ((s * (signalPeriods - 1)) + results[i].Oscillator) / signalPeriods;
                 r.Signal = s;
@@ -148,7 +148,7 @@ public static partial class Indicator
 
             for (int i = lookbackPeriods - 1; i < length; i++)
             {
-                k = (k == null) ? results[i].Oscillator : k; // reset if null
+                k ??= results[i].Oscillator; // reset if null
 
                 k = ((k * (smoothPeriods - 1)) + results[i].Oscillator) / smoothPeriods;
                 smooth[i] = k;
@@ -158,7 +158,7 @@ public static partial class Indicator
         // replace oscillator
         for (int i = 0; i < length; i++)
         {
-            results[i].Oscillator = (smooth[i] != null) ? smooth[i] : null;
+            results[i].Oscillator = smooth[i];
         }
 
         return results;

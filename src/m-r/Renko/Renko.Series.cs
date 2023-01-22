@@ -110,7 +110,7 @@ public static partial class Indicator
         decimal brickSize)
         where TQuote : IQuote
     {
-        int bricks = 0;
+        int bricks;
         decimal upper = Math.Max(lastBrick.Open, lastBrick.Close);
         decimal lower = Math.Min(lastBrick.Open, lastBrick.Close);
 
