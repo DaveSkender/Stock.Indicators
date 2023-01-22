@@ -185,9 +185,9 @@ public class CustomIndicatorTests
     [TestMethod]
     public void QuoteToSortedList()
     {
-        IEnumerable<Quote> quotes = TestData.GetMismatch();
+        IEnumerable<Quote> mismatch = TestData.GetMismatch();
 
-        Collection<Quote> h = quotes.ToSortedCollection();
+        Collection<Quote> h = mismatch.ToSortedCollection();
 
         // proper quantities
         Assert.AreEqual(502, h.Count);

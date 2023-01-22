@@ -8,7 +8,6 @@ namespace Tests.Convergence;
 public class ConvergenceTests : TestBase
 {
     private static readonly int[] QuotesQuantities =
-        new int[]
         {
             5, 14, 28, 40, 50, 75, 100, 110, 120, 130, 140, 150,
             160, 175, 200, 250, 350, 500, 600, 700, 800, 900, 1000

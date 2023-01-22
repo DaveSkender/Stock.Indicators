@@ -21,10 +21,11 @@ public class TransformTests : TestBase
 
     // null ToCollection
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Bad collection transform.")]
-    public void ToTransformNull()
+    public void Exceptions()
     {
         List<Quote> nullQuotes = null;
-        nullQuotes.ToCollection();
+
+        Assert.ThrowsException<ArgumentNullException>(()
+            => nullQuotes.ToCollection());
     }
 }
