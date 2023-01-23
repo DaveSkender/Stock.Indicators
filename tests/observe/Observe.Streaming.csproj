@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Alpaca.Markets" Version="6.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
     <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
