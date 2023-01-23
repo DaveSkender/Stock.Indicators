@@ -42,6 +42,14 @@ public static partial class Indicator
         return new(useObserver, lookbackPeriods);
     }
 
+    // OBSERVER, from Chain Provider
+    /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
+    ///
+    public static EmaObserver GetSma(
+        this TupleProvider tupleProvider,
+        int lookbackPeriods)
+        => new(tupleProvider, lookbackPeriods);
+
     /// <include file='./info.xml' path='info/type[@name="Analysis"]/*' />
     ///
     // ANALYSIS, from TQuote

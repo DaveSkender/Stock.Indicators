@@ -41,4 +41,12 @@ public static partial class Indicator
 
         return new(useObserver, lookbackPeriods);
     }
+
+    // OBSERVER, from Chain Provider
+    /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
+    ///
+    public static EmaObserver GetEma(
+        this TupleProvider tupleProvider,
+        int lookbackPeriods)
+        => new(tupleProvider, lookbackPeriods);
 }
