@@ -2,7 +2,7 @@
 
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package" alt="NuGet package badge" width="155" height="20" /></a>
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads" alt="Package downloads badge" width="125" height="20" /></a>
-<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab"><img src="https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage" alt="Test code coverage badge" width="149" height="20" /></a>
+<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName={{site.github.source.branch}}&view=codecoverage-tab"><img src="https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/{{site.github.source.branch}}?logo=AzureDevOps&label=Test%20Coverage" alt="Test code coverage badge" width="149" height="20" /></a>
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
