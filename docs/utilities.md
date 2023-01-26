@@ -41,9 +41,6 @@ var results = quotes
 `quotes.Aggregate(newSize)` is a tool to convert quotes to larger bar sizes.  For example if you have minute bar sizes in `quotes`, but want to convert it to hourly or daily.
 
 ```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<TQuote> minuteBarQuotes = GetHistoryFromFeed("MSFT");
-
 // aggregate into larger bars
 IEnumerable<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(PeriodSize.Day);
@@ -52,7 +49,7 @@ IEnumerable<Quote> dayBarQuotes =
 An alternate version of this utility is provided where you can use any native `TimeSpan` value that is greater than `TimeSpan.Zero`.
 
 ```csharp
-// alternate usage
+// alternate usage with TimeSpan
 IEnumerable<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(TimeSpan timeSpan);
 ```
@@ -93,9 +90,6 @@ IEnumerable<CandleProperties> candles = quotes.ToCandles();
 `quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
 
 ```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
-
 // advanced validation
 IEnumerable<Quote> validatedQuotes = quotes.Validate();
 
