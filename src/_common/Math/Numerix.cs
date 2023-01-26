@@ -26,8 +26,8 @@ public static class Numerix
             double sumSq = 0;
             for (int i = 0; i < n; i++)
             {
-                double d = values[i];
-                sumSq += (d - avg) * (d - avg);
+                double v = values[i];
+                sumSq += (v - avg) * (v - avg);
             }
 
             sd = Math.Sqrt(sumSq / n);
