@@ -1,8 +1,10 @@
 trigger:
   - main
+  - v3
 
 pr:
   - main
+  - v3
 
 pool:
   name: Azure Pipelines
