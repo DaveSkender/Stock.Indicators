@@ -1,13 +1,10 @@
 using Alpaca.Markets;
 using Skender.Stock.Indicators;
-using Tests.Common;
 
 namespace ObserveAlpaca;
 
 internal class Program
 {
-    //private static readonly IEnumerable<Quote> quotes = GetLongest();
-
     private static async Task Main(string[] args)
     {
         if (args.Any())
@@ -17,43 +14,7 @@ internal class Program
 
         Paca alpaca = new();
         await alpaca.SubscribeToQuotes("BTC/USD");
-
-        //// todo: replace with real WebSocket
-        //Collection<Quote> quotesList = quotes
-        //    .ToSortedCollection();
-
-        //QuoteProvider provider = new();
-        //EmaObserver observer = provider.GetEma(14);
-
-        //int length = Math.Min(40, quotesList.Count);
-
-        //for (int i = 0; i < length; i++)
-        //{
-        //    Thread.Sleep(50); // emulate pause
-
-        //    Quote q = quotesList[i];
-        //    provider.Add(q);
-
-        //    EmaResult? emaR = observer.Results.LastOrDefault();
-
-        //    if (emaR != null)
-        //    {
-        //        string msg = $"{emaR!.Date:s} {emaR!.Ema:N4}";
-        //        Console.WriteLine(msg);
-        //    }
-        //}
-
-        //observer.Unsubscribe();
-        //provider.EndTransmission();
     }
-
-    // LONGEST DATA ~62 years of S&P 500 daily data
-    internal static IEnumerable<Quote> GetLongest()
-        => File.ReadAllLines("SNP62YR.csv")
-            .Skip(1)
-            .Select(Importer.QuoteFromCsv)
-            .ToList();
-
 }
 
 public class Paca
@@ -95,7 +56,7 @@ public class Paca
 
         await client.ConnectAndAuthenticateAsync();
 
-        AutoResetEvent[] waitObjects = new[]
+        AutoResetEvent[] waitObjects = new[]  // todo: is this needed?
         {
             new AutoResetEvent(false)
         };
@@ -105,8 +66,6 @@ public class Paca
 
         alpacaSubscription.Received += (q) =>
         {
-            Console.WriteLine($"{q.Symbol} {q.TimeUtc:s} ${q.Close:N2} | {q.TradeCount} trades");
-
             // add to our provider
             provider.Add(new Quote
             {
@@ -117,50 +76,42 @@ public class Paca
                 Close = q.Close,
                 Volume = q.Volume
             });
+
+            Console.WriteLine($"{q.Symbol} {q.TimeUtc:s} ${q.Close:N2} | {q.TradeCount} trades");
         };
 
         await client.SubscribeAsync(alpacaSubscription);
 
-        // to stop watching
+        // to stop watching on key press
         Console.ReadKey();
 
         provider.EndTransmission();
         await client.UnsubscribeAsync(alpacaSubscription);
         await client.DisconnectAsync();
 
-        Console.WriteLine("-- QUOTES STORED --");
-        List<Quote> provQuotes = provider.Quotes.ToList();
-        int provLength = provQuotes.Count;
-        for (int i = 0; i < provLength; i++)
+        Console.WriteLine("-- QUOTES STORED (last 10 only) --");
+        foreach (Quote? pt in provider.Quotes.TakeLast(10))
         {
-            Quote pq = provQuotes[i];
-            Console.WriteLine($"{symbol} {pq.Date:s} ${pq.Close:N2}");
+            Console.WriteLine($"{symbol} {pt.Date:s} ${pt.Close:N2}");
         }
 
         // show last 3 results for indicator results
-
-        Console.WriteLine("-- EMA RESULTS (last 3 only) --");
-        List<EmaResult> e1 = ema.Results.ToList();
-        for (int i = Math.Max(0, e1.Count - 3); i < e1.Count; i++)
+        Console.WriteLine("-- EMA(14,CLOSE) RESULTS (last 3 only) --");
+        foreach (EmaResult? e in ema.Results.TakeLast(3))
         {
-            EmaResult r = e1[i];
-            Console.WriteLine($"{symbol} {r.Date:s} ${r.Ema:N2}");
+            Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
         }
 
-        Console.WriteLine("-- EMA CHAINED (last 3 only) --");
-        List<EmaResult> e2 = emaChain.Results.ToList();
-        for (int i = Math.Max(0, e2.Count - 3); i < e2.Count; i++)
+        Console.WriteLine("-- EMA(10,HL2) CHAINED (last 3 only) --");
+        foreach (EmaResult? e in emaChain.Results.TakeLast(3))
         {
-            EmaResult r = e2[i];
-            Console.WriteLine($"{symbol} {r.Date:s} ${r.Ema:N2}");
+            Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
         }
 
-        Console.WriteLine("-- SMA RESULTS (last 3 only) --");
-        List<SmaResult> s1 = sma.Results.ToList();
-        for (int i = Math.Max(0, s1.Count - 3); i < s1.Count; i++)
+        Console.WriteLine("-- SMA(5) RESULTS (last 3 only) --");
+        foreach (SmaResult? s in sma.Results.TakeLast(3))
         {
-            SmaResult r = s1[i];
-            Console.WriteLine($"{symbol} {r.Date:s} ${r.Sma:N2}");
+            Console.WriteLine($"{symbol} {s.Date:s} ${s.Sma:N2}");
         }
     }
 }

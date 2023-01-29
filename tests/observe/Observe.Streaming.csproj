@@ -16,10 +16,4 @@
     <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="SNP62YR.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
