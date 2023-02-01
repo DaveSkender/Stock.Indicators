@@ -170,8 +170,8 @@ This library also includes several tools that we use internally to calculate ind
 
 | method | example usage
 | -- |--
-| Slope | `double[] xValues = { 1, 2, 5, 4, 1 };`<br>`double[] yValues = { 4, 7, 8, 1, 1 };`<br>`double slope = Numerics.Slope(xValues, yValues);`
-| Standard deviation | `double[] values = { 1, 2, 3, 4, 5 };`<br>`double sd = values.StdDev();`
+| Slope | `double[] xValues = { 1, 2, 5, 4 };`<br>`double[] yValues = { 4, 7, 8, 1 };`<br>`double slope = Numerics.Slope(xValues, yValues);`
+| Standard deviation | `double[] values = { 1, 2, 3, 4 };`<br>`double sd = values.StdDev();`
 
 ### NullMath
 
