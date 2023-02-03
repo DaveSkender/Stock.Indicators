@@ -77,7 +77,7 @@ Thank you for your support!  This software is crafted with care by unpaid enthus
 
 ## Contribute to help others
 
-This NuGet package is an open-source project :octocat:.  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog](https://github.com/users/DaveSkender/projects/1).
+This NuGet package is an open-source project [on GitHub](https://github.com/DaveSkender/Stock.Indicators).  If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines]({{site.baseurl}}/contributing/#content) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
 Special thanks to all of our community code contributors!
 
