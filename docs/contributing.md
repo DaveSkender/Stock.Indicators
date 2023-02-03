@@ -92,7 +92,7 @@ When adding or updating indicators:
 - build the site locally (see above), then:
 
 ```bash
-npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml --sitemap-exclude "/*.pdf"
+npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml"
 ```
 
 ## Submitting changes
