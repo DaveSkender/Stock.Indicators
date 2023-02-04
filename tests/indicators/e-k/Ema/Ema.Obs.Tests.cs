@@ -55,4 +55,46 @@ public class EmaStreamTests : TestBase
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void Usee()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
+        // time-series, for comparison
+        List<EmaResult> staticEma = quotes
+            .Use(CandlePart.OC2)
+            .GetEma(11)
+            .ToList();
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // initialize EMA observer
+        List<EmaResult> streamEma = provider
+            .Use(CandlePart.OC2)
+            .GetEma(11)
+            .ProtectedResults;
+
+        // emulate adding quotes to provider
+        for (int i = 0; i < length; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        provider.EndTransmission();
+
+        // assert, should equal series
+        for (int i = 0; i < length; i++)
+        {
+            EmaResult t = staticEma[i];
+            EmaResult s = streamEma[i];
+
+            Assert.AreEqual(t.Date, s.Date);
+            Assert.AreEqual(t.Ema, s.Ema);
+        }
+    }
 }

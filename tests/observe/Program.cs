@@ -12,12 +12,12 @@ internal class Program
             Console.WriteLine(args);
         }
 
-        Paca alpaca = new();
-        await alpaca.SubscribeToQuotes("BTC/USD");
+        QuoteStream quoteStream = new();
+        await quoteStream.SubscribeToQuotes("BTC/USD");
     }
 }
 
-public class Paca
+public class QuoteStream
 {
     private readonly string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
     private readonly string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
@@ -61,10 +61,10 @@ public class Paca
             new AutoResetEvent(false)
         };
 
-        IAlpacaDataSubscription<IBar> alpacaSubscription
+        IAlpacaDataSubscription<IBar> quoteSubscription
             = client.GetMinuteBarSubscription(symbol);
 
-        alpacaSubscription.Received += (q) =>
+        quoteSubscription.Received += (q) =>
         {
             // add to our provider
             provider.Add(new Quote
@@ -80,13 +80,13 @@ public class Paca
             Console.WriteLine($"{q.Symbol} {q.TimeUtc:s} ${q.Close:N2} | {q.TradeCount} trades");
         };
 
-        await client.SubscribeAsync(alpacaSubscription);
+        await client.SubscribeAsync(quoteSubscription);
 
         // to stop watching on key press
         Console.ReadKey();
 
         provider.EndTransmission();
-        await client.UnsubscribeAsync(alpacaSubscription);
+        await client.UnsubscribeAsync(quoteSubscription);
         await client.DisconnectAsync();
 
         Console.WriteLine("-- QUOTES STORED (last 10 only) --");

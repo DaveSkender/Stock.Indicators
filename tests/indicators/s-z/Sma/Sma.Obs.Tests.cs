@@ -81,4 +81,46 @@ public class SmaStreamTests : TestBase
         sma = SmaObserver.Increment(tpList, tpList.Count - 1, 10);
         Assert.AreEqual(double.NaN, sma);
     }
+
+    [TestMethod]
+    public void Usee()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
+        // time-series, for comparison
+        List<SmaResult> staticSma = quotes
+            .Use(CandlePart.OC2)
+            .GetSma(11)
+            .ToList();
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // initialize EMA observer
+        List<SmaResult> streamSma = provider
+            .Use(CandlePart.OC2)
+            .GetSma(11)
+            .ProtectedResults;
+
+        // emulate adding quotes to provider
+        for (int i = 0; i < length; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        provider.EndTransmission();
+
+        // assert, should equal series
+        for (int i = 0; i < length; i++)
+        {
+            SmaResult t = staticSma[i];
+            SmaResult s = streamSma[i];
+
+            Assert.AreEqual(t.Date, s.Date);
+            Assert.AreEqual(t.Sma, s.Sma);
+        }
+    }
 }
