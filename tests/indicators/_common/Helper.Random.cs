@@ -27,15 +27,15 @@ internal class RandomGbm : List<Quote>
     public RandomGbm(
         int bars = 250,
         double volatility = 1.0,
-        double drift = 0.05,
-        double seed = 10000000.0)
+        double drift = 0.01,
+        double seed = 1000.0)
     {
         this.seed = seed;
         this.volatility = volatility * 0.01;
-        this.drift = drift * 0.01;
+        this.drift = drift * 0.001;
         for (int i = 0; i < bars; i++)
         {
-            DateTime date = DateTime.Today.AddDays(i - bars);
+            DateTime date = DateTime.Today.AddMinutes(i - bars);
             Add(date);
         }
     }

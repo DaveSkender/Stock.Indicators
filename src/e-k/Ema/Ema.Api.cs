@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
+
 public static partial class Indicator
 {
     // SERIES, from TQuote
@@ -28,30 +29,24 @@ public static partial class Indicator
             .ToSortedList()
             .CalcEma(lookbackPeriods);
 
-    // STREAM INITIALIZATION, from TQuote
-    /// <include file='./info.xml' path='info/type[@name="stream"]/*' />
+    // OBSERVER, from Quote Provider
+    /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    internal static EmaBase InitEma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-    {
-        // convert quotes
-        List<(DateTime, double)> tpList
-            = quotes.ToTuple(CandlePart.Close);
-
-        return new EmaBase(tpList, lookbackPeriods);
-    }
-
-    // STREAM INITIALIZATION, from CHAIN
-    internal static EmaBase InitEma(
-        this IEnumerable<IReusableResult> results,
+    public static EmaObserver GetEma(
+        this QuoteProvider provider,
         int lookbackPeriods)
     {
-        // convert results
-        List<(DateTime, double)> tpList
-            = results.ToTuple();
+        UseObserver useObserver = provider
+            .Use(CandlePart.Close);
 
-        return new EmaBase(tpList, lookbackPeriods);
+        return new(useObserver, lookbackPeriods);
     }
+
+    // OBSERVER, from Chain Provider
+    /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
+    ///
+    public static EmaObserver GetEma(
+        this TupleProvider tupleProvider,
+        int lookbackPeriods)
+        => new(tupleProvider, lookbackPeriods);
 }
