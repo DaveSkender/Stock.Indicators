@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alpaca.Markets" Version="6.1.7" />
+    <PackageReference Include="Alpaca.Markets" Version="6.1.8" />
   </ItemGroup>
 
   <ItemGroup>
