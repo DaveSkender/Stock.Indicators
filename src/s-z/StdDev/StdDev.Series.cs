@@ -25,25 +25,25 @@ public static partial class Indicator
 
             if (i + 1 >= lookbackPeriods)
             {
-                double[] periodValues = new double[lookbackPeriods];
+                double[] values = new double[lookbackPeriods];
                 double sum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double dValue) = tpList[p];
-                    periodValues[n] = dValue;
-                    sum += dValue;
+                    (DateTime _, double v) = tpList[p];
+                    values[n] = v;
+                    sum += v;
                     n++;
                 }
 
-                double periodAvg = sum / lookbackPeriods;
+                double avg = sum / lookbackPeriods;
 
-                r.StdDev = periodValues.StdDev().NaN2Null();
-                r.Mean = periodAvg.NaN2Null();
+                r.StdDev = values.StdDev().NaN2Null();
+                r.Mean = avg.NaN2Null();
 
                 r.ZScore = (r.StdDev == 0) ? null
-                    : (value - periodAvg) / r.StdDev;
+                    : (value - avg) / r.StdDev;
             }
 
             // optional SMA
