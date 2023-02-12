@@ -60,7 +60,7 @@ exclude: [
   "*.pptx",
   "*.sln",
   ".offline",
-  "docs/README.md"
+  "docs/README.md",
   "examples/Backtest",
   "examples/ConsoleApp",
   "GemFile",
