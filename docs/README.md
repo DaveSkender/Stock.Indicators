@@ -1,4 +1,4 @@
-### Documentation
+## Documentation website
 
 Visit [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) to read our documentation.
 
