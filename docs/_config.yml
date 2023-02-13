@@ -69,6 +69,7 @@ exclude: [
 ]
 
 include: [
+  "home.md",
   "contributing.md",
   "guide.md",
   "indicators.html",
@@ -85,11 +86,10 @@ defaults:
     values:
       layout: "base"
       image: /assets/social-banner.png
-      description: Transform financial market prices into technical analysis insights with this best in class C# NuGet library.  Go further with chaining and custom indicators.
 
 # page collections
 collections:
   indicators:
     output: true
-    permalink: /:path/
+    permalink: /:path
     sort_by: "title"

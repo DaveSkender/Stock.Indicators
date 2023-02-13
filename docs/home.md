@@ -1,4 +1,12 @@
-# Stock Indicators for .NET
+---
+title: Stock Indicators for .NET
+description: "Transform financial market prices into technical analysis insights with this best in class C# NuGet library. Go further
+with chaining and custom indicators."
+permalink: /
+layout: base
+---
+
+<h1>{{ page.title }}</h1>
 
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package" alt="NuGet package badge" width="155" height="20" /></a>
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators"><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads" alt="Package downloads badge" width="125" height="20" /></a>
