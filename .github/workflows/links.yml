@@ -45,4 +45,4 @@ jobs:
             --assume-extension \
             --http-status-ignore "403,406,429,503,999" \
             --url-swap "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
-            --url-ignore "/fonts.gstatic.com/,examples.webp"
+            --url-ignore "/fonts.gstatic.com/"
