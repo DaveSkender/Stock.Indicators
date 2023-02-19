@@ -183,16 +183,16 @@ public static partial class Indicator
         {
             string message = string.Format(
                 EnglishCulture,
-                "Acceleration Step must be smaller than provided Max Acceleration Factor ({0}) for Parabolic SAR.",
+                "Acceleration Step cannot be larger than the Max Acceleration Factor ({0}) for Parabolic SAR.",
                 maxAccelerationFactor);
 
             throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep, message);
         }
 
-        if (initialFactor <= 0 || initialFactor >= maxAccelerationFactor)
+        if (initialFactor <= 0 || initialFactor > maxAccelerationFactor)
         {
             throw new ArgumentOutOfRangeException(nameof(initialFactor), initialFactor,
-                "Initial Step must be greater than 0 and less than Max Acceleration Factor for Parabolic SAR.");
+                "Initial Factor must be greater than 0 and not larger than Max Acceleration Factor for Parabolic SAR.");
         }
     }
 }
