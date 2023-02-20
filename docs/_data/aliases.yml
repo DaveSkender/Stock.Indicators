@@ -58,6 +58,10 @@
   permalink: /indicators/Atr/
   type: price-characteristic
 
+- title: New Highs New Lows
+  permalink: /indicators/NewHighsNewLows/
+  type: price-trend
+
 - title: HL2
   permalink: /indicators/BasicQuote/
   type: price-transform
