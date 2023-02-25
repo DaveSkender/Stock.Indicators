@@ -118,7 +118,7 @@ public static partial class Indicator
 
             var net = newHighs - newLows;
             cumulative = cumulative + net;
-            var recordHighPercent = newHighs == 0 ? 0 : (newHighs / (newHighs + newLows)) * 100;
+            double recordHighPercent = newHighs > 0 ? (newHighs / (newHighs + newLows)) * 100 : 0;
 
             results.Add(new NewHighsNewLowsResult(newHighsNewLowsResults.First()[i].Date)
             {
