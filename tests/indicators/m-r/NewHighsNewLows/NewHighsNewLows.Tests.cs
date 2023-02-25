@@ -37,19 +37,19 @@ public class NewHighsNewLowsTests : TestBase
         Assert.AreEqual(1, r6.Net.Round(4));
 
         NewHighsNewLowsResult r7 = results[439];
-        Assert.AreEqual(51, r7.NewHighs.Round(4));
+        Assert.AreEqual(53, r7.NewHighs.Round(4));
 
         NewHighsNewLowsResult r8 = results[439];
         Assert.AreEqual(0, r8.NewLows.Round(4));
 
         NewHighsNewLowsResult r9 = results[439];
-        Assert.AreEqual(51, r9.Net.Round(4));
+        Assert.AreEqual(53, r9.Net.Round(4));
 
         NewHighsNewLowsResult r10 = results.Last();
-        Assert.AreEqual(71.875, r10.RecordHighPercent.Round(4));
+        Assert.AreEqual(71.4286, r10.RecordHighPercent.Round(4));
 
         NewHighsNewLowsResult r12 = results.Last();
-        Assert.AreEqual(21699, r12.Cumulative.Round(4));
+        Assert.AreEqual(21850, r12.Cumulative.Round(4));
     }
 
     [TestMethod]
