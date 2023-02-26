@@ -44,6 +44,6 @@ jobs:
             --root-dir _site \
             --ignore-status-codes [403,406,429,503,999] \
             --swap-urls "https\://dotnet.stockindicators.dev" : "http\://127.0.0.1:4000" \
-            --swap-attributes: { 'img': [['data-src', 'src']] } \
+            --swap-attributes: { 'img' => [['data-src', 'src']] } \
             --ignore-urls ["/fonts.gstatic.com/"] \
             --ignore-files ["_site/contributing/index.html"]
