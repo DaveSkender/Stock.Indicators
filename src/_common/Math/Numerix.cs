@@ -5,9 +5,7 @@ public static class Numerix
     // STANDARD DEVIATION
     public static double StdDev(this double[] values)
     {
-        // ref: https://stackoverflow.com/questions/2253874/standard-deviation-in-linq
-        // and then modified to an iterative model without LINQ, for performance improvement
-
+        // validate parameters
         if (values is null)
         {
             throw new ArgumentNullException(nameof(values), "StdDev values cannot be null.");
@@ -28,8 +26,8 @@ public static class Numerix
             double sumSq = 0;
             for (int i = 0; i < n; i++)
             {
-                double d = values[i];
-                sumSq += (d - avg) * (d - avg);
+                double v = values[i];
+                sumSq += (v - avg) * (v - avg);
             }
 
             sd = Math.Sqrt(sumSq / n);

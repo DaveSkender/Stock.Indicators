@@ -114,7 +114,7 @@ public class ParabolicSarTests : TestBase
     public void BadData()
     {
         List<ParabolicSarResult> r = badQuotes
-            .GetParabolicSar()
+            .GetParabolicSar(0.2, 0.2, 0.2)
             .ToList();
 
         Assert.AreEqual(502, r.Count);

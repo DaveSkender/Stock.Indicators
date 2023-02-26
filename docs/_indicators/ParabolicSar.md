@@ -30,7 +30,7 @@ IEnumerable<ParabolicSarResult> results =
 
 **`maxAccelerationFactor`** _`double`_ - Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
 
-**`initialFactor`** _`double`_ - Optional.  Initial Acceleration Factor.  Must be greater than 0.  Default is `accelerationStep`.
+**`initialFactor`** _`double`_ - Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`.
 
 ### Historical quotes requirements
 

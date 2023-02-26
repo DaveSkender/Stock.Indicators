@@ -115,17 +115,9 @@ public static partial class Indicator
             double a = mrktReturns[p];
             double b = evalReturns[p];
 
-            if (type is BetaType.Standard)
-            {
-                dataA.Add(a);
-                dataB.Add(b);
-            }
-            else if (type is BetaType.Down && a < 0)
-            {
-                dataA.Add(a);
-                dataB.Add(b);
-            }
-            else if (type is BetaType.Up && a > 0)
+            if (type is BetaType.Standard
+            || (type is BetaType.Down && a < 0)
+            || (type is BetaType.Up && a > 0))
             {
                 dataA.Add(a);
                 dataB.Add(b);

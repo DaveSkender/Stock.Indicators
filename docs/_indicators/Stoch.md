@@ -74,7 +74,7 @@ IEnumerable<StochResult>
 
 **`Signal` or `D`** _`double`_ - %D Simple moving average of Oscillator
 
-**`PercentJ` or `J`** _`double`_ - %J is the weighted divergence of %K and %D: `%J=kFactor×%K-dFactor×%D`
+**`PercentJ` or `J`** _`double`_ - %J is the weighted divergence of %K and %D: `%J = kFactor × %K - dFactor × %D`
 
 Note: aliases of `K`, `D`, and `J` are also provided.  They can be used interchangeably with the standard outputs.
 
