@@ -36,7 +36,6 @@ jobs:
         with:
           find: "data-src"
           replace: "src"
-          include: "home.md"
           regex: false
 
       - uses: actions/checkout@v2
@@ -54,18 +53,20 @@ jobs:
         run: bundle exec jekyll build --trace
 
       - name: Serve site
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
         working-directory: docs
         env:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll serve --detach
 
       - name: Test for broken URLs
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
         working-directory: docs
         run: |
           htmlproofer _site \
-            --checks ["Links","Images","Scripts"]
-            --root-dir _site \
+            --log-level "debug"
             --ignore-status-codes [403,406,429,503,999] \
-            --swap-urls "https\://dotnet.stockindicators.dev" : "http\://127.0.0.1:4000" \
-            --ignore-urls ["/fonts.gstatic.com/"] \
-            --ignore-files ["_site/contributing/index.html"]
+            --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
+            --ignore-urls ["/fonts.gstatic.com/"]

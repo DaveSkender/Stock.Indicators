@@ -39,6 +39,8 @@ jobs:
         run: bundle exec jekyll build
 
       - name: Serve site
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
         working-directory: docs
         env:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
