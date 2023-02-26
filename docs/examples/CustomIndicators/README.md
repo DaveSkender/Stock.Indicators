@@ -107,7 +107,7 @@ using Custom.Stock.Indicators; // your custom library
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 10-period ATR WMA
 IEnumerable<AtrWmaResult> results = quotes.GetAtrWma(10);

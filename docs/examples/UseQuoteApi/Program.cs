@@ -7,8 +7,10 @@ internal class Program
 {
     private static async Task Main()
     {
+        string symbol = "AAPL";
+
         // fetch historical quotes from data provider
-        IEnumerable<Quote> quotes = await GetHistoryFromFeed("AAPL");
+        IEnumerable<Quote> quotes = await GetQuotesFromFeed(symbol);
 
         // calculate 10-period SMA
         IEnumerable<SmaResult> results = quotes.GetSma(10);
@@ -19,7 +21,7 @@ internal class Program
         }
 
         // show results
-        Console.WriteLine("SMA Results ---------------------------");
+        Console.WriteLine($"{symbol} Results ------- (last 10 of {results.Count()}) --");
 
         foreach (SmaResult r in results.TakeLast(10))
         {
@@ -29,7 +31,7 @@ internal class Program
 
         // analyze results (compare to quote values)
         Console.WriteLine();
-        Console.WriteLine("SMA Analysis --------------------------");
+        Console.WriteLine($"{symbol} Analysis --------------------------");
 
         /************************************************************
           Results are usually returned with the same number of
@@ -60,11 +62,11 @@ internal class Program
         }
     }
 
-    private static async Task<IEnumerable<Quote>> GetHistoryFromFeed(string symbol)
+    private static async Task<IEnumerable<Quote>> GetQuotesFromFeed(string symbol)
     {
         /************************************************************
 
-         We're using Alpaca SDK for .NET to access thier public APIs.
+         We're using Alpaca SDK for .NET to access their public APIs.
 
          This approach will vary widely depending on where you are
          getting your quote history.
@@ -96,16 +98,17 @@ internal class Program
 
         IAlpacaDataClient client = Environments.Paper.GetAlpacaDataClient(secretKey);
 
-        // compose request (exclude last 15 minutes for free delayed quotes)
+        // compose request
+        // (excludes last 15 minutes for free delayed quotes)
         DateTime into = DateTime.Now.Subtract(TimeSpan.FromMinutes(16));
-        DateTime from = into.Subtract(TimeSpan.FromDays(10000));
+        DateTime from = into.Subtract(TimeSpan.FromDays(1000));
 
         HistoricalBarsRequest request = new(symbol, from, into, BarTimeFrame.Minute);
 
-        // fetch minute-bar quotes in native format
+        // fetch minute-bar quotes in Alpaca's format
         IPage<IBar> barSet = await client.ListHistoricalBarsAsync(request);
 
-        // compose into compatible quotes
+        // convert library compatible quotes
         IEnumerable<Quote> quotes = barSet
             .Items
             .Select(bar => new Quote
@@ -116,7 +119,8 @@ internal class Program
                 Low = bar.Low,
                 Close = bar.Close,
                 Volume = bar.Volume
-            });
+            })
+            .OrderBy(x => x.Date); // optional
 
         return quotes;
     }

@@ -47,7 +47,7 @@ To run the sample projects:
  */
 
 // fetch historical quotes from data provider
-List<Quote> quotesList = GetHistoryFromFeed()
+List<Quote> quotesList = GetQuotesFromFeed()
   .ToList();
 
 // calculate Stochastic RSI

@@ -42,7 +42,7 @@ Install-Package Skender.Stock.Indicators
 
 Most indicators require that you provide historical quote data and additional configuration parameters.
 
-You must get historical quotes from your own market data provider.  For clarification, the `GetHistoryFromFeed()` method shown in the example below **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
+You must get historical quotes from your own market data provider.  For clarification, the `GetQuotesFromFeed()` method shown in the example below **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
 
 Historical price data can be provided as a `List`, `IEnumerable`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
@@ -58,7 +58,7 @@ using Skender.Stock.Indicators;
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("MSFT");
+IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 20-period SMA
 IEnumerable<SmaResult> results = quotes
@@ -141,7 +141,7 @@ public class MyCustomQuote : IQuote
 
 ```csharp
 // fetch historical quotes from your favorite feed
-IEnumerable<MyCustomQuote> myQuotes = GetHistoryFromFeed("MSFT");
+IEnumerable<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
 
 // example: get 20-period simple moving average
 IEnumerable<SmaResult> results = myQuotes.GetSma(20);
@@ -189,7 +189,7 @@ public class MyEma : ResultBase
 public void MyClass(){
 
   // fetch historical quotes from your feed (your method)
-  IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+  IEnumerable<Quote> quotes = GetQuotesFromFeed("SPY");
 
   // compute indicator
   INumerable<EmaResult> emaResults = quotes.GetEma(14);
@@ -219,7 +219,7 @@ If you want to compute an indicator of indicators, such as an SMA of an ADX or a
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetHistoryFromFeed("SPY");
+IEnumerable<Quote> quotes = GetQuotesFromFeed("SPY");
 
 // calculate RSI of OBV
 IEnumerable<RsiResult> results

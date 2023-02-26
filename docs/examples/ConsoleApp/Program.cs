@@ -10,7 +10,7 @@ public static class Program
     public static void Main()
     {
         // fetch historical quotes from data provider
-        IEnumerable<Quote> quotes = GetHistoryFromFeed();
+        IEnumerable<Quote> quotes = GetQuotesFromFeed();
 
         // calculate 10-period SMA
         IEnumerable<SmaResult> results = quotes.GetSma(10);
@@ -67,7 +67,7 @@ public static class Program
         }
     }
 
-    private static IEnumerable<Quote> GetHistoryFromFeed()
+    private static IEnumerable<Quote> GetQuotesFromFeed()
     {
         /************************************************************
 
