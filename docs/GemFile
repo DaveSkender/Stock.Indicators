@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-gem "webrick" # needed for ruby > v3.0
 gem 'eventmachine', '1.2.7', git: 'https://github.com/eventmachine/eventmachine', tag: 'v1.2.7'
 gem 'wdm', '>= 0.1.1' if Gem.win_platform? # windows compatibilty pack
 gem 'faraday-retry'
@@ -9,9 +8,12 @@ gem 'faraday-retry'
 # local dev: bundle exec jekyll serve
 group :jekyll_plugins do
   gem 'github-pages'
+  gem "jekyll-github-metadata"
   gem 'jemoji'
   gem 'jekyll-remote-theme'
   gem 'jekyll-sitemap'
   gem 'jekyll-last-modified-at' # used in sitemap
   gem 'jekyll-redirect-from'
 end
+
+gem "webrick" # needed for ruby > v3.0

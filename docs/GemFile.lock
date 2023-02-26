@@ -273,6 +273,7 @@ DEPENDENCIES
   eventmachine (= 1.2.7)!
   faraday-retry
   github-pages
+  jekyll-github-metadata
   jekyll-last-modified-at
   jekyll-redirect-from
   jekyll-remote-theme

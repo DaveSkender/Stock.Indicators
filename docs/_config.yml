@@ -36,16 +36,13 @@ twitter:
 # https://github.com/pages-themes/cayman
 remote_theme: pages-themes/cayman@v0.2.0
 
-# override built-in github url because it does not fetch in build tests
-github:
-  repository_url: https://github.com/DaveSkender/Stock.Indicators
-
 ga_tag: G-7602GXEZ0R
 clarity: false
 
 # site plugins and settings
 plugins:
   - jemoji
+  - jekyll-github-metadata
   - jekyll-remote-theme
   - jekyll-sitemap
   - jekyll-last-modified-at
