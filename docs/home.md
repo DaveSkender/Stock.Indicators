@@ -29,7 +29,7 @@ Explore more information:
 
 ## Reputable and extensible indicators
 
-<img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
+<img src="examples.webp" alt="sample indicators shown in chart" />
 
 ## Easy to use in your application
 
