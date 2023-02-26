@@ -18,3 +18,6 @@ end
 # validate URLs with:
 # bundle exec htmlproofer --http-status-ignore '999' _site;
 gem "html-proofer", "~> 5.0.4"
+
+# needed for ruby > v3.0
+gem "webrick"
