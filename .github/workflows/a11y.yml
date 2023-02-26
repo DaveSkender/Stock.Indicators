@@ -22,7 +22,7 @@ jobs:
         with:
           working-directory: docs
           ruby-version: 3.1
-          bundler-cache: true
+          bundler-cache: false
 
       - name: Install GEMs
         working-directory: docs
