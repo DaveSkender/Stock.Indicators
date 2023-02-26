@@ -11,7 +11,7 @@ jobs:
     name: URLs
     runs-on: ubuntu-latest
     env:
-      production_url: "dotnet.stockindicators.dev"
+      ProductionURL: "dotnet.stockindicators.dev"
 
     steps:
       - name: Checkout source
@@ -42,10 +42,10 @@ jobs:
           replace: "src"
           regex: false
 
-      - name: Replace "{{env.production_url}}"
+      - name: Replace $ProductionURL
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "{{env.production_url}}"
+          find: "$ProductionURL"
           replace: "http://127.0.0.1:4000"
           regex: false
 
@@ -67,6 +67,6 @@ jobs:
           htmlproofer _site \
             --no-enforce-https
             --ignore-status-codes "403,406,429,503,999" \
-            --swap-urls "https\://{{env.production_url}}:http\://127.0.0.1:4000" \
-            --ignore-urls "/fonts.gstatic.com/"
+            --swap-urls "https\://$ProductionURL:http\://127.0.0.1:4000" \
+            --ignore-urls "/fonts.gstatic.com/" \
             --url-ignore "/fonts.gstatic.com/"
