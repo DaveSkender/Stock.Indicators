@@ -1,19 +1,22 @@
-using System.Collections.ObjectModel;
-using System.Globalization;
-using Newtonsoft.Json;
+using Alpaca.Markets;
 using Skender.Stock.Indicators;
 
-namespace ConsoleApp;
+namespace UseQuoteApi;
 
-public static class Program
+internal class Program
 {
-    public static void Main()
+    private static async Task Main()
     {
         // fetch historical quotes from data provider
-        IEnumerable<Quote> quotes = GetHistoryFromFeed();
+        IEnumerable<Quote> quotes = await GetHistoryFromFeed("AAPL");
 
         // calculate 10-period SMA
         IEnumerable<SmaResult> results = quotes.GetSma(10);
+
+        if (!results.Any() || results == null)
+        {
+            throw new NullReferenceException("No indicator results were returned.");
+        }
 
         // show results
         Console.WriteLine("SMA Results ---------------------------");
@@ -23,16 +26,6 @@ public static class Program
             // only showing last 10 records for brevity
             Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}");
         }
-
-        // optionally, you can lookup individual values by date
-        DateTime lookupDate = DateTime
-            .Parse("2021-08-12T17:08:17.9746795+02:00", CultureInfo.InvariantCulture);
-
-        double? specificSma = results.Find(lookupDate).Sma;
-
-        Console.WriteLine();
-        Console.WriteLine("SMA on Specific Date ------------------");
-        Console.WriteLine($"SMA on {lookupDate:u} was ${specificSma:N3}");
 
         // analyze results (compare to quote values)
         Console.WriteLine();
@@ -67,12 +60,11 @@ public static class Program
         }
     }
 
-    private static IEnumerable<Quote> GetHistoryFromFeed()
+    private static async Task<IEnumerable<Quote>> GetHistoryFromFeed(string symbol)
     {
         /************************************************************
 
-         We're mocking a data provider here by simply importing a
-         JSON file, a similar format of many public APIs.
+         We're using Alpaca SDK for .NET to access thier public APIs.
 
          This approach will vary widely depending on where you are
          getting your quote history.
@@ -85,10 +77,46 @@ public static class Program
 
          ************************************************************/
 
-        string json = File.ReadAllText("quotes.data.json");
+        // get and validate keys, see README.md
+        string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
+        string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
 
-        Collection<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .ToSortedCollection();
+        if (alpacaApiKey == null)
+        {
+            throw new ArgumentNullException(alpacaApiKey);
+        }
+
+        if (alpacaSecret == null)
+        {
+            throw new ArgumentNullException(alpacaSecret);
+        }
+
+        // connect to Alpaca REST API
+        SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
+
+        IAlpacaDataClient client = Environments.Paper.GetAlpacaDataClient(secretKey);
+
+        // compose request (exclude last 15 minutes for free delayed quotes)
+        DateTime into = DateTime.Now.Subtract(TimeSpan.FromMinutes(16));
+        DateTime from = into.Subtract(TimeSpan.FromDays(10000));
+
+        HistoricalBarsRequest request = new(symbol, from, into, BarTimeFrame.Minute);
+
+        // fetch minute-bar quotes in native format
+        IPage<IBar> barSet = await client.ListHistoricalBarsAsync(request);
+
+        // compose into compatible quotes
+        IEnumerable<Quote> quotes = barSet
+            .Items
+            .Select(bar => new Quote
+            {
+                Date = bar.TimeUtc,
+                Open = bar.Open,
+                High = bar.High,
+                Low = bar.Low,
+                Close = bar.Close,
+                Volume = bar.Volume
+            });
 
         return quotes;
     }

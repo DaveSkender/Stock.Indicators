@@ -1,4 +1,3 @@
-using System;
 using Alpaca.Markets;
 using Skender.Stock.Indicators;
 
@@ -13,20 +12,20 @@ internal class Program
             Console.WriteLine(args);
         }
 
-        QuoteStream quoteStream = new();
-        await quoteStream.SubscribeToQuotes("BTC/USD");
+        await QuoteStream.SubscribeToQuotes("BTC/USD");
     }
 }
 
 public class QuoteStream
 {
-    private readonly string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-    private readonly string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
-
-    public async Task SubscribeToQuotes(string symbol)
+    public static async Task SubscribeToQuotes(string symbol)
     {
         Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
         Console.WriteLine("Press any key to exit the process...");
+
+        // get and validate keys, see README.md
+        string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
+        string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
 
         if (alpacaApiKey == null)
         {
@@ -47,7 +46,7 @@ public class QuoteStream
             .Use(CandlePart.HL2)
             .GetEma(10);
 
-        // connect to Alpaca websocket
+        // connect to Alpaca WebSocket
         SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
 
         IAlpacaCryptoStreamingClient client

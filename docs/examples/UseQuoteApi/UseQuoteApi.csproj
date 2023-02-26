@@ -4,17 +4,12 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Alpaca.Markets" Version="6.1.8" />
     <PackageReference Include="Skender.Stock.Indicators" Version="2.4.10" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="quotes.data.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
