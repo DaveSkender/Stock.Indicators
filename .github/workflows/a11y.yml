@@ -3,9 +3,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-
 jobs:
   testing:
     name: a11y
