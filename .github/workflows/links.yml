@@ -40,6 +40,14 @@ jobs:
         working-directory: docs
         run: |
           htmlproofer _site \
-            --ignore-status-codes "403,406,429,503,999" \
-            --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
-            --ignore-urls "/fonts.gstatic.com/,/contributing/index.html"
+            --checks ["Links"]
+            --ignore-status-codes [403,406,429,503,999] \
+            --swap-urls [
+              "https://dotnet.stockindicators.dev" : "http://127.0.0.1:4000"
+              ] \
+            --ignore-urls [
+              "/fonts.gstatic.com/"
+              ] \
+            --ignore-files [
+              "_site/contributing/index.html"
+              ]
