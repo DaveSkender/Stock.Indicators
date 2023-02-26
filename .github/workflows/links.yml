@@ -53,16 +53,12 @@ jobs:
         run: bundle exec jekyll build --trace
 
       - name: Serve site
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
         working-directory: docs
         env:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll serve --detach
 
       - name: Test for broken URLs
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
         working-directory: docs
         run: |
           htmlproofer _site \
