@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem "webrick" # needed for ruby > v3.0
 gem 'eventmachine', '1.2.7', git: 'https://github.com/eventmachine/eventmachine', tag: 'v1.2.7'
 gem 'wdm', '>= 0.1.1' if Gem.win_platform? # windows compatibilty pack
 gem 'faraday-retry'
@@ -14,10 +15,3 @@ group :jekyll_plugins do
   gem 'jekyll-last-modified-at' # used in sitemap
   gem 'jekyll-redirect-from'
 end
-
-# validate URLs with:
-# bundle exec htmlproofer --http-status-ignore '999' _site;
-gem "html-proofer", "~> 5.0.4"
-
-# needed for ruby > v3.0
-gem "webrick"
