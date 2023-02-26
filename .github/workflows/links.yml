@@ -60,8 +60,7 @@ jobs:
         working-directory: docs
         run: |
           htmlproofer _site \
-            --log-level "debug"
-            --enforce-https false
-            --ignore-status-codes [403,406,429,503,999] \
+            --no-enforce-https
+            --ignore-status-codes "403,406,429,503,999" \
             --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
-            --ignore-urls ["/fonts.gstatic.com/"]
+            --ignore-urls "/fonts.gstatic.com/"
