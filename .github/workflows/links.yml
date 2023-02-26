@@ -4,7 +4,7 @@ on:
     branches: [main]
 
 env:
-  NOKOGIRI_USE_SYSTEM_LIBRARIES: true
+  BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
 
 jobs:
   testing:
@@ -31,20 +31,20 @@ jobs:
         working-directory: docs
         run: |
           pwd
-          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle install
+          bundle install
 
       - name: Build site
         working-directory: docs
-        run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll build
+        run: bundle exec jekyll build
 
       - name: Serve site
         working-directory: docs
-        run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll serve --detach
+        run: bundle exec jekyll serve --detach
 
       - name: Test for broken URLs
         working-directory: docs
         run: |
-          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec htmlproofer _site \
+          bundle exec htmlproofer _site \
             --assume-extension \
             --ignore-status-codes "403,406,429,503,999" \
             --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
