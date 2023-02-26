@@ -25,13 +25,20 @@ jobs:
         with:
           working-directory: docs
           ruby-version: 3.1
-          bundler-cache: false
+          bundler-cache: true
 
       - name: Install GEMs
         working-directory: docs
         run: |
           pwd
           bundle install
+
+      - name: Cache HTMLProofer
+        id: cache-htmlproofer
+        uses: actions/cache@v2
+        with:
+          path: tmp/.htmlproofer
+          key: ${{ runner.os }}-htmlproofer
 
       - name: Build site
         working-directory: docs
