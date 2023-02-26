@@ -48,37 +48,38 @@ plugins:
   - jekyll-last-modified-at
   - jekyll-redirect-from
 
-exclude: [
-  "*.cs",
-  "*.csproj",
-  "*.json",
-  "*.lock",
-  "*.yml",
-  "*.pptx",
-  "*.sln",
-  ".offline",
-  "docs/README.md",
-  "examples/Backtest",
-  "examples/ConsoleApp",
-  "GemFile",
-  "node_modules",
-  "vendor"
-]
+exclude:
+  [
+    "*.cs",
+    "*.csproj",
+    "*.json",
+    "*.lock",
+    "*.yml",
+    "*.pptx",
+    "*.sln",
+    ".offline",
+    "docs/README.md",
+    "examples/Backtest",
+    "examples/ConsoleApp",
+    "GemFile",
+    "node_modules",
+    "vendor",
+  ]
 
-include: [
-  "home.md",
-  "contributing.md",
-  "guide.md",
-  "indicators.html",
-  "performance.md",
-  "utilities.md"
-]
+include:
+  [
+    "home.md",
+    "contributing.md",
+    "guide.md",
+    "indicators.html",
+    "performance.md",
+    "utilities.md",
+  ]
 
 permalink: pretty
 
 defaults:
-  -
-    scope:
+  - scope:
       path: "" # an empty string here means all files in the project
     values:
       layout: "base"
