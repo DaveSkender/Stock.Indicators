@@ -22,6 +22,12 @@ jobs:
           ruby-version: 3.1.3
           bundler-cache: true
 
+      - name: Install GEMs
+        working-directory: docs
+        run: |
+          pwd
+          bundle install
+
       - name: Install HTML Proofer
         run: gem install html-proofer
 
