@@ -43,7 +43,7 @@ jobs:
       - name: Replace "dotnet.stockindicators.dev"
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "dotnet.stockindicators.dev"
+          find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
           regex: false
 
@@ -67,4 +67,3 @@ jobs:
             --ignore-status-codes "403,406,429,503,999" \
             --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
             --ignore-urls "/fonts.gstatic.com/"
-            --ignore-files "/_site/contributing/"
