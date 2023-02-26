@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using Newtonsoft.Json;
 using Skender.Stock.Indicators;
 
@@ -27,7 +23,7 @@ public static class Program
          */
 
         // fetch historical quotes from data provider
-        List<Quote> quotesList = GetHistoryFromFeed()
+        List<Quote> quotesList = GetQuotesFromFeed()
             .ToList();
 
         // calculate Stochastic RSI
@@ -96,7 +92,7 @@ public static class Program
         }
     }
 
-    private static IEnumerable<Quote> GetHistoryFromFeed()
+    private static IEnumerable<Quote> GetQuotesFromFeed()
     {
         /************************************************************
 

@@ -3,6 +3,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   testing:
     name: a11y
@@ -21,22 +24,28 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           working-directory: docs
-          ruby-version: 2.7.0
-          bundler-cache: true
+          ruby-version: 3.1.3
+          bundler-cache: false
 
       - name: Install GEMs
         working-directory: docs
+        env:
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: |
           pwd
-          BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle install
+          bundle install
 
       - name: Build site
         working-directory: docs
-        run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll build
+        env:
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+        run: bundle exec jekyll build
 
       - name: Serve site
         working-directory: docs
-        run: BUNDLE_GEMFILE="${{github.workspace}}/docs/GemFile" bundle exec jekyll serve --detach
+        env:
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+        run: bundle exec jekyll serve --detach
 
       - name: Show environment
         working-directory: docs

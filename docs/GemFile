@@ -8,6 +8,7 @@ gem 'faraday-retry'
 # local dev: bundle exec jekyll serve
 group :jekyll_plugins do
   gem 'github-pages'
+  gem "jekyll-github-metadata"
   gem 'jemoji'
   gem 'jekyll-remote-theme'
   gem 'jekyll-sitemap'
@@ -15,6 +16,4 @@ group :jekyll_plugins do
   gem 'jekyll-redirect-from'
 end
 
-# validate URLs with:
-# bundle exec htmlproofer --http-status-ignore '999' _site;
-gem "html-proofer", "~> 3.19.3"
+gem "webrick" # needed for ruby > v3.0
