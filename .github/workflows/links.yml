@@ -15,11 +15,6 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -27,31 +22,17 @@ jobs:
           ruby-version: 3.1
           bundler-cache: true
 
-      - name: Install GEMs
-        working-directory: docs
-        run: |
-          pwd
-          bundle install
-
-      - name: Cache HTMLProofer
-        id: cache-htmlproofer
-        uses: actions/cache@v2
-        with:
-          path: tmp/.htmlproofer
-          key: ${{ runner.os }}-htmlproofer
+      - name: Install HTML Proofer
+        run: gem install html-proofer
 
       - name: Build site
         working-directory: docs
-        run: bundle exec jekyll build
-
-      - name: Serve site
-        working-directory: docs
-        run: bundle exec jekyll serve --detach
+        run: bundle exec jekyll build --trace
 
       - name: Test for broken URLs
         working-directory: docs
         run: |
-          bundle exec htmlproofer _site \
+          htmlproofer _site \
             --assume-extension \
             --ignore-status-codes "403,406,429,503,999" \
             --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \

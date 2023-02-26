@@ -27,12 +27,6 @@ jobs:
           ruby-version: 3.1
           bundler-cache: true
 
-      - name: Install GEMs
-        working-directory: docs
-        run: |
-          pwd
-          bundle install
-
       - name: Build site
         working-directory: docs
         run: bundle exec jekyll build
