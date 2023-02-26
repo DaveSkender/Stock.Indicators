@@ -21,6 +21,8 @@ jobs:
 
       - name: Install GEMs
         working-directory: docs
+        env:
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: |
           pwd
           bundle install
@@ -30,6 +32,8 @@ jobs:
 
       - name: Build site
         working-directory: docs
+        env:
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build --trace
 
       - name: Test for broken URLs
