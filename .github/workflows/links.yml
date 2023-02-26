@@ -36,6 +36,12 @@ jobs:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build --trace
 
+      - name: Serve site
+        working-directory: docs
+        env:
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+        run: bundle exec jekyll serve --detach
+
       - name: Test for broken URLs
         working-directory: docs
         run: |
