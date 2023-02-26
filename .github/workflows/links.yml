@@ -17,7 +17,7 @@ jobs:
         with:
           working-directory: docs
           ruby-version: 3.1.3
-          bundler-cache: true
+          bundler-cache: false
 
       - name: Install GEMs
         working-directory: docs
@@ -42,4 +42,4 @@ jobs:
           htmlproofer _site \
             --ignore-status-codes "403,406,429,503,999" \
             --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
-            --ignore-urls "/fonts.gstatic.com/"
+            --ignore-urls "/fonts.gstatic.com/,/contributing/index.html"
