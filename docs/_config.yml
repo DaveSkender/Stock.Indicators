@@ -36,59 +36,58 @@ twitter:
 # https://github.com/pages-themes/cayman
 remote_theme: pages-themes/cayman@v0.2.0
 
-# override built-in github url because it does not fetch in build tests
-github:
-  repository_url: https://github.com/DaveSkender/Stock.Indicators
-
 ga_tag: G-7602GXEZ0R
 clarity: false
 
 # site plugins and settings
 plugins:
   - jemoji
+  - jekyll-github-metadata
   - jekyll-remote-theme
   - jekyll-sitemap
   - jekyll-last-modified-at
   - jekyll-redirect-from
 
-exclude: [
-  "*.cs",
-  "*.csproj",
-  "*.json",
-  "*.lock",
-  "*.yml",
-  "*.pptx",
-  "*.sln",
-  ".offline",
-  "examples/Backtest",
-  "examples/ConsoleApp",
-  "GemFile",
-  "node_modules",
-  "vendor"
-]
+exclude:
+  [
+    "*.cs",
+    "*.csproj",
+    "*.json",
+    "*.lock",
+    "*.yml",
+    "*.pptx",
+    "*.sln",
+    ".offline",
+    "docs/README.md",
+    "examples/Backtest",
+    "examples/ConsoleApp",
+    "GemFile",
+    "node_modules",
+    "vendor",
+  ]
 
-include: [
-  "contributing.md",
-  "guide.md",
-  "indicators.html",
-  "performance.md",
-  "utilities.md"
-]
+include:
+  [
+    "home.md",
+    "contributing.md",
+    "guide.md",
+    "indicators.html",
+    "performance.md",
+    "utilities.md",
+  ]
 
 permalink: pretty
 
 defaults:
-  -
-    scope:
+  - scope:
       path: "" # an empty string here means all files in the project
     values:
       layout: "base"
       image: /assets/social-banner.png
-      description: Transform financial market prices into technical analysis insights with this best in class C# NuGet library.  Go further with chaining and custom indicators.
 
 # page collections
 collections:
   indicators:
     output: true
-    permalink: /:path/
+    permalink: /:path
     sort_by: "title"
