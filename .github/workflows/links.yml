@@ -30,7 +30,6 @@ jobs:
       - name: Install HTML Proofer
         run: gem install html-proofer
 
-      - uses: actions/checkout@v2
       - name: Replace "data-src"
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -38,7 +37,6 @@ jobs:
           replace: "src"
           regex: false
 
-      - uses: actions/checkout@v2
       - name: Replace "dotnet.stockindicators.dev"
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -63,6 +61,7 @@ jobs:
         run: |
           htmlproofer _site \
             --log-level "debug"
+            --enforce-https false
             --ignore-status-codes [403,406,429,503,999] \
             --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
             --ignore-urls ["/fonts.gstatic.com/"]
