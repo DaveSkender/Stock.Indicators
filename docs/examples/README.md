@@ -14,7 +14,7 @@ To help you get started, here are a few minimalist .NET 7.0 C# projects that you
 - `Backtest` is a slightly more complicated example of how to analyze results
 - `CustomIndicatorsLibrary` shows how you can [create your own custom indicators]({{site.baseurl}}/custom-indicators/#content)
 - `CustomIndicatorsUsage` shows how you'd use a custom indicator just like any other in the main library
-- `ObserveStream` shows how you'd use live quotes from WebSocket, using the Alpaca SDK for .NET
+- `ObserveStream` [preview] shows how you'd use live quotes from WebSocket, using the Alpaca SDK for .NET
 - `UseQuoteApi` shows how you'd get quotes from an API quote source, using the Alpaca SDK for .NET
 
 For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
