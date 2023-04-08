@@ -28,11 +28,16 @@ steps:
       updateAssemblyInfo: true
 
   - task: UseDotNet@2
+    displayName: "use .NET 2.1.x"
+    inputs:
+      version: 2.1.x
+      includePreviewVersions: false
+
+  - task: UseDotNet@2
     displayName: "use .NET 7.0.x"
     inputs:
       version: 7.0.x
       includePreviewVersions: false
-      performMultiLevelLookup: true
 
   - task: DotNetCoreCLI@2
     displayName: build
