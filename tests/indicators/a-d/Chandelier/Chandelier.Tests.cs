@@ -100,5 +100,9 @@ public class ChandelierTests : TestBase
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             quotes.GetChandelier(25, 0));
+
+        // bad type
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            quotes.GetChandelier(25, 2, (ChandelierType)int.MaxValue));
     }
 }

@@ -139,9 +139,15 @@ public class RenkoTests : TestBase
         Assert.AreEqual(0, r0.Count);
     }
 
-    // bad arguments
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+    {
+        // bad arguments
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetRenko(0));
+
+        // bad end type
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetRenko(2, (EndType)int.MaxValue));
+    }
 }
