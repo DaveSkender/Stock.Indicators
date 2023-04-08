@@ -18,7 +18,8 @@ public static partial class Indicator
 
         int length = fractals.Count;
         List<FcbResult> results = new(length);
-        decimal? upperLine = null, lowerLine = null;
+        decimal? upperLine = null;
+        decimal? lowerLine = null;
 
         // roll through quotes
         for (int i = 0; i < length; i++)

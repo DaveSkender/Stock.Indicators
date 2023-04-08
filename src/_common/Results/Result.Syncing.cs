@@ -11,8 +11,8 @@ public static partial class ResultUtility
         this IEnumerable<TResultA> syncMe,
         IEnumerable<TResultB> toMatch,
         SyncType syncType = SyncType.FullMatch)
-        where TResultA : IResult
-        where TResultB : IResult
+        where TResultA : ISeries
+        where TResultB : ISeries
     {
         // initialize
         List<TResultA> syncMeList = syncMe.ToSortedList();
