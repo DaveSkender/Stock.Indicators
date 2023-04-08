@@ -10,7 +10,7 @@ public static class Sorting
         this IEnumerable<TSeries> series)
         where TSeries : ISeries
         => series
-            .ToSortedList()
+            .OrderBy(x => x.Date)
             .ToCollection();
 
     internal static List<TSeries> ToSortedList<TSeries>(
