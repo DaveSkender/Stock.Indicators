@@ -13,7 +13,9 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<ForceIndexResult> results = new(length);
-        double? prevClose = null, prevFI = null, sumRawFI = 0;
+        double? prevClose = null;
+        double? prevFI = null;
+        double? sumRawFI = 0;
         double k = 2d / (lookbackPeriods + 1);
 
         // roll through quotes
