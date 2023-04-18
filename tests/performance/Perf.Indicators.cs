@@ -262,7 +262,7 @@ public class IndicatorPerformance
     public object GetSmma() => h.GetSmma(10);
 
     [Benchmark]
-    public object GetStarcBands() => h.GetStarcBands();
+    public object GetStarcBands() => h.GetStarcBands(10);
 
     [Benchmark]
     public object GetStc() => h.GetStc();
