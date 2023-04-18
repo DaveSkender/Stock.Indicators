@@ -66,13 +66,13 @@ public class StarcBandsTests : TestBase
     public void NoQuotes()
     {
         List<StarcBandsResult> r0 = noquotes
-            .GetStarcBands()
+            .GetStarcBands(10)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
         List<StarcBandsResult> r1 = onequote
-            .GetStarcBands()
+            .GetStarcBands(10)
             .ToList();
 
         Assert.AreEqual(1, r1.Count);
