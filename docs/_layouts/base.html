@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://img.shields.io">
 {% endif %}
 
-{% if site.github.source.branch != "main" or page.noindex == true %}
+{% if site.environment != "production" or page.noindex == true %}
 <!-- exclude from search indexing -->
 <meta name="robots" content="noindex, nofollow">
 {% endif %}
@@ -32,22 +32,17 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}">
 <link rel="mask-icon" href="{{ '/assets/icons/safari-pinned-tab.svg' | relative_url }}" color="#424242">
 
-<script src="/assets/js/lazysizes.min.js" async=""></script>
+<script async src="/assets/js/lazysizes.min.js"></script>
 
-{% if site.ga_tag and site.github.source.branch == 'main' %}
+{% if site.environment == "production" %}
 
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{site.ga_tag}}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', '{{site.ga_tag}}');
-</script>
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R"></script>
+<script defer src="/assets/js/ga.js"></script>
 
 {% if site.clarity == 'true' %}
 <!-- Clarity -->
-<script type="text/javascript">
+<script defer type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
