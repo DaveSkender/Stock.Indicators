@@ -34,16 +34,11 @@
 
 <script async src="/assets/js/lazysizes.min.js"></script>
 
-{% if site.ga_tag and site.environment == "production" %}
+{% if site.environment == "production" %}
 
 <!-- Google Analytics -->
-<script defer src="https://www.googletagmanager.com/gtag/js?id={{site.ga_tag}}"></script>
-<script defer>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', '{{site.ga_tag}}');
-</script>
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R"></script>
+<script defer src="/assets/js/ga.js"></script>
 
 {% if site.clarity == 'true' %}
 <!-- Clarity -->
