@@ -33,7 +33,6 @@ twitter:
 # https://github.com/pages-themes/cayman
 remote_theme: pages-themes/cayman@v0.2.0
 
-ga_tag: G-7602GXEZ0R
 clarity: false
 
 # site plugins and settings
