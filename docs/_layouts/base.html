@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://img.shields.io">
 {% endif %}
 
-{% if site.environment != "production" or page.noindex == true %}
+{% if site.github.source.branch != "main" or page.noindex == true %}
 <!-- exclude from search indexing -->
 <meta name="robots" content="noindex, nofollow">
 {% endif %}
@@ -34,7 +34,7 @@
 
 <script async src="/assets/js/lazysizes.min.js"></script>
 
-{% if site.environment == "production" %}
+{% if site.github.source.branch == "main" %}
 
 <!-- Google Analytics -->
 <script defer src="https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R"></script>
