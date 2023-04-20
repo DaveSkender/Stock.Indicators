@@ -250,7 +250,7 @@ public class IndicatorsStatic
     public object GetSmma() => q.GetSmma(10);
 
     [Benchmark]
-    public object GetStarcBands() => q.GetStarcBands();
+    public object GetStarcBands() => q.GetStarcBands(10);
 
     [Benchmark]
     public object GetStc() => q.GetStc();
