@@ -9,15 +9,15 @@ layout: base
 
 <h1>{{ page.title }}</h1>
 
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package.">
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package." class="not-mobile">
   <img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package&cacheSeconds=259200"
   alt="" min-width=150 max-width="160" height="20" />
 </a>
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads.">
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads." class="not-mobile">
   <img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200"
   alt="" min-width=120 max-width="130" height="20" />
 </a>
-<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab" aria-label="View code coverage details in the build.">
+<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab" aria-label="View code coverage details in the build." class="not-mobile">
   <img src="https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage&cacheSeconds=259200"
   alt="" min-width=145 max-width="155" height="20" />
 </a>
