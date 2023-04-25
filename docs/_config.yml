@@ -43,6 +43,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-last-modified-at
   - jekyll-redirect-from
+  - jekyll-minifier
 
 exclude:
   [
