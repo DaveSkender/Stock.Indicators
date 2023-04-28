@@ -28,8 +28,8 @@ public static partial class Indicator
     [Obsolete("Rename 'ToTupleCollection(..)' to 'ToTupleChainable(..)' to fix.", false)]
     public static Collection<(DateTime Date, double Value)> ToTupleCollection(
     this IEnumerable<IReusableResult> reusable)
-    => reusable
-        .ToTupleChainable();
+        => reusable
+            .ToTupleChainable();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename 'ToTupleCollection(NullTo..)' to either 'ToTupleNaN(..)' or 'ToTupleNull(..)' to fix.", false)]
@@ -49,6 +49,14 @@ public static partial class Indicator
 
         return results;
     }
+
+    // v2.4.10
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Change 'GetStarcBands()' to 'GetStarcBands(20)' to fix.", false)]
+    public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
+        => quotes.GetStarcBands(20);
 
 #pragma warning restore CA1002 // Do not expose generic lists
 }

@@ -9,17 +9,17 @@ layout: base
 
 <h1>{{ page.title }}</h1>
 
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators">
-  <img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package"
-  alt max-width="160" height="20" />
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package." class="not-mobile">
+  <img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package&cacheSeconds=259200"
+  alt="" min-width=150 max-width="160" height="20" />
 </a>
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators">
-  <img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads"
-  alt max-width="130" height="20" />
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads." class="not-mobile">
+  <img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200"
+  alt="" min-width=120 max-width="130" height="20" />
 </a>
-<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab">
-  <img src="https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage"
-  alt max-width="155" height="20" />
+<a href="https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab" aria-label="View code coverage details in the build." class="not-mobile">
+  <img src="https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage&cacheSeconds=259200"
+  alt="" min-width=145 max-width="155" height="20" />
 </a>
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
@@ -81,7 +81,7 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 ## Licensed for everyone
 
-<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="Apache 2.0 license badge" width="124" height="20" /></a>
+<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&cacheSeconds=259200" alt="Apache 2.0 license badge" width="124" height="20" /></a>
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
@@ -91,7 +91,9 @@ This repository uses the standard Apache 2.0 open-source license.  Please review
 
 ## Give back with patronage
 
-Thank you for your support!  This software is crafted with care by unpaid enthusiasts who :heart: all forms of encouragement.  If you or your organization use this library or like what we're doing, please add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.  If you want to buy me a beer or are interested in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
+Thank you for your support!  This software is crafted with care by unpaid enthusiasts who :heart: all forms of encouragement.  If you or your organization use this library or like what we're doing, add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.
+
+If you want to buy me a beer or are interested in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 
 ## Contribute to help others
 

@@ -6,9 +6,6 @@ title: Stock Indicators for .NET
 tagline: "Transform price quotes into trading insights."
 locale: en_US
 
-seo:
-  type: SoftwareApplication
-
 # social media information
 image:
   path: /assets/social-banner.png
@@ -36,7 +33,6 @@ twitter:
 # https://github.com/pages-themes/cayman
 remote_theme: pages-themes/cayman@v0.2.0
 
-ga_tag: G-7602GXEZ0R
 clarity: false
 
 # site plugins and settings
@@ -47,6 +43,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-last-modified-at
   - jekyll-redirect-from
+  - jekyll-minifier
 
 exclude:
   [

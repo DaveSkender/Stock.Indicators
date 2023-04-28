@@ -20,7 +20,8 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < qdList.Count; i++)
         {
-            double hmpc, lmpc;
+            double hmpc;
+            double lmpc;
             QuoteD q = qdList[i];
 
             AtrResult r = new(q.Date);

@@ -18,7 +18,10 @@ public class HelperPerformance
     public static void SetupIntraday() => i = TestData.GetIntraday();
 
     [Benchmark]
-    public object SortToList() => h.ToSortedList();
+    public object ToSortedList() => h.ToSortedList();
+
+    [Benchmark]
+    public object ToSortedCollection() => h.ToSortedCollection();
 
     [Benchmark]
     public object ToListQuoteD() => h.ToQuoteD();
