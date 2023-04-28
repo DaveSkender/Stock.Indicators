@@ -3,7 +3,9 @@ namespace Skender.Stock.Indicators;
 [Serializable]
 public class VpvrResult : ResultBase
 {
-    public VpvrResult(IQuote quote, VpvrResult previousResult)
+    private VpvrResult? previousResult;
+
+    public VpvrResult(IQuote quote, VpvrResult? previousResult)
     {
         this.previousResult = previousResult;
 
@@ -18,12 +20,10 @@ public class VpvrResult : ResultBase
         Volume = quote.Volume;
     }
 
-    private VpvrResult previousResult;
-
     public decimal High { get; private set; }
     public decimal Low { get; private set; }
     public decimal Volume { get; private set; }
-    public IEnumerable<VpvrValue> VolumeProfile { get; internal set; }
+    public IEnumerable<VpvrValue> VolumeProfile { get; internal set; } = Array.Empty<VpvrValue>();
     public IEnumerable<VpvrValue> CumulativeVolumeProfile
     {
         get

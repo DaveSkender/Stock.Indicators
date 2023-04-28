@@ -10,7 +10,7 @@ public static partial class Indicator
         ValidateVpvr(precision);
 
         List<VpvrResult> results = new List<VpvrResult>();
-        VpvrResult vpvrResult = null;
+        VpvrResult? vpvrResult = null;
         foreach (IQuote quote in quotes)
         {
             vpvrResult = new VpvrResult(quote, vpvrResult);
