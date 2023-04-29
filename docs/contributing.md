@@ -87,7 +87,7 @@ bundle exec jekyll serve
 When adding or updating indicators:
 
 - Add or update the `/docs/_indicators/` documentation files.
-- Page image assets go here: `/docs/assets/`.
+- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 

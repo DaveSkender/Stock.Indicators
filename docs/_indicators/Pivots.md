@@ -2,7 +2,7 @@
 title: Pivots
 description: Pivots is an extended customizable version of Williams Fractal that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 permalink: /indicators/Pivots/
-image: /assets/charts/Pivots.png
+image: /assets/charts/pivots.webp
 type: price-pattern
 layout: indicator
 ---

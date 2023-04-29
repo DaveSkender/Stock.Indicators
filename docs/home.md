@@ -37,7 +37,13 @@ Explore more information:
 
 ## Reputable and extensible indicators
 
-<img data-src="examples.webp" alt="sample indicators shown in chart" class="lazyload" style="aspect-ratio:1443/1591;" />
+<img alt="sample indicators shown in chart"
+  srcset="
+    examples-400.webp 400w,
+    examples-600.webp 600w,
+    examples-832.webp 832w"
+  sizes="100vw"
+  src="examples-832.webp" />
 
 ## Easy to use in your application
 
