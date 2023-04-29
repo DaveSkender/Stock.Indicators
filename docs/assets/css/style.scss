@@ -1,6 +1,5 @@
 ---
 ---
-
 // custom palette
 // https://material.io/resources/color
 // https://www.materialpalette.com/colors
@@ -18,7 +17,7 @@ $code-comment-color: #33691e;
 // Breakpoints
 $large-breakpoint: 64em;
 $medium-breakpoint: 40em;
-$mobile-breakpoint: 24em; // custom
+$mobile-breakpoint: 480px; // custom
 
 // @include large: > large breakpoint
 // @include medium: between large and medium breakpoint
@@ -67,6 +66,7 @@ $hr-border-color: #eff0f1;
 
 .project-name {
   font-size: 2.2rem;
+  font-weight: bold;
   line-height: 1.5rem;
   margin: 12px 0;
 
@@ -135,15 +135,27 @@ $hr-border-color: #eff0f1;
 h1 {
   font-size: 2rem;
   line-height: 1.8rem;
+
+  @include mobile {
+    font-size: 1.5rem;
+  }
 }
 
 h2 {
   font-size: 1.5rem;
   line-height: 1.5rem;
+
+  @include mobile {
+    font-size: 1.3rem;
+  }
 }
 
 h3 {
   font-size: 1.25rem;
+
+  @include mobile {
+    font-size: 1.1rem;
+  }
 }
 
 h4 {
