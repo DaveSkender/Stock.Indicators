@@ -69,7 +69,7 @@ IEnumerable<Quote> dayBarQuotes =
 - `PeriodSize.TwoMinutes`
 - `PeriodSize.OneMinute`
 
-> :warning: **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
+> &#128681; **Warning**: Partially populated period windows at the beginning, end, and market open/close points in `quotes` can be misleading when aggregated.  For example, if you are aggregating intraday minute bars into 15 minute bars and there is a single 4:00pm minute bar at the end, the resulting 4:00pm 15-minute bar will only have one minute of data in it whereas the previous 3:45pm bar will have all 15 minutes of bars aggregated (3:45-3:59pm).
 
 ### Extended candle properties
 
@@ -112,7 +112,7 @@ IEnumerable<CandleResult> results
   = quotes.GetMarubozu(..).Condense();
 ```
 
-> :warning: **Warning**: In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
+> &#128681; **Warning**: In all cases, `.Condense()` will remove non-essential results and will produce fewer records than are in `quotes`.
 
 ### Find indicator result by date
 
@@ -144,9 +144,9 @@ IEnumerable<AdxResult> results =
 
 See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
 
-> :information_source: **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
+> &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >
-> :warning: **Warning**: without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
+> &#128681; **Warning**: without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
 
 ### Using tuple results
 
@@ -156,7 +156,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 `results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
 
-> :warning: **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
+> &#128681; **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
 
 ### Sort results
 
