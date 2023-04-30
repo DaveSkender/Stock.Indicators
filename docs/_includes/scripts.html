@@ -1,14 +1,13 @@
 {%- if page.lazy-images == true -%}
 <script async src="/assets/js/lazysizes.min.js"></script>
-{% endif %}
+{%- endif -%}
 
-{% if site.github.source.branch == "main" %}
-
+{%- if site.github.source.branch == "main" -%}
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R"></script>
 <script async src="/assets/js/ga.js"></script>
 
-{% if site.clarity == 'true' %}
+{%- if site.clarity == 'true' -%}
 <!-- Clarity -->
 <script defer type="text/javascript">
   (function (c, l, a, r, i, t, y) {
@@ -17,5 +16,5 @@
     y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
   })(window, document, "clarity", "script", "d7dwkk1jqt");
 </script>
-{% endif %}
-{% endif %}
+{%- endif -%}
+{%- endif -%}
