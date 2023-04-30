@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the directional Money Flow Volume.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/261 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/261 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -51,7 +51,7 @@ IEnumerable<CmfResult>
 
 **`Cmf`** _`double`_ - Chaikin Money Flow = SMA of MFV
 
-> :warning: **Warning**: absolute values in MFV and CMF are somewhat meaningless.  Use with caution.
+> &#128681; **Warning**: absolute values in MFV and CMF are somewhat meaningless.  Use with caution.
 
 ### Utilities
 

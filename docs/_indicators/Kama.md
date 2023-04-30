@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of price over configurable lookback periods.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/210 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/210 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -45,7 +45,7 @@ IEnumerable<KamaResult>
 - It does not return a single incremental indicator value.
 - The first `E-1` periods will have `null` values since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9886; **Convergence warning**: The first `10×E` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### KamaResult
 

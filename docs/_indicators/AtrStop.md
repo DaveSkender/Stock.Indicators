@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine the primary trend of Close prices by using [Average True Range (ATR)]({{site.baseurl}}/indicators/Atr/#content) band thresholds.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/724 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/724 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -51,7 +51,7 @@ IEnumerable<AtrStopResult>
 - It does not return a single incremental indicator value.
 - The first `N` periods will have `null` AtrStop values since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
+>&#9886; **Convergence warning**: the line segment before the first reversal and the first `N+100` periods are unreliable due to an initial guess of trend direction and precision convergence for the underlying ATR values.
 
 ### AtrStopResult
 

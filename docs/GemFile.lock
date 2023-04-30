@@ -291,9 +291,8 @@ DEPENDENCIES
   jekyll-last-modified-at
   jekyll-minifier
   jekyll-redirect-from
-  jekyll-remote-theme
+  jekyll-seo-tag
   jekyll-sitemap
-  jemoji
   wdm (>= 0.1.1)
   webrick
 

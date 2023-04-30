@@ -5,20 +5,21 @@ description: >-
   Go further with chaining and custom indicators.
 permalink: /
 layout: base
+lazy-images: true
 ---
-
-<h1 style="display:none;">{{ page.title }}</h1>
 
 <p style="text-align:center;">
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package." class="not-mobile">
-  <img src="https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet%20Package&cacheSeconds=259200"
-  alt="" min-width=150 max-width="160" height="20" />
+  <img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet%20Package&color=blue&cacheSeconds=259200"
+  alt="" width="170" height="20" />
 </a>
 <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads." class="not-mobile">
   <img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200"
-  alt="" min-width=120 max-width="130" height="20" />
+  alt="" width=130 height="20" />
 </a>
 </p>
+
+<h1 style="display:none;">{{ page.title }}</h1>
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
@@ -43,7 +44,9 @@ Explore more information:
     examples-600.webp 600w,
     examples-832.webp 832w"
   sizes="100vw"
-  src="examples-832.webp" />
+  src="examples-832.webp"
+  data-src="examples-832.webp"
+  class = "lazyload" />
 
 ## Easy to use in your application
 
@@ -85,17 +88,17 @@ The compiled library package is [Common Language Specification (CLS) compliant](
 
 ## Licensed for everyone
 
-<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&cacheSeconds=259200" alt="Apache 2.0 license badge" width="124" height="20" /></a>
+<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&cacheSeconds=259200" alt="Apache 2.0 license badge" width="124" height="20" class="lazyload" /></a>
 
 This repository uses the standard Apache 2.0 open-source license.  Please review the [license](https://opensource.org/licenses/Apache-2.0) before using or contributing to the software.
 
 ## Share your ideas with the community
 
-**Need help?**  Have ideas?  [Start a new discussion, ask a question :speech_balloon:]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
+**Need help?**  Have ideas?  [Start a new discussion, ask a question &#128172;]({{site.github.repository_url}}/discussions), or [submit an issue]({{site.github.repository_url}}/issues) if it is publicly relevant.  You can also direct message [@daveskender](https://twitter.com/messages/compose?recipient_id=27475431).
 
 ## Give back with patronage
 
-Thank you for your support!  This software is crafted with care by unpaid enthusiasts who :heart: all forms of encouragement.  If you or your organization use this library or like what we're doing, add a :star: on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.
+Thank you for your support!  This software is crafted with care by unpaid enthusiasts who &#128150; all forms of encouragement.  If you or your organization use this library or like what we're doing, add a &#11088; on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.
 
 If you want to buy me a beer or are interested in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 

@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 [Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/268 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/268 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -42,7 +42,7 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 
 **`All`** - Returns all of the above.  Use this option if you want `Ratio` and `Convexity` values returned.  Note: 3× slower to calculate.
 
-> :information_source: **Pro tip**
+> &#128161; **Pro tip**
 >
 > Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have smaller bars, use the [Aggregate()]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
 >
@@ -97,7 +97,7 @@ var results = quotesEval
     .GetBeta(quotesMarket.Use(CandlePart.HL2), ..);
 ```
 
-> :warning: **Warning!** Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
+> &#128681; **Warning!** Both eval and market arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 
 Results can be further processed on `Beta` with additional chain-enabled indicators.
 
