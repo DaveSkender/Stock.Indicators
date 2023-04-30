@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/866 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/866 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -49,7 +49,7 @@ IEnumerable<DynamicResult>
 - It does not return a single incremental indicator value.
 - The first period will have a `null` value since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9886; **Convergence warning**: The first `4×N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### DynamicResult
 

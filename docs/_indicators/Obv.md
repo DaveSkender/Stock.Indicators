@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wiki/On-balance_volume) is a rolling accumulation of volume based on Close price direction.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/246 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/246 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -53,7 +53,7 @@ IEnumerable<ObvResult>
 
 **`ObvSma`** _`double`_ - Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
 
-> :warning: **Warning**: absolute values in OBV are somewhat meaningless. Use with caution.
+> &#128681; **Warning**: absolute values in OBV are somewhat meaningless. Use with caution.
 
 ### Utilities
 
