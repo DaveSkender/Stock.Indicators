@@ -34,7 +34,7 @@ clarity: false
 # site plugins and settings
 plugins:
   - jekyll-github-metadata
-  - jekyll-remote-theme
+  - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-last-modified-at
   - jekyll-redirect-from
