@@ -2,7 +2,7 @@
 title: Pivots
 description: Pivots is an extended customizable version of Williams Fractal that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 permalink: /indicators/Pivots/
-image: /assets/charts/Pivots.png
+image: /assets/charts/pivots.webp
 type: price-pattern
 layout: indicator
 ---
@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Pivots is an extended customizable version of <a href="{{site.baseurl}}/indicators/Fractal/#content" rel="nofollow">Williams Fractal</a> that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/436 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/436 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -55,7 +55,7 @@ IEnumerable<PivotsResult>
 - It does not return a single incremental indicator value.
 - The first `L` and last `R` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
-> :paintbrush: **Repaint warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Fractals are retroactively identified.
+> &#128073; **Repaint warning**: this price pattern looks forward and backward in the historical quotes so it will never identify a pivot in the last `R` periods of `quotes`.  Fractals are retroactively identified.
 
 ### PivotsResult
 

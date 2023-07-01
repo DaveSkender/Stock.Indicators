@@ -1,5 +1,4 @@
 # Ref: https://jekyllrb.com/docs/usage/
-# Ref: https://github.com/pages-themes/cayman
 # Local dev: bundle exec jekyll serve --livereload
 
 title: Stock Indicators for .NET
@@ -30,19 +29,16 @@ twitter:
   username: daveskender
   card: summary
 
-# https://github.com/pages-themes/cayman
-remote_theme: pages-themes/cayman@v0.2.0
-
 clarity: false
 
 # site plugins and settings
 plugins:
-  - jemoji
   - jekyll-github-metadata
-  - jekyll-remote-theme
+  - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-last-modified-at
   - jekyll-redirect-from
+  - jekyll-minifier
 
 exclude:
   [

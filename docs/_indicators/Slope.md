@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 [Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on price.  It can be used to help identify trend strength and direction.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/241 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/241 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Linear.png)
 ![image]({{site.baseurl}}/assets/charts/Slope.png)
@@ -43,7 +43,7 @@ IEnumerable<SlopeResult>
 - The first `N-1` periods will have `null` values for `Slope` since there's not enough data to calculate.
 - `Line` values are only provided for the last `N` periods of your quote history
 
-> :paintbrush: **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
+> &#128073; **Repaint warning**: the `Line` will be continuously repainted since it is based on the last quote and lookback period.
 
 ### SlopeResult
 

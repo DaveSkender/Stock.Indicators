@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:dppmo) is double-smoothed momentum indicator based on Rate of Change (ROC).
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/244 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/244 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -45,7 +45,7 @@ IEnumerable<PmoResult>
 - It does not return a single incremental indicator value.
 - The first `T+S-1` periods will have `null` values for PMO since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9886; **Convergence warning**: The first `T+S+250` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### PmoResult
 
