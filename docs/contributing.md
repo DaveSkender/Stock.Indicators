@@ -1,6 +1,8 @@
 ---
 title: Contributing guidelines
-description: This NuGet package is an open-source project. Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
+description: >-
+  This NuGet package is an open-source project.
+  Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
 permalink: /contributing/
 relative_path: contributing.md
 layout: page
@@ -9,7 +11,8 @@ layout: page
 # Contributing guidelines
 
 [![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/main?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main)
-[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
+[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage&cacheSeconds=259200)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
 
 **Thanks for taking the time to contribute!**
 
@@ -84,7 +87,7 @@ bundle exec jekyll serve
 When adding or updating indicators:
 
 - Add or update the `/docs/_indicators/` documentation files.
-- Page image assets go here: `/docs/assets/`.
+- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 

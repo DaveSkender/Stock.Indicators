@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line]({{site.baseurl}}/indicators/Adl/#content) (ADL).
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/264 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/264 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -43,7 +43,7 @@ IEnumerable<ChaikinOscResult>
 - It does not return a single incremental indicator value.
 - The first `S-1` periods will have `null` values for `Oscillator` since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9886; **Convergence warning**: The first `S+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ChaikinOscResult
 
@@ -57,7 +57,7 @@ IEnumerable<ChaikinOscResult>
 
 **`Oscillator`** _`double`_ - Chaikin Oscillator
 
-> :warning: **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
+> &#128681; **Warning**: absolute values in MFV, ADL, and Oscillator are somewhat meaningless.  Use with caution.
 
 ### Utilities
 

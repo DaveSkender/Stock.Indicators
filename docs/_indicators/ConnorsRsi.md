@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf) is a composite oscillator that incorporates RSI, winning/losing streaks, and percentile gain metrics on scale of 0 to 100.  See [analysis](https://alvarezquanttrading.com/blog/connorsrsi-analysis).
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/260 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/260 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -45,7 +45,7 @@ IEnumerable<ConnorsRsiResult>
 - It does not return a single incremental indicator value.
 - The first `MAX(R,S,P)-1` periods will have `null` values since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9886; **Convergence warning**: The first `N` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### ConnorsRsiResult
 

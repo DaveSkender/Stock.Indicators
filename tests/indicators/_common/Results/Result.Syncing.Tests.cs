@@ -96,5 +96,9 @@ public class Syncing : TestBase
 
         Assert.IsFalse(noBaseResults.Any());
         Assert.IsFalse(noEvalResults.Any());
+
+        // bad sync type
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => eval.SyncIndex(baseline, (SyncType)int.MaxValue));
     }
 }

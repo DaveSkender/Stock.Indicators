@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/368 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/368 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -43,7 +43,7 @@ IEnumerable<StdDevChannelsResult>
 - It does not return a single incremental indicator value.
 - Up to `N-1` periods will have `null` values since there's not enough data to calculate.
 
-> :paintbrush: **Repaint warning**: Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
+> &#128073; **Repaint warning**: Historical results are a function of the current period window position and will fluctuate over time.  Recommended for visualization; not recommended for backtesting.
 
 ### StdDevChannelsResult
 

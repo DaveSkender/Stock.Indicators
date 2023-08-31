@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 [Detrended Price Oscillator](https://en.wikipedia.org/wiki/Detrended_price_oscillator) depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/551 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/551 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 

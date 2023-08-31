@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/288 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/288 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -56,7 +56,7 @@ These are the supported moving average types:
 
 **`MaType.WMA`** - [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
 
-> :warning:  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
+> &#128681;  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
 
 ## Response
 
@@ -69,7 +69,7 @@ IEnumerable<MaEnvelopeResult>
 - It does not return a single incremental indicator value.
 - The first periods will have `null` values since there's not enough data to calculate; the quantity will vary based on the `movingAverageType` specified.
 
-> :hourglass: **Convergence warning**: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
+>&#9886; **Convergence warning**: Some moving average variants have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  See links in the supported [MaType options](#matype-options) section above for more information.
 
 ### MaEnvelopeResult
 

@@ -220,9 +220,15 @@ public class ZigZagTests : TestBase
         Assert.AreEqual(342, r2.Count);
     }
 
-    // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+    {
+        // bad lookback period
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetZigZag(EndType.Close, 0));
+
+        // bad end type
+        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => quotes.GetZigZag((EndType)int.MaxValue, 2));
+    }
 }

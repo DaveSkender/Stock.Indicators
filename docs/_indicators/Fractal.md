@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point chevron.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/255 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/255 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -51,7 +51,7 @@ IEnumerable<FractalResult>
 - It does not return a single incremental indicator value.
 - The first and last `S` periods in `quotes` are unable to be calculated since there's not enough prior/following data.
 
-> :paintbrush: **Repaint warning**: this price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
+> &#128073; **Repaint warning**: this price pattern uses future bars and will never identify a `fractal` in the last `S` periods of `quotes`.  Fractals are retroactively identified.
 
 ### FractalResult
 

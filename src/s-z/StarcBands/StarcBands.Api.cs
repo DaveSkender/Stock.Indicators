@@ -8,7 +8,7 @@ public static partial class Indicator
     ///
     public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int smaPeriods = 20,
+        int smaPeriods,
         double multiplier = 2,
         int atrPeriods = 10)
         where TQuote : IQuote => quotes

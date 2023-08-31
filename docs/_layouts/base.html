@@ -1,91 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
-<meta charset="UTF-8">
-
-<!-- pre-connections -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-{% if page.dir == '/' %}
-<link rel="preconnect" href="https://github.githubassets.com">
-<link rel="preconnect" href="https://img.shields.io">
-{% endif %}
-
-{% if site.github.source.branch != "main" or page.noindex == true %}
-<!-- exclude from search indexing -->
-<meta name="robots" content="noindex, nofollow">
-{% endif %}
-{% if page.redirect == true %}
-<meta http-equiv="refresh" content="5;url={{site.baseurl}}/" />
-{% endif %}
-
-{% seo %}
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#424242">
-<meta name="msapplication-TileColor" content="#424242">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-<link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
-<link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/icons/favicon-32x32.png' | relative_url }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/icons/favicon-16x16.png' | relative_url }}">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}">
-<link rel="mask-icon" href="{{ '/assets/icons/safari-pinned-tab.svg' | relative_url }}" color="#424242">
-
-<script src="/assets/js/lazysizes.min.js" async=""></script>
-
-{% if site.ga_tag and site.github.source.branch == 'main' %}
-
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{site.ga_tag}}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', '{{site.ga_tag}}');
-</script>
-
-{% if site.clarity == 'true' %}
-<!-- Clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "d7dwkk1jqt");
-</script>
-{% endif %}
-{% endif %}
-</head>
-
+{%- include head.html -%}
 <body>
-  <header class="page-header" role="banner">
+  {%- include header.html -%}
 
-    <div class="project-name">
-      <a href="{{ '/' | absolute_url }}">
-        stock indicators <small>for .NET</small>
-      </a>
-    </div>
-
-    <div class="project-tagline">
-      Transform price quotes into trade indicators and market insights.
-      <br class="not-mobile" />
-      Nothing more.
-    </div>
-
-    <div class="btn-container">
-    <a href="{{site.baseurl}}/indicators/" class="btn">Indicators</a>
-    <a href="{{site.baseurl}}/guide/" class="btn">Guide</a>
-    <a href="https://www.nuget.org/packages/Skender.Stock.Indicators" class="btn">NuGet<span class="if-large"> Package</span></a>
-    {% if site.github.is_project_page %}
-    <a href="{{site.github.repository_url}}" class="btn not-mobile"><span class="if-large">View on </span>GitHub</a>
-    {% endif %}
-    </div>
-  </header>
-
+  <!-- main body -->
   <main id="content" class="main-content" role="main">
     {{ content }}
   </main>
+
+  <!-- scripts -->
+  {%- include scripts.html -%}
 </body>
 
 </html>

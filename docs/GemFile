@@ -9,11 +9,11 @@ gem 'faraday-retry'
 group :jekyll_plugins do
   gem 'github-pages'
   gem "jekyll-github-metadata"
-  gem 'jemoji'
-  gem 'jekyll-remote-theme'
+  gem 'jekyll-seo-tag'
   gem 'jekyll-sitemap'
   gem 'jekyll-last-modified-at' # used in sitemap
   gem 'jekyll-redirect-from'
+  gem 'jekyll-minifier'
 end
 
 gem "webrick" # needed for ruby > v3.0

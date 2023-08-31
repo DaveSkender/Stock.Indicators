@@ -70,21 +70,25 @@ public static partial class Indicator
                     // signal line
                     if (signalPeriods > 0)
                     {
-                        if (i >= lookbackPeriods + smoothPeriods + signalPeriods - 1)
+                        int startSignal = lookbackPeriods + smoothPeriods + signalPeriods - 1;
+
+                        if (i >= startSignal)
                         {
                             r.Signal = ((tsi - results[i - 1].Signal) * multS).NaN2Null()
                                      + results[i - 1].Signal;
                         }
 
                         // initialize signal
+                        else if (i == startSignal - 1)
+                        {
+                            sumS += tsi;
+                            r.Signal = sumS / signalPeriods;
+                        }
+
+                        // warmup signal
                         else
                         {
                             sumS += tsi;
-
-                            if (i == lookbackPeriods + smoothPeriods + signalPeriods - 2)
-                            {
-                                r.Signal = sumS / signalPeriods;
-                            }
                         }
                     }
                 }

@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wiki/Money_flow_index) is a price-volume oscillator that shows buying and selling momentum.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/247 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/247 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 

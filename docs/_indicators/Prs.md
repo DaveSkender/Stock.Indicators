@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 [Price Relative Strength (PRS)](https://en.wikipedia.org/wiki/Relative_strength), also called Comparative Relative Strength, shows the ratio of two quote histories, based on price.  It is often used to compare against a market index or sector ETF.  When using the optional `lookbackPeriods`, this also returns relative percent change over the specified periods.  This is not the same as the more prevalent <a href="{{site.baseurl}}/indicators/Rsi/#content" rel="nofollow">Relative Strength Index (RSI)</a>.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/243 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/243 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -78,7 +78,7 @@ var results = quotesEval
     .GetPrs(quotesBase, ..);
 ```
 
-> :warning: **Warning!** Both `quotesEval` and `quotesBase` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
+> &#128681; **Warning!** Both `quotesEval` and `quotesBase` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
 
 Results can be further processed on `Beta` with additional chain-enabled indicators.
 
