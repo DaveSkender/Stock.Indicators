@@ -23,11 +23,11 @@ IEnumerable<SmiResult> results =
 
 ## Parameters
 
-**`lookbackPeriods`** _`int`_ - Lookback period (`N`) for the stochastic.  Must be greater than 0.
+**`lookbackPeriods`** _`int`_ - Lookback period (`N`) for the stochastic.  Must be greater than 0.  Default is 13.
 
-**`firstSmoothPeriods`** _`int`_ - First smoothing factor lookback.  Must be greater than 0.
+**`firstSmoothPeriods`** _`int`_ - First smoothing factor lookback.  Must be greater than 0.  Default is 25.
 
-**`secondSmoothPeriods`** _`int`_ - Second smoothing factor lookback.  Must be greater than 0.
+**`secondSmoothPeriods`** _`int`_ - Second smoothing factor lookback.  Must be greater than 0.  Default is 2.
 
 **`signalPeriods`** _`int`_ - EMA of SMI lookback periods.  Must be greater than 0. Default is 3.
 
