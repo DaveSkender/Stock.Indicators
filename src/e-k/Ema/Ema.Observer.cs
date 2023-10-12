@@ -2,9 +2,9 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-public class EmaObserver : ChainProvider
+public partial class Ema : ChainProvider
 {
-    public EmaObserver(
+    public Ema(
         TupleProvider provider,
         int lookbackPeriods)
     {
@@ -41,7 +41,7 @@ public class EmaObserver : ChainProvider
     }
 
     // incremental calculation
-    internal static double Increment(double newValue, double lastEma, double k)
+    internal static double Increment(double k, double lastEma, double newValue)
         => lastEma + (k * (newValue - lastEma));
 
     // NON-STATIC METHODS
@@ -97,7 +97,7 @@ public class EmaObserver : ChainProvider
         {
             // calculate incremental value
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
-            double newEma = Increment(tuple.Value, lastEma, K);
+            double newEma = Increment(K, lastEma, tuple.Value);
 
             r.Ema = newEma.NaN2Null();
             ProtectedResults.Add(r);
@@ -112,7 +112,7 @@ public class EmaObserver : ChainProvider
             EmaResult prior = ProtectedResults[length - 2];
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
-            last.Ema = Increment(tuple.Value, priorEma, K);
+            last.Ema = Increment(K, priorEma, tuple.Value);
             SendToChain(last);
             return;
         }

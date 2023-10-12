@@ -37,7 +37,7 @@ public class SmaObserver : ChainProvider
         }
     }
 
-    // incremental calculation
+    // increment calculation
     internal static double Increment(
         List<(DateTime Date, double Value)> values,
         int index,

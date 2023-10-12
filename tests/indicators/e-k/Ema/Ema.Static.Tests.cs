@@ -8,6 +8,14 @@ namespace Tests.Indicators;
 public class EmaStaticTests : TestBase
 {
     [TestMethod]
+    public void Increment()
+    {
+        double ema = Ema.Increment(20, 217.5693, 222.10);
+
+        Assert.AreEqual(218.0008, ema.Round(4));
+    }
+
+    [TestMethod]
     public void Standard()
     {
         List<EmaResult> results = quotes

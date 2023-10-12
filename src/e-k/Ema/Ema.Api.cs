@@ -2,6 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
 
+public partial class Ema
+{
+    // INCREMENT
+    /// <include file='./info.xml' path='info/type[@name="increment"]/*' />
+    ///
+    public static double Increment(
+        int lookbackPeriods,
+        double lastEma,
+        double newValue)
+    {
+        double k = 2d / (lookbackPeriods + 1);
+        return Increment(k, lastEma, newValue);
+    }
+}
+
 public static partial class Indicator
 {
     // SERIES, from TQuote
@@ -32,7 +47,7 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static EmaObserver GetEma(
+    public static Ema GetEma(
         this QuoteProvider provider,
         int lookbackPeriods)
     {
@@ -45,7 +60,7 @@ public static partial class Indicator
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static EmaObserver GetEma(
+    public static Ema GetEma(
         this TupleProvider tupleProvider,
         int lookbackPeriods)
         => new(tupleProvider, lookbackPeriods);

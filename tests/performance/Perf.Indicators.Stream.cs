@@ -28,7 +28,7 @@ public class IndicatorsStreaming
     {
         // todo: refactor to exclude provider
         QuoteProvider provider = new();
-        EmaObserver observer = provider.GetEma(14);
+        Ema observer = provider.GetEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {

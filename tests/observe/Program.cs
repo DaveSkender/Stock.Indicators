@@ -24,8 +24,8 @@ public class QuoteStream
 
     public async Task SubscribeToQuotes(string symbol)
     {
-        Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
         Console.WriteLine("Press any key to exit the process...");
+        Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
 
         if (alpacaApiKey == null)
         {
@@ -40,9 +40,9 @@ public class QuoteStream
         // initialize our quote provider and a few subscribers
         QuoteProvider provider = new();
 
-        EmaObserver ema = provider.GetEma(14);
+        Ema ema = provider.GetEma(14);
         SmaObserver sma = provider.GetSma(5);
-        EmaObserver emaChain = provider
+        Ema emaChain = provider
             .Use(CandlePart.HL2)
             .GetEma(10);
 

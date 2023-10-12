@@ -24,7 +24,7 @@ public class EmaStreamTests : TestBase
         QuoteProvider provider = new();
 
         // initialize EMA observer
-        EmaObserver observer = provider
+        Ema observer = provider
             .GetEma(20);
 
         // fetch initial results
