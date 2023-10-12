@@ -190,6 +190,7 @@
   .btn {
     display: inline-block;
     margin: 0;
+    margin-left: 1rem;
     color: rgba(255, 255, 255, 0.7);
     background-color: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.2);
@@ -199,15 +200,15 @@
     transition: color 0.2s, background-color 0.2s, border-color 0.2s;
   }
 
+  .btn:first-child {
+    margin-left: 0;
+  }
+
   .btn:hover {
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .btn+.btn {
-    margin-left: 1rem;  // is this the issue?
   }
 
   /* adjustments for screen sizes */
@@ -226,24 +227,22 @@
 
   @media screen and (max-width: 768px) {
     .btn {
+      margin-left: 0.5rem;
       padding: 0.6rem 0.9rem;
       font-size: 0.9rem;
     }
 
-    .btn+.btn {
-      margin-left: 0.5rem;
+    .btn:first-child {
+      margin-left: 0;
     }
   }
 
   @media screen and (max-width: 350px) {
     .btn {
       margin-top: 0.5rem;
+      margin-left: 0rem;
       display: block;
       width: 100%;
-    }
-
-    .btn+.btn {
-      margin-left: 0rem;
     }
   }
 
