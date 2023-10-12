@@ -41,13 +41,8 @@ Explore more information:
 You'll get all of the industry standard indicators out-of-the-box.  Additionally, you can create compatible [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
 <img alt="sample indicators shown in chart"
-  srcset="
-    examples-400.webp 400w,
-    examples-600.webp 600w,
-    examples-832.webp 832w"
-  sizes="100vw"
-  src="examples-832.webp"
-  data-src="examples-832.webp"
+  data-src="examples.webp"
+  style="aspect-ratio:900/748;"
   class = "lazyload" />
 
 ## Easy to use in your application
