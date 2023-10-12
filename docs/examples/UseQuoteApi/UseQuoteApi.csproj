@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alpaca.Markets" Version="6.1.8" />
-    <PackageReference Include="Skender.Stock.Indicators" Version="2.4.10" />
+    <PackageReference Include="Alpaca.Markets" Version="7.0.0-rc2" />
+    <PackageReference Include="Skender.Stock.Indicators" Version="2.4.11" />
   </ItemGroup>
 
 </Project>

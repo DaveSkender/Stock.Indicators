@@ -8,14 +8,20 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.8)
+    activesupport (7.1.1)
+      base64
+      bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
+      connection_pool (>= 2.2.5)
+      drb
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
+      mutex_m
       tzinfo (~> 2.0)
     addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
     base64 (0.1.1)
+    bigdecimal (3.1.4)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -23,9 +29,12 @@ GEM
     colorator (1.1.0)
     commonmarker (0.23.10)
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
     cssminify2 (2.0.1)
     dnsruby (1.70.0)
       simpleidn (~> 0.2.1)
+    drb (2.1.1)
+      ruby2_keywords
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
@@ -39,8 +48,8 @@ GEM
     faraday-net_http (3.0.2)
     faraday-retry (2.2.0)
       faraday (~> 2.0)
-    ffi (1.16.1)
-    ffi (1.16.1-x64-mingw-ucrt)
+    ffi (1.16.3)
+    ffi (1.16.3-x64-mingw-ucrt)
     forwardable-extended (2.6.0)
     gemoji (3.0.1)
     github-pages (228)
@@ -235,6 +244,7 @@ GEM
       jekyll-feed (~> 0.9)
       jekyll-seo-tag (~> 2.1)
     minitest (5.20.0)
+    mutex_m (0.1.2)
     nokogiri (1.15.4-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.15.4-x86_64-linux)

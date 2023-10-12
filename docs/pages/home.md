@@ -45,7 +45,10 @@ You'll get all of the industry standard indicators out-of-the-box.  Additionally
     examples-400.webp 400w,
     examples-600.webp 600w,
     examples-832.webp 832w"
-  sizes="100vw"
+  sizes="
+    (max-width: 400px) 100vw,
+    (max-width: 600px) 100vw,
+     800px"
   src="examples-832.webp"
   data-src="examples-832.webp"
   class = "lazyload" />

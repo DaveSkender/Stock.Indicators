@@ -20,8 +20,8 @@ public class QuoteStream
 {
     public static async Task SubscribeToQuotes(string symbol)
     {
+        Console.WriteLine("Press any key to exit the process.");
         Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
-        Console.WriteLine("Press any key to exit the process...");
 
         // get and validate keys, see README.md
         string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
