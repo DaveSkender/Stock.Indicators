@@ -24,7 +24,7 @@ public class SmaStreamTests : TestBase
         QuoteProvider provider = new();
 
         // initialize EMA observer
-        SmaObserver observer = provider
+        Sma observer = provider
             .GetSma(20);
 
         // fetch initial results
@@ -75,10 +75,10 @@ public class SmaStreamTests : TestBase
 
         double sma;
 
-        sma = SmaObserver.Increment(tpList, tpList.Count - 1, 9);
+        sma = Sma.Increment(tpList, tpList.Count - 1, 9);
         Assert.AreEqual(5d, sma);
 
-        sma = SmaObserver.Increment(tpList, tpList.Count - 1, 10);
+        sma = Sma.Increment(tpList, tpList.Count - 1, 10);
         Assert.AreEqual(double.NaN, sma);
     }
 

@@ -2,9 +2,9 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-public class SmaObserver : ChainProvider
+public partial class Sma : ChainProvider
 {
-    public SmaObserver(
+    public Sma(
         TupleProvider provider,
         int lookbackPeriods)
     {

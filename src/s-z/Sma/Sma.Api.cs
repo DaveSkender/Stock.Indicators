@@ -1,11 +1,31 @@
+using System.Collections.ObjectModel;
+
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (API)
 
+public partial class Sma
+{
+    // INCREMENT
+    /// <include file='./info.xml' path='info/type[@name="increment"]/*' />
+    ///
+    public static double Increment(
+      Collection<(DateTime, double)> quotes,
+      int lookbackPeriods)
+    {
+        List<(DateTime, double)> tpList = quotes.ToSortedList();
+        int length = tpList.Count;
+
+        return length < lookbackPeriods
+           ? double.NaN
+           : Increment(tpList, length - 1, lookbackPeriods);
+    }
+}
+
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/type[@name="Main"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
     ///
     public static IEnumerable<SmaResult> GetSma<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -32,7 +52,7 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static SmaObserver GetSma(
+    public static Sma GetSma(
         this QuoteProvider provider,
         int lookbackPeriods)
     {
@@ -45,7 +65,7 @@ public static partial class Indicator
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static SmaObserver GetSma(
+    public static Sma GetSma(
         this TupleProvider tupleProvider,
         int lookbackPeriods)
         => new(tupleProvider, lookbackPeriods);

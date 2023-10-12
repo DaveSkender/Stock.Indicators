@@ -40,7 +40,7 @@ public partial class Ema : ChainProvider
         }
     }
 
-    // incremental calculation
+    // increment calculation
     internal static double Increment(double k, double lastEma, double newValue)
         => lastEma + (k * (newValue - lastEma));
 

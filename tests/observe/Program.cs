@@ -41,7 +41,7 @@ public class QuoteStream
         QuoteProvider provider = new();
 
         Ema ema = provider.GetEma(14);
-        SmaObserver sma = provider.GetSma(5);
+        Sma sma = provider.GetSma(5);
         Ema emaChain = provider
             .Use(CandlePart.HL2)
             .GetEma(10);

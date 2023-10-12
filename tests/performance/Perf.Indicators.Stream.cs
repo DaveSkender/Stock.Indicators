@@ -48,7 +48,7 @@ public class IndicatorsStreaming
     {
         // todo: refactor to exclude provider
         QuoteProvider provider = new();
-        SmaObserver observer = provider.GetSma(10);
+        Sma observer = provider.GetSma(10);
 
         for (int i = 0; i < ql.Count; i++)
         {

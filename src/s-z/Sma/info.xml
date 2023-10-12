@@ -2,7 +2,7 @@
 
 <info>
 
-  <type name="Main">
+  <type name="standard">
     <summary>
       Simple Moving Average (SMA) of the price.
       <para>
@@ -16,6 +16,15 @@
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
     <returns>Time series of SMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
+  <type name="increment">
+    <summary>Get the next incremental Simple Moving Average (SMA) value. <para> See <see
+          href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
+      documentation</see> for more information. </para>
+    </summary>
+    <param name="quotes">Tuple collection of historical price quotes.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <returns>SMA value over last lookback periods.</returns>
   </type>
   <type name="observer">
     <summary>

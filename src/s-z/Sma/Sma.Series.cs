@@ -8,7 +8,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        SmaObserver.Validate(lookbackPeriods);
+        Sma.Validate(lookbackPeriods);
 
         // initialize
         List<SmaResult> results = new(tpList.Count);
@@ -21,7 +21,7 @@ public static partial class Indicator
             SmaResult result = new(date);
             results.Add(result);
 
-            result.Sma = SmaObserver
+            result.Sma = Sma
                 .Increment(tpList, i, lookbackPeriods)
                 .NaN2Null();
         }

@@ -17,7 +17,7 @@
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
   <type name="increment">
-    <summary> Get next incremental Exponential Moving Average (EMA) value. <para> See <see
+    <summary>Get the next incremental Exponential Moving Average (EMA) value. <para> See <see
           href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
       documentation</see> for more information. </para>
     </summary>
