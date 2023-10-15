@@ -183,7 +183,7 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void CustomIndicatorClass()
+    public void CustomResultClass()
     {
         // can use a derive Indicator class
         MyEma myIndicator = new()
@@ -197,7 +197,7 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void CustomIndicatorClassLinq()
+    public void CustomResultClassLinq()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<EmaResult> emaResults = quotes.GetEma(14);
@@ -217,7 +217,7 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void CustomIndicatorClassFind()
+    public void CustomResultClassFind()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);

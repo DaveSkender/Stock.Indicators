@@ -97,4 +97,82 @@ public class EmaStreamTests : TestBase
             Assert.AreEqual(t.Ema, s.Ema);
         }
     }
+
+    [TestMethod]
+    public void SelfIncrement()
+    {
+        // TODO: This test is entirely redundant to static Increment test, not needed
+
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+        int lookbackPeriods = 20;
+
+        // time-series, for comparison
+        List<EmaResult> seriesList = quotes
+            .GetEma(lookbackPeriods)
+            .ToList();
+
+        // convert quote source to tuples
+        System.Collections.ObjectModel.Collection<(DateTime, double)> tpList = quotes
+            .Use(CandlePart.Close)
+            .ToSortedCollection();
+
+        // self-add increments
+        List<EmaResult> resultList = new(length);
+        double lastEma = double.NaN;
+
+        double sum = 0d;
+        for (int i = 0; i < length; i++)
+        {
+            (DateTime date, double value) = tpList[i];
+
+            // prime initial quess
+            if (i < lookbackPeriods - 1)
+            {
+                sum += value;
+
+                resultList.Add(new(date));
+            }
+
+            // initial guess
+            else if (i == lookbackPeriods - 1)
+            {
+                sum += value;
+                lastEma = sum / lookbackPeriods;
+
+                EmaResult r = new(date)
+                {
+                    Ema = lastEma
+                };
+
+                resultList.Add(r);
+            }
+
+            // increment
+            else
+            {
+                EmaResult r = new(date)
+                {
+                    Ema = Ema.Increment(lookbackPeriods, lastEma, value)
+                };
+
+                resultList.Add(r);
+
+                lastEma = r.Ema.Null2NaN();
+            }
+        }
+
+        // assert, should equal series
+        for (int i = 0; i < seriesList.Count; i++)
+        {
+            EmaResult s = seriesList[i];
+            EmaResult r = resultList[i];
+
+            Console.WriteLine($"Iteration {i} is {r.Ema} for {s.Ema}");
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Ema, r.Ema);
+        }
+    }
 }
