@@ -115,7 +115,7 @@ public class UseStreamTests : TestBase
         {
             Quote q = quotesList[^1];
 
-            for (int i = 0; i <= 200; i++)
+            for (int i = 0; i <= 101; i++)
             {
                 provider.Add(q);
             }
@@ -143,7 +143,7 @@ public class UseStreamTests : TestBase
         {
             Quote q = quotesList[^1];
 
-            for (int i = 0; i <= 200; i++)
+            for (int i = 0; i <= 101; i++)
             {
                 provider.Add(q);
             }

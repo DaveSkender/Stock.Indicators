@@ -82,6 +82,7 @@ public class QuoteProviderTests : TestBase
         // null quote added
         QuoteProvider provider = new();
 
+        // overflow
         Assert.ThrowsException<OverflowException>(() =>
         {
             Quote quote = new()
@@ -93,6 +94,13 @@ public class QuoteProviderTests : TestBase
             {
                 provider.Add(quote);
             }
+        });
+
+        // null quote
+        Assert.ThrowsException<ArgumentNullException>(() =>
+        {
+            Quote quote = null;
+            provider.Add(quote);
         });
 
         provider.EndTransmission();
