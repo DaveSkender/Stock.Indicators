@@ -96,4 +96,60 @@ public class UseStreamTests : TestBase
             Assert.AreEqual(t.Ema, s.Ema);
         }
     }
+
+    [TestMethod]
+    public void OverflowUse()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // initialize USE observer
+        UseObserver observer = provider
+            .Use(CandlePart.Close);
+
+        // emulate adding duplicate quote too many times
+        Assert.ThrowsException<OverflowException>(() =>
+        {
+            Quote q = quotesList[^1];
+
+            for (int i = 0; i <= 200; i++)
+            {
+                provider.Add(q);
+            }
+        });
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void OverflowChainee()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // initialize SMA observer
+        Sma observer = provider
+            .GetSma(10);
+
+        // emulate adding duplicate quote too many times
+        Assert.ThrowsException<OverflowException>(() =>
+        {
+            Quote q = quotesList[quotesList.Count - 1];
+
+            for (int i = 0; i <= 200; i++)
+            {
+                provider.Add(q);
+            }
+        });
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
 }
