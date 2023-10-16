@@ -141,7 +141,7 @@ public class UseStreamTests : TestBase
         // emulate adding duplicate quote too many times
         Assert.ThrowsException<OverflowException>(() =>
         {
-            Quote q = quotesList[quotesList.Count - 1];
+            Quote q = quotesList[^1];
 
             for (int i = 0; i <= 200; i++)
             {
