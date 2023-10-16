@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Skender.Stock.Indicators;
 
 // OBSERVER of TUPLES (BOILERPLATE)
@@ -20,6 +22,7 @@ public abstract class TupleObserver : IObserver<(DateTime Date, double Value)>
 
     public virtual void OnError(Exception error) => throw error;
 
+    [ExcludeFromCodeCoverage]
     public virtual void OnNext((DateTime Date, double Value) value)
     {
         // » handle new quote with override in observer

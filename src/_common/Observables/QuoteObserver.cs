@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Skender.Stock.Indicators;
 
 // OBSERVER of QUOTES (BOILERPLATE)
@@ -20,6 +22,7 @@ public abstract class QuoteObserver : IObserver<Quote>
 
     public virtual void OnError(Exception error) => throw error;
 
+    [ExcludeFromCodeCoverage]
     public virtual void OnNext(Quote value)
     {
         // » handle new quote with override in observer

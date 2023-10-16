@@ -34,6 +34,10 @@ public class QuoteProviderTests : TestBase
             Assert.AreEqual(o, q);
         }
 
+        // confirm public interface
+        Assert.AreEqual(provider.ProtectedQuotes.Count, provider.Quotes.Count());
+
+        // close observations
         provider.EndTransmission();
     }
 
@@ -73,6 +77,7 @@ public class QuoteProviderTests : TestBase
             Assert.AreEqual(o, q);
         }
 
+        // close observations
         provider.EndTransmission();
     }
 
@@ -103,6 +108,7 @@ public class QuoteProviderTests : TestBase
             provider.Add(quote);
         });
 
+        // close observations
         provider.EndTransmission();
     }
 }

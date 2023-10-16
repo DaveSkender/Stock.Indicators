@@ -98,6 +98,44 @@ public class UseStreamTests : TestBase
     }
 
     [TestMethod]
+    public void LateArrival()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotes.Count();
+
+        // add base quotes
+        QuoteProvider provider = new();
+        provider.Add(quotesList.Take(200));
+
+        UseObserver observer = provider
+            .Use(CandlePart.Close);
+
+        // emulate incremental quotes
+        for (int i = 200; i < length; i++)
+        {
+            if (i == 100)
+            {
+                continue;
+            }
+
+            Quote q = quotesList[i];
+            provider.Add(q);
+        }
+
+        // TODO: handle late arrival for USE scenario
+        Assert.ThrowsException<NotImplementedException>(() =>
+        {
+            Quote late = quotesList[100];
+            provider.Add(late);
+        });
+
+        // close observations
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
     public void OverflowUse()
     {
         List<Quote> quotesList = quotes
