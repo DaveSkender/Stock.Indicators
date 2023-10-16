@@ -105,6 +105,12 @@ public class SmaStreamTests : TestBase
         // setup quote provider
         QuoteProvider provider = new();
 
+        // prefill quotes to provider
+        for (int i = 0; i < 50; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
         // initialize EMA observer
         List<SmaResult> streamSma = provider
             .Use(CandlePart.OC2)
@@ -112,7 +118,7 @@ public class SmaStreamTests : TestBase
             .ProtectedResults;
 
         // emulate adding quotes to provider
-        for (int i = 0; i < length; i++)
+        for (int i = 50; i < length; i++)
         {
             provider.Add(quotesList[i]);
         }

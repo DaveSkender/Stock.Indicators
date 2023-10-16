@@ -70,45 +70,43 @@ public partial class Sma : ChainProvider
             throw new ArgumentNullException(nameof(Supplier), "Could not find data source.");
         }
 
-        // candidate result
+        // candidate result (empty)
         SmaResult r = new(tp.Date);
 
         // initialize
-        int lengthRes = ProtectedResults.Count;
-        int lengthSrc = Supplier.ProtectedTuples.Count;
+        int length = ProtectedResults.Count;
 
         // handle first value
-        if (lengthRes == 0)
+        if (length == 0)
         {
             ProtectedResults.Add(r);
             SendToChain(r);
             return;
         }
 
-        SmaResult lastResult = ProtectedResults[lengthRes - 1];
-        (DateTime lastSrcDate, double _) = Supplier.ProtectedTuples[lengthSrc - 1];
+        // proposed new value
+        // TODO: this index value won't work for late arrivals
+        r.Sma = Increment(
+            Supplier.ProtectedTuples,
+            length,
+            LookbackPeriods)
+            .NaN2Null();
 
-        if (r.Date == lastSrcDate)
-        {
-            r.Sma = Increment(
-                Supplier.ProtectedTuples,
-                lengthSrc - 1,
-                LookbackPeriods)
-                .NaN2Null();
-        }
+        // last entry
+        SmaResult last = ProtectedResults[length - 1];
 
         // add new
-        if (r.Date > lastResult.Date)
+        if (r.Date > last.Date)
         {
             ProtectedResults.Add(r);
             SendToChain(r);
         }
 
         // update last
-        else if (r.Date == lastResult.Date)
+        else if (r.Date == last.Date)
         {
-            lastResult.Sma = r.Sma;
-            SendToChain(lastResult);
+            last.Sma = r.Sma;
+            SendToChain(last);
         }
 
         // late arrival

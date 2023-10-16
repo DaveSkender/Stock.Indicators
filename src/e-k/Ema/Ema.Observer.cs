@@ -50,10 +50,10 @@ public partial class Ema : ChainProvider
     public override void OnNext((DateTime Date, double Value) value) => Add(value);
 
     // add new tuple quote
-    internal void Add((DateTime Date, double Value) tuple)
+    internal void Add((DateTime Date, double Value) tp)
     {
         // candidate result (empty)
-        EmaResult r = new(tuple.Date);
+        EmaResult r = new(tp.Date);
 
         // initialize
         int length = ProtectedResults.Count;
@@ -61,7 +61,7 @@ public partial class Ema : ChainProvider
         if (length == 0)
         {
             ProtectedResults.Add(r);
-            WarmupValue += tuple.Value;
+            WarmupValue += tp.Value;
             SendToChain(r);
             return;
         }
@@ -76,7 +76,7 @@ public partial class Ema : ChainProvider
             if (last.Date != r.Date)
             {
                 ProtectedResults.Add(r);
-                WarmupValue += tuple.Value;
+                WarmupValue += tp.Value;
             }
 
             return;
@@ -85,7 +85,7 @@ public partial class Ema : ChainProvider
         // initialize with SMA
         if (length == LookbackPeriods - 1)
         {
-            WarmupValue += tuple.Value;
+            WarmupValue += tp.Value;
             r.Ema = (WarmupValue / LookbackPeriods).NaN2Null();
             ProtectedResults.Add(r);
             SendToChain(r);
@@ -97,7 +97,7 @@ public partial class Ema : ChainProvider
         {
             // calculate incremental value
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
-            double newEma = Increment(K, lastEma, tuple.Value);
+            double newEma = Increment(K, lastEma, tp.Value);
 
             r.Ema = newEma.NaN2Null();
             ProtectedResults.Add(r);
@@ -112,7 +112,7 @@ public partial class Ema : ChainProvider
             EmaResult prior = ProtectedResults[length - 2];
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
-            last.Ema = Increment(K, priorEma, tuple.Value);
+            last.Ema = Increment(K, priorEma, tp.Value);
             SendToChain(last);
             return;
         }
