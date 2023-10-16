@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class UseStreamTests : TestBase
+public class TupleProviderTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -22,7 +22,13 @@ public class UseStreamTests : TestBase
         // setup quote provider
         QuoteProvider provider = new();
 
-        // initialize EMA observer
+        // prefill quotes to provider
+        for (int i = 0; i < 50; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        // initialize Tuple-based observer
         UseObserver observer = provider
             .Use(CandlePart.Close);
 
@@ -31,7 +37,7 @@ public class UseStreamTests : TestBase
             = observer.Results;
 
         // emulate adding quotes to provider
-        for (int i = 0; i < length; i++)
+        for (int i = 50; i < length; i++)
         {
             Quote q = quotesList[i];
             provider.Add(q);
@@ -50,6 +56,9 @@ public class UseStreamTests : TestBase
             Assert.AreEqual(sDate, rDate);
             Assert.AreEqual(sValue, rValue);
         }
+
+        // confirm public interface
+        Assert.AreEqual(observer.ProtectedTuples.Count, observer.Output.Count());
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -124,7 +133,7 @@ public class UseStreamTests : TestBase
             provider.Add(q);
         }
 
-        // TODO: handle late arrival for USE scenario
+        // TODO: add handler for late arrival in USE scenario
         Assert.ThrowsException<NotImplementedException>(() =>
         {
             Quote late = quotesList[100];
@@ -138,6 +147,9 @@ public class UseStreamTests : TestBase
     [TestMethod]
     public void OverflowUse()
     {
+        // TODO: this is only testing Quote overflow
+        // since it doesn't get past that handler
+
         List<Quote> quotesList = quotes
             .ToSortedList();
 
