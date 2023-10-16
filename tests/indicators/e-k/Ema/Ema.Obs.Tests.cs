@@ -36,6 +36,12 @@ public class EmaStreamTests : TestBase
         {
             Quote q = quotesList[i];
             provider.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105)
+            {
+                provider.Add(q);
+            }
         }
 
         // final results

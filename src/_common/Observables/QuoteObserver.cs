@@ -7,7 +7,7 @@ public abstract class QuoteObserver : IObserver<Quote>
     // fields
     private IDisposable? unsubscriber;
 
-    // properites
+    // properties
     internal QuoteProvider? Supplier { get; set; }
 
     // methods

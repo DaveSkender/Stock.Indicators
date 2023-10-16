@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteSourceTests : TestBase
+public class QuoteProviderTests : TestBase
 {
     [TestMethod]
     public void Standard()
