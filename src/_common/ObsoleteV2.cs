@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
 
-// OBSOLETE IN v2.0.0
+// OBSOLETE IN v2
 public static partial class Indicator
 {
 #pragma warning disable CA1002 // Do not expose generic lists

@@ -16,22 +16,20 @@ public class AdlTests : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.AdlSma == null));
 
         // sample values
         AdlResult r1 = results[249];
         Assert.AreEqual(0.7778, r1.MoneyFlowMultiplier.Round(4));
         Assert.AreEqual(36433792.89, r1.MoneyFlowVolume.Round(2));
         Assert.AreEqual(3266400865.74, r1.Adl.Round(2));
-        Assert.AreEqual(null, r1.AdlSma);
 
         AdlResult r2 = results[501];
         Assert.AreEqual(0.8052, r2.MoneyFlowMultiplier.Round(4));
         Assert.AreEqual(118396116.25, r2.MoneyFlowVolume.Round(2));
         Assert.AreEqual(3439986548.42, r2.Adl.Round(2));
-        Assert.AreEqual(null, r2.AdlSma);
     }
 
+    [Obsolete("Deprecated in v3.0.0", false)]
     [TestMethod]
     public void WithSma()
     {
@@ -115,6 +113,7 @@ public class AdlTests : TestBase
 
     // bad SMA period
     [TestMethod]
+    [Obsolete("Deprecated in v3.0.0", false)]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetAdl(0));

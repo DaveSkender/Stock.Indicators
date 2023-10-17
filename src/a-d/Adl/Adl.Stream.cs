@@ -2,6 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (STREAMING)
 
+/// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adl/">
+///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Adl : ChainProvider
 {
     // TBD constructor
@@ -16,25 +18,16 @@ public partial class Adl : ChainProvider
 
     // TBD parameter validation
 
-    // parameter validation
-    internal static void Validate(
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for ADL.");
-        }
-    }
-
     // increment calculation
     internal static (double mfm, double mfv, double adl) Increment(
         double lastAdl,
-        QuoteD q)
+        double high,
+        double low,
+        double close,
+        double volume)
     {
-        double mfm = (q.High == q.Low) ? 0 : (q.Close - q.Low - (q.High - q.Close)) / (q.High - q.Low);
-        double mfv = mfm * q.Volume;
+        double mfm = (high == low) ? 0 : (close - low - (high - close)) / (high - low);
+        double mfv = mfm * volume;
         double adl = mfv + lastAdl;
 
         return (mfm, mfv, adl);

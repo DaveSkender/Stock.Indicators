@@ -17,7 +17,7 @@ public static partial class Indicator
         // initialize
         int length = tpList.Count;
         List<CmfResult> results = new(length);
-        List<AdlResult> adlResults = qdList.CalcAdl(null).ToList();
+        List<AdlResult> adlResults = qdList.CalcAdl().ToList();
 
         // roll through quotes
         for (int i = 0; i < length; i++)

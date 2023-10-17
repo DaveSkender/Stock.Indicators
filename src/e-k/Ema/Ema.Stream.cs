@@ -2,6 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
+/// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Ema/">
+///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Ema : ChainProvider
 {
     // constructor

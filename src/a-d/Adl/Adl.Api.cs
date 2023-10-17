@@ -7,9 +7,8 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IEnumerable<AdlResult> GetAdl<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int? smaPeriods = null)
+        this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
             .ToQuoteD()
-            .CalcAdl(smaPeriods);
+            .CalcAdl();
 }

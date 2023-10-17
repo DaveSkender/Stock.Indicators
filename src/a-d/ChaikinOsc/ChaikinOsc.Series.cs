@@ -13,7 +13,7 @@ public static partial class Indicator
         ChaikinOsc.Validate(fastPeriods, slowPeriods);
 
         // money flow
-        List<ChaikinOscResult> results = qdList.CalcAdl(null)
+        List<ChaikinOscResult> results = qdList.CalcAdl()
             .Select(r => new ChaikinOscResult(r.Date)
             {
                 MoneyFlowMultiplier = r.MoneyFlowMultiplier,

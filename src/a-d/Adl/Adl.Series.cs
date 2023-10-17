@@ -5,12 +5,8 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<AdlResult> CalcAdl(
-        this List<QuoteD> qdList,
-        int? smaPeriods)
+        this List<QuoteD> qdList)
     {
-        // check parameter arguments
-        Adl.Validate(smaPeriods);
-
         // initialize
         List<AdlResult> results = new(qdList.Count);
         double lastAdl = 0;
@@ -20,7 +16,12 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            (double mfm, double mfv, double adl) = Adl.Increment(lastAdl, q);
+            (double mfm, double mfv, double adl) = Adl.Increment(
+                lastAdl,
+                q.High,
+                q.Low,
+                q.Close,
+                q.Volume);
 
             AdlResult r = new(q.Date)
             {
@@ -31,18 +32,6 @@ public static partial class Indicator
             results.Add(r);
 
             lastAdl = adl;
-
-            // optional SMA
-            if (smaPeriods != null && i + 1 >= smaPeriods)
-            {
-                double? sumSma = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    sumSma += results[p].Adl;
-                }
-
-                r.AdlSma = sumSma / smaPeriods;
-            }
         }
 
         return results;
