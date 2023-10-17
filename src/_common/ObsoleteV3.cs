@@ -13,6 +13,14 @@ public static partial class Indicator
         int smaPeriods)
         where TQuote : IQuote
     {
+        // check parameter arguments
+        if (smaPeriods is <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                "SMA periods must be greater than 0 for ADL.");
+        }
+
+        // add SMA
         List<AdlResult> results = quotes
             .ToQuoteD()
             .CalcAdl();

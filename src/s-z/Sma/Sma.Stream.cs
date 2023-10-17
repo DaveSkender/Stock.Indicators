@@ -2,8 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-/// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Sma/">
-///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Sma : ChainProvider
 {
     // constructor
@@ -26,63 +24,7 @@ public partial class Sma : ChainProvider
 
     private int LookbackPeriods { get; set; }
 
-    // STATIC METHODS
-
-    // parameter validation
-    internal static void Validate(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for SMA.");
-        }
-    }
-
-    // increment calculation
-    internal static double Increment(
-        List<(DateTime Date, double Value)> values,
-        int index,
-        int lookbackPeriods)
-    {
-        if (index < lookbackPeriods - 1)
-        {
-            return double.NaN;
-        }
-
-        double sum = 0;
-        for (int i = index - lookbackPeriods + 1; i <= index; i++)
-        {
-            sum += values[i].Value;
-        }
-
-        return sum / lookbackPeriods;
-    }
-
-    // increment for results
-    // TODO: this is too slow whe attempting to use on Adl
-    internal static double? Increment<TResult>(
-        List<TResult> results,
-        int index,
-        int lookbackPeriods)
-        where TResult : IReusableResult
-    {
-        if (index < lookbackPeriods - 1)
-        {
-            return null;
-        }
-
-        double? sum = 0;
-        for (int i = index - lookbackPeriods + 1; i <= index; i++)
-        {
-            sum += results[i].Value;
-        }
-
-        return sum / lookbackPeriods;
-    }
-
-    // NON-STATIC METHODS
+    // METHODS
 
     // handle quote arrival
     public override void OnNext((DateTime Date, double Value) value) => Add(value);

@@ -2,8 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (STREAMING)
 
-/// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adl/">
-///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Adl : ChainProvider
 {
     // TBD constructor
@@ -14,26 +12,7 @@ public partial class Adl : ChainProvider
 
     // TBD PROPERTIES
 
-    // STATIC METHODS
-
-    // TBD parameter validation
-
-    // increment calculation
-    internal static (double mfm, double mfv, double adl) Increment(
-        double lastAdl,
-        double high,
-        double low,
-        double close,
-        double volume)
-    {
-        double mfm = (high == low) ? 0 : (close - low - (high - close)) / (high - low);
-        double mfv = mfm * volume;
-        double adl = mfv + lastAdl;
-
-        return (mfm, mfv, adl);
-    }
-
-    // NON-STATIC METHODS
+    // METHODS
 
     // handle quote arrival
     public override void OnNext((DateTime Date, double Value) value) => Add(value);

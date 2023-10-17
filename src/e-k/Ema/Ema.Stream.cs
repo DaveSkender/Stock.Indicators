@@ -2,8 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-/// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Ema/">
-///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Ema : ChainProvider
 {
     // constructor
@@ -29,25 +27,7 @@ public partial class Ema : ChainProvider
     private int LookbackPeriods { get; set; }
     private double K { get; set; }
 
-    // STATIC METHODS
-
-    // parameter validation
-    internal static void Validate(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for EMA.");
-        }
-    }
-
-    // increment calculation
-    internal static double Increment(double k, double lastEma, double newValue)
-        => lastEma + (k * (newValue - lastEma));
-
-    // NON-STATIC METHODS
+    // METHODS
 
     // handle quote arrival
     public override void OnNext((DateTime Date, double Value) value) => Add(value);

@@ -1,26 +1,6 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (API)
-
-public partial class Sma
-{
-    // INCREMENT
-    /// <include file='./info.xml' path='info/type[@name="increment"]/*' />
-    ///
-    public static double Increment(
-      Collection<(DateTime, double)> quotes,
-      int lookbackPeriods)
-    {
-        List<(DateTime, double)> tpList = quotes.ToSortedList();
-        int length = tpList.Count;
-
-        return length < lookbackPeriods
-           ? double.NaN
-           : Increment(tpList, length - 1, lookbackPeriods);
-    }
-}
 
 public static partial class Indicator
 {
