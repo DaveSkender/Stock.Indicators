@@ -26,10 +26,7 @@ public static partial class Indicator
                 continue;
             }
 
-            double hmpc = Math.Abs(q.High - prevClose);
-            double lmpc = Math.Abs(q.Low - prevClose);
-
-            r.Tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
+            r.Tr = Tr.Increment(prevClose, q.High, q.Low);
 
             prevClose = q.Close;
         }

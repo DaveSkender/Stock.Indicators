@@ -12,12 +12,7 @@ public partial class Tr : ChainProvider
 
     // TBD PROPERTIES
 
-    // STATIC METHODS
-
-    // TBD increment calculation
-    internal static double Increment() => throw new NotImplementedException();
-
-    // NON-STATIC METHODS
+    // METHODS
 
     // handle quote arrival
     public override void OnNext((DateTime Date, double Value) value) => Add(value);

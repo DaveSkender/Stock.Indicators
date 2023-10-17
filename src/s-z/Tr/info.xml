@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <info>
-  <summary>
-    True Range (TR) is a measure of volatility that captures gaps and limits between periods.
-    <para>
-      See
-      <see href="https://dotnet.StockIndicators.dev/indicators/Atr/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
-      for more information.
-    </para>
-  </summary>
-  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="quotes">Historical price quotes.</param>
-  <returns>Time series of True Range (TR) values.</returns>
-  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <type name="standard">
+    <summary>
+      True Range (TR) is a measure of volatility that captures gaps and limits between periods.
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Tr/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <returns>Time series of True Range (TR) values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
+  <type name="increment">
+    <summary>Get the next incremental True Range (TR) value.
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Tr/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information. </para>
+    </summary>
+    <param name="lastClose">Last Close price, from prior period.</param>
+    <param name="high">High price, current period.</param>
+    <param name="low">Low price, current period.</param>
+    <returns>New TR value.</returns>
+  </type>
 </info>
