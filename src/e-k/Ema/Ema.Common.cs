@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Ema/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
-public partial class Ema
+public partial class Ema : ChainProvider
 {
     // parameter validation
     internal static void Validate(
