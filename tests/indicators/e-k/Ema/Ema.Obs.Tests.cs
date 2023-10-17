@@ -182,7 +182,6 @@ public class EmaStreamTests : TestBase
             EmaResult s = seriesList[i];
             EmaResult r = resultList[i];
 
-            Console.WriteLine($"Iteration {i} is {r.Ema} for {s.Ema}");
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Ema, r.Ema);
         }

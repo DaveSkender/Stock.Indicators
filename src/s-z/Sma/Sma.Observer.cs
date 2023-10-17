@@ -4,6 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public partial class Sma : ChainProvider
 {
+    // constructor
     public Sma(
         TupleProvider provider,
         int lookbackPeriods)
@@ -84,7 +85,7 @@ public partial class Sma : ChainProvider
             return;
         }
 
-        // proposed new value
+        // calculate incremental value
         // TODO: this index value won't work for late arrivals
         r.Sma = Increment(
             Supplier.ProtectedTuples,
@@ -123,7 +124,7 @@ public partial class Sma : ChainProvider
         }
     }
 
-    // calculate with provider cache
+    // initialize with existing quote cache
     private void Initialize()
     {
         if (Supplier != null)

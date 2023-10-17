@@ -4,6 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public partial class Ema : ChainProvider
 {
+    // constructor
     public Ema(
         TupleProvider provider,
         int lookbackPeriods)
@@ -125,7 +126,7 @@ public partial class Ema : ChainProvider
         }
     }
 
-    // calculate with provider cache
+    // initialize with existing quote cache
     private void Initialize()
     {
         if (Supplier != null)
