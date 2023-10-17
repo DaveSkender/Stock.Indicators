@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // ULCER INDEX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<UlcerIndexResult> CalcUlcerIndex(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateUlcer(lookbackPeriods);
+        UlcerIndex.Validate(lookbackPeriods);
 
         // initialize
         List<UlcerIndexResult> results = new(tpList.Count);
@@ -50,17 +51,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateUlcer(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Ulcer Index.");
-        }
     }
 }

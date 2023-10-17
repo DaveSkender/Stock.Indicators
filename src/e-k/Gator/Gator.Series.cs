@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // GATOR OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<GatorResult> CalcGator(

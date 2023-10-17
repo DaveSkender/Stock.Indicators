@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Fcb (STREAMING)
+// FRACTAL CHAOS BANDS (STREAMING)
 
 public partial class Fcb : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class Fcb : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int windowSpan)
+    {
+        // check parameter arguments
+        if (windowSpan < 2)
+        {
+            throw new ArgumentOutOfRangeException(nameof(windowSpan), windowSpan,
+                "Window span must be at least 2 for FCB.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

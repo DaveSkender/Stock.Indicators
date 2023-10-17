@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Bop (STREAMING)
+// BALANCE OF POWER (STREAMING)
 
 public partial class Bop : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class Bop : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int smoothPeriods)
+    {
+        // check parameter arguments
+        if (smoothPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                "Smoothing periods must be greater than 0 for BOP.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Hurst (STREAMING)
+// HURST EXPONENT (STREAMING)
 
 public partial class Hurst : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class Hurst : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods < 20)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be at least 20 for Hurst Exponent.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

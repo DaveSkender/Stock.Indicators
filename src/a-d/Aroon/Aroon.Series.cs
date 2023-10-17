@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // AROON OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<AroonResult> CalcAroon(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateAroon(lookbackPeriods);
+        Aroon.Validate(lookbackPeriods);
 
         // initialize
         List<AroonResult> results = new(qdList.Count);
@@ -53,17 +54,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAroon(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Aroon.");
-        }
     }
 }

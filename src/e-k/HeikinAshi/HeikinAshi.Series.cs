@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // HEIKIN-ASHI (SERIES)
+
 public static partial class Indicator
 {
     internal static List<HeikinAshiResult> CalcHeikinAshi<TQuote>(

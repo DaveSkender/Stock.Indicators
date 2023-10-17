@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// ZigZag (STREAMING)
+// ZIG ZAG (STREAMING)
 
 public partial class ZigZag : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class ZigZag : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        decimal percentChange)
+    {
+        // check parameter arguments
+        if (percentChange <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(percentChange), percentChange,
+                "Percent change must be greater than 0 for ZIGZAG.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

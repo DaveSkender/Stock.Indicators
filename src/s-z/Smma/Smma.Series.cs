@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // SMOOTHED MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
@@ -9,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateSmma(lookbackPeriods);
+        Smma.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -50,17 +51,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateSmma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for SMMA.");
-        }
     }
 }

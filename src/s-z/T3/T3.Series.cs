@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // TILLSON T3 MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<T3Result> CalcT3(
@@ -9,7 +10,7 @@ public static partial class Indicator
         double volumeFactor)
     {
         // check parameter arguments
-        ValidateT3(lookbackPeriods, volumeFactor);
+        T3.Validate(lookbackPeriods, volumeFactor);
 
         // initialize
         int length = tpList.Count;
@@ -59,24 +60,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateT3(
-        int lookbackPeriods,
-        double volumeFactor)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for T3.");
-        }
-
-        if (volumeFactor <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(volumeFactor), volumeFactor,
-                "Volume Factor must be greater than 0 for T3.");
-        }
     }
 }

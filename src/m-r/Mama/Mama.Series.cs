@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// MOTHER of ADAPTIVE MOVING AVERAGES - MAMA (SERIES)
+// MOTHER of ADAPTIVE MOVING AVERAGES (SERIES)
 public static partial class Indicator
 {
     internal static List<MamaResult> CalcMama(
@@ -9,7 +9,7 @@ public static partial class Indicator
         double slowLimit)
     {
         // check parameter arguments
-        ValidateMama(fastLimit, slowLimit);
+        Mama.Validate(fastLimit, slowLimit);
 
         // initialize
         int length = tpList.Count;
@@ -131,24 +131,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateMama(
-        double fastLimit,
-        double slowLimit)
-    {
-        // check parameter arguments
-        if (fastLimit <= slowLimit || fastLimit >= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastLimit), fastLimit,
-                "Fast Limit must be greater than Slow Limit and less than 1 for MAMA.");
-        }
-
-        if (slowLimit <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowLimit), slowLimit,
-                "Slow Limit must be greater than 0 for MAMA.");
-        }
     }
 }

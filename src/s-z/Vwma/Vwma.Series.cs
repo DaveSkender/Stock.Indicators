@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // VOLUME WEIGHTED MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<VwmaResult> CalcVwma(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateVwma(lookbackPeriods);
+        Vwma.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -41,17 +42,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateVwma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Vwma.");
-        }
     }
 }

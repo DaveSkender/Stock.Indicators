@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<AdxResult> CalcAdx(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateAdx(lookbackPeriods);
+        Adx.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -143,17 +144,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAdx(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for ADX.");
-        }
     }
 }

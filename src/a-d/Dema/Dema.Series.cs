@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// DOUBLE EXPONENTIAL MOVING AVERAGE - DEMA (SERIES)
+// DOUBLE EXPONENTIAL MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<DemaResult> CalcDema(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateDema(lookbackPeriods);
+        Dema.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -53,17 +54,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateDema(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for DEMA.");
-        }
     }
 }

@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // BALANCE OF POWER (SERIES)
+
 public static partial class Indicator
 {
     internal static List<BopResult> CalcBop(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int smoothPeriods)
     {
         // check parameter arguments
-        ValidateBop(smoothPeriods);
+        Bop.Validate(smoothPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -38,17 +39,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateBop(
-        int smoothPeriods)
-    {
-        // check parameter arguments
-        if (smoothPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
-                "Smoothing periods must be greater than 0 for BOP.");
-        }
     }
 }

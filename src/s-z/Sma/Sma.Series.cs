@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<SmaResult> CalcSma(

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Mama (STREAMING)
+// MOTHER of ADAPTIVE MOVING AVERAGES (STREAMING)
 
 public partial class Mama : ChainProvider
 {
@@ -14,8 +14,24 @@ public partial class Mama : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        double fastLimit,
+        double slowLimit)
+    {
+        // check parameter arguments
+        if (fastLimit <= slowLimit || fastLimit >= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(fastLimit), fastLimit,
+                "Fast Limit must be greater than Slow Limit and less than 1 for MAMA.");
+        }
+
+        if (slowLimit <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowLimit), slowLimit,
+                "Slow Limit must be greater than 0 for MAMA.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

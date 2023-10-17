@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // CHANDELIER EXIT (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ChandelierResult> CalcChandelier(
@@ -10,7 +11,7 @@ public static partial class Indicator
         ChandelierType type)
     {
         // check parameter arguments
-        ValidateChandelier(lookbackPeriods, multiplier);
+        Chandelier.Validate(lookbackPeriods, multiplier);
 
         // initialize
         int length = qdList.Count;
@@ -71,24 +72,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateChandelier(
-        int lookbackPeriods,
-        double multiplier)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Chandelier Exit.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for Chandelier Exit.");
-        }
     }
 }

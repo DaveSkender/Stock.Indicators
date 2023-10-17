@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Aroon (STREAMING)
+// AROON OSCILLATOR (STREAMING)
 
 public partial class Aroon : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class Aroon : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Aroon.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

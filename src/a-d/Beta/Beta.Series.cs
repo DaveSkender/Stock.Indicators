@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // BETA COEFFICIENT (SERIES)
+
 public static partial class Indicator
 {
     // NOTE: sequence swapped from API
@@ -11,7 +12,7 @@ public static partial class Indicator
         BetaType type = BetaType.Standard)
     {
         // check parameter arguments
-        ValidateBeta(tpListEval, tpListMrkt, lookbackPeriods);
+        Beta.Validate(tpListEval, tpListMrkt, lookbackPeriods);
 
         // initialize
         int length = tpListEval.Count;
@@ -147,28 +148,6 @@ public static partial class Indicator
                     r.BetaUp = beta;
                 }
             }
-        }
-    }
-
-    // parameter validation
-    private static void ValidateBeta(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListMrkt,
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Beta.");
-        }
-
-        // check quotes
-        if (tpListEval.Count != tpListMrkt.Count)
-        {
-            throw new InvalidQuotesException(
-                nameof(tpListEval),
-                "Eval quotes should have the same number of Market quotes for Beta.");
         }
     }
 }

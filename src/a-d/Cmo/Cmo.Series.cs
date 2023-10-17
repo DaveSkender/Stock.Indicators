@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // CHANDE MOMENTUM OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<CmoResult> CalcCmo(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateCmo(lookbackPeriods);
+        Cmo.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -69,17 +70,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateCmo(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for CMO.");
-        }
     }
 }

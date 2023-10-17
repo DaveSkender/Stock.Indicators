@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// StarcBands (STREAMING)
+// STARC BANDS (STREAMING)
 
 public partial class StarcBands : ChainProvider
 {
@@ -14,8 +14,31 @@ public partial class StarcBands : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int smaPeriods,
+        double multiplier,
+        int atrPeriods)
+    {
+        // check parameter arguments
+        if (smaPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                "EMA periods must be greater than 1 for STARC Bands.");
+        }
+
+        if (atrPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(atrPeriods), atrPeriods,
+                "ATR periods must be greater than 1 for STARC Bands.");
+        }
+
+        if (multiplier <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
+                "Multiplier must be greater than 0 for STARC Bands.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

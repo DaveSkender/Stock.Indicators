@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Smma (STREAMING)
+// SMOOTHED MOVING AVERAGE (STREAMING)
 
 public partial class Smma : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class Smma : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for SMMA.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

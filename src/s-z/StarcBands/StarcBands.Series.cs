@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // STARC BANDS (SERIES)
+
 public static partial class Indicator
 {
     internal static List<StarcBandsResult> CalcStarcBands(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int atrPeriods)
     {
         // check parameter arguments
-        ValidateStarcBands(smaPeriods, multiplier, atrPeriods);
+        StarcBands.Validate(smaPeriods, multiplier, atrPeriods);
 
         // initialize
         List<AtrResult> atrResults = qdList.CalcAtr(atrPeriods);
@@ -38,31 +39,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateStarcBands(
-        int smaPeriods,
-        double multiplier,
-        int atrPeriods)
-    {
-        // check parameter arguments
-        if (smaPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "EMA periods must be greater than 1 for STARC Bands.");
-        }
-
-        if (atrPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(atrPeriods), atrPeriods,
-                "ATR periods must be greater than 1 for STARC Bands.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for STARC Bands.");
-        }
     }
 }

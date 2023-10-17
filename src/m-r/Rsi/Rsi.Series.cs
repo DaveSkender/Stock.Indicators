@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // RELATIVE STRENGTH INDEX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<RsiResult> CalcRsi(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateRsi(lookbackPeriods);
+        Rsi.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -78,17 +79,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateRsi(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for RSI.");
-        }
     }
 }

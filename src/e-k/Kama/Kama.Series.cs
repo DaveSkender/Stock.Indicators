@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<KamaResult> CalcKama(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int slowPeriods)
     {
         // check parameter arguments
-        ValidateKama(erPeriods, fastPeriods, slowPeriods);
+        Kama.Validate(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -68,31 +69,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateKama(
-        int erPeriods,
-        int fastPeriods,
-        int slowPeriods)
-    {
-        // check parameter arguments
-        if (erPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(erPeriods), erPeriods,
-                "Efficiency Ratio periods must be greater than 0 for KAMA.");
-        }
-
-        if (fastPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                "Fast EMA periods must be greater than 0 for KAMA.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow EMA periods must be greater than Fast EMA period for KAMA.");
-        }
     }
 }

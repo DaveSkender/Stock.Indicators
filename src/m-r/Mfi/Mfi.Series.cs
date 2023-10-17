@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // MONEY FLOW INDEX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<MfiResult> CalcMfi(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateMfi(lookbackPeriods);
+        Mfi.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -85,17 +86,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateMfi(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for MFI.");
-        }
     }
 }

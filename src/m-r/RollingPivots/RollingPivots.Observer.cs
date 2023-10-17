@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// RollingPivots (STREAMING)
+// ROLLING PIVOT POINTS (STREAMING)
 
 public partial class RollingPivots : ChainProvider
 {
@@ -14,8 +14,24 @@ public partial class RollingPivots : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int windowPeriods,
+        int offsetPeriods)
+    {
+        // check parameter arguments
+        if (windowPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(windowPeriods), windowPeriods,
+                "Window periods must be greater than 0 for Rolling Pivot Points.");
+        }
+
+        if (offsetPeriods < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(offsetPeriods), offsetPeriods,
+                "Offset periods must be greater than or equal to 0 for Rolling Pivot Points.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

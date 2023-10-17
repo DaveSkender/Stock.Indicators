@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// BasicQuote (STREAMING)
+// BASE QUOTE (STREAMING)
 
 public partial class BasicQuote : ChainProvider
 {
@@ -15,7 +15,13 @@ public partial class BasicQuote : ChainProvider
     // STATIC METHODS
 
     // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    internal static void Validate(Quote quote)
+    {
+        if (quote is null)
+        {
+            throw new ArgumentNullException(nameof(quote), "Quote cannot be null for BasicQuotes");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

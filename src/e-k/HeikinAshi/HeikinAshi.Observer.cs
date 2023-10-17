@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// HeikinAshi (STREAMING)
+// HEIKIN-ASHI (STREAMING)
 
 public partial class HeikinAshi : ChainProvider
 {
@@ -13,9 +13,6 @@ public partial class HeikinAshi : ChainProvider
     // TBD PROPERTIES
 
     // STATIC METHODS
-
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

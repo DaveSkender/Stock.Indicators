@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // STANDARD DEVIATION (SERIES)
+
 public static partial class Indicator
 {
     internal static List<StdDevResult> CalcStdDev(
@@ -9,7 +10,7 @@ public static partial class Indicator
         int? smaPeriods)
     {
         // check parameter arguments
-        ValidateStdDev(lookbackPeriods, smaPeriods);
+        StdDev.Validate(lookbackPeriods, smaPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -60,24 +61,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateStdDev(
-        int lookbackPeriods,
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Standard Deviation.");
-        }
-
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for Standard Deviation.");
-        }
     }
 }

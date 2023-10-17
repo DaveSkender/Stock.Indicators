@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Adl (STREAMING)
+// ACCUMULATION/DISTRIBUTION LINE (STREAMING)
 
 public partial class Adl : ChainProvider
 {
@@ -15,7 +15,18 @@ public partial class Adl : ChainProvider
     // STATIC METHODS
 
     // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+
+    // parameter validation
+    internal static void Validate(
+        int? smaPeriods)
+    {
+        // check parameter arguments
+        if (smaPeriods is not null and <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                "SMA periods must be greater than 0 for ADL.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

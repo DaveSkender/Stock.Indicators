@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// T3 (STREAMING)
+// TILLSON T3 MOVING AVERAGE (STREAMING)
 
 public partial class T3 : ChainProvider
 {
@@ -14,8 +14,24 @@ public partial class T3 : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods,
+        double volumeFactor)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for T3.");
+        }
+
+        if (volumeFactor <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(volumeFactor), volumeFactor,
+                "Volume Factor must be greater than 0 for T3.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

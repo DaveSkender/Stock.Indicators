@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Awesome (STREAMING)
+// AWESOME OSCILLATOR (STREAMING)
 
 public partial class Awesome : ChainProvider
 {
@@ -14,8 +14,24 @@ public partial class Awesome : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int fastPeriods,
+        int slowPeriods)
+    {
+        // check parameter arguments
+        if (fastPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                "Fast periods must be greater than 0 for Awesome Oscillator.");
+        }
+
+        if (slowPeriods <= fastPeriods)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                "Slow periods must be larger than Fast Periods for Awesome Oscillator.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

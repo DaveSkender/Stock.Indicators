@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // VORTEX INDICATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<VortexResult> CalcVortex(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateVortex(lookbackPeriods);
+        Vortex.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -74,17 +75,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateVortex(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for VI.");
-        }
     }
 }

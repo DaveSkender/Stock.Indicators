@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // CONNORS RSI (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ConnorsRsiResult> CalcConnorsRsi(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int rankPeriods)
     {
         // check parameter arguments
-        ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+        ConnorsRsi.Validate(rsiPeriods, streakPeriods, rankPeriods);
 
         // initialize
         List<ConnorsRsiResult> results = tpList.CalcStreak(rsiPeriods, rankPeriods);
@@ -128,31 +129,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateConnorsRsi(
-        int rsiPeriods,
-        int streakPeriods,
-        int rankPeriods)
-    {
-        // check parameter arguments
-        if (rsiPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(rsiPeriods), rsiPeriods,
-                "RSI period for Close price must be greater than 1 for ConnorsRsi.");
-        }
-
-        if (streakPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(streakPeriods), streakPeriods,
-                "RSI period for Streak must be greater than 1 for ConnorsRsi.");
-        }
-
-        if (rankPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(rankPeriods), rankPeriods,
-                "Percent Rank periods must be greater than 1 for ConnorsRsi.");
-        }
     }
 }

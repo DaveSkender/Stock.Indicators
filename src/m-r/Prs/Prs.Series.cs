@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // PRICE RELATIVE STRENGTH (SERIES)
+
 public static partial class Indicator
 {
     internal static List<PrsResult> CalcPrs(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int? smaPeriods = null)
     {
         // check parameter arguments
-        ValidatePriceRelative(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
+        Prs.Validate(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
 
         // initialize
         List<PrsResult> results = new(tpListEval.Count);
@@ -62,49 +63,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidatePriceRelative(
-        List<(DateTime, double)> quotesEval,
-        List<(DateTime, double)> quotesBase,
-        int? lookbackPeriods,
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Price Relative Strength.");
-        }
-
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for Price Relative Strength.");
-        }
-
-        // check quotes
-        int qtyHistoryEval = quotesEval.Count;
-        int qtyHistoryBase = quotesBase.Count;
-
-        int? minHistory = lookbackPeriods;
-        if (minHistory != null && qtyHistoryEval < minHistory)
-        {
-            string message = "Insufficient quotes provided for Price Relative Strength.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistoryEval, minHistory);
-
-            throw new InvalidQuotesException(nameof(quotesEval), message);
-        }
-
-        if (qtyHistoryBase != qtyHistoryEval)
-        {
-            throw new InvalidQuotesException(
-                nameof(quotesBase),
-                "Base quotes should have at least as many records as Eval quotes for PRS.");
-        }
     }
 }

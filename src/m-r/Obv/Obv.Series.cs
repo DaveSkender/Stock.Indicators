@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // ON-BALANCE VOLUME (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ObvResult> CalcObv(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int? smaPeriods)
     {
         // check parameter arguments
-        ValidateObv(smaPeriods);
+        Obv.Validate(smaPeriods);
 
         // initialize
         List<ObvResult> results = new(qdList.Count);
@@ -56,17 +57,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateObv(
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for OBV.");
-        }
     }
 }

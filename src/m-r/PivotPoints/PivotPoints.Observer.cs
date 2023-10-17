@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// PivotPoints (STREAMING)
+// PIVOT POINTS (STREAMING)
 
 public partial class PivotPoints : ChainProvider
 {
@@ -13,9 +13,6 @@ public partial class PivotPoints : ChainProvider
     // TBD PROPERTIES
 
     // STATIC METHODS
-
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

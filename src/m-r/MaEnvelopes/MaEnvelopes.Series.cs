@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE ENVELOPES (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
@@ -12,7 +13,7 @@ public static partial class Indicator
     {
         // check parameter arguments
         // note: most validations are done in variant methods
-        ValidateMaEnvelopes(percentOffset);
+        MaEnvelopes.Validate(percentOffset);
 
         // initialize
         double offsetRatio = percentOffset / 100d;
@@ -146,16 +147,4 @@ public static partial class Indicator
             UpperEnvelope = x.Wma + (x.Wma * offsetRatio),
             LowerEnvelope = x.Wma - (x.Wma * offsetRatio)
         });
-
-    // parameter validation
-    private static void ValidateMaEnvelopes(
-        double percentOffset)
-    {
-        // check parameter arguments
-        if (percentOffset <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(percentOffset), percentOffset,
-                "Percent Offset must be greater than 0 for Moving Average Envelopes.");
-        }
-    }
 }

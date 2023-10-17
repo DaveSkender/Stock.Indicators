@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// MaEnvelopes (STREAMING)
+// MOVING AVERAGE ENVELOPES (STREAMING)
 
 public partial class MaEnvelopes : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class MaEnvelopes : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        double percentOffset)
+    {
+        // check parameter arguments
+        if (percentOffset <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(percentOffset), percentOffset,
+                "Percent Offset must be greater than 0 for Moving Average Envelopes.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

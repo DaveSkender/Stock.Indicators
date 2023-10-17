@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// ChaikinOsc (STREAMING)
+// CHAIKIN OSCILLATOR (STREAMING)
 
 public partial class ChaikinOsc : ChainProvider
 {
@@ -14,8 +14,24 @@ public partial class ChaikinOsc : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int fastPeriods,
+        int slowPeriods)
+    {
+        // check parameter arguments
+        if (fastPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
+                "Fast lookback periods must be greater than 0 for Chaikin Oscillator.");
+        }
+
+        if (slowPeriods <= fastPeriods)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
+                "Slow lookback periods must be greater than Fast lookback period for Chaikin Oscillator.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

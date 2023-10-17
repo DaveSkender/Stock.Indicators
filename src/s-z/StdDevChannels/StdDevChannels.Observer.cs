@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// StdDevChannels (STREAMING)
+// STANDARD DEVIATION CHANNELS (STREAMING)
 
 public partial class StdDevChannels : ChainProvider
 {
@@ -14,8 +14,24 @@ public partial class StdDevChannels : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int? lookbackPeriods,
+        double stdDeviations)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for Standard Deviation Channels.");
+        }
+
+        if (stdDeviations <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stdDeviations), stdDeviations,
+                "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

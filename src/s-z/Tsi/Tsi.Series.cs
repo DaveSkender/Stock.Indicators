@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // TRUE STRENGTH INDEX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<TsiResult> CalcTsi(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int signalPeriods)
     {
         // check parameter arguments
-        ValidateTsi(lookbackPeriods, smoothPeriods, signalPeriods);
+        Tsi.Validate(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -131,31 +132,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateTsi(
-        int lookbackPeriods,
-        int smoothPeriods,
-        int signalPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for TSI.");
-        }
-
-        if (smoothPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
-                "Smoothing periods must be greater than 0 for TSI.");
-        }
-
-        if (signalPeriods < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal periods must be greater than or equal to 0 for TSI.");
-        }
     }
 }

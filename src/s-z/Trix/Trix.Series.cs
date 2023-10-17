@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // TRIPLE EMA OSCILLATOR - TRIX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<TrixResult> CalcTrix(
@@ -9,7 +10,7 @@ public static partial class Indicator
         int? signalPeriods)
     {
         // check parameter arguments
-        ValidateTrix(lookbackPeriods);
+        Trix.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -71,18 +72,6 @@ public static partial class Indicator
             }
 
             results[i].Signal = sumSma / signalPeriods;
-        }
-    }
-
-    // parameter validation
-    private static void ValidateTrix(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for TRIX.");
         }
     }
 }

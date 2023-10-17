@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // HURST EXPONENT (SERIES)
+
 public static partial class Indicator
 {
     internal static List<HurstResult> CalcHurst(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateHurst(lookbackPeriods);
+        Hurst.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -136,17 +137,5 @@ public static partial class Indicator
         // hurst exponent
         // TODO: apply Anis-Lloyd corrected R/S Hurst?
         return Numerix.Slope(logSize, logRs);
-    }
-
-    // parameter validation
-    private static void ValidateHurst(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods < 20)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be at least 20 for Hurst Exponent.");
-        }
     }
 }

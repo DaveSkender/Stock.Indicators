@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// TRIPLE EXPONENTIAL MOVING AVERAGE - TEMA (SERIES)
+// TRIPLE EXPONENTIAL MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
@@ -9,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateTema(lookbackPeriods);
+        Tema.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -57,17 +58,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateTema(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for TEMA.");
-        }
     }
 }

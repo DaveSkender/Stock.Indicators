@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Tsi (STREAMING)
+// TRUE STRENGTH INDEX (STREAMING)
 
 public partial class Tsi : ChainProvider
 {
@@ -14,8 +14,31 @@ public partial class Tsi : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods,
+        int smoothPeriods,
+        int signalPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for TSI.");
+        }
+
+        if (smoothPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                "Smoothing periods must be greater than 0 for TSI.");
+        }
+
+        if (signalPeriods < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                "Signal periods must be greater than or equal to 0 for TSI.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

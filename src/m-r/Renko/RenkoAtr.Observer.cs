@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// RENKO CHART - STANDARD (STREAMING)
+// RENKO CHART - ATR (STREAMING)
 
-public partial class Renko : ChainProvider
+public partial class RenkoAtr : ChainProvider
 {
     // TBD constructor
-    public Renko()
+    public RenkoAtr()
     {
         Initialize();
     }
@@ -13,18 +13,6 @@ public partial class Renko : ChainProvider
     // TBD PROPERTIES
 
     // STATIC METHODS
-
-    // parameter validation
-    internal static void Validate(
-        decimal brickSize)
-    {
-        // check parameter arguments
-        if (brickSize <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(brickSize), brickSize,
-                "Brick size must be greater than 0 for Renko Charts.");
-        }
-    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

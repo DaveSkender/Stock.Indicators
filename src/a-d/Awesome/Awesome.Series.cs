@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // AWESOME OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<AwesomeResult> CalcAwesome(
@@ -9,7 +10,7 @@ public static partial class Indicator
         int slowPeriods)
     {
         // check parameter arguments
-        ValidateAwesome(fastPeriods, slowPeriods);
+        Awesome.Validate(fastPeriods, slowPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -46,24 +47,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAwesome(
-        int fastPeriods,
-        int slowPeriods)
-    {
-        // check parameter arguments
-        if (fastPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Fast periods must be greater than 0 for Awesome Oscillator.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow periods must be larger than Fast Periods for Awesome Oscillator.");
-        }
     }
 }

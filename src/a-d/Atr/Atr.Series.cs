@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // AVERAGE TRUE RANGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
@@ -9,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateAtr(lookbackPeriods);
+        Atr.Validate(lookbackPeriods);
 
         // initialize
         List<AtrResult> results = new(qdList.Count);
@@ -68,17 +69,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAtr(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Average True Range.");
-        }
     }
 }

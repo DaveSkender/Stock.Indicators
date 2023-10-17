@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // KLINGER VOLUME OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<KvoResult> CalcKvo(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int signalPeriods)
     {
         // check parameter arguments
-        ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);
+        Kvo.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -124,31 +125,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateKlinger(
-        int fastPeriods,
-        int slowPeriods,
-        int signalPeriods)
-    {
-        // check parameter arguments
-        if (fastPeriods <= 2)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                "Fast (short) Periods must be greater than 2 for Klinger Oscillator.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow (long) Periods must be greater than Fast Periods for Klinger Oscillator.");
-        }
-
-        if (signalPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal Periods must be greater than 0 for Klinger Oscillator.");
-        }
     }
 }

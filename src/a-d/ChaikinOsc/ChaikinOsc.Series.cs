@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // CHAIKIN OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ChaikinOscResult> CalcChaikinOsc(
@@ -9,7 +10,7 @@ public static partial class Indicator
         int slowPeriods)
     {
         // check parameter arguments
-        ValidateChaikinOsc(fastPeriods, slowPeriods);
+        ChaikinOsc.Validate(fastPeriods, slowPeriods);
 
         // money flow
         List<ChaikinOscResult> results = qdList.CalcAdl(null)
@@ -42,24 +43,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateChaikinOsc(
-        int fastPeriods,
-        int slowPeriods)
-    {
-        // check parameter arguments
-        if (fastPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                "Fast lookback periods must be greater than 0 for Chaikin Oscillator.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow lookback periods must be greater than Fast lookback period for Chaikin Oscillator.");
-        }
     }
 }

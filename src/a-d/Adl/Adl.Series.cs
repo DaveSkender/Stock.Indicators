@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<AdlResult> CalcAdl(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int? smaPeriods)
     {
         // check parameter arguments
-        ValidateAdl(smaPeriods);
+        Adl.Validate(smaPeriods);
 
         // initialize
         List<AdlResult> results = new(qdList.Count);
@@ -47,17 +48,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAdl(
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for ADL.");
-        }
     }
 }

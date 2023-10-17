@@ -14,8 +14,24 @@ public partial class MgDynamic : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods,
+        double kFactor)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for DYNAMIC.");
+        }
+
+        if (kFactor <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(kFactor), kFactor,
+                "K-Factor range adjustment must be greater than 0 for DYNAMIC.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

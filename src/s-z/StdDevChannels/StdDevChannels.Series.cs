@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // STANDARD DEVIATION CHANNELS
+
 public static partial class Indicator
 {
     internal static List<StdDevChannelsResult> CalcStdDevChannels(
@@ -12,7 +13,7 @@ public static partial class Indicator
         lookbackPeriods ??= tpList.Count;
 
         // check parameter arguments
-        ValidateStdDevChannels(lookbackPeriods, stdDeviations);
+        StdDevChannels.Validate(lookbackPeriods, stdDeviations);
 
         // initialize
         List<SlopeResult> slopeResults = tpList
@@ -45,24 +46,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateStdDevChannels(
-        int? lookbackPeriods,
-        double stdDeviations)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Standard Deviation Channels.");
-        }
-
-        if (stdDeviations <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(stdDeviations), stdDeviations,
-                "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
-        }
     }
 }

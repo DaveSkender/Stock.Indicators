@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // ATR TRAILING STOP (SERIES)
+
 public static partial class Indicator
 {
     internal static List<AtrStopResult> CalcAtrStop(
@@ -10,7 +11,7 @@ public static partial class Indicator
         EndType endType)
     {
         // check parameter arguments
-        ValidateAtrStop(lookbackPeriods, multiplier);
+        AtrStop.Validate(lookbackPeriods, multiplier);
 
         // initialize
         List<AtrStopResult> results = new(qdList.Count);
@@ -88,24 +89,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAtrStop(
-        int lookbackPeriods,
-        double multiplier)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for ATR Trailing Stop.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for ATR Trailing Stop.");
-        }
     }
 }

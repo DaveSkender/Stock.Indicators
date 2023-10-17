@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // PIVOT POINTS (SERIES)
+
 public static partial class Indicator
 {
     internal static List<PivotPointsResult> CalcPivotPoints<TQuote>(

@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // RATE OF CHANGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<RocResult> CalcRoc(
@@ -9,7 +10,7 @@ public static partial class Indicator
         int? smaPeriods)
     {
         // check parameter arguments
-        ValidateRoc(lookbackPeriods, smaPeriods);
+        Roc.Validate(lookbackPeriods, smaPeriods);
 
         // initialize
         List<RocResult> results = new(tpList.Count);
@@ -45,24 +46,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateRoc(
-        int lookbackPeriods,
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for ROC.");
-        }
-
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for ROC.");
-        }
     }
 }

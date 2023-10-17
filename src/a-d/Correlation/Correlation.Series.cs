@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // CORRELATION COEFFICIENT (SERIES)
+
 public static partial class Indicator
 {
     internal static List<CorrResult> CalcCorrelation(
@@ -9,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateCorrelation(tpListA, tpListB, lookbackPeriods);
+        Correlation.Validate(tpListA, tpListB, lookbackPeriods);
 
         // initialize
         int length = tpListA.Count;
@@ -93,27 +94,5 @@ public static partial class Indicator
         r.Covariance = cov.NaN2Null();
         r.Correlation = (divisor == 0) ? null : (cov / divisor).NaN2Null();
         r.RSquared = r.Correlation * r.Correlation;
-    }
-
-    // parameter validation
-    private static void ValidateCorrelation(
-        List<(DateTime, double)> quotesA,
-        List<(DateTime, double)> quotesB,
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Correlation.");
-        }
-
-        // check quotes
-        if (quotesA.Count != quotesB.Count)
-        {
-            throw new InvalidQuotesException(
-                nameof(quotesB),
-                "B quotes should have at least as many records as A quotes for Correlation.");
-        }
     }
 }

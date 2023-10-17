@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // CHOPPINESS INDEX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ChopResult> CalcChop(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateChop(lookbackPeriods);
+        Chop.Validate(lookbackPeriods);
 
         // initialize
         double sum;
@@ -63,17 +64,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateChop(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for CHOP.");
-        }
     }
 }

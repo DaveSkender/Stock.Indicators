@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // DONCHIAN CHANNEL (SERIES)
+
 public static partial class Indicator
 {
     internal static List<DonchianResult> CalcDonchian<TQuote>(
@@ -9,7 +10,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateDonchian(lookbackPeriods);
+        Donchian.Validate(lookbackPeriods);
 
         // initialize
         int length = quotesList.Count;
@@ -53,17 +54,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateDonchian(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Donchian Channel.");
-        }
     }
 }

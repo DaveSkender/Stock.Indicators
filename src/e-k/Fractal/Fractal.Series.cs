@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // WILLIAMS FRACTAL (SERIES)
+
 public static partial class Indicator
 {
     internal static List<FractalResult> CalcFractal<TQuote>(
@@ -11,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateFractal(Math.Min(leftSpan, rightSpan));
+        Fractal.Validate(Math.Min(leftSpan, rightSpan));
 
         // initialize
         List<FractalResult> results = new(quotesList.Count);
@@ -79,17 +80,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateFractal(
-        int windowSpan)
-    {
-        // check parameter arguments
-        if (windowSpan < 2)
-        {
-            throw new ArgumentOutOfRangeException(nameof(windowSpan), windowSpan,
-                "Window span must be at least 2 for Fractal.");
-        }
     }
 }

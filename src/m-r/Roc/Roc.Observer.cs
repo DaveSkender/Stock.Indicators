@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Roc (STREAMING)
+// RATE OF CHANGE (STREAMING)
 
 public partial class Roc : ChainProvider
 {
@@ -14,8 +14,24 @@ public partial class Roc : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods,
+        int? smaPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for ROC.");
+        }
+
+        if (smaPeriods is not null and <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                "SMA periods must be greater than 0 for ROC.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

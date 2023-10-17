@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // WEIGHTED MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<WmaResult> CalcWma(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateWma(lookbackPeriods);
+        Wma.Validate(lookbackPeriods);
 
         // initialize
         List<WmaResult> results = new(tpList.Count);
@@ -36,17 +37,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateWma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for WMA.");
-        }
     }
 }

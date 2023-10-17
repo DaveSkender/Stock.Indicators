@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// MONEY FLOW INDEX (SERIES)
+// McGINLEY DYNAMIC (SERIES)
+
 public static partial class Indicator
 {
     internal static List<DynamicResult> CalcDynamic(
@@ -9,7 +10,7 @@ public static partial class Indicator
         double kFactor)
     {
         // check parameter arguments
-        ValidateDynamic(lookbackPeriods, kFactor);
+        MgDynamic.Validate(lookbackPeriods, kFactor);
 
         // initialize
         int iStart = 1;
@@ -52,24 +53,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateDynamic(
-        int lookbackPeriods,
-        double kFactor)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for DYNAMIC.");
-        }
-
-        if (kFactor <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(kFactor), kFactor,
-                "K-Factor range adjustment must be greater than 0 for DYNAMIC.");
-        }
     }
 }

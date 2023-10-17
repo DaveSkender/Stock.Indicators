@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Pmo (STREAMING)
+// PRICE MOMENTUM OSCILLATOR (STREAMING)
 
 public partial class Pmo : ChainProvider
 {
@@ -14,8 +14,31 @@ public partial class Pmo : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int timePeriods,
+        int smoothPeriods,
+        int signalPeriods)
+    {
+        // check parameter arguments
+        if (timePeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(timePeriods), timePeriods,
+                "Time periods must be greater than 1 for PMO.");
+        }
+
+        if (smoothPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                "Smoothing periods must be greater than 0 for PMO.");
+        }
+
+        if (signalPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
+                "Signal periods must be greater than 0 for PMO.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Slope (STREAMING)
+// SLOPE AND LINEAR REGRESSION (STREAMING)
 
 public partial class Slope : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class Slope : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for Slope/Linear Regression.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

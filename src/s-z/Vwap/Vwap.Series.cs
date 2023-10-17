@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // VOLUME WEIGHTED AVERAGE PRICE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<VwapResult> CalcVwap(
@@ -8,7 +9,7 @@ public static partial class Indicator
         DateTime? startDate = null)
     {
         // check parameter arguments
-        ValidateVwap(qdList, startDate);
+        Vwap.Validate(qdList, startDate);
 
         // initialize
         int length = qdList.Count;
@@ -46,24 +47,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateVwap(
-        List<QuoteD> quotesList,
-        DateTime? startDate)
-    {
-        // nothing to do for 0 length
-        if (quotesList.Count == 0)
-        {
-            return;
-        }
-
-        // check parameter arguments (intentionally after quotes check)
-        if (startDate < quotesList[0].Date)
-        {
-            throw new ArgumentOutOfRangeException(nameof(startDate), startDate,
-                "Start Date must be within the quotes range for VWAP.");
-        }
     }
 }

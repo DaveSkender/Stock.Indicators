@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // FRACTAL CHAOS BANDS (SERIES)
+
 public static partial class Indicator
 {
     internal static List<FcbResult> CalcFcb<TQuote>(
@@ -9,7 +10,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateFcb(windowSpan);
+        Fcb.Validate(windowSpan);
 
         // initialize
         List<FractalResult> fractals = quotesList
@@ -42,17 +43,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateFcb(
-        int windowSpan)
-    {
-        // check parameter arguments
-        if (windowSpan < 2)
-        {
-            throw new ArgumentOutOfRangeException(nameof(windowSpan), windowSpan,
-                "Window span must be at least 2 for FCB.");
-        }
     }
 }

@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<MacdResult> CalcMacd(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int signalPeriods)
     {
         // check parameter arguments
-        ValidateMacd(fastPeriods, slowPeriods, signalPeriods);
+        Macd.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         List<EmaResult> emaFast = tpList.CalcEma(fastPeriods);
@@ -59,31 +60,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateMacd(
-        int fastPeriods,
-        int slowPeriods,
-        int signalPeriods)
-    {
-        // check parameter arguments
-        if (fastPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                "Fast periods must be greater than 0 for MACD.");
-        }
-
-        if (signalPeriods < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal periods must be greater than or equal to 0 for MACD.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow periods must be greater than the fast period for MACD.");
-        }
     }
 }

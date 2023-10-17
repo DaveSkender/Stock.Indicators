@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// Mfi (STREAMING)
+// MONEY FLOW INDEX (STREAMING)
 
 public partial class Mfi : ChainProvider
 {
@@ -14,8 +14,17 @@ public partial class Mfi : ChainProvider
 
     // STATIC METHODS
 
-    // TBD parameter validation
-    internal static void Validate() => throw new NotImplementedException();
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for MFI.");
+        }
+    }
 
     // TBD increment calculation
     internal static double Increment() => throw new NotImplementedException();

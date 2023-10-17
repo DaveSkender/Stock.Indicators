@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOT POINTS (SERIES)
+// ROLLING PIVOT POINTS (SERIES)
+
 public static partial class Indicator
 {
     internal static List<RollingPivotsResult> CalcRollingPivots<TQuote>(
@@ -11,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateRollingPivots(windowPeriods, offsetPeriods);
+        RollingPivots.Validate(windowPeriods, offsetPeriods);
 
         // initialize
         int length = quotesList.Count;
@@ -63,24 +64,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateRollingPivots(
-        int windowPeriods,
-        int offsetPeriods)
-    {
-        // check parameter arguments
-        if (windowPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(windowPeriods), windowPeriods,
-                "Window periods must be greater than 0 for Rolling Pivot Points.");
-        }
-
-        if (offsetPeriods < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(offsetPeriods), offsetPeriods,
-                "Offset periods must be greater than or equal to 0 for Rolling Pivot Points.");
-        }
     }
 }

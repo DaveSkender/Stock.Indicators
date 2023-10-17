@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // HULL MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
@@ -9,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateHma(lookbackPeriods);
+        Hma.Validate(lookbackPeriods);
 
         // initialize
         int shiftQty = lookbackPeriods - 1;
@@ -55,17 +56,5 @@ public static partial class Indicator
         results.AddRange(hmaResults);
 
         return results.ToSortedList();
-    }
-
-    // parameter validation
-    private static void ValidateHma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for HMA.");
-        }
     }
 }

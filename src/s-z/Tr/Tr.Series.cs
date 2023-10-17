@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
