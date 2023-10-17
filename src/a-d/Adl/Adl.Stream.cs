@@ -28,8 +28,17 @@ public partial class Adl : ChainProvider
         }
     }
 
-    // TBD increment calculation
-    internal static double Increment() => throw new NotImplementedException();
+    // increment calculation
+    internal static (double mfm, double mfv, double adl) Increment(
+        double lastAdl,
+        QuoteD q)
+    {
+        double mfm = (q.High == q.Low) ? 0 : (q.Close - q.Low - (q.High - q.Close)) / (q.High - q.Low);
+        double mfv = mfm * q.Volume;
+        double adl = mfv + lastAdl;
+
+        return (mfm, mfv, adl);
+    }
 
     // NON-STATIC METHODS
 

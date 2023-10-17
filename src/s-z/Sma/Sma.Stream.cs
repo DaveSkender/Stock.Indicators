@@ -58,6 +58,28 @@ public partial class Sma : ChainProvider
         return sum / lookbackPeriods;
     }
 
+    // increment for results
+    // TODO: this is too slow whe attempting to use on Adl
+    internal static double? Increment<TResult>(
+        List<TResult> results,
+        int index,
+        int lookbackPeriods)
+        where TResult : IReusableResult
+    {
+        if (index < lookbackPeriods - 1)
+        {
+            return null;
+        }
+
+        double? sum = 0;
+        for (int i = index - lookbackPeriods + 1; i <= index; i++)
+        {
+            sum += results[i].Value;
+        }
+
+        return sum / lookbackPeriods;
+    }
+
     // NON-STATIC METHODS
 
     // handle quote arrival

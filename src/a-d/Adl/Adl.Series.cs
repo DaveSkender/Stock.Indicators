@@ -13,16 +13,14 @@ public static partial class Indicator
 
         // initialize
         List<AdlResult> results = new(qdList.Count);
-        double prevAdl = 0;
+        double lastAdl = 0;
 
         // roll through quotes
         for (int i = 0; i < qdList.Count; i++)
         {
             QuoteD q = qdList[i];
 
-            double mfm = (q.High == q.Low) ? 0 : (q.Close - q.Low - (q.High - q.Close)) / (q.High - q.Low);
-            double mfv = mfm * q.Volume;
-            double adl = mfv + prevAdl;
+            (double mfm, double mfv, double adl) = Adl.Increment(lastAdl, q);
 
             AdlResult r = new(q.Date)
             {
@@ -32,7 +30,7 @@ public static partial class Indicator
             };
             results.Add(r);
 
-            prevAdl = adl;
+            lastAdl = adl;
 
             // optional SMA
             if (smaPeriods != null && i + 1 >= smaPeriods)
