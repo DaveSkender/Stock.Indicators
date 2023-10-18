@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (COMMON)
 
-public partial class Adx : ChainProvider
+public partial class Adx
 {
     // parameter validation
     internal static void Validate(
@@ -17,40 +17,51 @@ public partial class Adx : ChainProvider
     }
 
     // increment calculation
+    // TODO: add self-storage variant of variant
     /// <include file='./info.xml' path='info/type[@name="increment"]/*' />
     ///
-    public static AdxResult Increment(int index, int lookbackPeriods, AdxInput input)
+    public AdxResult Increment<TQuote>(TQuote quote)
+        where TQuote : IQuote
     {
-        AdxResult r = new(DateTime.MinValue);
+        AdxResult r = new(quote.Date);
+        QuoteD q = quote.ToQuoteD();
+        int i = ProtectedResults.Count;
 
-        return input is null ? r : Increment(index, lookbackPeriods, input, r);
-    }
+        // skip first period
+        if (i == 0)
+        {
+            PrevHigh = q.High;
+            PrevLow = q.Low;
+            PrevClose = q.Close;
 
-    internal static AdxResult Increment(int index, int lookbackPeriods, AdxInput p, AdxResult r)
-    {
-        double tr = Tr.Increment(p.PrevClose, p.High, p.Low);
+            ProtectedResults.Add(r);
+            return r;
+        }
 
-        double hmph = p.High - p.PrevHigh;
-        double plml = p.PrevLow - p.Low;
+        double tr = Tr.Increment(PrevClose, q.High, q.Low);
+
+        double hmph = q.High - PrevHigh;
+        double plml = PrevLow - q.Low;
 
         double pdm1 = hmph > plml ? Math.Max(hmph, 0) : 0;
         double mdm1 = plml > hmph ? Math.Max(plml, 0) : 0;
 
-        p.PrevHigh = p.High;
-        p.PrevLow = p.Low;
-        p.PrevClose = p.Close;
+        PrevHigh = q.High;
+        PrevLow = q.Low;
+        PrevClose = q.Close;
 
         // initialization period
-        if (index <= lookbackPeriods)
+        if (i <= LookbackPeriods)
         {
-            p.SumTr += tr;
-            p.PrevPdm += pdm1;
-            p.PrevMdm += mdm1;
+            SumTr += tr;
+            PrevPdm += pdm1;
+            PrevMdm += mdm1;
         }
 
         // skip DM initialization period
-        if (index < lookbackPeriods)
+        if (i < LookbackPeriods)
         {
+            ProtectedResults.Add(r);
             return r;
         }
 
@@ -60,29 +71,30 @@ public partial class Adx : ChainProvider
         double mdm;
 
         // directional movement, initial
-        if (index == lookbackPeriods)
+        if (i == LookbackPeriods)
         {
-            trs = p.SumTr;
-            pdm = p.PrevPdm;
-            mdm = p.PrevMdm;
+            trs = SumTr;
+            pdm = PrevPdm;
+            mdm = PrevMdm;
 
-            p.SumTr = double.NaN;
+            SumTr = double.NaN;
         }
 
         // directional movement
         else
         {
-            trs = p.PrevTrs - (p.PrevTrs / lookbackPeriods) + tr;
-            pdm = p.PrevPdm - (p.PrevPdm / lookbackPeriods) + pdm1;
-            mdm = p.PrevMdm - (p.PrevMdm / lookbackPeriods) + mdm1;
+            trs = PrevTrs - (PrevTrs / LookbackPeriods) + tr;
+            pdm = PrevPdm - (PrevPdm / LookbackPeriods) + pdm1;
+            mdm = PrevMdm - (PrevMdm / LookbackPeriods) + mdm1;
         }
 
-        p.PrevTrs = trs;
-        p.PrevPdm = pdm;
-        p.PrevMdm = mdm;
+        PrevTrs = trs;
+        PrevPdm = pdm;
+        PrevMdm = mdm;
 
         if (trs is 0)
         {
+            ProtectedResults.Add(r);
             return r;
         }
 
@@ -103,32 +115,35 @@ public partial class Adx : ChainProvider
         double adx;
 
         // normal ADX
-        if (index > (2 * lookbackPeriods) - 1)
+        if (i > (2 * LookbackPeriods) - 1)
         {
-            adx = ((p.PrevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
+            adx = ((PrevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods;
             r.Adx = adx.NaN2Null();
 
-            r.Adxr = (adx + p.WindowAdx).NaN2Null() / 2;
-            p.PrevAdx = adx;
+            double? priorAdx = ProtectedResults[i + 1 - LookbackPeriods].Adx;
+
+            r.Adxr = (adx + priorAdx).NaN2Null() / 2;
+            PrevAdx = adx;
         }
 
         // initial ADX
-        else if (index == (2 * lookbackPeriods) - 1)
+        else if (i == (2 * LookbackPeriods) - 1)
         {
-            p.SumDx += dx;
-            adx = p.SumDx / lookbackPeriods;
+            SumDx += dx;
+            adx = SumDx / LookbackPeriods;
             r.Adx = adx.NaN2Null();
-            p.PrevAdx = adx;
+            PrevAdx = adx;
 
-            p.SumDx = double.NaN;
+            SumDx = double.NaN;
         }
 
         // initialization
         else
         {
-            p.SumDx += dx;
+            SumDx += dx;
         }
 
+        ProtectedResults.Add(r);
         return r;
     }
 }

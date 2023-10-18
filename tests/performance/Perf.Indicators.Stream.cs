@@ -21,12 +21,29 @@ public class IndicatorsStreaming
     // BENCHMARKS
 
     [Benchmark]
-    public object GetEma() => q.GetEma(14);
+    public object GetAdxSeries() => q.GetAdx(14);
+
+    [Benchmark]
+    public object GetAdxManual()
+    {
+        List<Quote> quoteList = q.ToSortedList();
+        Adx adx = new(14);
+
+        for (int i = 0; i < quoteList.Count; i++)
+        {
+            adx.Increment(quoteList[i]);
+        }
+
+        return adx.Results;
+    }
+
+    [Benchmark]
+    public object GetEmaSeries() => q.GetEma(14);
 
     [Benchmark]
     public object GetEmaStream()
     {
-        // todo: refactor to exclude provider
+        // TODO: refactor to exclude provider
         QuoteProvider provider = new();
         Ema observer = provider.GetEma(14);
 
@@ -46,7 +63,7 @@ public class IndicatorsStreaming
     [Benchmark]
     public object GetSmaStream()
     {
-        // todo: refactor to exclude provider
+        // TODO: refactor to exclude provider
         QuoteProvider provider = new();
         Sma observer = provider.GetSma(10);
 

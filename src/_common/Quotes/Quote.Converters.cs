@@ -44,6 +44,18 @@ public static partial class QuoteUtility
     // DOUBLE QUOTES
 
     // convert to quotes in double precision
+    internal static QuoteD ToQuoteD<TQuote>(
+        this TQuote quote)
+        where TQuote : IQuote => new()
+        {
+            Date = quote.Date,
+            Open = (double)quote.Open,
+            High = (double)quote.High,
+            Low = (double)quote.Low,
+            Close = (double)quote.Close,
+            Volume = (double)quote.Volume
+        };
+
     internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes

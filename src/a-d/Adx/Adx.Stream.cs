@@ -2,24 +2,34 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (STREAMING)
 
-public partial class Adx : ChainProvider
+public partial class Adx
 {
-    // TBD constructor
-    public Adx()
+    // constructor
+    public Adx(
+        int lookbackPeriods)
     {
-        Initialize();
+        ProtectedResults = new();
+        LookbackPeriods = lookbackPeriods;
     }
 
-    // TBD PROPERTIES
+    // PROPERTIES
+    public IEnumerable<AdxResult> Results => ProtectedResults;
+    internal List<AdxResult> ProtectedResults { get; set; }
 
-    // METHODS
+    // configuration
+    private int LookbackPeriods { get; set; }
 
-    // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Add(value);
+    // carryover values
+    private double PrevHigh { get; set; }
+    private double PrevLow { get; set; }
+    private double PrevClose { get; set; }
 
-    // TBD add new tuple quote
-    internal void Add((DateTime Date, double Value) tp) => throw new NotImplementedException();
+    private double PrevTrs { get; set; }
+    private double PrevPdm { get; set; }
+    private double PrevMdm { get; set; }
+    private double PrevAdx { get; set; }
 
-    // TBD initialize with existing quote cache
-    private void Initialize() => throw new NotImplementedException();
+    // warmup values
+    private double SumTr { get; set; }
+    private double SumDx { get; set; }
 }

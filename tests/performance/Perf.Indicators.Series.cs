@@ -43,10 +43,6 @@ public class IndicatorsStatic
     public object GetAdl() => q.GetAdl();
 
     [Benchmark]
-    [Obsolete("Deprecated in v3.0.0", false)]
-    public object GetAdlWithSma() => q.GetAdl(14);
-
-    [Benchmark]
     public object GetAdx() => q.GetAdx();
 
     [Benchmark]

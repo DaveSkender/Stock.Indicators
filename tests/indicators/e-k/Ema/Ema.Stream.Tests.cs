@@ -45,14 +45,14 @@ public class EmaStreamTests : TestBase
         }
 
         // final results
-        List<EmaResult> resultsList
+        List<EmaResult> streamList
             = results.ToList();
 
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)
         {
             EmaResult s = seriesList[i];
-            EmaResult r = resultsList[i];
+            EmaResult r = streamList[i];
 
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Ema, r.Ema);
@@ -71,7 +71,7 @@ public class EmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // time-series, for comparison
-        List<EmaResult> staticEma = quotes
+        List<EmaResult> seriesEma = quotes
             .Use(CandlePart.OC2)
             .GetEma(11)
             .ToList();
@@ -102,11 +102,11 @@ public class EmaStreamTests : TestBase
         // assert, should equal series
         for (int i = 0; i < length; i++)
         {
-            EmaResult t = staticEma[i];
-            EmaResult s = streamEma[i];
+            EmaResult s = seriesEma[i];
+            EmaResult r = streamEma[i];
 
-            Assert.AreEqual(t.Date, s.Date);
-            Assert.AreEqual(t.Ema, s.Ema);
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Ema, r.Ema);
         }
     }
 

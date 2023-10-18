@@ -56,7 +56,7 @@ public class QuoteStream
 
         await client.ConnectAndAuthenticateAsync();
 
-        AutoResetEvent[] waitObjects = new[]  // todo: is this needed?
+        AutoResetEvent[] waitObjects = new[]  // TODO: is this needed?
         {
             new AutoResetEvent(false)
         };

@@ -6,7 +6,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class SmaTests : TestBase
+public class SmaSeriesTests : TestBase
 {
     [TestMethod]
     public void Increment()

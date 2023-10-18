@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class EmaStaticTests : TestBase
+public class EmaSeriesTests : TestBase
 {
     [TestMethod]
     public void Increment()
