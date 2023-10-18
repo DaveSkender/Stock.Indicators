@@ -63,6 +63,42 @@ public class EmaStreamTests : TestBase
     }
 
     [TestMethod]
+    public void Manual()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
+        // initialize
+        Ema ema = new(14);
+
+        // roll through history
+        for (int i = 0; i < length; i++)
+        {
+            ema.Increment(quotesList[i]);
+        }
+
+        // results
+        List<EmaResult> resultList = ema.ProtectedResults;
+
+        // time-series, for comparison
+        List<EmaResult> seriesList = quotes
+            .GetEma(14)
+            .ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < seriesList.Count; i++)
+        {
+            EmaResult s = seriesList[i];
+            EmaResult r = resultList[i];
+
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Ema, r.Ema);
+        }
+    }
+
+    [TestMethod]
     public void Usee()
     {
         List<Quote> quotesList = quotes

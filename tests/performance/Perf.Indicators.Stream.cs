@@ -58,6 +58,20 @@ public class IndicatorsStreaming
     public object GetEmaSeries() => q.GetEma(14);
 
     [Benchmark]
+    public object GetEmaManual()
+    {
+        List<(DateTime, double)> tpList = q.ToTuple(CandlePart.Close);
+        Ema ema = new(14);
+
+        for (int i = 0; i < tpList.Count; i++)
+        {
+            ema.Increment(tpList[i]);
+        }
+
+        return ema.Results;
+    }
+
+    [Benchmark]
     public object GetEmaStream()
     {
         // TODO: refactor to exclude provider
