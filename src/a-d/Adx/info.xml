@@ -17,9 +17,9 @@
     <returns>Time series of ADX and Plus/Minus Directional values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-  <type name="increment">
+  <type name="increment-quote">
     <summary>
-      Get the next incremental Average Directional Movement Index (ADX) values.
+      Get the next incremental Average Directional Movement Index (ADX) result.
       <para>
         See
         <see href="https://dotnet.StockIndicators.dev/indicators/Adx/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>

@@ -21,6 +21,23 @@ public class IndicatorsStreaming
     // BENCHMARKS
 
     [Benchmark]
+    public object GetAdlSeries() => q.GetAdl();
+
+    [Benchmark]
+    public object GetAdlManual()
+    {
+        List<Quote> quoteList = q.ToSortedList();
+        Adl adl = new();
+
+        for (int i = 0; i < quoteList.Count; i++)
+        {
+            adl.Increment(quoteList[i]);
+        }
+
+        return adl.Results;
+    }
+
+    [Benchmark]
     public object GetAdxSeries() => q.GetAdx(14);
 
     [Benchmark]

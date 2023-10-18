@@ -13,6 +13,7 @@ public partial class Adx
     }
 
     // PROPERTIES
+
     public IEnumerable<AdxResult> Results => ProtectedResults;
     internal List<AdxResult> ProtectedResults { get; set; }
 

@@ -2,6 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (COMMON)
 
+/// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adx/">
+///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Adx
 {
     // parameter validation
@@ -18,7 +20,7 @@ public partial class Adx
 
     // increment calculation
     // TODO: add self-storage variant of variant
-    /// <include file='./info.xml' path='info/type[@name="increment"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
     ///
     public AdxResult Increment<TQuote>(TQuote quote)
         where TQuote : IQuote

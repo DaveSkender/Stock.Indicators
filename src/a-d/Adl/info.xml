@@ -21,11 +21,24 @@
         <see href="https://dotnet.StockIndicators.dev/indicators/Adl/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information. </para>
     </summary>
-    <param name="lastAdl">Last ADL value, from prior period.</param>
+    <param name="prevAdl">Last ADL value, from prior period.</param>
     <param name="high">High price, current period.</param>
     <param name="low">Low price, current period.</param>
     <param name="close">Close price, current period.</param>
     <param name="volume">Volume, current period.</param>
     <returns>New ADL value.</returns>
   </type>
+  <type name="increment-quote">
+    <summary>
+      Get the next incremental Accumulation/Distribution Line (ADL) result.
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Adl/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quote">Historical price quote.</param>
+    <returns>New AdlResult value.</returns>
+  </type>  
 </info>

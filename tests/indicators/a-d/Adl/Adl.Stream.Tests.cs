@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class AdlStreamTests : TestBase
+public class AdxStreamTests : TestBase
 {
     [TestMethod]
     public void Manual()
@@ -16,32 +16,33 @@ public class AdlStreamTests : TestBase
         int length = quotesList.Count;
 
         // initialize
-        Adl adl = new();
+        Adx adx = new(14);
 
         // roll through history
         for (int i = 0; i < length; i++)
         {
-            adl.Increment(quotesList[i]);
+            adx.Increment(quotesList[i]);
         }
 
         // results
-        List<AdlResult> resultList = adl.ProtectedResults;
+        List<AdxResult> resultList = adx.ProtectedResults;
 
         // time-series, for comparison
-        List<AdlResult> seriesList = quotes
-            .GetAdl()
+        List<AdxResult> seriesList = quotes
+            .GetAdx(14)
             .ToList();
 
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)
         {
-            AdlResult s = seriesList[i];
-            AdlResult r = resultList[i];
+            AdxResult s = seriesList[i];
+            AdxResult r = resultList[i];
 
             Assert.AreEqual(s.Date, r.Date);
-            Assert.AreEqual(s.MoneyFlowMultiplier, r.MoneyFlowMultiplier);
-            Assert.AreEqual(s.MoneyFlowVolume, r.MoneyFlowVolume);
-            Assert.AreEqual(s.Adl, r.Adl);
+            Assert.AreEqual(s.Pdi, r.Pdi);
+            Assert.AreEqual(s.Mdi, r.Mdi);
+            Assert.AreEqual(s.Adx, r.Adx);
+            Assert.AreEqual(s.Adxr, r.Adxr);
         }
     }
 }

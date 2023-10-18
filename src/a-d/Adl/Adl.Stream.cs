@@ -2,24 +2,20 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (STREAMING)
 
-public partial class Adl : ChainProvider
+public partial class Adl
 {
-    // TBD constructor
+    // constructor
     public Adl()
     {
-        Initialize();
+        ProtectedResults = new();
+        PrevAdl = 0;
     }
 
-    // TBD PROPERTIES
+    // PROPERTIES
 
-    // METHODS
+    public IEnumerable<AdlResult> Results => ProtectedResults;
 
-    // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Add(value);
+    internal List<AdlResult> ProtectedResults { get; set; }
 
-    // TBD add new tuple quote
-    internal void Add((DateTime Date, double Value) tp) => throw new NotImplementedException();
-
-    // TBD initialize with existing quote cache
-    private void Initialize() => throw new NotImplementedException();
+    private double PrevAdl { get; set; }
 }
