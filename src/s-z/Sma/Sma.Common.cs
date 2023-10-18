@@ -74,7 +74,7 @@ public partial class Sma : ChainProvider
         return sum / lookbackPeriods;
     }
 
-    // TODO: this is too slow whe attempting to use on Adl
+    // TODO: this is too slow whe attempting to use on Adl, unused
     internal static double? Increment<TResult>(
         List<TResult> results,
         int index,

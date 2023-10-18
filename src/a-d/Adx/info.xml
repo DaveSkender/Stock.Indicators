@@ -1,18 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <info>
-  <summary>
-    Directional Movement Index (DMI) and Average Directional Movement Index (ADX) is a measure of price directional movement.
-    It includes upward and downward indicators, and is often used to measure strength of trend.
-    <para>
-      See
-      <see href="https://dotnet.StockIndicators.dev/indicators/Adx/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
-      for more information.
-    </para>
-  </summary>
-  <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-  <param name="quotes">Historical price quotes.</param>
-  <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-  <returns>Time series of ADX and Plus/Minus Directional values.</returns>
-  <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  <type name="standard">
+    <summary>
+      Directional Movement Index (DMI) and Average Directional Movement Index (ADX) is a measure of price directional movement.
+      It includes upward and downward indicators, and is often used to measure strength of trend.
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Adx/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quotes">Historical price quotes.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <returns>Time series of ADX and Plus/Minus Directional values.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
+  <type name="increment">
+    <summary>
+      Get the next incremental Average Directional Movement Index (ADX) values.
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Adx/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <param name="index">Zero-based period number since initialization.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <param name="input">Input values for increment, see AdxInput class.</param>
+    <returns>New ADX value.</returns>
+  </type>
+  <type name="input">
+    <summary>
+      Input values for incremental Average Directional Movement Index (ADX).
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Adx/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <param name="initialHigh">High price, first period.</param>
+    <param name="initialLow">Low price, first period.</param>
+    <param name="initialClose">Close price, first period.</param>
+    <property name="High">High price, current period.</property>
+    <property name="Low">Low price, current period.</property>
+    <property name="Close">Close price, current period.</property>
+    <property name="WindowAdx">ADX value at beginning of `lookbackPeriods` window.</property>
+  </type>
 </info>
