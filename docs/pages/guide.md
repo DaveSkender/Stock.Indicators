@@ -245,17 +245,17 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 | type | int | description
 |-- |--: |--
 | `Match.BullConfirmed` | 200 | Confirmation of a prior bull signal
-| `Match.BullSignal` | 100 | Matching bullish signal
+| `Match.BullSignal` | 100 | Bullish signal
 | `Match.BullBasis` | 10 | Bars supporting a bullish signal
-| `Match.Neutral` | 1 | Matching for non-directional patterns
+| `Match.Neutral` | 1 | Signal for non-directional patterns
 | `Match.None` | 0 | No match
 | `Match.BearBasis` | -10 | Bars supporting a bearish signal
-| `Match.BearSignal` | -100 | Matching bearish signal
+| `Match.BearSignal` | -100 | Bearish signal
 | `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility]({{site.baseurl}}/utilities/#extended-candle-properties).
 
 {% include candle-properties.md %}
 
