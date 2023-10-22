@@ -255,7 +255,7 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility]({{site.baseurl}}/utilities/#extended-candle-properties).
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility]({{site.baseurl}}/utilities/#extended-candle-properties), and further used as the basis for calculating indicators.
 
 {% include candle-properties.md %}
 
