@@ -3,7 +3,9 @@
 
 title: Stock Indicators for .NET
 tagline: "Transform price quotes into trading insights."
+repository: DaveSkender/Stock.Indicators
 locale: en_US
+baseurl: ""
 
 # social media information
 image:
@@ -56,16 +58,6 @@ exclude:
     "GemFile",
     "node_modules",
     "vendor",
-  ]
-
-include:
-  [
-    "home.md",
-    "contributing.md",
-    "guide.md",
-    "indicators.html",
-    "performance.md",
-    "utilities.md",
   ]
 
 permalink: pretty
