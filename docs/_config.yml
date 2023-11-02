@@ -6,6 +6,7 @@ tagline: "Transform price quotes into trading insights."
 repository: DaveSkender/Stock.Indicators
 locale: en_US
 baseurl: ""
+url: "https://dotnet.stockindicators.dev"
 
 # social media information
 image:
