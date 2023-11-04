@@ -73,7 +73,7 @@ public static partial class Indicator
 
         // signal (%D) and %J
         int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
-        double? s = results[lookbackPeriods - 1].Oscillator;
+        double? s = null;
 
         for (int i = lookbackPeriods - 1; i < length; i++)
         {
@@ -102,7 +102,7 @@ public static partial class Indicator
             // SMMA case
             else if (i >= lookbackPeriods - 1 && movingAverageType is MaType.SMMA)
             {
-                s ??= results[i].Oscillator; // reset if null
+                s ??= results[i].Oscillator; // set initial or reset if null
 
                 s = ((s * (signalPeriods - 1)) + results[i].Oscillator) / signalPeriods;
                 r.Signal = s;
