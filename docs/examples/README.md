@@ -19,6 +19,18 @@ To help you get started, here are a few minimalist .NET 7.0 C# projects that you
 
 For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
 
+## Getting started with our example projects
+
+We use an external API quote source for our **streaming** or **quote API** examples, so you'll need to [get a free Alpaca API key and secret](https://alpaca.markets/docs/market-data/getting-started/#creating-an-alpaca-account-and-finding-your-api-keys), then store them as local environment variables.
+
+Run the following command line items to set, after replacing the `ALPACA_API_KEY` and `ALPACA_SECRET` values.
+
+```bash
+# use your own keys
+setx AlpacaApiKey "ALPACA_API_KEY"
+setx AlpacaSecret "ALPACA_SECRET"
+```
+
 To run the sample projects:
 
 1. [Download the ZIP file](Skender.Stock.Indicators-Examples.zip) and extract contents

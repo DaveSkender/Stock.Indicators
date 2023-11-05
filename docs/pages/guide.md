@@ -215,7 +215,8 @@ public void MyClass(){
 
 ## Generating indicator of indicators
 
-If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one and chain it to another.  Example:
+If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), use _**chaining**_ to calculate an indicator from prior results.
+Example:
 
 ```csharp
 // fetch historical quotes from your feed (your method)
