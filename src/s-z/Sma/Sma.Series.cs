@@ -8,7 +8,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateSma(lookbackPeriods);
+        SmaObserver.Validate(lookbackPeriods);
 
         // initialize
         List<SmaResult> results = new(tpList.Count);
@@ -21,31 +21,11 @@ public static partial class Indicator
             SmaResult result = new(date);
             results.Add(result);
 
-            if (i + 1 >= lookbackPeriods)
-            {
-                double sumSma = 0;
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
-                {
-                    (DateTime _, double pValue) = tpList[p];
-                    sumSma += pValue;
-                }
-
-                result.Sma = (sumSma / lookbackPeriods).NaN2Null();
-            }
+            result.Sma = SmaObserver
+                .Increment(tpList, i, lookbackPeriods)
+                .NaN2Null();
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateSma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for SMA.");
-        }
     }
 }
