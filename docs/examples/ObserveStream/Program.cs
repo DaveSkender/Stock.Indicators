@@ -119,37 +119,9 @@ internal class Program
         // to stop watching on key press
         Console.ReadKey();
 
+        // terminate subscriptions
         provider.EndTransmission();
         await client.UnsubscribeAsync(quoteSubscription);
         await client.DisconnectAsync();
-
-        // display summary results from each cache
-        Console.WriteLine("");
-        Console.WriteLine("-- SUMMARY RECAP FROM CACHE --");
-
-        Console.WriteLine("-- QUOTES STORED (last 10 only) --");
-        foreach (Quote? pt in provider.Quotes.TakeLast(10))
-        {
-            Console.WriteLine($"{symbol} {pt.Date:s} ${pt.Close:N2}");
-        }
-
-        // show last 3 results for indicator results
-        Console.WriteLine("-- SMA(3) on CLOSE PRICE (last 3 only) --");
-        foreach (SmaResult? s in sma.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {s.Date:s} ${s.Sma:N2}");
-        }
-
-        Console.WriteLine("-- EMA(5) on CLOSE PRICE (last 3 only) --");
-        foreach (EmaResult? e in ema.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
-        }
-
-        Console.WriteLine("-- EMA(7) on HL2 PRICE (last 3 only) --");
-        foreach (EmaResult? c in emaChain.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {c.Date:s} ${c.Ema:N2}");
-        }
     }
 }
