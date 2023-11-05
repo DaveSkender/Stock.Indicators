@@ -4,7 +4,7 @@ description: >-
   This NuGet package is an open-source project.
   Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
 permalink: /contributing/
-relative_path: contributing.md
+relative_path: pages/contributing.md
 layout: page
 ---
 
@@ -79,9 +79,9 @@ See GitHub documentation for initial [Ruby and Jekyll setup instructions for Git
 ```bash
 # from /docs folder
 bundle install
-bundle exec jekyll serve
+bundle exec jekyll serve -o -l
 
-# then open site on http://127.0.0.1:4000
+# the site will open http://127.0.0.1:4000
 ```
 
 When adding or updating indicators:
@@ -102,7 +102,7 @@ npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml"
 
 By submitting changes to this repo you are also acknowledging and agree to the terms in both the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org) and the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).  These are standard open-source terms and conditions.
 
-When ready, submit a [Pull Request](https://help.github.com/pull-requests) with a clear list of what you've done.
+When ready, submit a [Pull Request](https://help.github.com/pull-requests) with a clear description of what you've done and why it's important.
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
 After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
