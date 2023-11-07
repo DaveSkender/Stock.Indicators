@@ -11,6 +11,9 @@ on:
       - 'src/**'
       - '.github/workflows/build.yml'
 
+permissions:
+  actions: write
+
 jobs:
   analyze:
     name: build
@@ -25,19 +28,23 @@ jobs:
         with:
           dotnet-version: '7.x'
 
-      - name: Setup GitVersion
-        run: dotnet tool install --global GitVersion.Tool --version 5.*
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+          preferLatestVersion: true
 
-      - name: Get semantic version
-        run: dotnet-gitversion >
-          /config gitversion.yml
-          /updateassemblyinfo
-          /output
+      - name: Determine version
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          updateAssemblyInfo: true
+          useConfigFile: true
+          configFilePath: gitversion.yml
 
       - name: Build solution
         run: dotnet build >
           --configuration Release
-          /p:Version=${{env.GitVersion.NuGetVersion}}
+          /p:Version=${{env.nuGetVersion}}
           /p:ContinuousIntegrationBuild=true
           /warnaserror
 
