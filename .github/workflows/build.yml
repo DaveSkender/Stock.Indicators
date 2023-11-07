@@ -1,4 +1,4 @@
-name: "Performance"
+name: "build and test"
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
 
 jobs:
   analyze:
-    name: benchmark
+    name: build
     runs-on: ubuntu-latest
 
     steps:
@@ -25,5 +25,26 @@ jobs:
         with:
           dotnet-version: '7.x'
 
+      - name: Setup GitVersion
+        run: dotnet tool install --global GitVersion.Tool --version 5.*
+
+      - name: Get semantic version
+        run: dotnet-gitversion >
+          /config gitversion.yml
+          /updateassemblyinfo
+          /output
+
       - name: Build solution
-        run: dotnet build -c Release
+        run: dotnet build >
+          --configuration Release
+          /p:Version=${{env.GitVersion.NuGetVersion}}
+          /p:ContinuousIntegrationBuild=true
+          /warnaserror
+
+      - name: Test library
+        run: dotnet test >
+            tests/indicators/Tests.Indicators.csproj
+          --configuration Release
+          --no-restore
+          --no-build
+          --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
