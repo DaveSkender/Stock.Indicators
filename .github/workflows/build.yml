@@ -33,6 +33,7 @@ jobs:
           preferLatestVersion: true
 
       - name: Determine version
+        id: gitversion
         uses: gittools/actions/gitversion/execute@v0
         with:
           updateAssemblyInfo: true
@@ -41,38 +42,38 @@ jobs:
 
       - name: Display GitVersion variables (without prefix)
         run: |
-          echo "Major: ${{ env.major }}"
-          echo "Minor: ${{ env.minor }}"
-          echo "Patch: ${{ env.patch }}"
-          echo "PreReleaseTag: ${{ env.preReleaseTag }}"
-          echo "PreReleaseTagWithDash: ${{ env.preReleaseTagWithDash }}"
-          echo "PreReleaseLabel: ${{ env.preReleaseLabel }}"
-          echo "PreReleaseNumber: ${{ env.preReleaseNumber }}"
-          echo "WeightedPreReleaseNumber: ${{ env.weightedPreReleaseNumber }}"
-          echo "BuildMetaData: ${{ env.buildMetaData }}"
-          echo "BuildMetaDataPadded: ${{ env.buildMetaDataPadded }}"
-          echo "FullBuildMetaData: ${{ env.fullBuildMetaData }}"
-          echo "MajorMinorPatch: ${{ env.majorMinorPatch }}"
-          echo "SemVer: ${{ env.semVer }}"
-          echo "LegacySemVer: ${{ env.legacySemVer }}"
-          echo "LegacySemVerPadded: ${{ env.legacySemVerPadded }}"
-          echo "AssemblySemVer: ${{ env.assemblySemVer }}"
-          echo "AssemblySemFileVer: ${{ env.assemblySemFileVer }}"
-          echo "FullSemVer: ${{ env.fullSemVer }}"
-          echo "InformationalVersion: ${{ env.informationalVersion }}"
-          echo "BranchName: ${{ env.branchName }}"
-          echo "EscapedBranchName: ${{ env.escapedBranchName }}"
-          echo "Sha: ${{ env.sha }}"
-          echo "ShortSha: ${{ env.shortSha }}"
-          echo "NuGetVersionV2: ${{ env.nuGetVersionV2 }}"
-          echo "NuGetVersion: ${{ env.nuGetVersion }}"
-          echo "NuGetPreReleaseTagV2: ${{ env.nuGetPreReleaseTagV2 }}"
-          echo "NuGetPreReleaseTag: ${{ env.nuGetPreReleaseTag }}"
-          echo "VersionSourceSha: ${{ env.versionSourceSha }}"
-          echo "CommitsSinceVersionSource: ${{ env.commitsSinceVersionSource }}"
-          echo "CommitsSinceVersionSourcePadded: ${{ env.commitsSinceVersionSourcePadded }}"
-          echo "UncommittedChanges: ${{ env.uncommittedChanges }}"
-          echo "CommitDate: ${{ env.commitDate }}"
+          echo "Major: ${{ steps.gitversion.outputs.major }}"
+          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
+          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
+          echo "PreReleaseTag: ${{ steps.gitversion.outputs.preReleaseTag }}"
+          echo "PreReleaseTagWithDash: ${{ steps.gitversion.outputs.preReleaseTagWithDash }}"
+          echo "PreReleaseLabel: ${{ steps.gitversion.outputs.preReleaseLabel }}"
+          echo "PreReleaseNumber: ${{ steps.gitversion.outputs.preReleaseNumber }}"
+          echo "WeightedPreReleaseNumber: ${{ steps.gitversion.outputs.weightedPreReleaseNumber }}"
+          echo "BuildMetaData: ${{ steps.gitversion.outputs.buildMetaData }}"
+          echo "BuildMetaDataPadded: ${{ steps.gitversion.outputs.buildMetaDataPadded }}"
+          echo "FullBuildMetaData: ${{ steps.gitversion.outputs.fullBuildMetaData }}"
+          echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
+          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+          echo "LegacySemVer: ${{ steps.gitversion.outputs.legacySemVer }}"
+          echo "LegacySemVerPadded: ${{ steps.gitversion.outputs.legacySemVerPadded }}"
+          echo "AssemblySemVer: ${{ steps.gitversion.outputs.assemblySemVer }}"
+          echo "AssemblySemFileVer: ${{ steps.gitversion.outputs.assemblySemFileVer }}"
+          echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
+          echo "InformationalVersion: ${{ steps.gitversion.outputs.informationalVersion }}"
+          echo "BranchName: ${{ steps.gitversion.outputs.branchName }}"
+          echo "EscapedBranchName: ${{ steps.gitversion.outputs.escapedBranchName }}"
+          echo "Sha: ${{ steps.gitversion.outputs.sha }}"
+          echo "ShortSha: ${{ steps.gitversion.outputs.shortSha }}"
+          echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
+          echo "NuGetVersion: ${{ steps.gitversion.outputs.nuGetVersion }}"
+          echo "NuGetPreReleaseTagV2: ${{ steps.gitversion.outputs.nuGetPreReleaseTagV2 }}"
+          echo "NuGetPreReleaseTag: ${{ steps.gitversion.outputs.nuGetPreReleaseTag }}"
+          echo "VersionSourceSha: ${{ steps.gitversion.outputs.versionSourceSha }}"
+          echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.commitsSinceVersionSource }}"
+          echo "CommitsSinceVersionSourcePadded: ${{ steps.gitversion.outputs.commitsSinceVersionSourcePadded }}"
+          echo "UncommittedChanges: ${{ steps.gitversion.outputs.uncommittedChanges }}"
+          echo "CommitDate: ${{ steps.gitversion.outputs.commitDate }}"
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -82,7 +83,7 @@ jobs:
       - name: Build solution
         run: dotnet build >
           --configuration Release
-          /p:Version=${{env.nuGetVersion}}
+          /p:Version=${{ steps.gitversion.outputs.nuGetVersio }}
           /p:ContinuousIntegrationBuild=true
           /warnaserror
 
