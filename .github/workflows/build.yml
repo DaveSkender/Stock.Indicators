@@ -83,7 +83,7 @@ jobs:
       - name: Build solution
         run: dotnet build >
           --configuration Release
-          /p:Version=${{ steps.gitversion.outputs.nuGetVersio }}
+          /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
           /p:ContinuousIntegrationBuild=true
           /warnaserror
 
