@@ -40,7 +40,7 @@ jobs:
           useConfigFile: true
           configFilePath: gitversion.yml
 
-      - name: Display GitVersion variables (without prefix)
+      - name: Display version
         run: |
           echo "Major: ${{ steps.gitversion.outputs.major }}"
           echo "Minor: ${{ steps.gitversion.outputs.minor }}"
@@ -81,14 +81,16 @@ jobs:
           dotnet-version: '7.x'
 
       - name: Build solution
-        run: dotnet build >
+        run: |
+          dotnet build
           --configuration Release
           /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
           /p:ContinuousIntegrationBuild=true
           /warnaserror
 
       - name: Test library
-        run: dotnet test >
+        run: |
+          dotnet test
             tests/indicators/Tests.Indicators.csproj
           --configuration Release
           --no-restore
