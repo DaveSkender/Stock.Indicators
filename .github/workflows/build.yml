@@ -79,6 +79,7 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7.x'
+          dotnet-quality: 'ga'
 
       - name: Build solution
         run: >
@@ -91,7 +92,16 @@ jobs:
       - name: Test library
         run: >
           dotnet test
-            tests/indicators/Tests.Indicators.csproj
           --configuration Release
-          --no-restore
           --no-build
+          --logger trx
+          --results-directory "TestResults"
+          --collect "Code Coverage"
+
+      - name: Save test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: TestResults
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
