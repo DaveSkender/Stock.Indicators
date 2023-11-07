@@ -81,7 +81,7 @@ jobs:
           dotnet-version: '7.x'
 
       - name: Build solution
-        run: |
+        run: >
           dotnet build
           --configuration Release
           /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
@@ -89,7 +89,7 @@ jobs:
           /warnaserror
 
       - name: Test library
-        run: |
+        run: >
           dotnet test
             tests/indicators/Tests.Indicators.csproj
           --configuration Release
