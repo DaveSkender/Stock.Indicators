@@ -95,4 +95,3 @@ jobs:
           --configuration Release
           --no-restore
           --no-build
-          --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
