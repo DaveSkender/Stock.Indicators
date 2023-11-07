@@ -1,0 +1,34 @@
+name: "Performance"
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - 'src/**'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'src/**'
+
+jobs:
+  analyze:
+    name: benchmark
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x'
+
+      - name: Build solution
+        run: dotnet build -c Release
