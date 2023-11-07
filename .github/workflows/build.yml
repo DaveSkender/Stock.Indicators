@@ -84,9 +84,9 @@ jobs:
         run: >
           dotnet build
           --configuration Release
-          /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
-          /p:ContinuousIntegrationBuild=true
-          /warnaserror
+          --property:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+          --property:ContinuousIntegrationBuild=true
+          -warnaserror
 
       - name: Test library
         run: >
