@@ -11,8 +11,8 @@ on:
       - ".github/workflows/build.yml"
 
 jobs:
-  compile:
-    name: test and pack
+  package:
+    name: pack
     runs-on: ubuntu-latest
     outputs:
       version: "${{ steps.gitversion.outputs.nuGetVersion }}"
@@ -37,6 +37,35 @@ jobs:
           useConfigFile: true
           configFilePath: gitversion.yml
 
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.x"
+          dotnet-quality: "ga"
+
+      - name: Build library
+        run: >
+          dotnet build src/Indicators.csproj
+          --configuration Release
+          --property:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Pack for NuGet
+        run: >
+          dotnet pack src/Indicators.csproj
+          --configuration Release
+          --no-build
+          --include-symbols
+          --output NuGet
+          -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
+
+      - name: Save NuGet package
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: NuGet
+
       - name: Show version
         run: |
           {
@@ -52,6 +81,12 @@ jobs:
             echo "| NuGetVersion    | ${{ steps.gitversion.outputs.nuGetVersion }}    |"
           } >> $GITHUB_STEP_SUMMARY
 
+  testing:
+    name: test
+    runs-on: ubuntu-latest
+
+    steps:
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -62,22 +97,15 @@ jobs:
         run: >
           dotnet build
           --configuration Release
-          --property:Version=${{ steps.gitversion.outputs.nuGetVersion }}
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-  unit-tests:
-    name: test
-    needs: [compile]
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Test library
         run: >
           dotnet test
           --configuration Release
           --no-build
-          --logger trx
+          --verbosity normal
           --results-directory "TestResults"
           --collect "Code Coverage"
 
@@ -87,24 +115,3 @@ jobs:
           name: test-results
           path: TestResults
         if: ${{ always() }}
-
-  package:
-    name: pack
-    needs: [compile]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Pack for NuGet
-        run: >
-          dotnet pack src/Indicators.csproj
-          --configuration Release
-          --no-build
-          --include-symbols
-          --output NuGet
-          -p:PackageVersion=${{ needs.compile.outputs.version }}
-
-      - name: Save NuGet package
-        uses: actions/upload-artifact@v3
-        with:
-          name: packages
-          path: NuGet
