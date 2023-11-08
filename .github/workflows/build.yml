@@ -3,33 +3,28 @@ name: "build"
 on:
   push:
     branches: ["main"]
-    paths:
-      - 'src/**'
+
   pull_request:
     branches: ["main"]
     paths:
-      - 'src/**'
-      - '.github/workflows/build.yml'
+      - "src/**"
+      - ".github/workflows/build.yml"
 
 jobs:
-  analyze:
+  runner:
     name: test and pack
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
-          versionSpec: '5.x'
+          versionSpec: "5.x"
           preferLatestVersion: true
 
       - name: Determine version
@@ -42,6 +37,7 @@ jobs:
 
       - name: Show version
         run: |
+          echo ${{ steps.gitversion.outputs.nuGetVersion }}" >> $GITHUB_OUTPUT >> $GITHUB_STEP_SUMMARY
           echo "Major: ${{ steps.gitversion.outputs.major }}"
           echo "Minor: ${{ steps.gitversion.outputs.minor }}"
           echo "Patch: ${{ steps.gitversion.outputs.patch }}"
@@ -52,8 +48,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.x'
-          dotnet-quality: 'ga'
+          dotnet-version: "7.x"
+          dotnet-quality: "ga"
 
       - name: Build solution
         run: >
