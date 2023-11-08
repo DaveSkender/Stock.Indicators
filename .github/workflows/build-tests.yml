@@ -1,0 +1,84 @@
+name: "build"
+run-name: Test indicators
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/**"
+
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "src/**"
+      - ".github/workflows/build-tests.yml"
+
+jobs:
+
+  testing:
+    name: test indicators
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.x"
+          dotnet-quality: "ga"
+
+      - name: Build solution
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Test library
+        run: >
+          dotnet test
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --collect:"XPlat Code Coverage"
+          --results-directory ./coverage
+
+      - name: Update PR tests summary
+        uses: bibipkins/dotnet-test-reporter@v1.3.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          results-path: ./coverage/**/*.trx
+          coverage-path: ./coverage/**/coverage.cobertura.xml
+          coverage-type: cobertura
+          coverage-threshold: 95
+
+      - name: Code coverage summary
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/**/coverage.cobertura.xml
+          badge: true
+          thresholds: '95 98'
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: false
+          indicators: true
+          output: both
+
+      - name: Update PR coverage summmary
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md
+
+      - name: Save test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: coverage
+        if: ${{ always() }}
