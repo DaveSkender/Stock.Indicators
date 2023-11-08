@@ -1,4 +1,4 @@
-name: "build and test"
+name: "build"
 
 on:
   push:
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   analyze:
-    name: build
+    name: test and pack
     runs-on: ubuntu-latest
 
     steps:
