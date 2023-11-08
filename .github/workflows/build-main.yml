@@ -121,9 +121,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: 'Unit Test Results'
-          results-path: coverage/**/*.trx
-          coverage-type: coburtura
-          coverage-path: coverage/**/coverage.cobertura.xml
+          results-path: ./coverage/**/*.trx
+          coverage-path: ./coverage/**/coverage.cobertura.xml
+          coverage-type: cobertura
           coverage-threshold: 98
 
       - name: Code coverage summary
