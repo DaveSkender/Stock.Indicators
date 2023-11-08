@@ -112,6 +112,7 @@ jobs:
           --configuration Release
           --no-build
           --verbosity normal
+          --logger trx
           --collect:"XPlat Code Coverage"
           --results-directory ./coverage
 
