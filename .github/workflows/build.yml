@@ -11,9 +11,11 @@ on:
       - ".github/workflows/build.yml"
 
 jobs:
-  runner:
+  compile:
     name: test and pack
     runs-on: ubuntu-latest
+    outputs:
+      version: "${{ steps.gitversion.outputs.nuGetVersion }}"
 
     steps:
       - name: Checkout repository
@@ -37,14 +39,18 @@ jobs:
 
       - name: Show version
         run: |
-          echo ${{ steps.gitversion.outputs.nuGetVersion }}" >> $GITHUB_OUTPUT
-          echo ${{ steps.gitversion.outputs.nuGetVersion }}" >> $GITHUB_STEP_SUMMARY
-          echo "Major: ${{ steps.gitversion.outputs.major }}"
-          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
-          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
-          echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
-          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
-          echo "NuGetVersion: ${{ steps.gitversion.outputs.nuGetVersion }}"
+          {
+            echo "### Identified semantic version"
+            echo "| Variable        | Value                                           |"
+            echo "| --------------- | ----------------------------------------------- |"
+            echo "| Major           | ${{ steps.gitversion.outputs.major }}           |"
+            echo "| Minor           | ${{ steps.gitversion.outputs.minor }}           |"
+            echo "| Patch           | ${{ steps.gitversion.outputs.patch }}           |"
+            echo "| PreReleaseTag   | ${{ steps.gitversion.outputs.preReleaseTag }}   |"
+            echo "| MajorMinorPatch | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
+            echo "| SemVer          | ${{ steps.gitversion.outputs.semVer }}          |"
+            echo "| NuGetVersion    | ${{ steps.gitversion.outputs.nuGetVersion }}    |"
+          } >> $GITHUB_STEP_SUMMARY
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -60,6 +66,12 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
+  unit-tests:
+    name: test
+    needs: [compile]
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Test library
         run: >
           dotnet test
@@ -76,6 +88,12 @@ jobs:
           path: TestResults
         if: ${{ always() }}
 
+  package:
+    name: pack
+    needs: [compile]
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Pack for NuGet
         run: >
           dotnet pack src/Indicators.csproj
@@ -83,7 +101,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
+          -p:PackageVersion=${{ needs.compile.outputs.version }}
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
