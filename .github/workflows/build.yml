@@ -83,13 +83,13 @@ jobs:
           --configuration Release
           --no-build
           --include-symbols
-          --property:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
+          --output NuGet
+          /p:versioningScheme="byEnvVar"
+          /p:versionEnvVar="GITVERSION_NUGETVERSION"
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
         with:
           name: nuget
-          path: |
-            **/*.nupkg
-            **/*.snupkg
+          path: NuGet
         if: ${{ always() }}
