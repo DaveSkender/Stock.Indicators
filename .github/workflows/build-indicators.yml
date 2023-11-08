@@ -11,7 +11,7 @@ on:
     branches: ["main"]
     paths:
       - "src/**"
-      - ".github/workflows/build-tests.yml"
+      - ".github/workflows/build-indicators.yml"
 
 jobs:
 
@@ -51,6 +51,7 @@ jobs:
         uses: bibipkins/dotnet-test-reporter@v1.3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-title: ""
           results-path: ./coverage/**/*.trx
           coverage-path: ./coverage/**/coverage.cobertura.xml
           coverage-type: cobertura
