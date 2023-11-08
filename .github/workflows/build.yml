@@ -78,8 +78,7 @@ jobs:
 
       - name: Pack for NuGet
         run: >
-          dotnet pack
-            src/Indicators.csproj
+          dotnet pack src/Indicators.csproj
           --configuration Release
           --no-build
           --include-symbols
@@ -90,6 +89,6 @@ jobs:
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
         with:
-          name: nuget
+          name: packages
           path: NuGet
         if: ${{ always() }}
