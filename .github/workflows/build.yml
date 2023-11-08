@@ -37,7 +37,8 @@ jobs:
 
       - name: Show version
         run: |
-          echo ${{ steps.gitversion.outputs.nuGetVersion }}" >> $GITHUB_OUTPUT >> $GITHUB_STEP_SUMMARY
+          echo ${{ steps.gitversion.outputs.nuGetVersion }}" >> $GITHUB_OUTPUT
+          echo ${{ steps.gitversion.outputs.nuGetVersion }}" >> $GITHUB_STEP_SUMMARY
           echo "Major: ${{ steps.gitversion.outputs.major }}"
           echo "Minor: ${{ steps.gitversion.outputs.minor }}"
           echo "Patch: ${{ steps.gitversion.outputs.patch }}"
