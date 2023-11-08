@@ -1,5 +1,5 @@
 name: "build"
-run-name: Build, test, and pack NuGet
+run-name: Build NuGet package
 
 on:
   push:
