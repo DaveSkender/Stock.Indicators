@@ -109,10 +109,11 @@ jobs:
       - name: Pack for NuGet
         run: >
           dotnet pack
-           "src/Indicators.csproj"
+           ~/src/Indicators.csproj
+          --configuration Release
           --no-build
           --include-symbols
-          --property:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+          --property:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
