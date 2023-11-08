@@ -21,7 +21,7 @@ jobs:
 
       - name: Build examples
         run: >
-          dotnet build docs/examples/**/*.sln
+          dotnet build docs/examples/Examples.sln
           --configuration Release
           --property:ContinuousIntegrationBuild=true
           -warnAsError
