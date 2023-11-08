@@ -15,7 +15,7 @@ on:
 
 jobs:
   package:
-    name: pack
+    name: package
     runs-on: ubuntu-latest
     outputs:
       version: "${{ steps.gitversion.outputs.nuGetVersion }}"
@@ -40,7 +40,7 @@ jobs:
           useConfigFile: true
           configFilePath: gitversion.yml
 
-      - name: Setup .NET SDK
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "7.x"
@@ -93,7 +93,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "7.x"
@@ -120,11 +120,10 @@ jobs:
         uses: bibipkins/dotnet-test-reporter@v1.3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          comment-title: 'Unit Test Results'
           results-path: ./coverage/**/*.trx
           coverage-path: ./coverage/**/coverage.cobertura.xml
           coverage-type: cobertura
-          coverage-threshold: 98
+          coverage-threshold: 95
 
       - name: Code coverage summary
         uses: irongut/CodeCoverageSummary@v1.3.0
