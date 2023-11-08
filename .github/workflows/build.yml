@@ -9,6 +9,7 @@ on:
     branches: ["main"]
     paths:
       - 'src/**'
+      - 'docs/examples/**'
       - '.github/workflows/build.yml'
 
 permissions:
@@ -103,5 +104,21 @@ jobs:
         with:
           name: test-results
           path: TestResults
-        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
+
+      - name: Pack for NuGet
+        run: >
+          dotnet pack
+           "src/Indicators.csproj"
+          --no-build
+          --include-symbols
+          --property:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+
+      - name: Save NuGet package
+        uses: actions/upload-artifact@v3
+        with:
+          name: nuget
+          path: |
+            **/*.nupkg
+            **/*.snupkg
         if: ${{ always() }}
