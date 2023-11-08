@@ -83,8 +83,6 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          /p:versioningScheme="byEnvVar"
-          /p:versionEnvVar="GITVERSION_NUGETVERSION"
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
