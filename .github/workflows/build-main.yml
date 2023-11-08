@@ -120,7 +120,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: 'Unit Test Results'
-          results-path: ./TestResults/*.trx
+          results-path: coverage/**/*.trx
+          coverage-type: coburtura
+          coverage-path: coverage/**/coverage.cobertura.xml
+          coverage-threshold: 98
 
       - name: Code coverage summary
         uses: irongut/CodeCoverageSummary@v1.3.0
