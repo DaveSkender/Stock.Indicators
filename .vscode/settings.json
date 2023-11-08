@@ -193,5 +193,8 @@
     "pivottrend",
     "trendline",
     "webp"
-  ]
+  ],
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///c%3A/Users/daves/Repos/Forks/Stock.Indicators/daveskender/.github/workflows/build.yml"
+  }
 }
