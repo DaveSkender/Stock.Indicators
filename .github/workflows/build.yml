@@ -83,6 +83,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
+          -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
