@@ -22,6 +22,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
@@ -58,7 +61,7 @@ jobs:
           --configuration Release
           --property:Version=${{ steps.gitversion.outputs.nuGetVersion }}
           --property:ContinuousIntegrationBuild=true
-          -warnaserror
+          -warnAsError
 
       - name: Test library
         run: >
@@ -90,4 +93,3 @@ jobs:
         with:
           name: packages
           path: NuGet
-        if: ${{ always() }}
