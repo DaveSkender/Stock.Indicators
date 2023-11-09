@@ -6,6 +6,12 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ResultUtility
 {
+    // not recommended, slower in multi-thread scenarios
+    public static Task<IEnumerable<TResult>> AsAsync<TResult>(
+        this IEnumerable<TResult> results)
+        where TResult : ISeries
+        => Task.Run(() => results);
+
     // CONDENSE (REMOVE null and NaN results)
     /// <include file='./info.xml' path='info/type[@name="CondenseT"]/*' />
     ///
