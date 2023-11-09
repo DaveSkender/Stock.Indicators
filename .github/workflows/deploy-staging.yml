@@ -6,15 +6,12 @@ concurrency:
   cancel-in-progress: true
 
 on: [workflow_dispatch]
-env:
-  artifact_url: ${{ vars.NUGET_URL }}
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment: staging
     outputs:
-      version: "${{ steps.gitversion.outputs.nuGetVersion }}"
+      nuget-version: "${{ steps.gitversion.outputs.nuGetVersion }}"
       filename-nupkg: "Skender.Stock.Indicators.${{ steps.gitversion.outputs.nuGetVersion }}.nupkg"
       filename-snupkg: "Skender.Stock.Indicators.${{ steps.gitversion.outputs.nuGetVersion }}.snupkg"
 
@@ -82,9 +79,24 @@ jobs:
             echo "| NuGetVersion    | ${{ steps.gitversion.outputs.nuGetVersion }}    |"
           } >> $GITHUB_STEP_SUMMARY
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: staging
+      url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.nuget-version }}"
+
+    steps:
       - uses: actions/setup-dotnet@v3
         with:
-          source-url: $artifact_url
+          source-url: ${{ vars.NUGET_PUBLISH_URL }}
         env:
           NUGET_AUTH_TOKEN: ${{secrets.NUGET_TOKEN}}
+
+      - name: Download NuGet package
+        uses: actions/download-artifact@v3
+        with:
+          name: packages
+          path: NuGet
 
