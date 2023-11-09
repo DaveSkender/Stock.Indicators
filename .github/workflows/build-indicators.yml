@@ -21,6 +21,11 @@ jobs:
 
     steps:
 
+      - name: Clean Workspace Folder
+        run: |
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -67,7 +72,7 @@ jobs:
           coverage-threshold: 95
 
       - name: Code coverage summary
-        uses: irongut/CodeCoverageSummary@v1.3.0
+        uses: irongut/CodeCoverageSummary@v1.3.3
         with:
           filename: ./test-results/**/coverage.cobertura.xml
           badge: true
