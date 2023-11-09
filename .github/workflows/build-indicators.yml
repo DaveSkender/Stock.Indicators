@@ -63,6 +63,7 @@ jobs:
 
       - name: Update PR tests summary
         uses: bibipkins/dotnet-test-reporter@v1.3.3
+        if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
@@ -70,26 +71,6 @@ jobs:
           coverage-path: ./test-indicators/**/coverage.cobertura.xml
           coverage-type: cobertura
           coverage-threshold: 95
-
-      - name: Code coverage summary
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: ./test-indicators/**/coverage.cobertura.xml
-          badge: true
-          thresholds: '95 98'
-          fail_below_min: true
-          format: markdown
-          hide_branch_rate: false
-          hide_complexity: false
-          indicators: true
-          output: both
-
-      - name: Update PR coverage summmary
-        uses: marocchino/sticky-pull-request-comment@v2
-        if: github.event_name == 'pull_request'
-        with:
-          recreate: true
-          path: code-coverage-results.md
 
       - name: Save test results
         uses: actions/upload-artifact@v3
