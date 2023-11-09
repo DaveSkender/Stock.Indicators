@@ -37,23 +37,32 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-      - name: Test library
+      - name: Test indicators
         run: >
-          dotnet test
+          dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
           --no-build
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --results-directory ./coverage
+          --results-directory ./test-results
+
+      - name: Test other items
+        run: >
+          dotnet test tests/indicators/Tests.Other.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --results-directory ./test-results
 
       - name: Update PR tests summary
         uses: bibipkins/dotnet-test-reporter@v1.3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
-          results-path: ./coverage/**/*.trx
-          coverage-path: ./coverage/**/coverage.cobertura.xml
+          results-path: ./test-results/**/*.trx
+          coverage-path: ./test-results/**/coverage.cobertura.xml
           coverage-type: cobertura
           coverage-threshold: 95
 
