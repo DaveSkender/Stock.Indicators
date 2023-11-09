@@ -69,7 +69,7 @@ jobs:
       - name: Code coverage summary
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: coverage/**/coverage.cobertura.xml
+          filename: ./test-results/**/coverage.cobertura.xml
           badge: true
           thresholds: '95 98'
           fail_below_min: true
