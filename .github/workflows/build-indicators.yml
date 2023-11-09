@@ -21,7 +21,7 @@ jobs:
 
     steps:
 
-      - name: Clean Workspace
+      - name: Clean workspace
         run: |
           rm -rf ./* || true
           rm -rf ./.??* || true
@@ -50,7 +50,7 @@ jobs:
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --results-directory ./test-results
+          --results-directory ./test-indicators
 
       - name: Test other items
         run: >
@@ -59,22 +59,22 @@ jobs:
           --no-build
           --verbosity normal
           --logger trx
-          --results-directory ./test-results
+          --results-directory ./test-other
 
       - name: Update PR tests summary
         uses: bibipkins/dotnet-test-reporter@v1.3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
-          results-path: ./test-results/**/*.trx
-          coverage-path: ./test-results/**/coverage.cobertura.xml
+          results-path: ./test-indicators/**/*.trx
+          coverage-path: ./test-indicators/**/coverage.cobertura.xml
           coverage-type: cobertura
           coverage-threshold: 95
 
       - name: Code coverage summary
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: ./test-results/**/coverage.cobertura.xml
+          filename: ./test-indicators/**/coverage.cobertura.xml
           badge: true
           thresholds: '95 98'
           fail_below_min: true
@@ -94,6 +94,6 @@ jobs:
       - name: Save test results
         uses: actions/upload-artifact@v3
         with:
-          name: test-results
-          path: coverage
+          name: test-indicators
+          path: /.test-indicators
         if: ${{ always() }}
