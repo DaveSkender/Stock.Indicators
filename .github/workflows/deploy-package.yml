@@ -122,6 +122,7 @@ jobs:
 
       - name: Publish packages
         run: >
-          nuget push NuGet/*.nupkg
+          nuget push
           -Source ${{ vars.NUGET_PUBLISH_URL }}
           -ApiKey ${{ secrets.NUGET_TOKEN }}
+          NuGet/*.nupkg
