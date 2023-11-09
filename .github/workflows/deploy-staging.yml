@@ -100,3 +100,10 @@ jobs:
           name: packages
           path: NuGet
 
+      - name: Show publish preview
+        run: |
+          echo ${{ vars.NUGET_PUBLISH_URL }}
+          echo ${{ vars.NUGET_DOWNLOAD_PREFIX }}
+          echo "dotnet nuget push NuGet/*.nupkg"
+          echo ${{ needs.build.outputs.filename-nupkg }}
+          echo ${{ needs.build.outputs.filename-snupkg }}

@@ -61,7 +61,7 @@ jobs:
           --logger trx
           --results-directory ./test-other
 
-      - name: Update PR tests summary
+      - name: Update tests summary
         uses: bibipkins/dotnet-test-reporter@v1.3.3
         if: github.event_name == 'pull_request'
         with:
