@@ -45,4 +45,4 @@ jobs:
 
       - name: Benchmark indicators
         working-directory: tests/performance
-        run: dotnet run -c Release --filter *.Adx
+        run: dotnet run -c Release
