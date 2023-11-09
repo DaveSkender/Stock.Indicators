@@ -21,7 +21,7 @@ jobs:
 
     steps:
 
-      - name: Clean Workspace Folder
+      - name: Clean Workspace
         run: |
           rm -rf ./* || true
           rm -rf ./.??* || true
@@ -72,7 +72,7 @@ jobs:
           coverage-threshold: 95
 
       - name: Code coverage summary
-        uses: irongut/CodeCoverageSummary@v1.3.3
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           filename: ./test-results/**/coverage.cobertura.xml
           badge: true
