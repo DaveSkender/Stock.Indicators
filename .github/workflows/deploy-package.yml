@@ -121,8 +121,6 @@ jobs:
           echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.snupkg"
 
       - name: Publish packages
-        run: >
-          nuget push
-          -Source ${{ vars.NUGET_PUBLISH_URL }}
-          -ApiKey ${{ secrets.NUGET_TOKEN }}
-          NuGet/*.nupkg
+        run: |
+          nuget sources Add -Name "PubURL" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }}
+          nuget push NuGet/*.nupkg -src PubURL -ApiKey AZ
