@@ -14,7 +14,7 @@ on:
         default: true
         required: true
       environment:
-        description: Deployment environmet
+        description: Deployment environment
         type: choice
         options:
           - azure-artifacts
