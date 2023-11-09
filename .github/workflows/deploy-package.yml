@@ -8,11 +8,6 @@ concurrency:
 on:
   workflow_dispatch:
     inputs:
-      preview:
-        description: Append preview suffix
-        type: boolean
-        default: true
-        required: true
       environment:
         description: Deployment environment
         type: choice
@@ -20,6 +15,11 @@ on:
           - azure-artifacts
           - nuget
         default: azure-artifacts
+        required: true
+      preview:
+        description: Append preview suffix
+        type: boolean
+        default: true
         required: true
 
 jobs:
