@@ -121,4 +121,7 @@ jobs:
           echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.snupkg"
 
       - name: Publish packages
-        run: nuget push NuGet/*.nupkg -Source ${{ vars.NUGET_PUBLISH_URL }}
+        run: >
+          nuget push NuGet/*.nupkg
+          -Source ${{ vars.NUGET_PUBLISH_URL }}
+          -ApiKey ${{ secrets.NUGET_TOKEN }}
