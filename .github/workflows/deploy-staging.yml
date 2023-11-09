@@ -11,9 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      nuget-version: "${{ steps.gitversion.outputs.nuGetVersion }}"
-      filename-nupkg: "Skender.Stock.Indicators.${{ steps.gitversion.outputs.nuGetVersion }}.nupkg"
-      filename-snupkg: "Skender.Stock.Indicators.${{ steps.gitversion.outputs.nuGetVersion }}.snupkg"
+      nuget-version: "${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
 
     steps:
       - name: Checkout repository
@@ -45,7 +43,7 @@ jobs:
         run: >
           dotnet build src/Indicators.csproj
           --configuration Release
-          --property:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+          --property:Version="${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
@@ -56,7 +54,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
+          -p:PackageVersion="${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
@@ -73,10 +71,8 @@ jobs:
             echo "| Major           | ${{ steps.gitversion.outputs.major }}           |"
             echo "| Minor           | ${{ steps.gitversion.outputs.minor }}           |"
             echo "| Patch           | ${{ steps.gitversion.outputs.patch }}           |"
-            echo "| PreReleaseTag   | ${{ steps.gitversion.outputs.preReleaseTag }}   |"
             echo "| MajorMinorPatch | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| SemVer          | ${{ steps.gitversion.outputs.semVer }}          |"
-            echo "| NuGetVersion    | ${{ steps.gitversion.outputs.nuGetVersion }}    |"
+            echo "| Composed as     | ${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }} |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -104,6 +100,6 @@ jobs:
         run: |
           echo ${{ vars.NUGET_PUBLISH_URL }}
           echo ${{ vars.NUGET_DOWNLOAD_PREFIX }}
-          echo "dotnet nuget push NuGet/*.nupkg"
-          echo ${{ needs.build.outputs.filename-nupkg }}
-          echo ${{ needs.build.outputs.filename-snupkg }}
+          echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.nupkg"
+          echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.snupkg"
+
