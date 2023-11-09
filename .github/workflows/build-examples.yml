@@ -1,0 +1,30 @@
+name: "build"
+run-name: Build examples
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - docs/examples/**
+
+  pull_request:
+    branches: ["main"]
+    paths:
+      - docs/examples/**
+      - ".github/workflows/build-examples.yml"
+
+jobs:
+  build:
+    name: examples
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build examples
+        run: >
+          dotnet build docs/examples/Examples.sln
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError

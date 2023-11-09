@@ -1,0 +1,80 @@
+name: "build"
+run-name: Test indicators
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/**"
+
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "src/**"
+      - ".github/workflows/build-indicators.yml"
+
+jobs:
+
+  testing:
+    name: test indicators
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Clean workspace
+        run: |
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.x"
+          dotnet-quality: "ga"
+
+      - name: Build solution
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Test indicators
+        run: >
+          dotnet test tests/indicators/Tests.Indicators.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --collect:"XPlat Code Coverage"
+          --results-directory ./test-indicators
+
+      - name: Test other items
+        run: >
+          dotnet test tests/other/Tests.Other.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --results-directory ./test-other
+
+      - name: Update tests summary
+        uses: bibipkins/dotnet-test-reporter@v1.3.3
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-title: ""
+          results-path: ./test-indicators/**/*.trx
+          coverage-path: ./test-indicators/**/coverage.cobertura.xml
+          coverage-type: cobertura
+          coverage-threshold: 95
+
+      - name: Save test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: ./test-indicators
+        if: ${{ always() }}
