@@ -12,4 +12,13 @@ public static partial class Indicator
         where TQuote : IQuote => quotes
             .ToQuoteD()
             .CalcAdl(smaPeriods);
+
+    // TASK, from TQuote
+    /// <include file='./info.xml' path='info/*' />
+    ///
+    public static Task<IEnumerable<AdlResult>> GetAdlAsync<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int? smaPeriods = null)
+        where TQuote : IQuote => Task.Run(() => quotes
+            .GetAdl(smaPeriods));
 }

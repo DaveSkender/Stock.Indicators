@@ -33,6 +33,31 @@ public class AdlTests : TestBase
     }
 
     [TestMethod]
+    public async Task Async()
+    {
+        List<AdlResult> ogList = quotes
+            .GetAdl()
+            .ToList();
+
+        IEnumerable<AdlResult> results = await quotes
+            .GetAdlAsync()
+            .ConfigureAwait(false);
+
+        List<AdlResult> rsList = results.ToList();
+
+        Assert.AreEqual(ogList.Count, rsList.Count);
+
+        for (int i = 0; i < rsList.Count; i++)
+        {
+            AdlResult o = ogList[i];
+            AdlResult r = rsList[i];
+
+            Assert.AreEqual(o.Date, r.Date);
+            Assert.AreEqual(o.Adl, r.Adl);
+        }
+    }
+
+    [TestMethod]
     public void WithSma()
     {
         List<AdlResult> results = quotes
