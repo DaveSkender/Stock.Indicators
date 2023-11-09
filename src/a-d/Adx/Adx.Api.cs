@@ -12,4 +12,13 @@ public static partial class Indicator
         where TQuote : IQuote => quotes
             .ToQuoteD()
             .CalcAdx(lookbackPeriods);
+
+    // TASK, from TQuote
+    /// <include file='./info.xml' path='info/*' />
+    ///
+    public static Task<IEnumerable<AdxResult>> GetAdxAsync<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote => Task.Run(() => quotes
+            .GetAdx(lookbackPeriods));
 }

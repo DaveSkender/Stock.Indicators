@@ -47,6 +47,31 @@ public class IndicatorPerformance
     public object GetAdx() => h.GetAdx();
 
     [Benchmark]
+    public async Task<object> GetAdxAsync()
+        => await h.GetAdxAsync()
+            .ConfigureAwait(false);
+
+    [Benchmark]
+    public async Task<object> GetAdxAsyncExtension()
+        => await h.GetAdx()
+            .AsAsync()
+            .ConfigureAwait(false);
+
+    [Benchmark]
+    public async Task<object> GetAdx3asyncExt()
+    {
+        Task<IEnumerable<AdxResult>> taskA = h.GetAdx(13).AsAsync();
+        Task<IEnumerable<AdxResult>> taskB = h.GetAdx(14).AsAsync();
+        Task<IEnumerable<AdxResult>> taskC = h.GetAdx(15).AsAsync();
+
+        await taskA.ConfigureAwait(false);
+        await taskB.ConfigureAwait(false);
+        await taskC.ConfigureAwait(false);
+
+        return "foo";
+    }
+
+    [Benchmark]
     public object GetAlligator() => h.GetAlligator();
 
     [Benchmark]

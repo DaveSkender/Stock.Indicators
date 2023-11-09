@@ -49,6 +49,31 @@ public class AdxTests : TestBase
     }
 
     [TestMethod]
+    public async Task Async()
+    {
+        List<AdxResult> ogList = quotes
+            .GetAdx(14)
+            .ToList();
+
+        IEnumerable<AdxResult> results = await quotes
+            .GetAdxAsync(14)
+            .ConfigureAwait(false);
+
+        List<AdxResult> rsList = results.ToList();
+
+        Assert.AreEqual(ogList.Count, rsList.Count);
+
+        for (int i = 0; i < rsList.Count; i++)
+        {
+            AdxResult o = ogList[i];
+            AdxResult r = rsList[i];
+
+            Assert.AreEqual(o.Date, r.Date);
+            Assert.AreEqual(o.Adx, r.Adx);
+        }
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         List<SmaResult> results = quotes
