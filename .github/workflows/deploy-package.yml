@@ -1,11 +1,26 @@
 name: "deploy"
-run-name: Deploy to staging
+run-name: Deploy NuGet package
 
 concurrency:
-  group: staging
+  group: azure-artifacts
   cancel-in-progress: true
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      preview:
+        description: Append preview suffix
+        type: boolean
+        default: true
+        required: true
+      environment:
+        description: Deployment environmet
+        type: choice
+        options:
+          - azure-artifacts
+          - nuget
+        default: azure-artifacts
+        required: true
 
 jobs:
   build:
@@ -72,7 +87,8 @@ jobs:
             echo "| Minor           | ${{ steps.gitversion.outputs.minor }}           |"
             echo "| Patch           | ${{ steps.gitversion.outputs.patch }}           |"
             echo "| MajorMinorPatch | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed as     | ${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }} |"
+            echo ""
+            echo "Composed version: ${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -80,15 +96,16 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: staging
+      name: ${{ inputs.environment }}
       url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.nuget-version }}"
 
     steps:
-      - uses: actions/setup-dotnet@v3
+
+      - name: Install NuGet tool
+        uses: nuget/setup-nuget@v1
         with:
-          source-url: ${{ vars.NUGET_PUBLISH_URL }}
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.NUGET_TOKEN}}
+          nuget-api-key: ${{ secrets.NUGET_TOKEN }}
+          nuget-version: '6.0.x'
 
       - name: Download NuGet package
         uses: actions/download-artifact@v3
@@ -103,3 +120,5 @@ jobs:
           echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.nupkg"
           echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.snupkg"
 
+      - name: Publish packages
+        run: nuget push NuGet/*.nupkg -Source ${{ vars.NUGET_PUBLISH_URL }}
