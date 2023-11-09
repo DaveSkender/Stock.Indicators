@@ -75,6 +75,6 @@ jobs:
       - name: Save test results
         uses: actions/upload-artifact@v3
         with:
-          name: test-indicators
-          path: /.test-indicators
+          name: test-results
+          path: ./test-indicators
         if: ${{ always() }}
