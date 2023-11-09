@@ -31,3 +31,7 @@ jobs:
       - name: Benchmark indicators
         working-directory: tests/performance
         run: dotnet run -c Release
+
+      - name: Publish summary
+        working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
+        run: cat Tests.Performance.IndicatorPerformance-report-github.md >$GITHUB_STEP_SUMMARY
