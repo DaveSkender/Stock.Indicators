@@ -8,18 +8,18 @@ concurrency:
 on:
   workflow_dispatch:
     inputs:
-      preview:
-        description: Append preview suffix
-        type: boolean
-        default: true
-        required: true
       environment:
-        description: Deployment environmet
+        description: Deployment environment
         type: choice
         options:
           - azure-artifacts
           - nuget
         default: azure-artifacts
+        required: true
+      preview:
+        description: Append preview suffix
+        type: boolean
+        default: true
         required: true
 
 jobs:
@@ -121,4 +121,6 @@ jobs:
           echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.snupkg"
 
       - name: Publish packages
-        run: nuget push NuGet/*.nupkg -Source ${{ vars.NUGET_PUBLISH_URL }}
+        run: |
+          nuget sources Add -Name "PubURL" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }}
+          nuget push NuGet/*.nupkg -src PubURL -ApiKey AZ
