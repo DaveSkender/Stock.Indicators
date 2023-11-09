@@ -49,7 +49,7 @@ jobs:
 
       - name: Test other items
         run: >
-          dotnet test tests/indicators/Tests.Other.csproj
+          dotnet test tests/other/Tests.Other.csproj
           --configuration Release
           --no-build
           --verbosity normal
