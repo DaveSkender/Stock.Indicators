@@ -37,10 +37,10 @@ setx AlpacaSecret "ALPACA_SECRET"
 
 1. [Download the ZIP file](Skender.Stock.Indicators-Examples.zip) and extract contents
 2. Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
-3. Review the code in the `Program.cs` file
-4. Run the `ConsoleApp` by any one of the following methods:
-   - pressing the `CTRL+F5` key
-   - execute `dotnet run` CLI command in the `ConsoleApp` folder
+3. Review the code in the `Program.cs` file(s)
+4. Run the `ConsoleApp` or any other project with one of the following methods:
+   - select (will be bold in Solution Explorer) and press the `CTRL+F5` key
+   - execute `dotnet run` CLI command in the `ConsoleApp` project folder
    - clicking the play button
 
      ![how to execute the code](run.png)
