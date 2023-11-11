@@ -1,18 +1,20 @@
-name: Test website a11y
+name: Deploy website
 
-on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'docs/**'
-      - ".github/workflows/docs-test-a11y.yml"
+on: [workflow_dispatch]
+
+concurrency:
+  group: cloudflare-pages
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  test:
+  deploy:
+    name: Cloudflare Pages
     runs-on: ubuntu-latest
+
+    environment:
+      name: cloudflare-pages
 
     steps:
       - name: Checkout source
@@ -39,19 +41,11 @@ jobs:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
-      - name: Serve site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll serve --detach
-
-      - name: Show environment
-        working-directory: docs
-        run: npx pa11y --environment
-
-      - name: Test accessibility
-        working-directory: docs
-        run: |
-          npx pa11y-ci \
-            --sitemap http://127.0.0.1:4000/sitemap.xml \
-            --sitemap-exclude "/*.pdf"
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
+          directory: docs/_site
+          wranglerVersion: '3'

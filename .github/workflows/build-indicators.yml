@@ -1,4 +1,4 @@
-name: "build"
+name: Indicators library build
 run-name: Test indicators
 
 on:
@@ -10,8 +10,7 @@ on:
 
 jobs:
 
-  testing:
-    name: test indicators
+  test:
     runs-on: ubuntu-latest
 
     steps:

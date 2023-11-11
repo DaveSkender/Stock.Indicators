@@ -22,7 +22,7 @@ For more information on how to use this library overall, see the [Guide and Pro 
 ## Getting started with our sample projects
 
 We use an external API quote source for our **streaming** and **quote API** examples.  If you intend to run those locally, you'll need to
-[get a free Alpaca API key and secret](https://alpaca.markets/docs/market-data/getting-started/#creating-an-alpaca-account-and-finding-your-api-keys),
+[get a free Alpaca API key and secret](https://alpaca.markets/docs/market-data/getting-started/),
 then set your local environment variables.
 
 Run the following command line items to set, after replacing the `ALPACA_API_KEY` and `ALPACA_SECRET` values.

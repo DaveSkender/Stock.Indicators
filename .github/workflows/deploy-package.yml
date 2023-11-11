@@ -1,5 +1,4 @@
-name: "deploy"
-run-name: Deploy NuGet package
+name: Deploy NuGet package
 
 on:
   workflow_dispatch:

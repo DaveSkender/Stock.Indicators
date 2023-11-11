@@ -1,5 +1,4 @@
-name: "build"
-run-name: Build examples
+name: Example projects build
 
 on:
   push:
@@ -15,7 +14,6 @@ on:
 
 jobs:
   build:
-    name: examples
     runs-on: ubuntu-latest
 
     steps:
