@@ -1,5 +1,4 @@
 name: Indicators library build
-run-name: Test indicators
 
 on:
   push:
