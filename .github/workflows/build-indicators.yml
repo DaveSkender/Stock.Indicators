@@ -12,9 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    permissions:
-      pull-requests: write
-
     steps:
 
       - name: Clean workspace
