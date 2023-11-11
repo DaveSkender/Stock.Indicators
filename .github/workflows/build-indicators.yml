@@ -1,30 +1,25 @@
-name: "build"
-run-name: Test indicators
+name: Indicators library build
 
 on:
   push:
     branches: ["main"]
-    paths:
-      - "src/**"
 
   pull_request:
     branches: ["main"]
-    paths:
-      - "src/**"
-      - ".github/workflows/build-indicators.yml"
 
 jobs:
 
-  testing:
-    name: test indicators
+  test:
     runs-on: ubuntu-latest
 
     steps:
 
       - name: Clean workspace
         run: |
-          rm -rf ./* || true
-          rm -rf ./.??* || true
+          rm -rf ./test-indicators/* || true
+          rm -rf ./test-indicators/.??* || true
+          rm -rf ./NuGet/* || true
+          rm -rf ./NuGet/.??* || true
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -71,10 +66,3 @@ jobs:
           coverage-path: ./test-indicators/**/coverage.cobertura.xml
           coverage-type: cobertura
           coverage-threshold: 95
-
-      - name: Save test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: ./test-indicators
-        if: ${{ always() }}
