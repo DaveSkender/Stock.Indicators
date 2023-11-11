@@ -15,20 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0
-        with:
-          versionSpec: "5.x"
-          preferLatestVersion: true
-
-      - name: Determine version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v0
-        with:
-          updateAssemblyInfo: true
-          useConfigFile: true
-          configFilePath: gitversion.yml
-
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
@@ -39,10 +25,13 @@ jobs:
         run: >
           dotnet build
           --configuration Release
-          --property:Version="${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
       - name: Benchmark indicators
         working-directory: tests/performance
-        run: dotnet run -c Release --filter *.Adx
+        run: dotnet run -c Release
+
+      - name: Publish summary
+        working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
+        run: cat Tests.Performance.IndicatorPerformance-report-github.md >$GITHUB_STEP_SUMMARY

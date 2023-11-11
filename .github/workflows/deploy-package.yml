@@ -1,10 +1,6 @@
 name: "deploy"
 run-name: Deploy NuGet package
 
-concurrency:
-  group: azure-artifacts
-  cancel-in-progress: true
-
 on:
   workflow_dispatch:
     inputs:
@@ -21,6 +17,10 @@ on:
         type: boolean
         default: true
         required: true
+
+concurrency:
+  group: ${{ inputs.environment }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -95,6 +95,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     environment:
       name: ${{ inputs.environment }}
       url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.nuget-version }}"
@@ -124,3 +127,15 @@ jobs:
         run: |
           nuget sources Add -Name "PubURL" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }}
           nuget push NuGet/*.nupkg -src PubURL -ApiKey AZ
+
+      - name: Tag and draft release note
+        uses: ncipollo/release-action@v1
+        if: inputs.environment == 'nuget'
+        with:
+          body: "We’ve released a new Stock Indicators for .NET NuGet package.  See [Skender.Stock.Indicators @ NuGet.org](https://www.nuget.org/packages/Skender.Stock.Indicators/${{ needs.build.outputs.nuget-version }}) for more information."
+          generateReleaseNotes: true
+          draft: true
+          makeLatest: ${{ !inputs.preview }}
+          prerelease: ${{ inputs.preview }}
+          tag: ${{ needs.build.outputs.nuget-version }}
+          commit: ${{ github.ref_name }}
