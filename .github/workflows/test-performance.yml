@@ -1,5 +1,4 @@
-name: "performance"
-run-name: Benchmark performance
+name: Analyze benchmark performance
 
 concurrency:
   group: test-performance

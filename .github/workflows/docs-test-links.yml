@@ -1,5 +1,4 @@
-name: docs
-run-name: Test doc site URLs
+name: Test website URLs
 
 on:
   pull_request:
@@ -12,8 +11,7 @@ env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  testing:
-    name: test URLs
+  test:
     runs-on: ubuntu-latest
 
     steps:
