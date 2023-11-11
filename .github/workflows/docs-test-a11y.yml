@@ -1,26 +1,22 @@
-name: test docs
+name: Test website a11y
+
 on:
   pull_request:
     branches: [main]
     paths:
       - 'docs/**'
+      - ".github/workflows/docs-test-a11y.yml"
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  testing:
-    name: a11y
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v2
-
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+        uses: actions/checkout@v4
 
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
