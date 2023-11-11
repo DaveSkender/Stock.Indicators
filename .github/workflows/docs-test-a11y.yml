@@ -1,8 +1,10 @@
 name: Test website a11y
 
 on:
+  push:
+    branches: ["v3"]
   pull_request:
-    branches: [main]
+    branches: ["main"]
     paths:
       - 'docs/**'
       - ".github/workflows/docs-test-a11y.yml"

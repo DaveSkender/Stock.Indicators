@@ -1,8 +1,10 @@
 name: Test website URLs
 
 on:
+  push:
+    branches: ["v3"]
   pull_request:
-    branches: [main]
+    branches: ["main"]
     paths:
       - 'docs/**'
       - ".github/workflows/docs-test-links.yml"
