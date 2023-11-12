@@ -1,4 +1,4 @@
-name: Indicators library
+name: Indicators
 
 on:
   push:
