@@ -1,4 +1,4 @@
-name: CodeQL analysis
+name: CodeQL
 
 on:
   push:
@@ -19,11 +19,14 @@ on:
 
 jobs:
   analyze:
+    name: analyze
     runs-on: ubuntu-latest
+
     permissions:
       actions: read
       contents: read
       security-events: write
+
     strategy:
       fail-fast: false
       matrix:

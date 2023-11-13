@@ -1,4 +1,4 @@
-name: Example projects build
+name: Examples
 
 on:
   push:
@@ -14,6 +14,7 @@ on:
 
 jobs:
   build:
+    name: build projects
     runs-on: ubuntu-latest
 
     steps:

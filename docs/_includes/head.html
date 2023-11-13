@@ -13,7 +13,7 @@
 
   {%- include head-style.html -%}
 
-  {%- if site.github.source.branch != "main" or page.noindex == true -%}
+  {%- if jekyll.environment != 'production' or page.noindex == true -%}
   <!-- exclude from search indexing -->
   <meta name="robots" content="noindex, nofollow">
   {%- endif -%}

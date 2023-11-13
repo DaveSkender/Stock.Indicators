@@ -2,7 +2,7 @@
 <script async src="/assets/js/lazysizes.min.js"></script>
 {%- endif -%}
 
-{%- if site.github.source.branch == "main" -%}
+{%- if jekyll.environment == 'production' -%}
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R"></script>
 <script async src="/assets/js/ga.js"></script>

@@ -35,9 +35,19 @@ jobs:
           pwd
           bundle install
 
-      - name: Build site
+      - name: Build site (production)
+        if: github.ref == 'refs/heads/main'
         working-directory: docs
         env:
+          JEKYLL_ENV: production
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+        run: bundle exec jekyll build
+
+      - name: Build site (preview)
+        if: github.ref != 'refs/heads/main'
+        working-directory: docs
+        env:
+          JEKYLL_ENV: preview
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 

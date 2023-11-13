@@ -1,4 +1,4 @@
-name: Test website URLs
+name: Website
 
 on:
   push:
@@ -14,6 +14,7 @@ env:
 
 jobs:
   test:
+    name: test URLs
     runs-on: ubuntu-latest
 
     steps:
