@@ -14,7 +14,7 @@ public static partial class QuoteUtility
             .Select(x => x.ToTuple(candlePart));
 
     // OBSERVER, from Quote Provider
-    public static UseObserver Use(
+    public static Use Use(
         this QuoteProvider provider,
         CandlePart candlePart = CandlePart.Close)
             => new(provider, candlePart);

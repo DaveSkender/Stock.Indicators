@@ -29,7 +29,7 @@ public class TupleProviderTests : TestBase
         }
 
         // initialize Tuple-based observer
-        UseObserver observer = provider
+        Use observer = provider
             .Use(CandlePart.Close);
 
         // fetch initial results
@@ -118,7 +118,7 @@ public class TupleProviderTests : TestBase
         QuoteProvider provider = new();
         provider.Add(quotesList.Take(200));
 
-        UseObserver observer = provider
+        Use observer = provider
             .Use(CandlePart.Close);
 
         // emulate incremental quotes
@@ -157,7 +157,7 @@ public class TupleProviderTests : TestBase
         QuoteProvider provider = new();
 
         // initialize USE observer
-        UseObserver observer = provider
+        Use observer = provider
             .Use(CandlePart.Close);
 
         // emulate adding duplicate quote too many times

@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 // USE (STREAMING)
-public class UseObserver : TupleProvider
+public class Use : TupleProvider
 {
-    public UseObserver(
+    public Use(
         QuoteProvider? provider,
         CandlePart candlePart)
     {

@@ -8,22 +8,23 @@ public abstract class ChainProvider
     // fields
     private readonly List<IObserver<(DateTime Date, double Value)>> observers;
 
-    // initialize
+    // constructor
     protected ChainProvider()
     {
         observers = new();
         ProtectedChain = new();
-        Warmup = true;
+        IsWarmup = true;
     }
 
-    // properties
+    // PROPERTIES
+
     internal IEnumerable<(DateTime Date, double Value)> Output => ProtectedChain;
 
     internal List<(DateTime Date, double Value)> ProtectedChain { get; set; }
 
     private int OverflowCount { get; set; }
 
-    private bool Warmup { get; set; }
+    private bool IsWarmup { get; set; }
 
     // METHODS
 
@@ -59,14 +60,14 @@ public abstract class ChainProvider
         // candidate result
         (DateTime Date, double Value) r = new(result.Date, result.Value.Null2NaN());
 
-        int length = ProtectedChain.Count;
+        int i = ProtectedChain.Count;
 
         // initialize
-        if (length == 0 && result.Value != null)
+        if (i == 0 && result.Value != null)
         {
             // add new tuple
             ProtectedChain.Add(r);
-            Warmup = false;
+            IsWarmup = false;
 
             // notify observers
             NotifyObservers(r);
@@ -74,16 +75,16 @@ public abstract class ChainProvider
         }
 
         // do not proceed until first non-null Value recieved
-        if (Warmup && result.Value == null)
+        if (IsWarmup && result.Value == null)
         {
             return;
         }
         else
         {
-            Warmup = false;
+            IsWarmup = false;
         }
 
-        (DateTime lastDate, _) = ProtectedChain[length - 1];
+        (DateTime lastDate, _) = ProtectedChain[i - 1];
 
         // add tuple
         if (r.Date > lastDate)

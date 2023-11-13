@@ -50,16 +50,23 @@ public partial class Ema : ChainProvider
 
     internal EmaResult Increment((DateTime Date, double Value) tp)
     {
-        // candidate result (empty)
-        EmaResult r = new(tp.Date);
-
         // initialize
+        EmaResult r = new(tp.Date);
         int i = ProtectedResults.Count;
 
-        if (i == 0)
+        // initialization periods
+        if (i <= LookbackPeriods - 1)
         {
-            ProtectedResults.Add(r);
             SumValue += tp.Value;
+
+            // set first value
+            if (i == LookbackPeriods - 1)
+            {
+                r.Ema = (SumValue / LookbackPeriods).NaN2Null();
+                SumValue = double.NaN;
+            }
+
+            ProtectedResults.Add(r);
             SendToChain(r);
             return r;
         }
@@ -67,39 +74,13 @@ public partial class Ema : ChainProvider
         // check against last entry
         EmaResult last = ProtectedResults[i - 1];
 
-        // initialization periods
-        if (i < LookbackPeriods - 1)
-        {
-            // add if not duplicate
-            if (last.Date != r.Date)
-            {
-                ProtectedResults.Add(r);
-                SumValue += tp.Value;
-            }
-
-            return r;
-        }
-
-        // initialize with SMA
-        if (i == LookbackPeriods - 1)
-        {
-            SumValue += tp.Value;
-            r.Ema = (SumValue / LookbackPeriods).NaN2Null();
-            SumValue = double.NaN;
-
-            ProtectedResults.Add(r);
-            SendToChain(r);
-            return r;
-        }
-
         // add new
         if (r.Date > last.Date)
         {
-            // calculate incremental value
             double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
-            double newEma = Increment(K, lastEma, tp.Value);
+            double ema = Increment(K, lastEma, tp.Value);
 
-            r.Ema = newEma.NaN2Null();
+            r.Ema = ema.NaN2Null();
 
             ProtectedResults.Add(r);
             SendToChain(r);
@@ -114,6 +95,7 @@ public partial class Ema : ChainProvider
 
             double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
             last.Ema = Increment(K, priorEma, tp.Value);
+
             SendToChain(last);
             return r;
         }

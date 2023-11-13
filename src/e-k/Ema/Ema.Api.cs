@@ -36,7 +36,7 @@ public static partial class Indicator
         this QuoteProvider provider,
         int lookbackPeriods)
     {
-        UseObserver useObserver = provider
+        Use useObserver = provider
             .Use(CandlePart.Close);
 
         return new(useObserver, lookbackPeriods);

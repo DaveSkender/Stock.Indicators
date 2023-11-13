@@ -22,9 +22,17 @@ public static partial class Indicator
             SmaResult result = new(date);
             results.Add(result);
 
-            result.Sma = Sma
-                .Increment(tpList, i, lookbackPeriods)
-                .NaN2Null();
+            if (i + 1 >= lookbackPeriods)
+            {
+                double sumSma = 0;
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                {
+                    (DateTime _, double pValue) = tpList[p];
+                    sumSma += pValue;
+                }
+
+                result.Sma = (sumSma / lookbackPeriods).NaN2Null();
+            }
         }
 
         return results;

@@ -7,14 +7,15 @@ public class QuoteProvider : IObservable<Quote>
     // fields
     private readonly List<IObserver<Quote>> observers;
 
-    // initialize
+    // constructor
     public QuoteProvider()
     {
         observers = new();
         ProtectedQuotes = new();
     }
 
-    // properties
+    // PROPERTIES
+
     public IEnumerable<Quote> Quotes => ProtectedQuotes;
 
     internal List<Quote> ProtectedQuotes { get; private set; }
@@ -23,8 +24,39 @@ public class QuoteProvider : IObservable<Quote>
 
     // METHODS
 
+    // subscribe observer
+    public IDisposable Subscribe(IObserver<Quote> observer)
+    {
+        if (!observers.Contains(observer))
+        {
+            observers.Add(observer);
+        }
+
+        return new Unsubscriber(observers, observer);
+    }
+
+    // close all observations
+    public void EndTransmission()
+    {
+        foreach (IObserver<Quote> observer in observers.ToArray())
+        {
+            if (observers.Contains(observer))
+            {
+                observer.OnCompleted();
+            }
+        }
+
+        observers.Clear();
+    }
+
+    // add one (API only)
+    public void Add(Quote quote) => AddSend(quote);
+
+    // add many (API only)
+    public void Add(IEnumerable<Quote> quotes) => AddMany(quotes);
+
     // add one
-    public void Add(Quote quote)
+    private void AddSend(Quote quote)
     {
         // validate quote
         if (quote == null)
@@ -113,40 +145,15 @@ public class QuoteProvider : IObservable<Quote>
     }
 
     // add many
-    public void Add(IEnumerable<Quote> quotes)
+    private void AddMany(IEnumerable<Quote> quotes)
     {
         List<Quote> added = quotes
             .ToSortedList();
 
         for (int i = 0; i < added.Count; i++)
         {
-            Add(added[i]);
+            AddSend(added[i]);
         }
-    }
-
-    // subscribe observer
-    public IDisposable Subscribe(IObserver<Quote> observer)
-    {
-        if (!observers.Contains(observer))
-        {
-            observers.Add(observer);
-        }
-
-        return new Unsubscriber(observers, observer);
-    }
-
-    // close all observations
-    public void EndTransmission()
-    {
-        foreach (IObserver<Quote> observer in observers.ToArray())
-        {
-            if (observers.Contains(observer))
-            {
-                observer.OnCompleted();
-            }
-        }
-
-        observers.Clear();
     }
 
     // notify observers

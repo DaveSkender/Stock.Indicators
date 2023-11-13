@@ -23,8 +23,7 @@
       documentation</see> for more information. </para>
     </summary>
     <param name="priceList">Tuple collection (Date, Price) of historical price quotes.</param>
-    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <returns>SMA value over last lookback periods.</returns>
+    <returns>SMA value of Tuple values.</returns>
   </type>
   <type name="increment-array">
     <summary>Get the next incremental Simple Moving Average (SMA) value. <para> See <see
@@ -33,6 +32,19 @@
     </summary>
     <param name="prices">Array of of historical price quotes in lookback window.</param>
     <returns>SMA value of array prices.</returns>
+  </type>
+  <type name="increment-quote">
+    <summary>
+      Get the next incremental Simple Moving Average (SMA) result, using TQuote.
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Sma/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <param name="quote">Historical price quote.</param>
+    <returns>New SmaResult value.</returns>
   </type>
 
   <type name="observer">

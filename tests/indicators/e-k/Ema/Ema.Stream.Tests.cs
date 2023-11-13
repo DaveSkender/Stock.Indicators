@@ -15,15 +15,10 @@ public class EmaStreamTests : TestBase
 
         int length = quotesList.Count;
 
-        // time-series, for comparison
-        List<EmaResult> seriesList = quotes
-            .GetEma(20)
-            .ToList();
-
         // setup quote provider
         QuoteProvider provider = new();
 
-        // initialize EMA observer
+        // initialize observer
         Ema observer = provider
             .GetEma(20);
 
@@ -47,6 +42,11 @@ public class EmaStreamTests : TestBase
         // final results
         List<EmaResult> streamList
             = results.ToList();
+
+        // time-series, for comparison
+        List<EmaResult> seriesList = quotes
+            .GetEma(20)
+            .ToList();
 
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)

@@ -24,15 +24,13 @@ public partial class Sma : ChainProvider
     /// <include file='./info.xml' path='info/type[@name="increment-tuple"]/*' />
     ///
     public static double Increment(
-      Collection<(DateTime Date, double Value)> priceList,
-      int lookbackPeriods)
+      Collection<(DateTime Date, double Value)> priceList)
     {
-        List<(DateTime, double)> tpList = priceList.ToSortedList();
-        int length = tpList.Count;
+        double[] prices = priceList
+            .Select(x => x.Value)
+            .ToArray();
 
-        return length < lookbackPeriods
-           ? double.NaN
-           : Increment(tpList, length - 1, lookbackPeriods);
+        return Increment(prices);
     }
 
     /// <include file='./info.xml' path='info/type[@name="increment-array"]/*' />
@@ -46,8 +44,9 @@ public partial class Sma : ChainProvider
         }
 
         int length = prices.Length;
+
         double sum = 0;
-        for (int i = 0; i <= length; i++)
+        for (int i = 0; i < length; i++)
         {
             sum += prices[i];
         }
@@ -55,41 +54,90 @@ public partial class Sma : ChainProvider
         return sum / length;
     }
 
-    internal static double Increment(
-        List<(DateTime Date, double Value)> tpList,
-        int index,
-        int lookbackPeriods)
+    /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
+    ///
+    public SmaResult Increment<TQuote>(
+        TQuote quote)
+        where TQuote : IQuote
     {
-        if (index < lookbackPeriods - 1)
-        {
-            return double.NaN;
-        }
+        Supplier ??= new TupleProvider();
 
-        double sum = 0;
-        for (int i = index - lookbackPeriods + 1; i <= index; i++)
-        {
-            sum += tpList[i].Value;
-        }
+        QuoteD q = quote.ToQuoteD();
 
-        return sum / lookbackPeriods;
+        // store quote
+        Supplier.ProtectedTuples
+            .Add((q.Date, q.Close));
+
+        return Increment((q.Date, q.Close));
     }
 
-    // TODO: this is too slow whe attempting to use on Adl, unused
-    internal static double? Increment<TResult>(
-        List<TResult> results,
-        int index,
-        int lookbackPeriods)
-        where TResult : IReusableResult
+    // add new tuple quote
+    internal SmaResult Increment((DateTime date, double value) tp)
     {
-        if (index < lookbackPeriods - 1)
+        if (Supplier == null)
         {
-            return null;
+            throw new ArgumentNullException(
+                nameof(Supplier),
+                "Could not find data supplier.");
         }
 
-        double? sum = 0;
+        // initialize
+        SmaResult r = new(tp.date);
+        int i = ProtectedResults.Count;
+
+        // initialization periods
+        if (i < LookbackPeriods - 1)
+        {
+            ProtectedResults.Add(r);
+            SendToChain(r);
+            return r;
+        }
+
+        // calculate incremental value
+        List<(DateTime _, double value)> quotes = Supplier.ProtectedTuples;
+
+        double sma = Increment(quotes, LookbackPeriods, i);
+
+        // check against last entry
+        SmaResult last = ProtectedResults[i - 1];
+
+        // add new
+        if (r.Date > last.Date)
+        {
+            r.Sma = sma;
+
+            ProtectedResults.Add(r);
+            SendToChain(r);
+            return r;
+        }
+
+        // update last
+        else if (r.Date == last.Date)
+        {
+            last.Sma = sma;
+
+            SendToChain(last);
+            return last;
+        }
+
+        // late arrival
+        else
+        {
+            // heal
+            throw new NotImplementedException();
+        }
+    }
+
+    private static double Increment(
+        List<(DateTime _, double value)> tpQuotes,
+        int lookbackPeriods,
+        int index)
+    {
+        double sum = 0;
+
         for (int i = index - lookbackPeriods + 1; i <= index; i++)
         {
-            sum += results[i].Value;
+            sum += tpQuotes[i].value;
         }
 
         return sum / lookbackPeriods;

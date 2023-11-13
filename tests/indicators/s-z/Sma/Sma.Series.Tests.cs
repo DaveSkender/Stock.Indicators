@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 using Tests.Common;
@@ -8,18 +7,6 @@ namespace Tests.Indicators;
 [TestClass]
 public class SmaSeriesTests : TestBase
 {
-    [TestMethod]
-    public void Increment()
-    {
-        Collection<(DateTime, double)> collection = quotes
-            .ToTuple(CandlePart.Close)
-            .ToCollection();
-
-        double sma = Sma.Increment(collection, 20);
-
-        Assert.AreEqual(251.8600, sma.Round(4));
-    }
-
     [TestMethod]
     public void Standard()
     {

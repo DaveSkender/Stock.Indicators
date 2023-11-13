@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 using Tests.Common;
@@ -15,15 +16,10 @@ public class SmaStreamTests : TestBase
 
         int length = quotesList.Count;
 
-        // time-series, for comparison
-        List<SmaResult> seriesList = quotes
-            .GetSma(20)
-            .ToList();
-
         // setup quote provider
         QuoteProvider provider = new();
 
-        // initialize EMA observer
+        // initialize observer
         Sma observer = provider
             .GetSma(20);
 
@@ -48,6 +44,11 @@ public class SmaStreamTests : TestBase
         List<SmaResult> resultsList
             = results.ToList();
 
+        // time-series, for comparison
+        List<SmaResult> seriesList = quotes
+            .GetSma(20)
+            .ToList();
+
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)
         {
@@ -63,10 +64,46 @@ public class SmaStreamTests : TestBase
     }
 
     [TestMethod]
+    public void Manual()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
+        // initialize
+        Sma sma = new(14);
+
+        // roll through history
+        for (int i = 0; i < length; i++)
+        {
+            sma.Increment(quotesList[i]);
+        }
+
+        // results
+        List<SmaResult> resultList = sma.ProtectedResults;
+
+        // time-series, for comparison
+        List<SmaResult> seriesList = quotes
+            .GetSma(14)
+            .ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < seriesList.Count; i++)
+        {
+            SmaResult s = seriesList[i];
+            SmaResult r = resultList[i];
+
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Sma, r.Sma);
+        }
+    }
+
+    [TestMethod]
     public void Increment()
     {
         // baseline for comparison
-        List<(DateTime Date, double Value)> tpList = new()
+        Collection<(DateTime Date, double Value)> tpList = new()
         {
             new (DateTime.Parse("1/1/2000", EnglishCulture), 1d),
             new (DateTime.Parse("1/2/2000", EnglishCulture), 2d),
@@ -79,13 +116,8 @@ public class SmaStreamTests : TestBase
             new (DateTime.Parse("1/9/2000", EnglishCulture), 9d),
         };
 
-        double sma;
-
-        sma = Sma.Increment(tpList, tpList.Count - 1, 9);
+        double sma = Sma.Increment(tpList);
         Assert.AreEqual(5d, sma);
-
-        sma = Sma.Increment(tpList, tpList.Count - 1, 10);
-        Assert.AreEqual(double.NaN, sma);
     }
 
     [TestMethod]

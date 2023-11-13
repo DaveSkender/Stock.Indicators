@@ -11,12 +11,14 @@ public partial class Ema : ChainProvider
     {
         Supplier = provider;
         ProtectedResults = new();
+
         Initialize(lookbackPeriods);
     }
 
     public Ema(
         int lookbackPeriods)
     {
+        Supplier = new TupleProvider();
         ProtectedResults = new();
         Initialize(lookbackPeriods);
     }
@@ -41,22 +43,26 @@ public partial class Ema : ChainProvider
     // initialize and preload existing quote cache
     private void Initialize(int lookbackPeriods)
     {
+        if (Supplier == null)
+        {
+            throw new ArgumentNullException(
+                nameof(Supplier),
+                "Could not find data supplier.");
+        }
+
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
         SumValue = 0;
 
-        if (Supplier != null)
+        List<(DateTime, double)> tuples = Supplier
+            .ProtectedTuples;
+
+        for (int i = 0; i < tuples.Count; i++)
         {
-            List<(DateTime, double)> tuples = Supplier
-                .ProtectedTuples;
-
-            for (int i = 0; i < tuples.Count; i++)
-            {
-                Increment(tuples[i]);
-            }
-
-            Subscribe();
+            Increment(tuples[i]);
         }
+
+        Subscribe();
     }
 }

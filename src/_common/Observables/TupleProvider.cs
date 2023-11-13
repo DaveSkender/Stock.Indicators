@@ -2,20 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE OBSERVER and TUPLE PROVIDER
 
-public abstract class TupleProvider
+public class TupleProvider
     : QuoteObserver, IObservable<(DateTime Date, double Value)>
 {
     // fields
     private readonly List<IObserver<(DateTime Date, double Value)>> observers;
 
-    // initialize
-    protected TupleProvider()
+    // constructor
+    public TupleProvider()
     {
         observers = new();
         ProtectedTuples = new();
     }
 
-    // properties
+    // PROPERTIES
+
     internal IEnumerable<(DateTime Date, double Value)> Output => ProtectedTuples;
 
     internal List<(DateTime Date, double Value)> ProtectedTuples { get; set; }
@@ -126,7 +127,7 @@ public abstract class TupleProvider
     }
 
     // add many
-    internal void AddSend(IEnumerable<(DateTime Date, double Value)> tuples)
+    internal void AddMany(IEnumerable<(DateTime Date, double Value)> tuples)
     {
         List<(DateTime Date, double Value)> added = tuples
             .ToSortedList();

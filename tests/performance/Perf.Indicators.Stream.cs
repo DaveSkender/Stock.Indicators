@@ -89,7 +89,21 @@ public class IndicatorsStreaming
     }
 
     [Benchmark]
-    public object GetSma() => q.GetSma(10);
+    public object GetSmaSeries() => q.GetSma(10);
+
+    [Benchmark]
+    public object GetSmaManual()
+    {
+        List<(DateTime, double)> tpList = q.ToTuple(CandlePart.Close);
+        Sma sma = new(10);
+
+        for (int i = 0; i < tpList.Count; i++)
+        {
+            sma.Increment(tpList[i]);
+        }
+
+        return sma.Results;
+    }
 
     [Benchmark]
     public object GetSmaStream()
