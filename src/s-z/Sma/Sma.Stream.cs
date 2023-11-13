@@ -20,6 +20,7 @@ public partial class Sma : ChainProvider
     {
         Supplier = new TupleProvider();
         ProtectedResults = new();
+
         Initialize(lookbackPeriods);
     }
 

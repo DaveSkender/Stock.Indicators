@@ -60,6 +60,7 @@ public partial class Sma : ChainProvider
         TQuote quote)
         where TQuote : IQuote
     {
+        // add supplier if missing
         Supplier ??= new TupleProvider();
 
         QuoteD q = quote.ToQuoteD();
