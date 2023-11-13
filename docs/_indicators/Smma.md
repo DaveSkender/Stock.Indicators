@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 [Smoothed Moving Average](https://en.wikipedia.org/wiki/Moving_average) is the average of price over a lookback window using a smoothing method.  SMMA is also known as modified moving average (MMA) and running moving average (RMA).
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/375 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/375 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -41,7 +41,7 @@ IEnumerable<SmmaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9886; **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### SmmaResult
 

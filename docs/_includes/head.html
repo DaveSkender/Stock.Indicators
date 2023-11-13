@@ -1,0 +1,38 @@
+<head>
+  <meta charset="UTF-8">
+
+  <!-- pre-connections -->
+  <link rel="preconnect" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  {%- if page.dir == '/' -%}
+  <link rel="preconnect" href="https://github.githubassets.com">
+  <link rel="preconnect" href="https://img.shields.io">
+  {%- endif -%}
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" as="style"
+    type="text/css" crossorigin>
+
+  {%- include head-style.html -%}
+
+  {%- if jekyll.environment != 'production' or page.noindex == true -%}
+  <!-- exclude from search indexing -->
+  <meta name="robots" content="noindex, nofollow">
+  {%- endif -%}
+  {%- if page.redirect == true -%}
+  <meta http-equiv="refresh" content="5;url={{site.baseurl}}/" />
+  {%- endif -%}
+
+  {% seo %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#424242">
+  <meta name="msapplication-TileColor" content="#424242">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link defer rel="stylesheet"
+    href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  <link defer rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
+  <link defer rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
+  <link defer rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/icons/favicon-32x32.png' | relative_url }}">
+  <link defer rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/icons/favicon-16x16.png' | relative_url }}">
+  <link defer rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}">
+  <link defer rel="mask-icon" href="{{ '/assets/icons/safari-pinned-tab.svg' | relative_url }}" color="#424242">
+</head>

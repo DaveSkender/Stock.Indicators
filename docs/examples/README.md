@@ -8,7 +8,7 @@ layout: page
 
 # {{ page.title }}
 
-To help you get started, here are a few minimalist .NET 7.0 C# projects that you can review.  They are complete working examples.
+To help you get started, here are a few minimalist [.NET 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) C# projects that you can review.  They are complete working examples.
 
 - `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
@@ -19,14 +19,28 @@ To help you get started, here are a few minimalist .NET 7.0 C# projects that you
 
 For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
 
-To run the sample projects:
+## Getting started with our sample projects
+
+We use an external API quote source for our **streaming** and **quote API** examples.  If you intend to run those locally, you'll need to
+[get a free Alpaca API key and secret](https://alpaca.markets/docs/market-data/getting-started/),
+then set your local environment variables.
+
+Run the following command line items to set, after replacing the `ALPACA_API_KEY` and `ALPACA_SECRET` values.
+
+```bash
+# use your own keys
+setx AlpacaApiKey "ALPACA_API_KEY"
+setx AlpacaSecret "ALPACA_SECRET"
+```
+
+## Get and run the sample projects
 
 1. [Download the ZIP file](Skender.Stock.Indicators-Examples.zip) and extract contents
 2. Open `Examples.sln` in [Visual Studio](https://visualstudio.microsoft.com)
-3. Review the code in the `Program.cs` file
-4. Run the `ConsoleApp` by any one of the following methods:
-   - pressing the `CTRL+F5` key
-   - execute `dotnet run` CLI command in the `ConsoleApp` folder
+3. Review the code in the `Program.cs` file(s)
+4. Run the `ConsoleApp` or any other project with one of the following methods:
+   - select (will be bold in Solution Explorer) and press the `CTRL+F5` key
+   - execute `dotnet run` CLI command in the `ConsoleApp` project folder
    - clicking the play button
 
      ![how to execute the code](run.png)

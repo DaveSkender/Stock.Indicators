@@ -12,7 +12,7 @@ redirect_from:
 # {{ page.title }}
 
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -43,7 +43,7 @@ IEnumerable<TemaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX]({{site.baseurl}}/indicators/Trix#content) oscillator instead.
 
-> :hourglass: **Convergence warning**: The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9886; **Convergence warning**: The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
 
 ### TemaResult
 

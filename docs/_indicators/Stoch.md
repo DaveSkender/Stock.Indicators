@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator), also known as KDJ Index, is a momentum oscillator that compares current price with recent highs and lows and is presented on a scale of 0 to 100.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/237 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/237 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -64,7 +64,7 @@ IEnumerable<StochResult>
 - It does not return a single incremental indicator value.
 - The first `N+S-2` periods will have `null` Oscillator values since there's not enough data to calculate.
 
-> :hourglass: **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
+>&#9886; **Convergence warning**: The first `N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods when using `MaType.SMMA`.  Standard use of `MaType.SMA` does not have convergence-related precision errors.
 
 ### StochResult
 

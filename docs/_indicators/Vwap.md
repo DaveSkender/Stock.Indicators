@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighted_average_price) is a Volume weighted average of price, typically used on intraday data.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/310 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/310 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 

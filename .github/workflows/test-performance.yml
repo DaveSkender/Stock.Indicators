@@ -1,0 +1,36 @@
+name: Benchmark performance
+
+concurrency:
+  group: test-performance
+  cancel-in-progress: true
+
+on: [workflow_dispatch]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.x"
+          dotnet-quality: "ga"
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Benchmark indicators
+        working-directory: tests/performance
+        run: dotnet run -c Release
+
+      - name: Publish summary
+        working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
+        run: cat Tests.Performance.IndicatorPerformance-report-github.md >$GITHUB_STEP_SUMMARY

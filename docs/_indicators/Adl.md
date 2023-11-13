@@ -10,7 +10,7 @@ layout: indicator
 # {{ page.title }}
 
 Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.wikipedia.org/wiki/Accumulation/distribution_index) is a rolling accumulation of Chaikin Money Flow Volume.
-[[Discuss] :speech_balloon:]({{site.github.repository_url}}/discussions/271 "Community discussion about this indicator")
+[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/271 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
@@ -56,7 +56,7 @@ IEnumerable<AdlResult>
 
 **`AdlSma`** _`double`_ - Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
 
-> :warning: **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
+> &#128681; **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 
 ### Utilities
 

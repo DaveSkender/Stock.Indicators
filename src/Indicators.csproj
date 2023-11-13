@@ -6,7 +6,7 @@
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators for .NET</Product>
     <Copyright>@2020 Dave Skender</Copyright>
-    <Description>Stock Indicators for .NET.  Send in price quotes and get back desired technical analysis indicators such as MACD, Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.</Description>
+    <Description>Stock Indicators for .NET.  Transform financial market price quotes into technical analysis indicators such as MACD, Stochastic RSI, Average True Range, Parabolic SAR, etc.  Nothing more.</Description>
 
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

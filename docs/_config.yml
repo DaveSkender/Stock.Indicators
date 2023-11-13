@@ -1,10 +1,12 @@
 # Ref: https://jekyllrb.com/docs/usage/
-# Ref: https://github.com/pages-themes/cayman
 # Local dev: bundle exec jekyll serve --livereload
 
 title: Stock Indicators for .NET
 tagline: "Transform price quotes into trading insights."
+repository: DaveSkender/Stock.Indicators
 locale: en_US
+baseurl: ""
+url: "https://dotnet.stockindicators.dev"
 
 # social media information
 image:
@@ -30,16 +32,12 @@ twitter:
   username: daveskender
   card: summary
 
-# https://github.com/pages-themes/cayman
-remote_theme: pages-themes/cayman@v0.2.0
-
 clarity: false
 
 # site plugins and settings
 plugins:
-  - jemoji
   - jekyll-github-metadata
-  - jekyll-remote-theme
+  - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-last-modified-at
   - jekyll-redirect-from
@@ -61,16 +59,6 @@ exclude:
     "GemFile",
     "node_modules",
     "vendor",
-  ]
-
-include:
-  [
-    "home.md",
-    "contributing.md",
-    "guide.md",
-    "indicators.html",
-    "performance.md",
-    "utilities.md",
   ]
 
 permalink: pretty

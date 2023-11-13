@@ -1,15 +1,17 @@
 ---
 title: Contributing guidelines
-description: This NuGet package is an open-source project. Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
+description: >-
+  This NuGet package is an open-source project.
+  Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
 permalink: /contributing/
-relative_path: contributing.md
+relative_path: pages/contributing.md
 layout: page
 ---
 
 # Contributing guidelines
 
 [![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/main?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main)
-[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
+[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage&cacheSeconds=259200)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
 
 **Thanks for taking the time to contribute!**
@@ -77,15 +79,15 @@ See GitHub documentation for initial [Ruby and Jekyll setup instructions for Git
 ```bash
 # from /docs folder
 bundle install
-bundle exec jekyll serve
+bundle exec jekyll serve -o -l
 
-# then open site on http://127.0.0.1:4000
+# the site will open http://127.0.0.1:4000
 ```
 
 When adding or updating indicators:
 
 - Add or update the `/docs/_indicators/` documentation files.
-- Page image assets go here: `/docs/assets/`.
+- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 
@@ -100,7 +102,7 @@ npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml"
 
 By submitting changes to this repo you are also acknowledging and agree to the terms in both the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org) and the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).  These are standard open-source terms and conditions.
 
-When ready, submit a [Pull Request](https://help.github.com/pull-requests) with a clear list of what you've done.
+When ready, submit a [Pull Request](https://help.github.com/pull-requests) with a clear description of what you've done and why it's important.
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
 After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
