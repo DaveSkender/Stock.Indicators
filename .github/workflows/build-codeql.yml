@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: CodeQL
 
 on:
   push:
@@ -6,11 +6,14 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
+
   pull_request:
     branches: ["main"]
     paths:
       - 'src/**'
       - 'tests/**'
+      - ".github/workflows/build-codeql.yml"
+
   schedule:
     - cron: "16 12 * * 3"
 
@@ -18,10 +21,12 @@ jobs:
   analyze:
     name: analyze
     runs-on: ubuntu-latest
+
     permissions:
       actions: read
       contents: read
       security-events: write
+
     strategy:
       fail-fast: false
       matrix:

@@ -119,6 +119,20 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
+    public void Issue1107()
+    {
+        // stochastic SMMA variant initialization bug
+
+        RandomGbm quotes = new(58);
+
+        List<StcResult> results = quotes
+            .GetStc(10, 23, 50)
+            .ToList();
+
+        Assert.AreEqual(58, results.Count);
+    }
+
+    [TestMethod]
     public void Removed()
     {
         int cyclePeriods = 9;

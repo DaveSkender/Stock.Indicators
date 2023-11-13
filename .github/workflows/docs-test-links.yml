@@ -1,26 +1,23 @@
-name: test docs
+name: Website
+
 on:
   pull_request:
     branches: [main]
     paths:
       - 'docs/**'
+      - ".github/workflows/docs-test-links.yml"
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  testing:
-    name: a11y
+  test:
+    name: test URLs
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
-
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
 
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
@@ -37,11 +34,28 @@ jobs:
           pwd
           bundle install
 
+      - name: Install HTML Proofer
+        run: gem install html-proofer
+
+      - name: Replace "data-src"
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "data-src"
+          replace: "src"
+          regex: false
+
+      - name: Replace "dotnet.stockindicators.dev"
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "https://dotnet.stockindicators.dev"
+          replace: "http://127.0.0.1:4000"
+          regex: false
+
       - name: Build site
         working-directory: docs
         env:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll build
+        run: bundle exec jekyll build --trace
 
       - name: Serve site
         working-directory: docs
@@ -49,13 +63,11 @@ jobs:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll serve --detach
 
-      - name: Show environment
-        working-directory: docs
-        run: npx pa11y --environment
-
-      - name: Test accessibility
+      - name: Test for broken URLs
         working-directory: docs
         run: |
-          npx pa11y-ci \
-            --sitemap http://127.0.0.1:4000/sitemap.xml \
-            --sitemap-exclude "/*.pdf"
+          htmlproofer _site \
+            --no-enforce-https \
+            --ignore-status-codes "403,406,408,429,503,999" \
+            --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
+            --ignore-urls "/fonts.gstatic.com/"

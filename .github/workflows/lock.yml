@@ -1,4 +1,4 @@
-name: "Lock Closed Threads"
+name: Lock closed threads
 # https://github.com/marketplace/actions/lock-threads
 
 on:

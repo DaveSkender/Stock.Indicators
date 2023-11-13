@@ -2,7 +2,7 @@
 title: Guide and Pro tips
 description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms.  Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
 permalink: /guide/
-relative_path: guide.md
+relative_path: pages/guide.md
 layout: page
 ---
 
@@ -215,7 +215,8 @@ public void MyClass(){
 
 ## Generating indicator of indicators
 
-If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), all you need to do is to take the results of one and chain it to another.  Example:
+If you want to compute an indicator of indicators, such as an SMA of an ADX or an [RSI of an OBV](https://medium.com/@robswc/this-is-what-happens-when-you-combine-the-obv-and-rsi-indicators-6616d991773d), use _**chaining**_ to calculate an indicator from prior results.
+Example:
 
 ```csharp
 // fetch historical quotes from your feed (your method)
@@ -245,17 +246,17 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 | type | int | description
 |-- |--: |--
 | `Match.BullConfirmed` | 200 | Confirmation of a prior bull signal
-| `Match.BullSignal` | 100 | Matching bullish signal
+| `Match.BullSignal` | 100 | Bullish signal
 | `Match.BullBasis` | 10 | Bars supporting a bullish signal
-| `Match.Neutral` | 1 | Matching for non-directional patterns
+| `Match.Neutral` | 1 | Signal for non-directional patterns
 | `Match.None` | 0 | No match
 | `Match.BearBasis` | -10 | Bars supporting a bearish signal
-| `Match.BearSignal` | -100 | Matching bearish signal
+| `Match.BearSignal` | -100 | Bearish signal
 | `Match.BearConfirmed` | -200 | Confirmation of a prior bear signal
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility]({{site.baseurl}}/utilities/#extended-candle-properties), and further used as the basis for calculating indicators.
 
 {% include candle-properties.md %}
 

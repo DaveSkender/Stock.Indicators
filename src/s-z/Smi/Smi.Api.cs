@@ -8,9 +8,9 @@ public static partial class Indicator
     ///
     public static IEnumerable<SmiResult> GetSmi<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int firstSmoothPeriods,
-        int secondSmoothPeriods,
+        int lookbackPeriods = 13,
+        int firstSmoothPeriods = 25,
+        int secondSmoothPeriods = 2,
         int signalPeriods = 3)
         where TQuote : IQuote => quotes
             .ToQuoteD()
