@@ -1,4 +1,4 @@
-name: Test website a11y
+name: Website
 
 on:
   pull_request:
@@ -12,6 +12,7 @@ env:
 
 jobs:
   test:
+    name: test a11y
     runs-on: ubuntu-latest
 
     steps:
