@@ -12,6 +12,10 @@
 
   <!-- scripts -->
   {%- include scripts.html -%}
+
+  {%- if jekyll.environment != 'production' -%}
+  <p style="color:crimson;text-align:center;font-weight:bold;">PREVIEW</p>
+  {%- endif -%}
 </body>
 
 </html>

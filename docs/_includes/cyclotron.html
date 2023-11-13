@@ -1,0 +1,48 @@
+{% comment %}
+Previous / Next functions
+Assign variables from the entire indicators collection
+{% endcomment %}
+{% assign items_raw = site.indicators %}
+{% assign items = items_raw | sort: 'title' | reverse %}
+
+{% if items.size > 1 %}
+    {% comment %}
+    Store the index position of the matching items
+    {% endcomment %}
+    {% for item in items %}
+        {% if item.title == page.title %}
+            {% assign item_index = forloop.index %}
+        {% endif %}
+    {% endfor %}
+
+    {% assign prev_index = item_index | plus: 1 %}
+    {% assign next_index = item_index | minus: 1 %}
+    {% assign last_index = items.size %}
+
+    {% comment %}
+    Handle end of range scenarios
+    {% endcomment %}
+    {% if prev_index > last_index %}
+        {% assign prev_index = 1 %}
+    {% endif %}
+    {% if next_index <= 0 %}
+        {% assign next_index = last_index %}
+    {% endif %} 
+
+    {% comment %}
+    Lookup prev/next items
+    {% endcomment %}
+    {% for item in items %}
+        {% if forloop.index == prev_index %}
+            {% assign prev = item %}
+        {% endif %}
+        {% if forloop.index == next_index %}
+            {% assign next = item %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="cyclotron">
+    <a href="{{ prev.url | prepend: site.baseurl | append: "#content"}}" class="prev" title="{{ prev.title }}">&#171;</a>
+    <a href="{{ next.url | prepend: site.baseurl | append: "#content"}}" class="next" title="{{ next.title }}">&#187;</a>
+    </div>
+{% endif %}
