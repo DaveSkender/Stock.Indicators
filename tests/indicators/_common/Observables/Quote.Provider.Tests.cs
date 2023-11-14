@@ -16,13 +16,13 @@ public class QuoteProviderTests : TestBase
 
         // add base quotes
         QuoteProvider provider = new();
-        provider.Add(quotesList.Take(200));
+        provider.AddToQuoteProvider(quotesList.Take(200));
 
         // emulate incremental quotes
         for (int i = 200; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            provider.AddToQuoteProvider(q);
         }
 
         // assert same as original
@@ -51,7 +51,7 @@ public class QuoteProviderTests : TestBase
 
         // add base quotes
         QuoteProvider provider = new();
-        provider.Add(quotesList.Take(200));
+        provider.AddToQuoteProvider(quotesList.Take(200));
 
         // emulate incremental quotes
         for (int i = 200; i < length; i++)
@@ -62,11 +62,15 @@ public class QuoteProviderTests : TestBase
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            provider.AddToQuoteProvider(q);
         }
 
-        Quote late = quotesList[100];
-        provider.Add(late);
+        // TODO: add handler for late arrival in QUOTE scenario
+        Assert.ThrowsException<NotImplementedException>(() =>
+        {
+            Quote late = quotesList[100];
+            provider.AddToQuoteProvider(late);
+        });
 
         // assert same as original
         for (int i = 0; i < length; i++)
@@ -78,6 +82,29 @@ public class QuoteProviderTests : TestBase
         }
 
         // close observations
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void OverflowProvider()
+    {
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // emulate adding duplicate quote too many times
+        Assert.ThrowsException<OverflowException>(() =>
+        {
+            Quote q = quotesList[^1];
+
+            for (int i = 0; i <= 101; i++)
+            {
+                provider.AddToQuoteProvider(q);
+            }
+        });
+
         provider.EndTransmission();
     }
 
@@ -97,7 +124,7 @@ public class QuoteProviderTests : TestBase
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.Add(quote);
+                provider.AddToQuoteProvider(quote);
             }
         });
 
@@ -105,7 +132,7 @@ public class QuoteProviderTests : TestBase
         Assert.ThrowsException<ArgumentNullException>(() =>
         {
             Quote quote = null;
-            provider.Add(quote);
+            provider.AddToQuoteProvider(quote);
         });
 
         // close observations

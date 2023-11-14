@@ -59,3 +59,17 @@ using System.Diagnostics.CodeAnalysis;
     "CA1716:Identifiers should not match keywords",
     Justification = "The microsoft OnError implementation uses reserved word Error",
     Scope = "member", Target = "~M:Skender.Stock.Indicators.TupleObserver.OnError(System.Exception)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1716:Identifiers should not match keywords",
+    Justification = "The microsoft OnError implementation uses reserved word Error",
+    Scope = "member",
+    Target = "~M:Skender.Stock.Indicators.ObsTupleSendTuple.OnError(System.Exception)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1716:Identifiers should not match keywords",
+    Justification = "The microsoft OnError implementation uses reserved word Error",
+    Scope = "member",
+    Target = "~M:Skender.Stock.Indicators.ObsQuoteSendTuple.OnError(System.Exception)")]

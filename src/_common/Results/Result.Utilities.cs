@@ -72,4 +72,9 @@ public static partial class ResultUtility
 
         return results;
     }
+
+    public static (DateTime Date, double Value) ToTupleNaN<TResult>(
+        this TResult reusable)
+        where TResult : IReusableResult
+            => new(reusable.Date, reusable.Value.Null2NaN());
 }

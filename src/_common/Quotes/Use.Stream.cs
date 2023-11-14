@@ -1,13 +1,13 @@
 namespace Skender.Stock.Indicators;
 
 // USE (STREAMING)
-public class Use : TupleProvider
+public class Use : ObsQuoteSendTuple
 {
     public Use(
         QuoteProvider? provider,
         CandlePart candlePart)
     {
-        Supplier = provider;
+        QuoteSupplier = provider;
         CandlePartSelection = candlePart;
         Initialize();
     }
@@ -18,57 +18,27 @@ public class Use : TupleProvider
 
     private CandlePart CandlePartSelection { get; set; }
 
-    // NON-STATIC METHODS
+    // METHODS
 
     // handle quote arrival
-    public override void OnNext(Quote value) => HandleArrival(value);
-
-    // add new quote
-    internal void HandleArrival(Quote quote)
+    public override void OnNext(Quote value)
     {
-        // candidate result
-        (DateTime date, double value) r = quote.ToTuple(CandlePartSelection);
-
-        // initialize
-        int length = ProtectedTuples.Count;
-
-        if (length == 0)
+        if (value is not null)
         {
-            AddSend(r);
-            return;
-        }
-
-        // check against last entry
-        (DateTime lastDate, _) = ProtectedTuples[length - 1];
-
-        // add new
-        if (r.date > lastDate)
-        {
-            AddSend(r);
-        }
-
-        // update last
-        else if (r.date == lastDate)
-        {
-            ProtectedTuples[length - 1] = r;
-        }
-
-        // late arrival
-        else
-        {
-            AddSend(r);
-            throw new NotImplementedException();
+            AddToTupleProvider(value.ToTuple(CandlePartSelection));
         }
     }
 
     // calculate initial cache of quotes
     private void Initialize()
     {
-        if (Supplier != null)
+        if (QuoteSupplier != null)
         {
-            ProtectedTuples = Supplier
+            List<(DateTime, double)> tuples = QuoteSupplier
                 .ProtectedQuotes
                 .ToTuple(CandlePartSelection);
+
+            AddToTupleProvider(tuples);
         }
 
         Subscribe();

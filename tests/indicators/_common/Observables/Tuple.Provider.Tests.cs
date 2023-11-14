@@ -25,7 +25,7 @@ public class TupleProviderTests : TestBase
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.AddToQuoteProvider(quotesList[i]);
         }
 
         // initialize Tuple-based observer
@@ -40,7 +40,7 @@ public class TupleProviderTests : TestBase
         for (int i = 50; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            provider.AddToQuoteProvider(q);
         }
 
         // final results
@@ -58,7 +58,7 @@ public class TupleProviderTests : TestBase
         }
 
         // confirm public interface
-        Assert.AreEqual(observer.ProtectedTuples.Count, observer.Output.Count());
+        Assert.AreEqual(observer.ProtectedTuples.Count, observer.Results.Count());
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -90,7 +90,7 @@ public class TupleProviderTests : TestBase
         // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.AddToQuoteProvider(quotesList[i]);
         }
 
         provider.EndTransmission();
@@ -116,7 +116,7 @@ public class TupleProviderTests : TestBase
 
         // add base quotes
         QuoteProvider provider = new();
-        provider.Add(quotesList.Take(200));
+        provider.AddToQuoteProvider(quotesList.Take(200));
 
         Use observer = provider
             .Use(CandlePart.Close);
@@ -130,15 +130,25 @@ public class TupleProviderTests : TestBase
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            provider.AddToQuoteProvider(q);
         }
 
         // TODO: add handler for late arrival in USE scenario
         Assert.ThrowsException<NotImplementedException>(() =>
         {
             Quote late = quotesList[100];
-            provider.Add(late);
+            provider.AddToQuoteProvider(late);
         });
+
+        // assert same as original
+        for (int i = 0; i < length; i++)
+        {
+            Quote q = quotesList[i];
+            (DateTime date, double value) = observer.ProtectedTuples[i];
+
+            Assert.AreEqual(q.Date, date);
+            Assert.AreEqual((double)q.Close, value);
+        }
 
         // close observations
         provider.EndTransmission();
@@ -167,7 +177,7 @@ public class TupleProviderTests : TestBase
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.Add(q);
+                provider.AddToQuoteProvider(q);
             }
         });
 
@@ -195,7 +205,7 @@ public class TupleProviderTests : TestBase
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.Add(q);
+                provider.AddToQuoteProvider(q);
             }
         });
 

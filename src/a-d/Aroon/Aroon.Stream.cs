@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // AROON OSCILLATOR (STREAMING)
 
-public partial class Aroon : ChainProvider
+public partial class Aroon
 {
     // TBD constructor
     public Aroon()
@@ -32,10 +32,9 @@ public partial class Aroon : ChainProvider
     // NON-STATIC METHODS
 
     // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Add(value);
-
-    // TBD add new tuple quote
-    internal void Add((DateTime Date, double Value) tp) => throw new NotImplementedException();
+    public virtual void OnNext((DateTime Date, double Value) value)
+    {
+    }
 
     // TBD initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();

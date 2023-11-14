@@ -31,13 +31,15 @@ public class SmaStreamTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            provider.AddToQuoteProvider(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                provider.AddToQuoteProvider(q);
             }
+
+            Console.WriteLine($"{i,3}  {q.Date:s} ${q.Close,8:N2}  RESULTS: {observer.ProtectedResults.Count,3}  TUPLES {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
         }
 
         // final results
@@ -54,6 +56,8 @@ public class SmaStreamTests : TestBase
         {
             SmaResult s = seriesList[i];
             SmaResult r = resultsList[i];
+
+            Console.WriteLine($"TEST-INDEX {i}");
 
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Sma, r.Sma);
@@ -140,19 +144,20 @@ public class SmaStreamTests : TestBase
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.AddToQuoteProvider(quotesList[i]);
         }
 
         // initialize EMA observer
         List<SmaResult> streamSma = provider
             .Use(CandlePart.OC2)
             .GetSma(11)
-            .ProtectedResults;
+            .Results
+            .ToList();
 
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.AddToQuoteProvider(quotesList[i]);
         }
 
         provider.EndTransmission();

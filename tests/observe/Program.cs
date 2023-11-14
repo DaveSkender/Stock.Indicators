@@ -67,7 +67,7 @@ public class QuoteStream
         quoteSubscription.Received += (q) =>
         {
             // add to our provider
-            provider.Add(new Quote
+            provider.AddToQuoteProvider(new Quote
             {
                 Date = q.TimeUtc,
                 Open = q.Open,

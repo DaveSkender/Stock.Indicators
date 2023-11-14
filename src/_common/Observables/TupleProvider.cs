@@ -1,15 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-// QUOTE OBSERVER and TUPLE PROVIDER
+// TUPLE PROVIDER
 
-public class TupleProvider
-    : QuoteObserver, IObservable<(DateTime Date, double Value)>
+public class TupleProvider : IObservable<(DateTime Date, double Value)>
 {
     // fields
     private readonly List<IObserver<(DateTime Date, double Value)>> observers;
 
-    // constructor
-    public TupleProvider()
+    internal TupleProvider()
     {
         observers = new();
         ProtectedTuples = new();
@@ -17,11 +15,10 @@ public class TupleProvider
 
     // PROPERTIES
 
-    internal IEnumerable<(DateTime Date, double Value)> Output => ProtectedTuples;
-
     internal List<(DateTime Date, double Value)> ProtectedTuples { get; set; }
 
-    private int OverflowCount { get; set; }
+    internal int OverflowCount { get; set; }
+    private (DateTime Date, double Value) LastArrival { get; set; }
 
     // METHODS
 
@@ -36,7 +33,7 @@ public class TupleProvider
         return new Unsubscriber(observers, observer);
     }
 
-    // close all observations
+    // unsubscribe all observers
     public void EndTransmission()
     {
         foreach (IObserver<(DateTime Date, double Value)> observer in observers.ToArray())
@@ -51,61 +48,67 @@ public class TupleProvider
     }
 
     // add one
-    internal void AddSend((DateTime Date, double Value) tuple)
+    internal void AddToTupleProvider((DateTime Date, double Value) tuple)
     {
+        // check for overflow condition
+        // where same tuple continues (possible circular condition)
+        if (tuple == LastArrival)
+        {
+            OverflowCount++;
+
+            if (OverflowCount > 100)
+            {
+                string msg = "A repeated Tuple update exceeded the 100 attempt threshold. "
+                  + "Check and remove circular chains or check your Tuple provider.";
+
+                EndTransmission();
+
+                throw new OverflowException(msg);
+            }
+        }
+        else
+        {
+            OverflowCount = 0;
+            LastArrival = tuple;
+        }
+
+        // process arrival
         int length = ProtectedTuples.Count;
 
+        // first
         if (length == 0)
         {
-            // add new tuple
             ProtectedTuples.Add(tuple);
-
-            // notify observers
             NotifyObservers(tuple);
             return;
         }
 
-        (DateTime lastDate, _) = ProtectedTuples[length - 1];
+        (DateTime Date, double Value) last = ProtectedTuples[length - 1];
 
-        // add tuple
-        if (tuple.Date > lastDate)
+        // newer
+        if (tuple.Date > last.Date)
         {
-            // add new tuple
             ProtectedTuples.Add(tuple);
-
-            // notify observers
             NotifyObservers(tuple);
         }
 
-        // same date or tuple recieved
-        else if (tuple.Date <= lastDate)
+        // current
+        else if (tuple.Date == last.Date)
         {
-            // check for overflow condition
-            // where same tuple continues (possible circular condition)
-            if (tuple.Date == lastDate)
-            {
-                OverflowCount++;
+            last = tuple;
+            NotifyObservers(tuple);
+        }
 
-                if (OverflowCount > 100)
-                {
-                    string msg = "A repeated Tuple update exceeded the 100 attempt threshold. "
-                      + "Check and remove circular chains or check your Tuple provider.";
+        // late arrival
+        else
+        {
+            throw new NotImplementedException();
 
-                    EndTransmission();
-
-                    throw new OverflowException(msg);
-                }
-            }
-            else
-            {
-                OverflowCount = 0;
-            }
-
-            // seek old tuple
+            // seek duplicate
             int foundIndex = ProtectedTuples
                 .FindIndex(x => x.Date == tuple.Date);
 
-            // found
+            // replace duplicate
             if (foundIndex >= 0)
             {
                 ProtectedTuples[foundIndex] = tuple;
@@ -121,25 +124,33 @@ public class TupleProvider
                     .ToSortedList();
             }
 
-            // let observer handle old + duplicates
+            // let observer handle
             NotifyObservers(tuple);
         }
     }
 
+    // add one IReusableResult
+    internal void AddToTupleProvider<TResult>(TResult result)
+        where TResult : IReusableResult
+    {
+        (DateTime Date, double Value) tuple = result.ToTupleNaN();
+        AddToTupleProvider(tuple);
+    }
+
     // add many
-    internal void AddMany(IEnumerable<(DateTime Date, double Value)> tuples)
+    internal void AddToTupleProvider(IEnumerable<(DateTime Date, double Value)> tuples)
     {
         List<(DateTime Date, double Value)> added = tuples
             .ToSortedList();
 
         for (int i = 0; i < added.Count; i++)
         {
-            AddSend(added[i]);
+            AddToTupleProvider(added[i]);
         }
     }
 
     // notify observers
-    private void NotifyObservers((DateTime Date, double Value) tuple)
+    internal void NotifyObservers((DateTime Date, double Value) tuple)
     {
         List<IObserver<(DateTime Date, double Value)>> obsList = observers.ToList();
 
@@ -157,7 +168,9 @@ public class TupleProvider
         private readonly IObserver<(DateTime Date, double Value)> observer;
 
         // identify and save observer
-        public Unsubscriber(List<IObserver<(DateTime Date, double Value)>> observers, IObserver<(DateTime Date, double Value)> observer)
+        public Unsubscriber(
+            List<IObserver<(DateTime Date, double Value)>> observers,
+            IObserver<(DateTime Date, double Value)> observer)
         {
             this.observers = observers;
             this.observer = observer;

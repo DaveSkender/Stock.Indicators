@@ -2,30 +2,33 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
 
-// OBSERVER of QUOTES (BOILERPLATE)
-public abstract class QuoteObserver : IObserver<Quote>
+// OBSERVE QUOTE SEND TUPLE (BOILERPLATE)
+// TODO: convert to TQuote
+public abstract class ObsQuoteSendTuple : TupleProvider, IObserver<Quote>
 {
     // fields
     private IDisposable? unsubscriber;
 
-    // properties
+    // PROPERTIES
+
     internal QuoteProvider? QuoteSupplier { get; set; }
 
-    // methods
+    // METHODS
+
     public virtual void Subscribe()
         => unsubscriber = QuoteSupplier != null
             ? QuoteSupplier.Subscribe(this)
             : throw new ArgumentNullException(nameof(QuoteSupplier));
-
-    public virtual void OnCompleted() => Unsubscribe();
-
-    public virtual void OnError(Exception error) => throw error;
 
     [ExcludeFromCodeCoverage]
     public virtual void OnNext(Quote value)
     {
         // » handle new quote with override in observer
     }
+
+    public virtual void OnCompleted() => Unsubscribe();
+
+    public virtual void OnError(Exception error) => throw error;
 
     public virtual void Unsubscribe() => unsubscriber?.Dispose();
 }

@@ -2,17 +2,20 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
 
-// OBSERVER of TUPLES (BOILERPLATE)
+// TUPLE PROVIDER and OBSERVER (BOILERPLATE)
 
-public abstract class TupleObserver : IObserver<(DateTime Date, double Value)>
+public abstract class ObsTupleSendTuple
+    : TupleProvider, IObserver<(DateTime Date, double Value)>
 {
     // fields
     private IDisposable? unsubscriber;
 
-    // properites
+    // PROPERTIES
+
     internal TupleProvider? TupleSupplier { get; set; }
 
-    // methods
+    // METHODS
+
     public virtual void Subscribe()
         => unsubscriber = TupleSupplier != null
             ? TupleSupplier.Subscribe(this)

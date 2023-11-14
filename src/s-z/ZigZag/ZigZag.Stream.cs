@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // ZIG ZAG (STREAMING)
 
-public partial class ZigZag : ChainProvider
+public partial class ZigZag
 {
     // TBD constructor
     public ZigZag()
@@ -32,10 +32,9 @@ public partial class ZigZag : ChainProvider
     // NON-STATIC METHODS
 
     // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Add(value);
-
-    // TBD add new tuple quote
-    internal void Add((DateTime Date, double Value) tp) => throw new NotImplementedException();
+    public virtual void OnNext((DateTime Date, double Value) value)
+    {
+    }
 
     // TBD initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();

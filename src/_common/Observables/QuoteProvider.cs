@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-// QUOTES as PROVIDER
-
+// QUOTE PROVIDER
+// TODO: update to TQuote
 public class QuoteProvider : IObservable<Quote>
 {
     // fields
@@ -12,6 +12,7 @@ public class QuoteProvider : IObservable<Quote>
     {
         observers = new();
         ProtectedQuotes = new();
+        LastArrival = new();
     }
 
     // PROPERTIES
@@ -21,6 +22,7 @@ public class QuoteProvider : IObservable<Quote>
     internal List<Quote> ProtectedQuotes { get; private set; }
 
     private int OverflowCount { get; set; }
+    private Quote LastArrival { get; set; }
 
     // METHODS
 
@@ -49,14 +51,8 @@ public class QuoteProvider : IObservable<Quote>
         observers.Clear();
     }
 
-    // add one (API only)
-    public void Add(Quote quote) => AddSend(quote);
-
-    // add many (API only)
-    public void Add(IEnumerable<Quote> quotes) => AddMany(quotes);
-
     // add one
-    private void AddSend(Quote quote)
+    public void AddToQuoteProvider(Quote quote)
     {
         // validate quote
         if (quote == null)
@@ -64,69 +60,68 @@ public class QuoteProvider : IObservable<Quote>
             throw new ArgumentNullException(nameof(quote), "Quote cannot be null.");
         }
 
+        // check for overflow condition
+        // where same tuple continues (possible circular condition)
+        if (quote == LastArrival)
+        {
+            OverflowCount++;
+
+            if (OverflowCount > 100)
+            {
+                string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
+                  + "Check and remove circular chains or check your Quote provider.";
+
+                EndTransmission();
+
+                throw new OverflowException(msg);
+            }
+        }
+        else
+        {
+            OverflowCount = 0;
+            LastArrival = quote;
+        }
+
+        // process arrival
         int length = ProtectedQuotes.Count;
 
+        // first
         if (length == 0)
         {
-            // add new quote
             ProtectedQuotes.Add(quote);
-
-            // notify observers
             NotifyObservers(quote);
-
             return;
         }
 
         Quote last = ProtectedQuotes[length - 1];
 
-        // add quote
+        // newer
         if (quote.Date > last.Date)
         {
-            // add new quote
             ProtectedQuotes.Add(quote);
-
-            // notify observers
             NotifyObservers(quote);
         }
 
-        // same date or quote recieved
-        else if (quote.Date <= last.Date)
+        // current
+        else if (quote.Date == last.Date)
         {
-            // check for overflow condition
-            // where same quote continues (possible circular condition)
-            if (quote.Date == last.Date)
-            {
-                OverflowCount++;
+            last = quote;
+            NotifyObservers(quote);
+        }
 
-                if (OverflowCount > 100)
-                {
-                    string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
-                      + "Check and remove circular chains or check your Quote provider.";
+        // late arrival
+        else
+        {
+            throw new NotImplementedException();
 
-                    EndTransmission();
-
-                    throw new OverflowException(msg);
-                }
-            }
-            else
-            {
-                OverflowCount = 0;
-            }
-
-            // seek old quote
+            // seek duplicate
             int foundIndex = ProtectedQuotes
                 .FindIndex(x => x.Date == quote.Date);
 
-            // found
+            // replace duplicate
             if (foundIndex >= 0)
             {
-                Quote old = ProtectedQuotes[foundIndex];
-
-                old.Open = quote.Open;
-                old.High = quote.High;
-                old.Low = quote.Low;
-                old.Close = quote.Close;
-                old.Volume = quote.Volume;
+                ProtectedQuotes[foundIndex] = quote;
             }
 
             // add missing quote
@@ -139,20 +134,20 @@ public class QuoteProvider : IObservable<Quote>
                     .ToSortedList();
             }
 
-            // let observer handle old + duplicates
+            // let observer handle
             NotifyObservers(quote);
         }
     }
 
     // add many
-    private void AddMany(IEnumerable<Quote> quotes)
+    public void AddToQuoteProvider(IEnumerable<Quote> quotes)
     {
         List<Quote> added = quotes
             .ToSortedList();
 
         for (int i = 0; i < added.Count; i++)
         {
-            AddSend(added[i]);
+            AddToQuoteProvider(added[i]);
         }
     }
 
@@ -175,7 +170,9 @@ public class QuoteProvider : IObservable<Quote>
         private readonly IObserver<Quote> observer;
 
         // identify and save observer
-        public Unsubscriber(List<IObserver<Quote>> observers, IObserver<Quote> observer)
+        public Unsubscriber(
+            List<IObserver<Quote>> observers,
+            IObserver<Quote> observer)
         {
             this.observers = observers;
             this.observer = observer;

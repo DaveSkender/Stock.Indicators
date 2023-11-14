@@ -30,12 +30,12 @@ public class EmaStreamTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            provider.AddToQuoteProvider(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                provider.AddToQuoteProvider(q);
             }
         }
 
@@ -118,10 +118,10 @@ public class EmaStreamTests : TestBase
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.AddToQuoteProvider(quotesList[i]);
         }
 
-        // initialize EMA observer
+        // initialize observer
         List<EmaResult> streamEma = provider
             .Use(CandlePart.OC2)
             .GetEma(11)
@@ -130,7 +130,7 @@ public class EmaStreamTests : TestBase
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            provider.AddToQuoteProvider(quotesList[i]);
         }
 
         provider.EndTransmission();
@@ -147,79 +147,100 @@ public class EmaStreamTests : TestBase
     }
 
     [TestMethod]
-    public void SelfIncrement()
+    public void Chainor()
     {
-        // TODO: This test is entirely redundant to static Increment test, not needed
+        int emaPeriods = 20;
+        int smaPeriods = 10;
 
         List<Quote> quotesList = quotes
             .ToSortedList();
 
         int length = quotesList.Count;
-        int lookbackPeriods = 20;
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // initialize observer
+        Sma observer = provider
+            .GetEma(emaPeriods)
+            .GetSma(smaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            provider.AddToQuoteProvider(quotesList[i]);
+        }
+
+        // final results
+        List<SmaResult> streamList
+            = observer.Results.ToList();
+
+        // time-series, for comparison
+        List<SmaResult> seriesList = quotes
+            .GetEma(emaPeriods)
+            .GetSma(smaPeriods)
+            .ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < seriesList.Count; i++)
+        {
+            SmaResult s = seriesList[i];
+            SmaResult r = streamList[i];
+
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Sma, r.Sma);
+        }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void Chainee()
+    {
+        int emaPeriods = 12;
+        int smaPeriods = 8;
+
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
+        // setup quote provider
+        QuoteProvider provider = new();
+
+        // initialize observer
+        Ema observer = provider
+            .GetSma(smaPeriods)
+            .GetEma(emaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            provider.AddToQuoteProvider(quotesList[i]);
+        }
+
+        // final results
+        List<EmaResult> streamList
+            = observer.Results.ToList();
 
         // time-series, for comparison
         List<EmaResult> seriesList = quotes
-            .GetEma(lookbackPeriods)
+            .GetSma(smaPeriods)
+            .GetEma(emaPeriods)
             .ToList();
-
-        // convert quote source to tuples
-        System.Collections.ObjectModel.Collection<(DateTime, double)> tpList = quotes
-            .Use(CandlePart.Close)
-            .ToSortedCollection();
-
-        // self-add increments
-        List<EmaResult> resultList = new(length);
-        double lastEma = double.NaN;
-
-        double sum = 0d;
-        for (int i = 0; i < length; i++)
-        {
-            (DateTime date, double value) = tpList[i];
-
-            // prime initial quess
-            if (i < lookbackPeriods - 1)
-            {
-                sum += value;
-
-                resultList.Add(new(date));
-            }
-
-            // initial guess
-            else if (i == lookbackPeriods - 1)
-            {
-                sum += value;
-                lastEma = sum / lookbackPeriods;
-
-                EmaResult r = new(date)
-                {
-                    Ema = lastEma
-                };
-
-                resultList.Add(r);
-            }
-
-            // increment
-            else
-            {
-                EmaResult r = new(date)
-                {
-                    Ema = Ema.Increment(lookbackPeriods, lastEma, value)
-                };
-
-                resultList.Add(r);
-
-                lastEma = r.Ema.Null2NaN();
-            }
-        }
 
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)
         {
             EmaResult s = seriesList[i];
-            EmaResult r = resultList[i];
+            EmaResult r = streamList[i];
 
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Ema, r.Ema);
         }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 }

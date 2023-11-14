@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Sma/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
-public partial class Sma : ChainProvider
+public partial class Sma
 {
     // parameter validation
     internal static void Validate(
@@ -20,7 +20,8 @@ public partial class Sma : ChainProvider
         }
     }
 
-    // increment calculation
+    // INCREMENT CALCULATIONS
+
     /// <include file='./info.xml' path='info/type[@name="increment-tuple"]/*' />
     ///
     public static double Increment(
@@ -54,6 +55,7 @@ public partial class Sma : ChainProvider
         return sum / length;
     }
 
+    // manual use only
     /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
     ///
     public SmaResult Increment<TQuote>(
@@ -61,63 +63,68 @@ public partial class Sma : ChainProvider
         where TQuote : IQuote
     {
         // add supplier if missing
-        Supplier ??= new TupleProvider();
+        TupleSupplier ??= new TupleProvider();
 
-        QuoteD q = quote.ToQuoteD();
+        // convert to tuple
+        (DateTime date, double value) tuple
+            = quote.ToTuple(CandlePart.Close);
 
         // store quote
-        Supplier.ProtectedTuples
-            .Add((q.Date, q.Close));
+        TupleSupplier.ProtectedTuples
+            .Add(tuple);
 
-        return Increment((q.Date, q.Close));
+        return Increment(tuple);
     }
 
-    // add new tuple quote
+    // add new TResult to local cache
+    // note: different than further storage of Tuple
     internal SmaResult Increment((DateTime date, double value) tp)
     {
-        if (Supplier == null)
+        if (TupleSupplier == null)
         {
             throw new ArgumentNullException(
-                nameof(Supplier),
+                nameof(TupleSupplier),
                 "Could not find data supplier.");
         }
 
         // initialize
         SmaResult r = new(tp.date);
-        int i = ProtectedResults.Count;
+        int quoteIndex = ProtectedTuples.Count - 1;
 
-        // initialization periods
-        if (i < LookbackPeriods - 1)
+        Console.WriteLine($"PRE-RESULTS {ProtectedResults.Count}");
+
+        // first
+        if (quoteIndex < LookbackPeriods - 1)
         {
+            AddToTupleProvider(r);
             ProtectedResults.Add(r);
-            SendToChain(r);
+            Console.WriteLine($"WRM-RESULTS {ProtectedResults.Count}");
             return r;
         }
 
-        // calculate incremental value
-        List<(DateTime _, double value)> quotes = Supplier.ProtectedTuples;
-
-        double sma = Increment(quotes, LookbackPeriods, i);
-
         // check against last entry
-        SmaResult last = ProtectedResults[i - 1];
+        SmaResult last = ProtectedResults[ProtectedResults.Count - 1];
 
-        // add new
+        List<(DateTime _, double value)> quotes = TupleSupplier.ProtectedTuples;
+        double sma = Increment(quotes, LookbackPeriods, quoteIndex);
+
+        // newer
         if (r.Date > last.Date)
         {
             r.Sma = sma;
 
+            AddToTupleProvider(r);
             ProtectedResults.Add(r);
-            SendToChain(r);
+            Console.WriteLine($"NEW-RESULTS {ProtectedResults.Count}");
             return r;
         }
 
-        // update last
+        // current
         else if (r.Date == last.Date)
         {
             last.Sma = sma;
-
-            SendToChain(last);
+            AddToTupleProvider(r);
+            Console.WriteLine($"DUP-RESULTS {ProtectedResults.Count}");
             return last;
         }
 

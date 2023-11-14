@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // RATE OF CHANGE (STREAMING)
 
-public partial class Roc : ChainProvider
+public partial class Roc
 {
     // TBD constructor
     public Roc()
@@ -39,10 +39,9 @@ public partial class Roc : ChainProvider
     // NON-STATIC METHODS
 
     // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Add(value);
-
-    // TBD add new tuple quote
-    internal void Add((DateTime Date, double Value) tp) => throw new NotImplementedException();
+    public virtual void OnNext((DateTime Date, double Value) value)
+    {
+    }
 
     // TBD initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();

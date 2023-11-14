@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // SLOPE AND LINEAR REGRESSION (STREAMING)
 
-public partial class Slope : ChainProvider
+public partial class Slope
 {
     // TBD constructor
     public Slope()
@@ -32,10 +32,9 @@ public partial class Slope : ChainProvider
     // NON-STATIC METHODS
 
     // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Add(value);
-
-    // TBD add new tuple quote
-    internal void Add((DateTime Date, double Value) tp) => throw new NotImplementedException();
+    public virtual void OnNext((DateTime Date, double Value) value)
+    {
+    }
 
     // TBD initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();

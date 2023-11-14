@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Tr/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
-public partial class Tr : ChainProvider
+public partial class Tr
 {
     // increment calculation
     /// <include file='./info.xml' path='info/type[@name="increment"]/*' />

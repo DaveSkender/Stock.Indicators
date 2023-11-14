@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Ema/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
-public partial class Ema : ChainProvider
+public partial class Ema
 {
     // parameter validation
     internal static void Validate(
@@ -18,7 +18,8 @@ public partial class Ema : ChainProvider
         }
     }
 
-    // increment calculations
+    // INCREMENT CALCULATIONS
+
     /// <include file='./info.xml' path='info/type[@name="increment-k"]/*' />
     ///
     public static double Increment(
@@ -42,17 +43,13 @@ public partial class Ema : ChainProvider
     ///
     public EmaResult Increment<TQuote>(
         TQuote quote)
-        where TQuote : IQuote
-    {
-        QuoteD q = quote.ToQuoteD();
-        return Increment((q.Date, q.Close));
-    }
+        where TQuote : IQuote => Increment(quote.ToTuple(CandlePart.Close));
 
     internal EmaResult Increment((DateTime Date, double Value) tp)
     {
         // initialize
         EmaResult r = new(tp.Date);
-        int i = ProtectedResults.Count;
+        int i = ProtectedTuples.Count;
 
         // initialization periods
         if (i <= LookbackPeriods - 1)
@@ -66,8 +63,8 @@ public partial class Ema : ChainProvider
                 SumValue = double.NaN;
             }
 
+            AddToTupleProvider(r);
             ProtectedResults.Add(r);
-            SendToChain(r);
             return r;
         }
 
@@ -82,8 +79,8 @@ public partial class Ema : ChainProvider
 
             r.Ema = ema.NaN2Null();
 
+            AddToTupleProvider(r);
             ProtectedResults.Add(r);
-            SendToChain(r);
             return r;
         }
 
@@ -93,11 +90,10 @@ public partial class Ema : ChainProvider
             // get prior last EMA
             EmaResult prior = ProtectedResults[i - 2];
 
-            double priorEma = (prior.Ema == null) ? double.NaN : (double)prior.Ema;
+            double priorEma = prior.Ema.Null2NaN();
             last.Ema = Increment(K, priorEma, tp.Value);
-
-            SendToChain(last);
-            return r;
+            AddToTupleProvider(r);
+            return last;
         }
 
         // late arrival

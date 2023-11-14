@@ -80,7 +80,7 @@ public class IndicatorsStreaming
 
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.Add(ql[i]);
+            provider.AddToQuoteProvider(ql[i]);
         }
 
         provider.EndTransmission();
@@ -114,7 +114,7 @@ public class IndicatorsStreaming
 
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.Add(ql[i]);
+            provider.AddToQuoteProvider(ql[i]);
         }
 
         provider.EndTransmission();
