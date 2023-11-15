@@ -62,9 +62,8 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Build library
-        run: |
-          echo "Building for version $COMPOSED_VERSION ..."
-          >
+        run: echo "Building for version $COMPOSED_VERSION ..."
+      - run: >
           dotnet build src/Indicators.csproj
           --configuration Release
           --property:Version=$COMPOSED_VERSION
