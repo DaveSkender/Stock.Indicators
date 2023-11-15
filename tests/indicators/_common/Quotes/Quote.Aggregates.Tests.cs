@@ -45,7 +45,7 @@ public class QuoteHistory : TestBase
         Assert.AreEqual(1396993m, r2.Volume);
 
         // no history scenario
-        List<Quote> noQuotes = new();
+        List<Quote> noQuotes = [];
         IEnumerable<Quote> noResults = noQuotes.Aggregate(PeriodSize.Day);
         Assert.IsFalse(noResults.Any());
     }
@@ -89,7 +89,7 @@ public class QuoteHistory : TestBase
         Assert.AreEqual(1396993m, r2.Volume);
 
         // no history scenario
-        List<Quote> noQuotes = new();
+        List<Quote> noQuotes = [];
         IEnumerable<Quote> noResults = noQuotes.Aggregate(TimeSpan.FromDays(1));
         Assert.IsFalse(noResults.Any());
     }

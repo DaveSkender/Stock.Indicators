@@ -18,7 +18,7 @@ public static partial class Indicator
         decimal brickSize = (atr == null) ? 0 : (decimal)atr;
 
         return brickSize is 0 ?
-            new List<RenkoResult>()
+            []
           : quotesList.CalcRenko(brickSize, endType);
     }
 }

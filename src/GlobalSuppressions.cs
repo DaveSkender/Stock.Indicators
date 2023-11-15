@@ -36,6 +36,16 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "StyleCop.CSharp.SpacingRules",
     "SA1008:Opening parenthesis should be spaced correctly",
-    Justification = "Not compatible with `or` statement (Microsoft bug)",
+    Justification = "Not compatible with `or` statement (analyzer bug)",
     Scope = "member",
     Target = "~M:Skender.Stock.Indicators.ResultUtility.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]
+
+[assembly: SuppressMessage(
+    "Maintainability",
+    "CA1510:Use ArgumentNullException throw helper",
+    Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
+
+[assembly: SuppressMessage(
+    "StyleCop.CSharp.SpacingRules",
+    "SA1010:Opening square brackets should be spaced correctly",
+    Justification = "Invalid for new C# 12 [ collection ] syntax.")]

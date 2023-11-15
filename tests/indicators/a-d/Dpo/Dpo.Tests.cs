@@ -11,8 +11,8 @@ public class DpoTests : TestBase
     public void Standard()
     {
         // get expected data
-        List<Quote> qot = new();
-        List<DpoResult> exp = new();
+        List<Quote> qot = [];
+        List<DpoResult> exp = [];
 
         List<string> csvData = File.ReadAllLines("a-d/Dpo/Dpo.Data.csv")
             .Skip(1)

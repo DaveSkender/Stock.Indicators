@@ -17,7 +17,7 @@ public static partial class Indicator
         List<EmaResult> emaSlow = tpList.CalcEma(slowPeriods);
 
         int length = tpList.Count;
-        List<(DateTime, double)> emaDiff = new();
+        List<(DateTime, double)> emaDiff = [];
         List<PvoResult> results = new(length);
 
         // roll through quotes
