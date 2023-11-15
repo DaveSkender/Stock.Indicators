@@ -84,18 +84,16 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Show version
+      - name: Summary output
         run: |
           {
-            echo "### Identified semantic version"
-            echo "| Variable        | Value                                           |"
-            echo "| --------------- | ----------------------------------------------- |"
-            echo "| Major           | ${{ steps.gitversion.outputs.major }}           |"
-            echo "| Minor           | ${{ steps.gitversion.outputs.minor }}           |"
-            echo "| Patch           | ${{ steps.gitversion.outputs.patch }}           |"
-            echo "| MajorMinorPatch | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo ""
-            echo "Composed version: $COMPOSED_VERSION"
+            echo "| Variable         | Value                                           |"
+            echo "| ---------------- | ----------------------------------------------- |"
+            echo "| Major            | ${{ steps.gitversion.outputs.major }}           |"
+            echo "| Minor            | ${{ steps.gitversion.outputs.minor }}           |"
+            echo "| Patch            | ${{ steps.gitversion.outputs.patch }}           |"
+            echo "| MajorMinorPatch  | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
+            echo "| Composed version | $COMPOSED_VERSION                               |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -150,5 +148,16 @@ jobs:
           draft: true
           makeLatest: ${{ !inputs.preview }}
           prerelease: ${{ inputs.preview }}
-          tag: ${{ needs.build.outputs.nuget-version }}
+          tag: ${{ needs.build.outputs.version }}
           commit: ${{ github.ref_name }}
+
+      - name: Summary output
+        run: |
+          {
+            echo "| Parameter       | Value                                |"
+            echo "| --------------- | ------------------------------------ |"
+            echo "| Environment     | ${{ inputs.environment }}            |"
+            echo "| NuGet Pub URL   | ${{ vars.NUGET_PUBLISH_URL }}        |"
+            echo "| User URL prefix | ${{ vars.NUGET_DOWNLOAD_PREFIX }}    |"
+            echo "| Version ID      | ${{ needs.build.outputs.version }} |"
+          } >> $GITHUB_STEP_SUMMARY
