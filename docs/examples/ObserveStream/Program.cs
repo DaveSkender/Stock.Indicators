@@ -7,7 +7,7 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        if (args.Any())
+        if (args.Length != 0)
         {
             Console.WriteLine(args);
         }
@@ -22,17 +22,17 @@ internal class Program
     public static async Task SubscribeToQuotes(string symbol)
     {
         // get and validate keys, see README.md
-        string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-        string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+        string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
+        string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
 
-        if (alpacaApiKey == null)
+        if (string.IsNullOrEmpty(alpacaApiKey))
         {
             throw new ArgumentNullException(
                 alpacaApiKey,
                 $"API KEY missing, use `setx AlpacaApiKey \"ALPACA_API_KEY\"` to set.");
         }
 
-        if (alpacaSecret == null)
+        if (string.IsNullOrEmpty(alpacaSecret))
         {
             throw new ArgumentNullException(
                 alpacaSecret,
@@ -58,10 +58,8 @@ internal class Program
 
         await client.ConnectAndAuthenticateAsync();
 
-        AutoResetEvent[] waitObjects = new[]  // TODO: is this needed?
-        {
-            new AutoResetEvent(false)
-        };
+        // TODO: is this needed?
+        AutoResetEvent[] waitObjects = [new AutoResetEvent(false)];
 
         IAlpacaDataSubscription<IBar> quoteSubscription
             = client.GetMinuteBarSubscription(symbol);
