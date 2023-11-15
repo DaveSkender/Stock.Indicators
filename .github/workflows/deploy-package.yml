@@ -62,7 +62,9 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Build library
-        run: >
+        run: |
+          echo "Building for version $COMPOSED_VERSION ..."
+          >
           dotnet build src/Indicators.csproj
           --configuration Release
           --property:Version=$COMPOSED_VERSION
@@ -87,13 +89,13 @@ jobs:
       - name: Summary output
         run: |
           {
-            echo "| Variable         | Value                                           |"
-            echo "| ---------------- | ----------------------------------------------- |"
-            echo "| Major            | ${{ steps.gitversion.outputs.major }}           |"
-            echo "| Minor            | ${{ steps.gitversion.outputs.minor }}           |"
-            echo "| Patch            | ${{ steps.gitversion.outputs.patch }}           |"
-            echo "| MajorMinorPatch  | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed version | $COMPOSED_VERSION                               |"
+            echo "| Version No. | Component                                       |"
+            echo "| :---------- | :---------------------------------------------- |"
+            echo "| Major       | ${{ steps.gitversion.outputs.major }}           |"
+            echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
+            echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
+            echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
+            echo "| Composed    | $COMPOSED_VERSION                               |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -133,7 +135,6 @@ jobs:
             echo ""
 
       - name: Publish to package repo
-        if: inputs.environment == 'deploy-me'
         run: |
           nuget sources Remove -Name "${{ inputs.environment }}"
           nuget sources Add -Name "${{ inputs.environment }}" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive
@@ -155,7 +156,7 @@ jobs:
         run: |
           {
             echo "| Parameter       | Value                              |"
-            echo "| --------------- | ---------------------------------- |"
+            echo "| :-------------- | :--------------------------------- |"
             echo "| Environment     | ${{ inputs.environment }}          |"
             echo "| NuGet Pub URL   | ${{ vars.NUGET_PUBLISH_URL }}      |"
             echo "| User URL prefix | ${{ vars.NUGET_DOWNLOAD_PREFIX }}  |"
