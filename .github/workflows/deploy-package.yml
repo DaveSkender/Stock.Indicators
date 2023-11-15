@@ -55,7 +55,7 @@ jobs:
           echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
           echo "Composed version is:"
-          echo $COMPOSED_VERSION"
+          echo $COMPOSED_VERSION
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
