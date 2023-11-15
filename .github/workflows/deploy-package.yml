@@ -51,9 +51,9 @@ jobs:
       - name: Compose version
         id: compose
         run: |
-          COMPOSED_VERSION=$($GITVERSION_MAJORMINORPATCH${{ inputs.preview && '-preview-' || '' }}${{ inputs.preview && github.run_id || '' }})"
-          echo "version=$COMPOSED_VERSION" >> $GITHUB_OUTPUT
-          echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> $GITHUB_ENV
+          COMPOSED_VERSION=$GITVERSION_MAJORMINORPATCH${{ inputs.preview && '-preview-' || '' }}${{ inputs.preview && github.run_id || '' }}
+          echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
+          echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
@@ -154,10 +154,10 @@ jobs:
       - name: Summary output
         run: |
           {
-            echo "| Parameter       | Value                                |"
-            echo "| --------------- | ------------------------------------ |"
-            echo "| Environment     | ${{ inputs.environment }}            |"
-            echo "| NuGet Pub URL   | ${{ vars.NUGET_PUBLISH_URL }}        |"
-            echo "| User URL prefix | ${{ vars.NUGET_DOWNLOAD_PREFIX }}    |"
+            echo "| Parameter       | Value                              |"
+            echo "| --------------- | ---------------------------------- |"
+            echo "| Environment     | ${{ inputs.environment }}          |"
+            echo "| NuGet Pub URL   | ${{ vars.NUGET_PUBLISH_URL }}      |"
+            echo "| User URL prefix | ${{ vars.NUGET_DOWNLOAD_PREFIX }}  |"
             echo "| Version ID      | ${{ needs.build.outputs.version }} |"
           } >> $GITHUB_STEP_SUMMARY
