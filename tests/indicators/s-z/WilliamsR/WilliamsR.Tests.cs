@@ -106,7 +106,7 @@ public class WilliamsRTests : TestBase
         }
 
         IEnumerable<Quote> quotes = await LiveData
-            .GetQuotesFromFeed("A", 300)
+            .GetQuotesFromFeed("A", 365)
             .ConfigureAwait(false);
 
         List<Quote> quotesList = quotes.ToList();
@@ -120,7 +120,7 @@ public class WilliamsRTests : TestBase
         // analysis
         List<(Quote q, WilliamsResult r)> output = [];
 
-        Console.WriteLine($"Verifying non-Null values from {length} quots.");
+        Console.WriteLine($"%R from {length} quotes.");
 
         for (int i = 0; i < length; i++)
         {
