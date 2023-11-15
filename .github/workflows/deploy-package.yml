@@ -54,7 +54,7 @@ jobs:
           COMPOSED_VERSION=$GITVERSION_MAJORMINORPATCH${{ inputs.preview && '-preview-' || '' }}${{ inputs.preview && github.run_id || '' }}
           echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
-          echo "Composed version is:
+          echo "Composed version is:"
           echo $COMPOSED_VERSION"
 
       - name: Install .NET SDK
