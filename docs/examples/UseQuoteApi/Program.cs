@@ -80,17 +80,21 @@ internal class Program
          ************************************************************/
 
         // get and validate keys, see README.md
-        string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-        string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+        string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
+        string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
 
-        if (alpacaApiKey == null)
+        if (string.IsNullOrEmpty(alpacaApiKey))
         {
-            throw new ArgumentNullException(alpacaApiKey);
+            throw new ArgumentNullException(
+                alpacaApiKey,
+                $"API KEY missing, use `setx AlpacaApiKey \"ALPACA_API_KEY\"` to set.");
         }
 
-        if (alpacaSecret == null)
+        if (string.IsNullOrEmpty(alpacaSecret))
         {
-            throw new ArgumentNullException(alpacaSecret);
+            throw new ArgumentNullException(
+                alpacaSecret,
+                $"API SECRET missing, use `setx AlpacaApiSecret \"ALPACA_SECRET\"` to set.");
         }
 
         // connect to Alpaca REST API
