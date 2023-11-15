@@ -25,9 +25,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      nuget-version: "${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+      version: ${{ steps.compose.version }}
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -53,11 +54,20 @@ jobs:
           dotnet-version: "8.x"
           dotnet-quality: "ga"
 
+      - name: Compose version
+        id: compose
+        shell: bash
+        run: COMPOSED_VERSION=
+             ${{ steps.gitversion.outputs.majorMinorPatch }}
+             ${{ inputs.preview && '-preview-' || '' }}
+             ${{ inputs.preview && github.run_id || '' }}
+             echo "version=$COMPOSED_VERSION" >> $GITHUB_OUTPUT
+
       - name: Build library
         run: >
           dotnet build src/Indicators.csproj
           --configuration Release
-          --property:Version="${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+          --property:Version="${{ steps.compose.version }}"
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
@@ -68,7 +78,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          -p:PackageVersion="${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+          -p:PackageVersion="${{ steps.compose.version }}"
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
@@ -87,7 +97,7 @@ jobs:
             echo "| Patch           | ${{ steps.gitversion.outputs.patch }}           |"
             echo "| MajorMinorPatch | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
             echo ""
-            echo "Composed version: ${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+            echo "Composed version: ${{ steps.compose.version }}"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -99,7 +109,7 @@ jobs:
 
     environment:
       name: ${{ inputs.environment }}
-      url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.nuget-version }}"
+      url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.version }}"
 
     steps:
 
@@ -107,7 +117,7 @@ jobs:
         uses: nuget/setup-nuget@v1
         with:
           nuget-api-key: ${{ secrets.NUGET_TOKEN }}
-          nuget-version: '6.0.x'
+          nuget-version: '6.x'
 
       - name: Download NuGet package
         uses: actions/download-artifact@v3
@@ -115,17 +125,23 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Show publish preview
+      - name: Pre-flight summary
         run: |
-          echo ${{ vars.NUGET_PUBLISH_URL }}
-          echo ${{ vars.NUGET_DOWNLOAD_PREFIX }}
-          echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.nupkg"
-          echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.snupkg"
+            echo ""
+            echo "Configuration"
+            echo "----------------------------------"
+            echo "Environment ...... : ${{ inputs.environment }}"
+            echo "NuGet Pub URL .... : ${{ vars.NUGET_PUBLISH_URL }}"
+            echo "User URL prefix .. : ${{ vars.NUGET_DOWNLOAD_PREFIX }}"
+            echo "Version ID ....... : ${{ needs.build.outputs.nuget-version }}"
+            echo ""
 
-      - name: Publish packages
+      - name: Publish to package repo
+        if: inputs.environment == 'deploy-me'
         run: |
-          nuget sources Add -Name "PubURL" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }}
-          nuget push NuGet/*.nupkg -src PubURL -ApiKey AZ
+          nuget sources Remove -Name "${{ inputs.environment }}"
+          nuget sources Add -Name "${{ inputs.environment }}" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive
+          nuget push NuGet/*.nupkg -src ${{ inputs.environment }} -ApiKey AZ
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
