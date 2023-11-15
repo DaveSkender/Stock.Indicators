@@ -18,8 +18,8 @@ on:
         required: true
 
 concurrency:
-  group: ${{ inputs.environment }}
-  cancel-in-progress: true
+  group: nuget-deployer
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -57,11 +57,9 @@ jobs:
       - name: Compose version
         id: compose
         shell: bash
-        run: COMPOSED_VERSION=
-             ${{ steps.gitversion.outputs.majorMinorPatch }}
-             ${{ inputs.preview && '-preview-' || '' }}
-             ${{ inputs.preview && github.run_id || '' }}
-             echo "version=$COMPOSED_VERSION" >> $GITHUB_OUTPUT
+        run: |
+          COMPOSED_VERSION=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview-' || '' }}${{ inputs.preview && github.run_id || '' }}
+          echo "version=$COMPOSED_VERSION" >> $GITHUB_OUTPUT
 
       - name: Build library
         run: >
