@@ -10,8 +10,8 @@ public class NumerixTests : TestBase
         .Select(x => (double)x.Close)
         .ToArray();
 
-    private readonly double[] x = { 1, 2, 3, 4, 5 };
-    private readonly double[] y = { 0, 0, 0, 0 };
+    private readonly double[] x = [1, 2, 3, 4, 5];
+    private readonly double[] y = [0, 0, 0, 0];
 
     [TestMethod]
     public void StdDev()

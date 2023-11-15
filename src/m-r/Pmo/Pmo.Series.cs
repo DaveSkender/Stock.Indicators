@@ -58,7 +58,7 @@ public static partial class Indicator
         double smoothingMultiplier = 2d / timePeriods;
         double? lastRocEma = null;
         List<RocResult> roc = tpList.CalcRoc(1, null).ToList();
-        List<PmoResult> results = new();
+        List<PmoResult> results = [];
 
         int startIndex = timePeriods + 1;
 

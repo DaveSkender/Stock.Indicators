@@ -255,8 +255,8 @@ public class BetaTests : TestBase
     [TestMethod]
     public void NoMatch()
     {
-        List<Quote> quoteA = new()
-        {
+        List<Quote> quoteA =
+        [
             new Quote { Date = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
@@ -266,10 +266,10 @@ public class BetaTests : TestBase
             new Quote { Date = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
-        };
+        ];
 
-        List<Quote> quoteB = new()
-        {
+        List<Quote> quoteB =
+        [
             new Quote { Date = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
@@ -279,7 +279,7 @@ public class BetaTests : TestBase
             new Quote { Date = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
             new Quote { Date = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
-        };
+        ];
 
         Assert.ThrowsException<InvalidQuotesException>(()
             => quoteA.GetBeta(quoteB, 3));
