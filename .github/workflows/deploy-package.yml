@@ -145,7 +145,6 @@ jobs:
       - name: Publish to NuGet.org
         if: inputs.environment == 'nuget'
         run: |
-          nuget setApiKey ${{ secrets.NUGET_TOKEN }}
           nuget push NuGet/*.nupkg -Source ${{ vars.NUGET_PUBLISH_URL }}  -ApiKey AZ -NonInteractive
 
       - name: Tag and draft release note
