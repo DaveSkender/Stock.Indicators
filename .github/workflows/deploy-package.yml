@@ -54,6 +54,7 @@ jobs:
           COMPOSED_VERSION=$GITVERSION_MAJORMINORPATCH${{ inputs.preview && '-preview-' || '' }}${{ inputs.preview && github.run_id || '' }}
           echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
+          echo $COMPOSED_VERSION
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
@@ -110,6 +111,17 @@ jobs:
 
     steps:
 
+      - name: Pre-flight summary
+        run: |
+          {
+            echo "| Parameter       | Value                              |"
+            echo "| :-------------- | :--------------------------------- |"
+            echo "| Environment     | ${{ inputs.environment }}          |"
+            echo "| Publishing URL  | ${{ vars.NUGET_PUBLISH_URL }}      |"
+            echo "| Download URL    | ${{ vars.NUGET_DOWNLOAD_PREFIX }}  |"
+            echo "| Version ID      | ${{ needs.build.outputs.version }} |"
+          } >> $GITHUB_STEP_SUMMARY
+
       - name: Install NuGet tool
         uses: nuget/setup-nuget@v1
         with:
@@ -122,22 +134,17 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Pre-flight summary
+      - name: Publish to Azure Artifacts
+        if: inputs.environment == 'azure-artifacts'
         run: |
-            echo ""
-            echo "Configuration"
-            echo "----------------------------------"
-            echo "Environment ...... : ${{ inputs.environment }}"
-            echo "NuGet Pub URL .... : ${{ vars.NUGET_PUBLISH_URL }}"
-            echo "User URL prefix .. : ${{ vars.NUGET_DOWNLOAD_PREFIX }}"
-            echo "Version ID ....... : ${{ needs.build.outputs.nuget-version }}"
-            echo ""
+          nuget sources Add -Name "AzureArtifacts" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive
+          nuget push NuGet/*.nupkg -src AzureArtifacts -ApiKey AZ
 
-      - name: Publish to package repo
+      - name: Publish to NuGet.org
+        if: inputs.environment == 'nuget'
         run: |
-          nuget sources Remove -Name "${{ inputs.environment }}"
-          nuget sources Add -Name "${{ inputs.environment }}" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive
-          nuget push NuGet/*.nupkg -src ${{ inputs.environment }} -ApiKey AZ
+          nuget setApiKey ${{ secrets.NUGET_TOKEN }}
+          nuget push NuGet/*.nupkg -Source ${{ vars.NUGET_PUBLISH_URL }}  -ApiKey AZ -NonInteractive
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
@@ -150,14 +157,3 @@ jobs:
           prerelease: ${{ inputs.preview }}
           tag: ${{ needs.build.outputs.version }}
           commit: ${{ github.ref_name }}
-
-      - name: Summary output
-        run: |
-          {
-            echo "| Parameter       | Value                              |"
-            echo "| :-------------- | :--------------------------------- |"
-            echo "| Environment     | ${{ inputs.environment }}          |"
-            echo "| NuGet Pub URL   | ${{ vars.NUGET_PUBLISH_URL }}      |"
-            echo "| User URL prefix | ${{ vars.NUGET_DOWNLOAD_PREFIX }}  |"
-            echo "| Version ID      | ${{ needs.build.outputs.version }} |"
-          } >> $GITHUB_STEP_SUMMARY
