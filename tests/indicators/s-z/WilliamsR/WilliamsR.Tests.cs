@@ -80,6 +80,63 @@ public class WilliamsRTests : TestBase
         Assert.AreEqual(-52.0121, last.WilliamsR.Round(4));
     }
 
+    [TestMethod]
+    public async Task Issue1127()
+    {
+        /* this won't run if environment variables not set,
+           setup instructions:
+
+           (1) get your API keys
+           https://alpaca.markets/docs/market-data/getting-started/
+
+           (2) manually install in your environment (replace value)
+
+           setx AlpacaApiKey "ALPACA_API_KEY"
+           setx AlpacaSecret "ALPACA_SECRET"
+
+         ****************************************************/
+
+        string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
+        string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+
+        if (string.IsNullOrEmpty(alpacaApiKey) || string.IsNullOrEmpty(alpacaSecret))
+        {
+            Assert.Inconclusive();
+            return;
+        }
+
+        IEnumerable<Quote> quotes = await LiveData
+            .GetQuotesFromFeed("A", 300)
+            .ConfigureAwait(false);
+
+        List<Quote> quotesList = quotes.ToList();
+
+        int length = quotes.Count();
+
+        List<WilliamsResult> resultsList = quotes
+            .GetWilliamsR(14)
+            .ToList();
+
+        // analysis
+        List<(Quote q, WilliamsResult r)> output = [];
+
+        Console.WriteLine($"Verifying non-Null values from {length} quots.");
+
+        for (int i = 0; i < length; i++)
+        {
+            Quote q = quotesList[i];
+            WilliamsResult r = resultsList[i];
+
+            Console.WriteLine($"{q.Date:s} {r.WilliamsR}");
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
+    }
+
     // bad lookback period
     [TestMethod]
     public void Exceptions()
