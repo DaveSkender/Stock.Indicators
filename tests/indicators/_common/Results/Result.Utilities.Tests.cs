@@ -34,8 +34,8 @@ public class Results : TestBase
     public void ToTuple()
     {
         // baseline for comparison
-        List<SmaResult> baseline = new()
-        {
+        List<SmaResult> baseline =
+        [
             new SmaResult(DateTime.Parse("1/1/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/2/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/3/2000", EnglishCulture)) { Sma = 3 },
@@ -45,7 +45,7 @@ public class Results : TestBase
             new SmaResult(DateTime.Parse("1/7/2000", EnglishCulture)) { Sma = 7 },
             new SmaResult(DateTime.Parse("1/8/2000", EnglishCulture)) { Sma = double.NaN },
             new SmaResult(DateTime.Parse("1/9/2000", EnglishCulture)) { Sma = null },
-        };
+        ];
 
         // default chainable NaN with pruning (internal)
         List<(DateTime Date, double Value)> chainableTuple = baseline
