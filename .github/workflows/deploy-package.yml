@@ -139,13 +139,15 @@ jobs:
       - name: Publish to Azure Artifacts
         if: inputs.environment == 'azure-artifacts'
         run: |
-          nuget sources Add -Name "AzureArtifacts" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive
-          nuget push NuGet/*.nupkg -src AzureArtifacts -ApiKey AZ
+          nuget sources Add -Name "AzureArtifacts" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive -ConfigFile $RUNNER_TEMP/Noogey${{ github.run_id }}.config
+          nuget push NuGet/*.nupkg -src AzureArtifacts -ApiKey AZ -NonInteractive -ConfigFile $RUNNER_TEMP/Noogey${{ github.run_id }}.config
 
       - name: Publish to NuGet.org
         if: inputs.environment == 'nuget'
         run: |
-          nuget push NuGet/*.nupkg -Source ${{ vars.NUGET_PUBLISH_URL }}  -ApiKey AZ -NonInteractive
+          nuget source -Name "NuGet.org" -Source ${{ vars.NUGET_PUBLISH_URL }}  -ApiKey AZ -NonInteractive -ConfigFile $RUNNER_TEMP/Noogey${{ github.run_id }}.config
+          nuget setApiKey ${{ secrets.NUGET_TOKEN }} -Source NuGet.org -ConfigFile $RUNNER_TEMP/Noogey${{ github.run_id }}.config
+          nuget push NuGet/*.nupkg -Source NuGet.org -NonInteractive -ConfigFile $RUNNER_TEMP/Noogey${{ github.run_id }}.config -Verbosity Detailed
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
