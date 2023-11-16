@@ -24,6 +24,18 @@ public class WilliamsRTests : TestBase
 
         WilliamsResult r2 = results[501];
         Assert.AreEqual(-52.0121, r2.WilliamsR.Round(4));
+
+        // test boundary condition
+        for (int i = 0; i < results.Count; i++)
+        {
+            WilliamsResult r = results[i];
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
     }
 
     [TestMethod]
@@ -50,21 +62,6 @@ public class WilliamsRTests : TestBase
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(0, results.Count(x => x.WilliamsR is double and double.NaN));
-
-        // analyze boundary
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            Quote q = quotes[i];
-            WilliamsResult r = results[i];
-
-            Console.WriteLine($"{q.Date:s} $HLC: {q.High}|{q.Low}|{q.Close} %R {r.WilliamsR}");
-
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
-        }
     }
 
     [TestMethod]
@@ -101,17 +98,13 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public void Boundary()
     {
-        // initialize
-        List<Quote> quotes = TestData.GetRandom(2500).ToList();
-        int length = quotes.Count;
-
-        // get indicators
-        List<WilliamsResult> results = quotes
+        List<WilliamsResult> results = TestData
+            .GetRandom(2500)
             .GetWilliamsR(14)
             .ToList();
 
         // analyze boundary
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < results.Count; i++)
         {
             WilliamsResult r = results[i];
 
