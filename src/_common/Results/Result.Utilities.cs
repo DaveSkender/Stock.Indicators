@@ -37,7 +37,7 @@ public static partial class ResultUtility
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
     {
-        List<(DateTime date, double value)> prices = new();
+        List<(DateTime date, double value)> prices = [];
         List<TResult> reList = reusable.ToList();
 
         // find first non-nulled
@@ -62,7 +62,7 @@ public static partial class ResultUtility
         List<TResult> reList = reusable.ToSortedList();
         int length = reList.Count;
 
-        Collection<(DateTime Date, double Value)> results = new();
+        Collection<(DateTime Date, double Value)> results = [];
 
         for (int i = 0; i < length; i++)
         {

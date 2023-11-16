@@ -39,7 +39,7 @@ public static partial class Indicator
         List<IReusableResult> reList = reusable.ToSortedList();
         int length = reList.Count;
 
-        Collection<(DateTime Date, double? Value)> results = new();
+        Collection<(DateTime Date, double? Value)> results = [];
 
         for (int i = 0; i < length; i++)
         {

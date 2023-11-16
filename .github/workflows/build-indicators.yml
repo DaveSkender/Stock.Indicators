@@ -28,7 +28,7 @@ jobs:
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "7.x"
+          dotnet-version: "8.x"
           dotnet-quality: "ga"
 
       - name: Build solution
@@ -39,6 +39,9 @@ jobs:
           -warnAsError
 
       - name: Test indicators
+        env:
+          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
+          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
         run: >
           dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release

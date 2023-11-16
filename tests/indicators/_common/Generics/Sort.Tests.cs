@@ -11,8 +11,8 @@ public class Sorting : TestBase
     public void ToSortedCollection()
     {
         // baseline for comparison
-        List<SmaResult> baseline = new()
-        {
+        List<SmaResult> baseline =
+        [
             new SmaResult(DateTime.Parse("1/1/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/2/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/9/2000", EnglishCulture)) { Sma = null },
@@ -22,7 +22,7 @@ public class Sorting : TestBase
             new SmaResult(DateTime.Parse("1/6/2000", EnglishCulture)) { Sma = 6 },
             new SmaResult(DateTime.Parse("1/7/2000", EnglishCulture)) { Sma = 7 },
             new SmaResult(DateTime.Parse("1/8/2000", EnglishCulture)) { Sma = double.NaN },
-        };
+        ];
 
         // PUBLIC VARIANT, generic sorted Collection
         Collection<SmaResult> sortResults = baseline

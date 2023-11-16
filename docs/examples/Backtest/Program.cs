@@ -23,8 +23,8 @@ public static class Program
          */
 
         // fetch historical quotes from data provider
-        List<Quote> quotesList = GetQuotesFromFeed()
-            .ToList();
+        List<Quote> quotesList = [.. GetQuotesFromFeed()
+];
 
         // calculate Stochastic RSI
         List<StochRsiResult> resultsList =
@@ -92,7 +92,7 @@ public static class Program
         }
     }
 
-    private static IEnumerable<Quote> GetQuotesFromFeed()
+    private static Collection<Quote> GetQuotesFromFeed()
     {
         /************************************************************
 
