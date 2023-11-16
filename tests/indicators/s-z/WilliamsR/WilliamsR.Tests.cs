@@ -41,12 +41,30 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<WilliamsResult> r = badQuotes
+        List<Quote> quotes = badQuotes
+            .ToSortedList();
+
+        List<WilliamsResult> results = badQuotes
             .GetWilliamsR(20)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.WilliamsR is double and double.NaN));
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(0, results.Count(x => x.WilliamsR is double and double.NaN));
+
+        // analyze boundary
+        for (int i = 0; i < quotes.Count; i++)
+        {
+            Quote q = quotes[i];
+            WilliamsResult r = results[i];
+
+            Console.WriteLine($"{q.Date:s} $HLC: {q.High}|{q.Low}|{q.Close} %R {r.WilliamsR}");
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
     }
 
     [TestMethod]
@@ -81,6 +99,31 @@ public class WilliamsRTests : TestBase
     }
 
     [TestMethod]
+    public void Boundary()
+    {
+        // initialize
+        List<Quote> quotes = TestData.GetRandom(2500).ToList();
+        int length = quotes.Count;
+
+        // get indicators
+        List<WilliamsResult> results = quotes
+            .GetWilliamsR(14)
+            .ToList();
+
+        // analyze boundary
+        for (int i = 0; i < length; i++)
+        {
+            WilliamsResult r = results[i];
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
+    }
+
+    [TestMethod]
     public async Task Issue1127()
     {
         // initialize
@@ -89,8 +132,7 @@ public class WilliamsRTests : TestBase
             .ConfigureAwait(false);
 
         List<Quote> quotesList = quotes.ToList();
-
-        int length = quotes.Count();
+        int length = quotesList.Count;
 
         // get indicators
         List<WilliamsResult> resultsList = quotes
@@ -99,7 +141,7 @@ public class WilliamsRTests : TestBase
 
         Console.WriteLine($"%R from {length} quotes.");
 
-        // analysis
+        // analyze boundary
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
