@@ -1,29 +1,38 @@
 using Alpaca.Markets;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
 
-internal class LiveData
+internal class FeedData
 {
-    internal static async Task<IEnumerable<Quote>> GetQuotesFromFeed(
-        string symbol,
-        int days = 500)
+    internal static async Task<IEnumerable<Quote>> GetQuotes(string symbol)
+        => await GetQuotes(symbol, 365 * 2)
+                .ConfigureAwait(false);
+
+    internal static async Task<IEnumerable<Quote>> GetQuotes(string symbol, int days)
     {
-        /************************************************************
+        /* This won't run if environment variables not set.
+           Use FeedData.InconclusiveIfNotSetup() in tests.
 
-         We're using Alpaca SDK for .NET to access their public APIs.
+           (1) get your API keys
+           https://alpaca.markets/docs/market-data/getting-started/
 
-         This approach will vary widely depending on where you are
-         getting your quote history.
+           (2) manually install in your environment (replace value)
 
-         See https://github.com/DaveSkender/Stock.Indicators/discussions/579
-         for free or inexpensive market data providers and examples.
+           setx ALPACA_KEY "y0ur_Alp@ca_K3Y_v@lue"
+           setx ALPACA_SECRET "y0ur_Alp@ca_S3cret_v@lue"
 
-         ************************************************************/
+         ****************************************************/
 
-        // get and validate keys, see README.md
-        string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-        string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+        // get and validate keys
+        string alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
+        string alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
+
+        if (string.IsNullOrEmpty(alpacaApiKey) || string.IsNullOrEmpty(alpacaSecret))
+        {
+            Assert.Inconclusive("Data feed unusable. Environment variables missing.");
+        }
 
         ArgumentException.ThrowIfNullOrEmpty(nameof(alpacaApiKey));
         ArgumentException.ThrowIfNullOrEmpty(nameof(alpacaSecret));

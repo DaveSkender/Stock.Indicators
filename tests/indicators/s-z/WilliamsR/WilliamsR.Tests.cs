@@ -83,45 +83,23 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public async Task Issue1127()
     {
-        /* this won't run if environment variables not set,
-           setup instructions:
-
-           (1) get your API keys
-           https://alpaca.markets/docs/market-data/getting-started/
-
-           (2) manually install in your environment (replace value)
-
-           setx AlpacaApiKey "ALPACA_API_KEY"
-           setx AlpacaSecret "ALPACA_SECRET"
-
-         ****************************************************/
-
-        string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-        string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
-
-        if (string.IsNullOrEmpty(alpacaApiKey) || string.IsNullOrEmpty(alpacaSecret))
-        {
-            Assert.Inconclusive();
-            return;
-        }
-
-        IEnumerable<Quote> quotes = await LiveData
-            .GetQuotesFromFeed("A", 365)
+        // initialize
+        IEnumerable<Quote> quotes = await FeedData
+            .GetQuotes("A", 365 * 3)
             .ConfigureAwait(false);
 
         List<Quote> quotesList = quotes.ToList();
 
         int length = quotes.Count();
 
+        // get indicators
         List<WilliamsResult> resultsList = quotes
             .GetWilliamsR(14)
             .ToList();
 
-        // analysis
-        List<(Quote q, WilliamsResult r)> output = [];
-
         Console.WriteLine($"%R from {length} quotes.");
 
+        // analysis
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
