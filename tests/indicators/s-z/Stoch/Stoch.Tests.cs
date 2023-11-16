@@ -14,8 +14,8 @@ public class StochTests : TestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results =
-            quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
+        List<StochResult> results = quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
         // proper quantities
@@ -48,6 +48,31 @@ public class StochTests : TestBase
         Assert.AreEqual(43.1353, r501.Oscillator.Round(4));
         Assert.AreEqual(35.5674, r501.Signal.Round(4));
         Assert.AreEqual(58.2712, r501.PercentJ.Round(4));
+
+        // test boundary condition
+
+        for (int i = 0; i < results.Count; i++)
+        {
+            StochResult r = results[i];
+
+            if (r.Oscillator is not null)
+            {
+                Assert.IsTrue(r.Oscillator >= 0);
+                Assert.IsTrue(r.Oscillator <= 100);
+            }
+
+            if (r.Signal is not null)
+            {
+                Assert.IsTrue(r.Signal >= 0);
+                Assert.IsTrue(r.Signal <= 100);
+            }
+
+            if (r.PercentJ is not null)
+            {
+                Assert.IsTrue(r.Signal >= 0);
+                Assert.IsTrue(r.Signal <= 100);
+            }
+        }
     }
 
     [TestMethod]
@@ -211,6 +236,44 @@ public class StochTests : TestBase
         Assert.AreEqual(43.1353, last.Oscillator.Round(4));
         Assert.AreEqual(35.5674, last.Signal.Round(4));
         Assert.AreEqual(58.2712, last.PercentJ.Round(4));
+    }
+
+    [TestMethod]
+    public void Boundary()
+    {
+        int lookbackPeriods = 14;
+        int signalPeriods = 3;
+        int smoothPeriods = 3;
+
+        List<StochResult> results = TestData
+            .GetRandom(2500)
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
+            .ToList();
+
+        // test boundary condition
+
+        for (int i = 0; i < results.Count; i++)
+        {
+            StochResult r = results[i];
+
+            if (r.Oscillator is not null)
+            {
+                Assert.IsTrue(r.Oscillator >= 0);
+                Assert.IsTrue(r.Oscillator <= 100);
+            }
+
+            if (r.Signal is not null)
+            {
+                Assert.IsTrue(r.Signal >= 0);
+                Assert.IsTrue(r.Signal <= 100);
+            }
+
+            if (r.PercentJ is not null)
+            {
+                Assert.IsTrue(r.Signal >= 0);
+                Assert.IsTrue(r.Signal <= 100);
+            }
+        }
     }
 
     [TestMethod]
