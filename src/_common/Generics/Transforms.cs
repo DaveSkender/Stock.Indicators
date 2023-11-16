@@ -14,12 +14,7 @@ public static class Transforms
             throw new ArgumentNullException(nameof(source));
         }
 
-        Collection<T> collection = new();
-
-        foreach (T item in source)
-        {
-            collection.Add(item);
-        }
+        Collection<T> collection = [.. source];
 
         return collection;
     }

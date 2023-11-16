@@ -18,16 +18,17 @@ on:
         required: true
 
 concurrency:
-  group: ${{ inputs.environment }}
-  cancel-in-progress: true
+  group: nuget-deployer
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      nuget-version: "${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+      version: ${{ steps.compose.outputs.version }}
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -47,17 +48,26 @@ jobs:
           useConfigFile: true
           configFilePath: gitversion.yml
 
+      - name: Compose version
+        id: compose
+        run: |
+          COMPOSED_VERSION=$GITVERSION_MAJORMINORPATCH${{ inputs.preview && '-preview-' || '' }}${{ inputs.preview && github.run_id || '' }}
+          echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
+          echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
+          echo "Composed version is:"
+          echo $COMPOSED_VERSION
+
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "7.x"
+          dotnet-version: "8.x"
           dotnet-quality: "ga"
 
       - name: Build library
         run: >
           dotnet build src/Indicators.csproj
           --configuration Release
-          --property:Version="${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+          --property:Version=$COMPOSED_VERSION
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
@@ -68,7 +78,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          -p:PackageVersion="${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+          -p:PackageVersion=$COMPOSED_VERSION
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
@@ -76,18 +86,16 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Show version
+      - name: Summary output
         run: |
           {
-            echo "### Identified semantic version"
-            echo "| Variable        | Value                                           |"
-            echo "| --------------- | ----------------------------------------------- |"
-            echo "| Major           | ${{ steps.gitversion.outputs.major }}           |"
-            echo "| Minor           | ${{ steps.gitversion.outputs.minor }}           |"
-            echo "| Patch           | ${{ steps.gitversion.outputs.patch }}           |"
-            echo "| MajorMinorPatch | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo ""
-            echo "Composed version: ${{ steps.gitversion.outputs.majorMinorPatch }}-preview-${{ github.run_id }}"
+            echo "| Version No. | Component                                       |"
+            echo "| :---------- | :---------------------------------------------- |"
+            echo "| Major       | ${{ steps.gitversion.outputs.major }}           |"
+            echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
+            echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
+            echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
+            echo "| Composed    | $COMPOSED_VERSION                               |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -99,15 +107,32 @@ jobs:
 
     environment:
       name: ${{ inputs.environment }}
-      url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.nuget-version }}"
+      url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.version }}"
 
     steps:
+
+      - name: Pre-flight summary
+        run: |
+          {
+            echo "| Parameter       | Value                              |"
+            echo "| :-------------- | :--------------------------------- |"
+            echo "| Environment     | ${{ inputs.environment }}          |"
+            echo "| Publishing URL  | ${{ vars.NUGET_PUBLISH_URL }}      |"
+            echo "| Download URL    | ${{ vars.NUGET_DOWNLOAD_PREFIX }}  |"
+            echo "| Version ID      | ${{ needs.build.outputs.version }} |"
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.x"
+          dotnet-quality: "ga"
 
       - name: Install NuGet tool
         uses: nuget/setup-nuget@v1
         with:
           nuget-api-key: ${{ secrets.NUGET_TOKEN }}
-          nuget-version: '6.0.x'
+          nuget-version: '6.x'
 
       - name: Download NuGet package
         uses: actions/download-artifact@v3
@@ -115,26 +140,28 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Show publish preview
+      - name: Publish to Azure Artifacts
+        if: inputs.environment == 'azure-artifacts'
         run: |
-          echo ${{ vars.NUGET_PUBLISH_URL }}
-          echo ${{ vars.NUGET_DOWNLOAD_PREFIX }}
-          echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.nupkg"
-          echo "skender.stock.indicators.${{ needs.build.outputs.nuget-version }}.snupkg"
+          dotnet new nugetconfig --force
+          nuget sources Add -Name "AzureArtifacts" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive -ConfigFile nuget.config
+          nuget push NuGet/*.nupkg -src AzureArtifacts -ApiKey AZ -NonInteractive -ConfigFile nuget.config
 
-      - name: Publish packages
+      - name: Publish to NuGet.org
+        if: inputs.environment == 'nuget'
         run: |
-          nuget sources Add -Name "PubURL" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }}
-          nuget push NuGet/*.nupkg -src PubURL -ApiKey AZ
+          dotnet new nugetconfig --force
+          nuget setApiKey ${{ secrets.NUGET_TOKEN }} -src nuget -ConfigFile nuget.config
+          nuget push NuGet/*.nupkg -src nuget -NonInteractive -ConfigFile nuget.config -Verbosity Detailed
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
         if: inputs.environment == 'nuget'
         with:
-          body: "We’ve released a new Stock Indicators for .NET NuGet package.  See [Skender.Stock.Indicators @ NuGet.org](https://www.nuget.org/packages/Skender.Stock.Indicators/${{ needs.build.outputs.nuget-version }}) for more information."
+          body: "We’ve released a new Stock Indicators for .NET NuGet package.  See [Skender.Stock.Indicators @ NuGet.org](${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.version }}) for more information."
           generateReleaseNotes: true
           draft: true
           makeLatest: ${{ !inputs.preview }}
           prerelease: ${{ inputs.preview }}
-          tag: ${{ needs.build.outputs.nuget-version }}
+          tag: ${{ needs.build.outputs.version }}
           commit: ${{ github.ref_name }}

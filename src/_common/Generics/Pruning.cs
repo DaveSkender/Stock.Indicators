@@ -23,7 +23,7 @@ public static class Pruning
 
         if (seriesList.Count <= removePeriods)
         {
-            return new List<T>();
+            return [];
         }
         else
         {

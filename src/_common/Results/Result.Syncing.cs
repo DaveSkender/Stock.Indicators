@@ -54,7 +54,7 @@ public static partial class ResultUtility
         // add plugs for missing values
         if (prepend || append)
         {
-            List<TResultA> toAppend = new();
+            List<TResultA> toAppend = [];
 
             for (int i = 0; i < toMatchList.Count; i++)
             {
@@ -81,7 +81,7 @@ public static partial class ResultUtility
         // remove unmatched results
         if (remove)
         {
-            List<TResultA> toRemove = new();
+            List<TResultA> toRemove = [];
 
             for (int i = 0; i < syncMeList.Count; i++)
             {

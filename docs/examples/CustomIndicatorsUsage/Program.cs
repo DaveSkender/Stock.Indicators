@@ -47,7 +47,7 @@ public static class Program
         }
     }
 
-    private static IEnumerable<Quote> GetQuotesFromFeed()
+    private static Collection<Quote> GetQuotesFromFeed()
     {
         /************************************************************
 
