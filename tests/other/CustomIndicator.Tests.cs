@@ -85,11 +85,8 @@ public static class CustomIndicator
 [TestClass]
 public class CustomIndicatorTests
 {
-    private static readonly CultureInfo EnglishCulture = new("en-US", false);
+    private static readonly CultureInfo EnglishCulture = new ("en-US", false);
 
-#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning disable SA1304 // Non-private readonly fields should begin with upper-case letter
-#pragma warning disable SA1311 // Static readonly fields should begin with upper-case letter
     internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
     internal static readonly IEnumerable<Quote> otherQuotes = TestData.GetCompare();
     internal static readonly IEnumerable<Quote> badQuotes = TestData.GetBad();
@@ -103,9 +100,6 @@ public class CustomIndicatorTests
     internal static readonly IEnumerable<Quote> randomQuotes = TestData.GetRandom(1000);
     internal static readonly IEnumerable<Quote> zeroesQuotes = TestData.GetZeros();
     internal static readonly IEnumerable<(DateTime, double)> tupleNanny = TestData.GetTupleNaN();
-#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
-#pragma warning restore SA1304 // Non-private readonly fields should begin with upper-case letter
-#pragma warning restore SA1311 // Static readonly fields should begin with upper-case letter
 
     [TestMethod]
     public void Standard()

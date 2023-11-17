@@ -1,9 +1,9 @@
-// This file is used by Code Analysis to maintain SuppressMessage
-// attributes that are applied to this project.
-// Project-level suppressions either have no target or are given
-// a specific target and scoped to a namespace, type, member, etc.
-
 using System.Diagnostics.CodeAnalysis;
+
+[assembly: SuppressMessage(
+    "Maintainability",
+    "CA1510:Use ArgumentNullException throw helper",
+    Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
 
 [assembly: SuppressMessage(
     "Naming",
@@ -31,24 +31,14 @@ using System.Diagnostics.CodeAnalysis;
     "CA1720:Identifier contains type name",
     Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~F:Skender.Stock.Indicators.ChandelierType.Short")]
+    Target = "~F:Skender.Stock.Indicators.ChandelierType.Long")]
 
 [assembly: SuppressMessage(
-    "StyleCop.CSharp.SpacingRules",
-    "SA1008:Opening parenthesis should be spaced correctly",
-    Justification = "Not compatible with `or` statement (analyzer bug)",
+    "Naming",
+    "CA1720:Identifier contains type name",
+    Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~M:Skender.Stock.Indicators.ResultUtility.Condense``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]
-
-[assembly: SuppressMessage(
-    "Maintainability",
-    "CA1510:Use ArgumentNullException throw helper",
-    Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
-
-[assembly: SuppressMessage(
-    "StyleCop.CSharp.SpacingRules",
-    "SA1010:Opening square brackets should be spaced correctly",
-    Justification = "Invalid for new C# 12 [ collection ] syntax.")]
+    Target = "~F:Skender.Stock.Indicators.ChandelierType.Short")]
 
 [assembly: SuppressMessage(
     "Naming",

@@ -10,16 +10,16 @@ public partial class Sma : ObsTupleSendTuple
         int lookbackPeriods)
     {
         TupleSupplier = provider;
-        ProtectedResults = new();
+        ProtectedResults = [];
 
         Initialize(lookbackPeriods);
     }
 
+    // constructor for unmanaged flow
     public Sma(
         int lookbackPeriods)
     {
-        TupleSupplier = new TupleProvider();
-        ProtectedResults = new();
+        ProtectedResults = [];
 
         Initialize(lookbackPeriods);
     }
@@ -40,13 +40,6 @@ public partial class Sma : ObsTupleSendTuple
     // initialize and preload existing quote cache
     private void Initialize(int lookbackPeriods)
     {
-        if (TupleSupplier == null)
-        {
-            throw new ArgumentNullException(
-                nameof(TupleSupplier),
-                "Could not find data supplier.");
-        }
-
         LookbackPeriods = lookbackPeriods;
 
         List<(DateTime, double)> tuples = TupleSupplier.ProtectedTuples;

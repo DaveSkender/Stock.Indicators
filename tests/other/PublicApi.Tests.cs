@@ -57,7 +57,7 @@ public class PublicClassTests
         IEnumerable<Quote> h = quotes.Validate();
 
         Quote f = h.FirstOrDefault();
-        Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);
+        Console.WriteLine($"Date:{f.Date},Close:{f.Close}");
     }
 
     [TestMethod]

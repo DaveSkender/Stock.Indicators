@@ -9,8 +9,8 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
 
     internal TupleProvider()
     {
-        observers = new();
-        ProtectedTuples = new();
+        observers = [];
+        ProtectedTuples = [];
     }
 
     // PROPERTIES
@@ -89,21 +89,21 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
         if (tuple.Date > last.Date)
         {
             ProtectedTuples.Add(tuple);
-            NotifyObservers(tuple);
         }
 
         // current
         else if (tuple.Date == last.Date)
         {
             last = tuple;
-            NotifyObservers(tuple);
         }
 
         // late arrival
+        // TODO: handle late arrivals
         else
         {
             throw new NotImplementedException();
 
+            #pragma warning disable CS0162 // Unreachable code detected
             // seek duplicate
             int foundIndex = ProtectedTuples
                 .FindIndex(x => x.Date == tuple.Date);
@@ -123,10 +123,11 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
                 ProtectedTuples = ProtectedTuples
                     .ToSortedList();
             }
-
-            // let observer handle
-            NotifyObservers(tuple);
+            #pragma warning restore CS0162 // Unreachable code detected
         }
+
+        // let observer handle
+        NotifyObservers(tuple);
     }
 
     // add one IReusableResult
@@ -152,7 +153,7 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
     // notify observers
     internal void NotifyObservers((DateTime Date, double Value) tuple)
     {
-        List<IObserver<(DateTime Date, double Value)>> obsList = observers.ToList();
+        List<IObserver<(DateTime Date, double Value)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
@@ -162,19 +163,12 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
     }
 
     // unsubscriber
-    private class Unsubscriber : IDisposable
+    private class Unsubscriber(
+        List<IObserver<(DateTime Date, double Value)>> observers,
+        IObserver<(DateTime Date, double Value)> observer) : IDisposable
     {
-        private readonly List<IObserver<(DateTime Date, double Value)>> observers;
-        private readonly IObserver<(DateTime Date, double Value)> observer;
-
-        // identify and save observer
-        public Unsubscriber(
-            List<IObserver<(DateTime Date, double Value)>> observers,
-            IObserver<(DateTime Date, double Value)> observer)
-        {
-            this.observers = observers;
-            this.observer = observer;
-        }
+        private readonly List<IObserver<(DateTime Date, double Value)>> observers = observers;
+        private readonly IObserver<(DateTime Date, double Value)> observer = observer;
 
         // remove single observer
         public void Dispose()

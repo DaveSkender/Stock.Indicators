@@ -128,7 +128,7 @@ public static partial class Indicator
         if (dataA.Count > 0)
         {
             // calculate correlation, covariance, and variance
-            c.PeriodCorrelation(dataA.ToArray(), dataB.ToArray());
+            c.PeriodCorrelation([.. dataA], [.. dataB]);
 
             // calculate beta
             if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)

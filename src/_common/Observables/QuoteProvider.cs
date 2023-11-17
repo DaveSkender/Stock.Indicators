@@ -10,8 +10,8 @@ public class QuoteProvider : IObservable<Quote>
     // constructor
     public QuoteProvider()
     {
-        observers = new();
-        ProtectedQuotes = new();
+        observers = [];
+        ProtectedQuotes = [];
         LastArrival = new();
     }
 
@@ -99,21 +99,21 @@ public class QuoteProvider : IObservable<Quote>
         if (quote.Date > last.Date)
         {
             ProtectedQuotes.Add(quote);
-            NotifyObservers(quote);
         }
 
         // current
         else if (quote.Date == last.Date)
         {
             last = quote;
-            NotifyObservers(quote);
         }
 
         // late arrival
+        // TODO: handle late arrivals
         else
         {
             throw new NotImplementedException();
 
+            #pragma warning disable CS0162 // Unreachable code detected
             // seek duplicate
             int foundIndex = ProtectedQuotes
                 .FindIndex(x => x.Date == quote.Date);
@@ -133,10 +133,11 @@ public class QuoteProvider : IObservable<Quote>
                 ProtectedQuotes = ProtectedQuotes
                     .ToSortedList();
             }
-
-            // let observer handle
-            NotifyObservers(quote);
+            #pragma warning restore CS0162 // Unreachable code detected
         }
+
+        // let observer handle
+        NotifyObservers(quote);
     }
 
     // add many
@@ -154,7 +155,7 @@ public class QuoteProvider : IObservable<Quote>
     // notify observers
     private void NotifyObservers(Quote quote)
     {
-        List<IObserver<Quote>> obsList = observers.ToList();
+        List<IObserver<Quote>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
@@ -164,19 +165,12 @@ public class QuoteProvider : IObservable<Quote>
     }
 
     // unsubscriber
-    private class Unsubscriber : IDisposable
+    private class Unsubscriber(
+        List<IObserver<Quote>> observers,
+        IObserver<Quote> observer) : IDisposable
     {
-        private readonly List<IObserver<Quote>> observers;
-        private readonly IObserver<Quote> observer;
-
-        // identify and save observer
-        public Unsubscriber(
-            List<IObserver<Quote>> observers,
-            IObserver<Quote> observer)
-        {
-            this.observers = observers;
-            this.observer = observer;
-        }
+        private readonly List<IObserver<Quote>> observers = observers;
+        private readonly IObserver<Quote> observer = observer;
 
         // remove single observer
         public void Dispose()

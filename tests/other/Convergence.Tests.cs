@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 using Tests.Common;
 
-namespace Tests.Convergence;
+namespace Tests.Other;
 
 [TestClass]
 public class ConvergenceTests : TestBase
@@ -19,9 +19,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<AdxResult> r = quotes.GetAdx(14);
 
             AdxResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "ADX(14) on {0:d} with {1,4} historical quotes: {2:N8}",
-                l.Date, quotes.Count(), l.Adx);
+            Console.WriteLine($"ADX(14) on {l.Date:d} with {quotes.Count(),4} historical quotes: {l.Adx:N8}");
         }
     }
 
@@ -34,9 +32,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<AtrResult> r = quotes.GetAtr(14);
 
             AtrResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "ATR(14) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Atr);
+            Console.WriteLine($"ATR(14) on {l.Date:d} with {quotes.Count(),4} periods: {l.Atr:N8}");
         }
     }
 
@@ -49,9 +45,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<ChaikinOscResult> r = quotes.GetChaikinOsc();
 
             ChaikinOscResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "CHAIKIN OSC on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Oscillator);
+            Console.WriteLine($"CHAIKIN OSC on {l.Date:d} with {quotes.Count(),4} periods: {l.Oscillator:N8}");
         }
     }
 
@@ -64,9 +58,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<ConnorsRsiResult> r = quotes.GetConnorsRsi(3, 2, 10);
 
             ConnorsRsiResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "CRSI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.ConnorsRsi);
+            Console.WriteLine($"CRSI on {l.Date:d} with {quotes.Count(),4} periods: {l.ConnorsRsi:N8}");
         }
     }
 
@@ -79,9 +71,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<DemaResult> r = quotes.GetDema(15);
 
             DemaResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "DEMA(15) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Dema);
+            Console.WriteLine($"DEMA(15) on {l.Date:d} with {quotes.Count(),4} periods: {l.Dema:N8}");
         }
     }
 
@@ -94,9 +84,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<DynamicResult> r = quotes.GetDynamic(100);
 
             DynamicResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "DYNAMIC(15) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Dynamic);
+            Console.WriteLine($"DYNAMIC(15) on {l.Date:d} with {quotes.Count(),4} periods: {l.Dynamic:N8}");
         }
     }
 
@@ -109,9 +97,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<EmaResult> r = quotes.GetEma(15);
 
             EmaResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "EMA(15) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Ema);
+            Console.WriteLine($"EMA(15) on {l.Date:d} with {quotes.Count(),4} periods: {l.Ema:N8}");
         }
     }
 
@@ -124,9 +110,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<FisherTransformResult> r = quotes.GetFisherTransform(10);
 
             FisherTransformResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "FT(10) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Fisher);
+            Console.WriteLine($"FT(10) on {l.Date:d} with {quotes.Count(),4} periods: {l.Fisher:N8}");
         }
     }
 
@@ -139,9 +123,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<HtlResult> r = quotes.GetHtTrendline();
 
             HtlResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "HTL on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Trendline);
+            Console.WriteLine($"HTL on {l.Date:d} with {quotes.Count(),4} periods: {l.Trendline:N8}");
         }
     }
 
@@ -154,9 +136,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<KamaResult> r = quotes.GetKama(10);
 
             KamaResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "KAMA(10) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Kama);
+            Console.WriteLine($"KAMA(10) on {l.Date:d} with {quotes.Count(),4} periods: {l.Kama:N8}");
         }
     }
 
@@ -169,9 +149,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<KeltnerResult> r = quotes.GetKeltner(100);
 
             KeltnerResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "KC-UP on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.UpperBand);
+            Console.WriteLine($"KC-UP on {l.Date:d} with {quotes.Count(),4} periods: {l.UpperBand:N8}");
         }
     }
 
@@ -184,9 +162,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<MacdResult> r = quotes.GetMacd();
 
             MacdResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "MACD on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Macd);
+            Console.WriteLine($"MACD on {l.Date:d} with {quotes.Count(),4} periods: {l.Macd:N8}");
         }
     }
 
@@ -199,9 +175,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<MamaResult> r = quotes.GetMama();
 
             MamaResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "MAMA on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Mama);
+            Console.WriteLine($"MAMA on {l.Date:d} with {quotes.Count(),4} periods: {l.Mama:N8}");
         }
     }
 
@@ -214,9 +188,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<PmoResult> r = quotes.GetPmo();
 
             PmoResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "PMO on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Pmo);
+            Console.WriteLine($"PMO on {l.Date:d} with {quotes.Count(),4} periods: {l.Pmo:N8}");
         }
     }
 
@@ -229,9 +201,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<PvoResult> r = quotes.GetPvo();
 
             PvoResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "PVO on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Pvo);
+            Console.WriteLine($"PVO on {l.Date:d} with {quotes.Count(),4} periods: {l.Pvo:N8}");
         }
     }
 
@@ -244,9 +214,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<RsiResult> r = quotes.GetRsi(14);
 
             RsiResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "RSI(14) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Rsi);
+            Console.WriteLine($"RSI(14) on {l.Date:d} with {quotes.Count(),4} periods: {l.Rsi:N8}");
         }
     }
 
@@ -259,9 +227,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<SmiResult> r = quotes.GetSmi(14, 20, 5, 3);
 
             SmiResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "SMI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Smi);
+            Console.WriteLine($"SMI on {l.Date:d} with {quotes.Count(),4} periods: {l.Smi:N8}");
         }
     }
 
@@ -274,9 +240,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<SmmaResult> r = quotes.GetSmma(15);
 
             SmmaResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "SMMA(15) on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Smma);
+            Console.WriteLine($"SMMA(15) on {l.Date:d} with {quotes.Count(),4} periods: {l.Smma:N8}");
         }
     }
 
@@ -289,9 +253,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<StarcBandsResult> r = quotes.GetStarcBands(20);
 
             StarcBandsResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "STARC UPPER on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.UpperBand);
+            Console.WriteLine($"STARC UPPER on {l.Date:d} with {quotes.Count(),4} periods: {l.UpperBand:N8}");
         }
     }
 
@@ -304,9 +266,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<StochRsiResult> r = quotes.GetStochRsi(14, 14, 3, 1);
 
             StochRsiResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "SRSI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.StochRsi);
+            Console.WriteLine($"SRSI on {l.Date:d} with {quotes.Count(),4} periods: {l.StochRsi:N8}");
         }
     }
 
@@ -319,9 +279,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<T3Result> r = quotes.GetT3(20);
 
             T3Result l = r.LastOrDefault();
-            Console.WriteLine(
-                "T3 on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.T3);
+            Console.WriteLine($"T3 on {l.Date:d} with {quotes.Count(),4} periods: {l.T3:N8}");
         }
     }
 
@@ -334,9 +292,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<TemaResult> r = quotes.GetTema(15);
 
             TemaResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "TEMA on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Tema);
+            Console.WriteLine($"TEMA on {l.Date:d} with {quotes.Count(),4} periods: {l.Tema:N8}");
         }
     }
 
@@ -349,9 +305,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<TrixResult> r = quotes.GetTrix(15);
 
             TrixResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "TRIX on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Trix);
+            Console.WriteLine($"TRIX on {l.Date:d} with {quotes.Count(),4} periods: {l.Trix:N8}");
         }
     }
 
@@ -364,9 +318,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<TsiResult> r = quotes.GetTsi();
 
             TsiResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "TSI on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Tsi);
+            Console.WriteLine($"TSI on {l.Date:d} with {quotes.Count(),4} periods: {l.Tsi:N8}");
         }
     }
 
@@ -379,9 +331,7 @@ public class ConvergenceTests : TestBase
             IEnumerable<VortexResult> r = quotes.GetVortex(14);
 
             VortexResult l = r.LastOrDefault();
-            Console.WriteLine(
-                "VI+ on {0:d} with {1,4} periods: {2:N8}",
-                l.Date, quotes.Count(), l.Pvi);
+            Console.WriteLine($"VI+ on {l.Date:d} with {quotes.Count(),4} periods: {l.Pvi:N8}");
         }
     }
 }

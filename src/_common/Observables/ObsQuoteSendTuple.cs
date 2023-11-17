@@ -9,9 +9,15 @@ public abstract class ObsQuoteSendTuple : TupleProvider, IObserver<Quote>
     // fields
     private IDisposable? unsubscriber;
 
+    // constructor (default, unmanaged)
+    protected ObsQuoteSendTuple()
+    {
+        QuoteSupplier = new();
+    }
+
     // PROPERTIES
 
-    internal QuoteProvider? QuoteSupplier { get; set; }
+    internal QuoteProvider QuoteSupplier { get; set; }
 
     // METHODS
 

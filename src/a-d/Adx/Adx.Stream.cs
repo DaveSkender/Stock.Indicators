@@ -8,7 +8,7 @@ public partial class Adx
     public Adx(
         int lookbackPeriods)
     {
-        ProtectedResults = new();
+        ProtectedResults = [];
         LookbackPeriods = lookbackPeriods;
     }
 

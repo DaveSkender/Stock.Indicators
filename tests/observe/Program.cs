@@ -7,7 +7,7 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        if (args.Any())
+        if (args.Length != 0)
         {
             Console.WriteLine(args);
         }
@@ -19,20 +19,20 @@ internal class Program
 
 public class QuoteStream
 {
-    private readonly string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-    private readonly string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+    private readonly string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
+    private readonly string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
 
     public async Task SubscribeToQuotes(string symbol)
     {
         Console.WriteLine("Press any key to exit the process...");
         Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
 
-        if (alpacaApiKey == null)
+        if (string.IsNullOrEmpty(alpacaApiKey))
         {
             throw new ArgumentNullException(alpacaApiKey);
         }
 
-        if (alpacaSecret == null)
+        if (string.IsNullOrEmpty(alpacaSecret))
         {
             throw new ArgumentNullException(alpacaSecret);
         }
@@ -56,10 +56,8 @@ public class QuoteStream
 
         await client.ConnectAndAuthenticateAsync();
 
-        AutoResetEvent[] waitObjects = new[]  // TODO: is this needed?
-        {
-            new AutoResetEvent(false)
-        };
+        // TODO: is this needed?
+        AutoResetEvent[] waitObjects = [new AutoResetEvent(false)];
 
         IAlpacaDataSubscription<IBar> quoteSubscription
             = client.GetMinuteBarSubscription(symbol);
@@ -90,26 +88,26 @@ public class QuoteStream
         await client.DisconnectAsync();
 
         Console.WriteLine("-- QUOTES STORED (last 10 only) --");
-        foreach (Quote? pt in provider.Quotes.TakeLast(10))
+        foreach (Quote pt in provider.Quotes.TakeLast(10))
         {
             Console.WriteLine($"{symbol} {pt.Date:s} ${pt.Close:N2}");
         }
 
         // show last 3 results for indicator results
         Console.WriteLine("-- EMA(14,CLOSE) RESULTS (last 3 only) --");
-        foreach (EmaResult? e in ema.Results.TakeLast(3))
+        foreach (EmaResult e in ema.Results.TakeLast(3))
         {
             Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
         }
 
         Console.WriteLine("-- EMA(10,HL2) CHAINED (last 3 only) --");
-        foreach (EmaResult? e in emaChain.Results.TakeLast(3))
+        foreach (EmaResult e in emaChain.Results.TakeLast(3))
         {
             Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
         }
 
         Console.WriteLine("-- SMA(5) RESULTS (last 3 only) --");
-        foreach (SmaResult? s in sma.Results.TakeLast(3))
+        foreach (SmaResult s in sma.Results.TakeLast(3))
         {
             Console.WriteLine($"{symbol} {s.Date:s} ${s.Sma:N2}");
         }

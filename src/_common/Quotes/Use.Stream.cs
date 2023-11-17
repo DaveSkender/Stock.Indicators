@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public class Use : ObsQuoteSendTuple
 {
     public Use(
-        QuoteProvider? provider,
+        QuoteProvider provider,
         CandlePart candlePart)
     {
         QuoteSupplier = provider;
@@ -32,14 +32,11 @@ public class Use : ObsQuoteSendTuple
     // calculate initial cache of quotes
     private void Initialize()
     {
-        if (QuoteSupplier != null)
-        {
-            List<(DateTime, double)> tuples = QuoteSupplier
-                .ProtectedQuotes
-                .ToTuple(CandlePartSelection);
+        List<(DateTime, double)> tuples = QuoteSupplier
+            .ProtectedQuotes
+            .ToTuple(CandlePartSelection);
 
-            AddToTupleProvider(tuples);
-        }
+        AddToTupleProvider(tuples);
 
         Subscribe();
     }

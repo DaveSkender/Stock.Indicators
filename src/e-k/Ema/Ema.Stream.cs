@@ -10,17 +10,16 @@ public partial class Ema : ObsTupleSendTuple
         int lookbackPeriods)
     {
         TupleSupplier = provider;
-        ProtectedResults = new();
+        ProtectedResults = [];
 
         Initialize(lookbackPeriods);
     }
 
-    // constructor for manual flow
+    // constructor for unmanaged flow
     public Ema(
         int lookbackPeriods)
     {
-        TupleSupplier = new TupleProvider();
-        ProtectedResults = new();
+        ProtectedResults = [];
 
         Initialize(lookbackPeriods);
     }
@@ -47,13 +46,6 @@ public partial class Ema : ObsTupleSendTuple
     // initialize and preload existing quote cache
     private void Initialize(int lookbackPeriods)
     {
-        if (TupleSupplier == null)
-        {
-            throw new ArgumentNullException(
-                nameof(TupleSupplier),
-                "Could not find data supplier.");
-        }
-
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 

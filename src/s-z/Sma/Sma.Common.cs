@@ -80,32 +80,23 @@ public partial class Sma
     // note: different than further storage of Tuple
     internal SmaResult Increment((DateTime date, double value) tp)
     {
-        if (TupleSupplier == null)
-        {
-            throw new ArgumentNullException(
-                nameof(TupleSupplier),
-                "Could not find data supplier.");
-        }
-
         // initialize
         SmaResult r = new(tp.date);
-        int quoteIndex = ProtectedTuples.Count - 1;
+        List<(DateTime Date, double Value)> quotes = TupleSupplier.ProtectedTuples;
+        int quoteIndex = quotes.Count - 1;
 
-        Console.WriteLine($"PRE-RESULTS {ProtectedResults.Count}");
-
-        // first
+        // incalculable period
         if (quoteIndex < LookbackPeriods - 1)
         {
             AddToTupleProvider(r);
             ProtectedResults.Add(r);
-            Console.WriteLine($"WRM-RESULTS {ProtectedResults.Count}");
+            Console.WriteLine($"SMA Warmup {r.Date:s} {r.Sma:N2}");
             return r;
         }
 
         // check against last entry
         SmaResult last = ProtectedResults[ProtectedResults.Count - 1];
 
-        List<(DateTime _, double value)> quotes = TupleSupplier.ProtectedTuples;
         double sma = Increment(quotes, LookbackPeriods, quoteIndex);
 
         // newer
@@ -115,7 +106,6 @@ public partial class Sma
 
             AddToTupleProvider(r);
             ProtectedResults.Add(r);
-            Console.WriteLine($"NEW-RESULTS {ProtectedResults.Count}");
             return r;
         }
 
@@ -124,7 +114,6 @@ public partial class Sma
         {
             last.Sma = sma;
             AddToTupleProvider(r);
-            Console.WriteLine($"DUP-RESULTS {ProtectedResults.Count}");
             return last;
         }
 

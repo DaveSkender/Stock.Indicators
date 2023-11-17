@@ -7,7 +7,7 @@ public partial class Adl
     // constructor
     public Adl()
     {
-        ProtectedResults = new();
+        ProtectedResults = [];
         PrevAdl = 0;
     }
 

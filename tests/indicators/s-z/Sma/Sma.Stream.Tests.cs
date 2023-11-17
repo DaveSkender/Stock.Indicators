@@ -39,7 +39,7 @@ public class SmaStreamTests : TestBase
                 provider.AddToQuoteProvider(q);
             }
 
-            Console.WriteLine($"{i,3}  {q.Date:s} ${q.Close,8:N2}  RESULTS: {observer.ProtectedResults.Count,3}  TUPLES {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
+            // Console.WriteLine($"{i,3}  {q.Date:s} ${q.Close,8:N2}  RESULTS: {observer.ProtectedResults.Count,3}  TUPLES {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
         }
 
         // final results
@@ -57,12 +57,15 @@ public class SmaStreamTests : TestBase
             SmaResult s = seriesList[i];
             SmaResult r = resultsList[i];
 
-            Console.WriteLine($"TEST-INDEX {i}");
+            // (DateTime date, double value) = observer.ProtectedTuples[i];
+
+            // Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
 
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Sma, r.Sma);
         }
 
+        // Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
         observer.Unsubscribe();
         provider.EndTransmission();
     }
@@ -107,8 +110,8 @@ public class SmaStreamTests : TestBase
     public void Increment()
     {
         // baseline for comparison
-        Collection<(DateTime Date, double Value)> tpList = new()
-        {
+        Collection<(DateTime Date, double Value)> tpList =
+        [
             new (DateTime.Parse("1/1/2000", EnglishCulture), 1d),
             new (DateTime.Parse("1/2/2000", EnglishCulture), 2d),
             new (DateTime.Parse("1/3/2000", EnglishCulture), 3d),
@@ -118,7 +121,7 @@ public class SmaStreamTests : TestBase
             new (DateTime.Parse("1/7/2000", EnglishCulture), 7d),
             new (DateTime.Parse("1/8/2000", EnglishCulture), 8d),
             new (DateTime.Parse("1/9/2000", EnglishCulture), 9d),
-        };
+        ];
 
         double sma = Sma.Increment(tpList);
         Assert.AreEqual(5d, sma);
@@ -132,12 +135,6 @@ public class SmaStreamTests : TestBase
 
         int length = quotesList.Count;
 
-        // time-series, for comparison
-        List<SmaResult> staticSma = quotes
-            .Use(CandlePart.OC2)
-            .GetSma(11)
-            .ToList();
-
         // setup quote provider
         QuoteProvider provider = new();
 
@@ -148,9 +145,11 @@ public class SmaStreamTests : TestBase
         }
 
         // initialize EMA observer
-        List<SmaResult> streamSma = provider
+        Sma observer = provider
             .Use(CandlePart.OC2)
-            .GetSma(11)
+            .GetSma(11);
+
+        List<SmaResult> streamSma = observer
             .Results
             .ToList();
 
@@ -162,14 +161,27 @@ public class SmaStreamTests : TestBase
 
         provider.EndTransmission();
 
+        // time-series, for comparison
+        List<SmaResult> staticSma = quotes
+            .Use(CandlePart.OC2)
+            .GetSma(11)
+            .ToList();
+
         // assert, should equal series
         for (int i = 0; i < length; i++)
         {
-            SmaResult t = staticSma[i];
-            SmaResult s = streamSma[i];
+            SmaResult s = staticSma[i];
+            SmaResult r = streamSma[i];
 
-            Assert.AreEqual(t.Date, s.Date);
-            Assert.AreEqual(t.Sma, s.Sma);
+            (DateTime date, double value) = observer.ProtectedTuples[i];
+
+            Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
+
+            // Assert.AreEqual(s.Date, r.Date);
+            // Assert.AreEqual(s.Sma, r.Sma);
+            Assert.Fail();
         }
+
+        Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
     }
 }

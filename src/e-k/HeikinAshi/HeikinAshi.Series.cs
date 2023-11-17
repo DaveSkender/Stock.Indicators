@@ -28,11 +28,11 @@ public static partial class Indicator
                 : (prevOpen + prevClose) / 2;
 
             // high
-            decimal[] arrH = { q.High, open, close };
+            decimal[] arrH = [q.High, open, close];
             decimal high = arrH.Max();
 
             // low
-            decimal[] arrL = { q.Low, open, close };
+            decimal[] arrL = [q.Low, open, close];
             decimal low = arrL.Min();
 
             HeikinAshiResult r = new(q.Date)

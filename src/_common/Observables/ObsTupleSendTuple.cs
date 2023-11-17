@@ -10,9 +10,15 @@ public abstract class ObsTupleSendTuple
     // fields
     private IDisposable? unsubscriber;
 
+    // constructor (default, unmanaged)
+    protected ObsTupleSendTuple()
+    {
+        TupleSupplier = new();
+    }
+
     // PROPERTIES
 
-    internal TupleProvider? TupleSupplier { get; set; }
+    internal TupleProvider TupleSupplier { get; set; }
 
     // METHODS
 
