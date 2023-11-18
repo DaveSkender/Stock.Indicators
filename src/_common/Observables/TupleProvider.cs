@@ -18,12 +18,12 @@ public class TupleProvider
 
     // PROPERTIES
 
-    public IEnumerable<(DateTime Date, double Value)> ResultTuples => ProtectedTuples;
+    public IEnumerable<(DateTime Date, double Value)> Tuples => ProtectedTuples;
 
     internal List<(DateTime Date, double Value)> ProtectedTuples { get; set; }
 
     internal int OverflowCount { get; set; }
-    private (DateTime Date, double Value) LastArrival { get; set; }
+    internal (DateTime, double) LastArrival { get; set; }
 
     // METHODS
 
@@ -55,7 +55,7 @@ public class TupleProvider
     // add one
     public Disposition Add((DateTime date, double value) price)
     {
-        // initialize 
+        // initialize
         Disposition disposition = new();
         int length = ProtectedTuples.Count;
 
@@ -64,7 +64,8 @@ public class TupleProvider
         // first
         if (length == 0)
         {
-            return Disposition.AddNew;
+            disposition = Disposition.AddNew;
+            return CacheAndDeliverTuple((disposition, price.date, price.value));
         }
 
         (DateTime date, double value) = ProtectedTuples[length - 1];
@@ -89,7 +90,7 @@ public class TupleProvider
                 .FindIndex(x => x.Date == price.date);
 
             // replace duplicate
-            disposition = foundIndex >= 0 ? Disposition.UpdateOld : Disposition.AddOld;
+            disposition = foundIndex == -1 ? Disposition.AddOld : Disposition.UpdateOld;
         }
 
         return CacheAndDeliverTuple(

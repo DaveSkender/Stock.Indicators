@@ -116,13 +116,12 @@ public class TupleProviderTests : TestBase
 
         // add base quotes
         QuoteProvider<Quote> provider = new();
-        provider.Add(quotesList.Take(200));
 
         Use<Quote> observer = provider
             .Use(CandlePart.Close);
 
         // emulate incremental quotes
-        for (int i = 200; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
             if (i == 100)
             {
@@ -130,15 +129,11 @@ public class TupleProviderTests : TestBase
             }
 
             Quote q = quotesList[i];
-            provider.CacheAndDeliverQuote(q);
+            provider.Add(q);
         }
 
-        // TODO: add handler for late arrival in USE scenario
-        Assert.ThrowsException<NotImplementedException>(() =>
-        {
-            Quote late = quotesList[100];
-            provider.CacheAndDeliverQuote(late);
-        });
+        // add late
+        provider.Add(quotesList[100]);
 
         // assert same as original
         for (int i = 0; i < length; i++)
@@ -157,12 +152,8 @@ public class TupleProviderTests : TestBase
     [TestMethod]
     public void Overflow()
     {
-        // setup quote provider
-        QuoteProvider<Quote> provider = new();
-
-        // initialize observer
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        // initialize
+        TupleProvider tp = new();
 
         // add too many duplicates
         Assert.ThrowsException<OverflowException>(() =>
@@ -171,14 +162,10 @@ public class TupleProviderTests : TestBase
 
             for (int i = 0; i <= 101; i++)
             {
-                observer.Add((d, 12345));
+                tp.Add((d, 12345));
             }
         });
 
-        Assert.AreEqual(1, observer.Results.Count());
-        Assert.AreEqual(1, observer.ResultTuples.Count());
-
-        observer.Unsubscribe();
-        provider.EndTransmission();
+        Assert.AreEqual(1, tp.Tuples.Count());
     }
 }

@@ -207,6 +207,6 @@ public class SmaStreamTests : TestBase
         provider.EndTransmission();
 
         Assert.AreEqual(1, observer.Results.Count());
-        Assert.AreEqual(1, observer.ResultTuples.Count());
+        Assert.AreEqual(1, observer.Tuples.Count());
     }
 }
