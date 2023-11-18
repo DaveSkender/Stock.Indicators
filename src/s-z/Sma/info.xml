@@ -17,14 +17,6 @@
     <returns>Time series of SMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-  <type name="increment-tuple">
-    <summary>Get the next incremental Simple Moving Average (SMA) value. <para> See <see
-          href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
-      documentation</see> for more information. </para>
-    </summary>
-    <param name="priceList">Tuple collection (Date, Price) of historical price quotes.</param>
-    <returns>SMA value of Tuple values.</returns>
-  </type>
   <type name="increment-array">
     <summary>Get the next incremental Simple Moving Average (SMA) value. <para> See <see
           href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">

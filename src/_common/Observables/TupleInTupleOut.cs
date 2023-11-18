@@ -4,14 +4,14 @@ namespace Skender.Stock.Indicators;
 
 // TUPLE PROVIDER and OBSERVER (BOILERPLATE)
 
-public abstract class ObsTupleSendTuple
-    : TupleProvider, IObserver<(DateTime Date, double Value)>
+public abstract class TupleInTupleOut : TupleProvider,
+    IObserver<(Disposition, DateTime, double)>
 {
     // fields
     private IDisposable? unsubscriber;
 
     // constructor (default, unmanaged)
-    protected ObsTupleSendTuple()
+    protected TupleInTupleOut()
     {
         TupleSupplier = new();
     }
@@ -32,7 +32,7 @@ public abstract class ObsTupleSendTuple
     public virtual void OnError(Exception error) => throw error;
 
     [ExcludeFromCodeCoverage]
-    public virtual void OnNext((DateTime Date, double Value) value)
+    public virtual void OnNext((Disposition, DateTime, double) value)
     {
         // » overrided with custom handler in instantiated class
     }

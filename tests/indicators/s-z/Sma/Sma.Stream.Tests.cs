@@ -1,6 +1,6 @@
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using System.Collections.ObjectModel;
 using Tests.Common;
 
 namespace Tests.Indicators;
@@ -17,7 +17,7 @@ public class SmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // initialize observer
         Sma observer = provider
@@ -31,12 +31,12 @@ public class SmaStreamTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.AddToQuoteProvider(q);
+            provider.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.AddToQuoteProvider(q);
+                provider.Add(q);
             }
 
             // Console.WriteLine($"{i,3}  {q.Date:s} ${q.Close,8:N2}  RESULTS: {observer.ProtectedResults.Count,3}  TUPLES {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
@@ -57,15 +57,15 @@ public class SmaStreamTests : TestBase
             SmaResult s = seriesList[i];
             SmaResult r = resultsList[i];
 
-            // (DateTime date, double value) = observer.ProtectedTuples[i];
+            //(DateTime date, double value) = observer.ProtectedTuples[i];
 
-            // Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
+            //Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
 
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Sma, r.Sma);
         }
 
-        // Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
+        //Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
         observer.Unsubscribe();
         provider.EndTransmission();
     }
@@ -84,11 +84,11 @@ public class SmaStreamTests : TestBase
         // roll through history
         for (int i = 0; i < length; i++)
         {
-            sma.Increment(quotesList[i]);
+            sma.Add(quotesList[i]);
         }
 
         // results
-        List<SmaResult> resultList = sma.ProtectedResults;
+        List<SmaResult> resultList = sma.Results.ToList();
 
         // time-series, for comparison
         List<SmaResult> seriesList = quotes
@@ -112,19 +112,20 @@ public class SmaStreamTests : TestBase
         // baseline for comparison
         Collection<(DateTime Date, double Value)> tpList =
         [
-            new (DateTime.Parse("1/1/2000", EnglishCulture), 1d),
-            new (DateTime.Parse("1/2/2000", EnglishCulture), 2d),
-            new (DateTime.Parse("1/3/2000", EnglishCulture), 3d),
-            new (DateTime.Parse("1/4/2000", EnglishCulture), 4d),
-            new (DateTime.Parse("1/5/2000", EnglishCulture), 5d),
-            new (DateTime.Parse("1/6/2000", EnglishCulture), 6d),
-            new (DateTime.Parse("1/7/2000", EnglishCulture), 7d),
-            new (DateTime.Parse("1/8/2000", EnglishCulture), 8d),
-            new (DateTime.Parse("1/9/2000", EnglishCulture), 9d),
+            new(DateTime.Parse("1/1/2000", EnglishCulture), 1d),
+            new(DateTime.Parse("1/2/2000", EnglishCulture), 2d),
+            new(DateTime.Parse("1/3/2000", EnglishCulture), 3d),
+            new(DateTime.Parse("1/4/2000", EnglishCulture), 4d),
+            new(DateTime.Parse("1/5/2000", EnglishCulture), 5d),
+            new(DateTime.Parse("1/6/2000", EnglishCulture), 6d),
+            new(DateTime.Parse("1/7/2000", EnglishCulture), 7d),
+            new(DateTime.Parse("1/8/2000", EnglishCulture), 8d),
+            new(DateTime.Parse("1/9/2000", EnglishCulture), 9d),
         ];
 
-        double sma = Sma.Increment(tpList);
-        Assert.AreEqual(5d, sma);
+        //double sma = Sma.Increment(tpList);
+        //Assert.AreEqual(5d, sma);
+        Assert.Fail();
     }
 
     [TestMethod]
@@ -136,12 +137,12 @@ public class SmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.Add(quotesList[i]);
         }
 
         // initialize EMA observer
@@ -149,17 +150,17 @@ public class SmaStreamTests : TestBase
             .Use(CandlePart.OC2)
             .GetSma(11);
 
-        List<SmaResult> streamSma = observer
-            .Results
-            .ToList();
-
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.Add(quotesList[i]);
         }
 
         provider.EndTransmission();
+
+        List<SmaResult> streamSma = observer
+            .Results
+            .ToList();
 
         // time-series, for comparison
         List<SmaResult> staticSma = quotes
@@ -175,13 +176,37 @@ public class SmaStreamTests : TestBase
 
             (DateTime date, double value) = observer.ProtectedTuples[i];
 
-            Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
+            //Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
 
-            // Assert.AreEqual(s.Date, r.Date);
-            // Assert.AreEqual(s.Sma, r.Sma);
-            Assert.Fail();
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Sma, r.Sma);
         }
 
-        Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
+        //Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
+    }
+
+    [TestMethod]
+    public void Duplicates()
+    {
+        // setup quote provider
+        QuoteProvider<Quote> provider = new();
+
+        // initialize SMA observer
+        Sma observer = provider
+            .GetSma(10);
+
+        // add duplicate to cover warmup
+        Quote quote = quotes.Last();
+
+        for (int i = 0; i <= 20; i++)
+        {
+            provider.Add(quote);
+        }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+
+        Assert.AreEqual(1, observer.Results.Count());
+        Assert.AreEqual(1, observer.ResultTuples.Count());
     }
 }

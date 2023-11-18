@@ -65,7 +65,7 @@ public class IndicatorsStreaming
 
         for (int i = 0; i < tpList.Count; i++)
         {
-            ema.Increment(tpList[i]);
+            ema.Add(tpList[i]);
         }
 
         return ema.Results;
@@ -75,12 +75,12 @@ public class IndicatorsStreaming
     public object GetEmaStream()
     {
         // TODO: refactor to exclude provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
         Ema observer = provider.GetEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.AddToQuoteProvider(ql[i]);
+            provider.CacheAndDeliverQuote(ql[i]);
         }
 
         provider.EndTransmission();
@@ -99,7 +99,7 @@ public class IndicatorsStreaming
 
         for (int i = 0; i < tpList.Count; i++)
         {
-            sma.Increment(tpList[i]);
+            sma.Add(tpList[i]);
         }
 
         return sma.Results;
@@ -109,12 +109,12 @@ public class IndicatorsStreaming
     public object GetSmaStream()
     {
         // TODO: refactor to exclude provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
         Sma observer = provider.GetSma(10);
 
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.AddToQuoteProvider(ql[i]);
+            provider.CacheAndDeliverQuote(ql[i]);
         }
 
         provider.EndTransmission();

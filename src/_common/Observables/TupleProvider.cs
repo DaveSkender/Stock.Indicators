@@ -2,18 +2,23 @@ namespace Skender.Stock.Indicators;
 
 // TUPLE PROVIDER
 
-public class TupleProvider : IObservable<(DateTime Date, double Value)>
+public class TupleProvider
+    : IObservable<(Disposition, DateTime, double)>
 {
     // fields
-    private readonly List<IObserver<(DateTime Date, double Value)>> observers;
+    private readonly List<IObserver<(Disposition, DateTime, double)>> observers;
 
+    // constructor
     internal TupleProvider()
     {
         observers = [];
         ProtectedTuples = [];
+        LastArrival = new();
     }
 
     // PROPERTIES
+
+    public IEnumerable<(DateTime Date, double Value)> ResultTuples => ProtectedTuples;
 
     internal List<(DateTime Date, double Value)> ProtectedTuples { get; set; }
 
@@ -23,7 +28,7 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
     // METHODS
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<(DateTime Date, double Value)> observer)
+    public IDisposable Subscribe(IObserver<(Disposition, DateTime, double)> observer)
     {
         if (!observers.Contains(observer))
         {
@@ -36,7 +41,7 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
     // unsubscribe all observers
     public void EndTransmission()
     {
-        foreach (IObserver<(DateTime Date, double Value)> observer in observers.ToArray())
+        foreach (IObserver<(Disposition, DateTime, double)> observer in observers.ToArray())
         {
             if (observers.Contains(observer))
             {
@@ -48,127 +53,232 @@ public class TupleProvider : IObservable<(DateTime Date, double Value)>
     }
 
     // add one
-    internal void AddToTupleProvider((DateTime Date, double Value) tuple)
+    public Disposition Add((DateTime date, double value) price)
     {
-        // check for overflow condition
-        // where same tuple continues (possible circular condition)
-        if (tuple == LastArrival)
-        {
-            OverflowCount++;
-
-            if (OverflowCount > 100)
-            {
-                string msg = "A repeated Tuple update exceeded the 100 attempt threshold. "
-                  + "Check and remove circular chains or check your Tuple provider.";
-
-                EndTransmission();
-
-                throw new OverflowException(msg);
-            }
-        }
-        else
-        {
-            OverflowCount = 0;
-            LastArrival = tuple;
-        }
-
-        // process arrival
+        // initialize 
+        Disposition disposition = new();
         int length = ProtectedTuples.Count;
+
+        // determine disposition
 
         // first
         if (length == 0)
         {
-            ProtectedTuples.Add(tuple);
-            NotifyObservers(tuple);
-            return;
+            return Disposition.AddNew;
         }
 
-        (DateTime Date, double Value) last = ProtectedTuples[length - 1];
+        (DateTime date, double value) = ProtectedTuples[length - 1];
 
         // newer
-        if (tuple.Date > last.Date)
+        if (price.date > date)
         {
-            ProtectedTuples.Add(tuple);
+            disposition = Disposition.AddNew;
         }
 
         // current
-        else if (tuple.Date == last.Date)
+        else if (price.date == date)
         {
-            last = tuple;
+            disposition = Disposition.UpdateLast;
         }
 
         // late arrival
-        // TODO: handle late arrivals
         else
         {
-            throw new NotImplementedException();
-
-            #pragma warning disable CS0162 // Unreachable code detected
             // seek duplicate
             int foundIndex = ProtectedTuples
-                .FindIndex(x => x.Date == tuple.Date);
+                .FindIndex(x => x.Date == price.date);
 
             // replace duplicate
-            if (foundIndex >= 0)
-            {
-                ProtectedTuples[foundIndex] = tuple;
-            }
+            disposition = foundIndex >= 0 ? Disposition.UpdateOld : Disposition.AddOld;
+        }
 
-            // add missing tuple
-            else
-            {
+        return CacheAndDeliverTuple(
+            (disposition, price.date, price.value));
+    }
+
+    // add one IReusableResult
+    internal Disposition HandleInboundResult<TResult>(
+        Disposition disposition, TResult result)
+        where TResult : IReusableResult
+        => CacheAndDeliverTuple(
+            (disposition, result.Date, result.Value.Null2NaN()));
+
+    // cache and deliver
+    internal Disposition CacheAndDeliverTuple(
+        (Disposition disposition, DateTime date, double value) t)
+    {
+        // check for overflow, repeat arrival, do nothing instruction
+        if (t.disposition == Disposition.DoNothing
+            || IsRepeat((t.date, t.value)))
+        {
+            // do not propogate
+            return Disposition.DoNothing;
+        }
+
+        // initialize
+        (DateTime date, double value) tuple = (t.date, t.value);
+        int length = ProtectedTuples.Count;
+
+        // handle instruction
+        switch (t.disposition)
+        {
+            case Disposition.AddNew:
+
+                ProtectedTuples.Add(tuple);
+                break;
+
+            case Disposition.AddOld:
+
                 ProtectedTuples.Add(tuple);
 
                 // re-sort cache
                 ProtectedTuples = ProtectedTuples
                     .ToSortedList();
-            }
-            #pragma warning restore CS0162 // Unreachable code detected
+
+                break;
+
+            case Disposition.UpdateLast:
+
+                (DateTime date, double value) = ProtectedTuples[length - 1];
+
+                // update confirmed last entry
+                if (date == tuple.date)
+                {
+                    value = tuple.value;
+                }
+
+                // failover to UpdateOld
+                else
+                {
+                    t.disposition = Disposition.UpdateOld;
+                    CacheAndDeliverTuple(t);
+                }
+
+                break;
+
+            case Disposition.UpdateOld:
+
+                // find
+                int i = ProtectedTuples
+                    .FindIndex(x => x.Date == tuple.date);
+
+                // replace
+                if (i != -1)
+                {
+                    ProtectedTuples[i] = tuple;
+                }
+
+                // failover to AddOld
+                else
+                {
+                    t.disposition = Disposition.AddOld;
+                    CacheAndDeliverTuple(t);
+                }
+
+                break;
+
+            case Disposition.Delete:
+
+                // find conservatively
+                int d = ProtectedTuples
+                    .FindIndex(x =>
+                       x.Date == tuple.date
+                    && x.Value == tuple.value);
+
+                // delete
+                if (d != -1)
+                {
+                    ProtectedTuples.RemoveAt(d);
+                }
+
+                // nothing to delete
+                else
+                {
+                    t.disposition = Disposition.DoNothing;
+                }
+
+                break;
+
+            case Disposition.DoNothing:
+                // handled earlier
+                break;
+
+            default:
+                throw new InvalidOperationException();
         }
 
         // let observer handle
-        NotifyObservers(tuple);
+        NotifyObservers(t);
+        return t.disposition; ;
     }
 
-    // add one IReusableResult
-    internal void AddToTupleProvider<TResult>(TResult result)
-        where TResult : IReusableResult
+    // evaluate overflow condition
+    internal bool IsRepeat((DateTime date, double value) tuple)
     {
-        (DateTime Date, double Value) tuple = result.ToTupleNaN();
-        AddToTupleProvider(tuple);
-    }
+        // check for overflow and repeat condition
+        // where same tuple continues (possible circular condition)
 
-    // add many
-    internal void AddToTupleProvider(IEnumerable<(DateTime Date, double Value)> tuples)
-    {
-        List<(DateTime Date, double Value)> added = tuples
-            .ToSortedList();
-
-        for (int i = 0; i < added.Count; i++)
+        if (tuple.IsEqual(LastArrival))
         {
-            AddToTupleProvider(added[i]);
+            OverflowCount++;
+
+            if (OverflowCount > 100)
+            {
+                EndTransmission();
+
+                string msg = "A repeated Tuple update exceeded the 100 attempt threshold. "
+                           + "Check and remove circular chains or check your Tuple provider."
+                           + "Provider terminated.";
+
+                throw new OverflowException(msg);
+            }
+
+            return true;
+        }
+        else
+        {
+            OverflowCount = 0;
+            LastArrival = tuple;
+            return false;
+        }
+    }
+
+    // delete cache, gracefully
+    internal void ResetTupleCache()
+    {
+        int length = ProtectedTuples.Count;
+
+        if (length > 0)
+        {
+            // delete and deliver instruction,
+            // in reverse order to prevent recompositions
+            for (int i = length - 1; i > 0; i--)
+            {
+                (DateTime date, double value) = ProtectedTuples[i];
+                CacheAndDeliverTuple((Disposition.Delete, date, value));
+            }
         }
     }
 
     // notify observers
-    internal void NotifyObservers((DateTime Date, double Value) tuple)
+    private void NotifyObservers((Disposition, DateTime, double) value)
     {
-        List<IObserver<(DateTime Date, double Value)>> obsList = [.. observers];
+        List<IObserver<(Disposition, DateTime, double)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
-            IObserver<(DateTime Date, double Value)> obs = obsList[i];
-            obs.OnNext(tuple);
+            IObserver<(Disposition, DateTime, double)> obs = obsList[i];
+            obs.OnNext(value);
         }
     }
 
     // unsubscriber
     private class Unsubscriber(
-        List<IObserver<(DateTime Date, double Value)>> observers,
-        IObserver<(DateTime Date, double Value)> observer) : IDisposable
+        List<IObserver<(Disposition, DateTime, double)>> observers,
+        IObserver<(Disposition, DateTime, double)> observer) : IDisposable
     {
-        private readonly List<IObserver<(DateTime Date, double Value)>> observers = observers;
-        private readonly IObserver<(DateTime Date, double Value)> observer = observer;
+        private readonly List<IObserver<(Disposition, DateTime, double)>> observers = observers;
+        private readonly IObserver<(Disposition, DateTime, double)> observer = observer;
 
         // remove single observer
         public void Dispose()

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-public partial class Sma : ObsTupleSendTuple
+public partial class Sma : TupleInTupleOut
 {
     // constructor
     public Sma(
@@ -35,18 +35,27 @@ public partial class Sma : ObsTupleSendTuple
     // METHODS
 
     // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Increment(value);
+    public override void OnNext((Disposition , DateTime , double ) value)
+        => Increment(value);
 
     // initialize and preload existing quote cache
     private void Initialize(int lookbackPeriods)
     {
-        LookbackPeriods = lookbackPeriods;
+        // also usable for reinitialization
 
+        LookbackPeriods = lookbackPeriods;
+        ProtectedResults = [];
+
+        // TODO: should send delete instruction
+        ProtectedTuples = [];
+
+        // add from upstream cache
         List<(DateTime, double)> tuples = TupleSupplier.ProtectedTuples;
 
         for (int i = 0; i < tuples.Count; i++)
         {
-            Increment(tuples[i]);
+            (DateTime date, double value) = tuples[i];
+            Increment((Disposition.AddNew, date, value));
         }
 
         Subscribe();

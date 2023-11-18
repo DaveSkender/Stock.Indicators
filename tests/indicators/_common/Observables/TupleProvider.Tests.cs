@@ -20,16 +20,16 @@ public class TupleProviderTests : TestBase
             .ToTuple(CandlePart.Close);
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.CacheAndDeliverQuote(quotesList[i]);
         }
 
         // initialize Tuple-based observer
-        Use observer = provider
+        Use<Quote> observer = provider
             .Use(CandlePart.Close);
 
         // fetch initial results
@@ -40,7 +40,7 @@ public class TupleProviderTests : TestBase
         for (int i = 50; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.AddToQuoteProvider(q);
+            provider.CacheAndDeliverQuote(q);
         }
 
         // final results
@@ -79,7 +79,7 @@ public class TupleProviderTests : TestBase
             .ToList();
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // initialize EMA observer
         List<EmaResult> streamEma = provider
@@ -90,7 +90,7 @@ public class TupleProviderTests : TestBase
         // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.CacheAndDeliverQuote(quotesList[i]);
         }
 
         provider.EndTransmission();
@@ -115,10 +115,10 @@ public class TupleProviderTests : TestBase
         int length = quotes.Count();
 
         // add base quotes
-        QuoteProvider provider = new();
-        provider.AddToQuoteProvider(quotesList.Take(200));
+        QuoteProvider<Quote> provider = new();
+        provider.Add(quotesList.Take(200));
 
-        Use observer = provider
+        Use<Quote> observer = provider
             .Use(CandlePart.Close);
 
         // emulate incremental quotes
@@ -130,14 +130,14 @@ public class TupleProviderTests : TestBase
             }
 
             Quote q = quotesList[i];
-            provider.AddToQuoteProvider(q);
+            provider.CacheAndDeliverQuote(q);
         }
 
         // TODO: add handler for late arrival in USE scenario
         Assert.ThrowsException<NotImplementedException>(() =>
         {
             Quote late = quotesList[100];
-            provider.AddToQuoteProvider(late);
+            provider.CacheAndDeliverQuote(late);
         });
 
         // assert same as original
@@ -155,59 +155,28 @@ public class TupleProviderTests : TestBase
     }
 
     [TestMethod]
-    public void OverflowUse()
+    public void Overflow()
     {
-        // TODO: this is only testing Quote overflow
-        // since it doesn't get past that handler
-
-        List<Quote> quotesList = quotes
-            .ToSortedList();
-
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
-        // initialize USE observer
-        Use observer = provider
+        // initialize observer
+        Use<Quote> observer = provider
             .Use(CandlePart.Close);
 
-        // emulate adding duplicate quote too many times
+        // add too many duplicates
         Assert.ThrowsException<OverflowException>(() =>
         {
-            Quote q = quotesList[^1];
+            DateTime d = DateTime.Now;
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.AddToQuoteProvider(q);
+                observer.Add((d, 12345));
             }
         });
 
-        observer.Unsubscribe();
-        provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public void OverflowChainee()
-    {
-        List<Quote> quotesList = quotes
-            .ToSortedList();
-
-        // setup quote provider
-        QuoteProvider provider = new();
-
-        // initialize SMA observer
-        Sma observer = provider
-            .GetSma(10);
-
-        // emulate adding duplicate quote too many times
-        Assert.ThrowsException<OverflowException>(() =>
-        {
-            Quote q = quotesList[^1];
-
-            for (int i = 0; i <= 101; i++)
-            {
-                provider.AddToQuoteProvider(q);
-            }
-        });
+        Assert.AreEqual(1, observer.Results.Count());
+        Assert.AreEqual(1, observer.ResultTuples.Count());
 
         observer.Unsubscribe();
         provider.EndTransmission();

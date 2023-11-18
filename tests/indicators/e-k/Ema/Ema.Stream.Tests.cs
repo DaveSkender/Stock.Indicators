@@ -1,3 +1,4 @@
+using Alpaca.Markets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 using Tests.Common;
@@ -16,7 +17,7 @@ public class EmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // initialize observer
         Ema observer = provider
@@ -30,12 +31,12 @@ public class EmaStreamTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.AddToQuoteProvider(q);
+            provider.CacheAndDeliverQuote(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.AddToQuoteProvider(q);
+                provider.CacheAndDeliverQuote(q);
             }
         }
 
@@ -76,7 +77,7 @@ public class EmaStreamTests : TestBase
         // roll through history
         for (int i = 0; i < length; i++)
         {
-            ema.Increment(quotesList[i]);
+            ema.Add(quotesList[i]);
         }
 
         // results
@@ -113,12 +114,12 @@ public class EmaStreamTests : TestBase
             .ToList();
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.CacheAndDeliverQuote(quotesList[i]);
         }
 
         // initialize observer
@@ -130,7 +131,7 @@ public class EmaStreamTests : TestBase
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.CacheAndDeliverQuote(quotesList[i]);
         }
 
         provider.EndTransmission();
@@ -158,7 +159,7 @@ public class EmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // initialize observer
         Sma observer = provider
@@ -168,7 +169,7 @@ public class EmaStreamTests : TestBase
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.CacheAndDeliverQuote(quotesList[i]);
         }
 
         // final results
@@ -207,7 +208,7 @@ public class EmaStreamTests : TestBase
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // initialize observer
         Ema observer = provider
@@ -217,7 +218,7 @@ public class EmaStreamTests : TestBase
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.AddToQuoteProvider(quotesList[i]);
+            provider.CacheAndDeliverQuote(quotesList[i]);
         }
 
         // final results
@@ -243,4 +244,30 @@ public class EmaStreamTests : TestBase
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void Duplicates()
+    {
+        // setup quote provider
+        QuoteProvider<Quote> provider = new();
+
+        // initialize SMA observer
+        Ema observer = provider
+            .GetEma(10);
+
+        // add duplicate to cover warmup
+        Quote quote = quotes.Last();
+
+        for (int i = 0; i <= 20; i++)
+        {
+            provider.CacheAndDeliverQuote(quote);
+        }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+
+        Assert.AreEqual(1, observer.Results.Count());
+        Assert.AreEqual(1, observer.ResultTuples.Count());
+    }
+
 }

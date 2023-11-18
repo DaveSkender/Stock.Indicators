@@ -15,14 +15,14 @@ public class QuoteProviderTests : TestBase
         int length = quotes.Count();
 
         // add base quotes
-        QuoteProvider provider = new();
-        provider.AddToQuoteProvider(quotesList.Take(200));
+        QuoteProvider<Quote> provider = new();
+        provider.Add(quotesList.Take(200));
 
         // emulate incremental quotes
         for (int i = 200; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.AddToQuoteProvider(q);
+            provider.Add(q);
         }
 
         // assert same as original
@@ -47,30 +47,26 @@ public class QuoteProviderTests : TestBase
         List<Quote> quotesList = quotes
             .ToSortedList();
 
-        int length = quotes.Count();
+        int length = quotesList.Count;
 
         // add base quotes
-        QuoteProvider provider = new();
-        provider.AddToQuoteProvider(quotesList.Take(200));
+        QuoteProvider<Quote> provider = new();
 
         // emulate incremental quotes
-        for (int i = 200; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
+            // skip one
             if (i == 100)
             {
                 continue;
             }
 
             Quote q = quotesList[i];
-            provider.AddToQuoteProvider(q);
+            provider.Add(q);
         }
 
-        // TODO: add handler for late arrival in QUOTE scenario
-        Assert.ThrowsException<NotImplementedException>(() =>
-        {
-            Quote late = quotesList[100];
-            provider.AddToQuoteProvider(late);
-        });
+        // late add
+        provider.Add(quotesList[100]);
 
         // assert same as original
         for (int i = 0; i < length; i++)
@@ -78,7 +74,7 @@ public class QuoteProviderTests : TestBase
             Quote o = quotesList[i];
             Quote q = provider.ProtectedQuotes[i];
 
-            Assert.AreEqual(o, q);
+            Assert.IsTrue(o.IsEqual(q));
         }
 
         // close observations
@@ -86,24 +82,31 @@ public class QuoteProviderTests : TestBase
     }
 
     [TestMethod]
-    public void OverflowProvider()
+    public void Overflow()
     {
-        List<Quote> quotesList = quotes
-            .ToSortedList();
-
         // setup quote provider
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
+        DateTime date = DateTime.Now;
 
-        // emulate adding duplicate quote too many times
         Assert.ThrowsException<OverflowException>(() =>
         {
-            Quote q = quotesList[^1];
-
+            // add too many duplicates
             for (int i = 0; i <= 101; i++)
             {
-                provider.AddToQuoteProvider(q);
+                // use newly defined quote each time
+                provider.Add(new Quote()
+                {
+                    Date = date,
+                    Open = 2,
+                    High = 4,
+                    Low = 1,
+                    Close = 3,
+                    Volume = 500
+                });
             }
         });
+
+        Assert.AreEqual(1, provider.Quotes.Count());
 
         provider.EndTransmission();
     }
@@ -112,19 +115,16 @@ public class QuoteProviderTests : TestBase
     public void Exceptions()
     {
         // null quote added
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         // overflow
         Assert.ThrowsException<OverflowException>(() =>
         {
-            Quote quote = new()
-            {
-                Date = DateTime.Now
-            };
+            DateTime date = DateTime.Now;
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.AddToQuoteProvider(quote);
+                provider.Add(new Quote() { Date = date });
             }
         });
 
@@ -132,7 +132,7 @@ public class QuoteProviderTests : TestBase
         Assert.ThrowsException<ArgumentNullException>(() =>
         {
             Quote quote = null;
-            provider.AddToQuoteProvider(quote);
+            provider.Add(quote);
         });
 
         // close observations

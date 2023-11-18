@@ -3,21 +3,23 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skender.Stock.Indicators;
 
 // OBSERVE QUOTE SEND TUPLE (BOILERPLATE)
-// TODO: convert to TQuote
-public abstract class ObsQuoteSendTuple : TupleProvider, IObserver<Quote>
+
+public abstract class QuoteInTupleOut<TQuote> : TupleProvider,
+    IObserver<(Disposition disposition, TQuote quote)>
+    where TQuote : IQuote, new()
 {
     // fields
     private IDisposable? unsubscriber;
 
     // constructor (default, unmanaged)
-    protected ObsQuoteSendTuple()
+    protected QuoteInTupleOut()
     {
         QuoteSupplier = new();
     }
 
     // PROPERTIES
 
-    internal QuoteProvider QuoteSupplier { get; set; }
+    internal QuoteProvider<TQuote> QuoteSupplier { get; set; }
 
     // METHODS
 
@@ -27,7 +29,7 @@ public abstract class ObsQuoteSendTuple : TupleProvider, IObserver<Quote>
             : throw new ArgumentNullException(nameof(QuoteSupplier));
 
     [ExcludeFromCodeCoverage]
-    public virtual void OnNext(Quote value)
+    public virtual void OnNext((Disposition disposition, TQuote quote) value)
     {
         // » handle new quote with override in observer
     }

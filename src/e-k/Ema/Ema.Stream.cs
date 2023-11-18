@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-public partial class Ema : ObsTupleSendTuple
+public partial class Ema : TupleInTupleOut
 {
     // constructor for tuple flow
     public Ema(
@@ -41,7 +41,7 @@ public partial class Ema : ObsTupleSendTuple
     // METHODS
 
     // handle quote arrival
-    public override void OnNext((DateTime Date, double Value) value) => Increment(value);
+    public override void OnNext((Disposition, DateTime, double) value) => Increment(value);
 
     // initialize and preload existing quote cache
     private void Initialize(int lookbackPeriods)
@@ -49,15 +49,25 @@ public partial class Ema : ObsTupleSendTuple
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
+        ResetTupleCache();
+        ResetResultCache();
+
+        Subscribe();
+    }
+
+    // reset and reinitialize cache
+    private void ResetResultCache()
+    {
+        ProtectedResults = [];
         SumValue = 0;
 
+        // add from upstream cache
         List<(DateTime, double)> tuples = TupleSupplier.ProtectedTuples;
 
         for (int i = 0; i < tuples.Count; i++)
         {
-            Increment(tuples[i]);
+            (DateTime date, double value) = tuples[i];
+            Increment((Disposition.AddNew, date, value));
         }
-
-        Subscribe();
     }
 }

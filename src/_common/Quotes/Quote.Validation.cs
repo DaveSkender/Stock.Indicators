@@ -32,4 +32,27 @@ public static partial class QuoteUtility
 
         return quotesList;
     }
+
+    // COMPARATORS
+
+    // equal quotes
+    // note: not using IEquatable IQuote due to user friction
+    // also, this is only checking IQuote property values
+    // not any user customizations
+    internal static bool IsEqual<TQuote>(
+        this TQuote a, TQuote b)
+        where TQuote : IQuote
+        => a.Date == b.Date
+        && a.Open == b.Open
+        && a.High == b.High
+        && a.Low == b.Low
+        && a.Close == b.Close
+        && a.Volume == b.Volume;
+
+    // equatable tuples
+    internal static bool IsEqual(
+        this (DateTime date, double value) a,
+             (DateTime date, double value) b)
+        => a.date == b.date
+        && a.value == b.value;
 }

@@ -3,13 +3,22 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skender.Stock.Indicators;
 
 // OBSERVER of QUOTES (BOILERPLATE)
-public abstract class QuoteObserver : IObserver<Quote>
+
+public abstract class QuoteIn<TQuote>
+    : IObserver<(Disposition, TQuote)>
+    where TQuote : IQuote, new()
 {
     // fields
     private IDisposable? unsubscriber;
 
+    // constructor (default, unmanaged)
+    protected QuoteIn()
+    {
+        QuoteSupplier = new();
+    }
+
     // properties
-    internal QuoteProvider? QuoteSupplier { get; set; }
+    internal QuoteProvider<TQuote> QuoteSupplier { get; set; }
 
     // methods
     public virtual void Subscribe()
@@ -22,7 +31,7 @@ public abstract class QuoteObserver : IObserver<Quote>
     public virtual void OnError(Exception error) => throw error;
 
     [ExcludeFromCodeCoverage]
-    public virtual void OnNext(Quote value)
+    public virtual void OnNext((Disposition, TQuote) value)
     {
         // » handle new quote with override in observer
     }

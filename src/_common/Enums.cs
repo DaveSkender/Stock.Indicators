@@ -73,3 +73,13 @@ public enum SyncType
     RemoveOnly,
     FullMatch
 }
+
+public enum Disposition
+{
+    AddNew,
+    AddOld,
+    UpdateLast,
+    UpdateOld,
+    Delete,
+    DoNothing
+}

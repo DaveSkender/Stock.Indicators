@@ -38,7 +38,7 @@ public class QuoteStream
         }
 
         // initialize our quote provider and a few subscribers
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
         Ema ema = provider.GetEma(14);
         Sma sma = provider.GetSma(5);
@@ -65,7 +65,7 @@ public class QuoteStream
         quoteSubscription.Received += (q) =>
         {
             // add to our provider
-            provider.AddToQuoteProvider(new Quote
+            provider.Add(new Quote
             {
                 Date = q.TimeUtc,
                 Open = q.Open,

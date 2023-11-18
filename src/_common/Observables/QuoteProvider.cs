@@ -1,11 +1,13 @@
 namespace Skender.Stock.Indicators;
 
 // QUOTE PROVIDER
-// TODO: update to TQuote
-public class QuoteProvider : IObservable<Quote>
+
+public class QuoteProvider<TQuote>
+    : IObservable<(Disposition, TQuote)>
+    where TQuote : IQuote, new()
 {
     // fields
-    private readonly List<IObserver<Quote>> observers;
+    private readonly List<IObserver<(Disposition, TQuote)>> observers;
 
     // constructor
     public QuoteProvider()
@@ -17,17 +19,17 @@ public class QuoteProvider : IObservable<Quote>
 
     // PROPERTIES
 
-    public IEnumerable<Quote> Quotes => ProtectedQuotes;
+    public IEnumerable<TQuote> Quotes => ProtectedQuotes;
 
-    internal List<Quote> ProtectedQuotes { get; private set; }
+    internal List<TQuote> ProtectedQuotes { get; private set; }
 
     private int OverflowCount { get; set; }
-    private Quote LastArrival { get; set; }
+    private TQuote LastArrival { get; set; }
 
     // METHODS
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<Quote> observer)
+    public IDisposable Subscribe(IObserver<(Disposition, TQuote)> observer)
     {
         if (!observers.Contains(observer))
         {
@@ -40,7 +42,7 @@ public class QuoteProvider : IObservable<Quote>
     // close all observations
     public void EndTransmission()
     {
-        foreach (IObserver<Quote> observer in observers.ToArray())
+        foreach (IObserver<(Disposition, TQuote)> observer in observers.ToArray())
         {
             if (observers.Contains(observer))
             {
@@ -52,125 +54,146 @@ public class QuoteProvider : IObservable<Quote>
     }
 
     // add one
-    public void AddToQuoteProvider(Quote quote)
+    public Disposition Add(TQuote quote) => quote == null
+        ? throw new ArgumentNullException(nameof(quote), "Quote cannot be null.")
+        : CacheAndDeliverQuote(quote);
+
+    // add many
+    public void Add(IEnumerable<TQuote> quotes)
     {
-        // validate quote
-        if (quote == null)
+        List<TQuote> added = quotes
+            .ToSortedList();
+
+        for (int i = 0; i < added.Count; i++)
         {
-            throw new ArgumentNullException(nameof(quote), "Quote cannot be null.");
+            Disposition disposition = CacheAndDeliverQuote(added[i]);
+        }
+    }
+
+    // cache and deliver
+    internal Disposition CacheAndDeliverQuote(TQuote quote)
+    {
+        // check for overflow and repeat arrival
+        if (IsRepeat(quote))
+        {
+            // do not propogate
+            Console.WriteLine("Do nothing with quote.");
+            return Disposition.DoNothing;
         }
 
-        // check for overflow condition
-        // where same tuple continues (possible circular condition)
-        if (quote == LastArrival)
-        {
-            OverflowCount++;
-
-            if (OverflowCount > 100)
-            {
-                string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
-                  + "Check and remove circular chains or check your Quote provider.";
-
-                EndTransmission();
-
-                throw new OverflowException(msg);
-            }
-        }
-        else
-        {
-            OverflowCount = 0;
-            LastArrival = quote;
-        }
-
-        // process arrival
+        // initialize
+        Disposition disposition = new();
         int length = ProtectedQuotes.Count;
+
+        // handle scenarios
 
         // first
         if (length == 0)
         {
+            disposition = Disposition.AddNew;
+
             ProtectedQuotes.Add(quote);
-            NotifyObservers(quote);
-            return;
+            NotifyObservers((disposition, quote));
+
+            return disposition;
         }
 
-        Quote last = ProtectedQuotes[length - 1];
+        TQuote last = ProtectedQuotes[length - 1];
 
         // newer
         if (quote.Date > last.Date)
         {
+            disposition = Disposition.AddNew;
             ProtectedQuotes.Add(quote);
         }
 
         // current
         else if (quote.Date == last.Date)
         {
+            disposition = Disposition.UpdateLast;
             last = quote;
         }
 
         // late arrival
-        // TODO: handle late arrivals
         else
         {
-            throw new NotImplementedException();
-
-            #pragma warning disable CS0162 // Unreachable code detected
-            // seek duplicate
-            int foundIndex = ProtectedQuotes
+            // find
+            int i = ProtectedQuotes
                 .FindIndex(x => x.Date == quote.Date);
 
-            // replace duplicate
-            if (foundIndex >= 0)
+            // replace
+            if (i != -1)
             {
-                ProtectedQuotes[foundIndex] = quote;
+                disposition = Disposition.UpdateOld;
+                ProtectedQuotes[i] = quote;
             }
 
-            // add missing quote
+            // add missing
             else
             {
+                disposition = Disposition.AddOld;
                 ProtectedQuotes.Add(quote);
 
                 // re-sort cache
                 ProtectedQuotes = ProtectedQuotes
                     .ToSortedList();
             }
-            #pragma warning restore CS0162 // Unreachable code detected
         }
 
         // let observer handle
-        NotifyObservers(quote);
+        NotifyObservers((disposition, quote));
+        return disposition;
     }
 
-    // add many
-    public void AddToQuoteProvider(IEnumerable<Quote> quotes)
+    // evaluate overflow condition
+    private bool IsRepeat(TQuote quote)
     {
-        List<Quote> added = quotes
-            .ToSortedList();
+        // check for overflow and repeat condition
+        // where same tuple continues (possible circular condition)
 
-        for (int i = 0; i < added.Count; i++)
+        if (quote.IsEqual(LastArrival))
         {
-            AddToQuoteProvider(added[i]);
+            OverflowCount++;
+
+            if (OverflowCount > 100)
+            {
+                EndTransmission();
+
+                string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
+                           + "Check and remove circular chains or check your Quote provider."
+                           + "Provider terminated.";
+
+                throw new OverflowException(msg);
+            }
+            return true;
+        }
+        else
+        {
+            OverflowCount = 0;
+            LastArrival = quote;
+            return false;
         }
     }
 
     // notify observers
-    private void NotifyObservers(Quote quote)
+    private void NotifyObservers((Disposition, TQuote) value)
     {
-        List<IObserver<Quote>> obsList = [.. observers];
+        List<IObserver<(Disposition, TQuote)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
-            IObserver<Quote> obs = obsList[i];
-            obs.OnNext(quote);
+            IObserver<(Disposition, TQuote)> obs = obsList[i];
+            obs.OnNext(value);
         }
     }
 
     // unsubscriber
     private class Unsubscriber(
-        List<IObserver<Quote>> observers,
-        IObserver<Quote> observer) : IDisposable
+        List<IObserver<(Disposition, TQuote)>> observers,
+        IObserver<(Disposition, TQuote)> observer) : IDisposable
     {
-        private readonly List<IObserver<Quote>> observers = observers;
-        private readonly IObserver<Quote> observer = observer;
+        private readonly List<IObserver<(Disposition, TQuote)>> observers = observers;
+        private readonly IObserver<(Disposition, TQuote)> observer = observer;
 
         // remove single observer
         public void Dispose()

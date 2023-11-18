@@ -7,6 +7,44 @@ namespace Tests.Common;
 public class QuoteValidationTests : TestBase
 {
     [TestMethod]
+    public void AreTheyEqual()
+    {
+
+        Quote q1 = new()
+        {
+            Date = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture),
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            Close = 1m,
+            Volume = 100
+        };
+
+        Quote q2 = new()
+        {
+            Date = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture),
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            Close = 1m,
+            Volume = 100
+        };
+
+        Quote q3 = new()
+        {
+            Date = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture),
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            Close = 2m,
+            Volume = 99
+        };
+
+        Assert.IsTrue(q1.IsEqual(q2));
+        Assert.IsFalse(q1.IsEqual(q3));
+    }
+
+    [TestMethod]
     public void Validate()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();

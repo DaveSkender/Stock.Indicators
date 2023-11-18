@@ -32,12 +32,13 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static Sma GetSma(
-        this QuoteProvider provider,
+    public static Sma GetSma<TQuote>(
+        this QuoteProvider<TQuote> provider,
         int lookbackPeriods)
+        where TQuote:IQuote,new()
     {
-        Use useObserver = provider
-            .Use(CandlePart.Close);
+        Use<TQuote> useObserver = provider
+            .Use<TQuote>(CandlePart.Close);
 
         return new(useObserver, lookbackPeriods);
     }

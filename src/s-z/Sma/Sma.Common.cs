@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (COMMON)
@@ -21,18 +19,6 @@ public partial class Sma
     }
 
     // INCREMENT CALCULATIONS
-
-    /// <include file='./info.xml' path='info/type[@name="increment-tuple"]/*' />
-    ///
-    public static double Increment(
-      Collection<(DateTime Date, double Value)> priceList)
-    {
-        double[] prices = priceList
-            .Select(x => x.Value)
-            .ToArray();
-
-        return Increment(prices);
-    }
 
     /// <include file='./info.xml' path='info/type[@name="increment-array"]/*' />
     ///
@@ -58,81 +44,127 @@ public partial class Sma
     // manual use only
     /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
     ///
-    public SmaResult Increment<TQuote>(
+    public SmaResult Add<TQuote>(
         TQuote quote)
         where TQuote : IQuote
+        => Add((quote.Date, (double)quote.Close));
+
+    public new SmaResult Add((DateTime date, double value) price)  // intentionally hides provider Add
     {
-        // add supplier if missing
-        TupleSupplier ??= new TupleProvider();
-
-        // convert to tuple
-        (DateTime date, double value) tuple
-            = quote.ToTuple(CandlePart.Close);
-
-        // store quote
-        TupleSupplier.ProtectedTuples
-            .Add(tuple);
-
-        return Increment(tuple);
+        // store price
+        TupleSupplier.ProtectedTuples.Add(price);
+        return Increment((Disposition.AddNew, price.date, price.value));
     }
 
     // add new TResult to local cache
-    // note: different than further storage of Tuple
-    internal SmaResult Increment((DateTime date, double value) tp)
+    internal SmaResult Increment((Disposition disposition, DateTime date, double _) value)
     {
-        // initialize
-        SmaResult r = new(tp.date);
-        List<(DateTime Date, double Value)> quotes = TupleSupplier.ProtectedTuples;
-        int quoteIndex = quotes.Count - 1;
-
-        // incalculable period
-        if (quoteIndex < LookbackPeriods - 1)
+        // candidate result
+        SmaResult r = new(value.date)
         {
-            AddToTupleProvider(r);
-            ProtectedResults.Add(r);
-            Console.WriteLine($"SMA Warmup {r.Date:s} {r.Sma:N2}");
+            Sma = Increment(
+            TupleSupplier.ProtectedTuples,
+            LookbackPeriods,
+            ProtectedResults.Count)
+        };
+
+        // propogate to observers
+        if (HandleInboundResult(value.disposition, r)
+            == Disposition.DoNothing)
+        {
             return r;
         }
 
-        // check against last entry
-        SmaResult last = ProtectedResults[ProtectedResults.Count - 1];
+        // remove NaN
+        r.Sma = r.Sma.NaN2Null();
 
-        double sma = Increment(quotes, LookbackPeriods, quoteIndex);
-
-        // newer
-        if (r.Date > last.Date)
+        // save result
+        switch (value.disposition)
         {
-            r.Sma = sma;
+            case Disposition.AddNew:
 
-            AddToTupleProvider(r);
-            ProtectedResults.Add(r);
-            return r;
+                ProtectedResults.Add(r);
+                break;
+
+            case Disposition.AddOld:
+
+                ProtectedResults.Add(r);
+                ResetHistory(r.Date);
+                break;
+
+            case Disposition.UpdateLast:
+
+                SmaResult last = ProtectedResults[ProtectedResults.Count - 1];
+                last.Sma = r.Sma;
+                break;
+
+            case Disposition.UpdateOld:
+
+                SmaResult? u = GetOld(r.Date);
+                if (u != null)
+                {
+                    u.Sma = r.Sma;
+                    ResetHistory(r.Date);
+                }
+                break;
+
+            case Disposition.Delete:
+
+                SmaResult? d = GetOld(r.Date);
+                if (d != null)
+                {
+                    throw new NotImplementedException();
+                }
+
+                break;
+            case Disposition.DoNothing:
+                // handled by propogator
+                break;
+            default:
+                throw new InvalidOperationException();
         }
 
-        // current
-        else if (r.Date == last.Date)
-        {
-            last.Sma = sma;
-            AddToTupleProvider(r);
-            return last;
-        }
-
-        // late arrival
-        else
-        {
-            // heal
-            throw new NotImplementedException();
-        }
+        return r;
     }
+
+    // TODO: refactor these as TResult to TupleProvider?
+    // at a minimum, must mirror there.
+    private SmaResult? GetOld(DateTime date)
+    {
+        int i = IndexOld(date);
+        return i == -1 ? null : ProtectedResults[i];
+    }
+
+    private int IndexOld(DateTime date)
+        => ProtectedResults
+            .FindIndex(x => x.Date == date);
+
+    private void ResetHistory(DateTime date)
+    {
+        int i = IndexOld(date);
+
+        if (i == -1)
+        {
+            return;
+        }
+
+        ResetHistory(i);
+    }
+
+    private void ResetHistory(int index) => throw new NotImplementedException();
 
     private static double Increment(
         List<(DateTime _, double value)> tpQuotes,
         int lookbackPeriods,
-        int index)
+        int quotesIndex)
     {
+        // TODO: add error handling for warmup periods that return
+        // TODO: since this is private and accessing own properties,
+        // whey even ask for parameters.  This smells bad.  Simplify.
+
         double sum = 0;
 
-        for (int i = index - lookbackPeriods + 1; i <= index; i++)
+        for (int i = quotesIndex - lookbackPeriods + 1; i <= quotesIndex; i++)
         {
             sum += tpQuotes[i].value;
         }

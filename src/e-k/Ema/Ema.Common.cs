@@ -41,66 +41,80 @@ public partial class Ema
 
     /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
     ///
-    public EmaResult Increment<TQuote>(
-        TQuote quote)
-        where TQuote : IQuote => Increment(quote.ToTuple(CandlePart.Close));
+    public EmaResult Add<TQuote>(TQuote quote)
+        where TQuote : IQuote
+        => Increment((Disposition.AddNew, quote.Date, (double)quote.Close));
 
-    internal EmaResult Increment((DateTime Date, double Value) tp)
+    public new EmaResult Add((DateTime Date, double Value) price)  // intentionally hides provider Add
+        => Increment((Disposition.AddNew, price.Date, price.Value));
+
+    internal EmaResult Increment((Disposition disposition, DateTime date, double value) value)
     {
         // initialize
-        EmaResult r = new(tp.Date);
-        int i = ProtectedTuples.Count;
+        EmaResult r = new(value.date)
+        {
+            Ema = Increment(value.date, value.value)
+        };
+
+        // propogate to observers
+        if (HandleInboundResult(value.disposition, r)
+            == Disposition.DoNothing)
+        {
+            return r;
+        }
+
+        // remove NaN
+        r.Ema = r.Ema.NaN2Null();
+
+        // save result
+        switch (value.disposition)
+        {
+            case Disposition.AddNew:
+
+                ProtectedResults.Add(r);
+                break;
+            case Disposition.AddOld:
+
+                ProtectedResults.Add(r);
+                throw new NotImplementedException();
+            case Disposition.UpdateLast:
+                throw new NotImplementedException();
+            case Disposition.UpdateOld:
+                throw new NotImplementedException();
+            case Disposition.Delete:
+                throw new NotImplementedException();
+            case Disposition.DoNothing:
+                break;
+            default:
+                break;
+        }
+
+        return r;
+    }
+
+    private double Increment(DateTime date, double newPrice)
+    {
+
+        double ema = double.NaN;
+        int i = ProtectedResults
+            .FindIndex(x => x.Date == date);
 
         // initialization periods
         if (i <= LookbackPeriods - 1)
         {
-            SumValue += tp.Value;
+            // TODO: ignore duplicates
+            SumValue += newPrice;
 
             // set first value
             if (i == LookbackPeriods - 1)
             {
-                r.Ema = (SumValue / LookbackPeriods).NaN2Null();
+                ema = SumValue / LookbackPeriods;
                 SumValue = double.NaN;
             }
-
-            AddToTupleProvider(r);
-            ProtectedResults.Add(r);
-            return r;
+            return ema;
         }
 
-        // check against last entry
-        EmaResult last = ProtectedResults[i - 1];
-
-        // add new
-        if (r.Date > last.Date)
-        {
-            double lastEma = (last.Ema == null) ? double.NaN : (double)last.Ema;
-            double ema = Increment(K, lastEma, tp.Value);
-
-            r.Ema = ema.NaN2Null();
-
-            AddToTupleProvider(r);
-            ProtectedResults.Add(r);
-            return r;
-        }
-
-        // update last
-        else if (r.Date == last.Date)
-        {
-            // get prior last EMA
-            EmaResult prior = ProtectedResults[i - 2];
-
-            double priorEma = prior.Ema.Null2NaN();
-            last.Ema = Increment(K, priorEma, tp.Value);
-            AddToTupleProvider(r);
-            return last;
-        }
-
-        // late arrival
-        else
-        {
-            // heal
-            throw new NotImplementedException();
-        }
+        // normal
+        return Increment(K, ProtectedTuples[i].Value, newPrice);
     }
 }

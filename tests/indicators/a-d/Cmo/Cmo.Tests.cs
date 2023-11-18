@@ -14,11 +14,6 @@ public class CmoTests : TestBase
             .GetCmo(14)
             .ToList();
 
-        foreach (CmoResult r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.Cmo:N4}");
-        }
-
         // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Cmo != null));

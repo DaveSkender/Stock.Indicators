@@ -1,10 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 // USE (STREAMING)
-public class Use : ObsQuoteSendTuple
+public class Use<TQuote> : QuoteInTupleOut<TQuote>
+    where TQuote : IQuote, new()
 {
     public Use(
-        QuoteProvider provider,
+        QuoteProvider<TQuote> provider,
         CandlePart candlePart)
     {
         QuoteSupplier = provider;
@@ -20,23 +21,27 @@ public class Use : ObsQuoteSendTuple
 
     // METHODS
 
-    // handle quote arrival
-    public override void OnNext(Quote value)
+    // handle new arrival
+    public override void OnNext((Disposition disposition, TQuote quote) value)
     {
-        if (value is not null)
-        {
-            AddToTupleProvider(value.ToTuple(CandlePartSelection));
-        }
+        (DateTime d, double v)
+            = value.quote.ToTuple(CandlePartSelection);
+
+        CacheAndDeliverTuple((value.disposition, d, v));
     }
 
-    // calculate initial cache of quotes
+    // initialize and preload existing quote cache
     private void Initialize()
     {
         List<(DateTime, double)> tuples = QuoteSupplier
             .ProtectedQuotes
             .ToTuple(CandlePartSelection);
 
-        AddToTupleProvider(tuples);
+        for (int i = 0; i < tuples.Count; i++)
+        {
+            (DateTime date, double value) = tuples[i];
+            CacheAndDeliverTuple((Disposition.AddNew, date, value));
+        }
 
         Subscribe();
     }

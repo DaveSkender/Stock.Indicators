@@ -32,11 +32,12 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static Ema GetEma(
-        this QuoteProvider provider,
+    public static Ema GetEma<TQuote>(
+        this QuoteProvider<TQuote> provider,
         int lookbackPeriods)
+        where TQuote : IQuote, new()
     {
-        Use useObserver = provider
+        var useObserver = provider
             .Use(CandlePart.Close);
 
         return new(useObserver, lookbackPeriods);
