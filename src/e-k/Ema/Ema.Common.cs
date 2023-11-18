@@ -77,14 +77,20 @@ public partial class Ema
 
                 ProtectedResults.Add(r);
                 throw new NotImplementedException();
+
             case Disposition.UpdateLast:
                 throw new NotImplementedException();
+
             case Disposition.UpdateOld:
                 throw new NotImplementedException();
+
             case Disposition.Delete:
                 throw new NotImplementedException();
+
             case Disposition.DoNothing:
+                // handed above
                 break;
+
             default:
                 break;
         }
@@ -94,27 +100,27 @@ public partial class Ema
 
     private double Increment(DateTime date, double newPrice)
     {
-
-        double ema = double.NaN;
-        int i = ProtectedResults
+        int i = TupleSupplier.ProtectedTuples
             .FindIndex(x => x.Date == date);
 
         // initialization periods
         if (i <= LookbackPeriods - 1)
         {
-            // TODO: ignore duplicates
-            SumValue += newPrice;
-
             // set first value
             if (i == LookbackPeriods - 1)
             {
-                ema = SumValue / LookbackPeriods;
-                SumValue = double.NaN;
+                double sum = 0;
+                for (int w = 0; w <= i; w++)
+                {
+                    sum += TupleSupplier.ProtectedTuples[w].Value;
+                }
+                return sum / LookbackPeriods;
             }
-            return ema;
+
+            return double.NaN;
         }
 
         // normal
-        return Increment(K, ProtectedTuples[i].Value, newPrice);
+        return Increment(K, ProtectedTuples[i - 1].Value, newPrice);
     }
 }

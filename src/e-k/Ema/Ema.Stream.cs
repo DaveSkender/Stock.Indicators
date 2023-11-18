@@ -33,11 +33,6 @@ public partial class Ema : TupleInTupleOut
     private int LookbackPeriods { get; set; }
     private double K { get; set; }
 
-    // warmup values
-    private double SumValue { get; set; }
-
-    // private bool IsWarmup { get; set; }
-
     // METHODS
 
     // handle quote arrival
@@ -59,7 +54,6 @@ public partial class Ema : TupleInTupleOut
     private void ResetResultCache()
     {
         ProtectedResults = [];
-        SumValue = 0;
 
         // add from upstream cache
         List<(DateTime, double)> tuples = TupleSupplier.ProtectedTuples;

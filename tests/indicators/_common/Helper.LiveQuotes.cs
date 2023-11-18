@@ -1,6 +1,7 @@
 using Alpaca.Markets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using System.Net.Sockets;
 
 namespace Tests.Indicators;
 
@@ -52,24 +53,37 @@ internal class FeedData
         HistoricalBarsRequest request = new(symbol, from, into, BarTimeFrame.Day);
 
         // fetch minute-bar quotes in Alpaca's format
-        IPage<IBar> barSet = await client
-            .ListHistoricalBarsAsync(request)
-            .ConfigureAwait(false);
+        try
+        {
+            IPage<IBar> barSet = await client
+                .ListHistoricalBarsAsync(request)
+                .ConfigureAwait(false);
 
-        // convert library compatible quotes
-        IEnumerable<Quote> quotes = barSet
-            .Items
-            .Select(bar => new Quote
-            {
-                Date = bar.TimeUtc,
-                Open = bar.Open,
-                High = bar.High,
-                Low = bar.Low,
-                Close = bar.Close,
-                Volume = bar.Volume
-            })
-            .OrderBy(x => x.Date);
+            // convert library compatible quotes
+            IEnumerable<Quote> quotes = barSet
+                .Items
+                .Select(bar => new Quote
+                {
+                    Date = bar.TimeUtc,
+                    Open = bar.Open,
+                    High = bar.High,
+                    Low = bar.Low,
+                    Close = bar.Close,
+                    Volume = bar.Volume
+                })
+                .OrderBy(x => x.Date);
 
-        return quotes;
+            return quotes;
+        }
+        catch (SocketException ex)
+        {
+            string msg = $"{ex.SocketErrorCode}: ";
+            msg += "GetQuotes() failed to connect to the Alpaca WebSocket. ";
+            msg += "Check your internet connection.";
+
+            Assert.Inconclusive(msg);
+
+            return null;
+        }
     }
 }

@@ -72,37 +72,41 @@ public class TupleProviderTests : TestBase
 
         int length = quotesList.Count;
 
+        // setup quote provider
+        QuoteProvider<Quote> provider = new();
+
+        // initialize EMA observer
+        Ema ema = provider
+            .Use(CandlePart.HL2)
+            .GetEma(11);
+
+        // emulate adding quotes to provider
+        for (int i = 0; i < length; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        provider.EndTransmission();
+
         // time-series, for comparison
         List<EmaResult> staticEma = quotes
             .Use(CandlePart.HL2)
             .GetEma(11)
             .ToList();
 
-        // setup quote provider
-        QuoteProvider<Quote> provider = new();
-
-        // initialize EMA observer
-        List<EmaResult> streamEma = provider
-            .Use(CandlePart.HL2)
-            .GetEma(11)
-            .ProtectedResults;
-
-        // emulate adding quotes to provider
-        for (int i = 0; i < length; i++)
-        {
-            provider.CacheAndDeliverQuote(quotesList[i]);
-        }
-
-        provider.EndTransmission();
+        // stream results
+        List<EmaResult> streamEma = ema
+            .Results
+            .ToList();
 
         // assert, should equal series
         for (int i = 0; i < length; i++)
         {
-            EmaResult t = staticEma[i];
-            EmaResult s = streamEma[i];
+            EmaResult e = staticEma[i];
+            EmaResult r = streamEma[i];
 
-            Assert.AreEqual(t.Date, s.Date);
-            Assert.AreEqual(t.Ema, s.Ema);
+            Assert.AreEqual(e.Date, r.Date);
+            Assert.AreEqual(e.Ema, r.Ema);
         }
     }
 

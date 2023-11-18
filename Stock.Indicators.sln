@@ -21,9 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Performance", "tests\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9-4165-4823-9526-0CFAACCF1ACC}"
 	ProjectSection(SolutionItems) = preProject
-		.github\build.main.yml = .github\build.main.yml
-		.github\workflows\build.yml = .github\workflows\build.yml
-		.github\dependabot.yml = .github\dependabot.yml
+		.github\workflows\build-indicators.yml = .github\workflows\build-indicators.yml
 		gitversion.yml = gitversion.yml
 	EndProjectSection
 EndProject
