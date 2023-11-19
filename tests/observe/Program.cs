@@ -5,18 +5,22 @@ namespace ObserveAlpaca;
 
 internal class Program
 {
-    private static async Task Main(string symbol)
+    private static async Task Main(string[] args)
     {
-        symbol ??= "BTC/USD";
+        if (args.Length != 0)
+        {
+            Console.WriteLine(args);
+        }
+
         QuoteStream quoteStream = new();
-        await quoteStream.SubscribeToQuotes(symbol);
+        await quoteStream.SubscribeToQuotes("BTC/USD");
     }
 }
 
 public class QuoteStream
 {
-    private readonly string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-    private readonly string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+    private readonly string alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
+    private readonly string alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
 
     public async Task SubscribeToQuotes(string symbol)
     {
@@ -36,11 +40,14 @@ public class QuoteStream
         // initialize our quote provider and a few subscribers
         QuoteProvider<Quote> provider = new();
 
-        Ema ema = provider.GetEma(14);
-        Sma sma = provider.GetSma(5);
-        Ema emaChain = provider
+        Sma sma = provider.GetSma(3);
+        Ema ema = provider.GetEma(5);
+        Ema useChain = provider
             .Use(CandlePart.HL2)
-            .GetEma(10);
+            .GetEma(7);
+        Ema emaChain = provider
+            .GetSma(4)
+            .GetEma(4);
 
         // connect to Alpaca websocket
         SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
@@ -58,6 +65,18 @@ public class QuoteStream
         IAlpacaDataSubscription<IBar> quoteSubscription
             = client.GetMinuteBarSubscription(symbol);
 
+        await client.SubscribeAsync(quoteSubscription);
+
+        // console display header
+        Console.WriteLine("A new quote will be shown when they arrive every minute.");
+        Console.WriteLine("PLEASE WAIT > 8 MINUTES BEFORE EXITING TO SEE ALL 4 INDICATORS CALCULATED.");
+        Console.WriteLine("Press any key to EXIT the process and to see results.");
+        Console.WriteLine();
+
+        Console.WriteLine("Date                   Close price      SMA(3)      EMA(5)  EMA(7,HL2)  SMA/EMA(8)");
+        Console.WriteLine("----------------------------------------------------------------------------------");
+
+        // handle new quotes
         quoteSubscription.Received += (q) =>
         {
             // add to our provider
@@ -71,41 +90,45 @@ public class QuoteStream
                 Volume = q.Volume
             });
 
-            Console.WriteLine($"{q.Symbol} {q.TimeUtc:s} ${q.Close:N2} | {q.TradeCount} trades");
-        };
+            // display live results
+            string liveMessage = $"{q.TimeUtc:u}    ${q.Close:N2}";
 
-        await client.SubscribeAsync(quoteSubscription);
+            SmaResult s = sma.Results.Last();
+            EmaResult e = ema.Results.Last();
+            EmaResult u = useChain.Results.Last();
+            EmaResult c = emaChain.Results.Last();
+
+            if (s.Sma is not null)
+            {
+                liveMessage += $"{s.Sma,12:N1}";
+            }
+
+            if (e.Ema is not null)
+            {
+                liveMessage += $"{e.Ema,12:N1}";
+            }
+
+            if (u.Ema is not null)
+            {
+                liveMessage += $"{u.Ema,12:N1}";
+            }
+
+            if (c.Ema is not null)
+            {
+                liveMessage += $"{c.Ema,12:N1}";
+            }
+
+            Console.WriteLine(liveMessage);
+        };
 
         // to stop watching on key press
         Console.ReadKey();
 
+        // end observation
         provider.EndTransmission();
+
+        // close WebSocket
         await client.UnsubscribeAsync(quoteSubscription);
         await client.DisconnectAsync();
-
-        Console.WriteLine("-- QUOTES STORED (last 10 only) --");
-        foreach (Quote pt in provider.Quotes.TakeLast(10))
-        {
-            Console.WriteLine($"{symbol} {pt.Date:s} ${pt.Close:N2}");
-        }
-
-        // show last 3 results for indicator results
-        Console.WriteLine("-- EMA(14,CLOSE) RESULTS (last 3 only) --");
-        foreach (EmaResult e in ema.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
-        }
-
-        Console.WriteLine("-- EMA(10,HL2) CHAINED (last 3 only) --");
-        foreach (EmaResult e in emaChain.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
-        }
-
-        Console.WriteLine("-- SMA(5) RESULTS (last 3 only) --");
-        foreach (SmaResult s in sma.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {s.Date:s} ${s.Sma:N2}");
-        }
     }
 }

@@ -6,6 +6,14 @@ namespace Tests.Performance;
 
 public class IndicatorsStreaming
 {
+    /*
+     dotnet build -c Release
+
+     Examples, to run cohorts:
+     dotnet run -c Release -filter *IndicatorStreaming*
+     dotnet run -c Release -filter *IndicatorStreaming.GetSma*
+     */
+
     private static IEnumerable<Quote> q;
     private static List<Quote> ql;
 
@@ -60,12 +68,11 @@ public class IndicatorsStreaming
     [Benchmark]
     public object GetEmaManual()
     {
-        List<(DateTime, double)> tpList = q.ToTuple(CandlePart.Close);
         Ema ema = new(14);
 
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < ql.Count; i++)
         {
-            ema.Add(tpList[i]);
+            ema.Add(ql[i]);
         }
 
         return ema.Results;
@@ -74,18 +81,16 @@ public class IndicatorsStreaming
     [Benchmark]
     public object GetEmaStream()
     {
-        // TODO: refactor to exclude provider
         QuoteProvider<Quote> provider = new();
-        Ema observer = provider.GetEma(14);
+        Ema ema = provider.GetEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.CacheAndDeliverQuote(ql[i]);
+            ema.Add(ql[i]);
         }
 
         provider.EndTransmission();
-
-        return observer.Results;
+        return ema.Results;
     }
 
     [Benchmark]
@@ -94,12 +99,11 @@ public class IndicatorsStreaming
     [Benchmark]
     public object GetSmaManual()
     {
-        List<(DateTime, double)> tpList = q.ToTuple(CandlePart.Close);
         Sma sma = new(10);
 
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < ql.Count; i++)
         {
-            sma.Add(tpList[i]);
+            sma.Add(ql[i]);
         }
 
         return sma.Results;
@@ -108,13 +112,12 @@ public class IndicatorsStreaming
     [Benchmark]
     public object GetSmaStream()
     {
-        // TODO: refactor to exclude provider
         QuoteProvider<Quote> provider = new();
         Sma observer = provider.GetSma(10);
 
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.CacheAndDeliverQuote(ql[i]);
+            provider.Add(ql[i]);
         }
 
         provider.EndTransmission();
