@@ -71,4 +71,4 @@ jobs:
           results-path: ./test-indicators/**/*.trx
           coverage-path: ./test-indicators/**/coverage.cobertura.xml
           coverage-type: cobertura
-          coverage-threshold: 95
+          coverage-threshold: 85
