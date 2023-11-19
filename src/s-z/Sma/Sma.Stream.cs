@@ -35,7 +35,7 @@ public partial class Sma : TupleInTupleOut
     // METHODS
 
     // handle quote arrival
-    public override void OnNext((Disposition , DateTime , double ) value)
+    public override void OnNext((Act , DateTime , double ) value)
         => Increment(value);
 
     // initialize and preload existing quote cache
@@ -55,7 +55,7 @@ public partial class Sma : TupleInTupleOut
         for (int i = 0; i < tuples.Count; i++)
         {
             (DateTime date, double value) = tuples[i];
-            Increment((Disposition.AddNew, date, value));
+            Increment((Act.AddNew, date, value));
         }
 
         Subscribe();

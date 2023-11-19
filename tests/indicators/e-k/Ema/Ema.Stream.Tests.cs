@@ -1,4 +1,3 @@
-using Alpaca.Markets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 using Tests.Common;
@@ -199,6 +198,8 @@ public class EmaStreamTests : TestBase
     [TestMethod]
     public void Chainee()
     {
+        // TODO: need to handle cumulative warmup periods
+
         int emaPeriods = 12;
         int smaPeriods = 8;
 
@@ -218,7 +219,7 @@ public class EmaStreamTests : TestBase
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.CacheAndDeliverQuote(quotesList[i]);
+            provider.Add(quotesList[i]);
         }
 
         // final results
@@ -232,7 +233,7 @@ public class EmaStreamTests : TestBase
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
+        for (int i = 0; i < quotesList.Count; i++)
         {
             EmaResult s = seriesList[i];
             EmaResult r = streamList[i];

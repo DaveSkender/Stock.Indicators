@@ -41,14 +41,16 @@ public partial class Ema
 
     /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
     ///
-    public EmaResult Add<TQuote>(TQuote quote)
+    public Act Add<TQuote>(TQuote quote)
         where TQuote : IQuote
-        => Increment((Disposition.AddNew, quote.Date, (double)quote.Close));
+        => Add((quote.Date, (double)quote.Close));
 
-    public new EmaResult Add((DateTime Date, double Value) price)  // intentionally hides provider Add
-        => Increment((Disposition.AddNew, price.Date, price.Value));
+    public new Act Add((DateTime Date, double Value) price)  // intentionally hides provider Add
+=>
+        // add price to supplier
+        TupleSupplier.Add(price);
 
-    internal EmaResult Increment((Disposition disposition, DateTime date, double value) value)
+    internal EmaResult Increment((Act act, DateTime date, double value) value)
     {
         // initialize
         EmaResult r = new(value.date)
@@ -57,8 +59,8 @@ public partial class Ema
         };
 
         // propogate to observers
-        if (HandleInboundResult(value.disposition, r)
-            == Disposition.DoNothing)
+        if (HandleInboundResult(value.act, r)
+            == Act.DoNothing)
         {
             return r;
         }
@@ -67,27 +69,27 @@ public partial class Ema
         r.Ema = r.Ema.NaN2Null();
 
         // save result
-        switch (value.disposition)
+        switch (value.act)
         {
-            case Disposition.AddNew:
+            case Act.AddNew:
 
                 ProtectedResults.Add(r);
                 break;
-            case Disposition.AddOld:
+            case Act.AddOld:
 
                 ProtectedResults.Add(r);
                 throw new NotImplementedException();
 
-            case Disposition.UpdateLast:
+            case Act.UpdateLast:
                 throw new NotImplementedException();
 
-            case Disposition.UpdateOld:
+            case Act.UpdateOld:
                 throw new NotImplementedException();
 
-            case Disposition.Delete:
+            case Act.Delete:
                 throw new NotImplementedException();
 
-            case Disposition.DoNothing:
+            case Act.DoNothing:
                 // handed above
                 break;
 
@@ -103,24 +105,31 @@ public partial class Ema
         int i = TupleSupplier.ProtectedTuples
             .FindIndex(x => x.Date == date);
 
-        // initialization periods
-        if (i <= LookbackPeriods - 1)
+        // warmup periods (normal)
+        if (i >= 0 && i < LookbackPeriods - 1)
         {
-            // set first value
-            if (i == LookbackPeriods - 1)
-            {
-                double sum = 0;
-                for (int w = 0; w <= i; w++)
-                {
-                    sum += TupleSupplier.ProtectedTuples[w].Value;
-                }
-                return sum / LookbackPeriods;
-            }
-
             return double.NaN;
         }
 
         // normal
-        return Increment(K, ProtectedTuples[i - 1].Value, newPrice);
+        if (!double.IsNaN(ProtectedTuples[i - 1].Value))
+        {
+            return Increment(K, ProtectedTuples[i - 1].Value, newPrice);
+        }
+
+        // set first value (normal) or reset (offset warmup case)
+        if (i >= LookbackPeriods - 1 && double.IsNaN(ProtectedTuples[i - 1].Value))
+        {
+            double sum = 0;
+            for (int w = i - LookbackPeriods + 1; w <= i; w++)
+            {
+                sum += TupleSupplier.ProtectedTuples[w].Value;
+            }
+
+            return sum / LookbackPeriods;
+        }
+
+        // i == -1 when source value not found
+        throw new InvalidOperationException("Basis not found.");
     }
 }

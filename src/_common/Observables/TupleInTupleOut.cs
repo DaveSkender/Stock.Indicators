@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 // TUPLE PROVIDER and OBSERVER (BOILERPLATE)
 
 public abstract class TupleInTupleOut : TupleProvider,
-    IObserver<(Disposition, DateTime, double)>
+    IObserver<(Act, DateTime, double)>
 {
     // fields
     private IDisposable? unsubscriber;
@@ -32,7 +32,7 @@ public abstract class TupleInTupleOut : TupleProvider,
     public virtual void OnError(Exception error) => throw error;
 
     [ExcludeFromCodeCoverage]
-    public virtual void OnNext((Disposition, DateTime, double) value)
+    public virtual void OnNext((Act, DateTime, double) value)
     {
         // » overrided with custom handler in instantiated class
     }

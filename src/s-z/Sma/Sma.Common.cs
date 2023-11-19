@@ -44,33 +44,30 @@ public partial class Sma
     // manual use only
     /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
     ///
-    public SmaResult Add<TQuote>(
+    public Act Add<TQuote>(
         TQuote quote)
         where TQuote : IQuote
         => Add((quote.Date, (double)quote.Close));
 
-    public new SmaResult Add((DateTime date, double value) price)  // intentionally hides provider Add
+    public new Act Add((DateTime date, double value) price)  // intentionally hides provider Add
     {
-        // store price
-        TupleSupplier.ProtectedTuples.Add(price);
-        return Increment((Disposition.AddNew, price.date, price.value));
+        // add price to supplier
+        return TupleSupplier.Add(price);
     }
 
     // add new TResult to local cache
-    internal SmaResult Increment((Disposition disposition, DateTime date, double _) value)
+    internal SmaResult Increment((Act act, DateTime date, double _) value)
     {
+
         // candidate result
         SmaResult r = new(value.date)
         {
-            Sma = Increment(
-            TupleSupplier.ProtectedTuples,
-            LookbackPeriods,
-            ProtectedResults.Count)
+            Sma = Increment(value.date)
         };
 
         // propogate to observers
-        if (HandleInboundResult(value.disposition, r)
-            == Disposition.DoNothing)
+        if (HandleInboundResult(value.act, r)
+            == Act.DoNothing)
         {
             return r;
         }
@@ -79,26 +76,26 @@ public partial class Sma
         r.Sma = r.Sma.NaN2Null();
 
         // save result
-        switch (value.disposition)
+        switch (value.act)
         {
-            case Disposition.AddNew:
+            case Act.AddNew:
 
                 ProtectedResults.Add(r);
                 break;
 
-            case Disposition.AddOld:
+            case Act.AddOld:
 
                 ProtectedResults.Add(r);
                 ResetHistory(r.Date);
                 break;
 
-            case Disposition.UpdateLast:
+            case Act.UpdateLast:
 
                 SmaResult last = ProtectedResults[ProtectedResults.Count - 1];
                 last.Sma = r.Sma;
                 break;
 
-            case Disposition.UpdateOld:
+            case Act.UpdateOld:
 
                 SmaResult? u = GetOld(r.Date);
                 if (u != null)
@@ -108,7 +105,7 @@ public partial class Sma
                 }
                 break;
 
-            case Disposition.Delete:
+            case Act.Delete:
 
                 SmaResult? d = GetOld(r.Date);
                 if (d != null)
@@ -117,9 +114,10 @@ public partial class Sma
                 }
 
                 break;
-            case Disposition.DoNothing:
+            case Act.DoNothing:
                 // handled by propogator
                 break;
+
             default:
                 throw new InvalidOperationException();
         }
@@ -153,22 +151,30 @@ public partial class Sma
 
     private void ResetHistory(int index) => throw new NotImplementedException();
 
-    private static double Increment(
-        List<(DateTime _, double value)> tpQuotes,
-        int lookbackPeriods,
-        int quotesIndex)
+    private double Increment(DateTime newDate)
     {
-        // TODO: add error handling for warmup periods that return
-        // TODO: since this is private and accessing own properties,
-        // whey even ask for parameters.  This smells bad.  Simplify.
+        int i = TupleSupplier.ProtectedTuples
+            .FindIndex(x => x.Date == newDate);
 
-        double sum = 0;
-
-        for (int i = quotesIndex - lookbackPeriods + 1; i <= quotesIndex; i++)
+        // normal
+        if (i >= LookbackPeriods - 1)
         {
-            sum += tpQuotes[i].value;
+            double sum = 0;
+            for (int w = i - LookbackPeriods + 1; w <= i; w++)
+            {
+                sum += TupleSupplier.ProtectedTuples[w].Value;
+            }
+
+            return sum / LookbackPeriods;
         }
 
-        return sum / lookbackPeriods;
+        // warmup periods
+        if (i >= 0)
+        {
+            return double.NaN;
+        }
+
+        // i == -1 when source value not found
+        throw new InvalidOperationException("Basis not found.");
     }
 }

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 // OBSERVER of TUPLES (BOILERPLATE)
 
 public abstract class TupleObserver
-    : IObserver<(Disposition disposition, DateTime Date, double Value)>
+    : IObserver<(Act act, DateTime Date, double Value)>
 {
     // fields
     private IDisposable? unsubscriber;
@@ -36,5 +36,5 @@ public abstract class TupleObserver
     }
 
     public virtual void Unsubscribe() => unsubscriber?.Dispose();
-    public void OnNext((Disposition disposition, DateTime Date, double Value) value) => throw new NotImplementedException();
+    public void OnNext((Act act, DateTime Date, double Value) value) => throw new NotImplementedException();
 }

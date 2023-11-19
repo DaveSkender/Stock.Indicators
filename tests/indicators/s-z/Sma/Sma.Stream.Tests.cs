@@ -38,8 +38,6 @@ public class SmaStreamTests : TestBase
             {
                 provider.Add(q);
             }
-
-            // Console.WriteLine($"{i,3}  {q.Date:s} ${q.Close,8:N2}  RESULTS: {observer.ProtectedResults.Count,3}  TUPLES {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
         }
 
         // final results
@@ -57,15 +55,10 @@ public class SmaStreamTests : TestBase
             SmaResult s = seriesList[i];
             SmaResult r = resultsList[i];
 
-            //(DateTime date, double value) = observer.ProtectedTuples[i];
-
-            //Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
-
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Sma, r.Sma);
         }
 
-        //Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
         observer.Unsubscribe();
         provider.EndTransmission();
     }
@@ -109,23 +102,12 @@ public class SmaStreamTests : TestBase
     [TestMethod]
     public void Increment()
     {
-        // baseline for comparison
-        Collection<(DateTime Date, double Value)> tpList =
-        [
-            new(DateTime.Parse("1/1/2000", EnglishCulture), 1d),
-            new(DateTime.Parse("1/2/2000", EnglishCulture), 2d),
-            new(DateTime.Parse("1/3/2000", EnglishCulture), 3d),
-            new(DateTime.Parse("1/4/2000", EnglishCulture), 4d),
-            new(DateTime.Parse("1/5/2000", EnglishCulture), 5d),
-            new(DateTime.Parse("1/6/2000", EnglishCulture), 6d),
-            new(DateTime.Parse("1/7/2000", EnglishCulture), 7d),
-            new(DateTime.Parse("1/8/2000", EnglishCulture), 8d),
-            new(DateTime.Parse("1/9/2000", EnglishCulture), 9d),
-        ];
+        double[] array = [1,2,3,4,5,6,7,8,9];
 
-        //double sma = Sma.Increment(tpList);
-        //Assert.AreEqual(5d, sma);
-        Assert.Fail();
+        double sma = Sma.Increment(array);
+
+        Assert.AreEqual(5d, sma);
+        Assert.AreEqual(array.Average(), sma);
     }
 
     [TestMethod]
@@ -174,15 +156,9 @@ public class SmaStreamTests : TestBase
             SmaResult s = staticSma[i];
             SmaResult r = streamSma[i];
 
-            (DateTime date, double value) = observer.ProtectedTuples[i];
-
-            //Console.WriteLine($"{i,3} {s.Date:s} ${s.Sma,6:N2} {r.Date:s} ${r.Sma,6:N2} {date:s} ${value,6:N2}");
-
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Sma, r.Sma);
         }
-
-        //Console.WriteLine($"RESULTS: {observer.ProtectedResults.Count,3} TUP: {observer.ProtectedTuples.Count}  SUP-TUP {observer.TupleSupplier.ProtectedTuples.Count,3}  QUOTES: {provider.Quotes.Count(),3}");
     }
 
     [TestMethod]

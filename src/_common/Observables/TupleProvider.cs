@@ -3,10 +3,10 @@ namespace Skender.Stock.Indicators;
 // TUPLE PROVIDER
 
 public class TupleProvider
-    : IObservable<(Disposition, DateTime, double)>
+    : IObservable<(Act, DateTime, double)>
 {
     // fields
-    private readonly List<IObserver<(Disposition, DateTime, double)>> observers;
+    private readonly List<IObserver<(Act, DateTime, double)>> observers;
 
     // constructor
     internal TupleProvider()
@@ -28,7 +28,7 @@ public class TupleProvider
     // METHODS
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<(Disposition, DateTime, double)> observer)
+    public IDisposable Subscribe(IObserver<(Act, DateTime, double)> observer)
     {
         if (!observers.Contains(observer))
         {
@@ -41,7 +41,7 @@ public class TupleProvider
     // unsubscribe all observers
     public void EndTransmission()
     {
-        foreach (IObserver<(Disposition, DateTime, double)> observer in observers.ToArray())
+        foreach (IObserver<(Act, DateTime, double)> observer in observers.ToArray())
         {
             if (observers.Contains(observer))
             {
@@ -53,19 +53,19 @@ public class TupleProvider
     }
 
     // add one
-    public Disposition Add((DateTime date, double value) price)
+    public Act Add((DateTime date, double value) price)
     {
         // initialize
-        Disposition disposition = new();
+        Act act = new();
         int length = ProtectedTuples.Count;
 
-        // determine disposition
+        // determine act
 
         // first
         if (length == 0)
         {
-            disposition = Disposition.AddNew;
-            return CacheAndDeliverTuple((disposition, price.date, price.value));
+            act = Act.AddNew;
+            return CacheAndDeliverTuple((act, price.date, price.value));
         }
 
         (DateTime date, double value) = ProtectedTuples[length - 1];
@@ -73,13 +73,13 @@ public class TupleProvider
         // newer
         if (price.date > date)
         {
-            disposition = Disposition.AddNew;
+            act = Act.AddNew;
         }
 
         // current
         else if (price.date == date)
         {
-            disposition = Disposition.UpdateLast;
+            act = Act.UpdateLast;
         }
 
         // late arrival
@@ -90,30 +90,30 @@ public class TupleProvider
                 .FindIndex(x => x.Date == price.date);
 
             // replace duplicate
-            disposition = foundIndex == -1 ? Disposition.AddOld : Disposition.UpdateOld;
+            act = foundIndex == -1 ? Act.AddOld : Act.UpdateOld;
         }
 
         return CacheAndDeliverTuple(
-            (disposition, price.date, price.value));
+            (act, price.date, price.value));
     }
 
     // add one IReusableResult
-    internal Disposition HandleInboundResult<TResult>(
-        Disposition disposition, TResult result)
+    internal Act HandleInboundResult<TResult>(
+        Act act, TResult result)
         where TResult : IReusableResult
         => CacheAndDeliverTuple(
-            (disposition, result.Date, result.Value.Null2NaN()));
+            (act, result.Date, result.Value.Null2NaN()));
 
     // cache and deliver
-    internal Disposition CacheAndDeliverTuple(
-        (Disposition disposition, DateTime date, double value) t)
+    internal Act CacheAndDeliverTuple(
+        (Act act, DateTime date, double value) t)
     {
         // check for overflow, repeat arrival, do nothing instruction
-        if (t.disposition == Disposition.DoNothing
+        if (t.act == Act.DoNothing
             || IsRepeat((t.date, t.value)))
         {
             // do not propogate
-            return Disposition.DoNothing;
+            return Act.DoNothing;
         }
 
         // initialize
@@ -121,14 +121,14 @@ public class TupleProvider
         int length = ProtectedTuples.Count;
 
         // handle instruction
-        switch (t.disposition)
+        switch (t.act)
         {
-            case Disposition.AddNew:
+            case Act.AddNew:
 
                 ProtectedTuples.Add(tuple);
                 break;
 
-            case Disposition.AddOld:
+            case Act.AddOld:
 
                 ProtectedTuples.Add(tuple);
 
@@ -138,7 +138,7 @@ public class TupleProvider
 
                 break;
 
-            case Disposition.UpdateLast:
+            case Act.UpdateLast:
 
                 (DateTime date, double value) = ProtectedTuples[length - 1];
 
@@ -151,13 +151,13 @@ public class TupleProvider
                 // failover to UpdateOld
                 else
                 {
-                    t.disposition = Disposition.UpdateOld;
+                    t.act = Act.UpdateOld;
                     CacheAndDeliverTuple(t);
                 }
 
                 break;
 
-            case Disposition.UpdateOld:
+            case Act.UpdateOld:
 
                 // find
                 int i = ProtectedTuples
@@ -172,13 +172,13 @@ public class TupleProvider
                 // failover to AddOld
                 else
                 {
-                    t.disposition = Disposition.AddOld;
+                    t.act = Act.AddOld;
                     CacheAndDeliverTuple(t);
                 }
 
                 break;
 
-            case Disposition.Delete:
+            case Act.Delete:
 
                 // find conservatively
                 int d = ProtectedTuples
@@ -195,12 +195,12 @@ public class TupleProvider
                 // nothing to delete
                 else
                 {
-                    t.disposition = Disposition.DoNothing;
+                    t.act = Act.DoNothing;
                 }
 
                 break;
 
-            case Disposition.DoNothing:
+            case Act.DoNothing:
                 // handled earlier
                 break;
 
@@ -210,7 +210,7 @@ public class TupleProvider
 
         // let observer handle
         NotifyObservers(t);
-        return t.disposition; ;
+        return t.act; ;
     }
 
     // evaluate overflow condition
@@ -256,30 +256,30 @@ public class TupleProvider
             for (int i = length - 1; i > 0; i--)
             {
                 (DateTime date, double value) = ProtectedTuples[i];
-                CacheAndDeliverTuple((Disposition.Delete, date, value));
+                CacheAndDeliverTuple((Act.Delete, date, value));
             }
         }
     }
 
     // notify observers
-    private void NotifyObservers((Disposition, DateTime, double) value)
+    private void NotifyObservers((Act, DateTime, double) value)
     {
-        List<IObserver<(Disposition, DateTime, double)>> obsList = [.. observers];
+        List<IObserver<(Act, DateTime, double)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
-            IObserver<(Disposition, DateTime, double)> obs = obsList[i];
+            IObserver<(Act, DateTime, double)> obs = obsList[i];
             obs.OnNext(value);
         }
     }
 
     // unsubscriber
     private class Unsubscriber(
-        List<IObserver<(Disposition, DateTime, double)>> observers,
-        IObserver<(Disposition, DateTime, double)> observer) : IDisposable
+        List<IObserver<(Act, DateTime, double)>> observers,
+        IObserver<(Act, DateTime, double)> observer) : IDisposable
     {
-        private readonly List<IObserver<(Disposition, DateTime, double)>> observers = observers;
-        private readonly IObserver<(Disposition, DateTime, double)> observer = observer;
+        private readonly List<IObserver<(Act, DateTime, double)>> observers = observers;
+        private readonly IObserver<(Act, DateTime, double)> observer = observer;
 
         // remove single observer
         public void Dispose()

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 // OBSERVE QUOTE SEND TUPLE (BOILERPLATE)
 
 public abstract class QuoteInTupleOut<TQuote> : TupleProvider,
-    IObserver<(Disposition disposition, TQuote quote)>
+    IObserver<(Act act, TQuote quote)>
     where TQuote : IQuote, new()
 {
     // fields
@@ -29,7 +29,7 @@ public abstract class QuoteInTupleOut<TQuote> : TupleProvider,
             : throw new ArgumentNullException(nameof(QuoteSupplier));
 
     [ExcludeFromCodeCoverage]
-    public virtual void OnNext((Disposition disposition, TQuote quote) value)
+    public virtual void OnNext((Act act, TQuote quote) value)
     {
         // » handle new quote with override in observer
     }

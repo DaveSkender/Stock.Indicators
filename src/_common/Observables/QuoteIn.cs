@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 // OBSERVER of QUOTES (BOILERPLATE)
 
 public abstract class QuoteIn<TQuote>
-    : IObserver<(Disposition, TQuote)>
+    : IObserver<(Act, TQuote)>
     where TQuote : IQuote, new()
 {
     // fields
@@ -31,7 +31,7 @@ public abstract class QuoteIn<TQuote>
     public virtual void OnError(Exception error) => throw error;
 
     [ExcludeFromCodeCoverage]
-    public virtual void OnNext((Disposition, TQuote) value)
+    public virtual void OnNext((Act, TQuote) value)
     {
         // » handle new quote with override in observer
     }

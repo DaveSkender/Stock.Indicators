@@ -5,15 +5,11 @@ namespace ObserveAlpaca;
 
 internal class Program
 {
-    private static async Task Main(string[] args)
+    private static async Task Main(string symbol)
     {
-        if (args.Length != 0)
-        {
-            Console.WriteLine(args);
-        }
-
+        symbol ??= "BTC/USD";
         QuoteStream quoteStream = new();
-        await quoteStream.SubscribeToQuotes("BTC/USD");
+        await quoteStream.SubscribeToQuotes(symbol);
     }
 }
 

@@ -18,11 +18,6 @@ public class StcTests : TestBase
             quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods)
             .ToList();
 
-        foreach (StcResult r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.Stc:N4}");
-        }
-
         // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(467, results.Count(x => x.Stc != null));

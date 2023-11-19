@@ -132,15 +132,11 @@ public class WilliamsRTests : TestBase
             .GetWilliamsR(14)
             .ToList();
 
-        Console.WriteLine($"%R from {length} quotes.");
-
         // analyze boundary
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
             WilliamsResult r = resultsList[i];
-
-            Console.WriteLine($"{q.Date:s} {r.WilliamsR}");
 
             if (r.WilliamsR is not null)
             {

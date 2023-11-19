@@ -3,11 +3,11 @@ namespace Skender.Stock.Indicators;
 // QUOTE PROVIDER
 
 public class QuoteProvider<TQuote>
-    : IObservable<(Disposition, TQuote)>
+    : IObservable<(Act, TQuote)>
     where TQuote : IQuote, new()
 {
     // fields
-    private readonly List<IObserver<(Disposition, TQuote)>> observers;
+    private readonly List<IObserver<(Act, TQuote)>> observers;
 
     // constructor
     public QuoteProvider()
@@ -29,7 +29,7 @@ public class QuoteProvider<TQuote>
     // METHODS
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<(Disposition, TQuote)> observer)
+    public IDisposable Subscribe(IObserver<(Act, TQuote)> observer)
     {
         if (!observers.Contains(observer))
         {
@@ -42,7 +42,7 @@ public class QuoteProvider<TQuote>
     // close all observations
     public void EndTransmission()
     {
-        foreach (IObserver<(Disposition, TQuote)> observer in observers.ToArray())
+        foreach (IObserver<(Act, TQuote)> observer in observers.ToArray())
         {
             if (observers.Contains(observer))
             {
@@ -54,7 +54,7 @@ public class QuoteProvider<TQuote>
     }
 
     // add one
-    public Disposition Add(TQuote quote) => quote == null
+    public Act Add(TQuote quote) => quote == null
         ? throw new ArgumentNullException(nameof(quote), "Quote cannot be null.")
         : CacheAndDeliverQuote(quote);
 
@@ -66,23 +66,22 @@ public class QuoteProvider<TQuote>
 
         for (int i = 0; i < added.Count; i++)
         {
-            Disposition disposition = CacheAndDeliverQuote(added[i]);
+            Act act = CacheAndDeliverQuote(added[i]);
         }
     }
 
     // cache and deliver
-    internal Disposition CacheAndDeliverQuote(TQuote quote)
+    internal Act CacheAndDeliverQuote(TQuote quote)
     {
         // check for overflow and repeat arrival
         if (IsRepeat(quote))
         {
             // do not propogate
-            Console.WriteLine("Do nothing with quote.");
-            return Disposition.DoNothing;
+            return Act.DoNothing;
         }
 
         // initialize
-        Disposition disposition = new();
+        Act act = new();
         int length = ProtectedQuotes.Count;
 
         // handle scenarios
@@ -90,12 +89,12 @@ public class QuoteProvider<TQuote>
         // first
         if (length == 0)
         {
-            disposition = Disposition.AddNew;
+            act = Act.AddNew;
 
             ProtectedQuotes.Add(quote);
-            NotifyObservers((disposition, quote));
+            NotifyObservers((act, quote));
 
-            return disposition;
+            return act;
         }
 
         TQuote last = ProtectedQuotes[length - 1];
@@ -103,14 +102,14 @@ public class QuoteProvider<TQuote>
         // newer
         if (quote.Date > last.Date)
         {
-            disposition = Disposition.AddNew;
+            act = Act.AddNew;
             ProtectedQuotes.Add(quote);
         }
 
         // current
         else if (quote.Date == last.Date)
         {
-            disposition = Disposition.UpdateLast;
+            act = Act.UpdateLast;
             last = quote;
         }
 
@@ -124,14 +123,14 @@ public class QuoteProvider<TQuote>
             // replace
             if (i != -1)
             {
-                disposition = Disposition.UpdateOld;
+                act = Act.UpdateOld;
                 ProtectedQuotes[i] = quote;
             }
 
             // add missing
             else
             {
-                disposition = Disposition.AddOld;
+                act = Act.AddOld;
                 ProtectedQuotes.Add(quote);
 
                 // re-sort cache
@@ -141,8 +140,8 @@ public class QuoteProvider<TQuote>
         }
 
         // let observer handle
-        NotifyObservers((disposition, quote));
-        return disposition;
+        NotifyObservers((act, quote));
+        return act;
     }
 
     // evaluate overflow condition
@@ -176,24 +175,24 @@ public class QuoteProvider<TQuote>
     }
 
     // notify observers
-    private void NotifyObservers((Disposition, TQuote) value)
+    private void NotifyObservers((Act, TQuote) value)
     {
-        List<IObserver<(Disposition, TQuote)>> obsList = [.. observers];
+        List<IObserver<(Act, TQuote)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
-            IObserver<(Disposition, TQuote)> obs = obsList[i];
+            IObserver<(Act, TQuote)> obs = obsList[i];
             obs.OnNext(value);
         }
     }
 
     // unsubscriber
     private class Unsubscriber(
-        List<IObserver<(Disposition, TQuote)>> observers,
-        IObserver<(Disposition, TQuote)> observer) : IDisposable
+        List<IObserver<(Act, TQuote)>> observers,
+        IObserver<(Act, TQuote)> observer) : IDisposable
     {
-        private readonly List<IObserver<(Disposition, TQuote)>> observers = observers;
-        private readonly IObserver<(Disposition, TQuote)> observer = observer;
+        private readonly List<IObserver<(Act, TQuote)>> observers = observers;
+        private readonly IObserver<(Act, TQuote)> observer = observer;
 
         // remove single observer
         public void Dispose()

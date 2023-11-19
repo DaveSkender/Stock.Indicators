@@ -74,7 +74,7 @@ public enum SyncType
     FullMatch
 }
 
-public enum Disposition
+public enum Act
 {
     AddNew,
     AddOld,
