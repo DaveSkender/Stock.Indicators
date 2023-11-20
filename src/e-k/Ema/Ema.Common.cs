@@ -69,6 +69,7 @@ public partial class Ema
         r.Ema = r.Ema.NaN2Null();
 
         // save result
+        // TODO: fix scenarios and make generic for TResult, see TupleProvider example
         switch (value.act)
         {
             case Act.AddNew:

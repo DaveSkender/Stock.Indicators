@@ -32,6 +32,8 @@ public abstract class QuoteInTupleOut<TQuote> : TupleProvider,
     public virtual void OnNext((Act act, TQuote quote) value)
     {
         // » handle new quote with override in observer
+
+        // TODO: add generic TResult hander, without override
     }
 
     public virtual void OnCompleted() => Unsubscribe();

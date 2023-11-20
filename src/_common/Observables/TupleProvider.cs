@@ -120,7 +120,7 @@ public class TupleProvider
         (DateTime date, double value) tuple = (t.date, t.value);
         int length = ProtectedTuples.Count;
 
-        // handle instruction
+        // save tuple
         switch (t.act)
         {
             case Act.AddNew:

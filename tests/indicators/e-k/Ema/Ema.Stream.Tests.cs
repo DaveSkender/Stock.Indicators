@@ -3,6 +3,7 @@ using Skender.Stock.Indicators;
 using Tests.Common;
 
 namespace Tests.Indicators;
+// TODO: standardize stream tests for EMA, SMA, ADL, ADX
 
 [TestClass]
 public class EmaStreamTests : TestBase
@@ -198,8 +199,6 @@ public class EmaStreamTests : TestBase
     [TestMethod]
     public void Chainee()
     {
-        // TODO: need to handle cumulative warmup periods
-
         int emaPeriods = 12;
         int smaPeriods = 8;
 

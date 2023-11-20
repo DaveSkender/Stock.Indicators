@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public partial class Pmo
 {
-    // TBD constructor
+    // TBD: constructor
     public Pmo()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // STATIC METHODS
 
@@ -40,7 +40,7 @@ public partial class Pmo
         }
     }
 
-    // TBD increment calculation
+    // TBD: increment  calculation
     internal static double Increment() => throw new NotImplementedException();
 
     // NON-STATIC METHODS
@@ -50,6 +50,6 @@ public partial class Pmo
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }

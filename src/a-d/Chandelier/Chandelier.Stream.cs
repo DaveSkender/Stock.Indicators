@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public partial class Chandelier
 {
-    // TBD constructor
+    // TBD: constructor
     public Chandelier()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // STATIC METHODS
 
@@ -33,7 +33,7 @@ public partial class Chandelier
         }
     }
 
-    // TBD increment calculation
+    // TBD: increment  calculation
     internal static double Increment() => throw new NotImplementedException();
 
     // NON-STATIC METHODS
@@ -43,6 +43,6 @@ public partial class Chandelier
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }

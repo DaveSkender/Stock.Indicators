@@ -4,17 +4,17 @@ namespace Skender.Stock.Indicators;
 
 public partial class PivotPoints
 {
-    // TBD constructor
+    // TBD: constructor
     public PivotPoints()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // STATIC METHODS
 
-    // TBD increment calculation
+    // TBD: increment  calculation
     internal static double Increment() => throw new NotImplementedException();
 
     // NON-STATIC METHODS
@@ -24,6 +24,6 @@ public partial class PivotPoints
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }

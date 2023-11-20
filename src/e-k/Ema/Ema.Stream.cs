@@ -26,6 +26,7 @@ public partial class Ema : TupleInTupleOut
 
     // PROPERTIES
 
+    // TODO: make generic TResult storage
     public IEnumerable<EmaResult> Results => ProtectedResults;
     internal List<EmaResult> ProtectedResults { get; set; }
 
@@ -51,6 +52,7 @@ public partial class Ema : TupleInTupleOut
     }
 
     // reset and reinitialize cache
+    // TODO: make generic for TResult or make Interface for indicators
     private void ResetResultCache()
     {
         ProtectedResults = [];

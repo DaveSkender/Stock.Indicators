@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public partial class ConnorsRsi
 {
-    // TBD constructor
+    // TBD: constructor
     public ConnorsRsi()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // STATIC METHODS
 
@@ -40,7 +40,7 @@ public partial class ConnorsRsi
         }
     }
 
-    // TBD increment calculation
+    // TBD: increment  calculation
     internal static double Increment() => throw new NotImplementedException();
 
     // NON-STATIC METHODS
@@ -50,6 +50,6 @@ public partial class ConnorsRsi
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }

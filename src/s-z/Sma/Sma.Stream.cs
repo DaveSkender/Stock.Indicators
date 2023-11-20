@@ -46,7 +46,7 @@ public partial class Sma : TupleInTupleOut
         LookbackPeriods = lookbackPeriods;
         ProtectedResults = [];
 
-        // TODO: should send delete instruction
+        // TODO: should send delete instruction, see EMA, make like IResult
         ProtectedTuples = [];
 
         // add from upstream cache

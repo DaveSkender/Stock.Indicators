@@ -76,6 +76,7 @@ public partial class Sma
         r.Sma = r.Sma.NaN2Null();
 
         // save result
+        // TODO: fix scenarios and make generic for TResult, see TupleProvider example
         switch (value.act)
         {
             case Act.AddNew:

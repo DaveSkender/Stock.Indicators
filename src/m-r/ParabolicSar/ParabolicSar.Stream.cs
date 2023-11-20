@@ -8,13 +8,13 @@ public partial class ParabolicSar
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
-    // TBD constructor
+    // TBD: constructor
     public ParabolicSar()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // STATIC METHODS
 
@@ -54,7 +54,7 @@ public partial class ParabolicSar
         }
     }
 
-    // TBD increment calculation
+    // TBD: increment  calculation
     internal static double Increment() => throw new NotImplementedException();
 
     // NON-STATIC METHODS
@@ -64,6 +64,6 @@ public partial class ParabolicSar
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }

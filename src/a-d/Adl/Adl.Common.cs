@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (COMMON)
+// TODO: general updates for streaming contexts
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adl/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>

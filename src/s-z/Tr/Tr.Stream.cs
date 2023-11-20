@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public partial class Tr
 {
-    // TBD constructor
+    // TBD: constructor
     public Tr()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // METHODS
 
@@ -19,6 +19,6 @@ public partial class Tr
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }

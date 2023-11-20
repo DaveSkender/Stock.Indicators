@@ -19,6 +19,8 @@ public abstract class TupleObserver
     // properites
     internal TupleProvider TupleSupplier { get; set; }
 
+    // TODO: add generic TResult storage
+
     // methods
     public virtual void Subscribe()
         => unsubscriber = TupleSupplier != null
@@ -33,6 +35,9 @@ public abstract class TupleObserver
     public virtual void OnNext((DateTime Date, double Value) value)
     {
         // » overrided with custom handler in instantiated class
+
+        // TODO: add generic TResult hander, without override
+
     }
 
     public virtual void Unsubscribe() => unsubscriber?.Dispose();

@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public partial class Donchian
 {
-    // TBD constructor
+    // TBD: constructor
     public Donchian()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // STATIC METHODS
 
@@ -26,7 +26,7 @@ public partial class Donchian
         }
     }
 
-    // TBD increment calculation
+    // TBD: increment  calculation
     internal static double Increment() => throw new NotImplementedException();
 
     // NON-STATIC METHODS
@@ -36,6 +36,6 @@ public partial class Donchian
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }

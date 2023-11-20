@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (COMMON)
+// TODO: general updates for streaming contexts
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adx/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>

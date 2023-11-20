@@ -35,6 +35,8 @@ public abstract class TupleInTupleOut : TupleProvider,
     public virtual void OnNext((Act, DateTime, double) value)
     {
         // » overrided with custom handler in instantiated class
+
+        // TODO: add generic TResult hander, without override
     }
 
     public virtual void Unsubscribe() => unsubscriber?.Dispose();

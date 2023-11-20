@@ -4,20 +4,20 @@ namespace Skender.Stock.Indicators;
 
 public partial class Htl
 {
-    // TBD constructor
+    // TBD: constructor
     public Htl()
     {
         Initialize();
     }
 
-    // TBD PROPERTIES
+    // TBD: PROPERTIES
 
     // STATIC METHODS
 
-    // TBD parameter validation
+    // TBD: parameter validation
     internal static void Validate() => throw new NotImplementedException();
 
-    // TBD increment calculation
+    // TBD: increment  calculation
     internal static double Increment() => throw new NotImplementedException();
 
     // NON-STATIC METHODS
@@ -27,6 +27,6 @@ public partial class Htl
     {
     }
 
-    // TBD initialize with existing quote cache
+    // TBD: initialize with existing quote cache
     private void Initialize() => throw new NotImplementedException();
 }
