@@ -35,7 +35,7 @@ public class ObvTests : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.ObvSma != null));
+        Assert.AreEqual(483, results.Count(x => x.ObvSma != null));
 
         // sample values
         ObvResult r1 = results[501];

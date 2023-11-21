@@ -46,24 +46,28 @@ public static partial class Indicator
         int smaPeriods)
         where TQuote : IQuote
     {
+        // check parameter arguments
+        if (smaPeriods is <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
+                "SMA periods must be greater than 0 for OBV.");
+        }
 
         List<ObvResult> results = quotes
             .ToQuoteD()
             .CalcObv();
 
-        // calculate moving average
-        for (int i = smaPeriods - 1; i < results.Count; i++)
+        List<SmaResult> sma = results
+            .GetSma(smaPeriods)
+            .ToList();
+
+        int length = results.Count;
+
+        for (int i = 0; i < length; i++)
         {
-            ObvResult r = results[i];
-
-            double? sumSma = 0;
-            for (int p = i + 1 - smaPeriods; p <= i; p++)
-            {
-                sumSma += results[p].Obv;
-            }
-
-            r.ObvSma = sumSma / smaPeriods;
+            results[i].ObvSma = sma[i].Sma;
         }
+
         return results;
     }
 }
