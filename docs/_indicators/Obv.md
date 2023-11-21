@@ -18,17 +18,9 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 // usage
 IEnumerable<ObvResult> results =
   quotes.GetObv();
-
-// usage with optional overlay SMA of OBV (shown above)
-IEnumerable<ObvResult> results =
-  quotes.GetObv(smaPeriods);
 ```
 
-## Parameters
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of OBV.  Must be greater than 0, if specified.
-
-### Historical quotes requirements
+## Historical quotes requirements
 
 You must have at least two historical quotes to cover the warmup periods; however, since this is a trendline, more is recommended.
 
@@ -50,8 +42,6 @@ IEnumerable<ObvResult>
 **`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
 **`Obv`** _`double`_ - On-balance Volume
-
-**`ObvSma`** _`double`_ - Moving average (SMA) of OBV based on `smaPeriods` periods, if specified
 
 > &#128681; **Warning**: absolute values in OBV are somewhat meaningless. Use with caution.
 

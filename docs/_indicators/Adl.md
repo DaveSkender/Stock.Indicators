@@ -18,17 +18,9 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 // usage
 IEnumerable<AdlResult> results =
   quotes.GetAdl();
-
-// usage with optional overlay SMA of ADL (shown above)
-IEnumerable<AdlResult> results =
-  quotes.GetAdl(smaPeriods);
 ```
 
-## Parameters
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods (`N`) in the moving average of ADL.  Must be greater than 0, if specified.
-
-### Historical quotes requirements
+## Historical quotes requirements
 
 You must have at least two historical quotes to cover the warmup periods; however, since this is a trendline, more is recommended.
 
@@ -53,8 +45,6 @@ IEnumerable<AdlResult>
 **`MoneyFlowVolume`** _`double`_ - Money Flow Volume
 
 **`Adl`** _`double`_ - Accumulation Distribution Line (ADL)
-
-**`AdlSma`** _`double`_ - Moving average (SMA) of ADL based on `smaPeriods` periods, if specified
 
 > &#128681; **Warning**: absolute values in ADL and MFV are somewhat meaningless.  Use with caution.
 

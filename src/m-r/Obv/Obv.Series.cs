@@ -5,12 +5,8 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<ObvResult> CalcObv(
-        this List<QuoteD> qdList,
-        int? smaPeriods)
+        this List<QuoteD> qdList)
     {
-        // check parameter arguments
-        Obv.Validate(smaPeriods);
-
         // initialize
         List<ObvResult> results = new(qdList.Count);
 
@@ -42,18 +38,6 @@ public static partial class Indicator
             results.Add(r);
 
             prevClose = q.Close;
-
-            // optional SMA
-            if (smaPeriods != null && i + 1 > smaPeriods)
-            {
-                double? sumSma = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    sumSma += results[p].Obv;
-                }
-
-                r.ObvSma = sumSma / smaPeriods;
-            }
         }
 
         return results;

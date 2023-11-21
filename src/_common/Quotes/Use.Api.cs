@@ -2,9 +2,9 @@ namespace Skender.Stock.Indicators;
 
 // USE (API)
 
-public static partial class QuoteUtility  // TODO: is this an appropriate class name?
+public static partial class QuoteUtility
 {
-    // convert TQuotes to basic double tuple list
+    // SERIES, from Quotes
     /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
     ///
     public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
