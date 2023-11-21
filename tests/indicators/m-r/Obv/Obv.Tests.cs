@@ -16,19 +16,17 @@ public class ObvTests : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.ObvSma == null));
 
         // sample values
         ObvResult r1 = results[249];
         Assert.AreEqual(1780918888, r1.Obv);
-        Assert.AreEqual(null, r1.ObvSma);
 
         ObvResult r2 = results[501];
         Assert.AreEqual(539843504, r2.Obv);
-        Assert.AreEqual(null, r2.ObvSma);
     }
 
     [TestMethod]
+    [Obsolete("remove after v3")]
     public void WithSma()
     {
         List<ObvResult> results = quotes
@@ -96,6 +94,7 @@ public class ObvTests : TestBase
 
     // bad SMA period
     [TestMethod]
+    [Obsolete("remove after v3")]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetObv(0));
